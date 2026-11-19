@@ -1,0 +1,16 @@
+target/
+.idea/
+*.iml
+*.db
+*.db-shm
+*.db-wal
+.toolchains/
+__pycache__/
+*.py[cod]
+run/
+dependency-reduced-pom.xml
+*.log
+!docs/verification/*.log
+hs_err_pid*
+replay_pid*
+*.mdmp

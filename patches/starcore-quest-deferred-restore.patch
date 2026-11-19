@@ -1,0 +1,630 @@
+diff --git a/src/main/java/dev/starcore/starcore/quest/PersistenceQuestStateStorage.java b/src/main/java/dev/starcore/starcore/quest/PersistenceQuestStateStorage.java
+index 613a47f..196f2fe 100644
+--- a/src/main/java/dev/starcore/starcore/quest/PersistenceQuestStateStorage.java
++++ b/src/main/java/dev/starcore/starcore/quest/PersistenceQuestStateStorage.java
+@@ -13,6 +13,7 @@ final class PersistenceQuestStateStorage implements QuestStateStorage {
+     private static final String PLAYER_QUEST_FILE = "quests.properties";
+     private static final String DAILY_QUEST_FILE = "daily_quests.properties";
+     private static final String COMMISSION_FILE = "commissions.properties";
++    private static final String LEADERBOARD_FILE = "commission_leaderboard.properties";
+ 
+     private final String namespace;
+     private final PersistenceService persistenceService;
+@@ -29,6 +30,7 @@ final class PersistenceQuestStateStorage implements QuestStateStorage {
+         Properties playerQuests = persistenceService.loadProperties(namespace, PLAYER_QUEST_FILE);
+         Properties dailyQuests = persistenceService.loadProperties(namespace, DAILY_QUEST_FILE);
+         Properties commissions = persistenceService.loadProperties(namespace, COMMISSION_FILE);
++        Properties leaderboard = persistenceService.loadProperties(namespace, LEADERBOARD_FILE);
+ 
+         // 添加前缀以区分不同类型的数据
+         for (String key : playerQuests.stringPropertyNames()) {
+@@ -40,6 +42,9 @@ final class PersistenceQuestStateStorage implements QuestStateStorage {
+         for (String key : commissions.stringPropertyNames()) {
+             merged.setProperty("cm." + key, commissions.getProperty(key));
+         }
++        for (String key : leaderboard.stringPropertyNames()) {
++            merged.setProperty("cl." + key, leaderboard.getProperty(key));
++        }
+ 
+         return merged;
+     }
+@@ -49,6 +54,7 @@ final class PersistenceQuestStateStorage implements QuestStateStorage {
+         Properties playerQuests = new Properties();
+         Properties dailyQuests = new Properties();
+         Properties commissions = new Properties();
++        Properties leaderboard = new Properties();
+ 
+         // 按前缀分离数据
+         for (String key : properties.stringPropertyNames()) {
+@@ -59,12 +65,15 @@ final class PersistenceQuestStateStorage implements QuestStateStorage {
+                 dailyQuests.setProperty(key.substring(3), value);
+             } else if (key.startsWith("cm.")) {
+                 commissions.setProperty(key.substring(3), value);
++            } else if (key.startsWith("cl.")) {
++                leaderboard.setProperty(key.substring(3), value);
+             }
+         }
+ 
+         persistenceService.saveProperties(namespace, PLAYER_QUEST_FILE, playerQuests);
+         persistenceService.saveProperties(namespace, DAILY_QUEST_FILE, dailyQuests);
+         persistenceService.saveProperties(namespace, COMMISSION_FILE, commissions);
++        persistenceService.saveProperties(namespace, LEADERBOARD_FILE, leaderboard);
+     }
+ 
+     @Override
+@@ -72,6 +81,7 @@ final class PersistenceQuestStateStorage implements QuestStateStorage {
+         Properties playerQuests = new Properties();
+         Properties dailyQuests = new Properties();
+         Properties commissions = new Properties();
++        Properties leaderboard = new Properties();
+ 
+         // 按前缀分离数据
+         for (String key : properties.stringPropertyNames()) {
+@@ -82,11 +92,44 @@ final class PersistenceQuestStateStorage implements QuestStateStorage {
+                 dailyQuests.setProperty(key.substring(3), value);
+             } else if (key.startsWith("cm.")) {
+                 commissions.setProperty(key.substring(3), value);
++            } else if (key.startsWith("cl.")) {
++                leaderboard.setProperty(key.substring(3), value);
+             }
+         }
+ 
+         persistenceService.savePropertiesAsync(namespace, PLAYER_QUEST_FILE, playerQuests);
+         persistenceService.savePropertiesAsync(namespace, DAILY_QUEST_FILE, dailyQuests);
+         persistenceService.savePropertiesAsync(namespace, COMMISSION_FILE, commissions);
++        persistenceService.savePropertiesAsync(namespace, LEADERBOARD_FILE, leaderboard);
++    }
++
++    /** A QuestService/DailyQuestService/CommissionService snapshot owns only one file. The
++     * legacy full-snapshot overload above is retained for compatibility, but section writers
++     * must use this overload so saving one service cannot erase the other two services. */
++    @Override
++    public void save(Section section, Properties properties) {
++        SectionData data = sectionData(section, properties);
++        persistenceService.saveProperties(namespace, data.file(), data.properties());
++    }
++
++    @Override
++    public void saveAsync(Section section, Properties properties) {
++        SectionData data = sectionData(section, properties);
++        persistenceService.savePropertiesAsync(namespace, data.file(), data.properties());
++    }
++
++    private SectionData sectionData(Section section, Properties properties) {
++        Objects.requireNonNull(section, "section");
++        Objects.requireNonNull(properties, "properties");
++        String prefix = switch (section) { case PLAYER -> "pq."; case DAILY -> "dq."; case COMMISSION -> "cm."; case LEADERBOARD -> "cl."; };
++        String file = switch (section) { case PLAYER -> PLAYER_QUEST_FILE; case DAILY -> DAILY_QUEST_FILE; case COMMISSION -> COMMISSION_FILE; case LEADERBOARD -> LEADERBOARD_FILE; };
++        Properties values = new Properties();
++        for (String key : properties.stringPropertyNames()) {
++            if (!key.startsWith(prefix)) throw new IllegalArgumentException("Foreign quest section in " + section + ": " + key);
++            values.setProperty(key.substring(prefix.length()), properties.getProperty(key));
++        }
++        return new SectionData(file, values);
+     }
++
++    private record SectionData(String file, Properties properties) {}
+ }
+diff --git a/src/main/java/dev/starcore/starcore/quest/PlayerQuest.java b/src/main/java/dev/starcore/starcore/quest/PlayerQuest.java
+index 0d7c3bf..9c04d38 100644
+--- a/src/main/java/dev/starcore/starcore/quest/PlayerQuest.java
++++ b/src/main/java/dev/starcore/starcore/quest/PlayerQuest.java
+@@ -66,6 +66,17 @@ public class PlayerQuest {
+     return true;
+   }
+ 
++  /** Restore an already-instantiated saved quest without cloning away objective progress.
++   * Package-private persistence path: no acceptance commands, rewards or fresh start time. */
++  boolean restoreActiveQuest(Quest quest, long startedAt) {
++    if (activeQuests.containsKey(quest.getId())) {
++      return false;
++    }
++    activeQuests.put(quest.getId(), quest);
++    questStartTimes.put(quest.getId(), startedAt);
++    return true;
++  }
++
+   /** 放弃任务 */
+   public boolean abandonQuest(String questId) {
+     Quest quest = activeQuests.remove(questId);
+diff --git a/src/main/java/dev/starcore/starcore/quest/QuestPersistenceHandler.java b/src/main/java/dev/starcore/starcore/quest/QuestPersistenceHandler.java
+index d979cca..2c0db06 100644
+--- a/src/main/java/dev/starcore/starcore/quest/QuestPersistenceHandler.java
++++ b/src/main/java/dev/starcore/starcore/quest/QuestPersistenceHandler.java
+@@ -19,6 +19,11 @@ public class QuestPersistenceHandler {
+ 
+     private final QuestStateStorage stateStorage;
+     private final Logger logger;
++    // Unknown templates must survive autosave while their owning plugin is absent or has not
++    // enabled yet. Keep the complete saved record rather than inventing a partial Quest.
++    private final Map<UUID, Map<String, DeferredActiveQuest>> deferredActiveQuests = new HashMap<>();
++
++    private record DeferredActiveQuest(JsonObject json, long startedAt) {}
+ 
+     public QuestPersistenceHandler(QuestStateStorage stateStorage, Logger logger) {
+         this.stateStorage = stateStorage;
+@@ -29,7 +34,7 @@ public class QuestPersistenceHandler {
+      * 保存玩家任务数据
+      * @param playerQuests 玩家任务映射
+      */
+-    public void savePlayerQuests(Map<UUID, PlayerQuest> playerQuests) {
++    public synchronized void savePlayerQuests(Map<UUID, PlayerQuest> playerQuests) {
+         Properties properties = new Properties();
+ 
+         for (Map.Entry<UUID, PlayerQuest> entry : playerQuests.entrySet()) {
+@@ -102,13 +107,14 @@ public class QuestPersistenceHandler {
+             }
+         }
+ 
+-        stateStorage.save(properties);
++        mergeDeferredQuests(properties, playerQuests);
++        stateStorage.save(QuestStateStorage.Section.PLAYER, properties);
+     }
+ 
+     /**
+      * 异步保存玩家任务数据
+      */
+-    public void savePlayerQuestsAsync(Map<UUID, PlayerQuest> playerQuests) {
++    public synchronized void savePlayerQuestsAsync(Map<UUID, PlayerQuest> playerQuests) {
+         Properties properties = new Properties();
+ 
+         for (Map.Entry<UUID, PlayerQuest> entry : playerQuests.entrySet()) {
+@@ -174,7 +180,8 @@ public class QuestPersistenceHandler {
+             }
+         }
+ 
+-        stateStorage.saveAsync(properties);
++        mergeDeferredQuests(properties, playerQuests);
++        stateStorage.saveAsync(QuestStateStorage.Section.PLAYER, properties);
+     }
+ 
+     /**
+@@ -182,8 +189,9 @@ public class QuestPersistenceHandler {
+      * @param playerQuests 玩家任务映射（将被填充）
+      * @param questRegistry 任务注册表（用于恢复任务实例）
+      */
+-    public void loadPlayerQuests(Map<UUID, PlayerQuest> playerQuests, Map<String, Quest> questRegistry) {
++    public synchronized void loadPlayerQuests(Map<UUID, PlayerQuest> playerQuests, Map<String, Quest> questRegistry) {
+         Properties properties = stateStorage.load();
++        deferredActiveQuests.clear();
+         Map<String, String> playerQuestData = new HashMap<>();
+ 
+         // 提取玩家任务数据
+@@ -222,6 +230,7 @@ public class QuestPersistenceHandler {
+ 
+             PlayerQuest pq = new PlayerQuest(playerId);
+             Map<String, String> data = playerEntry.getValue();
++            Map<String, Long> startTimes = parseStartTimes(data.get("startTimes"));
+ 
+             // 恢复进行中任务
+             String activeJson = data.get("active");
+@@ -229,9 +238,17 @@ public class QuestPersistenceHandler {
+                 try {
+                     JsonArray activeArray = JsonParser.parseString(activeJson).getAsJsonArray();
+                     for (int i = 0; i < activeArray.size(); i++) {
+-                        Quest quest = deserializeQuest(activeArray.get(i).getAsJsonObject(), questRegistry);
++                        JsonObject saved = activeArray.get(i).getAsJsonObject();
++                        String questId = saved.get("id").getAsString();
++                        long startedAt = startTimes.getOrDefault(questId, System.currentTimeMillis());
++                        if (!questRegistry.containsKey(questId)) {
++                            deferredActiveQuests.computeIfAbsent(playerId, ignored -> new LinkedHashMap<>())
++                                .putIfAbsent(questId, new DeferredActiveQuest(saved.deepCopy(), startedAt));
++                            continue;
++                        }
++                        Quest quest = deserializeQuest(saved, questRegistry);
+                         if (quest != null) {
+-                            pq.acceptQuest(quest);
++                            pq.restoreActiveQuest(quest, startedAt);
+                         }
+                     }
+                 } catch (Exception e) {
+@@ -301,6 +318,75 @@ public class QuestPersistenceHandler {
+         }
+     }
+ 
++    /** Restore only the newly registered template, preserving saved progress and start time.
++     * No Bukkit calls, acceptance commands, completion or rewards occur on this path. */
++    synchronized int restoreDeferredQuest(String questId, Map<UUID, PlayerQuest> playerQuests,
++                                          Map<String, Quest> questRegistry) {
++        if (!questRegistry.containsKey(questId)) return 0;
++        int restored = 0;
++        Iterator<Map.Entry<UUID, Map<String, DeferredActiveQuest>>> players = deferredActiveQuests.entrySet().iterator();
++        while (players.hasNext()) {
++            Map.Entry<UUID, Map<String, DeferredActiveQuest>> player = players.next();
++            DeferredActiveQuest saved = player.getValue().get(questId);
++            if (saved == null) continue;
++            PlayerQuest target = playerQuests.computeIfAbsent(player.getKey(), PlayerQuest::new);
++            if (target.hasActiveQuest(questId)) {
++                // Never overwrite a current live instance with an old pending snapshot.
++                player.getValue().remove(questId);
++            } else {
++                try {
++                    Quest quest = deserializeQuest(saved.json(), questRegistry);
++                    if (quest != null && target.restoreActiveQuest(quest, saved.startedAt())) {
++                        if (target.isQuestExpired(questId)) target.failQuest(questId);
++                        player.getValue().remove(questId);
++                        restored++;
++                    }
++                } catch (RuntimeException failure) {
++                    logger.warning("[QuestPersistence] Deferred quest " + questId + " for "
++                        + player.getKey() + " retained after restore failure: " + failure.getMessage());
++                }
++            }
++            if (player.getValue().isEmpty()) players.remove();
++        }
++        return restored;
++    }
++
++    private void mergeDeferredQuests(Properties properties, Map<UUID, PlayerQuest> playerQuests) {
++        Iterator<Map.Entry<UUID, Map<String, DeferredActiveQuest>>> players = deferredActiveQuests.entrySet().iterator();
++        while (players.hasNext()) {
++            Map.Entry<UUID, Map<String, DeferredActiveQuest>> player = players.next();
++            PlayerQuest current = playerQuests.get(player.getKey());
++            // A new live instance always wins. Remove the stale pending copy as well so it
++            // cannot reappear after that instance is later completed or abandoned.
++            if (current != null) player.getValue().keySet().removeIf(current::hasActiveQuest);
++            if (player.getValue().isEmpty()) { players.remove(); continue; }
++            String prefix = "pq." + player.getKey() + ".";
++            JsonArray active = properties.containsKey(prefix + "active")
++                ? JsonParser.parseString(properties.getProperty(prefix + "active")).getAsJsonArray() : new JsonArray();
++            Map<String, Long> startTimes = parseStartTimes(properties.getProperty(prefix + "startTimes"));
++            for (Map.Entry<String, DeferredActiveQuest> entry : player.getValue().entrySet()) {
++                active.add(entry.getValue().json().deepCopy());
++                startTimes.put(entry.getKey(), entry.getValue().startedAt());
++            }
++            properties.setProperty(prefix + "active", GSON.toJson(active));
++            StringJoiner starts = new StringJoiner(";");
++            new TreeMap<>(startTimes).forEach((id, time) -> starts.add(id + ":" + time));
++            properties.setProperty(prefix + "startTimes", starts.toString());
++        }
++    }
++
++    private static Map<String, Long> parseStartTimes(String serialized) {
++        Map<String, Long> values = new HashMap<>();
++        if (serialized == null || serialized.isEmpty()) return values;
++        for (String entry : serialized.split(";")) {
++            int separator = entry.lastIndexOf(':');
++            if (separator <= 0) continue;
++            try { values.put(entry.substring(0, separator), Long.parseLong(entry.substring(separator + 1))); }
++            catch (NumberFormatException ignored) { /* Isolate malformed optional metadata. */ }
++        }
++        return values;
++    }
++
+     /**
+      * 保存每日任务数据
+      */
+@@ -331,7 +417,7 @@ public class QuestPersistenceHandler {
+             properties.setProperty("dq.refresh_times", refreshStr.toString());
+         }
+ 
+-        stateStorage.save(properties);
++        stateStorage.save(QuestStateStorage.Section.DAILY, properties);
+     }
+ 
+     /**
+@@ -362,7 +448,7 @@ public class QuestPersistenceHandler {
+             properties.setProperty("dq.refresh_times", refreshStr.toString());
+         }
+ 
+-        stateStorage.saveAsync(properties);
++        stateStorage.saveAsync(QuestStateStorage.Section.DAILY, properties);
+     }
+ 
+     /**
+@@ -451,7 +537,7 @@ public class QuestPersistenceHandler {
+             properties.setProperty("cm.acceptors", acceptorStr.toString());
+         }
+ 
+-        stateStorage.save(properties);
++        stateStorage.save(QuestStateStorage.Section.COMMISSION, properties);
+     }
+ 
+     /**
+@@ -491,18 +577,8 @@ public class QuestPersistenceHandler {
+             properties.setProperty("cm.acceptors", acceptorStr.toString());
+         }
+ 
+-        // 保存排行榜数据
+-        for (Map.Entry<UUID, CommissionService.CommissionStats> entry : leaderboard.entrySet()) {
+-            String prefix = "cl." + entry.getKey().toString() + ".";
+-            CommissionService.CommissionStats stats = entry.getValue();
+-            properties.setProperty(prefix + "name", stats.getPlayerName());
+-            properties.setProperty(prefix + "completed", String.valueOf(stats.getTotalCompleted()));
+-            properties.setProperty(prefix + "earned", String.valueOf(stats.getTotalEarned()));
+-            properties.setProperty(prefix + "streak", String.valueOf(stats.getCurrentStreak()));
+-            properties.setProperty(prefix + "lastTime", String.valueOf(stats.getLastCompletedTime()));
+-        }
+-
+-        stateStorage.saveAsync(properties);
++        stateStorage.saveAsync(QuestStateStorage.Section.COMMISSION, properties);
++        saveCommissionLeaderboardAsync(leaderboard);
+     }
+ 
+     // ========== 委托排行榜相关 ==========
+@@ -527,7 +603,7 @@ public class QuestPersistenceHandler {
+             properties.setProperty(prefix + "lastTime", String.valueOf(stats.getLastCompletedTime()));
+         }
+ 
+-        stateStorage.save(properties);
++        stateStorage.save(QuestStateStorage.Section.LEADERBOARD, properties);
+     }
+ 
+     /**
+@@ -550,7 +626,7 @@ public class QuestPersistenceHandler {
+             properties.setProperty(prefix + "lastTime", String.valueOf(stats.getLastCompletedTime()));
+         }
+ 
+-        stateStorage.saveAsync(properties);
++        stateStorage.saveAsync(QuestStateStorage.Section.LEADERBOARD, properties);
+     }
+ 
+     /**
+diff --git a/src/main/java/dev/starcore/starcore/quest/QuestService.java b/src/main/java/dev/starcore/starcore/quest/QuestService.java
+index b77108e..3d76cf1 100644
+--- a/src/main/java/dev/starcore/starcore/quest/QuestService.java
++++ b/src/main/java/dev/starcore/starcore/quest/QuestService.java
+@@ -97,6 +97,18 @@ public class QuestService {
+     questsByType
+         .computeIfAbsent(quest.getType(), k -> Collections.synchronizedList(new ArrayList<>()))
+         .add(quest);
++
++    // Dependent plugins register after initialize(). Restore only this newly available
++    // template; never reload/replace unrelated live player state or replay accept commands.
++    if (persistenceHandler != null) {
++      persistenceHandler.restoreDeferredQuest(quest.getId(), playerQuests, questRegistry);
++    }
++  }
++
++  /** True only when this running service can preserve and restore templates registered
++   * after initialization. Integrations may fail closed on older upstream implementations. */
++  public boolean supportsDeferredQuestRestore() {
++    return persistenceHandler != null;
+   }
+ 
+   /** 批量注册任务 */
+diff --git a/src/main/java/dev/starcore/starcore/quest/QuestStateStorage.java b/src/main/java/dev/starcore/starcore/quest/QuestStateStorage.java
+index 68f3f23..f7e20ca 100644
+--- a/src/main/java/dev/starcore/starcore/quest/QuestStateStorage.java
++++ b/src/main/java/dev/starcore/starcore/quest/QuestStateStorage.java
+@@ -7,6 +7,20 @@ import java.util.Properties;
+  * 定义任务数据的持久化操作
+  */
+ public interface QuestStateStorage {
++    /** Explicit ownership boundary for partial snapshots, including an intentionally empty one. */
++    enum Section { PLAYER, DAILY, COMMISSION, LEADERBOARD }
++
++    /** Backwards-compatible fallback for custom stores that already own a single section. */
++    default void save(Section section, Properties properties) {
++        java.util.Objects.requireNonNull(section, "section");
++        save(properties);
++    }
++
++    /** Backwards-compatible asynchronous counterpart. */
++    default void saveAsync(Section section, Properties properties) {
++        java.util.Objects.requireNonNull(section, "section");
++        saveAsync(properties);
++    }
+     /**
+      * 加载所有玩家任务数据
+      * @return 包含所有数据的 Properties 对象
+diff --git a/src/test/java/dev/starcore/starcore/quest/DeferredQuestRestoreTest.java b/src/test/java/dev/starcore/starcore/quest/DeferredQuestRestoreTest.java
+new file mode 100644
+index 0000000..3e02dac
+--- /dev/null
++++ b/src/test/java/dev/starcore/starcore/quest/DeferredQuestRestoreTest.java
+@@ -0,0 +1,107 @@
++package dev.starcore.starcore.quest;
++
++import com.google.gson.JsonArray;
++import com.google.gson.JsonObject;
++import com.google.gson.JsonParser;
++import dev.starcore.starcore.core.persistence.PersistenceService;
++import java.util.*;
++import java.util.logging.Logger;
++import org.junit.jupiter.api.Test;
++import static org.junit.jupiter.api.Assertions.*;
++import static org.mockito.ArgumentMatchers.*;
++import static org.mockito.Mockito.*;
++
++/** Genuine Quest/PlayerQuest objects expose the old double-clone progress reset; the storage
++ * fixture simulates repeated restarts and both persistence paths without a Minecraft server. */
++class DeferredQuestRestoreTest {
++    static final long STARTED=1_700_000_000_123L;
++    static final String LATE="chronicle_late",OTHER="another_plugin_late";
++    final UUID player=UUID.randomUUID();
++    final MemoryStorage storage=new MemoryStorage();
++    final Logger log=Logger.getAnonymousLogger();
++    QuestPersistenceHandler handler(){return new QuestPersistenceHandler(storage,log);}
++    Quest template(String id){return new Quest.Builder(id,id,"Test",QuestType.SIDE,QuestDifficulty.EASY)
++        .addObjective(new QuestObjective("objective",QuestObjective.ObjectiveType.CUSTOM,"Evidence",10)).build();}
++    JsonObject saved(String id,int progress) {
++        JsonObject quest=new JsonObject();quest.addProperty("id",id);quest.addProperty("name","Saved "+id);quest.addProperty("type","SIDE");quest.addProperty("difficulty","EASY");
++        JsonArray objectives=new JsonArray();JsonObject objective=new JsonObject();objective.addProperty("id","objective");objective.addProperty("type","CUSTOM");objective.addProperty("progress",progress);objectives.add(objective);quest.add("objectives",objectives);
++        JsonObject opaque=new JsonObject();opaque.addProperty("external","preserved");quest.add("future_metadata",opaque);return quest;
++    }
++    void seed(UUID id,JsonObject... quests) {
++        JsonArray active=new JsonArray();StringJoiner starts=new StringJoiner(";");for(JsonObject quest:quests){active.add(quest);starts.add(quest.get("id").getAsString()+":"+STARTED);}
++        storage.stored.setProperty("pq."+id+".active",active.toString());storage.stored.setProperty("pq."+id+".startTimes",starts.toString());
++    }
++    JsonArray storedActive(UUID id){return JsonParser.parseString(storage.stored.getProperty("pq."+id+".active","[]")).getAsJsonArray();}
++    int progress(PlayerQuest pq,String id){return pq.getActiveQuest(id).getObjectives().getFirst().getCurrentProgress();}
++
++    @Test void unknownTemplateSurvivesSyncSaveAndTwoRestartsBeforeRegistration() {
++        JsonObject original=saved(LATE,4);seed(player,original);Map<UUID,PlayerQuest> first=new HashMap<>();QuestPersistenceHandler a=handler();a.loadPlayerQuests(first,Map.of());
++        assertFalse(first.get(player).hasActiveQuest(LATE));a.savePlayerQuests(first);assertEquals(original,storedActive(player).get(0));
++        Map<UUID,PlayerQuest> second=new HashMap<>();QuestPersistenceHandler b=handler();b.loadPlayerQuests(second,Map.of());b.savePlayerQuestsAsync(second);
++        Map<UUID,PlayerQuest> third=new HashMap<>();QuestPersistenceHandler c=handler();c.loadPlayerQuests(third,Map.of());
++        assertEquals(1,c.restoreDeferredQuest(LATE,third,Map.of(LATE,template(LATE))));assertEquals(4,progress(third.get(player),LATE));assertEquals(STARTED,third.get(player).getQuestStartTimes().get(LATE));
++    }
++    @Test void asyncSavePreservesOpaqueUnknownJsonAndOriginalStartTime() {
++        JsonObject original=saved(LATE,7);seed(player,original);Map<UUID,PlayerQuest> players=new HashMap<>();QuestPersistenceHandler h=handler();h.loadPlayerQuests(players,Map.of());h.savePlayerQuestsAsync(players);
++        assertEquals(1,storage.asyncSaves);assertEquals(original,storedActive(player).get(0));assertTrue(storage.stored.getProperty("pq."+player+".startTimes").contains(LATE+":"+STARTED));
++    }
++    @Test void knownTemplateAlsoKeepsRealObjectiveProgressWithoutDoubleCloning() {
++        seed(player,saved(LATE,6));Map<UUID,PlayerQuest> players=new HashMap<>();handler().loadPlayerQuests(players,Map.of(LATE,template(LATE)));
++        assertEquals(6,progress(players.get(player),LATE));assertEquals(STARTED,players.get(player).getQuestStartTimes().get(LATE));
++    }
++    @Test void oneRegisteredTemplateDoesNotRestoreOrDiscardOtherPendingDefinitions() {
++        seed(player,saved(LATE,2),saved(OTHER,8));Map<UUID,PlayerQuest> players=new HashMap<>();QuestPersistenceHandler h=handler();h.loadPlayerQuests(players,Map.of());
++        assertEquals(1,h.restoreDeferredQuest(LATE,players,Map.of(LATE,template(LATE))));assertFalse(players.get(player).hasActiveQuest(OTHER));h.savePlayerQuests(players);
++        assertEquals(2,storedActive(player).size());assertTrue(storedActive(player).toString().contains("future_metadata"));
++        assertEquals(1,h.restoreDeferredQuest(OTHER,players,Map.of(OTHER,template(OTHER))));assertEquals(8,progress(players.get(player),OTHER));
++    }
++    @Test void deferredRestoreIsIdempotentAndNeverCompletesOrRewardsTheQuest() {
++        seed(player,saved(LATE,3));Map<UUID,PlayerQuest> players=new HashMap<>();QuestPersistenceHandler h=handler();h.loadPlayerQuests(players,Map.of());Map<String,Quest> registry=Map.of(LATE,template(LATE));
++        assertEquals(1,h.restoreDeferredQuest(LATE,players,registry));assertEquals(0,h.restoreDeferredQuest(LATE,players,registry));assertEquals(1,players.get(player).getActiveQuestCount());assertFalse(players.get(player).hasCompletedQuest(LATE));
++    }
++    @Test void existingLiveInstanceWinsAndStalePendingCopyCannotResurrectAfterAbandon() {
++        seed(player,saved(LATE,2));Map<UUID,PlayerQuest> players=new HashMap<>();QuestPersistenceHandler h=handler();h.loadPlayerQuests(players,Map.of());
++        players.get(player).acceptQuest(template(LATE));players.get(player).updateQuestProgress(LATE,0,9);Quest live=players.get(player).getActiveQuest(LATE);
++        assertEquals(0,h.restoreDeferredQuest(LATE,players,Map.of(LATE,template(LATE))));assertSame(live,players.get(player).getActiveQuest(LATE));assertEquals(9,progress(players.get(player),LATE));
++        players.get(player).abandonQuest(LATE);h.savePlayerQuests(players);assertEquals(0,storedActive(player).size());
++    }
++    @Test void anOmittedPlayerSnapshotDoesNotDeleteUnknownOwnedData() {
++        JsonObject original=saved(LATE,5);seed(player,original);Map<UUID,PlayerQuest> players=new HashMap<>();QuestPersistenceHandler h=handler();h.loadPlayerQuests(players,Map.of());h.savePlayerQuests(Map.of());assertEquals(original,storedActive(player).get(0));
++    }
++    @Test void restoringOnePlayerDoesNotReplaceOtherLivePlayerState() {
++        seed(player,saved(LATE,5));Map<UUID,PlayerQuest> players=new HashMap<>();QuestPersistenceHandler h=handler();h.loadPlayerQuests(players,Map.of());UUID other=UUID.randomUUID();PlayerQuest live=new PlayerQuest(other);live.acceptQuest(template(OTHER));live.updateQuestProgress(OTHER,0,8);players.put(other,live);
++        h.restoreDeferredQuest(LATE,players,Map.of(LATE,template(LATE)));assertSame(live,players.get(other));assertEquals(8,progress(live,OTHER));
++    }
++    @Test void perPlayerInstancesRemainIndependentAfterSameTemplateAppears() {
++        UUID other=UUID.randomUUID();seed(player,saved(LATE,2));seed(other,saved(LATE,7));Map<UUID,PlayerQuest> players=new HashMap<>();QuestPersistenceHandler h=handler();h.loadPlayerQuests(players,Map.of());
++        assertEquals(2,h.restoreDeferredQuest(LATE,players,Map.of(LATE,template(LATE))));players.get(player).updateQuestProgress(LATE,0,1);assertEquals(3,progress(players.get(player),LATE));assertEquals(7,progress(players.get(other),LATE));
++    }
++    @Test void failedTemplateInstantiationRetainsPendingRecordForSafeLaterRestore() {
++        seed(player,saved(LATE,3));Map<UUID,PlayerQuest> players=new HashMap<>();QuestPersistenceHandler h=handler();h.loadPlayerQuests(players,Map.of());Quest broken=mock(Quest.class);when(broken.createInstance()).thenThrow(new IllegalStateException("bad template"));
++        assertEquals(0,h.restoreDeferredQuest(LATE,players,Map.of(LATE,broken)));h.savePlayerQuests(players);assertEquals(3,storedActive(player).get(0).getAsJsonObject().getAsJsonArray("objectives").get(0).getAsJsonObject().get("progress").getAsInt());
++        assertEquals(1,h.restoreDeferredQuest(LATE,players,Map.of(LATE,template(LATE))));
++    }
++    @Test void lateTemplateDoesNotRenewAnAlreadyExpiredTimeLimit() {
++        seed(player,saved(LATE,3));Map<UUID,PlayerQuest> players=new HashMap<>();QuestPersistenceHandler h=handler();h.loadPlayerQuests(players,Map.of());Quest timed=new Quest.Builder(LATE,LATE,"Timed",QuestType.SIDE,QuestDifficulty.EASY).timeLimit(1000).addObjective(new QuestObjective("objective",QuestObjective.ObjectiveType.CUSTOM,"Wait",10)).build();
++        assertEquals(1,h.restoreDeferredQuest(LATE,players,Map.of(LATE,timed)));assertFalse(players.get(player).hasActiveQuest(LATE));assertTrue(players.get(player).getFailedQuests().containsKey(LATE));
++    }
++    @Test void serviceRegistrationUsesDeferredRestoreWithoutGlobalInitializeOrAcceptCommands() {
++        seed(player,saved(LATE,4));PersistenceService persistence=mock(PersistenceService.class);
++        when(persistence.loadProperties(anyString(),anyString())).thenAnswer(inv->{Properties result=new Properties();if("quests.properties".equals(inv.getArgument(1)))for(String key:storage.stored.stringPropertyNames())if(key.startsWith("pq."))result.setProperty(key.substring(3),storage.stored.getProperty(key));return result;});
++        QuestService service=new QuestService(null,null,null,persistence,log);service.initialize();assertTrue(service.supportsDeferredQuestRestore());assertFalse(service.getPlayerQuest(player).hasActiveQuest(LATE));
++        UUID newPlayer=UUID.randomUUID();PlayerQuest live=service.getPlayerQuest(newPlayer);live.acceptQuest(template(OTHER));live.updateQuestProgress(OTHER,0,8);
++        Quest withCommands=new Quest.Builder(LATE,LATE,"No commands on restoration",QuestType.SIDE,QuestDifficulty.EASY).addObjective(new QuestObjective("objective",QuestObjective.ObjectiveType.CUSTOM,"Evidence",10)).addStartCommand("op MustNeverExecute").build();
++        service.registerQuest(withCommands);assertEquals(4,progress(service.getPlayerQuest(player),LATE));assertSame(live,service.getPlayerQuest(newPlayer));assertEquals(8,progress(live,OTHER));
++        verify(persistence,times(4)).loadProperties(anyString(),anyString());verify(persistence,never()).saveProperties(anyString(),anyString(),any());verify(persistence,never()).savePropertiesAsync(anyString(),anyString(),any());
++    }
++    @Test void noPersistenceBackendDoesNotAdvertiseRestartCapability() {
++        QuestService service=new QuestService(null,null,null,null,log);service.initialize();assertFalse(service.supportsDeferredQuestRestore());
++    }
++
++    static final class MemoryStorage implements QuestStateStorage {
++        Properties stored=new Properties();int asyncSaves;
++        public Properties load(){Properties copy=new Properties();copy.putAll(stored);return copy;}
++        public void save(Properties properties){stored=new Properties();stored.putAll(properties);}
++        public void saveAsync(Properties properties){asyncSaves++;save(properties);}
++    }
++}
+diff --git a/src/test/java/dev/starcore/starcore/quest/QuestPersistenceHandlerTest.java b/src/test/java/dev/starcore/starcore/quest/QuestPersistenceHandlerTest.java
+index a019933..53be819 100644
+--- a/src/test/java/dev/starcore/starcore/quest/QuestPersistenceHandlerTest.java
++++ b/src/test/java/dev/starcore/starcore/quest/QuestPersistenceHandlerTest.java
+@@ -3,6 +3,7 @@ package dev.starcore.starcore.quest;
+ import static org.assertj.core.api.Assertions.assertThat;
+ import static org.assertj.core.api.Assertions.assertThatCode;
+ import static org.mockito.ArgumentMatchers.any;
++import static org.mockito.ArgumentMatchers.eq;
+ import static org.mockito.Mockito.mock;
+ import static org.mockito.Mockito.times;
+ import static org.mockito.Mockito.verify;
+@@ -241,7 +242,7 @@ class QuestPersistenceHandlerTest {
+ 
+     asyncHandler.savePlayerQuestsAsync(Map.of(playerId, playerQuest));
+ 
+-    verify(asyncStorage).saveAsync(any(Properties.class));
++    verify(asyncStorage).saveAsync(eq(QuestStateStorage.Section.PLAYER), any(Properties.class));
+     verify(asyncStorage, times(0)).save(any(Properties.class));
+   }
+ 
+@@ -275,7 +276,7 @@ class QuestPersistenceHandlerTest {
+     asyncHandler.saveDailyQuestsAsync(
+         Map.of(playerId, List.of(questMock("daily-1", List.of()))), Map.of(playerId, 1L));
+ 
+-    verify(asyncStorage).saveAsync(any(Properties.class));
++    verify(asyncStorage).saveAsync(eq(QuestStateStorage.Section.DAILY), any(Properties.class));
+   }
+ 
+   @Test
+diff --git a/src/test/java/dev/starcore/starcore/quest/QuestStorageIsolationTest.java b/src/test/java/dev/starcore/starcore/quest/QuestStorageIsolationTest.java
+new file mode 100644
+index 0000000..c243bc0
+--- /dev/null
++++ b/src/test/java/dev/starcore/starcore/quest/QuestStorageIsolationTest.java
+@@ -0,0 +1,71 @@
++package dev.starcore.starcore.quest;
++
++import dev.starcore.starcore.core.persistence.PersistenceService;
++import dev.starcore.starcore.core.scheduler.StarCoreScheduler;
++import java.nio.file.*;
++import java.util.*;
++import java.util.concurrent.CompletableFuture;
++import java.util.logging.Logger;
++import org.bukkit.plugin.java.JavaPlugin;
++import org.junit.jupiter.api.Test;
++import org.junit.jupiter.api.io.TempDir;
++import static org.junit.jupiter.api.Assertions.*;
++import static org.mockito.ArgumentMatchers.any;
++import static org.mockito.Mockito.*;
++
++/** Actual PersistenceService/atomic Properties files, with deterministic async scheduling. */
++class QuestStorageIsolationTest {
++    @TempDir Path directory;
++    final Logger log=Logger.getAnonymousLogger();
++    PersistenceService backend() {
++        JavaPlugin plugin=mock(JavaPlugin.class);when(plugin.getDataFolder()).thenReturn(directory.toFile());when(plugin.getLogger()).thenReturn(log);
++        StarCoreScheduler scheduler=mock(StarCoreScheduler.class);when(scheduler.runAsyncVoid(any())).thenAnswer(inv->{((Runnable)inv.getArgument(0)).run();return CompletableFuture.completedFuture(null);});
++        PersistenceService persistence=new PersistenceService(plugin,scheduler);persistence.start();return persistence;
++    }
++    QuestPersistenceHandler handler(PersistenceService persistence){return new QuestPersistenceHandler(new PersistenceQuestStateStorage("quest",persistence),log);}
++    Quest template(String id){return new Quest.Builder(id,id,"Records",QuestType.SIDE,QuestDifficulty.EASY).addObjective(new QuestObjective("records",QuestObjective.ObjectiveType.CUSTOM,"Evidence",10)).build();}
++    @Test void playerDailyAndCommissionFilesCoexistThroughTwoRealRestartsIncludingDeferredTemplate() {
++        UUID player=UUID.randomUUID();String questId="late_template";Quest template=template(questId),daily=template("daily_record");
++        PlayerQuest original=new PlayerQuest(player);original.acceptQuest(template);original.updateQuestProgress(questId,0,4);long started=original.getQuestStartTimes().get(questId);
++        Commission commission=new Commission("Survey","Real commission persistence",0);commission.setId("commission-record");commission.setPublisherId(player);commission.setPublisherName("Archivist");
++        PersistenceService first=backend();handler(first).savePlayerQuests(Map.of(player,original));handler(first).saveDailyQuests(Map.of(player,List.of(daily)),Map.of(player,123L));handler(first).saveCommissions(Map.of(commission.getId(),commission),Map.of(player,List.of(commission.getId())),Map.of());handler(first).saveCommissionLeaderboard(Map.of());first.stop();
++
++        PersistenceService second=backend();QuestPersistenceHandler playersHandler=handler(second),dailyHandler=handler(second),commissionHandler=handler(second);
++        Map<UUID,PlayerQuest> players=new HashMap<>();playersHandler.loadPlayerQuests(players,Map.of());assertFalse(players.get(player).hasActiveQuest(questId));
++        Map<UUID,List<Quest>> dailies=new HashMap<>();Map<UUID,Long> refresh=new HashMap<>();dailyHandler.loadDailyQuests(dailies,refresh,Map.of(daily.getId(),daily));
++        Map<String,Commission> commissions=new HashMap<>();Map<UUID,List<String>> publishers=new HashMap<>(),accepted=new HashMap<>();commissionHandler.loadCommissions(commissions,publishers,accepted);
++        assertEquals(1,dailies.get(player).size());assertEquals(123L,refresh.get(player));assertEquals("Survey",commissions.get(commission.getId()).getTitle());
++        // The exact shutdown order previously cleared the player file twice. Autosave while the
++        // owner is absent must preserve its opaque pending record in the player shard as well.
++        playersHandler.savePlayerQuestsAsync(players);dailyHandler.saveDailyQuestsAsync(dailies,refresh);commissionHandler.saveCommissionsAsync(commissions,publishers,accepted,Map.of());second.stop();
++
++        PersistenceService third=backend();QuestPersistenceHandler restore=handler(third);Map<UUID,PlayerQuest> finalPlayers=new HashMap<>();restore.loadPlayerQuests(finalPlayers,Map.of());
++        assertEquals(1,restore.restoreDeferredQuest(questId,finalPlayers,Map.of(questId,template)));assertEquals(4,finalPlayers.get(player).getActiveQuest(questId).getObjectives().getFirst().getCurrentProgress());assertEquals(started,finalPlayers.get(player).getQuestStartTimes().get(questId));
++        Map<UUID,List<Quest>> finalDaily=new HashMap<>();Map<UUID,Long> finalRefresh=new HashMap<>();handler(third).loadDailyQuests(finalDaily,finalRefresh,Map.of(daily.getId(),daily));assertEquals(1,finalDaily.get(player).size());
++        Map<String,Commission> finalCommission=new HashMap<>();handler(third).loadCommissions(finalCommission,new HashMap<>(),new HashMap<>());assertEquals(Set.of(commission.getId()),finalCommission.keySet());third.stop();
++    }
++    @Test void intentionallyEmptyPlayerSectionClearsOnlyPlayerFile() {
++        PersistenceService persistence=backend();PersistenceQuestStateStorage store=new PersistenceQuestStateStorage("quest",persistence);Properties daily=new Properties();daily.setProperty("dq.refresh_times","example:123");store.save(QuestStateStorage.Section.DAILY,daily);
++        Properties players=new Properties();players.setProperty("pq.marker","old");store.save(QuestStateStorage.Section.PLAYER,players);store.save(QuestStateStorage.Section.PLAYER,new Properties());
++        assertTrue(persistence.loadProperties("quest","quests.properties").isEmpty());assertEquals("example:123",persistence.loadProperties("quest","daily_quests.properties").getProperty("refresh_times"));persistence.stop();
++    }
++    @Test void asynchronousEmptySectionDoesNotEraseOtherFiles() {
++        PersistenceService persistence=backend();PersistenceQuestStateStorage store=new PersistenceQuestStateStorage("quest",persistence);Properties players=new Properties();players.setProperty("pq.marker","keep");store.save(QuestStateStorage.Section.PLAYER,players);
++        store.saveAsync(QuestStateStorage.Section.DAILY,new Properties());store.saveAsync(QuestStateStorage.Section.COMMISSION,new Properties());persistence.stop();assertEquals("keep",persistence.loadProperties("quest","quests.properties").getProperty("marker"));
++    }
++    @Test void sectionWriterRejectsForeignPrefixBeforeWritingAnyFile() {
++        PersistenceService persistence=backend();PersistenceQuestStateStorage store=new PersistenceQuestStateStorage("quest",persistence);Properties foreign=new Properties();foreign.setProperty("cm.active","[]");
++        assertThrows(IllegalArgumentException.class,()->store.save(QuestStateStorage.Section.PLAYER,foreign));assertThrows(IllegalArgumentException.class,()->store.saveAsync(QuestStateStorage.Section.DAILY,foreign));assertTrue(persistence.loadProperties("quest","commissions.properties").isEmpty());persistence.stop();
++    }
++    @Test void legacyFullSnapshotOverloadRetainsItsDocumentedCompatibilityBehavior() {
++        PersistenceService persistence=backend();PersistenceQuestStateStorage store=new PersistenceQuestStateStorage("quest",persistence);Properties all=new Properties();all.setProperty("pq.player","one");all.setProperty("dq.daily","two");all.setProperty("cm.commission","three");store.save(all);
++        assertEquals("one",persistence.loadProperties("quest","quests.properties").getProperty("player"));assertEquals("two",persistence.loadProperties("quest","daily_quests.properties").getProperty("daily"));assertEquals("three",persistence.loadProperties("quest","commissions.properties").getProperty("commission"));persistence.stop();
++    }
++    @Test void commissionAsyncWithNonemptyLeaderboardWritesIndependentFilesAndPreservesPlayers() {
++        PersistenceService persistence=backend();PersistenceQuestStateStorage store=new PersistenceQuestStateStorage("quest",persistence);Properties players=new Properties();players.setProperty("pq.marker","keep");store.save(QuestStateStorage.Section.PLAYER,players);
++        UUID actor=UUID.randomUUID();CommissionService.CommissionStats stats=new CommissionService.CommissionStats(actor);stats.setPlayerName("Archivist");stats.recordCompletion(12,QuestDifficulty.EASY);
++        handler(persistence).saveCommissionsAsync(Map.of(),Map.of(),Map.of(),Map.of(actor,stats));persistence.stop();
++        assertEquals("keep",persistence.loadProperties("quest","quests.properties").getProperty("marker"));assertEquals("1",persistence.loadProperties("quest","commission_leaderboard.properties").getProperty(actor+".completed"));
++        assertEquals("Archivist",store.load().getProperty("cl."+actor+".name"));
++    }
++}

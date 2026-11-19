@@ -1,0 +1,13 @@
+{
+  "plugin_sha256": "5e227d20c46eeb91dd98d9d33e6f55cd66fbfc4fd7ecd7391f57eb9643f0d86e",
+  "events": [
+    [
+      "starcore:nation-founded:b035ce79-1303-43d2-a79b-844001e55cda",
+      "NATION_FOUNDED",
+      "2026-11-19T13:25:56.690000000Z",
+      "56a340df48e201e8fdf20390314942f72d2772b87a3511e5b58c90c89769a2cf"
+    ]
+  ],
+  "facts": [],
+  "integrity": "ok"
+}

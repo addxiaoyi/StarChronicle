@@ -1,0 +1,361 @@
+{
+  "plugin_sha256": "a644eaf835bc08b62aad096da078198d55ac8fcb8ad864d22eeec3868963e39a",
+  "artifacts": {
+    "paper": "5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba",
+    "starcore": "953f926f12384e0cfafae6f55d266a10c7156468e7e28be75518c3f7b413884b",
+    "starchronicle": "a644eaf835bc08b62aad096da078198d55ac8fcb8ad864d22eeec3868963e39a",
+    "fixture": "c35f4d49881e6828196365f0ac90735b0480dbb582be010ac038b2afbb2d3723"
+  },
+  "events": [
+    {
+      "id": "chronicle:arrival:cb728396-7bbc-306c-8c82-f00997d4ac10:2026-11-19",
+      "type": "PLAYER_JOIN",
+      "time": "2026-11-19T16:43:21.002030000Z",
+      "hash": "ef7728b318351d14975f7a02fd80ff0d4053e7bbaca2303776b47d43aec273f5",
+      "json": "{\"id\":\"chronicle:arrival:cb728396-7bbc-306c-8c82-f00997d4ac10:2026-11-19\",\"type\":\"PLAYER_JOIN\",\"occurredAt\":\"2026-11-19T16:43:21.002030Z\",\"participants\":[\"cb728396-7bbc-306c-8c82-f00997d4ac10\"],\"nations\":[],\"facts\":{\"day\":\"2026-11-19\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.PlayerJoinEvent\",\"evidence\":\"First observed player arrival for UTC day=2026-11-19; player=cb728396-7bbc-306c-8c82-f00997d4ac10\"}"
+    },
+    {
+      "id": "chronicle:arrival:0f0600aa-d982-37b8-aedb-b7f403d20daf:2026-11-19",
+      "type": "PLAYER_JOIN",
+      "time": "2026-11-19T16:43:21.151840900Z",
+      "hash": "b0973e4d9f7ed84ee5edb9e00cd1ff81e152c4fa8bad9f65e4077ea54fce4c3d",
+      "json": "{\"id\":\"chronicle:arrival:0f0600aa-d982-37b8-aedb-b7f403d20daf:2026-11-19\",\"type\":\"PLAYER_JOIN\",\"occurredAt\":\"2026-11-19T16:43:21.151840900Z\",\"participants\":[\"0f0600aa-d982-37b8-aedb-b7f403d20daf\"],\"nations\":[],\"facts\":{\"day\":\"2026-11-19\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.PlayerJoinEvent\",\"evidence\":\"First observed player arrival for UTC day=2026-11-19; player=0f0600aa-d982-37b8-aedb-b7f403d20daf\"}"
+    },
+    {
+      "id": "starcore:nation-founded:2fe25a07-ee4a-482d-b525-9824ed2e686b",
+      "type": "NATION_FOUNDED",
+      "time": "2026-11-19T16:43:48.921000000Z",
+      "hash": "e71e536d1b0d77f9dd3779c868406f4f9cf02cb600267096bc7f5f52d63452ea",
+      "json": "{\"id\":\"starcore:nation-founded:2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"type\":\"NATION_FOUNDED\",\"occurredAt\":\"2026-11-19T16:43:48.921Z\",\"participants\":[],\"nations\":[\"2fe25a07-ee4a-482d-b525-9824ed2e686b\"],\"facts\":{\"nation.id\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"title\":\"国家建立\"},\"source\":\"StarCore\",\"evidence\":\"NationService.nations authoritative entity id=2fe25a07-ee4a-482d-b525-9824ed2e686b; persisted foundedAt=2026-11-19T16:43:48.921Z; original founder not exposed; historical import may predate Chronicle installation\"}"
+    },
+    {
+      "id": "starcore:nation-founded:7385f381-9b08-4c66-9811-f99cb04e98ae",
+      "type": "NATION_FOUNDED",
+      "time": "2026-11-19T16:43:48.934000000Z",
+      "hash": "fa25b78d330f153959ca4c083f210e6a27cd4f36fc95a8b86c54b3c2baef5b8d",
+      "json": "{\"id\":\"starcore:nation-founded:7385f381-9b08-4c66-9811-f99cb04e98ae\",\"type\":\"NATION_FOUNDED\",\"occurredAt\":\"2026-11-19T16:43:48.934Z\",\"participants\":[],\"nations\":[\"7385f381-9b08-4c66-9811-f99cb04e98ae\"],\"facts\":{\"nation.id\":\"7385f381-9b08-4c66-9811-f99cb04e98ae\",\"title\":\"国家建立\"},\"source\":\"StarCore\",\"evidence\":\"NationService.nations authoritative entity id=7385f381-9b08-4c66-9811-f99cb04e98ae; persisted foundedAt=2026-11-19T16:43:48.934Z; original founder not exposed; historical import may predate Chronicle installation\"}"
+    },
+    {
+      "id": "expanded:heir-discovery:1",
+      "type": "ANCIENT_HEIR_DISCOVERED",
+      "time": "2026-11-19T16:44:15.457326100Z",
+      "hash": "d9c2a21b3d137f5358155e72b0a80a30ac71f0359b128668fc38aeda01c98a54",
+      "json": "{\"id\":\"expanded:heir-discovery:1\",\"type\":\"ANCIENT_HEIR_DISCOVERED\",\"occurredAt\":\"2026-11-19T16:44:15.457326100Z\",\"participants\":[\"cb728396-7bbc-306c-8c82-f00997d4ac10\",\"0f0600aa-d982-37b8-aedb-b7f403d20daf\"],\"nations\":[\"2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"7385f381-9b08-4c66-9811-f99cb04e98ae\"],\"facts\":{\"test-only\":\"expanded actual-client acceptance\"},\"source\":\"ExpandedPaperFixture\",\"evidence\":\"Isolated test-only story signal from two real connected clients; membership is read from actual NationService. Not a claim of a natural production-world discovery.\"}"
+    },
+    {
+      "id": "chronicle:6da04981bbad1b70d7edf4827112c00e8674f1c2c4cf985f1b727b0aa9fcd704",
+      "type": "HEIR_COUNCIL_OPENED",
+      "time": "2026-11-19T16:45:48.712228500Z",
+      "hash": "f5a32bc2bf0a636b1c28b3403fc0389a3af3a287f2af69397ae4d3f59bd23def",
+      "json": "{\"id\":\"chronicle:6da04981bbad1b70d7edf4827112c00e8674f1c2c4cf985f1b727b0aa9fcd704\",\"type\":\"HEIR_COUNCIL_OPENED\",\"occurredAt\":\"2026-11-19T16:45:48.712228500Z\",\"participants\":[\"cb728396-7bbc-306c-8c82-f00997d4ac10\",\"0f0600aa-d982-37b8-aedb-b7f403d20daf\"],\"nations\":[\"2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"7385f381-9b08-4c66-9811-f99cb04e98ae\"],\"facts\":{\"outcome\":\"各国代表决定公开审议古帝国的继承主张。\",\"story\":\"last-heir\"},\"source\":\"StarChronicle\",\"evidence\":\"instance=c37e1588004b29c70057fc0dfa9f46eea95fd8a09e2f2b75770b300b06ff61f9; action=choice/summons/convene; effect=council-record; source=expanded:heir-discovery:1\"}"
+    },
+    {
+      "id": "chronicle:73df4bfadc38ec25f5fef5d506f2a1d645fb29f931dbdd56827369c3672cd533",
+      "type": "HEIR_RESTORATION_SUPPORTED",
+      "time": "2026-11-19T16:46:20.161230000Z",
+      "hash": "fd96551a941cec09b60e8abfd95089cb6e86886fc03fabf4e11b3d3dc6b1c0f1",
+      "json": "{\"id\":\"chronicle:73df4bfadc38ec25f5fef5d506f2a1d645fb29f931dbdd56827369c3672cd533\",\"type\":\"HEIR_RESTORATION_SUPPORTED\",\"occurredAt\":\"2026-11-19T16:46:20.161230Z\",\"participants\":[\"cb728396-7bbc-306c-8c82-f00997d4ac10\",\"0f0600aa-d982-37b8-aedb-b7f403d20daf\"],\"nations\":[\"2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"7385f381-9b08-4c66-9811-f99cb04e98ae\"],\"facts\":{\"outcome\":\"各国参与者共同支持古帝国继承人的复国倡议。\",\"story\":\"last-heir\"},\"source\":\"StarChronicle\",\"evidence\":\"instance=c37e1588004b29c70057fc0dfa9f46eea95fd8a09e2f2b75770b300b06ff61f9; action=node/restored; effect=restoration-record; source=expanded:heir-discovery:1\"}"
+    },
+    {
+      "id": "expanded:invite-source:1",
+      "type": "EXPANDED_INVITATION_TEST",
+      "time": "2026-11-19T16:44:15.457326100Z",
+      "hash": "15c1f79b9349c3f8861c1fd584ddeba086878486db65b47f1c37659449dbec3e",
+      "json": "{\"id\":\"expanded:invite-source:1\",\"type\":\"EXPANDED_INVITATION_TEST\",\"occurredAt\":\"2026-11-19T16:44:15.457326100Z\",\"participants\":[\"0f0600aa-d982-37b8-aedb-b7f403d20daf\"],\"nations\":[\"2fe25a07-ee4a-482d-b525-9824ed2e686b\"],\"facts\":{\"test-only\":\"expanded actual-client acceptance\"},\"source\":\"ExpandedPaperFixture\",\"evidence\":\"Isolated test-only story signal from two real connected clients; membership is read from actual NationService. Not a claim of a natural production-world discovery.\"}"
+    },
+    {
+      "id": "observation:3dc16e270ee79439:1:e78d4d646bd46037a440de3e032ca753afe566596219b524b2455fb2f15cecdd",
+      "type": "TECHNOLOGY_BREAKTHROUGH",
+      "time": "2026-11-19T16:49:26.706000000Z",
+      "hash": "1647c5237ad7d4ee808e52ba65fee7d5be919e8975b760d0619216c1d9ea91f7",
+      "json": "{\"id\":\"observation:3dc16e270ee79439:1:e78d4d646bd46037a440de3e032ca753afe566596219b524b2455fb2f15cecdd\",\"type\":\"TECHNOLOGY_BREAKTHROUGH\",\"occurredAt\":\"2026-11-19T16:49:26.706Z\",\"participants\":[],\"nations\":[\"2fe25a07-ee4a-482d-b525-9824ed2e686b\"],\"facts\":{\"after\":\"UNLOCKED\",\"before\":\"<absent>\",\"nation.id\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"observation.key\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b/advanced_archery\",\"observation.namespace\":\"starcore.technologies\",\"observation.sequence\":\"1\",\"tech.era\":\"industrial_age\",\"tech.stage\":\"2\",\"technology\":\"advanced_archery\",\"time_basis\":\"OBSERVED\",\"title\":\"科技解锁（权威快照观察）\"},\"source\":\"StarCore.TechnologyModule.unlockedTechnologies\",\"evidence\":\"source=StarCore.TechnologyModule.unlockedTechnologies; complete authority snapshot; namespace=starcore.technologies; sequence=1; key=2fe25a07-ee4a-482d-b525-9824ed2e686b/advanced_archery; before=<absent>; after=UNLOCKED; observationInterval=[2026-11-19T16:42:16.799Z,2026-11-19T16:49:26.706Z]; exact mutation time and actor unknown; Native TechnologyModule unlockedTechnologies() copied under the same monitor as synchronized unlock/revoke and synchronous persistence; a newly observed unlock need not be a research completion\"}"
+    }
+  ],
+  "event_players": [
+    {
+      "event_id": "chronicle:arrival:cb728396-7bbc-306c-8c82-f00997d4ac10:2026-11-19",
+      "player": "cb728396-7bbc-306c-8c82-f00997d4ac10"
+    },
+    {
+      "event_id": "chronicle:arrival:0f0600aa-d982-37b8-aedb-b7f403d20daf:2026-11-19",
+      "player": "0f0600aa-d982-37b8-aedb-b7f403d20daf"
+    },
+    {
+      "event_id": "expanded:heir-discovery:1",
+      "player": "cb728396-7bbc-306c-8c82-f00997d4ac10"
+    },
+    {
+      "event_id": "expanded:heir-discovery:1",
+      "player": "0f0600aa-d982-37b8-aedb-b7f403d20daf"
+    },
+    {
+      "event_id": "chronicle:6da04981bbad1b70d7edf4827112c00e8674f1c2c4cf985f1b727b0aa9fcd704",
+      "player": "cb728396-7bbc-306c-8c82-f00997d4ac10"
+    },
+    {
+      "event_id": "chronicle:6da04981bbad1b70d7edf4827112c00e8674f1c2c4cf985f1b727b0aa9fcd704",
+      "player": "0f0600aa-d982-37b8-aedb-b7f403d20daf"
+    },
+    {
+      "event_id": "chronicle:73df4bfadc38ec25f5fef5d506f2a1d645fb29f931dbdd56827369c3672cd533",
+      "player": "cb728396-7bbc-306c-8c82-f00997d4ac10"
+    },
+    {
+      "event_id": "chronicle:73df4bfadc38ec25f5fef5d506f2a1d645fb29f931dbdd56827369c3672cd533",
+      "player": "0f0600aa-d982-37b8-aedb-b7f403d20daf"
+    },
+    {
+      "event_id": "expanded:invite-source:1",
+      "player": "0f0600aa-d982-37b8-aedb-b7f403d20daf"
+    }
+  ],
+  "event_nations": [
+    {
+      "event_id": "starcore:nation-founded:2fe25a07-ee4a-482d-b525-9824ed2e686b",
+      "nation": "2fe25a07-ee4a-482d-b525-9824ed2e686b"
+    },
+    {
+      "event_id": "starcore:nation-founded:7385f381-9b08-4c66-9811-f99cb04e98ae",
+      "nation": "7385f381-9b08-4c66-9811-f99cb04e98ae"
+    },
+    {
+      "event_id": "expanded:heir-discovery:1",
+      "nation": "2fe25a07-ee4a-482d-b525-9824ed2e686b"
+    },
+    {
+      "event_id": "expanded:heir-discovery:1",
+      "nation": "7385f381-9b08-4c66-9811-f99cb04e98ae"
+    },
+    {
+      "event_id": "chronicle:6da04981bbad1b70d7edf4827112c00e8674f1c2c4cf985f1b727b0aa9fcd704",
+      "nation": "2fe25a07-ee4a-482d-b525-9824ed2e686b"
+    },
+    {
+      "event_id": "chronicle:6da04981bbad1b70d7edf4827112c00e8674f1c2c4cf985f1b727b0aa9fcd704",
+      "nation": "7385f381-9b08-4c66-9811-f99cb04e98ae"
+    },
+    {
+      "event_id": "chronicle:73df4bfadc38ec25f5fef5d506f2a1d645fb29f931dbdd56827369c3672cd533",
+      "nation": "2fe25a07-ee4a-482d-b525-9824ed2e686b"
+    },
+    {
+      "event_id": "chronicle:73df4bfadc38ec25f5fef5d506f2a1d645fb29f931dbdd56827369c3672cd533",
+      "nation": "7385f381-9b08-4c66-9811-f99cb04e98ae"
+    },
+    {
+      "event_id": "expanded:invite-source:1",
+      "nation": "2fe25a07-ee4a-482d-b525-9824ed2e686b"
+    },
+    {
+      "event_id": "observation:3dc16e270ee79439:1:e78d4d646bd46037a440de3e032ca753afe566596219b524b2455fb2f15cecdd",
+      "nation": "2fe25a07-ee4a-482d-b525-9824ed2e686b"
+    }
+  ],
+  "instances": [
+    {
+      "id": "75ec41fd7a385f66d86a5154fa0ed6e86757fbc276a13012dabb3ac30e4604d1",
+      "story": "fate-monarch",
+      "scope": "player:0f0600aa-d982-37b8-aedb-b7f403d20daf",
+      "completed": 0,
+      "updated": "2026-11-19T16:43:49.707791200Z",
+      "json": "{\"id\":\"75ec41fd7a385f66d86a5154fa0ed6e86757fbc276a13012dabb3ac30e4604d1\",\"definition\":{\"id\":\"fate-monarch\",\"version\":\"1\",\"title\":\"君主命运：王冠的重量\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"NATION_FOUNDED\",\"NATION_SPLIT\",\"NATIONS_MERGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"monarch\"},\"start\":\"crown\",\"cooldownSeconds\":86400,\"nodes\":{\"accountable-steward\":{\"text\":\"你承诺重大资源用途应有可追溯依据。今天形成的是公开治理的个人誓愿，并没有发生任何国库支出。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"steward-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"steward-title\",\"type\":\"title\",\"target\":\"accountable-steward\",\"value\":\"问责承诺者\",\"permission\":null},{\"id\":\"steward-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"4\",\"permission\":null},{\"id\":\"steward-history\",\"type\":\"history\",\"target\":\"MONARCH_RESOURCE_ACCOUNTABILITY_VOW\",\"value\":\"一位君主承诺为重大资源用途保留公开可追溯的依据。\",\"permission\":null}],\"terminal\":true},\"crown\":{\"text\":\"王冠代表的责任远多于荣光。作为君主，你愿意先留下怎样的治理倡议？这不是一次立法、改制或国库操作。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"counsel\":{\"label\":\"让不同意见进入议事记录\",\"next\":\"open-council\",\"condition\":null,\"permission\":null,\"effects\":[]},\"stewardship\":{\"label\":\"承诺公开重大资源用途的依据\",\"next\":\"accountable-steward\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"open-council\":{\"text\":\"你主张把异议与共识一同归档，避免后人只听到一种声音。正式政治制度仍由已有权威系统处理。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"council-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"council-title\",\"type\":\"title\",\"target\":\"open-council-advocate\",\"value\":\"公议倡导者\",\"permission\":null},{\"id\":\"council-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"3\",\"permission\":null},{\"id\":\"council-history\",\"type\":\"history\",\"target\":\"MONARCH_OPEN_COUNCIL_VOW\",\"value\":\"一位君主承诺让不同意见进入国家议事记录。\",\"permission\":null}],\"terminal\":true}}},\"scopeKey\":\"player:0f0600aa-d982-37b8-aedb-b7f403d20daf\",\"sourceEventId\":\"starcore:nation-founded:2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"node\":\"crown\",\"members\":{\"0f0600aa-d982-37b8-aedb-b7f403d20daf\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b\"},\"votes\":{},\"choices\":{},\"startedAt\":\"2026-11-19T16:43:49.707791200Z\",\"updatedAt\":\"2026-11-19T16:43:49.707791200Z\",\"completed\":false}"
+    },
+    {
+      "id": "f602d1c8de172980043910534f8f1016c644faedd24116dba5a8d6573a823574",
+      "story": "fate-monarch",
+      "scope": "player:cb728396-7bbc-306c-8c82-f00997d4ac10",
+      "completed": 0,
+      "updated": "2026-11-19T16:43:49.724742700Z",
+      "json": "{\"id\":\"f602d1c8de172980043910534f8f1016c644faedd24116dba5a8d6573a823574\",\"definition\":{\"id\":\"fate-monarch\",\"version\":\"1\",\"title\":\"君主命运：王冠的重量\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"NATION_FOUNDED\",\"NATION_SPLIT\",\"NATIONS_MERGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"monarch\"},\"start\":\"crown\",\"cooldownSeconds\":86400,\"nodes\":{\"accountable-steward\":{\"text\":\"你承诺重大资源用途应有可追溯依据。今天形成的是公开治理的个人誓愿，并没有发生任何国库支出。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"steward-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"steward-title\",\"type\":\"title\",\"target\":\"accountable-steward\",\"value\":\"问责承诺者\",\"permission\":null},{\"id\":\"steward-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"4\",\"permission\":null},{\"id\":\"steward-history\",\"type\":\"history\",\"target\":\"MONARCH_RESOURCE_ACCOUNTABILITY_VOW\",\"value\":\"一位君主承诺为重大资源用途保留公开可追溯的依据。\",\"permission\":null}],\"terminal\":true},\"crown\":{\"text\":\"王冠代表的责任远多于荣光。作为君主，你愿意先留下怎样的治理倡议？这不是一次立法、改制或国库操作。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"counsel\":{\"label\":\"让不同意见进入议事记录\",\"next\":\"open-council\",\"condition\":null,\"permission\":null,\"effects\":[]},\"stewardship\":{\"label\":\"承诺公开重大资源用途的依据\",\"next\":\"accountable-steward\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"open-council\":{\"text\":\"你主张把异议与共识一同归档，避免后人只听到一种声音。正式政治制度仍由已有权威系统处理。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"council-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"council-title\",\"type\":\"title\",\"target\":\"open-council-advocate\",\"value\":\"公议倡导者\",\"permission\":null},{\"id\":\"council-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"3\",\"permission\":null},{\"id\":\"council-history\",\"type\":\"history\",\"target\":\"MONARCH_OPEN_COUNCIL_VOW\",\"value\":\"一位君主承诺让不同意见进入国家议事记录。\",\"permission\":null}],\"terminal\":true}}},\"scopeKey\":\"player:cb728396-7bbc-306c-8c82-f00997d4ac10\",\"sourceEventId\":\"starcore:nation-founded:7385f381-9b08-4c66-9811-f99cb04e98ae\",\"node\":\"crown\",\"members\":{\"cb728396-7bbc-306c-8c82-f00997d4ac10\":\"7385f381-9b08-4c66-9811-f99cb04e98ae\"},\"votes\":{},\"choices\":{},\"startedAt\":\"2026-11-19T16:43:49.724742700Z\",\"updatedAt\":\"2026-11-19T16:43:49.724742700Z\",\"completed\":false}"
+    },
+    {
+      "id": "c37e1588004b29c70057fc0dfa9f46eea95fd8a09e2f2b75770b300b06ff61f9",
+      "story": "last-heir",
+      "scope": "world",
+      "completed": 1,
+      "updated": "2026-11-19T16:46:20.160683200Z",
+      "json": "{\"id\":\"c37e1588004b29c70057fc0dfa9f46eea95fd8a09e2f2b75770b300b06ff61f9\",\"definition\":{\"id\":\"last-heir\",\"version\":\"1\",\"title\":\"帝国最后的继承人\",\"scope\":\"WORLD\",\"triggers\":[\"ANCIENT_HEIR_DISCOVERED\",\"NATIONS_MERGED\",\"WORLD_EVENT\"],\"condition\":null,\"start\":\"summons\",\"cooldownSeconds\":604800,\"nodes\":{\"council\":{\"text\":\"伊蕾娅请求各国表态。支持、反对、救济、考古和谈判都是有效的历史选择；每个选项需要两位不同参与者共同确认。先达到人数的主张成为本轮共同路线。国家的正式承诺仍须其权威服务批准，本次投票只形成剧情立场。\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"aid\":{\"label\":\"组织救济：提出资源援助方案\",\"next\":\"preparations\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"relief-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.relief\",\"value\":\"proposed\",\"permission\":null},{\"id\":\"relief-record\",\"type\":\"history\",\"target\":\"IMPERIAL_RELIEF_PROPOSED\",\"value\":\"各国代表提出旧都救济方案；本记录不表示国库已经扣款。\",\"permission\":null}]},\"diplomacy\":{\"label\":\"外交谈判：草拟共存条约\",\"next\":\"preparations\",\"condition\":{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"diplomat\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"monarch\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[{\"id\":\"treaty-draft\",\"type\":\"memory\",\"target\":\"old-imperial-capital.treaty\",\"value\":\"drafted\",\"permission\":null}]},\"oppose\":{\"label\":\"反对复国：要求保障现有国家主权\",\"next\":\"preparations\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"oppose-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.heir-position\",\"value\":\"opposed\",\"permission\":null},{\"id\":\"oppose-record\",\"type\":\"history\",\"target\":\"RESTORATION_OPPOSED\",\"value\":\"议会要求继承人尊重现有国家主权。\",\"permission\":null}]},\"ruins\":{\"label\":\"派遣学者：勘查古代遗迹\",\"next\":\"preparations\",\"condition\":{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"scholar\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"explorer\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[{\"id\":\"ruins-memory\",\"type\":\"memory\",\"target\":\"imperial-ruins.expedition\",\"value\":\"proposed\",\"permission\":null}]},\"support\":{\"label\":\"支持继承人：先保护旧都居民\",\"next\":\"preparations\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"support-pledge\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"10\",\"permission\":null},{\"id\":\"support-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.heir-position\",\"value\":\"supported\",\"permission\":null}]}},\"effects\":[],\"terminal\":false},\"heritage\":{\"text\":\"议会提出共同保护旧都遗址。图书馆开始编纂这次会议的记录，后续考古与和平谈判可引用这份世界记忆。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"heritage-record\",\"type\":\"history\",\"target\":\"IMPERIAL_HERITAGE_INITIATIVE\",\"value\":\"各国参与者共同提出保护旧都历史遗产的倡议。\",\"permission\":null},{\"id\":\"heritage-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.legacy\",\"value\":\"shared-heritage\",\"permission\":null},{\"id\":\"heritage-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"15\",\"permission\":null},{\"id\":\"heritage-title\",\"type\":\"title\",\"target\":\"shared-history-founder\",\"value\":\"共同历史的缔造者\",\"permission\":null}],\"terminal\":true},\"preparations\":{\"text\":\"议会的第一项共识已经写入档案。旧都守军仍在等待最终决定。你们可以支持继承人重建政治共同体、拒绝复国，或主张以共同守护遗址结束争端。最后战役由现有 StarCore 剧情和任务脚本接管；此默认样例不虚构战役完成或修改外交。\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"compromise\":{\"label\":\"达成妥协：成立共同遗产倡议\",\"next\":\"heritage\",\"condition\":null,\"permission\":null,\"effects\":[]},\"restoration\":{\"label\":\"支持重建：留下复国倡议\",\"next\":\"restored\",\"condition\":null,\"permission\":null,\"effects\":[]},\"sovereignty\":{\"label\":\"拒绝复国：留下主权宣言\",\"next\":\"sovereign\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"restored\":{\"text\":\"复国倡议获得议会支持。真正的国家建立、战争与外交变动将在权威服务提交后另行载入正史。伊蕾娅将铭记这次援手。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"restoration-record\",\"type\":\"history\",\"target\":\"HEIR_RESTORATION_SUPPORTED\",\"value\":\"各国参与者共同支持古帝国继承人的复国倡议。\",\"permission\":null},{\"id\":\"restoration-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.legacy\",\"value\":\"restoration-initiative\",\"permission\":null},{\"id\":\"restoration-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"15\",\"permission\":null},{\"id\":\"restoration-title\",\"type\":\"title\",\"target\":\"old-capital-guardian\",\"value\":\"旧都的守望者\",\"permission\":null}],\"terminal\":true},\"sovereign\":{\"text\":\"议会否决复国倡议，确认以现有国家的主权为谈判基础。旧都的历史仍向所有人开放。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"sovereignty-record\",\"type\":\"history\",\"target\":\"HEIR_RESTORATION_REJECTED\",\"value\":\"各国参与者共同否决复国倡议，并主张尊重现有国家主权。\",\"permission\":null},{\"id\":\"sovereignty-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.legacy\",\"value\":\"sovereignty-declaration\",\"permission\":null},{\"id\":\"sovereignty-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"15\",\"permission\":null},{\"id\":\"sovereignty-title\",\"type\":\"title\",\"target\":\"sovereignty-witness\",\"value\":\"主权见证者\",\"permission\":null}],\"terminal\":true},\"summons\":{\"text\":\"古代帝国的继承传说再次成为各国议题。自称继承人的伊蕾娅邀请代表前往旧都。请至少两位参与者共同决定是否召开议会。此为剧情提案，其真实性以来源证据和后续调查为准。\",\"script\":\"chronicle_last_heir\",\"quest\":null,\"quorum\":2,\"choices\":{\"convene\":{\"label\":\"召集各国议会，公开继承证据\",\"next\":\"council\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"council-record\",\"type\":\"history\",\"target\":\"HEIR_COUNCIL_OPENED\",\"value\":\"各国代表决定公开审议古帝国的继承主张。\",\"permission\":null}]}},\"effects\":[],\"terminal\":false}}},\"scopeKey\":\"world\",\"sourceEventId\":\"expanded:heir-discovery:1\",\"node\":\"restored\",\"members\":{\"cb728396-7bbc-306c-8c82-f00997d4ac10\":\"7385f381-9b08-4c66-9811-f99cb04e98ae\",\"0f0600aa-d982-37b8-aedb-b7f403d20daf\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b\"},\"votes\":{},\"choices\":{\"council\":\"support\",\"council/0f0600aa-d982-37b8-aedb-b7f403d20daf\":\"support\",\"council/cb728396-7bbc-306c-8c82-f00997d4ac10\":\"support\",\"preparations\":\"restoration\",\"preparations/0f0600aa-d982-37b8-aedb-b7f403d20daf\":\"restoration\",\"preparations/cb728396-7bbc-306c-8c82-f00997d4ac10\":\"restoration\",\"summons\":\"convene\",\"summons/0f0600aa-d982-37b8-aedb-b7f403d20daf\":\"convene\",\"summons/cb728396-7bbc-306c-8c82-f00997d4ac10\":\"convene\"},\"startedAt\":\"2026-11-19T16:44:15.507300300Z\",\"updatedAt\":\"2026-11-19T16:46:20.160683200Z\",\"completed\":true}"
+    },
+    {
+      "id": "eb688b657449b51f4266fac20d4e6da6b5fbc4206000de186dd0efcc4fe6c2e8",
+      "story": "expanded-invite",
+      "scope": "player:0f0600aa-d982-37b8-aedb-b7f403d20daf",
+      "completed": 1,
+      "updated": "2026-11-19T16:48:31.656185100Z",
+      "json": "{\"id\":\"eb688b657449b51f4266fac20d4e6da6b5fbc4206000de186dd0efcc4fe6c2e8\",\"definition\":{\"id\":\"expanded-invite\",\"version\":\"1\",\"title\":\"Actual StarCore alliance invitation acceptance\",\"scope\":\"PLAYER\",\"triggers\":[\"EXPANDED_INVITATION_TEST\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.id\",\"op\":\"eq\",\"value\":\"0f0600aa-d982-37b8-aedb-b7f403d20daf\"},\"start\":\"proposal\",\"cooldownSeconds\":0,\"nodes\":{\"end\":{\"text\":\"The authoritative native adapter decides the result.\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"invite\",\"type\":\"authority\",\"target\":\"diplomacy.invite\",\"value\":\"7385f381-9b08-4c66-9811-f99cb04e98ae\",\"permission\":\"starcore.nation.ally.add\"}],\"terminal\":true},\"proposal\":{\"text\":\"Explicit native permission is required before sending.\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"send\":{\"label\":\"Send actual native invitation\",\"next\":\"end\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false}}},\"scopeKey\":\"player:0f0600aa-d982-37b8-aedb-b7f403d20daf\",\"sourceEventId\":\"expanded:invite-source:1\",\"node\":\"end\",\"members\":{\"0f0600aa-d982-37b8-aedb-b7f403d20daf\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b\"},\"votes\":{},\"choices\":{\"proposal\":\"send\",\"proposal/0f0600aa-d982-37b8-aedb-b7f403d20daf\":\"send\"},\"startedAt\":\"2026-11-19T16:46:53.860470500Z\",\"updatedAt\":\"2026-11-19T16:48:31.656185100Z\",\"completed\":true}"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "34e702e0f8a01e77e9664854c5f59093cdde9f70a92b30616dc97b4b9350b532",
+      "status": "DONE",
+      "json": "{\"outcomeId\":\"34e702e0f8a01e77e9664854c5f59093cdde9f70a92b30616dc97b4b9350b532\",\"instanceId\":\"c37e1588004b29c70057fc0dfa9f46eea95fd8a09e2f2b75770b300b06ff61f9\",\"type\":\"narrative.start\",\"target\":\"chronicle_last_heir\",\"value\":\"\",\"playerId\":\"cb728396-7bbc-306c-8c82-f00997d4ac10\",\"nationId\":\"7385f381-9b08-4c66-9811-f99cb04e98ae\",\"permission\":null}"
+    },
+    {
+      "id": "7de50294ce5dac88c1986b703447618fa1bf95de54214ddab89a8ec1add0a353",
+      "status": "DONE",
+      "json": "{\"outcomeId\":\"7de50294ce5dac88c1986b703447618fa1bf95de54214ddab89a8ec1add0a353\",\"instanceId\":\"c37e1588004b29c70057fc0dfa9f46eea95fd8a09e2f2b75770b300b06ff61f9\",\"type\":\"narrative.start\",\"target\":\"chronicle_last_heir\",\"value\":\"\",\"playerId\":\"0f0600aa-d982-37b8-aedb-b7f403d20daf\",\"nationId\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"permission\":null}"
+    },
+    {
+      "id": "6da04981bbad1b70d7edf4827112c00e8674f1c2c4cf985f1b727b0aa9fcd704",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "023a3d1f05d04e0f8c25188396ab28879bc35280fda51de45b0979f6bb4a40a7",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "bb28634001b7d4d97140fcf4567095068c6040422e176adeccce0a4577238132",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "4da30ebf0c6371ceb6c3ceeef8eb31ed2d10339f20315b78243cf68ffa6bcbba",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "73df4bfadc38ec25f5fef5d506f2a1d645fb29f931dbdd56827369c3672cd533",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "npc-reaction:7422609d9d10dae4ff6bffe0f75f39cb4b77b10fa5e63b3a3c9495f55ab6d5dc",
+      "status": "DONE",
+      "json": "{\"npc\":\"ancient-heir\",\"reaction\":\"restoration-pledge\",\"sourceEvent\":\"chronicle:73df4bfadc38ec25f5fef5d506f2a1d645fb29f931dbdd56827369c3672cd533\"}"
+    },
+    {
+      "id": "9ae2c620e26562410c2d7859b84028c774c61071687de51c0a317b10f9678543",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "895616bd001bea52430596310f43933a9efca3c3ace7def09ec267244cba88e4",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "a278340b0ca81eb4441a605261cd545420fe30a3aa115a80343100388b184bf7",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "1c4273a9e69505b81a3c504bcb92aad076134b2cf3c9f4bb93ce07cb00ebd1f1",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "411fd6f99cbb9d3c0d033ccb38bb219ee1608e1efc3088dad2bbfdc94e7e5a51",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "7939ce350d60873fcf5da44f64ee36ea98af6094eace45fab57a401db7796e4f",
+      "status": "DONE",
+      "json": "{\"outcomeId\":\"7939ce350d60873fcf5da44f64ee36ea98af6094eace45fab57a401db7796e4f\",\"instanceId\":\"eb688b657449b51f4266fac20d4e6da6b5fbc4206000de186dd0efcc4fe6c2e8\",\"type\":\"authority\",\"target\":\"diplomacy.invite\",\"value\":\"7385f381-9b08-4c66-9811-f99cb04e98ae\",\"playerId\":\"0f0600aa-d982-37b8-aedb-b7f403d20daf\",\"nationId\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"permission\":\"starcore.nation.ally.add\"}"
+    }
+  ],
+  "facts": [
+    {
+      "owner": "cb728396-7bbc-306c-8c82-f00997d4ac10",
+      "key": "npc.ancient-heir.reputation",
+      "value": "25"
+    },
+    {
+      "owner": "0f0600aa-d982-37b8-aedb-b7f403d20daf",
+      "key": "npc.ancient-heir.reputation",
+      "value": "25"
+    },
+    {
+      "owner": "WORLD",
+      "key": "region.old-imperial-capital.heir-position",
+      "value": "supported"
+    },
+    {
+      "owner": "WORLD",
+      "key": "npc.ancient-heir.growth",
+      "value": "20"
+    },
+    {
+      "owner": "WORLD",
+      "key": "npc.ancient-heir.position",
+      "value": "council-speaker"
+    },
+    {
+      "owner": "cb728396-7bbc-306c-8c82-f00997d4ac10",
+      "key": "npc.ancient-heir.trust",
+      "value": "12"
+    },
+    {
+      "owner": "cb728396-7bbc-306c-8c82-f00997d4ac10",
+      "key": "npc.ancient-heir.hostility",
+      "value": "0"
+    },
+    {
+      "owner": "0f0600aa-d982-37b8-aedb-b7f403d20daf",
+      "key": "npc.ancient-heir.trust",
+      "value": "12"
+    },
+    {
+      "owner": "0f0600aa-d982-37b8-aedb-b7f403d20daf",
+      "key": "npc.ancient-heir.hostility",
+      "value": "0"
+    },
+    {
+      "owner": "WORLD",
+      "key": "region.old-imperial-capital.legacy",
+      "value": "restoration-initiative"
+    },
+    {
+      "owner": "cb728396-7bbc-306c-8c82-f00997d4ac10",
+      "key": "player.honor",
+      "value": "15"
+    },
+    {
+      "owner": "0f0600aa-d982-37b8-aedb-b7f403d20daf",
+      "key": "player.honor",
+      "value": "15"
+    },
+    {
+      "owner": "cb728396-7bbc-306c-8c82-f00997d4ac10",
+      "key": "title.old-capital-guardian",
+      "value": "旧都的守望者"
+    },
+    {
+      "owner": "0f0600aa-d982-37b8-aedb-b7f403d20daf",
+      "key": "title.old-capital-guardian",
+      "value": "旧都的守望者"
+    }
+  ],
+  "observation_baselines": [
+    {
+      "namespace": "starcore.nations",
+      "kind": "NATIONS",
+      "source": "StarCore.NationModule.nations",
+      "sequence": 1,
+      "observed_at": "2026-11-19T16:43:49.673Z",
+      "json": "{\"namespace\":\"starcore.nations\",\"source\":\"StarCore.NationModule.nations\",\"kind\":\"NATIONS\",\"complete\":true,\"allowEmpty\":true,\"entries\":{\"2fe25a07-ee4a-482d-b525-9824ed2e686b\":{\"nationId\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"value\":\"PRESENT\",\"facts\":{}},\"7385f381-9b08-4c66-9811-f99cb04e98ae\":{\"nationId\":\"7385f381-9b08-4c66-9811-f99cb04e98ae\",\"value\":\"PRESENT\",\"facts\":{}}},\"evidence\":\"Native NationModule.nations() list copied under its mutation monitor; absence means no longer present, not a known destruction cause\"}"
+    },
+    {
+      "namespace": "starcore.technologies",
+      "kind": "TECHNOLOGIES",
+      "source": "StarCore.TechnologyModule.unlockedTechnologies",
+      "sequence": 1,
+      "observed_at": "2026-11-19T16:49:26.706Z",
+      "json": "{\"namespace\":\"starcore.technologies\",\"source\":\"StarCore.TechnologyModule.unlockedTechnologies\",\"kind\":\"TECHNOLOGIES\",\"complete\":true,\"allowEmpty\":true,\"entries\":{\"2fe25a07-ee4a-482d-b525-9824ed2e686b/advanced_archery\":{\"nationId\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"value\":\"UNLOCKED\",\"facts\":{\"tech.era\":\"industrial_age\",\"tech.stage\":\"2\",\"technology\":\"advanced_archery\"}}},\"evidence\":\"Native TechnologyModule unlockedTechnologies() copied under the same monitor as synchronized unlock/revoke and synchronous persistence; a newly observed unlock need not be a research completion\"}"
+    }
+  ],
+  "observation_ingress": [
+    {
+      "id": "observation:3dc16e270ee79439:1:e78d4d646bd46037a440de3e032ca753afe566596219b524b2455fb2f15cecdd",
+      "namespace": "starcore.technologies",
+      "sequence": 1,
+      "status": "ACKED",
+      "json": "{\"id\":\"observation:3dc16e270ee79439:1:e78d4d646bd46037a440de3e032ca753afe566596219b524b2455fb2f15cecdd\",\"type\":\"TECHNOLOGY_BREAKTHROUGH\",\"occurredAt\":\"2026-11-19T16:49:26.706Z\",\"participants\":[],\"nations\":[\"2fe25a07-ee4a-482d-b525-9824ed2e686b\"],\"facts\":{\"after\":\"UNLOCKED\",\"before\":\"<absent>\",\"nation.id\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b\",\"observation.key\":\"2fe25a07-ee4a-482d-b525-9824ed2e686b/advanced_archery\",\"observation.namespace\":\"starcore.technologies\",\"observation.sequence\":\"1\",\"tech.era\":\"industrial_age\",\"tech.stage\":\"2\",\"technology\":\"advanced_archery\",\"time_basis\":\"OBSERVED\",\"title\":\"科技解锁（权威快照观察）\"},\"source\":\"StarCore.TechnologyModule.unlockedTechnologies\",\"evidence\":\"source=StarCore.TechnologyModule.unlockedTechnologies; complete authority snapshot; namespace=starcore.technologies; sequence=1; key=2fe25a07-ee4a-482d-b525-9824ed2e686b/advanced_archery; before=<absent>; after=UNLOCKED; observationInterval=[2026-11-19T16:42:16.799Z,2026-11-19T16:49:26.706Z]; exact mutation time and actor unknown; Native TechnologyModule unlockedTechnologies() copied under the same monitor as synchronized unlock/revoke and synchronous persistence; a newly observed unlock need not be a research completion\"}"
+    }
+  ],
+  "memory_sites": [],
+  "integrity": "ok"
+}

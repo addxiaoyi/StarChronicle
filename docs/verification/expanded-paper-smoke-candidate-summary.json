@@ -1,0 +1,34 @@
+{
+  "status": "CANDIDATE_EVIDENCE_WITH_KNOWN_REGRESSION",
+  "plugin_sha256": "a644eaf835bc08b62aad096da078198d55ac8fcb8ad864d22eeec3868963e39a",
+  "process_exit_code": 0,
+  "checks": {
+    "artifact_manifest_matches_tested_jar": true,
+    "server_stopped_normally_exit_zero": true,
+    "two_actual_non_op_nation_founders": true,
+    "all_three_native_scenes_auto_registered": true,
+    "both_native_sessions_started_at_actual_arrival": true,
+    "gui_selected_distinct_native_branches": true,
+    "native_sessions_reached_departure_and_ended": true,
+    "source_replay_was_deduplicated": true,
+    "shared_campaign_completed_with_two_members": true,
+    "exactly_one_shared_restoration_history": true,
+    "per_player_honor_and_npc_relationships_persist": true,
+    "npc_global_growth_applied_once": true,
+    "no_authority_outcome_when_permission_denied": true,
+    "one_native_invitation_outcome_committed": true,
+    "same_admitted_outcome_coalesced_after_commit": true,
+    "two_native_foundations_imported": true,
+    "two_real_unlocks_observed_without_fake_actor": true,
+    "real_disband_observed_once_without_fake_time": true,
+    "observation_journal_fully_acked": true,
+    "real_native_npc_fate_history_and_evidence_gui_packets": true,
+    "readonly_database_integrity_ok": true,
+    "normal_stop_preserved_committed_events": true,
+    "no_chronicle_runtime_warning_or_collision": true
+  },
+  "known_regressions": {
+    "normal_disconnect_loses_unfinished_native_session": true
+  },
+  "not_release_acceptance": true
+}

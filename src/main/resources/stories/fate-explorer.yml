@@ -1,0 +1,34 @@
+id: fate-explorer
+version: "1"
+title: "探险家命运：地图边缘"
+scope: PLAYER
+triggers: [PLAYER_JOIN, TERRITORY_CLAIMED]
+condition: {fact: player.role, op: eq, value: explorer}
+start: map-edge
+cooldownSeconds: 86400
+nodes:
+  map-edge:
+    text: "地图的空白不代表土地没有主人。作为探险家，你希望为下一次出行留下怎样的准则？这不是一次已完成的探索报告。"
+    choices:
+      safety:
+        label: "共享危险与水源线索，尊重通行许可"
+        next: safe-trail
+      preserve:
+        label: "保护遗址，先记录再调查"
+        next: site-guardian
+  safe-trail:
+    text: "你提出分享可靠的路线风险信息，并在进入地区前取得许可。只有实际调查过的地点才会形成发现记录。"
+    terminal: true
+    effects:
+      - {id: trail-honor, type: honor, target: player, value: "5"}
+      - {id: trail-title, type: title, target: considerate-pathfinder, value: "审慎寻路人"}
+      - {id: trail-reputation, type: reputation, target: caravan-archivist, value: "3"}
+      - {id: trail-history, type: history, target: EXPLORER_SAFE_TRAIL_VOW, value: "一位探险家承诺分享可靠风险线索并尊重地区通行许可。"}
+  site-guardian:
+    text: "你承诺先记录原貌，再与所在地居民讨论调查。青芜赞同这种对历史负责的耐心。"
+    terminal: true
+    effects:
+      - {id: site-honor, type: honor, target: player, value: "5"}
+      - {id: site-title, type: title, target: patient-site-guardian, value: "遗址守护倡导者"}
+      - {id: site-reputation, type: reputation, target: caravan-archivist, value: "4"}
+      - {id: site-history, type: history, target: EXPLORER_SITE_PRESERVATION_VOW, value: "一位探险家承诺先记录原貌并尊重当地居民的调查意愿。"}

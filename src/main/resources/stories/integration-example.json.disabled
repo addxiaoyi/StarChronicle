@@ -1,0 +1,27 @@
+{
+  "id": "integration-example",
+  "version": "1",
+  "title": "StarCore 真实脚本与任务集成模板（启用前替换 ID）",
+  "scope": "NATION",
+  "triggers": ["NATION_FOUNDED"],
+  "condition": {"fact": "nation.id", "op": "exists"},
+  "start": "briefing",
+  "cooldownSeconds": 86400,
+  "nodes": {
+    "briefing": {
+      "text": "本模板默认禁用。将 script、quest、authority.target 替换为已存在并经过授权的真实接口 ID，然后验证。",
+      "script": "replace_with_registered_starcore_script",
+      "quest": "replace_with_registered_starcore_quest",
+      "quorum": 1,
+      "choices": {
+        "petition": {
+          "label": "请求国家权威服务审理",
+          "next": "submitted",
+          "permission": "starchronicle.integration.petition",
+          "effects": [{"id": "authorized-petition", "type": "authority", "target": "replace_with_registered_authority_operation", "value": "petition", "permission": "starchronicle.integration.petition"}]
+        }
+      }
+    },
+    "submitted": {"text": "请求已写入持久化投递队列；以权威服务的实际回执为准。", "terminal": true}
+  }
+}

@@ -1,0 +1,212 @@
+# StarChronicle 扩展 API
+
+包名前缀：`io.github.addxiaoyi.starchronicle`。源码 API 为第一阶段 `0.1.0-SNAPSHOT`，未承诺二进制稳定；跨插件部署应固定构建版本。StarChronicle 负责长期编排、共同阶段与历史，StarCore 继续拥有 NarrativeEngine、原任务执行和国家权威状态。
+
+## Bukkit 跨插件服务入口
+
+运行插件通过 Bukkit `ServicesManager` 注册 `ChronicleService`。集成插件应在自己的 `plugin.yml` 中声明 `softdepend: [StarChronicle]`，启动时查询服务，缺失时关闭对应功能。不要通过反射取得内部 SQLite 或直接调用未调度的 GUI。
+
+```java
+ChronicleService chronicle = getServer().getServicesManager().load(ChronicleService.class);
+if (chronicle != null) {
+    chronicle.submit(committedEvent).whenComplete((report, error) -> {
+        // Completion 回调可能在工作线程。这里可以写线程安全日志；
+        // 对玩家发消息或操作世界应再调度到正确的实体/区域线程。
+    });
+}
+```
+
+`ChronicleService` 暴露异步 `submit`、`join`、`choose`、`instances`、`activeInstances`、`availableInstances`、`availableChoices`、`history`、`npc(playerId,npcId)`、`fate(playerId)` 和 `describe(template,publicFacts)`。运行时会自己收集在线玩家的当前权威快照；集成方不能通过该 API 注入自填国籍或权限。`activeInstances()` 是可信服务器插件的管理查询，GUI 应使用 `availableInstances(playerId)` 避免泄露其他国家或个人实例。
+
+对交互界面，应调用带阶段令牌的版本：
+
+```java
+chronicle.choose(instanceId, playerId, renderedNodeId, choiceId);
+```
+
+如果玩家看到界面后阶段已经变化，即使后续节点恰有同名选项，旧点击也会被拒绝。无 `expectedNode` 的旧重载为可信自动化保留，不应用于延迟 GUI 点击。
+
+`scene(playerId)` 与 `sceneAction(playerId, expectedScript, expectedNode, visibleChoiceIndex)` 提供自有 StarCore 原生场景的只读投影和委托操作。Bukkit／原生状态的读取与调用在玩家实体线程执行，恢复日志由持久化工作线程管理。索引从1开始，0只允许推进没有选项的节点。`NativeSceneAdapter` 使用上游 `ConditionEvaluator` 过滤对话和可见选项，实际推进调用 `NarrativeEngine.advanceNode/selectChoice`；不会解释上游效果。只允许当前对象仍归本插件注册的脚本，拒绝过期节点和外部脚本。`/chronicle scene` 和剧情GUI的补充场景入口使用同一入口。
+
+自动恢复另受下文三个自有场景的指纹、命名空间、checkpoint 和持久化操作令牌约束。仅有 `chronicle_` 名称或一个空投影不构成恢复／完成证明。未完成上游线程审计时，Folia 上的原生场景访问和执行继续关闭。
+
+当前 GUI 与玩家命令还会检查 `starchronicle.use`；管理验证、测试事件与 UNKNOWN 对账要求 `starchronicle.admin`。自定义故事权限从已加载的 choice/effect permission 收集，在玩家实体线程使用 Bukkit 权限检查后构造明确权限集合。
+
+## 可信职业与地区事实扩展
+
+```java
+public interface ContextContributor {
+    Map<String, String> contribute(UUID playerId, PlayerContext authoritativeContext);
+}
+```
+
+通过 `ServicesManager.register(ContextContributor.class, provider, ownerPlugin, ServicePriority.Normal)` 注册。调用发生在玩家实体线程，应快速返回不可变快照，不做阻塞网络请求。当前允许补充 `player.*`、`region.*` 和 `tech.stage`，不会覆盖已有权威字段，也不能改权限、国籍、财政、资源、战争或外交。`player.role` 统一使用小写，例如 `scholar/explorer/merchant`。
+
+内置角色来源为国家创建者映射 `monarch`、可识别的国家成员 rank，以及管理员明确授予的 `starchronicle.identity.soldier/general/merchant/scholar/explorer/diplomat/mayor/monarch`。这些身份权限不是玩家可以自行选择的职业菜单，也不会因 AI 对话而授予。
+
+## 核心输入：已提交世界事件
+
+```java
+public record WorldEvent(
+    String id, String type, Instant occurredAt,
+    Set<UUID> participants, Set<String> nations,
+    Map<String, String> facts, String source, String evidence) {}
+```
+
+`id` 应取上游提交记录的稳定 ID，在重复投递与重启后保持一致，例如 `starcore:war:42:ended`。不要每次监听回调都随机生成 UUID 来冒充去重键。`evidence` 保存可追溯的记录键、事件类名或日志凭据，不能只写“发生了一件事”。时间使用 `Instant`，GUI 展示格式另行处理。
+
+字段限制：ID 最多 256 字符，证据最多 4096 字符，facts 最多 128 项，participants 最多 10000 人；ID、type、source、evidence 必须非空。对象集合不可变。输入是已提交事实，不能使用可取消前置事件就宣称国家变更已经生效。
+
+相同 ID、相同内容不会重复写历史或重做已有结果，但重复投递可以推进该来源尚未交付的持久化剧情触发；因此 `ProcessReport.duplicate=true` 时也可能返回本次恢复出的实例 ID。相同 ID 携带不同参与者、国家、facts 或证据时拒绝，防止来源碰撞悄悄改写历史。精确时间事件的时间也严格比对；明确标记 OBSERVED 的观察时间例外见文末。
+
+新事件与当时匹配规则的完整待触发定义在同一 SQLite 事务中提交。没有在线受众、当前前置条件未满足或仍在冷却，不等于剧情结果已经消费：`resumeTriggers` 会在真实玩家加入、实例查询和工作线程轮询时，使用新鲜服务端快照继续判断。它只处理已提交的待触发记录，不把所有旧历史反向解释为新剧情，也不在每次轮询中重新扫描所有配置规则。
+
+`facts` 的键在条件中加 `event.` 前缀；例如 `facts={"battle_kind":"siege"}` 对应 `event.battle_kind`。核心不会把事件 facts 当成当前国家财政来替换权威查询。
+
+历史参与者与剧情受众分开：默认受众是来源 `participants` 中的人，或当前属于来源 `nations` 的国民；旁观国民不会因此被追加到历史 actors。可信来源如需全服广播，必须显式设置 `facts.audience=GLOBAL`；空的参与者／国家集合本身不表示广播。`GLOBAL` 扩大受众，不授予角色或国家权限，也不允许越过显式 `source.nations` 为其他国家创建 NATION 剧情。来源未列国家时，参与者种子依据该参与者恢复时的当前国籍求实际作用域；若同时明确 GLOBAL，则各合格广播受众的实际国家可形成独立 NATION 实例。
+
+待触发记录按作用域保留种子：WORLD 使用世界种子，NATION 使用来源国家或有证据的参与者种子；PLAYER 除直接参与者外，使用 `nation-players:<国家ID>` 保留相关国民的后续个人触发，显式广播使用通配受众种子。消费收据（ScopeReceipt）以来源／剧情／版本触发键与**实际** `player:UUID`、`nation:ID` 或 `world` 作用域去重；广播或国民种子不会因首位玩家处理完毕就冒充所有人的结果。恢复按既有规则推进实例和效果收据，原事件参与者、国家、时间及证据保持不变。
+
+## 当前身份和权威上下文
+
+```java
+public record PlayerContext(UUID playerId, String nationId,
+                            Map<String, String> facts, Set<String> permissions) {}
+public interface CoreGateway {
+    PlayerContext context(UUID playerId);
+    boolean hasScript(String id);
+    boolean hasQuest(String id);
+    CompletionStage<DeliveryResult> deliver(Delivery delivery);
+    enum DeliveryResult { APPLIED, REJECTED, UNKNOWN }
+}
+```
+
+上下文必须来自当前权威状态和权限系统，不能来自 `/command nation=...` 等玩家输入。无国家时 `nationId` 使用空字符串。`permissions` 是已经检查过的明确权限集合；核心的 `permitted` 不自行解释通配符。生产适配器须在玩家所属实体线程或上游允许的线程读取 Bukkit 权限，再把不可变快照送往编排工作线程。
+
+StarCore 默认桥接只能提供实际可查询的字段。职业、外交、资源等扩展条件可使用同一 facts 格式，但键名存在于示例不等于上游已实现全部对应数据。缺失字段使比较条件为 false。选择时重新取得上下文；既有成员换国后选择会被拒绝。
+
+当前资源快照同时提供 `nation.resource.KEY` 与 `resource.KEY`，便于内容编写。`TechnologyFacts` 从真实已解锁定义的 era 取最高 `TechnologyEra.getOrder()`，提供 `tech.stage/tech.era`；未知定义、空集合或不完整读取时省略，允许可信贡献者补充，不能用技术条目数冒充时代。研究事件的 `event.tech.stage` 是触发时的时代快照，不自动改变玩家身份。
+
+## 纯 Java 规则引擎
+
+`RuleEngine` 可脱离 Bukkit 进行测试。构造时传入本地 SQLite store、已验证定义与 `Clock`：
+
+```java
+var store = new SqliteStore(Path.of("chronicle.db"));
+var definitions = ConfigLoader.load(Path.of("stories"), gateway::hasScript, gateway::hasQuest);
+try (var engine = new RuleEngine(store, definitions, Clock.systemUTC())) {
+    UUID player = UUID.fromString("00000000-0000-0000-0000-000000000001");
+    var context = new PlayerContext(player, "river-league",
+        Map.of("player.role", "scholar", "tech.stage", "2"), Set.of());
+    var event = new WorldEvent("exploration:caravanserai:100", "EXPLORATION_DISCOVERY",
+        Instant.parse("2026-11-19T00:00:00Z"), Set.of(player), Set.of("river-league"),
+        Map.of("discovery", "ancient-caravanserai"), "TrustedExplorationAdapter",
+        "discovery-record=100; region=ancient-caravanserai");
+    ProcessReport accepted = engine.accept(event, List.of(context));
+    String instanceId = accepted.instanceIds().getFirst();
+    engine.choose(instanceId, player, "discovery", "research", context);
+    engine.choose(instanceId, player, "research", "share", context);
+    List<WorldEvent> biography = engine.history(null, player, 0, 45);
+}
+```
+
+代码中的来源事件是集成示例，不是自动生成服务器事实的方法。生产调用请使用插件暴露的集成入口，避免另开同一数据库连接并绕过生命周期。
+
+| 方法 | 作用 |
+|---|---|
+| `accept(WorldEvent, Collection<PlayerContext>)` | 原子记录新事件及匹配规则的待触发快照，再尝试创建／纳入实例；受众须为来源参与人、关联国家当前国民或显式 GLOBAL 广播受众，不改变历史 participants |
+| `resumeTriggers(Collection<PlayerContext>)` | 用新鲜当前上下文恢复持久化待触发记录和相关活动实例成员；无受众、条件不满足或冷却中保留待触发状态 |
+| `pendingDefinitions()` / `pendingTriggerCount()` | 查询持久化待触发定义／数量；用于恢复所需权限和管理检查，不表示这些剧情已经执行 |
+| `join(String instanceId, PlayerContext)` | 显式加入活动共享剧情；依据原来源证据与当前资格校验 |
+| `choose(String instanceId, UUID, String choiceId, PlayerContext)` | 校验成员、当前国籍、分支条件和权限；保存票并在达到 quorum 后迁移 |
+| `choose(String instanceId, UUID, String expectedNode, String choiceId, PlayerContext)` | 同上，额外拒绝来自旧节点的延迟操作；GUI 应使用此版本 |
+| `instances(UUID)` | 查询该玩家参与的实例，含已完成实例 |
+| `activeInstances()` | 查询活动实例，供公共剧情列表与管理员检查 |
+| `availableInstances(PlayerContext)` | 只列该玩家可见或有资格加入的活动实例；其他国家和其他人的个人实例被过滤 |
+| `availableChoices(String instanceId, PlayerContext)` | 按当前成员、国籍、分支条件与选项权限过滤可显示选项；执行时仍重新校验 |
+| `facts(UUID)` | 查询该玩家本地荣誉、称号和 NPC 声望等叙事事实 |
+| `history(String nation, UUID player, int page, int size)` | 时间倒序、事件 ID 稳定次序的历史；null 表示不加对应过滤，两个过滤可取交集 |
+| `reload(List<StoryDefinition>)` | 替换后续新来源匹配所用定义；调用方必须先验证，进行中实例与已排队触发保留各自旧快照 |
+| `close()` | 关闭 store；只能在请求已排空后调用 |
+
+`history` 的 page 从 0 起，size 为 1–100。GUI 使用分页而非加载全部历史。`ProcessReport` 包含 `duplicate`、变更实例 ID 和用户消息。核心数据库事务会串行化共同阶段，不能在 Folia 区域线程直接执行磁盘访问。
+
+## 外部效果、权限与崩溃窗口
+
+```java
+public record Delivery(String outcomeId, String instanceId, String type,
+                       String target, String value, UUID playerId,
+                       String nationId, String permission) {}
+public interface AuthorityProvider {
+    CompletionStage<CoreGateway.DeliveryResult> apply(Delivery delivery);
+}
+```
+
+`outcomeId` 是稳定幂等键，**不是权限令牌**。权威提供者必须重新验证调用者身份、成员资格、权限、实际国家 ID、当前财政／资源等前置条件。所有真实国家变更必须走 StarCore 权威服务；不能在此直接改表、执行管理命令或信任 AI 生成的操作。
+
+推荐交付协议：
+
+1. `pending()` 读取最多 100 个待投递项。
+2. `claimDelivery(outcomeId)` 成功后才允许调用上游，状态从 PENDING 变为 RUNNING。
+3. 完整上游提交后返回 APPLIED；明确未执行返回 REJECTED；无法确认返回 UNKNOWN。
+4. `finishDelivery(id, result)` 保存回执；启动时遗留 RUNNING 转为 UNKNOWN。
+5. 管理员独立检查上游记录后，可用 `acknowledgeUnknown(id)` 仅确认已执行的 UNKNOWN；核心没有盲目重发 UNKNOWN 的入口。
+
+若权威服务能将 `outcomeId` 去重记录与实际国家修改放在同一事务，就可实现外部安全重试协议。现有 StarCore 脚本／任务接口并未据此自动获得跨进程严格一次能力，因此此插件选择隔离不确定结果，避免重复奖励。UNKNOWN 可能意味着已执行，也可能未执行；不能把它直接显示成“奖励已到账”。
+
+`authority` 效果携带使投票最终通过的真实操作玩家及其当前国家，按该国家和效果结果生成一次请求，不会伪装所有实例成员调用国家服务，也不会按国家人数重复修改财政。它不自动替其他参与国家作决定；多国条约应由权威提供者另行验证每一国的授权。
+
+本地叙事属性、历史和阶段迁移在同一 SQLite 事务中提交，不经过外部管理命令。脚本启动／任务接受进入 outbox，不会阻塞节点等待其完成。
+
+### 三个自有原生场景的有限恢复
+
+`NativeSceneJournal` 只为 `chronicle_last_heir`、`chronicle_siege_embers`、`chronicle_silk_road` 三个经审计的自有场景提供恢复。注册对象必须仍归本插件所有，注册内容的 SHA-256 指纹必须与请求一致；节点／选项效果仅允许各自 `chronicle_heir_`、`chronicle_siege_`、`chronicle_caravan_` 前缀内的集合式 `flag/unflag/evidence/removeEvidence/markEnding` 操作。修改为增量奖励、其他命名空间或任意外部脚本，不会自动继承这项保证。
+
+持久化 `Request` 绑定稳定 outcome ID、编排实例、玩家、原国籍、脚本 ID／指纹、初始原生节点和所需权限。每次实际调用前重新检查在线玩家、权限和原国籍；修订号只是 CAS 租约，不是授权。`Checkpoint` 保存确认回读的原生节点、该场景独占前缀的标量变量／flags／evidence 和只读展示。恢复仍调用真实 StarCore 引擎，在核验节点后合并自有状态，不清空其他脚本状态；`saveState(void)` 也不被当作持久提交确认。
+
+| 原生日志状态 | 含义 |
+|---|---|
+| `READY` | 等待首次调用，或已有已提交 checkpoint 可安全重新附着／恢复 |
+| `RUNNING` | 调用前已持久领取，实际原生结果尚未确认回写 |
+| `UNKNOWN` | 调用可能已发生，或脚本指纹／所有权、结果回写等存在歧义；隔离且不自动重放 |
+| `COMPLETED` | 已核验原生 session 与路由均结束，或管理员独立对账后关闭隔离 |
+
+同一玩家一次只准一个原生调用／恢复所有者。另一场景占用、暂时离线或明确 `NOT_INVOKED` 会保留 `READY`，初始投递可回到 PENDING，不会永久标成拒绝。超时使用 CAS 进入门：确认尚未进入实体操作体时可取消后续进入并按未调用处理；已经进入、反射调用后失败或无法确认是否执行时保守记为 `UNKNOWN`。进程遗留的 RUNNING 以及失去持久化续体的调用同样隔离；旧 revision 的迟到回执不能覆盖新状态。原生操作完成回读、checkpoint 与对玩家暴露成功之间有明确顺序。
+
+`NativeSceneFlights` 将同一玩家正在进行的后台恢复／捕获与 GUI 读取合并到同一个、在结果落盘后才完成的 future，界面不会绕过在途操作读取瞬时 raw view。GUI 动作只在该 future 成功后回到持久化 worker，重新解析 journal，并校验原请求的 script/node 后再决定是否调用原生引擎；等待中的异常或 UNKNOWN 直接传播，不自动重试动作。属于自有 managed 场景但缺少有效持久化令牌时，同样不能通过 raw view 暴露场景来绕过该协议。
+
+`/chronicle uncertain` 同时列出外部效果和原生场景 UNKNOWN。管理员独立核对后可使用 `/chronicle native-ack <outcomeId> CONFIRM_SCENE_COMPLETED` 关闭原生隔离；它只登记该场景已结束／放弃，绝不启动、推进场景或重发奖励。普通 `/chronicle ack ... CONFIRM_APPLIED` 仍用于外部效果对账。其他外部 native 脚本、原生任务与整个 StarCore/Folia 栈不获得上述恢复保证；任何未知奖励都不自动重试。
+
+## NPC 生命周期与文本提供者
+
+```java
+public interface NpcProvider extends AutoCloseable {
+    String name();
+    void showDialogue(UUID player, String npcId, String text);
+    void close();
+}
+public interface TextProvider {
+    CompletionStage<String> describe(String template, Map<String,String> publicFacts);
+}
+```
+
+NPC 提供者是可选展示扩展点。注册方必须记录自己创建／附着的 NPC 与监听器，在 `close` 时只释放自己拥有的资源；禁止遍历并删除其他插件 NPC。内置 `NpcCatalog/NpcLedger` 已提供背景、阵营、长期关系、成长职位和历史反应。`/chronicle memory create` 可显式生成归本插件所有的纪念点和见证者实体；第三方NPC只接交互，不接管所有权。见 [NPC-SYSTEM.md](NPC-SYSTEM.md)、[WORLD-MEMORY.md](WORLD-MEMORY.md)。
+
+`TextProvider.templates()` 提供基础模板。运行时 `ChronicleService.describe` 使用有界 `TextService`，在提供者缺失、超时、失败或无效响应时完整回退；最多32个真正未完成的请求，输出最多8192字符，替换不递归。它不持有奖励服务、国家服务、Bukkit console 或命令入口，AI 输出不得再解析为效果或条件。见 [TEXT-PROVIDERS.md](TEXT-PROVIDERS.md)。
+
+## 生产装载流程与边界
+
+1. 固定并安装审计版本的 StarCore，确认 NarrativeEngine 与任务定义已由 StarCore 加载。
+2. 安装 StarChronicle。首次生成三条主剧情、八条身份剧情和NPC目录；默认文件不引用不存在的脚本／任务。`CoreContentInstaller` 通过真实ScriptLoader注册三个自有场景，确认成功才在运行时补充主剧情起始节点的script引用；独立模式保留原定义。自有原生任务因上游恢复缺陷默认不安装，见 [STARCORE-CONTENT.md](STARCORE-CONTENT.md)。
+3. 将已有真实脚本／任务 ID 放入自己的故事；先运行 `/chronicle validate`。该命令只验证磁盘文件，不装载修改；再用 `/chronicle reload` 验证并替换后续规则，失败时保留原定义。既有实例和已排队触发保留旧快照，权限集合包含活动实例与待触发旧定义，重启后同样恢复。纯 Java `reload` 可供受信任集成使用，不能绕过验证。
+4. 只从可信、已提交事件和当前上下文提交 `WorldEvent`。国家／战争等适配器以仓库审计列出的实际支持范围为准。
+5. 真实原生权威服务可用时内置最低优先级 `StarCoreAuthorityProvider`：`type=authority,target=diplomacy.invite,value=对方国家UUID,permission=starcore.nation.ally.add`。它重新验证当前君主、国籍、Bukkit与StarCore国家权限，只发送需对方另行接受的邀请。自定义提供者可用更高服务优先级覆盖；未知操作默认拒绝。不确定结果不自动重试。接入NPC插件时按目录绑定真实外部ID。
+6. 正常停服后备份数据库；运行中备份必须包含 SQLite WAL 的一致性方案。不要只复制正在写入的 `.db` 文件。
+
+数据库 schema 2 增量创建触发收据与原生恢复日志，从 V1 升级保留已有历史、实例、投票、facts 和效果回执；较新 schema 会拒绝由旧程序打开。升级不能凭空倒推出旧版已经消费的来源应匹配哪一版规则，也不能从旧原生会话重建从未保存的 Request/checkpoint，因此不自动 backfill 这些触发或会话，更不会为补历史而重发奖励。升级前仍应正常停服并备份。
+
+`ObservationJournal` 为缺少提交后事件的权威快照提供同事务基线与持久ingress，成功accept后才ack；重启重投保持原ID和证据。原生完整国家列表用于观察国家消失，真实技术集合用于观察新解锁。首都迁移必须有可信 `SnapshotProvider` 的CAPITALS完整集合：审计CityService无持久指定首都getter，默认不猜迁都。重要战役取真实战争记录；探索／大型事件需要有稳定提交证据的服内集成。SenLuoPlugin 实际是 CraftEngine 内容插件，它的烹饪预提交事件不能当作国家历史权威来源。见 [HISTORY-OBSERVATION.md](HISTORY-OBSERVATION.md)。
+
+审计版本的 StarCore 缺少 `folia-supported: true`，且 NarrativeModule 仍使用 Bukkit 主线程定时器。未修改的上游不能据此宣称在 Folia 生产可用。`require-starcore: true` 时其服务不可用会使本插件安全停用；Folia 下显式 standalone 可以运行独立编排／历史，但不会得到真实国家身份或上游任务／剧情执行能力。即使另有可加载的上游适配构建，StarChronicle 仍会在 Folia 拒绝 `narrative.start`，直到完成单独线程兼容审计。
+
+缺少上游发生时间的已提交事件会使用 `facts.time_basis=OBSERVED` 并在 evidence 标注观察时间。本地保留第一次成功记录的时间；同一稳定来源 ID 的后续观察时间变化不构成内容冲突，其他事实、来源、参与者等仍严格比对。没有这一结构化标记的事件仍严格校验时间。观察时间不是精确发生时间，也不证明停服期间漏掉的事件能够自动补齐。

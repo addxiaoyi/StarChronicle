@@ -1,0 +1,13 @@
+{
+  "status": "PREPARED_NOT_RUN",
+  "prepared_utc": "2026-11-19T17:56:38.144792+00:00",
+  "prepared_asia_shanghai": "2026-11-20T01:56:38.144792+08:00",
+  "run_directory": "run/folia-final-smoke-88c2a632",
+  "plugin_sha256": "88c2a632b53b2f553ab114a7df7e42ec4781b721c52d382f2a5f64b39d94191f",
+  "folia_sha256": "f52c408490a0225611e67907a3ca19f7e6da2c6bc899e715d5f46844e7103c39",
+  "scope": "explicit standalone; require-starcore=false; no StarCore installed",
+  "planned_heap_max_mb": 768,
+  "planned_region_threads": 2,
+  "fixture_compiled": false,
+  "server_started": false
+}

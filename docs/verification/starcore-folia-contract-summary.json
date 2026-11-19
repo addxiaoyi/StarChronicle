@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-19",
+  "scope": "necessary owner-thread API contract only; NOT a full upstream Folia port",
+  "upstream_commit": "f769e62799e769a18fe51305b545869a17f80cd1",
+  "patch_sha256": "cbc538cac9994be97c87b73a685ccc403ef9918403d4ef20c67b32ed120d8452",
+  "patch_applies_cleanly": true,
+  "compiled_sources": [
+    "StarCoreScheduler.java",
+    "NarrativeEngine.java"
+  ],
+  "compilation_scope": "focused Maven harness against verified upstream StarCore JAR and Paper 1.21.11 API; not complete upstream Maven release",
+  "focused_tests": [
+    {
+      "name": "dev.starcore.starcore.core.scheduler.EntityTaskContractTest",
+      "tests": "9",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "dev.starcore.starcore.module.narrative.engine.NarrativeEngineOwnerContractTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    }
+  ],
+  "tests_total": 13,
+  "failures_total": 0,
+  "loader_probe": {
+    "artifacts": {
+      "StarCore.jar": "953f926f12384e0cfafae6f55d266a10c7156468e7e28be75518c3f7b413884b",
+      "StarChronicle.jar": "5e227d20c46eeb91dd98d9d33e6f55cd66fbfc4fd7ecd7391f57eb9643f0d86e"
+    },
+    "original_starcore_rejected": true,
+    "chronicle_require_starcore_refused_start": true,
+    "descriptor_modified": false,
+    "shutdown_observed": false,
+    "exit_code": null,
+    "cleanup_note": "The probe PTY session became unavailable during host resource pressure. Later CIM inventory found no folia.jar process. No normal-stop or exit-code assertion is made for this separate negative loader probe."
+  }
+}

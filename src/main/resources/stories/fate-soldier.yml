@@ -1,0 +1,34 @@
+id: fate-soldier
+version: "1"
+title: "士兵命运：城门下的誓言"
+scope: PLAYER
+triggers: [PLAYER_JOIN, WAR_STARTED, WAR_ENDED]
+condition: {fact: player.role, op: eq, value: soldier}
+start: watch
+cooldownSeconds: 86400
+nodes:
+  watch:
+    text: "老兵岑岳问你，身为士兵，今天愿意怎样守护这片土地？这是一份个人誓愿，不会替国家宣战或征发物资。"
+    choices:
+      protect:
+        label: "把平民与伤者的安全放在第一位"
+        next: protector
+      remember:
+        label: "记录无名者的故事，抵抗遗忘"
+        next: witness
+  protector:
+    text: "你在值守簿留下了保护平民的誓愿。老兵记住了你的选择，真正的救援仍需在实际行动中完成。"
+    terminal: true
+    effects:
+      - {id: protector-honor, type: honor, target: player, value: "5"}
+      - {id: protector-title, type: title, target: civilian-guardian, value: "平民守望者"}
+      - {id: protector-trust, type: reputation, target: siege-veteran, value: "3"}
+      - {id: protector-history, type: history, target: SOLDIER_CIVILIAN_VOW, value: "一名士兵承诺优先保护平民与伤者。"}
+  witness:
+    text: "你愿意为普通人留下姓名与证词。岑岳把一本空白采访簿交到你面前；本剧情只登记誓愿，不凭空生成物品。"
+    terminal: true
+    effects:
+      - {id: witness-honor, type: honor, target: player, value: "5"}
+      - {id: witness-title, type: title, target: nameless-witness, value: "无名者的见证人"}
+      - {id: witness-trust, type: reputation, target: siege-veteran, value: "4"}
+      - {id: witness-history, type: history, target: SOLDIER_TESTIMONY_VOW, value: "一名士兵承诺记录普通人的战争见证。"}

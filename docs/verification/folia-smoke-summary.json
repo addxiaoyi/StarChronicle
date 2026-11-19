@@ -1,0 +1,32 @@
+{
+  "scope": "StarChronicle standalone only; NOT StarCore full-stack Folia certification",
+  "date": "2026-11-19",
+  "server": "Folia 1.21.11 build 14",
+  "artifact_sha256": "5e227d20c46eeb91dd98d9d33e6f55cd66fbfc4fd7ecd7391f57eb9643f0d86e",
+  "first_server_exit_code": 0,
+  "restart_server_exit_code": 0,
+  "first_client_exit_code": 0,
+  "restart_client_exit_code": 0,
+  "checks": {
+    "real_folia_1_21_11_build_14": true,
+    "real_region_scheduler": true,
+    "plugin_enabled_both_boots": true,
+    "standalone_explicitly_reported": true,
+    "two_real_protocol_clients_each_boot": true,
+    "two_member_shared_instance": true,
+    "one_vote_persisted_before_restart": true,
+    "one_vote_restored_after_restart": true,
+    "same_instance_completed_after_second_vote": true,
+    "duplicate_event_replay_rejected": true,
+    "stable_source_event_hash": true,
+    "one_history_and_two_title_receipts": true,
+    "completed_replay_did_not_add_receipts": true,
+    "sqlite_integrity_ok": true,
+    "status_validate_reload_commands": true,
+    "no_folia_thread_violation": true,
+    "normal_server_shutdowns": true,
+    "clients_closed_normally": true
+  },
+  "passed": 18,
+  "total": 18
+}

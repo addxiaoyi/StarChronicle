@@ -1,0 +1,28 @@
+{
+  "upstreamCommit": "f769e62799e769a18fe51305b545869a17f80cd1",
+  "verification": "Targeted harness compiling five modified upstream production sources against the original verified StarCore JAR",
+  "finishedAt": "2026-11-20T00:35:22+08:00",
+  "mavenExitCode": 0,
+  "tests": 33,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "suites": {
+    "DeferredQuestRestoreTest": 13,
+    "QuestPersistenceHandlerTest": 14,
+    "QuestStorageIsolationTest": 6
+  },
+  "realFileRestarts": 2,
+  "verified": [
+    "Unknown active quest JSON survives synchronous/asynchronous saves and repeated restarts",
+    "Matching late template restores objective progress and original start time without acceptance commands or rewards",
+    "Existing live instances and unrelated players are preserved",
+    "Player, daily, commission and leaderboard sections cannot clear other section files",
+    "Actual PersistenceService atomic Properties files survive two restarts in shutdown save order"
+  ],
+  "fullPatchedUpstreamBuild": false,
+  "fullPatchedServerSmoke": false,
+  "runtimePluginsModified": false,
+  "defaultNativeCustomQuestsEnabled": false,
+  "patchApplyCheckAgainstOriginalCommit": true
+}

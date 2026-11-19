@@ -1,0 +1,11 @@
+# Production default: fail closed when StarCore authority services are absent.
+# Set false only to use the independent rule/history engine without StarCore identity or effects.
+require-starcore: true
+# Explicitly opt in on a test server. Never accepts player-supplied nation/permission snapshots.
+admin-demo-enabled: false
+npc-hooks: true
+# All SQLite and rule operations use one bounded worker; all player/GUI actions use entity schedulers.
+worker-queue-capacity: 2048
+poll-ticks: 100
+# Optional TextProvider is text-only. Missing, failed or slow providers use deterministic templates.
+text-timeout-ms: 1500

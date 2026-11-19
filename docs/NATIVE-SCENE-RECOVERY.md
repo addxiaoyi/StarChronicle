@@ -1,0 +1,61 @@
+# Owned native scene recovery journal
+
+`narrative.NativeSceneJournal` stores recovery metadata for Chronicle-owned StarCore scenes in the same SQLite store as the campaign. It does not parse or execute a native graph, grant rewards, change national state, or replace StarCore's condition/effect/traversal engine. Runtime integration must follow the explicit boundary below; merely constructing a journal is not a working resume implementation.
+
+## Audited upstream limitations
+
+At StarCore commit `f769e62799e769a18fe51305b545869a17f80cd1`, `NarrativeEngine.saveState(UUID)` delegates to `PlayerNarrativeStateManager.saveState`. This method performs blocking `Files.writeString`, catches failures internally and returns `void`. A successful return does not prove that a durable save succeeded. `NarrativeSaveData` stores variables, flags and evidence but no live session/current node. It currently serializes seen endings as an empty set. `NarrativeEngine.getState` calls `getOrCreate`, not disk `loadState`.
+
+`NarrativeModule.onPlayerQuit` calls saveState and then destroys the in-memory session. Normal shutdown also clears sessions; `activeSessions` and the engine's `playerScriptMap` are not restored after restart. Therefore the prior Chronicle outbox `DONE` receipt for a real native start cannot recreate a later missing session on its own. The shared Chronicle campaign's independent SQLite persistence remains a different recovery layer.
+
+## Domain API and state machine
+
+Create `new NativeSceneJournal(store, clock)` once at startup on the persistence worker. `SqliteStore` schema version 2 centrally creates its table/index alongside the deferred-trigger tables; opening a version-1 store preserves existing events, facts and receipts. Journal initialization changes every abandoned `RUNNING` row to `UNKNOWN` in one transaction. Do not construct a second journal while a first instance has active calls.
+
+* `Request(outcomeId, instanceId, playerId, nationId, scriptId, scriptFingerprint, initialNode, permission)` links a stable campaign delivery to an owned `chronicle_` native scene and its exact lowercase SHA-256 content fingerprint. The optional explicit native initial node and required permission are persisted and included in collision checks; compatibility constructors default omitted fields to empty strings. A stored permission is a requirement to recheck, never a permission grant.
+* `prepare(request)` is idempotent for an identical request and rejects the same ID carrying a different payload. Its first state is `READY`, revision zero, no checkpoint. It does not admit or execute native work.
+* `claim(id, expectedRevision, currentFingerprint)` atomically changes `READY → RUNNING` and returns a revision-token `Attempt`. Changed fingerprints, stale tokens and a player's other `RUNNING` or `UNKNOWN` scene block admission. The returned token is a concurrency lease, never permission.
+* `checkpoint(attempt, checkpoint)` records conclusive native read-back and changes `RUNNING → READY`. The next invocation must acquire a new revision token. `Checkpoint` includes current node, an immutable native presentation projection and bounded owned scalar variables/flags/evidence.
+* `completed(attempt)` changes `RUNNING → COMPLETED` only after the adapter verifies actual native completion. A missing projection because the loader failed, another plugin replaced a script, the player disconnected or the read failed is not completion evidence.
+* `unknown(attempt, reason)` changes `RUNNING → UNKNOWN` after an exception, timeout, lost response or ambiguous result. It preserves the previous known checkpoint for investigation. There is deliberately no automatic reset/replay method for `UNKNOWN`.
+* `notInvoked(attempt, reason)` changes `RUNNING → READY` only when the adapter knows no native mutation was invoked, for example an offline actor or unrelated active native scene detected beforehand. It is unsafe after reflection invocation failure or an ambiguous timeout; a timeout may use this result only if the atomic entry gate proves the body never entered and prevents later entry.
+* `quarantineReady(id, expectedRevision, reason)` uses a revision compare-and-set to isolate a `READY` request after script ownership/fingerprint/capability changes. It does not alter `RUNNING` or completed rows. A managed request must not fall back to an unjournaled native delivery merely because its present content is no longer safe.
+* `acknowledgeCompleted(id)` is explicit administrative reconciliation: only `UNKNOWN → COMPLETED`, with an increased revision and no native call, effects or rewards. The runtime command requires independent confirmation. It never resets the unknown request to `READY`, and repeating it is a no-op. This closes an investigated request and releases its per-player isolation for later requests.
+
+`find`, `ready(player,limit)`, `resumable(player,limit)`, `unknown(player,limit)` and the global administrative `unknown(limit)` return detached records. Recovery polling should use `resumable`: its SQL filters to `READY` rows **with checkpoints before LIMIT**, so a long queue of unstarted scenes cannot hide an existing recovery checkpoint. `ready` intentionally also includes requests that have never started. Reads never claim or acknowledge work. Limits are 1–1000. Late callbacks carrying an old revision cannot overwrite a newer attempt or resolve an unknown operation.
+
+## Required runtime handoff
+
+Run SQLite operations on the serialized state worker and all actual Player/engine reads/actions on the owning entity thread. Do not hold a database transaction while invoking StarCore or waiting for a player scheduler.
+
+1. Prepare a durable request for a successfully registered, currently owned script. Keep the native operation `READY` while the player is offline or an unrelated scene is active. Do not convert temporary busy state into a permanent rejected outcome.
+2. Verify the current actor's live permissions/nation and the exact script object's ownership. Compare a reproducible digest of the actual registered content with the saved digest. Verify that the owned scene's resume path has the audited safe reentry capability below.
+3. Claim the attempt on the worker **before** admitting any start/choice/advance/resume call. If claim fails, perform no native mutation.
+4. On the owning thread, recheck availability/permissions/session ownership. For a fresh request, start through the actual engine. For a known safe checkpoint, merge only its `chronicle_` scalar/flag/evidence keys into native state and reattach through actual public APIs at the saved node. Never clear or overwrite unrelated native script state. Capture actual engine state and current scene back into an immutable checkpoint.
+5. Commit that checkpoint on the worker. If an actual call or its result is uncertain, record `UNKNOWN`; if the process dies first, startup performs that quarantine. If SQLite checkpointing fails after the native call, the request must remain uncertain rather than claiming successful recovery.
+
+`NativeSceneFlights` coalesces a player's in-flight background recovery/capture and GUI reads onto the same future, completed only after its result is durably committed. A GUI action waits for successful completion, returns to the persistence worker, resolves the journal again, and revalidates its original expected script/node before admitting another native call. A failed or UNKNOWN flight propagates to the waiting caller without automatically retrying the action. Managed owned scenes without a valid durable token are not exposed through a raw-view fallback, so presentation cannot bypass the journal protocol.
+
+The journal only accepts string/boolean/integer/floating scalar variables and `chronicle_` state keys; nested objects, foreign keys and NaN/infinite numbers are rejected. Integer/floating types are normalized for a stable SQLite JSON round trip. The cached `NativeScene` is evidence/presentation, not a command to execute or proof of current authorization. Restore state only after current ownership/fingerprint/capability checks.
+
+## Safe reentry is a separate capability
+
+Starting an existing node through `NarrativeEngine.startScript` may run its node-entry effects again. A saved node alone therefore does not make arbitrary scripts replay-safe. Automatic reentry must be restricted to audited owned scripts whose relevant effects are idempotent, namespaced narrative metadata, and whose native event consumers do not award unreceipted external rewards. Non-idempotent `add`/increment/decrement, `goto`/auto-traversal or external-effect hooks require stronger upstream idempotency/reattachment support or must remain disabled for automatic recovery. A script content change must fail closed rather than resume an old checkpoint against a different graph.
+
+The three supplied scene files contain only namespaced narrative flags/evidence/ending metadata. Their runtime ownership and digest still need verification; an administrator can edit the files after installation. The journal never assumes that a `chronicle_` ID alone proves safe content. A crash in a resumed call's own invocation window is again `UNKNOWN`, even for a previously safe checkpoint.
+
+## Real public reflection reference
+
+Resolve the registered production `module.narrative.engine.NarrativeEngine` through the existing bridge. These method names are present in the audited source:
+
+* `engine.getSession(UUID)` returns the live session or null. Its public `scriptId()`, `currentNodeId()` and `isActive()` identify the current position. `getDialogueIndex()` exists, but current supplied scenes are presented as a whole node by Chronicle.
+* `engine.getState(UUID)` returns the authoritative `PlayerNarrativeState` currently owned by that engine. Read `getVariables()`, `getFlags()` and `getEvidence()` on the owning player thread, detach the collections, and retain only the approved owned script's state keys before sending the checkpoint to SQLite.
+* `state.setVariable(String,Object)` / `removeVariable(String)`, `setFlag(String)` / `unsetFlag(String)`, and `addEvidence(String)` / `removeEvidence(String)` are public metadata methods. For safe reattachment, synchronize only the approved script's metadata namespace with its checkpoint. Never call global `state.reset()` or clear state belonging to other scripts.
+* `engine.startScript(Player,String,String)` restores a permitted owned scene at the explicit saved node through the actual engine and repopulates the engine's private runtime routing map as part of its normal API. Do not write that map by reflection, construct a replacement engine or call a global state loader. Starting may run node effects again, so the reentry capability check remains mandatory.
+* Continue through actual `engine.advanceNode(Player)` / `selectChoice(Player,int)` and recapture state afterwards. `selectChoice` takes the native **one-based visible** choice index; the adapter must keep current permission, expected script/node and native condition checks.
+
+The supplied scripts use separate metadata prefixes: `chronicle_heir_`, `chronicle_siege_`, and `chronicle_caravan_`. Filter to the corresponding approved prefix rather than treating every other Chronicle scene's `chronicle_` keys as belonging to this checkpoint. Native `state.hasSeenEnding(String)` exists, but there is no public ending-set getter; the journal deliberately does not pretend the upstream save file preserves the full ending set. The exact supplied scene hash and idempotent `markEnding` entry effect can handle its own ending metadata on a verified resume path; arbitrary ending-dependent scripts require separate auditing.
+
+## Verification scope
+
+`NativeSceneJournalTest` uses real file-backed SQLite to cover prepare/checkpoint/completed restart recovery, abandoned and explicitly uncertain call isolation, last-known checkpoint preservation, stale callbacks, changed scripts, per-player mutual exclusion, unrelated-player independence, identity validation, immutable owned state and a real SQLite trigger failure during checkpoint commit. These tests are a domain persistence contract; a full native scene disconnect/restart acceptance test must additionally exercise the wired adapter and actual StarCore runtime.

@@ -1,0 +1,12 @@
+* text=auto eol=lf
+*.java text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.xml text eol=lf
+*.sh text eol=lf
+*.cmd text eol=crlf
+# Unified patches require a space on empty context lines; logs preserve captured output.
+*.patch text eol=lf whitespace=-blank-at-eol
+*.log text eol=lf whitespace=-blank-at-eol

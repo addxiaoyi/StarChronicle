@@ -1,2 +1,118 @@
 # StarChronicle
-StarChronicle 动态叙事与世界历史引擎
+
+Minecraft 国战服务器的长期剧情编排与世界历史插件。玩家通过共同抉择、国家事件和个人身份参与服务器历史。它复用 StarCore 的 NarrativeEngine、任务接受机制和国家权威服务，在其外部补充配置规则、多人实例、持久化投票、世界记忆和历史查询。
+
+本仓库交付第一阶段工程，目标为 **Java 21、Paper/Folia 1.21.11**。所有实际国家状态变更均须由 StarCore 的受信任服务完成。默认剧情只修改 StarChronicle 本地荣誉、称号、NPC 声望和逻辑记忆，不会直接扣国库、改外交、发物品或运行管理命令。
+
+## 第一阶段内容
+
+- YAML/JSON 条件规则：身份、国家、战争、资源、科技、历史、地区与之前选择可通过可信 facts 组合。
+- PLAYER/NATION/WORLD 三种作用域；共享阶段按不同玩家投票达到 quorum 推进。
+- SQLite 事务、来源事件与待触发定义原子提交、作用域消费收据、稳定结果 ID、定义快照与重启恢复；无人在线不永久消费剧情。
+- 世界时间轴、国家历史和个人传记查询；剧情与历史 GUI。
+- 外部脚本／任务 outbox；不确定调用隔离为 UNKNOWN，防止盲目重放奖励。
+- 三条完整分支剧情：《帝国最后的继承人》《围城余烬》《丝路学者》。
+- 八种身份的独立命运线、持久荣誉与称号；NPC 背景、阵营、信任、敌对、成长、职位和条件对话。
+- 完整权威快照的事务观测日志：基线与待入库事件一起提交，崩溃后重投，不把观察时间写成精确发生时间。
+- 真实事件绑定纪念点、自有见证者实体与原生历史书；区域线程恢复、去重与停用清理。
+- 三条通过真实 StarCore ScriptLoader 注册的自有场景，具备指纹和自有集合式效果约束下的有限 checkpoint 恢复；内置保守的君主外交邀请适配器；可选有界纯文本提供者与模板回退。
+
+## 先审计再集成
+
+审计范围与真实接口见 [上游审计](docs/UPSTREAM-AUDIT.md)。StarCore 已有的脚本执行和任务系统继续作为执行层。StarChronicle 不另造一套通用脚本解释器。
+
+提供的 SenLuoPlugin 仓库当前 main 实际是 **KaleidoscopeCookeryPlugin 与 CraftEngine 系列内容扩展**，并没有国家／战争／NPC 服务。它只能作为可选生产内容联动来源；其可取消烹饪事件不是国家状态提交证据。不能将不存在的接口写成硬依赖。
+
+## 构建
+
+```text
+java -version
+.\mvnw.cmd clean verify
+```
+
+Linux/macOS 使用 `./mvnw clean verify`；已安装 Maven 时可直接使用 `mvn clean verify`。Maven Wrapper 会下载固定 Maven 发行版，仍需要本机 Java 21。
+
+Maven 会编译 Java 21 源码、运行 JUnit 测试并生成带运行依赖的插件：
+
+```text
+target/starchronicle-0.1.0-SNAPSHOT.jar
+target/surefire-reports/
+```
+
+Paper API 为 provided，不打包入插件。Jackson 和 YAML 依赖重定位到私有包；SQLite 驱动随插件提供。实际构建结果、测试数量和未覆盖范围以 [测试报告](docs/TEST-REPORT.md) 为准，源码中存在测试不等于已经通过线上验收。实服报告按 JAR SHA-256 对应；旧构建／候选构建的证据保留作回归背景，不能替代当前交付 JAR 的验收。
+
+## 安装和配置
+
+1. 使用 Java 21 启动隔离的 Paper/Folia 1.21.11 测试服，先安装兼容的 StarCore。
+2. 停服后将构建 JAR 放入 `plugins/`，正常启动；首次生成配置、三条主剧情、八条身份剧情、NPC目录和三个原生场景文件。
+3. 阅读配置与日志，先检查规则验证结果，再使用剧情／历史界面参与样例。正式发布前将示例地区、角色和触发条件替换为服务器实际内容。
+4. 真实国家事件由 StarCore 桥接，缺少的提交后事件由可信跨插件 API 提供。不要用玩家可自由输入的事件命令代替权威来源。
+5. 故事规则只认已提供事实；学者示例要求可信 `player.role` 和 `tech.stage`，缺失时不会凭空授予资格。
+6. 修改剧情后执行 `/chronicle validate` 检查文件，再执行 `/chronicle reload` 装载新定义；失败时继续保留上一套有效规则。已有活动实例和已排队触发继续使用旧版本快照及所需权限，重启恢复未完成状态、投票和待触发条件；后续新来源才匹配新规则。
+7. schema 2 从 V1 增量升级并保留原数据，升级前先正常停服、备份。旧版已消费事件缺少当时的规则／资格快照，旧原生会话也未必保存恢复令牌，不能自动倒推 backfill 或补发奖励。
+
+## 命令与权限
+
+| 命令 | 用途 |
+|---|---|
+| `/chronicle stories` | 打开本人已参与和符合加入资格的剧情 GUI |
+| `/chronicle scene` | 继续自有StarCore原生补充场景，条件和效果仍由原执行器处理 |
+| `/chronicle join <实例ID>` | 加入符合条件的共同剧情 |
+| `/chronicle choose <实例ID> <当前节点ID> <选项ID>` | 带阶段校验选择或改投 |
+| `/chronicle history [页]` | 世界历史 GUI，页码从 1 起 |
+| `/chronicle history nation <国家ID> [页]` | 国家历史 |
+| `/chronicle history player <UUID或me> [页]` | 个人传记 |
+| `/chronicle book [卷数]` | 用原生书阅读一条真实历史及完整证据 |
+| `/chronicle npc <逻辑NPC ID>` | 当前关系、背景、阵营、成长职位与条件对话 |
+| `/chronicle fate` | 当前身份、持久荣誉、历史称号及个人剧情入口 |
+| `/chronicle memory create <点ID> <真实事件ID> [逻辑NPC ID]` | 管理员在当前位置设置自有历史纪念点 |
+| `/chronicle memory remove <点ID>` / `memory list` | 停用并清理所属展示；查看点位注册表 |
+| `/chronicle status` | 管理员查看服务、规则数和队列状态 |
+| `/chronicle validate` | 管理员验证磁盘剧情文件 |
+| `/chronicle reload` | 验证通过后重载新规则，保留进行中实例与旧规则权限；失败不替换 |
+| `/chronicle uncertain` | 管理员查看需要独立对账的外部效果与原生场景 UNKNOWN |
+| `/chronicle ack <结果ID> CONFIRM_APPLIED` | 独立确认上游已实际执行后，登记 UNKNOWN 已完成；不重发效果 |
+| `/chronicle native-ack <结果ID> CONFIRM_SCENE_COMPLETED` | 独立确认原生场景已结束／放弃后关闭隔离；不启动、推进或重放场景 |
+| `/chronicle demo <剧情ID>` | 仅显式开启 `admin-demo-enabled` 的测试服使用，记录来源为 ADMIN_TEST |
+
+玩家操作要求 `starchronicle.use`（默认允许），管理操作另需 `starchronicle.admin`（默认 OP）。职业事实优先来自 StarCore；管理员可明确赋予 `starchronicle.identity.<小写身份>`，完整范围和上下文贡献接口见 API 文档。测试事件不提供假国籍或假权限，也不替代真实角色、科技与国家资格。
+
+默认示例不要求任何虚构 StarCore 脚本。`integration-example.json.disabled` 展示真实脚本、任务和国家效果的接法，替换真实 ID、注册提供者并验证后才可启用。
+
+## 示例剧情与能力范围
+
+| 剧情 | 参与范围 | 结局与反馈 |
+|---|---|---|
+| 帝国最后的继承人 | 世界共同实例，至少两人同意一项决议 | 支持、反对、救济、遗迹、外交路线；复国倡议／主权宣言／共同遗产三结局 |
+| 围城余烬 | 各国家独立实例 | 纪念碑计划／口述史／重建倡议，保存逻辑世界记忆 |
+| 丝路学者 | 个人实例，职业和科技前置 | 学者公开或保管研究、探险家制图、商人提出贸易路线 |
+
+国家投票目前以参与玩家计数，不是一国一票。剧情提案不会伪装成已经发生的国家建立、战役胜利或国库扣款。NPC关系与成长、纪念展示、见证者实体和历史书已实现；显示点位需管理员显式授权，插件不覆盖方块或接管他人NPC。真实国家复国、资源划拨及最终战役仍须绑定服内实际权威业务，不能从虚构剧情直接生成国家事实。
+
+历史记录包含事件 ID、发生时间、参与者、关联国家、来源和证据。已经存在于服务器、但从未向 StarChronicle 提交的旧历史不会自动补全。
+
+新事件及其匹配的待触发定义同事务落库；无人在线、条件暂不满足或冷却未到期时，触发继续保留，在玩家加入和后台轮询时用当前权威快照恢复。WORLD、NATION 与 PLAYER 国民种子按实际作用域消费收据去重，不把首位受众的结果当成全体结果，历史 actors 也不会被旁观国民改写。NATION 剧情受显式来源国家约束；全服广播必须由可信来源明确给出 `facts.audience=GLOBAL`，它不扩大国家授权范围。已排队的冷却触发到期后可继续执行，已消费来源不会因重放再次领奖。
+
+原生自动恢复严格限于三个自有场景：注册对象和文件指纹一致、仅使用对应前缀的集合式效果。Request 绑定初始原生节点、权限和原国籍，checkpoint 保存已核验的自有状态；状态为 `READY/RUNNING/UNKNOWN/COMPLETED`，每名玩家只有一个操作所有者。暂时 busy／明确未调用会等待；超时未进入操作体时可 CAS 取消进入，已进入或结果不明则隔离为 UNKNOWN。其他外部 native 脚本、任务、未知奖励与整个上游栈不获得这项保证，UNKNOWN 不自动重放。详见 [API 恢复合同](docs/API.md)。
+
+Folia 的 UI 操作回到玩家实体线程，数据库编排放在工作线程。审计版本 StarCore 缺少 Folia 支持声明且 NarrativeModule 使用旧调度器；默认 `require-starcore: true` 时上游服务缺失会安全停用本插件。显式 `require-starcore: false` 可用于 Folia 独立规则／历史模式，不提供国家身份或上游执行能力。当前 Folia 禁用 `narrative.start`，不把 StarChronicle 自身调度设计当作上游全栈兼容证明。
+
+## 文档
+
+- [剧情格式、条件、效果、示例和版本管理](docs/STORY-FORMAT.md)
+- [Java API、权威边界、幂等和扩展提供者](docs/API.md)
+- [上游代码审计与复用点](docs/UPSTREAM-AUDIT.md)
+- [第一阶段需求证据与后续缺口](docs/REQUIREMENTS.md)
+- [可选NPC插件与联动范围](docs/NPC-INTEGRATIONS.md)
+- [NPC人物、关系、成长与历史反应](docs/NPC-SYSTEM.md)
+- [八种身份与完整命运线](docs/FATE-STORIES.md)
+- [真实历史纪念点、见证者与原生书](docs/WORLD-MEMORY.md)
+- [权威快照、事务观测与重启恢复](docs/HISTORY-OBSERVATION.md)
+- [复用StarCore场景与任务恢复限制](docs/STARCORE-CONTENT.md)
+- [自有原生场景的持久化恢复协议](docs/NATIVE-SCENE-RECOVERY.md)
+- [可选文本提供者、限流与模板回退](docs/TEXT-PROVIDERS.md)
+- [测试与构建报告](docs/TEST-REPORT.md)
+- [交付包、复验命令与安装数据](docs/DELIVERY.md)
+- [完整目标的后续工作与真实上游前置条件](docs/REMAINING-WORK.md)
+
+可选 AI 仅用于历史摘要、对话草稿和描述。默认模板无需 AI 即可运行；AI 无权执行命令、发奖励、修改国家状态或产生可信事件。

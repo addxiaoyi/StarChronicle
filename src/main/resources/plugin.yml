@@ -1,0 +1,44 @@
+name: StarChronicle
+version: 0.1.0-SNAPSHOT
+main: io.github.addxiaoyi.starchronicle.paper.StarChroniclePlugin
+api-version: '1.21'
+folia-supported: true
+description: Persistent national narrative orchestration and world history for StarCore
+softdepend: [StarCore, KaleidoscopeCookeryPlugin, FancyNpcs, Citizens, Adyeshach]
+commands:
+  chronicle:
+    description: World history, collaborative stories and administrative diagnostics
+    aliases: [scchronicle]
+    permission: starchronicle.use
+    usage: /chronicle [stories|scene|history|book|npc|fate|memory|join|choose|status|validate|reload]
+permissions:
+  starchronicle.use:
+    description: Read histories and participate in eligible stories
+    default: true
+  starchronicle.admin:
+    description: Validate content, inspect uncertain effects and emit explicitly enabled test events
+    default: op
+  starchronicle.identity.soldier:
+    description: Trusted soldier identity supplied by the server administrator
+    default: false
+  starchronicle.identity.general:
+    description: Trusted general identity supplied by the server administrator
+    default: false
+  starchronicle.identity.merchant:
+    description: Trusted merchant identity supplied by the server administrator
+    default: false
+  starchronicle.identity.scholar:
+    description: Trusted scholar identity supplied by the server administrator
+    default: false
+  starchronicle.identity.explorer:
+    description: Trusted explorer identity supplied by the server administrator
+    default: false
+  starchronicle.identity.diplomat:
+    description: Trusted diplomat identity supplied by the server administrator
+    default: false
+  starchronicle.identity.mayor:
+    description: Trusted mayor identity supplied by the server administrator
+    default: false
+  starchronicle.identity.monarch:
+    description: Trusted monarch identity supplied by the server administrator
+    default: false

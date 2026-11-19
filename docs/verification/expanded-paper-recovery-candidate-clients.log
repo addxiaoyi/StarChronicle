@@ -1,0 +1,217 @@
+2026-11-19T17:57:24.990Z MESSAGE {"player":"A","text":"[四季系统] 当前季节: 春季"}
+2026-11-19T17:57:25.031Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:57:25.035Z MESSAGE {"player":"A","text":"=== Fatigue Status Title ==="}
+2026-11-19T17:57:25.060Z MESSAGE {"player":"A","text":"总体疲劳：0%%"}
+2026-11-19T17:57:25.062Z MESSAGE {"player":"A","text":"等级：精神饱满"}
+2026-11-19T17:57:25.072Z MESSAGE {"player":"A","text":"身体：0%%"}
+2026-11-19T17:57:25.085Z MESSAGE {"player":"A","text":"精神：0%%"}
+2026-11-19T17:57:25.207Z MESSAGE {"player":"A","text":"战斗：0%%"}
+2026-11-19T17:57:25.209Z MESSAGE {"player":"A","text":"行军：0%%"}
+2026-11-19T17:57:25.210Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:57:25.210Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:57:25.211Z MESSAGE {"player":"A","text":"╔══════════════════════════╗"}
+2026-11-19T17:57:25.211Z MESSAGE {"player":"A","text":"║    ★ 欢迎来到星核世界 ★    ║"}
+2026-11-19T17:57:25.212Z MESSAGE {"player":"A","text":"╚══════════════════════════╝"}
+2026-11-19T17:57:25.212Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:57:25.213Z MESSAGE {"player":"A","text":"在这里，你可以："}
+2026-11-19T17:57:25.213Z MESSAGE {"player":"A","text":"  • 采集资源，建立经济基础"}
+2026-11-19T17:57:25.214Z MESSAGE {"player":"A","text":"  • 训练军队，保卫领土扩张"}
+2026-11-19T17:57:25.215Z MESSAGE {"player":"A","text":"  • 开展外交，建立同盟关系"}
+2026-11-19T17:57:25.215Z MESSAGE {"player":"A","text":"  • 研究科技，推动国家进步"}
+2026-11-19T17:57:25.216Z MESSAGE {"player":"A","text":"  • 完成任务，解锁成就奖励"}
+2026-11-19T17:57:25.217Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:57:25.217Z MESSAGE {"player":"A","text":"输入 /starcore help 查看所有指令"}
+2026-11-19T17:57:25.218Z MESSAGE {"player":"A","text":"或点击屏幕上的菜单按钮开始探索"}
+2026-11-19T17:57:25.219Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:57:25.223Z MESSAGE {"player":"A","text":"已收到 STARCORE 玩法指南，右键打开。"}
+2026-11-19T17:57:25.224Z MESSAGE {"player":"A","text":"ExpandedCoreA joined the game"}
+2026-11-19T17:57:25.226Z MESSAGE {"player":"A","text":"ExpandedCoreB joined the game"}
+2026-11-19T17:57:25.227Z MESSAGE {"player":"A","text":"✓ 解锁新称号: 新人"}
+2026-11-19T17:57:25.228Z MESSAGE {"player":"A","text":"✓ 解锁新徽章: 新手徽章"}
+2026-11-19T17:57:25.231Z SPAWN {"player":"A","username":"ExpandedCoreA","uuid":"0f0600aa-d982-37b8-aedb-b7f403d20daf"}
+2026-11-19T17:57:25.265Z MESSAGE {"player":"B","text":"[四季系统] 当前季节: 春季"}
+2026-11-19T17:57:25.266Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:57:25.267Z MESSAGE {"player":"B","text":"=== Fatigue Status Title ==="}
+2026-11-19T17:57:25.267Z MESSAGE {"player":"B","text":"总体疲劳：0%%"}
+2026-11-19T17:57:25.268Z MESSAGE {"player":"B","text":"等级：精神饱满"}
+2026-11-19T17:57:25.269Z MESSAGE {"player":"B","text":"身体：0%%"}
+2026-11-19T17:57:25.269Z MESSAGE {"player":"B","text":"精神：0%%"}
+2026-11-19T17:57:25.270Z MESSAGE {"player":"B","text":"战斗：0%%"}
+2026-11-19T17:57:25.270Z MESSAGE {"player":"B","text":"行军：0%%"}
+2026-11-19T17:57:25.271Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:57:25.271Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:57:25.272Z MESSAGE {"player":"B","text":"╔══════════════════════════╗"}
+2026-11-19T17:57:25.273Z MESSAGE {"player":"B","text":"║    ★ 欢迎来到星核世界 ★    ║"}
+2026-11-19T17:57:25.274Z MESSAGE {"player":"B","text":"╚══════════════════════════╝"}
+2026-11-19T17:57:25.275Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:57:25.275Z MESSAGE {"player":"B","text":"在这里，你可以："}
+2026-11-19T17:57:25.276Z MESSAGE {"player":"B","text":"  • 采集资源，建立经济基础"}
+2026-11-19T17:57:25.277Z MESSAGE {"player":"B","text":"  • 训练军队，保卫领土扩张"}
+2026-11-19T17:57:25.278Z MESSAGE {"player":"B","text":"  • 开展外交，建立同盟关系"}
+2026-11-19T17:57:25.279Z MESSAGE {"player":"B","text":"  • 研究科技，推动国家进步"}
+2026-11-19T17:57:25.280Z MESSAGE {"player":"B","text":"  • 完成任务，解锁成就奖励"}
+2026-11-19T17:57:25.281Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:57:25.281Z MESSAGE {"player":"B","text":"输入 /starcore help 查看所有指令"}
+2026-11-19T17:57:25.282Z MESSAGE {"player":"B","text":"或点击屏幕上的菜单按钮开始探索"}
+2026-11-19T17:57:25.283Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:57:25.283Z MESSAGE {"player":"B","text":"已收到 STARCORE 玩法指南，右键打开。"}
+2026-11-19T17:57:25.285Z MESSAGE {"player":"B","text":"ExpandedCoreB joined the game"}
+2026-11-19T17:57:25.289Z SPAWN {"player":"B","username":"ExpandedCoreB","uuid":"cb728396-7bbc-306c-8c82-f00997d4ac10"}
+2026-11-19T17:57:25.301Z MESSAGE {"player":"B","text":"✓ 解锁新称号: 新人"}
+2026-11-19T17:57:25.302Z MESSAGE {"player":"B","text":"✓ 解锁新徽章: 新手徽章"}
+2026-11-19T17:57:44.811Z SENT {"player":"A","message":"/chronicle scene"}
+2026-11-19T17:57:44.817Z SENT {"player":"B","message":"/chronicle scene"}
+2026-11-19T17:57:44.905Z WINDOW {"player":"A","id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":6}
+2026-11-19T17:57:44.909Z WINDOW {"player":"B","id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":6}
+2026-11-19T17:57:52.750Z CLIENT_VIEW {"player":"A","window":{"id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"slots":[{"index":0,"name":"paper","count":1,"customName":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"场景文本"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"场景文本"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"伊蕾娅：请先审查我的证据，再决定是否支持复国。你无须因我的血脉而献上国家。"}}}]}]},{"index":4,"name":"written_book","count":1,"customName":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"旧都证词：继承人的请求"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"旧都证词：继承人的请求"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"执行器: StarCore NarrativeEngine"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"脚本: chronicle_last_heir"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"节点: arrival"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"index":9,"name":"lime_dye","count":1,"customName":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"查看继承证据的出处"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"查看继承证据的出处"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"原生选项: 1"}}}]}]},{"index":10,"name":"lime_dye","count":1,"customName":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"询问旧都居民的处境"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"询问旧都居民的处境"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"原生选项: 2"}}}]}]},{"index":49,"name":"compass","count":1,"customName":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"共同剧情"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"共同剧情"}}}}]},{"index":81,"name":"written_book","count":1,"customName":{"type":"compound","value":{"italic":{"type":"byte","value":0},"bold":{"type":"byte","value":1},"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"STARCORE 玩法指南"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"italic":{"type":"byte","value":0},"bold":{"type":"byte","value":1},"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"STARCORE 玩法指南"}}}},{"type":"lore","data":[{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"§7§m-------------------"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"STARCORE 玩法指南"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":""}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"右键打开主指南"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"了解核心系统"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"逐步探索全部玩法"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":""}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"[指南物品]"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"§7§m-------------------"}}}]},{"type":"tooltip_display","data":{"hideTooltip":false,"hiddenComponents":[16,13]}},{"type":"custom_data","data":{"type":"compound","value":{"PublicBukkitValues":{"type":"compound","value":{"starcore:starcore_guide_book":{"type":"byte","value":1}}}}}},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]}]}}
+2026-11-19T17:57:52.761Z CLIENT_VIEW {"player":"B","window":{"id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"slots":[{"index":0,"name":"paper","count":1,"customName":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"场景文本"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"场景文本"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"伊蕾娅：请先审查我的证据，再决定是否支持复国。你无须因我的血脉而献上国家。"}}}]}]},{"index":4,"name":"written_book","count":1,"customName":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"旧都证词：继承人的请求"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"旧都证词：继承人的请求"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"执行器: StarCore NarrativeEngine"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"脚本: chronicle_last_heir"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"节点: arrival"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"index":9,"name":"lime_dye","count":1,"customName":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"查看继承证据的出处"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"查看继承证据的出处"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"原生选项: 1"}}}]}]},{"index":10,"name":"lime_dye","count":1,"customName":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"询问旧都居民的处境"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"询问旧都居民的处境"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"原生选项: 2"}}}]}]},{"index":49,"name":"compass","count":1,"customName":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"共同剧情"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"共同剧情"}}}}]},{"index":81,"name":"written_book","count":1,"customName":{"type":"compound","value":{"italic":{"type":"byte","value":0},"bold":{"type":"byte","value":1},"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"STARCORE 玩法指南"}}},"components":[{"type":"custom_name","data":{"type":"compound","value":{"italic":{"type":"byte","value":0},"bold":{"type":"byte","value":1},"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"STARCORE 玩法指南"}}}},{"type":"lore","data":[{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"§7§m-------------------"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"STARCORE 玩法指南"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":""}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"右键打开主指南"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"了解核心系统"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"逐步探索全部玩法"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":""}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"[指南物品]"}}},{"type":"compound","value":{"italic":{"type":"byte","value":0},"text":{"type":"string","value":"§7§m-------------------"}}}]},{"type":"tooltip_display","data":{"hideTooltip":false,"hiddenComponents":[16,13]}},{"type":"custom_data","data":{"type":"compound","value":{"PublicBukkitValues":{"type":"compound","value":{"starcore:starcore_guide_book":{"type":"byte","value":1}}}}}},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]}]}}
+2026-11-19T17:57:52.773Z CLICKED {"player":"A","slot":9}
+2026-11-19T17:57:52.774Z CLICKED {"player":"B","slot":10}
+2026-11-19T17:57:52.836Z MESSAGE {"player":"A","text":"[编年史] 操作未完成：原生场景操作正在进行，请稍后刷新"}
+2026-11-19T17:57:52.848Z MESSAGE {"player":"B","text":"[编年史] 操作未完成：原生场景操作正在进行，请稍后刷新"}
+2026-11-19T17:58:47.801Z SENT {"player":"A","message":"/chronicle scene"}
+2026-11-19T17:58:47.803Z SENT {"player":"B","message":"/chronicle scene"}
+2026-11-19T17:58:47.899Z WINDOW {"player":"B","id":2,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":6}
+2026-11-19T17:58:47.900Z WINDOW {"player":"A","id":2,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":6}
+2026-11-19T17:58:56.124Z CLICKED {"player":"A","slot":9}
+2026-11-19T17:58:56.194Z WINDOW {"player":"A","id":3,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T17:58:57.257Z CLICKED {"player":"B","slot":10}
+2026-11-19T17:58:57.345Z WINDOW {"player":"B","id":3,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T17:59:22.352Z ENDED {"player":"A","reason":"expanded acceptance complete"}
+2026-11-19T17:59:22.354Z ENDED {"player":"B","reason":"expanded acceptance complete"}
+2026-11-19T17:59:29.841Z MESSAGE {"player":"B","text":"[四季系统] 当前季节: 春季"}
+2026-11-19T17:59:29.843Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:59:29.844Z MESSAGE {"player":"B","text":"=== Fatigue Status Title ==="}
+2026-11-19T17:59:29.845Z MESSAGE {"player":"B","text":"总体疲劳：0%%"}
+2026-11-19T17:59:29.845Z MESSAGE {"player":"B","text":"等级：精神饱满"}
+2026-11-19T17:59:29.846Z MESSAGE {"player":"B","text":"身体：0%%"}
+2026-11-19T17:59:29.846Z MESSAGE {"player":"B","text":"精神：0%%"}
+2026-11-19T17:59:29.847Z MESSAGE {"player":"B","text":"战斗：0%%"}
+2026-11-19T17:59:29.847Z MESSAGE {"player":"B","text":"行军：0%%"}
+2026-11-19T17:59:29.848Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:59:29.848Z MESSAGE {"player":"B","text":"Donation Reward Unclaimed: 1"}
+2026-11-19T17:59:29.849Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:59:29.849Z MESSAGE {"player":"B","text":"欢迎回来, ExpandedCoreB!"}
+2026-11-19T17:59:29.850Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:59:29.850Z MESSAGE {"player":"B","text":"╔══════════════════════════╗"}
+2026-11-19T17:59:29.851Z MESSAGE {"player":"B","text":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T17:59:29.852Z MESSAGE {"player":"B","text":"╚══════════════════════════╝"}
+2026-11-19T17:59:29.852Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:59:29.853Z MESSAGE {"player":"B","text":"当前阶段: PRODUCTION"}
+2026-11-19T17:59:29.853Z MESSAGE {"player":"B","text":"完成度: 0%"}
+2026-11-19T17:59:29.854Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:59:29.855Z MESSAGE {"player":"B","text":"建议行动:"}
+2026-11-19T17:59:29.856Z MESSAGE {"player":"B","text":"  采集资源"}
+2026-11-19T17:59:29.856Z MESSAGE {"player":"B","text":"  训练军队"}
+2026-11-19T17:59:29.857Z MESSAGE {"player":"B","text":"  研究科技"}
+2026-11-19T17:59:29.857Z MESSAGE {"player":"B","text":""}
+2026-11-19T17:59:29.858Z MESSAGE {"player":"B","text":"ExpandedCoreB joined the game"}
+2026-11-19T17:59:29.864Z SPAWN {"player":"B","username":"ExpandedCoreB","uuid":"cb728396-7bbc-306c-8c82-f00997d4ac10"}
+2026-11-19T17:59:29.909Z MESSAGE {"player":"B","text":"ExpandedCoreA joined the game"}
+2026-11-19T17:59:29.977Z MESSAGE {"player":"A","text":"[四季系统] 当前季节: 春季"}
+2026-11-19T17:59:29.987Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:59:29.989Z MESSAGE {"player":"A","text":"=== Fatigue Status Title ==="}
+2026-11-19T17:59:29.993Z MESSAGE {"player":"A","text":"总体疲劳：0%%"}
+2026-11-19T17:59:29.995Z MESSAGE {"player":"A","text":"等级：精神饱满"}
+2026-11-19T17:59:29.996Z MESSAGE {"player":"A","text":"身体：0%%"}
+2026-11-19T17:59:29.998Z MESSAGE {"player":"A","text":"精神：0%%"}
+2026-11-19T17:59:29.999Z MESSAGE {"player":"A","text":"战斗：0%%"}
+2026-11-19T17:59:30.000Z MESSAGE {"player":"A","text":"行军：0%%"}
+2026-11-19T17:59:30.001Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:59:30.002Z MESSAGE {"player":"A","text":"Donation Reward Unclaimed: 1"}
+2026-11-19T17:59:30.003Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:59:30.005Z MESSAGE {"player":"A","text":"欢迎回来, ExpandedCoreA!"}
+2026-11-19T17:59:30.006Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:59:30.007Z MESSAGE {"player":"A","text":"╔══════════════════════════╗"}
+2026-11-19T17:59:30.009Z MESSAGE {"player":"A","text":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T17:59:30.017Z MESSAGE {"player":"A","text":"╚══════════════════════════╝"}
+2026-11-19T17:59:30.023Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:59:30.025Z MESSAGE {"player":"A","text":"当前阶段: PRODUCTION"}
+2026-11-19T17:59:30.026Z MESSAGE {"player":"A","text":"完成度: 0%"}
+2026-11-19T17:59:30.027Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:59:30.028Z MESSAGE {"player":"A","text":"建议行动:"}
+2026-11-19T17:59:30.029Z MESSAGE {"player":"A","text":"  采集资源"}
+2026-11-19T17:59:30.037Z MESSAGE {"player":"A","text":"  训练军队"}
+2026-11-19T17:59:30.048Z MESSAGE {"player":"A","text":"  研究科技"}
+2026-11-19T17:59:30.049Z MESSAGE {"player":"A","text":""}
+2026-11-19T17:59:30.050Z MESSAGE {"player":"A","text":"ExpandedCoreA joined the game"}
+2026-11-19T17:59:30.054Z SPAWN {"player":"A","username":"ExpandedCoreA","uuid":"0f0600aa-d982-37b8-aedb-b7f403d20daf"}
+2026-11-19T18:00:00.361Z SENT {"player":"A","message":"/chronicle scene"}
+2026-11-19T18:00:00.364Z SENT {"player":"B","message":"/chronicle scene"}
+2026-11-19T18:00:00.447Z WINDOW {"player":"A","id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T18:00:00.449Z WINDOW {"player":"B","id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T18:00:10.078Z CLICKED {"player":"A","slot":31}
+2026-11-19T18:00:10.079Z CLICKED {"player":"B","slot":31}
+2026-11-19T18:00:10.146Z WINDOW {"player":"B","id":2,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T18:00:10.147Z WINDOW {"player":"A","id":2,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T18:00:18.485Z ENDED {"player":"A","reason":"expanded acceptance complete"}
+2026-11-19T18:00:18.487Z ENDED {"player":"B","reason":"expanded acceptance complete"}
+2026-11-19T18:01:41.416Z MESSAGE {"player":"A","text":"[四季系统] 当前季节: 春季"}
+2026-11-19T18:01:41.467Z MESSAGE {"player":"A","text":""}
+2026-11-19T18:01:41.480Z MESSAGE {"player":"A","text":"=== Fatigue Status Title ==="}
+2026-11-19T18:01:41.482Z MESSAGE {"player":"A","text":"总体疲劳：0%%"}
+2026-11-19T18:01:41.483Z MESSAGE {"player":"A","text":"等级：精神饱满"}
+2026-11-19T18:01:41.484Z MESSAGE {"player":"A","text":"身体：0%%"}
+2026-11-19T18:01:41.485Z MESSAGE {"player":"A","text":"精神：0%%"}
+2026-11-19T18:01:41.486Z MESSAGE {"player":"A","text":"战斗：0%%"}
+2026-11-19T18:01:41.487Z MESSAGE {"player":"A","text":"行军：0%%"}
+2026-11-19T18:01:41.487Z MESSAGE {"player":"A","text":""}
+2026-11-19T18:01:41.490Z MESSAGE {"player":"A","text":"Donation Reward Unclaimed: 1"}
+2026-11-19T18:01:41.494Z MESSAGE {"player":"A","text":""}
+2026-11-19T18:01:41.520Z MESSAGE {"player":"A","text":"欢迎回来, ExpandedCoreA!"}
+2026-11-19T18:01:41.522Z MESSAGE {"player":"A","text":""}
+2026-11-19T18:01:41.523Z MESSAGE {"player":"A","text":"╔══════════════════════════╗"}
+2026-11-19T18:01:41.532Z MESSAGE {"player":"A","text":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T18:01:41.533Z MESSAGE {"player":"A","text":"╚══════════════════════════╝"}
+2026-11-19T18:01:41.533Z MESSAGE {"player":"A","text":""}
+2026-11-19T18:01:41.683Z MESSAGE {"player":"A","text":"当前阶段: PRODUCTION"}
+2026-11-19T18:01:41.688Z MESSAGE {"player":"A","text":"完成度: 0%"}
+2026-11-19T18:01:42.240Z MESSAGE {"player":"A","text":""}
+2026-11-19T18:01:42.487Z MESSAGE {"player":"A","text":"建议行动:"}
+2026-11-19T18:01:42.629Z MESSAGE {"player":"A","text":"  采集资源"}
+2026-11-19T18:01:42.643Z MESSAGE {"player":"A","text":"  训练军队"}
+2026-11-19T18:01:42.685Z MESSAGE {"player":"A","text":"  研究科技"}
+2026-11-19T18:01:42.690Z MESSAGE {"player":"A","text":""}
+2026-11-19T18:01:42.825Z MESSAGE {"player":"A","text":"ExpandedCoreA joined the game"}
+2026-11-19T18:01:42.873Z MESSAGE {"player":"A","text":"ExpandedCoreB joined the game"}
+2026-11-19T18:01:42.924Z SPAWN {"player":"A","username":"ExpandedCoreA","uuid":"0f0600aa-d982-37b8-aedb-b7f403d20daf"}
+2026-11-19T18:01:43.360Z MESSAGE {"player":"B","text":"[四季系统] 当前季节: 春季"}
+2026-11-19T18:01:43.388Z MESSAGE {"player":"B","text":""}
+2026-11-19T18:01:43.481Z MESSAGE {"player":"B","text":"=== Fatigue Status Title ==="}
+2026-11-19T18:01:43.594Z MESSAGE {"player":"B","text":"总体疲劳：0%%"}
+2026-11-19T18:01:43.816Z MESSAGE {"player":"B","text":"等级：精神饱满"}
+2026-11-19T18:01:43.824Z MESSAGE {"player":"B","text":"身体：0%%"}
+2026-11-19T18:01:43.835Z MESSAGE {"player":"B","text":"精神：0%%"}
+2026-11-19T18:01:43.840Z MESSAGE {"player":"B","text":"战斗：0%%"}
+2026-11-19T18:01:43.881Z MESSAGE {"player":"B","text":"行军：0%%"}
+2026-11-19T18:01:43.910Z MESSAGE {"player":"B","text":""}
+2026-11-19T18:01:43.932Z MESSAGE {"player":"B","text":"Donation Reward Unclaimed: 1"}
+2026-11-19T18:01:43.945Z MESSAGE {"player":"B","text":""}
+2026-11-19T18:01:43.955Z MESSAGE {"player":"B","text":"欢迎回来, ExpandedCoreB!"}
+2026-11-19T18:01:43.956Z MESSAGE {"player":"B","text":""}
+2026-11-19T18:01:43.957Z MESSAGE {"player":"B","text":"╔══════════════════════════╗"}
+2026-11-19T18:01:43.957Z MESSAGE {"player":"B","text":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T18:01:43.958Z MESSAGE {"player":"B","text":"╚══════════════════════════╝"}
+2026-11-19T18:01:43.959Z MESSAGE {"player":"B","text":""}
+2026-11-19T18:01:43.960Z MESSAGE {"player":"B","text":"当前阶段: PRODUCTION"}
+2026-11-19T18:01:43.963Z MESSAGE {"player":"B","text":"完成度: 0%"}
+2026-11-19T18:01:43.963Z MESSAGE {"player":"B","text":""}
+2026-11-19T18:01:43.964Z MESSAGE {"player":"B","text":"建议行动:"}
+2026-11-19T18:01:43.964Z MESSAGE {"player":"B","text":"  采集资源"}
+2026-11-19T18:01:43.965Z MESSAGE {"player":"B","text":"  训练军队"}
+2026-11-19T18:01:43.965Z MESSAGE {"player":"B","text":"  研究科技"}
+2026-11-19T18:01:43.966Z MESSAGE {"player":"B","text":""}
+2026-11-19T18:01:43.966Z MESSAGE {"player":"B","text":"ExpandedCoreB joined the game"}
+2026-11-19T18:01:43.968Z SPAWN {"player":"B","username":"ExpandedCoreB","uuid":"cb728396-7bbc-306c-8c82-f00997d4ac10"}
+2026-11-19T18:01:57.215Z SENT {"player":"A","message":"/chronicle scene"}
+2026-11-19T18:01:57.223Z SENT {"player":"B","message":"/chronicle scene"}
+2026-11-19T18:01:57.320Z WINDOW {"player":"A","id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T18:01:57.329Z WINDOW {"player":"B","id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T18:02:07.877Z CLICKED {"player":"A","slot":31}
+2026-11-19T18:02:07.880Z CLICKED {"player":"B","slot":31}
+2026-11-19T18:02:07.952Z MESSAGE {"player":"A","text":"[编年史] 原生补充场景已结束；共同议会进度仍由编年史剧情控制。"}
+2026-11-19T18:02:08.213Z WINDOW {"player":"A","id":2,"title":{"type":"string","value":"共同书写历史 · 1"},"items":6}
+2026-11-19T18:02:08.355Z MESSAGE {"player":"B","text":"[编年史] 原生补充场景已结束；共同议会进度仍由编年史剧情控制。"}
+2026-11-19T18:02:08.362Z WINDOW {"player":"B","id":2,"title":{"type":"string","value":"共同书写历史 · 1"},"items":6}
+2026-11-19T18:02:18.869Z ENDED {"player":"B","reason":"expanded acceptance complete"}
+2026-11-19T18:02:18.897Z ENDED {"player":"A","reason":"expanded acceptance complete"}

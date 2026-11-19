@@ -1,0 +1,504 @@
+--- a/src/main/java/dev/starcore/starcore/core/scheduler/StarCoreScheduler.java
++++ b/src/main/java/dev/starcore/starcore/core/scheduler/StarCoreScheduler.java
+@@ -1,6 +1,9 @@
+ package dev.starcore.starcore.core.scheduler;
+ 
+ import java.util.List;
++import java.util.Map;
++import java.util.concurrent.ConcurrentHashMap;
++import java.util.concurrent.atomic.AtomicBoolean;
+ import java.util.Objects;
+ import java.util.concurrent.CompletableFuture;
+ import java.util.concurrent.ExecutorService;
+@@ -13,6 +16,7 @@
+ import java.util.function.Consumer;
+ import java.util.function.Supplier;
+ import org.bukkit.Bukkit;
++import org.bukkit.entity.Entity;
+ import org.bukkit.plugin.java.JavaPlugin;
+ import org.bukkit.scheduler.BukkitTask;
+ 
+@@ -23,6 +27,10 @@
+   private final AtomicInteger taskIdGenerator = new AtomicInteger(1);
+   private volatile boolean shutdown = false;
+ 
++  // Only tasks which have not started may be rejected as definitely not applied.
++  private final Map<CompletableFuture<?>, Runnable> pendingEntityTasks =
++      new ConcurrentHashMap<>();
++
+   // Metrics
+   private final AtomicLong completedTasks = new AtomicLong(0);
+   private final AtomicLong failedTasks = new AtomicLong(0);
+@@ -40,6 +48,84 @@
+     this.asyncExecutor =
+         Executors.newFixedThreadPool(asyncThreads, new StarCoreThreadFactory("async"));
+     this.ioExecutor = Executors.newFixedThreadPool(ioThreads, new StarCoreThreadFactory("io"));
++  }
++
++  /**
++   * True only when the current thread owns this entity. This is not a global/main-thread test.
++   * Paper implements the same API for its single owning server thread.
++   */
++  public boolean isOwnedByCurrentThread(Entity entity) {
++    return Bukkit.isOwnedByCurrentRegion(Objects.requireNonNull(entity, "entity"));
++  }
++
++  /** Fail before touching entity-local data when a synchronous API is called from elsewhere. */
++  public void requireEntityOwner(Entity entity) {
++    if (!isOwnedByCurrentThread(entity)) {
++      throw new IllegalStateException("Operation requires the entity owning thread; use callForEntity");
++    }
++  }
++
++  /**
++   * Run the whole operation on the entity's owning thread and complete only after it returns.
++   * The entity scheduler follows teleports; no global or arbitrary location fallback is used.
++   *
++   * <p>{@link EntityTaskNotAppliedException} means the body never started. Exceptions from the
++   * body do not imply rollback and must not trigger an automatic retry of an external effect.
++   * Cancelling a future after its body has started cannot undo that body.
++   * The retired callback only completes a future; it never touches entity/world state.
++   */
++  public <T> CompletableFuture<T> callForEntity(Entity entity, Supplier<T> operation) {
++    Objects.requireNonNull(entity, "entity");
++    Objects.requireNonNull(operation, "operation");
++    CompletableFuture<T> result = new CompletableFuture<>();
++    AtomicBoolean claimed = new AtomicBoolean();
++    Runnable reject = () -> {
++      if (claimed.compareAndSet(false, true)) {
++        result.completeExceptionally(new EntityTaskNotAppliedException(
++            "Entity retired or scheduler stopped before operation started"));
++      }
++    };
++    Runnable execute = () -> {
++      if (!claimed.compareAndSet(false, true) || result.isDone()) return;
++      if (shutdown) {
++        result.completeExceptionally(new EntityTaskNotAppliedException(
++            "Scheduler stopped before operation started"));
++        return;
++      }
++      try {
++        requireEntityOwner(entity);
++        result.complete(operation.get());
++      } catch (Throwable error) {
++        result.completeExceptionally(error);
++      }
++    };
++    pendingEntityTasks.put(result, reject);
++    result.whenComplete((value, error) -> pendingEntityTasks.remove(result));
++    if (shutdown) {
++      reject.run();
++      return result;
++    }
++    try {
++      if (isOwnedByCurrentThread(entity)) {
++        execute.run();
++      } else if (!entity.getScheduler().execute(plugin, execute, reject, 1L)) {
++        reject.run();
++      }
++    } catch (Throwable error) {
++      if (claimed.compareAndSet(false, true)) result.completeExceptionally(error);
++    }
++    return result;
++  }
++
++  /** A precise no-application result for an entity task rejected before its body began. */
++  public static final class EntityTaskNotAppliedException extends RejectedExecutionException {
++    public EntityTaskNotAppliedException(String message) {
++      super(message);
++    }
++  }
++
++  private void rejectPendingEntityTasks() {
++    pendingEntityTasks.values().forEach(Runnable::run);
+   }
+ 
+   /** Gets the number of completed tasks. */
+@@ -281,6 +367,7 @@
+   public void shutdown() {
+     if (shutdown) return;
+     shutdown = true;
++    rejectPendingEntityTasks();
+ 
+     // 拒绝新任务
+     asyncExecutor.shutdown();
+@@ -304,6 +391,7 @@
+   /** 立即关闭调度器，不等待任务完成 */
+   public void shutdownNow() {
+     shutdown = true;
++    rejectPendingEntityTasks();
+     asyncExecutor.shutdownNow();
+     ioExecutor.shutdownNow();
+   }
+--- a/src/main/java/dev/starcore/starcore/module/narrative/engine/NarrativeEngine.java
++++ b/src/main/java/dev/starcore/starcore/module/narrative/engine/NarrativeEngine.java
+@@ -10,10 +10,10 @@
+ import dev.starcore.starcore.module.narrative.state.PlayerNarrativeState;
+ import dev.starcore.starcore.module.narrative.state.PlayerNarrativeStateManager;
+ import java.util.*;
++import java.util.concurrent.CompletableFuture;
+ import java.util.concurrent.ConcurrentHashMap;
+ import java.util.concurrent.CopyOnWriteArrayList;
+ import java.util.logging.Logger;
+-import org.bukkit.Bukkit;
+ import org.bukkit.entity.Player;
+ import org.jetbrains.annotations.NotNull;
+ import org.jetbrains.annotations.Nullable;
+@@ -21,8 +21,10 @@
+ /**
+  * Core narrative engine — coordinates script execution, state management, and the event bus.
+  *
+- * <p>All public methods are safe to call from any thread; state mutations are always dispatched to
+- * the main Bukkit thread via the provided {@link StarCoreScheduler}.
++ * <p>Player-bound void entry points dispatch the whole mutation to that player's owning thread.
++ * Synchronous result APIs require the owner thread; asynchronous variants report actual completion.
++ * UUID-only mutable state access is owner-thread-only (or requires a quiescent offline lifecycle).
++ * This contract alone does not make unrelated modules or bulk persistence Folia-safe.
+  *
+  * <h2>Lifecycle</h2>
+  *
+@@ -152,7 +154,7 @@
+   /**
+    * Begin a new narrative session for the given player with the named script.
+    *
+-   * @param player the player to start the script for (must be online)
++   * @param player the player to start the script for (must be online and owned by this thread)
+    * @param scriptId script identifier
+    * @param startNodeId optional override entry node (null = script's default)
+    * @return the loaded script, or null if loading failed
+@@ -162,6 +164,7 @@
+       @NotNull Player player, @NotNull String scriptId, @Nullable String startNodeId) {
+     Objects.requireNonNull(player, "player");
+     Objects.requireNonNull(scriptId, "scriptId");
++    scheduler.requireEntityOwner(player);
+ 
+     NarrativeScript script = scriptLoader.load(scriptId);
+     if (script == null) {
+@@ -185,7 +188,7 @@
+         playerId,
+         scriptId,
+         new NarrativeEvent.ScriptStartedEvent(playerId, scriptId, System.currentTimeMillis()));
+-    dispatchMain(() -> renderNode(player, script, session, state, firstNode));
++    dispatchPlayer(player, () -> renderNode(player, script, session, state, firstNode));
+     logger.info(
+         "Script '"
+             + scriptId
+@@ -197,7 +200,21 @@
+     return script;
+   }
+ 
+-  /** Convenience overload using the script's default start node. */
++  /**
++   * Start from any thread; completion means all initial state mutation and first rendering returned.
++   * Retirement before execution completes exceptionally without creating or changing a session.
++   */
++  public CompletableFuture<NarrativeScript> startScriptAsync(
++      @NotNull Player player, @NotNull String scriptId, @Nullable String startNodeId) {
++    return scheduler.callForEntity(player, () -> startScript(player, scriptId, startNodeId));
++  }
++
++  public CompletableFuture<NarrativeScript> startScriptAsync(
++      @NotNull Player player, @NotNull String scriptId) {
++    return startScriptAsync(player, scriptId, null);
++  }
++
++  /** Convenience overload using the script's default start node; requires the owning thread. */
+   @Nullable
+   public NarrativeScript startScript(@NotNull Player player, @NotNull String scriptId) {
+     return startScript(player, scriptId, null);
+@@ -221,7 +238,7 @@
+   /** Advance the current node for the given player. Safe to call from any thread. */
+   public void advanceNode(@NotNull Player player) {
+     if (!ready) return;
+-    dispatchMain(() -> advanceNodeSync(player));
++    dispatchPlayer(player, () -> advanceNodeSync(player));
+   }
+ 
+   private void advanceNodeSync(@NotNull Player player) {
+@@ -257,7 +274,7 @@
+    */
+   public void selectChoice(@NotNull Player player, int index) {
+     if (!ready) return;
+-    dispatchMain(() -> selectChoiceSync(player, index));
++    dispatchPlayer(player, () -> selectChoiceSync(player, index));
+   }
+ 
+   private void selectChoiceSync(@NotNull Player player, int index) {
+@@ -334,17 +351,18 @@
+   // ─── Rollback ─────────────────────────────────────────────────────────────
+ 
+   /**
+-   * Attempt to roll back to the most recent checkpoint for this player. Safe to call from any
+-   * thread.
++   * Attempt to roll back to the most recent checkpoint for this player on its owning thread.
++   * Use rollbackCheckpointAsync from other threads.
+    *
+    * @return true if rollback succeeded
+    */
+   public boolean rollbackCheckpoint(@NotNull Player player) {
+     if (!ready) return false;
++    scheduler.requireEntityOwner(player);
+     UUID playerId = player.getUniqueId();
+     boolean ok = stateManager.rollbackToLastCheckpoint(playerId);
+     if (ok) {
+-      dispatchMain(
++      dispatchPlayer(player,
+           () -> {
+             NarrativeScript script = getLoadedScript(playerId);
+             NarrativeSession session = stateManager.getSession(playerId);
+@@ -367,10 +385,15 @@
+     return ok;
+   }
+ 
++  /** Run the entire rollback on the owner thread; the future is the actual rollback result. */
++  public CompletableFuture<Boolean> rollbackCheckpointAsync(@NotNull Player player) {
++    return scheduler.callForEntity(player, () -> rollbackCheckpoint(player));
++  }
++
+   /** Manually create a checkpoint for the current session. Safe to call from any thread. */
+   public void saveCheckpoint(@NotNull Player player) {
+     if (!ready) return;
+-    dispatchMain(
++    dispatchPlayer(player,
+         () -> {
+           UUID playerId = player.getUniqueId();
+           NarrativeSession session = stateManager.getSession(playerId);
+@@ -385,7 +408,7 @@
+   /** Gracefully end the player's script. Safe to call from any thread. */
+   public void endScript(@NotNull Player player) {
+     if (!ready) return;
+-    dispatchMain(
++    dispatchPlayer(player,
+         () -> {
+           UUID playerId = player.getUniqueId();
+           String sid = playerScriptMap.get(playerId);
+@@ -599,13 +622,14 @@
+     eventBus.publish(CHANNEL_PREFIX + "*", event);
+   }
+ 
+-  /** Dispatch a runnable to the main Bukkit thread. */
+-  private void dispatchMain(@NotNull Runnable r) {
+-    if (Bukkit.isPrimaryThread()) {
+-      r.run();
+-    } else {
+-      scheduler.runSync(r);
+-    }
++  /** Dispatch the whole player operation; a retired player never falls back to a global thread. */
++  private void dispatchPlayer(@NotNull Player player, @NotNull Runnable operation) {
++    scheduler.callForEntity(player, () -> {
++      operation.run();
++      return null;
++    }).whenComplete((value, error) -> {
++      if (error != null) logger.warning("Narrative player operation did not complete: " + error);
++    });
+   }
+ 
+   // ─── Package-private for test access ───────────────────────────────────────
+--- /dev/null
++++ b/src/test/java/dev/starcore/starcore/core/scheduler/EntityTaskContractTest.java
+@@ -0,0 +1,128 @@
++package dev.starcore.starcore.core.scheduler;
++
++import static org.junit.jupiter.api.Assertions.*;
++import static org.mockito.ArgumentMatchers.*;
++import static org.mockito.Mockito.*;
++
++import io.papermc.paper.threadedregions.scheduler.EntityScheduler;
++import java.util.concurrent.CompletableFuture;
++import java.util.concurrent.CompletionException;
++import java.util.concurrent.atomic.AtomicInteger;
++import java.util.concurrent.atomic.AtomicReference;
++import org.bukkit.Bukkit;
++import org.bukkit.entity.Entity;
++import org.bukkit.plugin.java.JavaPlugin;
++import org.junit.jupiter.api.AfterEach;
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++import org.mockito.MockedStatic;
++
++class EntityTaskContractTest {
++  private StarCoreScheduler scheduler;
++  private JavaPlugin plugin;
++  private Entity entity;
++  private EntityScheduler owner;
++  private MockedStatic<Bukkit> bukkit;
++  private final AtomicReference<Runnable> body = new AtomicReference<>();
++  private final AtomicReference<Runnable> retired = new AtomicReference<>();
++
++  @BeforeEach void setup() {
++    plugin = mock(JavaPlugin.class);
++    entity = mock(Entity.class);
++    owner = mock(EntityScheduler.class);
++    scheduler = new StarCoreScheduler(plugin, 1, 1);
++    bukkit = mockStatic(Bukkit.class);
++    when(entity.getScheduler()).thenReturn(owner);
++    when(owner.execute(eq(plugin), any(), any(), eq(1L))).thenAnswer(call -> {
++      body.set(call.getArgument(1));
++      retired.set(call.getArgument(2));
++      return true;
++    });
++  }
++
++  @AfterEach void cleanup() {
++    scheduler.shutdownNow();
++    bukkit.close();
++  }
++
++  private void becomeOwner() {
++    bukkit.when(() -> Bukkit.isOwnedByCurrentRegion(entity)).thenReturn(true);
++  }
++
++  @Test void ownerExecutesInlineAndReturnsActualValue() {
++    becomeOwner();
++    assertEquals("done", scheduler.callForEntity(entity, () -> "done").join());
++    verifyNoInteractions(owner);
++  }
++
++  @Test void queuedIsNotAppliedUntilOwnedExecutionReturns() {
++    AtomicInteger calls = new AtomicInteger();
++    CompletableFuture<Integer> future = scheduler.callForEntity(entity, calls::incrementAndGet);
++    assertFalse(future.isDone());
++    assertEquals(0, calls.get());
++    becomeOwner();
++    body.get().run();
++    assertEquals(1, future.join());
++    assertEquals(1, calls.get());
++  }
++
++  @Test void retiredCompletesWithoutApplyingOrGlobalFallback() {
++    AtomicInteger calls = new AtomicInteger();
++    CompletableFuture<Integer> future = scheduler.callForEntity(entity, calls::incrementAndGet);
++    retired.get().run();
++    assertInstanceOf(StarCoreScheduler.EntityTaskNotAppliedException.class,
++        assertThrows(CompletionException.class, future::join).getCause());
++    becomeOwner();
++    body.get().run();
++    assertEquals(0, calls.get());
++    bukkit.verify(() -> Bukkit.getScheduler(), never());
++    bukkit.verify(() -> Bukkit.getGlobalRegionScheduler(), never());
++  }
++
++  @Test void schedulingFalseCompletesWithoutApplying() {
++    when(owner.execute(eq(plugin), any(), any(), eq(1L))).thenReturn(false);
++    CompletableFuture<String> future = scheduler.callForEntity(entity, () -> fail("must not run"));
++    assertInstanceOf(StarCoreScheduler.EntityTaskNotAppliedException.class,
++        assertThrows(CompletionException.class, future::join).getCause());
++  }
++
++  @Test void shutdownRejectsPendingAndPreventsLaterExecution() {
++    AtomicInteger calls = new AtomicInteger();
++    CompletableFuture<Integer> future = scheduler.callForEntity(entity, calls::incrementAndGet);
++    scheduler.shutdownNow();
++    becomeOwner();
++    body.get().run();
++    assertEquals(0, calls.get());
++    assertInstanceOf(StarCoreScheduler.EntityTaskNotAppliedException.class,
++        assertThrows(CompletionException.class, future::join).getCause());
++  }
++
++  @Test void cancelledPendingFuturePreventsApplication() {
++    AtomicInteger calls = new AtomicInteger();
++    CompletableFuture<Integer> future = scheduler.callForEntity(entity, calls::incrementAndGet);
++    assertTrue(future.cancel(false));
++    becomeOwner();
++    body.get().run();
++    assertEquals(0, calls.get());
++  }
++
++  @Test void bodyErrorPropagatesAndIsNotRelabelledNotApplied() {
++    becomeOwner();
++    IllegalStateException failure = new IllegalStateException("body failed after entry");
++    CompletableFuture<String> future = scheduler.callForEntity(entity, () -> { throw failure; });
++    assertSame(failure, assertThrows(CompletionException.class, future::join).getCause());
++  }
++
++  @Test void wrongOwnerCannotPassSynchronousGuard() {
++    assertThrows(IllegalStateException.class, () -> scheduler.requireEntityOwner(entity));
++  }
++
++  @Test void misroutedSchedulerCallbackFailsBeforeApplication() {
++    AtomicInteger calls = new AtomicInteger();
++    CompletableFuture<Integer> future = scheduler.callForEntity(entity, calls::incrementAndGet);
++    body.get().run();
++    assertEquals(0, calls.get());
++    assertInstanceOf(IllegalStateException.class,
++        assertThrows(CompletionException.class, future::join).getCause());
++  }
++}
+--- /dev/null
++++ b/src/test/java/dev/starcore/starcore/module/narrative/engine/NarrativeEngineOwnerContractTest.java
+@@ -0,0 +1,74 @@
++package dev.starcore.starcore.module.narrative.engine;
++
++import static org.junit.jupiter.api.Assertions.*;
++import static org.mockito.ArgumentMatchers.*;
++import static org.mockito.Mockito.*;
++
++import dev.starcore.starcore.core.scheduler.StarCoreScheduler;
++import dev.starcore.starcore.module.narrative.event.NarrativeEventBus;
++import dev.starcore.starcore.module.narrative.script.NarrativeScript;
++import dev.starcore.starcore.module.narrative.script.ScriptLoader;
++import dev.starcore.starcore.module.narrative.state.PlayerNarrativeStateManager;
++import java.util.concurrent.CompletableFuture;
++import java.util.concurrent.atomic.AtomicReference;
++import java.util.function.Supplier;
++import java.util.logging.Logger;
++import org.bukkit.entity.Player;
++import org.junit.jupiter.api.BeforeEach;
++import org.junit.jupiter.api.Test;
++
++class NarrativeEngineOwnerContractTest {
++  private StarCoreScheduler scheduler;
++  private ScriptLoader loader;
++  private PlayerNarrativeStateManager states;
++  private Player player;
++  private NarrativeEngine engine;
++
++  @BeforeEach void setup() {
++    scheduler = mock(StarCoreScheduler.class);
++    loader = mock(ScriptLoader.class);
++    states = mock(PlayerNarrativeStateManager.class);
++    player = mock(Player.class);
++    engine = new NarrativeEngine(Logger.getAnonymousLogger(), scheduler,
++        mock(NarrativeEventBus.class), states, loader, mock(TypewriterController.class));
++    engine.onEnable();
++  }
++
++  @Test void synchronousStartRejectsBeforeLoadingOrMutatingAnything() {
++    doThrow(new IllegalStateException("wrong owner")).when(scheduler).requireEntityOwner(player);
++    assertThrows(IllegalStateException.class, () -> engine.startScript(player, "test"));
++    verifyNoInteractions(loader, states, player);
++  }
++
++  @Test void synchronousRollbackRejectsBeforeStateMutation() {
++    doThrow(new IllegalStateException("wrong owner")).when(scheduler).requireEntityOwner(player);
++    assertThrows(IllegalStateException.class, () -> engine.rollbackCheckpoint(player));
++    verifyNoInteractions(states, player);
++  }
++
++  @Test void asyncStartDoesNotLoadOrMutateBeforeOwnerTaskRuns() {
++    CompletableFuture<NarrativeScript> queued = new CompletableFuture<>();
++    AtomicReference<Supplier<NarrativeScript>> action = new AtomicReference<>();
++    when(scheduler.<NarrativeScript>callForEntity(eq(player), any())).thenAnswer(call -> {
++      action.set(call.getArgument(1));
++      return queued;
++    });
++    CompletableFuture<NarrativeScript> result = engine.startScriptAsync(player, "missing");
++    assertSame(queued, result);
++    assertFalse(result.isDone());
++    verifyNoInteractions(loader, states, player);
++    queued.complete(action.get().get());
++    assertNull(result.join());
++    verify(scheduler).requireEntityOwner(player);
++    verify(loader).load("missing");
++    verifyNoInteractions(states);
++  }
++
++  @Test void retirementPropagatesWithoutStartingAnySession() {
++    CompletableFuture<NarrativeScript> rejected = CompletableFuture.failedFuture(
++        new StarCoreScheduler.EntityTaskNotAppliedException("retired"));
++    when(scheduler.<NarrativeScript>callForEntity(eq(player), any())).thenReturn(rejected);
++    assertSame(rejected, engine.startScriptAsync(player, "test"));
++    verifyNoInteractions(loader, states, player);
++  }
++}

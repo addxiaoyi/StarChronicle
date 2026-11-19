@@ -1,0 +1,12 @@
+2026-11-19T13:52:04.316Z CLIENT_SPAWNED FoliaChronicleA uuid=07b222c3-bed9-3529-8b88-e0b480b3efbd
+2026-11-19T13:52:04.370Z CLIENT_SPAWNED FoliaChronicleB uuid=fde650b7-4609-3a61-84e4-e23e2fe8f4f4
+2026-11-19T13:54:38.861Z CLIENT_KICKED FoliaChronicleA {"type":"string","value":"Server closed"}
+2026-11-19T13:54:38.886Z CLIENT_KICKED FoliaChronicleB {"type":"string","value":"Server closed"}
+2026-11-19T13:54:38.907Z CLIENT_ENDED FoliaChronicleA socketClosed
+2026-11-19T13:54:38.911Z CLIENT_ENDED FoliaChronicleB socketClosed
+2026-11-19T13:57:00.240Z CLIENT_SPAWNED FoliaChronicleA uuid=07b222c3-bed9-3529-8b88-e0b480b3efbd
+2026-11-19T13:57:00.262Z CLIENT_SPAWNED FoliaChronicleB uuid=fde650b7-4609-3a61-84e4-e23e2fe8f4f4
+2026-11-19T13:58:12.460Z CLIENT_KICKED FoliaChronicleB {"type":"string","value":"Server closed"}
+2026-11-19T13:58:12.461Z CLIENT_KICKED FoliaChronicleA {"type":"string","value":"Server closed"}
+2026-11-19T13:58:12.463Z CLIENT_ENDED FoliaChronicleB socketClosed
+2026-11-19T13:58:12.467Z CLIENT_ENDED FoliaChronicleA socketClosed

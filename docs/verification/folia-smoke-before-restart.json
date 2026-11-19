@@ -1,0 +1,25 @@
+{
+  "plugin_sha256": "5e227d20c46eeb91dd98d9d33e6f55cd66fbfc4fd7ecd7391f57eb9643f0d86e",
+  "events": [
+    [
+      "folia-smoke:committed-event-1",
+      "FOLIA_SMOKE_EVENT",
+      "2026-11-19T00:00:00.000000000Z",
+      "a2b4c576ecb1508f9de66d19003e0881f9c8cda0d7a360d0f14f9166dea43982",
+      "{\"id\":\"folia-smoke:committed-event-1\",\"type\":\"FOLIA_SMOKE_EVENT\",\"occurredAt\":\"2026-11-19T00:00:00Z\",\"participants\":[\"fde650b7-4609-3a61-84e4-e23e2fe8f4f4\",\"07b222c3-bed9-3529-8b88-e0b480b3efbd\"],\"nations\":[],\"facts\":{\"fixture\":\"loopback protocol clients\"},\"source\":\"FoliaSmokeFixture\",\"evidence\":\"Console test fixture observed two actual connected protocol clients; fixed event ID/time for restart replay.\"}"
+    ]
+  ],
+  "instances": [
+    [
+      "50df99f9b1d5e79ac8ae49cb4df80fbb764fc8c093ed12d44e2788063ad1c10a",
+      "folia-smoke",
+      "world",
+      0,
+      "2026-11-19T13:53:48.034359200Z",
+      "{\"id\":\"50df99f9b1d5e79ac8ae49cb4df80fbb764fc8c093ed12d44e2788063ad1c10a\",\"definition\":{\"id\":\"folia-smoke\",\"version\":\"1\",\"title\":\"Real Folia restart fixture\",\"scope\":\"WORLD\",\"triggers\":[\"FOLIA_SMOKE_EVENT\"],\"condition\":null,\"start\":\"vote\",\"cooldownSeconds\":0,\"nodes\":{\"end\":{\"text\":\"Recovered and completed on the real region-threaded server.\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"record\",\"type\":\"history\",\"target\":\"FOLIA_SMOKE_COMPLETED\",\"value\":\"Two connected test clients completed a restarted shared storyline.\",\"permission\":null},{\"id\":\"title\",\"type\":\"title\",\"target\":\"folia-smoke-witness\",\"value\":\"Folia smoke witness\",\"permission\":null}],\"terminal\":true},\"vote\":{\"text\":\"Two real connected protocol clients vote across a server restart.\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"remember\":{\"label\":\"Preserve this history\",\"next\":\"end\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false}}},\"scopeKey\":\"world\",\"sourceEventId\":\"folia-smoke:committed-event-1\",\"node\":\"vote\",\"members\":{\"fde650b7-4609-3a61-84e4-e23e2fe8f4f4\":\"\",\"07b222c3-bed9-3529-8b88-e0b480b3efbd\":\"\"},\"votes\":{\"07b222c3-bed9-3529-8b88-e0b480b3efbd\":\"remember\"},\"choices\":{\"vote/07b222c3-bed9-3529-8b88-e0b480b3efbd\":\"remember\"},\"startedAt\":\"2026-11-19T13:53:36.408229300Z\",\"updatedAt\":\"2026-11-19T13:53:48.034359200Z\",\"completed\":false}"
+    ]
+  ],
+  "outcomes": [],
+  "facts": [],
+  "integrity": "ok"
+}

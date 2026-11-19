@@ -1,0 +1,28 @@
+{
+  "checks": {
+    "same_artifact": true,
+    "first_boot_loaded_stories": true,
+    "restart_loaded_stories": true,
+    "real_nation_service_created_fixture": true,
+    "restart_reused_persisted_nation": true,
+    "one_founded_event_each_boot": true,
+    "event_id_time_payload_hash_unchanged": true,
+    "database_integrity_ok": true,
+    "status_reports_real_starcore": true,
+    "validate_passed": true,
+    "reload_passed": true,
+    "normal_disable_and_world_save": true,
+    "no_chronicle_source_collision": true,
+    "no_chronicle_error_or_warning": true
+  },
+  "plugin_sha256": "5e227d20c46eeb91dd98d9d33e6f55cd66fbfc4fd7ecd7391f57eb9643f0d86e",
+  "event": [
+    "starcore:nation-founded:b035ce79-1303-43d2-a79b-844001e55cda",
+    "NATION_FOUNDED",
+    "2026-11-19T13:25:56.690000000Z",
+    "56a340df48e201e8fdf20390314942f72d2772b87a3511e5b58c90c89769a2cf"
+  ],
+  "first_process_exit_code": 0,
+  "restart_process_exit_code": 0,
+  "scope": "headless Paper/StarCore boot, real authority-service nation creation, scanner ingestion, command validation/reload, stable persistence replay, normal stop; no live player/client GUI or Folia runtime coverage"
+}

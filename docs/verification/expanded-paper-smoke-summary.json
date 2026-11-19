@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "run_name": "expanded-paper-release-smoke",
+  "plugin_sha256": "abaadf4c4dd318d518687bafe2596f43e32c9f9a115b4074deeae9f37abc22df",
+  "process_exit_codes": [
+    0,
+    0
+  ],
+  "client_process_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "checks": {
+    "all_stages_use_identical_final_jar": true,
+    "both_server_processes_exit_normally": true,
+    "all_three_client_processes_exit_normally": true,
+    "actual_non_operator_clients_and_authoritative_nations": true,
+    "native_distinct_branches_checkpointed_before_quit": true,
+    "concurrent_scene_refresh_and_poll_do_not_reject_legal_gui_clicks": true,
+    "normal_reconnect_preserves_native_node_and_owned_state": true,
+    "native_gui_actually_advanced_after_reconnect": true,
+    "pending_offline_world_source_was_durable": true,
+    "restart_offline_preserves_source_and_native_checkpoints": true,
+    "both_logins_recover_one_shared_instance_from_original_source": true,
+    "server_restart_recovers_actual_native_departure": true,
+    "restored_native_sessions_actually_complete_without_unknown": true,
+    "native_start_outcome_ids_do_not_replay_on_restart": true,
+    "historical_source_records_unchanged_across_restart": true,
+    "recovered_shared_instance_completes_with_two_real_members": true,
+    "main_two_player_campaign_and_local_outcomes_commit_once": true,
+    "npc_personal_and_global_feedback_persists": true,
+    "permission_denial_creates_no_authority_delivery": true,
+    "actual_native_invitation_commits_one_done_receipt": true,
+    "native_invitation_same_outcome_returns_retained_applied": true,
+    "real_technology_and_disband_are_observed_with_honest_provenance": true,
+    "observation_journal_is_acknowledged": true,
+    "protocol_contains_native_npc_fate_history_and_evidence_gui": true,
+    "all_readonly_integrity_checks_pass": true,
+    "no_unknown_or_running_native_scene_left": true,
+    "no_chronicle_source_collision_or_runtime_warning": true
+  },
+  "scope": "Real Paper + audited StarCore + two actual protocol clients; concurrent refresh/poll with legal GUI actions, normal reconnect and server restart of native checkpoints, offline shared trigger recovery, GUI, actual national invitation and observation authorities"
+}

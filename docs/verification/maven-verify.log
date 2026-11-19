@@ -1,0 +1,162 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] -----------------< io.github.addxiaoyi:starchronicle >------------------
+[INFO] Building StarChronicle 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- clean:3.2.0:clean (default-clean) @ starchronicle ---
+[INFO] Deleting C:\Users\Administrator\Documents\StarChronicle\target
+[INFO]
+[INFO] --- jacoco:0.8.13:prepare-agent (default) @ starchronicle ---
+[INFO] argLine set to -javaagent:C:\\Users\\Administrator\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.13\\org.jacoco.agent-0.8.13-runtime.jar=destfile=C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\jacoco.exec
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ starchronicle ---
+[INFO] Copying 18 resources from src\main\resources to target\classes
+[INFO] Copying 3 resources from  to target\classes\META-INF\starchronicle
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ starchronicle ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 43 source files with javac [debug release 21] to target\classes
+[INFO] ��������·���з�����һ�����������������������
+  ��ע������δ�����а�� javac ���ܻ������ע������
+  �������ٰ�����ָ����һ���������� (-processor)��
+  ��ָ��������·�� (--processor-path, --processor-module-path)��
+  ����ʽ��������ע���� (-proc:only, -proc:full)��
+  ��ʹ�� -Xlint:-options ���ش���Ϣ��
+  ��ʹ�� -proc:none ������ע������
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ starchronicle ---
+[INFO] skip non existing resourceDirectory C:\Users\Administrator\Documents\StarChronicle\src\test\resources
+[INFO]
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ starchronicle ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 32 source files with javac [debug release 21] to target\test-classes
+[INFO] ��������·���з�����һ�����������������������
+  ��ע������δ�����а�� javac ���ܻ������ע������
+  �������ٰ�����ָ����һ���������� (-processor)��
+  ��ָ��������·�� (--processor-path, --processor-module-path)��
+  ����ʽ��������ע���� (-proc:only, -proc:full)��
+  ��ʹ�� -Xlint:-options ���ش���Ϣ��
+  ��ʹ�� -proc:none ������ע������
+[INFO]
+[INFO] --- surefire:3.5.2:test (default-test) @ starchronicle ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running io.github.addxiaoyi.starchronicle.config.ConditionLogicTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.096 s -- in io.github.addxiaoyi.starchronicle.config.ConditionLogicTest
+[INFO] Running io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.994 s -- in io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest
+[INFO] Running io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.345 s -- in io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.458 s -- in io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.FateStoriesTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.864 s -- in io.github.addxiaoyi.starchronicle.core.FateStoriesTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.InvocationGateTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in io.github.addxiaoyi.starchronicle.core.InvocationGateTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.NativeDispatchTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.071 s -- in io.github.addxiaoyi.starchronicle.core.NativeDispatchTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 s -- in io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.114 s -- in io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.RuleEngineTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.380 s -- in io.github.addxiaoyi.starchronicle.core.RuleEngineTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.567 s -- in io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.TextServiceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.070 s -- in io.github.addxiaoyi.starchronicle.core.TextServiceTest
+[INFO] Running io.github.addxiaoyi.starchronicle.history.ObservationJournalTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.847 s -- in io.github.addxiaoyi.starchronicle.history.ObservationJournalTest
+[INFO] Running io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Administrator\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.11\byte-buddy-agent-1.15.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.973 s -- in io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest
+[INFO] Running io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.209 s -- in io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest
+[INFO] Running io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.769 s -- in io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest
+[INFO] Running io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.119 s -- in io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest
+[INFO] Running io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest
+[INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest
+[INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.682 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest
+[INFO] Running io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest
+[INFO] Running io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.318 s -- in io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest
+[INFO] Running io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.269 s -- in io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest
+[INFO] Running io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.476 s -- in io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest
+[INFO] Running io.github.addxiaoyi.starchronicle.npc.NpcSystemTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.256 s -- in io.github.addxiaoyi.starchronicle.npc.NpcSystemTest
+[INFO] Running io.github.addxiaoyi.starchronicle.paper.MemorySitesTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.691 s -- in io.github.addxiaoyi.starchronicle.paper.MemorySitesTest
+[INFO] Running io.github.addxiaoyi.starchronicle.paper.MenusTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.883 s -- in io.github.addxiaoyi.starchronicle.paper.MenusTest
+[INFO] Running io.github.addxiaoyi.starchronicle.paper.RegionTasksTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.101 s -- in io.github.addxiaoyi.starchronicle.paper.RegionTasksTest
+[INFO] Running io.github.addxiaoyi.starchronicle.paper.StateWorkerTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in io.github.addxiaoyi.starchronicle.paper.StateWorkerTest
+[INFO] Running io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.497 s -- in io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest
+[INFO] Running io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.225 s -- in io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 325, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- jar:3.4.2:jar (default-jar) @ starchronicle ---
+[INFO] Building jar: C:\Users\Administrator\Documents\StarChronicle\target\starchronicle-0.1.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- source:3.3.1:jar-no-fork (sources) @ starchronicle ---
+[INFO] Building jar: C:\Users\Administrator\Documents\StarChronicle\target\starchronicle-0.1.0-SNAPSHOT-sources.jar
+[INFO]
+[INFO] --- shade:3.6.0:shade (default) @ starchronicle ---
+[INFO] Including org.yaml:snakeyaml:jar:2.2 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-databind:jar:2.18.3 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-annotations:jar:2.18.3 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-core:jar:2.18.3 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.18.3 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.18.3 in the shaded jar.
+[INFO] Including org.xerial:sqlite-jdbc:jar:3.49.1.0 in the shaded jar.
+[WARNING] jackson-annotations-2.18.3.jar, jackson-core-2.18.3.jar, jackson-databind-2.18.3.jar, jackson-dataformat-yaml-2.18.3.jar, jackson-datatype-jsr310-2.18.3.jar, snakeyaml-2.2.jar, sqlite-jdbc-3.49.1.0.jar, starchronicle-0.1.0-SNAPSHOT.jar define 1 overlapping resource:
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] jackson-annotations-2.18.3.jar, jackson-core-2.18.3.jar, jackson-databind-2.18.3.jar, jackson-dataformat-yaml-2.18.3.jar, jackson-datatype-jsr310-2.18.3.jar define 2 overlapping resources:
+[WARNING]   - META-INF/LICENSE
+[WARNING]   - META-INF/NOTICE
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing C:\Users\Administrator\Documents\StarChronicle\target\starchronicle-0.1.0-SNAPSHOT.jar with C:\Users\Administrator\Documents\StarChronicle\target\starchronicle-0.1.0-SNAPSHOT-shaded.jar
+[INFO]
+[INFO] --- jacoco:0.8.13:report (report) @ starchronicle ---
+[INFO] Loading execution data file C:\Users\Administrator\Documents\StarChronicle\target\jacoco.exec
+[INFO] Analyzed bundle 'StarChronicle' with 74 classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  46.752 s
+[INFO] Finished at: 2026-11-20T02:07:08+08:00
+[INFO] ------------------------------------------------------------------------
