@@ -1,0 +1,362 @@
+{
+  "recorded_utc": "2026-11-19T22:01:07.083442+00:00",
+  "scope": "Delivered Folia evidence; retained two-boot cooldown scenario is a separate nested directory, not part of current three-boot exit totals",
+  "files": {
+    "phase-three-folia-acceptance-preparation.json": {
+      "sha256": "184cfc6bc4cebdbed0642fbed9a7287f7d83cc9c953fa81d0078166936c4255e",
+      "bytes": 2614
+    },
+    "phase-three-folia-accepted-definition-rows.json": {
+      "sha256": "883c567aaffee2f3c9ca57e42a4cca10fa423e52d668999ff8308fa62f873f99",
+      "bytes": 54432
+    },
+    "phase-three-folia-after-b.json": {
+      "sha256": "a969d1169c809f5267de8decf80fc089cec37ec4ac4af5dd86371f520d40a735",
+      "bytes": 172693
+    },
+    "phase-three-folia-after-complete.json": {
+      "sha256": "34c8edda5d8f3b8a7ca50fa724ce717450714a3b441a3b718b7f2f2ec0b18a6c",
+      "bytes": 181467
+    },
+    "phase-three-folia-after-replay.json": {
+      "sha256": "58fb8f59c9ead0e78f18bd6e659328926c66f3298b031c147c45b1ce72ca9b85",
+      "bytes": 181465
+    },
+    "phase-three-folia-b-recovered.json": {
+      "sha256": "c73c9e1fa15e3ad967b9d5d5e237293b37117b636fd6c88cfa826017a16e307e",
+      "bytes": 155202
+    },
+    "phase-three-folia-boot1.log": {
+      "sha256": "ea20fa2f92e948b0585b67c9d007ed4c76eebb53396c3bb8606381abd142345e",
+      "bytes": 18179
+    },
+    "phase-three-folia-boot2.log": {
+      "sha256": "f2674e98fc6611de1c5e9187a381a8330ecd52a84c77924a8617245c655e4895",
+      "bytes": 16090
+    },
+    "phase-three-folia-boot3.log": {
+      "sha256": "a5c5b9ae459596f0c601e948b1d4d562d226ffd825c9a7e0f27359c2304612cf",
+      "bytes": 20186
+    },
+    "phase-three-folia-client-boot1.log": {
+      "sha256": "d471d3f7172d2147a00cd8b8608b35df918e0810c0499139a3af59417c9faaae",
+      "bytes": 10001
+    },
+    "phase-three-folia-client-boot2.log": {
+      "sha256": "84d53810bb9837e0644798804c4a2e59f3ef436358f8e71dd1066fef98c2b459",
+      "bytes": 35272
+    },
+    "phase-three-folia-client-boot3.log": {
+      "sha256": "795608d16385c83e0ce4271420b48f577c2f060d7f9e1a10afcca934bac2ddc3",
+      "bytes": 1407
+    },
+    "phase-three-folia-clients.log": {
+      "sha256": "e5c3bb116e154256972846eef9c7eab4fee4bf5f5b302ebb9571fe3e71fbfae8",
+      "bytes": 46579
+    },
+    "phase-three-folia-initial-44check-report.md": {
+      "sha256": "1815c18352e0c78caee7cd0d2effdc6abf2354eeb10543d4bd665e9b9d8c3aa3",
+      "bytes": 8166
+    },
+    "phase-three-folia-initial-44check-summary.json": {
+      "sha256": "0ed40ae687c547ca9d73b8c16c20efc5255f24a2c39f14bb4f304a6972715cf0",
+      "bytes": 5994
+    },
+    "phase-three-folia-migrated-offline.json": {
+      "sha256": "0bbf6a736e7e55ee7994230dc7550c6f27f3a9101b7a19eaaf63f601a632c87f",
+      "bytes": 148837
+    },
+    "phase-three-folia-offline-evaluated.json": {
+      "sha256": "8984e0ad260feb6c2157cdbbc13b405ba1311a7cb3b0ba02808661d855c3ad9f",
+      "bytes": 154082
+    },
+    "phase-three-folia-prior-attempt.json": {
+      "sha256": "b521cb59827a808049a794e1dbf1fc6a8fe2e97d365e8f0e5c5db00c14f6fa4c",
+      "bytes": 996
+    },
+    "phase-three-folia-processes.json": {
+      "sha256": "ae49f28af1dc623dd7e010661068c0118df48401b12e45bba3f940cfe80fee7a",
+      "bytes": 5582
+    },
+    "phase-three-folia-report.md": {
+      "sha256": "a8a61c72abbc19e0f99c29425c97360930bff4b09430671ca7bcdb65decab323",
+      "bytes": 9011
+    },
+    "phase-three-folia-restored.json": {
+      "sha256": "41e6accfa479bc013b604f4418a4cae39c31386f87590ab71fd0aa41e3eca80b",
+      "bytes": 181461
+    },
+    "phase-three-folia-source-baseline.json": {
+      "sha256": "8613838fe4971b0eb66452556327b6fbda6311e2bf09bf6be0fa8155f9418265",
+      "bytes": 92630
+    },
+    "phase-three-folia-summary.json": {
+      "sha256": "169f1a516b4c20c66fae100a5ef2fc22c6521ad69eb4f84cc0e9011a9b2d2064",
+      "bytes": 17712
+    },
+    "phase-three-folia-test-archive-review.yml": {
+      "sha256": "6fd2c2b02afbdf70c9b8d14fabbe19d94a4f30def686d91f71ad422d26e09d6e",
+      "bytes": 1645
+    },
+    "phase-three-folia-test-v2.yml": {
+      "sha256": "6e5cf0a6e5dd232d5201dd8a915a5976db92bf7497b36a77a7bae1dd92aa0319",
+      "bytes": 3341
+    },
+    "phase-three-folia-tool-build-phase-three-folia-fixture.py": {
+      "sha256": "4c8ac2833109353eda19a688e08e752197453174168736ec9b3f8068412bacda",
+      "bytes": 3478
+    },
+    "phase-three-folia-tool-inspect-phase-three-folia.py": {
+      "sha256": "538bc97f14f4e107145c8ababdaec89be0ffc672144cf1a2202cb434d2258656",
+      "bytes": 6938
+    },
+    "phase-three-folia-tool-phase-three-folia-clients.cjs": {
+      "sha256": "da0e42611a1030eb264f9be77fd1442d5f1d904bc253e2127dd3ac1f58bb6b60",
+      "bytes": 7684
+    },
+    "phase-three-folia-tool-PHASE-THREE-FOLIA-RUN.md": {
+      "sha256": "3f9a987cae3289290a81156b8b64d461851aa0ea63448a8d70226f6971f11eea",
+      "bytes": 11428
+    },
+    "phase-three-folia-tool-phase-three-folia-session.py": {
+      "sha256": "acaac98efb4b225b03624c219ba185ecee85e9d1c220502c8de273b53fe1d064",
+      "bytes": 12237
+    },
+    "phase-three-folia-tool-PhaseThreeFoliaFixture.java": {
+      "sha256": "e103900a44402cdde4cb8b51a2c1bac55df07ecbd71337ecaeb9916978bfe250",
+      "bytes": 7969
+    },
+    "phase-three-folia-tool-prepare-phase-three-folia.py": {
+      "sha256": "ca04805990aa052d65842e7cb119f87eae9c943d3e4696624de2c8905b2b2f18",
+      "bytes": 10791
+    },
+    "phase-three-folia-tool-provenance.json": {
+      "sha256": "debd4e303053e116b735f9486458214a38e82ee3f71c6bd9f1682ce2aedfc7f9",
+      "bytes": 11118
+    },
+    "phase-three-folia-tool-report-phase-three-folia.py": {
+      "sha256": "41eb3af416090ab83662a588f5f17bc0c9a3025bff4b5c044934d62c2d508d3c",
+      "bytes": 35464
+    },
+    "phase-three-folia-v2-recovered.json": {
+      "sha256": "9fae2ba4d01ec1c8bf515df6dcb2025ade8c451200248cd1fadb776d4849caad",
+      "bytes": 174204
+    },
+    "phase-three-folia-configuration/config.yml": {
+      "sha256": "23573cb9d6c274ea84e952fb8436b590f063b73b9170cefce494eb4be045309e",
+      "bytes": 150
+    },
+    "phase-three-folia-configuration/npcs.yml": {
+      "sha256": "694cdfc38a1e1ff16a92503b7435f7eea45d4dcb4816e7a3f27770ba195d097b",
+      "bytes": 6056
+    },
+    "phase-three-folia-configuration/paper-global.yml": {
+      "sha256": "cf907d7a3c70765562a28cc523a14981a0a8cb42923c7d0387415aa104209da8",
+      "bytes": 4576
+    },
+    "phase-three-folia-configuration/server.properties": {
+      "sha256": "6b10a4e514bec54b5d223160bb13e89bfbb69c7260ce45934ee8adf2849e2bc4",
+      "bytes": 1971
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-acceptance-preparation.json": {
+      "sha256": "e28d61ffd9ed4450a43f7f73275375bb4e2053e0daf95aabeda26b8b99c09bbd",
+      "bytes": 2611
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-after-b.json": {
+      "sha256": "d4588cd68751abe39663b9566c583e19621c3daf3d9c3ba32b37faf3550b7adc",
+      "bytes": 172702
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-b-recovered.json": {
+      "sha256": "f7dfcd451c83a302bc9531bb7eeb510aa89c810b24ac1e0915851316b650d1ef",
+      "bytes": 155201
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-boot1.log": {
+      "sha256": "f80e5e1532649d03a6776df6e3b5a4a02a236c9f52d19505ab3ab166636bf1b4",
+      "bytes": 14988
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-boot2.log": {
+      "sha256": "d795f948eb7c252b6b2b09f8297824bdf84effd2b963dbdaef79979496892807",
+      "bytes": 10992
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-client-boot1.log": {
+      "sha256": "7a26777e37cb15a1b669e83ebf2b2aadba61bae44120d171a28a66e45be2c7df",
+      "bytes": 9902
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-client-boot2.log": {
+      "sha256": "374a23961f0461ee7e6d53748a2b6661a2c05de125b1ce43a92197ac8371e837",
+      "bytes": 1407
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-clients.log": {
+      "sha256": "af23c1a9626ebfcd63b0988fb9bd4f79a38d738ffd5b98827a99362f4a851e14",
+      "bytes": 11263
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-cooldown-attempt.json": {
+      "sha256": "e24c614248c9d2e14f7f3a72c1807a1d14638b3ac5de110011b8de9eb3b2ac4d",
+      "bytes": 759
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-migrated-offline.json": {
+      "sha256": "82fcf029862d1d5a58e362bcec1ad26cac782cf7bfe310f0827c49a4ce8f79ad",
+      "bytes": 148836
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-offline-evaluated.json": {
+      "sha256": "c5e53ae473601f45b690ddb698d822a8a537120ac7857e6074145d9074787512",
+      "bytes": 154081
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-prior-attempt.json": {
+      "sha256": "b521cb59827a808049a794e1dbf1fc6a8fe2e97d365e8f0e5c5db00c14f6fa4c",
+      "bytes": 996
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-processes.json": {
+      "sha256": "85d52ec2cf64ec604ed4bd7560391e2f3ed3f9e5840f97a752db7b4722d5504d",
+      "bytes": 4199
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-setup-notes.json": {
+      "sha256": "25a97a2ec7a4ee0026224b86ae783de0754516314efb5e41e651bf08ed2a3fdd",
+      "bytes": 865
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-source-baseline.json": {
+      "sha256": "afda21bf277ba04487081b359ae3dc0573fff85cbaa364e32d137a4385725f53",
+      "bytes": 92630
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-test-v2.yml": {
+      "sha256": "22757d08e2c9726baf3c9325b1e4d0b82813bd82fc698637b2e2eff8ebd735d8",
+      "bytes": 3346
+    },
+    "phase-three-folia-cooldown-attempt/phase-three-folia-v2-recovered.json": {
+      "sha256": "a2792b8d080a62b07ae7b2bc38298182e01890b37abd0eb411d10901e38e4de9",
+      "bytes": 172707
+    },
+    "phase-three-folia-configuration/starcore-scenes/chronicle_last_heir.yml": {
+      "sha256": "8235107f6200baed9555638376827bb8af2e27c1cafd7fa26d811e796a57f161",
+      "bytes": 1653
+    },
+    "phase-three-folia-configuration/starcore-scenes/chronicle_siege_embers.yml": {
+      "sha256": "9cab7f873e890a70c3ea6161a86a6384491e06f861395267d11c4baa9e5be851",
+      "bytes": 1490
+    },
+    "phase-three-folia-configuration/starcore-scenes/chronicle_silk_road.yml": {
+      "sha256": "4bc21dc2bd8a1fe847bb1ae86dac58b84e30d396e6e0847d028a92ddb1eb07b0",
+      "bytes": 1483
+    },
+    "phase-three-folia-configuration/stories/fate-diplomat.yml": {
+      "sha256": "cdccb1ff306366f60f4bf33768e244f866aa20ef50175b9ca0acd5f7ea2f9bdc",
+      "bytes": 1797
+    },
+    "phase-three-folia-configuration/stories/fate-explorer.yml": {
+      "sha256": "9fc0c27a29261491e0b0c55a14c221a9b873bf5e0f5cd2eede763fa8daa1a099",
+      "bytes": 1827
+    },
+    "phase-three-folia-configuration/stories/fate-general.yml": {
+      "sha256": "f47e877905b62784aa0298e37893abf7ccb0a9849e2ac54593b470cb260c0a5d",
+      "bytes": 1779
+    },
+    "phase-three-folia-configuration/stories/fate-mayor.yml": {
+      "sha256": "a5080206e727597f539f68db08e8c980cb83ddf06c179c6390b3185d74499397",
+      "bytes": 1838
+    },
+    "phase-three-folia-configuration/stories/fate-merchant.yml": {
+      "sha256": "4a0a8667bc1596c7b7c015f6840497cc46ea242cc400dfa29431b21d07dc5e83",
+      "bytes": 1786
+    },
+    "phase-three-folia-configuration/stories/fate-monarch.yml": {
+      "sha256": "10aa1e265023d6411a21761e1aad619e38e9f6ec7e0d8a248364bc4fd526411f",
+      "bytes": 1852
+    },
+    "phase-three-folia-configuration/stories/fate-scholar.yml": {
+      "sha256": "9534cc3785ba64b21c552dd0ac9097a5e75a6681c7c9d74b907b313ca548c8a6",
+      "bytes": 1778
+    },
+    "phase-three-folia-configuration/stories/fate-soldier.yml": {
+      "sha256": "fc31becc543fa8795b174d263740841f754d232cdb23ced54a6e85882a072dd8",
+      "bytes": 1760
+    },
+    "phase-three-folia-configuration/stories/heir-legacy.yml": {
+      "sha256": "6e5cf0a6e5dd232d5201dd8a915a5976db92bf7497b36a77a7bae1dd92aa0319",
+      "bytes": 3341
+    },
+    "phase-three-folia-configuration/stories/last-heir.yml": {
+      "sha256": "a1135bd6a60ec53293026c8e0d7a91147820aa049315a21ad94b4a445fc086d6",
+      "bytes": 5454
+    },
+    "phase-three-folia-configuration/stories/phase-three-archive.yml": {
+      "sha256": "6fd2c2b02afbdf70c9b8d14fabbe19d94a4f30def686d91f71ad422d26e09d6e",
+      "bytes": 1645
+    },
+    "phase-three-folia-configuration/stories/siege-embers.yml": {
+      "sha256": "7c5442d73427cb19e901b00321d9b3ffdeb5ed5ffac64be75682cb2eca2acfe4",
+      "bytes": 3471
+    },
+    "phase-three-folia-configuration/stories/silk-road-scholar.yml": {
+      "sha256": "d9d01943917a868b308131d3f635dbf1ecd1aadfcad6ec7d9f1207267f160bdc",
+      "bytes": 4311
+    },
+    "phase-three-folia-cooldown-attempt/configuration/config.yml": {
+      "sha256": "23573cb9d6c274ea84e952fb8436b590f063b73b9170cefce494eb4be045309e",
+      "bytes": 150
+    },
+    "phase-three-folia-cooldown-attempt/configuration/npcs.yml": {
+      "sha256": "694cdfc38a1e1ff16a92503b7435f7eea45d4dcb4816e7a3f27770ba195d097b",
+      "bytes": 6056
+    },
+    "phase-three-folia-cooldown-attempt/configuration/paper-global.yml": {
+      "sha256": "cf907d7a3c70765562a28cc523a14981a0a8cb42923c7d0387415aa104209da8",
+      "bytes": 4576
+    },
+    "phase-three-folia-cooldown-attempt/configuration/server.properties": {
+      "sha256": "c2e3d26c01fddf05d75d391b03f987cc897daae4875037dc74811850bac74e58",
+      "bytes": 1971
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/fate-diplomat.yml": {
+      "sha256": "cdccb1ff306366f60f4bf33768e244f866aa20ef50175b9ca0acd5f7ea2f9bdc",
+      "bytes": 1797
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/fate-explorer.yml": {
+      "sha256": "9fc0c27a29261491e0b0c55a14c221a9b873bf5e0f5cd2eede763fa8daa1a099",
+      "bytes": 1827
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/fate-general.yml": {
+      "sha256": "f47e877905b62784aa0298e37893abf7ccb0a9849e2ac54593b470cb260c0a5d",
+      "bytes": 1779
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/fate-mayor.yml": {
+      "sha256": "a5080206e727597f539f68db08e8c980cb83ddf06c179c6390b3185d74499397",
+      "bytes": 1838
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/fate-merchant.yml": {
+      "sha256": "4a0a8667bc1596c7b7c015f6840497cc46ea242cc400dfa29431b21d07dc5e83",
+      "bytes": 1786
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/fate-monarch.yml": {
+      "sha256": "10aa1e265023d6411a21761e1aad619e38e9f6ec7e0d8a248364bc4fd526411f",
+      "bytes": 1852
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/fate-scholar.yml": {
+      "sha256": "9534cc3785ba64b21c552dd0ac9097a5e75a6681c7c9d74b907b313ca548c8a6",
+      "bytes": 1778
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/fate-soldier.yml": {
+      "sha256": "fc31becc543fa8795b174d263740841f754d232cdb23ced54a6e85882a072dd8",
+      "bytes": 1760
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/heir-legacy.yml": {
+      "sha256": "22757d08e2c9726baf3c9325b1e4d0b82813bd82fc698637b2e2eff8ebd735d8",
+      "bytes": 3346
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/last-heir.yml": {
+      "sha256": "a1135bd6a60ec53293026c8e0d7a91147820aa049315a21ad94b4a445fc086d6",
+      "bytes": 5454
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/phase-three-archive.yml": {
+      "sha256": "6fd2c2b02afbdf70c9b8d14fabbe19d94a4f30def686d91f71ad422d26e09d6e",
+      "bytes": 1645
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/siege-embers.yml": {
+      "sha256": "7c5442d73427cb19e901b00321d9b3ffdeb5ed5ffac64be75682cb2eca2acfe4",
+      "bytes": 3471
+    },
+    "phase-three-folia-cooldown-attempt/configuration/stories/silk-road-scholar.yml": {
+      "sha256": "d9d01943917a868b308131d3f635dbf1ecd1aadfcad6ec7d9f1207267f160bdc",
+      "bytes": 4311
+    }
+  }
+}

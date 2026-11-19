@@ -1,0 +1,85 @@
+id: silk-road-scholar
+version: "1"
+title: "丝路学者"
+scope: PLAYER
+triggers: [EXPLORATION_DISCOVERY, TECHNOLOGY_BREAKTHROUGH]
+condition:
+  all:
+    - any:
+        - {fact: player.role, op: eq, value: scholar}
+        - {fact: player.role, op: eq, value: explorer}
+        - {fact: player.role, op: eq, value: merchant}
+    - {fact: tech.stage, op: gte, value: "2"}
+start: discovery
+cooldownSeconds: 86400
+nodes:
+  discovery:
+    text: "探索或科技进步让旧商路档案再次受到关注。古驿站账本记载着贸易、技术传播和边境交往。你的身份将决定怎样整理这些线索；地点是否为新发现，应以触发事件的原始证据为准。"
+    choices:
+      research:
+        label: "学者：整理账本与古代度量衡"
+        condition: {fact: player.role, op: eq, value: scholar}
+        next: research
+      map:
+        label: "探险家：绘制驿道与水源地图"
+        condition: {fact: player.role, op: eq, value: explorer}
+        next: mapping
+      trade:
+        label: "商人：提出和平贸易路线"
+        condition:
+          all:
+            - {fact: player.role, op: eq, value: merchant}
+            - {fact: nation.war, op: eq, value: "false"}
+        next: commerce
+  research:
+    text: "你发现账本中的数字使用同一种古代度量衡。这是文明交流的线索，不能仅凭线索就宣称国家完成科技突破。"
+    choices:
+      share:
+        label: "向图书馆公开研究线索"
+        next: research-end
+      preserve:
+        label: "先保存原件，留待后续考证"
+        next: archive-end
+  mapping:
+    text: "荒废驿道仍连接着几处水源。你标记了可供后续探索的地点，并准备把地图存入公共档案。"
+    choices:
+      share:
+        label: "公开驿道调查记录"
+        next: map-end
+  commerce:
+    text: "当前国家没有处于战争状态。你拟定了一份贸易路线建议；正式贸易、外交或财政变更仍由原有权威系统执行。"
+    choices:
+      propose:
+        label: "提交贸易路线建议"
+        next: trade-end
+  research-end:
+    text: "图书馆收录了你的研究线索。后来者能够据此继续研究，文明的知识在一次次选择中积累。"
+    terminal: true
+    effects:
+      - {id: research-record, type: history, target: CARAVAN_RESEARCH_PUBLISHED, value: "一位学者公开了古驿站账本与度量衡的研究线索。"}
+      - {id: research-memory, type: memory, target: ancient-caravanserai.research, value: "published"}
+      - {id: research-honor, type: honor, target: player, value: "12"}
+      - {id: research-title, type: title, target: silk-road-scholar, value: "丝路学者"}
+  archive-end:
+    text: "你把易碎账本交给档案员保存。谨慎的考证同样能为未来留下入口。"
+    terminal: true
+    effects:
+      - {id: archive-record, type: history, target: CARAVAN_ARCHIVE_PRESERVED, value: "古驿站账本被妥善保存，等待后续考证。"}
+      - {id: archive-trust, type: reputation, target: caravan-archivist, value: "6"}
+      - {id: archive-honor, type: honor, target: player, value: "8"}
+  map-end:
+    text: "你的地图成为图书馆的一部分。探险家的脚步让尘封的商路重新进入共同记忆。"
+    terminal: true
+    effects:
+      - {id: map-record, type: history, target: CARAVAN_ROUTE_SURVEYED, value: "一位探险家调查并公开了古驿道与水源线索。"}
+      - {id: map-memory, type: memory, target: ancient-caravanserai.route, value: "surveyed"}
+      - {id: map-honor, type: honor, target: player, value: "12"}
+      - {id: map-title, type: title, target: old-road-pioneer, value: "旧道开拓者"}
+  trade-end:
+    text: "贸易路线建议被送到各国代表面前。是否开放商路，需要他们通过真正的外交与贸易服务作出决定。"
+    terminal: true
+    effects:
+      - {id: trade-record, type: history, target: CARAVAN_TRADE_PROPOSED, value: "一位商人依据古驿站发现提出了和平贸易路线。"}
+      - {id: trade-memory, type: memory, target: ancient-caravanserai.trade, value: "proposed"}
+      - {id: trade-honor, type: honor, target: player, value: "12"}
+      - {id: trade-title, type: title, target: trade-route-envoy, value: "商路联络人"}

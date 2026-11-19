@@ -1,0 +1,56 @@
+# TEST ONLY: a real new version, not a rewritten v1 archive.
+id: heir-legacy
+version: "2"
+title: "Phase Three Legacy v2"
+scope: PLAYER
+triggers: [PHASE_THREE_ARCHIVE_REVIEWED]
+cooldownSeconds: 604800
+condition:
+  all:
+    - {fact: past.player.choice.phase-three-archive/1/desk, op: exists}
+    - {fact: past.resolution.world.last-heir/1/preparations, op: exists}
+    - any:
+        - {fact: chronicle.history.player.HEIR_RESTORATION_SUPPORTED, op: gt, value: "0"}
+        - {fact: chronicle.history.player.HEIR_RESTORATION_REJECTED, op: gt, value: "0"}
+        - {fact: chronicle.history.player.IMPERIAL_HERITAGE_INITIATIVE, op: gt, value: "0"}
+start: archive
+nodes:
+  archive:
+    effects:
+      - {id: phase-three-entry-gate, type: memory, target: phase-three.v2-entry, value: authorized, permission: phase-three.v2.ready}
+    text: "旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同决议。投过败方票、没有投票和表示支持，是不同的经历。"
+    choices:
+      testimony:
+        label: "记录我在议会实际投出的主张"
+        condition: {fact: past.player.choice.last-heir/1/council, op: exists}
+        next: personal
+      witness:
+        label: "我未在该轮投票，以见证者身份留下说明"
+        condition:
+          not: {fact: past.player.choice.last-heir/1/council, op: exists}
+        next: witnessed
+      reconcile:
+        label: "对照公开决议与我亲历的结局记录"
+        condition: {fact: past.resolution.world.last-heir/1/council, op: exists}
+        next: reconciled
+  personal:
+    text: "你的个人投票已有原始记录。档案不会把胜出的共同决议覆盖到你的个人立场上，也不会因你后来转国而改写当时的投票。"
+    terminal: true
+    effects:
+      - {id: testimony-history, type: history, target: PHASE_THREE_V2_TESTIMONY, value: "参与者依据已保存的个人投票，补充了旧都议会口述档案。"}
+      - {id: testimony-title, type: title, target: imperial-testimony-keeper, value: "议会证言保存者"}
+      - {id: testimony-honor, type: honor, target: player, value: "2"}
+  witnessed:
+    text: "档案将你标记为没有在该轮投票的参与见证者。没有投票不等于默许，也不会被补写成支持任何一方。"
+    terminal: true
+    effects:
+      - {id: witness-history, type: history, target: PHASE_THREE_V2_WITNESS, value: "一位未在该轮投票的参与者留下了旧都议会见证说明。"}
+      - {id: witness-title, type: title, target: imperial-history-witness, value: "旧都议会见证者"}
+      - {id: witness-honor, type: honor, target: player, value: "2"}
+  reconciled:
+    text: "共同决议与参与者的个人选择分别保存。你核对了自己亲历的叙事结局与公开档案；这项核对不表示国家、战争或国库已经发生真实变更。"
+    terminal: true
+    effects:
+      - {id: archive-history, type: history, target: PHASE_THREE_V2_RECONCILED, value: "参与者核对了旧都议会共同决议及自己亲历的叙事结局。"}
+      - {id: archive-title, type: title, target: imperial-archive-reader, value: "旧都档案校读者"}
+      - {id: archive-honor, type: honor, target: player, value: "2"}

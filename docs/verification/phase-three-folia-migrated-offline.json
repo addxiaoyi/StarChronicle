@@ -1,0 +1,1003 @@
+{
+  "format_version": 1,
+  "stage": "migrated-offline",
+  "captured_utc": "2026-11-19T21:49:18.056288+00:00",
+  "captured_asia_shanghai": "2026-11-20T05:49:18.056288+08:00",
+  "scope": "StarChronicle standalone on real Folia; NOT StarCore full-stack certification",
+  "run_directory": "run/phase-three-folia-bfa80b9c-r2",
+  "run_path": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-folia-bfa80b9c-r2",
+  "database_open_mode": "ro; query_only=ON; consistent read transaction",
+  "excluded_columns": {
+    "story_triggers": [
+      "checked"
+    ]
+  },
+  "tool_source_sha256": "538bc97f14f4e107145c8ababdaec89be0ffc672144cf1a2202cb434d2258656",
+  "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+  "server_sha256": "f52c408490a0225611e67907a3ca19f7e6da2c6bc899e715d5f46844e7103c39",
+  "fixture_sha256": "aca6189be7af38b486ac8d527192bd312cf87314c90d5542e9c79be9cc2cb972",
+  "fixture_source_sha256": "e103900a44402cdde4cb8b51a2c1bac55df07ecbd71337ecaeb9916978bfe250",
+  "schema_version": 4,
+  "table_columns": {
+    "events": [
+      "id",
+      "type",
+      "time",
+      "hash",
+      "json"
+    ],
+    "event_players": [
+      "event_id",
+      "player"
+    ],
+    "event_nations": [
+      "event_id",
+      "nation"
+    ],
+    "instances": [
+      "id",
+      "story",
+      "scope",
+      "completed",
+      "updated",
+      "json"
+    ],
+    "outcomes": [
+      "id",
+      "status",
+      "json"
+    ],
+    "facts": [
+      "owner",
+      "key",
+      "value"
+    ],
+    "story_triggers": [
+      "id",
+      "trigger_key",
+      "event_id",
+      "scope",
+      "story_json"
+    ],
+    "story_trigger_receipts": [
+      "trigger_key",
+      "scope"
+    ],
+    "event_causes": [
+      "event_id",
+      "parent_id",
+      "root_id",
+      "depth",
+      "story_path"
+    ],
+    "story_choice_log": [
+      "seq",
+      "id",
+      "instance_id",
+      "source_event_id",
+      "story_id",
+      "story_version",
+      "node_id",
+      "kind",
+      "actor_key",
+      "player_id",
+      "nation_id",
+      "scope_key",
+      "revision",
+      "choice_id",
+      "chosen_at",
+      "committed_by",
+      "provenance"
+    ],
+    "story_trigger_blocks": [
+      "id",
+      "event_id",
+      "story",
+      "version",
+      "reason"
+    ],
+    "memory_sites": [
+      "id",
+      "event_id",
+      "json"
+    ],
+    "native_scene_journal": [
+      "id",
+      "player",
+      "status",
+      "revision",
+      "json"
+    ],
+    "story_definitions": [
+      "story",
+      "version",
+      "fingerprint",
+      "json",
+      "provenance",
+      "first_seen"
+    ]
+  },
+  "events": [
+    {
+      "id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "type": "HEIR_RESTORATION_SUPPORTED",
+      "time": "2026-11-19T19:46:42.166776000Z",
+      "hash": "ebacb3609197ec08b8bfdd1c2f36aae41b644d0403c33ce4f5b6a6acb91d102c",
+      "json": "{\"id\":\"chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492\",\"type\":\"HEIR_RESTORATION_SUPPORTED\",\"occurredAt\":\"2026-11-19T19:46:42.166776Z\",\"participants\":[\"501fd117-4620-35f4-882b-6d7044ea83a5\",\"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\"],\"nations\":[],\"facts\":{\"outcome\":\"各国参与者共同支持古帝国继承人的复国倡议。\",\"story\":\"last-heir\"},\"source\":\"StarChronicle\",\"evidence\":\"instance=c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd; action=node/restored; effect=restoration-record; source=phase-two-folia:heir-discovery-1\"}"
+    },
+    {
+      "id": "chronicle:8877782868cdd54743654d2c2ff338827424bee4ff52446484237b49fb5f6ecb",
+      "type": "HEIR_PERSONAL_TESTIMONY",
+      "time": "2026-11-19T19:49:31.336974700Z",
+      "hash": "a97fb2fc6b8c4c70d3b6ceb4d0596d9707466a1a8ec8f3d9d57bfa5bfb0e2049",
+      "json": "{\"id\":\"chronicle:8877782868cdd54743654d2c2ff338827424bee4ff52446484237b49fb5f6ecb\",\"type\":\"HEIR_PERSONAL_TESTIMONY\",\"occurredAt\":\"2026-11-19T19:49:31.336974700Z\",\"participants\":[\"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\"],\"nations\":[],\"facts\":{\"outcome\":\"参与者依据已保存的个人投票，补充了旧都议会口述档案。\",\"story\":\"heir-legacy\"},\"source\":\"StarChronicle\",\"evidence\":\"instance=7c659931af6fc64bd7ca129e475aa1269d89684fea01fe76d73af36d082bed13; action=node/personal; effect=testimony-history; source=chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492\"}"
+    },
+    {
+      "id": "chronicle:93613fbf3cb1299388d9404cfd0088ae64ea6b0e40f042f581566b6559bafe60",
+      "type": "HEIR_RECORDS_RECONCILED",
+      "time": "2026-11-19T19:49:31.313225100Z",
+      "hash": "9d64ed0cf36793ad4fba0d59e88afb67b6c5527a9d9e44f19a04ededd98e98a0",
+      "json": "{\"id\":\"chronicle:93613fbf3cb1299388d9404cfd0088ae64ea6b0e40f042f581566b6559bafe60\",\"type\":\"HEIR_RECORDS_RECONCILED\",\"occurredAt\":\"2026-11-19T19:49:31.313225100Z\",\"participants\":[\"501fd117-4620-35f4-882b-6d7044ea83a5\"],\"nations\":[],\"facts\":{\"outcome\":\"参与者核对了旧都议会共同决议及自己亲历的叙事结局。\",\"story\":\"heir-legacy\"},\"source\":\"StarChronicle\",\"evidence\":\"instance=c678f80a539ae523b2695ff963a53344cbcbb9b4eacf146e32dc22bf08b6b38d; action=node/reconciled; effect=archive-history; source=chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492\"}"
+    },
+    {
+      "id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "type": "PLAYER_JOIN",
+      "time": "2026-11-19T19:44:09.451950000Z",
+      "hash": "7af6b59e95d066be0c5a85462a480be69d55e98329c4f2a52d36ae3d5ffa16ee",
+      "json": "{\"id\":\"chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19\",\"type\":\"PLAYER_JOIN\",\"occurredAt\":\"2026-11-19T19:44:09.451950Z\",\"participants\":[\"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\"],\"nations\":[],\"facts\":{\"day\":\"2026-11-19\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.PlayerJoinEvent\",\"evidence\":\"First observed player arrival for UTC day=2026-11-19; player=1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\"}"
+    },
+    {
+      "id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "type": "PLAYER_JOIN",
+      "time": "2026-11-19T19:44:09.406903800Z",
+      "hash": "f47d550cfd8f4339bf2acbc77ebc7d3b92e18fe47b03329dddce7e2f4aa82e0a",
+      "json": "{\"id\":\"chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19\",\"type\":\"PLAYER_JOIN\",\"occurredAt\":\"2026-11-19T19:44:09.406903800Z\",\"participants\":[\"501fd117-4620-35f4-882b-6d7044ea83a5\"],\"nations\":[],\"facts\":{\"day\":\"2026-11-19\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.PlayerJoinEvent\",\"evidence\":\"First observed player arrival for UTC day=2026-11-19; player=501fd117-4620-35f4-882b-6d7044ea83a5\"}"
+    },
+    {
+      "id": "chronicle:c1ea37ca12845b86bf817ecf136a6be44047a5471be94cc5eb2e580c17cba3aa",
+      "type": "HEIR_COUNCIL_OPENED",
+      "time": "2026-11-19T19:46:05.817828300Z",
+      "hash": "32ce0dca1f2e2d2512794c6181f80aea32e146022ca48ef920b5c04dc9efc08c",
+      "json": "{\"id\":\"chronicle:c1ea37ca12845b86bf817ecf136a6be44047a5471be94cc5eb2e580c17cba3aa\",\"type\":\"HEIR_COUNCIL_OPENED\",\"occurredAt\":\"2026-11-19T19:46:05.817828300Z\",\"participants\":[\"501fd117-4620-35f4-882b-6d7044ea83a5\",\"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\"],\"nations\":[],\"facts\":{\"outcome\":\"各国代表决定公开审议古帝国的继承主张。\",\"story\":\"last-heir\"},\"source\":\"StarChronicle\",\"evidence\":\"instance=c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd; action=choice/summons/convene; effect=council-record; source=phase-two-folia:heir-discovery-1\"}"
+    },
+    {
+      "id": "npc:6babc6a9-3a9e-41f2-a06c-2e97fa4eaff1",
+      "type": "NPC_INTERACT",
+      "time": "2026-11-19T19:45:44.286201700Z",
+      "hash": "619d06ac0e79b2dfc7ff638a788658a983ecd416d90faac4c0f06f497931760d",
+      "json": "{\"id\":\"npc:6babc6a9-3a9e-41f2-a06c-2e97fa4eaff1\",\"type\":\"NPC_INTERACT\",\"occurredAt\":\"2026-11-19T19:45:44.286201700Z\",\"participants\":[\"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\"],\"nations\":[],\"facts\":{\"npc.binding\":\"ancient-heir\",\"npc.id\":\"ancient-heir\"},\"source\":\"NPC_BRIDGE\",\"evidence\":\"Observed uncancelled interaction; player=1d93f8d9-73dd-379e-ad87-fa6b7b92a55b; npc=ancient-heir; binding=ancient-heir\"}"
+    },
+    {
+      "id": "phase-two-folia:heir-discovery-1",
+      "type": "ANCIENT_HEIR_DISCOVERED",
+      "time": "2026-11-19T19:44:30.430000000Z",
+      "hash": "fc176bc7f2f574a2baf68eb43e98dcb4f1353eb803177d0ce71857135e36ec2f",
+      "json": "{\"id\":\"phase-two-folia:heir-discovery-1\",\"type\":\"ANCIENT_HEIR_DISCOVERED\",\"occurredAt\":\"2026-11-19T19:44:30.430Z\",\"participants\":[\"501fd117-4620-35f4-882b-6d7044ea83a5\",\"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\"],\"nations\":[],\"facts\":{\"fixture\":\"phase-two actual loopback clients\",\"test-only\":\"true\"},\"source\":\"PhaseTwoFoliaFixture\",\"evidence\":\"Explicit test-only discovery proposed by an acceptance fixture after observing exactly two real protocol clients. The service collects their fresh contexts. No actual empire, nation, role, war or authority mutation is asserted. The original event time and payload are preserved for replay.\"}"
+    }
+  ],
+  "event_players": [
+    {
+      "event_id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "player": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b"
+    },
+    {
+      "event_id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "player": "501fd117-4620-35f4-882b-6d7044ea83a5"
+    },
+    {
+      "event_id": "chronicle:8877782868cdd54743654d2c2ff338827424bee4ff52446484237b49fb5f6ecb",
+      "player": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b"
+    },
+    {
+      "event_id": "chronicle:93613fbf3cb1299388d9404cfd0088ae64ea6b0e40f042f581566b6559bafe60",
+      "player": "501fd117-4620-35f4-882b-6d7044ea83a5"
+    },
+    {
+      "event_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "player": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b"
+    },
+    {
+      "event_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "player": "501fd117-4620-35f4-882b-6d7044ea83a5"
+    },
+    {
+      "event_id": "chronicle:c1ea37ca12845b86bf817ecf136a6be44047a5471be94cc5eb2e580c17cba3aa",
+      "player": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b"
+    },
+    {
+      "event_id": "chronicle:c1ea37ca12845b86bf817ecf136a6be44047a5471be94cc5eb2e580c17cba3aa",
+      "player": "501fd117-4620-35f4-882b-6d7044ea83a5"
+    },
+    {
+      "event_id": "npc:6babc6a9-3a9e-41f2-a06c-2e97fa4eaff1",
+      "player": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b"
+    },
+    {
+      "event_id": "phase-two-folia:heir-discovery-1",
+      "player": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b"
+    },
+    {
+      "event_id": "phase-two-folia:heir-discovery-1",
+      "player": "501fd117-4620-35f4-882b-6d7044ea83a5"
+    }
+  ],
+  "event_nations": [],
+  "instances": [
+    {
+      "id": "7c659931af6fc64bd7ca129e475aa1269d89684fea01fe76d73af36d082bed13",
+      "story": "heir-legacy",
+      "scope": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "completed": 1,
+      "updated": "2026-11-19T19:49:31.335966900Z",
+      "json": "{\"id\":\"7c659931af6fc64bd7ca129e475aa1269d89684fea01fe76d73af36d082bed13\",\"definition\":{\"id\":\"heir-legacy\",\"version\":\"1\",\"title\":\"旧都档案：每个人的那一票\",\"scope\":\"PLAYER\",\"triggers\":[\"HEIR_RESTORATION_SUPPORTED\",\"HEIR_RESTORATION_REJECTED\",\"IMPERIAL_HERITAGE_INITIATIVE\"],\"condition\":{\"all\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.resolution.world.last-heir/1/preparations\",\"op\":\"exists\",\"value\":null},{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.HEIR_RESTORATION_SUPPORTED\",\"op\":\"gt\",\"value\":\"0\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.HEIR_RESTORATION_REJECTED\",\"op\":\"gt\",\"value\":\"0\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.IMPERIAL_HERITAGE_INITIATIVE\",\"op\":\"gt\",\"value\":\"0\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null}],\"any\":null,\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"start\":\"archive\",\"cooldownSeconds\":604800,\"nodes\":{\"archive\":{\"text\":\"旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同决议。投过败方票、没有投票和表示支持，是不同的经历。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"reconcile\":{\"label\":\"对照公开决议与我亲历的结局记录\",\"next\":\"reconciled\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.resolution.world.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"permission\":null,\"effects\":[]},\"testimony\":{\"label\":\"记录我在议会实际投出的主张\",\"next\":\"personal\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"permission\":null,\"effects\":[]},\"witness\":{\"label\":\"我未在该轮投票，以见证者身份留下说明\",\"next\":\"witnessed\",\"condition\":{\"all\":null,\"any\":null,\"not\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"personal\":{\"text\":\"你的个人投票已有原始记录。档案不会把胜出的共同决议覆盖到你的个人立场上，也不会因你后来转国而改写当时的投票。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"testimony-history\",\"type\":\"history\",\"target\":\"HEIR_PERSONAL_TESTIMONY\",\"value\":\"参与者依据已保存的个人投票，补充了旧都议会口述档案。\",\"permission\":null},{\"id\":\"testimony-title\",\"type\":\"title\",\"target\":\"imperial-testimony-keeper\",\"value\":\"议会证言保存者\",\"permission\":null},{\"id\":\"testimony-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true},\"reconciled\":{\"text\":\"共同决议与参与者的个人选择分别保存。你核对了自己亲历的叙事结局与公开档案；这项核对不表示国家、战争或国库已经发生真实变更。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"archive-history\",\"type\":\"history\",\"target\":\"HEIR_RECORDS_RECONCILED\",\"value\":\"参与者核对了旧都议会共同决议及自己亲历的叙事结局。\",\"permission\":null},{\"id\":\"archive-title\",\"type\":\"title\",\"target\":\"imperial-archive-reader\",\"value\":\"旧都档案校读者\",\"permission\":null},{\"id\":\"archive-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true},\"witnessed\":{\"text\":\"档案将你标记为没有在该轮投票的参与见证者。没有投票不等于默许，也不会被补写成支持任何一方。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"witness-history\",\"type\":\"history\",\"target\":\"HEIR_WITNESS_ACCOUNT\",\"value\":\"一位未在该轮投票的参与者留下了旧都议会见证说明。\",\"permission\":null},{\"id\":\"witness-title\",\"type\":\"title\",\"target\":\"imperial-history-witness\",\"value\":\"旧都议会见证者\",\"permission\":null},{\"id\":\"witness-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true}}},\"scopeKey\":\"player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\",\"sourceEventId\":\"chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492\",\"node\":\"personal\",\"members\":{\"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\":\"\"},\"votes\":{},\"choices\":{\"archive\":\"testimony\",\"archive/1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\":\"testimony\"},\"startedAt\":\"2026-11-19T19:48:26.479945600Z\",\"updatedAt\":\"2026-11-19T19:49:31.335966900Z\",\"completed\":true}"
+    },
+    {
+      "id": "c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "story": "last-heir",
+      "scope": "world",
+      "completed": 1,
+      "updated": "2026-11-19T19:46:42.165738900Z",
+      "json": "{\"id\":\"c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd\",\"definition\":{\"id\":\"last-heir\",\"version\":\"1\",\"title\":\"帝国最后的继承人\",\"scope\":\"WORLD\",\"triggers\":[\"ANCIENT_HEIR_DISCOVERED\",\"NATIONS_MERGED\",\"WORLD_EVENT\"],\"condition\":null,\"start\":\"summons\",\"cooldownSeconds\":604800,\"nodes\":{\"council\":{\"text\":\"伊蕾娅请求各国表态。支持、反对、救济、考古和谈判都是有效的历史选择；每个选项需要两位不同参与者共同确认。先达到人数的主张成为本轮共同路线。国家的正式承诺仍须其权威服务批准，本次投票只形成剧情立场。\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"aid\":{\"label\":\"组织救济：提出资源援助方案\",\"next\":\"preparations\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"relief-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.relief\",\"value\":\"proposed\",\"permission\":null},{\"id\":\"relief-record\",\"type\":\"history\",\"target\":\"IMPERIAL_RELIEF_PROPOSED\",\"value\":\"各国代表提出旧都救济方案；本记录不表示国库已经扣款。\",\"permission\":null}]},\"diplomacy\":{\"label\":\"外交谈判：草拟共存条约\",\"next\":\"preparations\",\"condition\":{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"diplomat\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"monarch\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[{\"id\":\"treaty-draft\",\"type\":\"memory\",\"target\":\"old-imperial-capital.treaty\",\"value\":\"drafted\",\"permission\":null}]},\"oppose\":{\"label\":\"反对复国：要求保障现有国家主权\",\"next\":\"preparations\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"oppose-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.heir-position\",\"value\":\"opposed\",\"permission\":null},{\"id\":\"oppose-record\",\"type\":\"history\",\"target\":\"RESTORATION_OPPOSED\",\"value\":\"议会要求继承人尊重现有国家主权。\",\"permission\":null}]},\"ruins\":{\"label\":\"派遣学者：勘查古代遗迹\",\"next\":\"preparations\",\"condition\":{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"scholar\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"explorer\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[{\"id\":\"ruins-memory\",\"type\":\"memory\",\"target\":\"imperial-ruins.expedition\",\"value\":\"proposed\",\"permission\":null}]},\"support\":{\"label\":\"支持继承人：先保护旧都居民\",\"next\":\"preparations\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"support-pledge\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"10\",\"permission\":null},{\"id\":\"support-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.heir-position\",\"value\":\"supported\",\"permission\":null}]}},\"effects\":[],\"terminal\":false},\"heritage\":{\"text\":\"议会提出共同保护旧都遗址。图书馆开始编纂这次会议的记录，后续考古与和平谈判可引用这份世界记忆。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"heritage-record\",\"type\":\"history\",\"target\":\"IMPERIAL_HERITAGE_INITIATIVE\",\"value\":\"各国参与者共同提出保护旧都历史遗产的倡议。\",\"permission\":null},{\"id\":\"heritage-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.legacy\",\"value\":\"shared-heritage\",\"permission\":null},{\"id\":\"heritage-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"15\",\"permission\":null},{\"id\":\"heritage-title\",\"type\":\"title\",\"target\":\"shared-history-founder\",\"value\":\"共同历史的缔造者\",\"permission\":null}],\"terminal\":true},\"preparations\":{\"text\":\"议会的第一项共识已经写入档案。旧都守军仍在等待最终决定。你们可以支持继承人重建政治共同体、拒绝复国，或主张以共同守护遗址结束争端。最后战役由现有 StarCore 剧情和任务脚本接管；此默认样例不虚构战役完成或修改外交。\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"compromise\":{\"label\":\"达成妥协：成立共同遗产倡议\",\"next\":\"heritage\",\"condition\":null,\"permission\":null,\"effects\":[]},\"restoration\":{\"label\":\"支持重建：留下复国倡议\",\"next\":\"restored\",\"condition\":null,\"permission\":null,\"effects\":[]},\"sovereignty\":{\"label\":\"拒绝复国：留下主权宣言\",\"next\":\"sovereign\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"restored\":{\"text\":\"复国倡议获得议会支持。真正的国家建立、战争与外交变动将在权威服务提交后另行载入正史。伊蕾娅将铭记这次援手。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"restoration-record\",\"type\":\"history\",\"target\":\"HEIR_RESTORATION_SUPPORTED\",\"value\":\"各国参与者共同支持古帝国继承人的复国倡议。\",\"permission\":null},{\"id\":\"restoration-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.legacy\",\"value\":\"restoration-initiative\",\"permission\":null},{\"id\":\"restoration-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"15\",\"permission\":null},{\"id\":\"restoration-title\",\"type\":\"title\",\"target\":\"old-capital-guardian\",\"value\":\"旧都的守望者\",\"permission\":null}],\"terminal\":true},\"sovereign\":{\"text\":\"议会否决复国倡议，确认以现有国家的主权为谈判基础。旧都的历史仍向所有人开放。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"sovereignty-record\",\"type\":\"history\",\"target\":\"HEIR_RESTORATION_REJECTED\",\"value\":\"各国参与者共同否决复国倡议，并主张尊重现有国家主权。\",\"permission\":null},{\"id\":\"sovereignty-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.legacy\",\"value\":\"sovereignty-declaration\",\"permission\":null},{\"id\":\"sovereignty-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"15\",\"permission\":null},{\"id\":\"sovereignty-title\",\"type\":\"title\",\"target\":\"sovereignty-witness\",\"value\":\"主权见证者\",\"permission\":null}],\"terminal\":true},\"summons\":{\"text\":\"古代帝国的继承传说再次成为各国议题。自称继承人的伊蕾娅邀请代表前往旧都。请至少两位参与者共同决定是否召开议会。此为剧情提案，其真实性以来源证据和后续调查为准。\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"convene\":{\"label\":\"召集各国议会，公开继承证据\",\"next\":\"council\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"council-record\",\"type\":\"history\",\"target\":\"HEIR_COUNCIL_OPENED\",\"value\":\"各国代表决定公开审议古帝国的继承主张。\",\"permission\":null}]}},\"effects\":[],\"terminal\":false}}},\"scopeKey\":\"world\",\"sourceEventId\":\"phase-two-folia:heir-discovery-1\",\"node\":\"restored\",\"members\":{\"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\":\"\",\"501fd117-4620-35f4-882b-6d7044ea83a5\":\"\"},\"votes\":{},\"choices\":{\"council\":\"support\",\"council/1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\":\"support\",\"council/501fd117-4620-35f4-882b-6d7044ea83a5\":\"support\",\"preparations\":\"restoration\",\"preparations/1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\":\"restoration\",\"preparations/501fd117-4620-35f4-882b-6d7044ea83a5\":\"restoration\",\"summons\":\"convene\",\"summons/1d93f8d9-73dd-379e-ad87-fa6b7b92a55b\":\"convene\",\"summons/501fd117-4620-35f4-882b-6d7044ea83a5\":\"convene\"},\"startedAt\":\"2026-11-19T19:44:30.471576100Z\",\"updatedAt\":\"2026-11-19T19:46:42.165738900Z\",\"completed\":true}"
+    },
+    {
+      "id": "c678f80a539ae523b2695ff963a53344cbcbb9b4eacf146e32dc22bf08b6b38d",
+      "story": "heir-legacy",
+      "scope": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "completed": 1,
+      "updated": "2026-11-19T19:49:31.312216400Z",
+      "json": "{\"id\":\"c678f80a539ae523b2695ff963a53344cbcbb9b4eacf146e32dc22bf08b6b38d\",\"definition\":{\"id\":\"heir-legacy\",\"version\":\"1\",\"title\":\"旧都档案：每个人的那一票\",\"scope\":\"PLAYER\",\"triggers\":[\"HEIR_RESTORATION_SUPPORTED\",\"HEIR_RESTORATION_REJECTED\",\"IMPERIAL_HERITAGE_INITIATIVE\"],\"condition\":{\"all\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.resolution.world.last-heir/1/preparations\",\"op\":\"exists\",\"value\":null},{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.HEIR_RESTORATION_SUPPORTED\",\"op\":\"gt\",\"value\":\"0\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.HEIR_RESTORATION_REJECTED\",\"op\":\"gt\",\"value\":\"0\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.IMPERIAL_HERITAGE_INITIATIVE\",\"op\":\"gt\",\"value\":\"0\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null}],\"any\":null,\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"start\":\"archive\",\"cooldownSeconds\":604800,\"nodes\":{\"archive\":{\"text\":\"旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同决议。投过败方票、没有投票和表示支持，是不同的经历。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"reconcile\":{\"label\":\"对照公开决议与我亲历的结局记录\",\"next\":\"reconciled\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.resolution.world.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"permission\":null,\"effects\":[]},\"testimony\":{\"label\":\"记录我在议会实际投出的主张\",\"next\":\"personal\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"permission\":null,\"effects\":[]},\"witness\":{\"label\":\"我未在该轮投票，以见证者身份留下说明\",\"next\":\"witnessed\",\"condition\":{\"all\":null,\"any\":null,\"not\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"personal\":{\"text\":\"你的个人投票已有原始记录。档案不会把胜出的共同决议覆盖到你的个人立场上，也不会因你后来转国而改写当时的投票。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"testimony-history\",\"type\":\"history\",\"target\":\"HEIR_PERSONAL_TESTIMONY\",\"value\":\"参与者依据已保存的个人投票，补充了旧都议会口述档案。\",\"permission\":null},{\"id\":\"testimony-title\",\"type\":\"title\",\"target\":\"imperial-testimony-keeper\",\"value\":\"议会证言保存者\",\"permission\":null},{\"id\":\"testimony-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true},\"reconciled\":{\"text\":\"共同决议与参与者的个人选择分别保存。你核对了自己亲历的叙事结局与公开档案；这项核对不表示国家、战争或国库已经发生真实变更。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"archive-history\",\"type\":\"history\",\"target\":\"HEIR_RECORDS_RECONCILED\",\"value\":\"参与者核对了旧都议会共同决议及自己亲历的叙事结局。\",\"permission\":null},{\"id\":\"archive-title\",\"type\":\"title\",\"target\":\"imperial-archive-reader\",\"value\":\"旧都档案校读者\",\"permission\":null},{\"id\":\"archive-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true},\"witnessed\":{\"text\":\"档案将你标记为没有在该轮投票的参与见证者。没有投票不等于默许，也不会被补写成支持任何一方。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"witness-history\",\"type\":\"history\",\"target\":\"HEIR_WITNESS_ACCOUNT\",\"value\":\"一位未在该轮投票的参与者留下了旧都议会见证说明。\",\"permission\":null},{\"id\":\"witness-title\",\"type\":\"title\",\"target\":\"imperial-history-witness\",\"value\":\"旧都议会见证者\",\"permission\":null},{\"id\":\"witness-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true}}},\"scopeKey\":\"player:501fd117-4620-35f4-882b-6d7044ea83a5\",\"sourceEventId\":\"chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492\",\"node\":\"reconciled\",\"members\":{\"501fd117-4620-35f4-882b-6d7044ea83a5\":\"\"},\"votes\":{},\"choices\":{\"archive\":\"reconcile\",\"archive/501fd117-4620-35f4-882b-6d7044ea83a5\":\"reconcile\"},\"startedAt\":\"2026-11-19T19:48:26.330926400Z\",\"updatedAt\":\"2026-11-19T19:49:31.312216400Z\",\"completed\":true}"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "05f342e845b5ef821c2aecb86aa336a766e6e664a0668989755af08232b1b785",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "1fd8e736391680dc35f401c146e484f367d97c02c5464d890149dab8fc5000cd",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "35b9ad83d7fdc9d693e66a9c3e8a5d4f7ac82f1a19cf2df85878343a89f046b1",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "396c6a6a5e315cf5ef225c4367f09dd64e105de2ea59f00c1d819a30db38f848",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "49906e6ea305abc81360e0d1989a423e767b723a9572ef27063880e41bf9c0af",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "4e56d9a031d79b25436c33f0178fe61480f4a78cc57be1391ac3041917f5bab1",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "7b0359d6031a16cc50dcd4d7fd9c7ab899da165685ba40aed9647d632f5022ee",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "7cca6600e6a99256fdc4e817162292eb74180f345a225ea606812dc88ee43a56",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "8877782868cdd54743654d2c2ff338827424bee4ff52446484237b49fb5f6ecb",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "93613fbf3cb1299388d9404cfd0088ae64ea6b0e40f042f581566b6559bafe60",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "9905ce7e32bd5ad51c8f11385ff43f565ded3bcf5a177f4ef3c765975805fc1b",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "bd474548df5683e2a2b2aafceaec091b1fac60cf0acd95f3cbb0aa35ae28f61b",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "bf14e5076e1351fc84b24e00ffffbdee4a7825b3b930c1c42bff7e79a67f988c",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "c1ea37ca12845b86bf817ecf136a6be44047a5471be94cc5eb2e580c17cba3aa",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "f096d0da6836ac3cc8330648a49dbfc0e2b56621b30d8d7f8cc1c5bfba5d5c92",
+      "status": "DONE",
+      "json": "{}"
+    },
+    {
+      "id": "npc-reaction:141547ea398e1846c0e3b5abb872e284ce8805683f4830c89923952947ea98a5",
+      "status": "DONE",
+      "json": "{\"npc\":\"ancient-heir\",\"reaction\":\"restoration-pledge\",\"sourceEvent\":\"chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492\"}"
+    }
+  ],
+  "facts": [
+    {
+      "owner": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "key": "npc.ancient-heir.hostility",
+      "value": "0"
+    },
+    {
+      "owner": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "key": "npc.ancient-heir.reputation",
+      "value": "25"
+    },
+    {
+      "owner": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "key": "npc.ancient-heir.trust",
+      "value": "12"
+    },
+    {
+      "owner": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "key": "player.honor",
+      "value": "17"
+    },
+    {
+      "owner": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "key": "title.imperial-testimony-keeper",
+      "value": "议会证言保存者"
+    },
+    {
+      "owner": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "key": "title.old-capital-guardian",
+      "value": "旧都的守望者"
+    },
+    {
+      "owner": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "key": "npc.ancient-heir.hostility",
+      "value": "0"
+    },
+    {
+      "owner": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "key": "npc.ancient-heir.reputation",
+      "value": "25"
+    },
+    {
+      "owner": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "key": "npc.ancient-heir.trust",
+      "value": "12"
+    },
+    {
+      "owner": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "key": "player.honor",
+      "value": "17"
+    },
+    {
+      "owner": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "key": "title.imperial-archive-reader",
+      "value": "旧都档案校读者"
+    },
+    {
+      "owner": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "key": "title.old-capital-guardian",
+      "value": "旧都的守望者"
+    },
+    {
+      "owner": "WORLD",
+      "key": "npc.ancient-heir.growth",
+      "value": "20"
+    },
+    {
+      "owner": "WORLD",
+      "key": "npc.ancient-heir.position",
+      "value": "council-speaker"
+    },
+    {
+      "owner": "WORLD",
+      "key": "region.old-imperial-capital.heir-position",
+      "value": "supported"
+    },
+    {
+      "owner": "WORLD",
+      "key": "region.old-imperial-capital.legacy",
+      "value": "restoration-initiative"
+    }
+  ],
+  "story_triggers": [
+    {
+      "id": "00f28a433839acfebd8e966d6ac2d34a8bae7c350b4a2082e8e0302c4df547e1",
+      "trigger_key": "8fbaa3d413e6955cbc079b73ce0fa9bda2ed6ccd05a750529d1953c26a4a9443",
+      "event_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "scope": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "story_json": "{\"id\":\"fate-scholar\",\"version\":\"1\",\"title\":\"学者命运：未完成的注脚\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"TECHNOLOGY_BREAKTHROUGH\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"scholar\"},\"start\":\"manuscript\",\"cooldownSeconds\":86400,\"nodes\":{\"critical-archive\":{\"text\":\"你把疑点和反例与研究稿一同归档。承认未知，使下一次研究有了可靠起点。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"critical-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"critical-title\",\"type\":\"title\",\"target\":\"careful-questioner\",\"value\":\"审慎求证者\",\"permission\":null},{\"id\":\"critical-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"critical-history\",\"type\":\"history\",\"target\":\"SCHOLAR_CRITICAL_ARCHIVE_VOW\",\"value\":\"一位学者承诺在研究记录中保存疑点与反例。\",\"permission\":null}],\"terminal\":true},\"manuscript\":{\"text\":\"青芜向你展示一份仍待考证的研究稿。作为学者，你希望怎样让知识继续生长？这次选择不会自动解锁科技。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"open\":{\"label\":\"公开方法，让更多人复核\",\"next\":\"open-method\",\"condition\":null,\"permission\":null,\"effects\":[]},\"question\":{\"label\":\"列明疑点与反例，再继续研究\",\"next\":\"critical-archive\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"open-method\":{\"text\":\"你提出公开研究方法的原则。档案会把已证事实与推论分别标注，让后来者能够复核。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"method-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"method-title\",\"type\":\"title\",\"target\":\"open-method-scholar\",\"value\":\"公开方法的学者\",\"permission\":null},{\"id\":\"method-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"method-history\",\"type\":\"history\",\"target\":\"SCHOLAR_OPEN_METHOD_VOW\",\"value\":\"一位学者提出公开研究方法并接受复核的原则。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "0193bc45e74a9560e1fe4722ec490e90e4307a0fe872ebb087fbbf698313a25a",
+      "trigger_key": "c2dc820b9d3064c7ddf85529cd1795afd4543194dc826dc94a94f3a4c8223d5f",
+      "event_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "scope": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "story_json": "{\"id\":\"fate-general\",\"version\":\"1\",\"title\":\"将军命运：沙盘之外\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"WAR_STARTED\",\"BATTLE_ENDED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"general\"},\"start\":\"strategy\",\"cooldownSeconds\":86400,\"nodes\":{\"quartermaster\":{\"text\":\"你提出作战前必须核实补给和撤离路线。任何实际调粮、征发或行军仍需国家权威服务批准。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"supply-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"supply-title\",\"type\":\"title\",\"target\":\"careful-strategist\",\"value\":\"审慎参谋\",\"permission\":null},{\"id\":\"supply-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"3\",\"permission\":null},{\"id\":\"supply-history\",\"type\":\"history\",\"target\":\"GENERAL_LOGISTICS_PROPOSED\",\"value\":\"一位将军提出优先核实补给与撤离路线的原则。\",\"permission\":null}],\"terminal\":true},\"restraint\":{\"text\":\"你主张保护俘虏与平民，并在目标达成后重新审视战事。议事厅将这份克制倡议归档。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"restraint-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"restraint-title\",\"type\":\"title\",\"target\":\"restrained-commander\",\"value\":\"克制的筹谋者\",\"permission\":null},{\"id\":\"restraint-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"4\",\"permission\":null},{\"id\":\"restraint-history\",\"type\":\"history\",\"target\":\"GENERAL_RESTRAINT_PROPOSED\",\"value\":\"一位将军提出保护俘虏与平民的战争克制倡议。\",\"permission\":null}],\"terminal\":true},\"strategy\":{\"text\":\"沙盘上的每一枚棋子都代表真实的人。作为将军，你准备先向议事厅提出哪项原则？这份建议尚不构成正式军令。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"restraint\":{\"label\":\"为战斗设定克制与停火准则\",\"next\":\"restraint\",\"condition\":null,\"permission\":null,\"effects\":[]},\"supply\":{\"label\":\"先核实补给和撤离路线\",\"next\":\"quartermaster\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false}}}"
+    },
+    {
+      "id": "118db072a2a5e9c393b3aa266a70d8e1a49ed5569d1b2293fc59727a7f708eef",
+      "trigger_key": "6484cccce49212982acfc0907aa3cda3a9b576b925cfe6d29ba10a7ff13384b9",
+      "event_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "scope": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "story_json": "{\"id\":\"fate-soldier\",\"version\":\"1\",\"title\":\"士兵命运：城门下的誓言\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"WAR_STARTED\",\"WAR_ENDED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"soldier\"},\"start\":\"watch\",\"cooldownSeconds\":86400,\"nodes\":{\"protector\":{\"text\":\"你在值守簿留下了保护平民的誓愿。老兵记住了你的选择，真正的救援仍需在实际行动中完成。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"protector-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"protector-title\",\"type\":\"title\",\"target\":\"civilian-guardian\",\"value\":\"平民守望者\",\"permission\":null},{\"id\":\"protector-trust\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"3\",\"permission\":null},{\"id\":\"protector-history\",\"type\":\"history\",\"target\":\"SOLDIER_CIVILIAN_VOW\",\"value\":\"一名士兵承诺优先保护平民与伤者。\",\"permission\":null}],\"terminal\":true},\"watch\":{\"text\":\"老兵岑岳问你，身为士兵，今天愿意怎样守护这片土地？这是一份个人誓愿，不会替国家宣战或征发物资。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"protect\":{\"label\":\"把平民与伤者的安全放在第一位\",\"next\":\"protector\",\"condition\":null,\"permission\":null,\"effects\":[]},\"remember\":{\"label\":\"记录无名者的故事，抵抗遗忘\",\"next\":\"witness\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"witness\":{\"text\":\"你愿意为普通人留下姓名与证词。岑岳把一本空白采访簿交到你面前；本剧情只登记誓愿，不凭空生成物品。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"witness-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"witness-title\",\"type\":\"title\",\"target\":\"nameless-witness\",\"value\":\"无名者的见证人\",\"permission\":null},{\"id\":\"witness-trust\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"4\",\"permission\":null},{\"id\":\"witness-history\",\"type\":\"history\",\"target\":\"SOLDIER_TESTIMONY_VOW\",\"value\":\"一名士兵承诺记录普通人的战争见证。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "121037c2237ba299aa712accda70a55ae74d7e3a4bc9adcb956001bb42aca9f1",
+      "trigger_key": "a3411f135541eaae0db439e7b5d38ccebfef48e92bc4bc88d4e6e1bc198ae213",
+      "event_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "scope": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "story_json": "{\"id\":\"fate-explorer\",\"version\":\"1\",\"title\":\"探险家命运：地图边缘\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"TERRITORY_CLAIMED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"explorer\"},\"start\":\"map-edge\",\"cooldownSeconds\":86400,\"nodes\":{\"map-edge\":{\"text\":\"地图的空白不代表土地没有主人。作为探险家，你希望为下一次出行留下怎样的准则？这不是一次已完成的探索报告。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"preserve\":{\"label\":\"保护遗址，先记录再调查\",\"next\":\"site-guardian\",\"condition\":null,\"permission\":null,\"effects\":[]},\"safety\":{\"label\":\"共享危险与水源线索，尊重通行许可\",\"next\":\"safe-trail\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"safe-trail\":{\"text\":\"你提出分享可靠的路线风险信息，并在进入地区前取得许可。只有实际调查过的地点才会形成发现记录。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"trail-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"trail-title\",\"type\":\"title\",\"target\":\"considerate-pathfinder\",\"value\":\"审慎寻路人\",\"permission\":null},{\"id\":\"trail-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"3\",\"permission\":null},{\"id\":\"trail-history\",\"type\":\"history\",\"target\":\"EXPLORER_SAFE_TRAIL_VOW\",\"value\":\"一位探险家承诺分享可靠风险线索并尊重地区通行许可。\",\"permission\":null}],\"terminal\":true},\"site-guardian\":{\"text\":\"你承诺先记录原貌，再与所在地居民讨论调查。青芜赞同这种对历史负责的耐心。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"site-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"site-title\",\"type\":\"title\",\"target\":\"patient-site-guardian\",\"value\":\"遗址守护倡导者\",\"permission\":null},{\"id\":\"site-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"site-history\",\"type\":\"history\",\"target\":\"EXPLORER_SITE_PRESERVATION_VOW\",\"value\":\"一位探险家承诺先记录原貌并尊重当地居民的调查意愿。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "128f65a761c41ea505a4ec121bcaf874b40c172b4af289698c9fc64bfe295391",
+      "trigger_key": "89809772c815b0c2505b1c93df6544231bc35b62e2198a1202a9d95afb2701a5",
+      "event_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "scope": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "story_json": "{\"id\":\"fate-diplomat\",\"version\":\"1\",\"title\":\"外交官命运：尚未签署的纸页\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"WAR_ENDED\",\"NATIONS_MERGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"diplomat\"},\"start\":\"draft\",\"cooldownSeconds\":86400,\"nodes\":{\"draft\":{\"text\":\"伊蕾娅邀请你思考谈判的第一步。身为外交官，你会先推动什么？这里形成的是倡议，不会冒充各国签署条约。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"evidence\":{\"label\":\"核对共同事实，再起草承诺\",\"next\":\"recorder\",\"condition\":null,\"permission\":null,\"effects\":[]},\"listen\":{\"label\":\"让各方陈述底线与担忧\",\"next\":\"listener\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"listener\":{\"text\":\"你主张先倾听各方担忧，避免把沉默当成同意。真实外交变更仍须各国权威代表授权。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"listener-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"listener-title\",\"type\":\"title\",\"target\":\"patient-envoy\",\"value\":\"耐心的使者\",\"permission\":null},{\"id\":\"listener-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"3\",\"permission\":null},{\"id\":\"listener-history\",\"type\":\"history\",\"target\":\"DIPLOMAT_LISTENING_PROPOSED\",\"value\":\"一位外交官提出先倾听各方底线与担忧的谈判原则。\",\"permission\":null}],\"terminal\":true},\"recorder\":{\"text\":\"你建议在起草承诺前列出可共同核验的事实。档案会保留这份方法倡议，不把它记成生效条约。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"recorder-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"recorder-title\",\"type\":\"title\",\"target\":\"diplomatic-evidence-keeper\",\"value\":\"外交证据保管者\",\"permission\":null},{\"id\":\"recorder-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"4\",\"permission\":null},{\"id\":\"recorder-history\",\"type\":\"history\",\"target\":\"DIPLOMAT_COMMON_FACTS_PROPOSED\",\"value\":\"一位外交官主张先核实共同事实再讨论正式承诺。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "32849ed36e842acfb656c550fe141fc6b3c0b597432b27d1060f84f55dbed381",
+      "trigger_key": "d8dfe00457efafa5548fca9c6277cf441d794552ff5f2b2170ce9366c898f90b",
+      "event_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "scope": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "story_json": "{\"id\":\"fate-merchant\",\"version\":\"1\",\"title\":\"商人命运：账本的另一页\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"TERRITORY_CLAIMED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"merchant\"},\"start\":\"ledger\",\"cooldownSeconds\":86400,\"nodes\":{\"fair-trade\":{\"text\":\"你提出公开报价与灾后公平供给的倡议。是否形成交易合同，仍须由真实贸易系统与当事人确认。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"fair-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"fair-title\",\"type\":\"title\",\"target\":\"fair-trade-advocate\",\"value\":\"公平交易倡导者\",\"permission\":null},{\"id\":\"fair-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"3\",\"permission\":null},{\"id\":\"fair-history\",\"type\":\"history\",\"target\":\"MERCHANT_FAIR_TRADE_VOW\",\"value\":\"一位商人提出公开报价与公平供给的原则。\",\"permission\":null}],\"terminal\":true},\"ledger\":{\"text\":\"档案员青芜邀请你为未来商路提出一项原则。你准备让账本记录什么？此处不进行真实交易或物品转移。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"fair\":{\"label\":\"公开报价，反对利用灾难牟利\",\"next\":\"fair-trade\",\"condition\":null,\"permission\":null,\"effects\":[]},\"provenance\":{\"label\":\"记录货物出处与约定，减少争议\",\"next\":\"provenance\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"provenance\":{\"text\":\"你主张为贸易保留出处和约定的证据。今天留下的是原则草案，不是已完成的大宗贸易凭据。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"provenance-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"provenance-title\",\"type\":\"title\",\"target\":\"trade-record-keeper\",\"value\":\"商约记录者\",\"permission\":null},{\"id\":\"provenance-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"provenance-history\",\"type\":\"history\",\"target\":\"MERCHANT_PROVENANCE_VOW\",\"value\":\"一位商人承诺为交易保留货物出处与约定证据。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "378848a6d186f0b899b35ab856658f72526e89c7af4847f2fed7f0fc1d285176",
+      "trigger_key": "58793b01dc0d1cbbcad722dd32f99fb51a9f0181f2aef1511b167f8b7a4df1a5",
+      "event_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "scope": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "story_json": "{\"id\":\"fate-mayor\",\"version\":\"1\",\"title\":\"城主命运：广场上的议题\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"NATION_FOUNDED\",\"TERRITORY_CHANGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"mayor\"},\"start\":\"square\",\"cooldownSeconds\":86400,\"nodes\":{\"civic-archivist\":{\"text\":\"你倡议把不同群体的城市记忆一同保存。纪念场所仍需征询社区与地区保护系统的许可。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"heritage-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"heritage-title\",\"type\":\"title\",\"target\":\"civic-memory-advocate\",\"value\":\"城市记忆倡导者\",\"permission\":null},{\"id\":\"heritage-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"4\",\"permission\":null},{\"id\":\"heritage-history\",\"type\":\"history\",\"target\":\"MAYOR_PUBLIC_MEMORY_PROPOSED\",\"value\":\"一位城主倡议保存城市中不同群体的共同记忆。\",\"permission\":null}],\"terminal\":true},\"civic-listener\":{\"text\":\"你提出先公开收集居民需求，再讨论预算。任何税收、资源拨付或世界施工都必须另行经过权威审批。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"needs-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"needs-title\",\"type\":\"title\",\"target\":\"civic-needs-listener\",\"value\":\"民意倾听者\",\"permission\":null},{\"id\":\"needs-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"3\",\"permission\":null},{\"id\":\"needs-history\",\"type\":\"history\",\"target\":\"MAYOR_CIVIC_HEARING_PROPOSED\",\"value\":\"一位城主提出在预算前公开听取居民民生需求。\",\"permission\":null}],\"terminal\":true},\"square\":{\"text\":\"居民在广场等候提出意见。作为城主，你准备先组织哪一项公开讨论？这次个人抉择不会自动建设、收税或征用土地。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"heritage\":{\"label\":\"讨论怎样保留城市的共同记忆\",\"next\":\"civic-archivist\",\"condition\":null,\"permission\":null,\"effects\":[]},\"needs\":{\"label\":\"先听取居民对安全和民生的需求\",\"next\":\"civic-listener\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false}}}"
+    },
+    {
+      "id": "5922e79383856408e2f5615852170e3f0ab917a22650d4b1dc0da0a9d1844bf0",
+      "trigger_key": "a8f5b40e8ae06170ec7fbb5427bc2000f1cc6ef6444224d91726efda3d75fdd9",
+      "event_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "scope": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "story_json": "{\"id\":\"fate-general\",\"version\":\"1\",\"title\":\"将军命运：沙盘之外\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"WAR_STARTED\",\"BATTLE_ENDED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"general\"},\"start\":\"strategy\",\"cooldownSeconds\":86400,\"nodes\":{\"quartermaster\":{\"text\":\"你提出作战前必须核实补给和撤离路线。任何实际调粮、征发或行军仍需国家权威服务批准。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"supply-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"supply-title\",\"type\":\"title\",\"target\":\"careful-strategist\",\"value\":\"审慎参谋\",\"permission\":null},{\"id\":\"supply-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"3\",\"permission\":null},{\"id\":\"supply-history\",\"type\":\"history\",\"target\":\"GENERAL_LOGISTICS_PROPOSED\",\"value\":\"一位将军提出优先核实补给与撤离路线的原则。\",\"permission\":null}],\"terminal\":true},\"restraint\":{\"text\":\"你主张保护俘虏与平民，并在目标达成后重新审视战事。议事厅将这份克制倡议归档。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"restraint-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"restraint-title\",\"type\":\"title\",\"target\":\"restrained-commander\",\"value\":\"克制的筹谋者\",\"permission\":null},{\"id\":\"restraint-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"4\",\"permission\":null},{\"id\":\"restraint-history\",\"type\":\"history\",\"target\":\"GENERAL_RESTRAINT_PROPOSED\",\"value\":\"一位将军提出保护俘虏与平民的战争克制倡议。\",\"permission\":null}],\"terminal\":true},\"strategy\":{\"text\":\"沙盘上的每一枚棋子都代表真实的人。作为将军，你准备先向议事厅提出哪项原则？这份建议尚不构成正式军令。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"restraint\":{\"label\":\"为战斗设定克制与停火准则\",\"next\":\"restraint\",\"condition\":null,\"permission\":null,\"effects\":[]},\"supply\":{\"label\":\"先核实补给和撤离路线\",\"next\":\"quartermaster\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false}}}"
+    },
+    {
+      "id": "6a85e46134bdf7508705c44b5073310a8f774a3695cd831ce0f11dabe6871019",
+      "trigger_key": "8df970cf1375744f426b35ee68cbda15eb52d1d47544b5917bf0b4097c3eaf79",
+      "event_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "scope": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "story_json": "{\"id\":\"fate-scholar\",\"version\":\"1\",\"title\":\"学者命运：未完成的注脚\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"TECHNOLOGY_BREAKTHROUGH\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"scholar\"},\"start\":\"manuscript\",\"cooldownSeconds\":86400,\"nodes\":{\"critical-archive\":{\"text\":\"你把疑点和反例与研究稿一同归档。承认未知，使下一次研究有了可靠起点。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"critical-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"critical-title\",\"type\":\"title\",\"target\":\"careful-questioner\",\"value\":\"审慎求证者\",\"permission\":null},{\"id\":\"critical-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"critical-history\",\"type\":\"history\",\"target\":\"SCHOLAR_CRITICAL_ARCHIVE_VOW\",\"value\":\"一位学者承诺在研究记录中保存疑点与反例。\",\"permission\":null}],\"terminal\":true},\"manuscript\":{\"text\":\"青芜向你展示一份仍待考证的研究稿。作为学者，你希望怎样让知识继续生长？这次选择不会自动解锁科技。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"open\":{\"label\":\"公开方法，让更多人复核\",\"next\":\"open-method\",\"condition\":null,\"permission\":null,\"effects\":[]},\"question\":{\"label\":\"列明疑点与反例，再继续研究\",\"next\":\"critical-archive\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"open-method\":{\"text\":\"你提出公开研究方法的原则。档案会把已证事实与推论分别标注，让后来者能够复核。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"method-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"method-title\",\"type\":\"title\",\"target\":\"open-method-scholar\",\"value\":\"公开方法的学者\",\"permission\":null},{\"id\":\"method-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"method-history\",\"type\":\"history\",\"target\":\"SCHOLAR_OPEN_METHOD_VOW\",\"value\":\"一位学者提出公开研究方法并接受复核的原则。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "797b0395a5ef7247663023cb91f0755e5c65e313dcc01507907747a2e0286568",
+      "trigger_key": "a29a6a1b6a0e49b657e701186c1f6cda8cae4d69568f413a435433cbadf6a7c9",
+      "event_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "scope": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "story_json": "{\"id\":\"fate-diplomat\",\"version\":\"1\",\"title\":\"外交官命运：尚未签署的纸页\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"WAR_ENDED\",\"NATIONS_MERGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"diplomat\"},\"start\":\"draft\",\"cooldownSeconds\":86400,\"nodes\":{\"draft\":{\"text\":\"伊蕾娅邀请你思考谈判的第一步。身为外交官，你会先推动什么？这里形成的是倡议，不会冒充各国签署条约。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"evidence\":{\"label\":\"核对共同事实，再起草承诺\",\"next\":\"recorder\",\"condition\":null,\"permission\":null,\"effects\":[]},\"listen\":{\"label\":\"让各方陈述底线与担忧\",\"next\":\"listener\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"listener\":{\"text\":\"你主张先倾听各方担忧，避免把沉默当成同意。真实外交变更仍须各国权威代表授权。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"listener-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"listener-title\",\"type\":\"title\",\"target\":\"patient-envoy\",\"value\":\"耐心的使者\",\"permission\":null},{\"id\":\"listener-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"3\",\"permission\":null},{\"id\":\"listener-history\",\"type\":\"history\",\"target\":\"DIPLOMAT_LISTENING_PROPOSED\",\"value\":\"一位外交官提出先倾听各方底线与担忧的谈判原则。\",\"permission\":null}],\"terminal\":true},\"recorder\":{\"text\":\"你建议在起草承诺前列出可共同核验的事实。档案会保留这份方法倡议，不把它记成生效条约。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"recorder-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"recorder-title\",\"type\":\"title\",\"target\":\"diplomatic-evidence-keeper\",\"value\":\"外交证据保管者\",\"permission\":null},{\"id\":\"recorder-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"4\",\"permission\":null},{\"id\":\"recorder-history\",\"type\":\"history\",\"target\":\"DIPLOMAT_COMMON_FACTS_PROPOSED\",\"value\":\"一位外交官主张先核实共同事实再讨论正式承诺。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "7b80e66956c3c611867b832c248617a9eb8976b92a010e412b9b3858b5f181d5",
+      "trigger_key": "7a4e38dfd92e224594f0630d5876c4aa54da98165d24c0e03b2b1b9f19fe07a5",
+      "event_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "scope": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "story_json": "{\"id\":\"fate-explorer\",\"version\":\"1\",\"title\":\"探险家命运：地图边缘\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"TERRITORY_CLAIMED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"explorer\"},\"start\":\"map-edge\",\"cooldownSeconds\":86400,\"nodes\":{\"map-edge\":{\"text\":\"地图的空白不代表土地没有主人。作为探险家，你希望为下一次出行留下怎样的准则？这不是一次已完成的探索报告。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"preserve\":{\"label\":\"保护遗址，先记录再调查\",\"next\":\"site-guardian\",\"condition\":null,\"permission\":null,\"effects\":[]},\"safety\":{\"label\":\"共享危险与水源线索，尊重通行许可\",\"next\":\"safe-trail\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"safe-trail\":{\"text\":\"你提出分享可靠的路线风险信息，并在进入地区前取得许可。只有实际调查过的地点才会形成发现记录。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"trail-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"trail-title\",\"type\":\"title\",\"target\":\"considerate-pathfinder\",\"value\":\"审慎寻路人\",\"permission\":null},{\"id\":\"trail-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"3\",\"permission\":null},{\"id\":\"trail-history\",\"type\":\"history\",\"target\":\"EXPLORER_SAFE_TRAIL_VOW\",\"value\":\"一位探险家承诺分享可靠风险线索并尊重地区通行许可。\",\"permission\":null}],\"terminal\":true},\"site-guardian\":{\"text\":\"你承诺先记录原貌，再与所在地居民讨论调查。青芜赞同这种对历史负责的耐心。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"site-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"site-title\",\"type\":\"title\",\"target\":\"patient-site-guardian\",\"value\":\"遗址守护倡导者\",\"permission\":null},{\"id\":\"site-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"site-history\",\"type\":\"history\",\"target\":\"EXPLORER_SITE_PRESERVATION_VOW\",\"value\":\"一位探险家承诺先记录原貌并尊重当地居民的调查意愿。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "7f4cbc38102f6c4e14de1397aa53197e6c960763fb011dede5511e0c846fe2e9",
+      "trigger_key": "80d2bfcc6406f7f2ff0ab7ed71679d3f403db5e37af98ee2c6de80b12d02ff49",
+      "event_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "scope": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "story_json": "{\"id\":\"fate-soldier\",\"version\":\"1\",\"title\":\"士兵命运：城门下的誓言\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"WAR_STARTED\",\"WAR_ENDED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"soldier\"},\"start\":\"watch\",\"cooldownSeconds\":86400,\"nodes\":{\"protector\":{\"text\":\"你在值守簿留下了保护平民的誓愿。老兵记住了你的选择，真正的救援仍需在实际行动中完成。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"protector-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"protector-title\",\"type\":\"title\",\"target\":\"civilian-guardian\",\"value\":\"平民守望者\",\"permission\":null},{\"id\":\"protector-trust\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"3\",\"permission\":null},{\"id\":\"protector-history\",\"type\":\"history\",\"target\":\"SOLDIER_CIVILIAN_VOW\",\"value\":\"一名士兵承诺优先保护平民与伤者。\",\"permission\":null}],\"terminal\":true},\"watch\":{\"text\":\"老兵岑岳问你，身为士兵，今天愿意怎样守护这片土地？这是一份个人誓愿，不会替国家宣战或征发物资。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"protect\":{\"label\":\"把平民与伤者的安全放在第一位\",\"next\":\"protector\",\"condition\":null,\"permission\":null,\"effects\":[]},\"remember\":{\"label\":\"记录无名者的故事，抵抗遗忘\",\"next\":\"witness\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"witness\":{\"text\":\"你愿意为普通人留下姓名与证词。岑岳把一本空白采访簿交到你面前；本剧情只登记誓愿，不凭空生成物品。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"witness-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"witness-title\",\"type\":\"title\",\"target\":\"nameless-witness\",\"value\":\"无名者的见证人\",\"permission\":null},{\"id\":\"witness-trust\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"4\",\"permission\":null},{\"id\":\"witness-history\",\"type\":\"history\",\"target\":\"SOLDIER_TESTIMONY_VOW\",\"value\":\"一名士兵承诺记录普通人的战争见证。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "d00a9adfc9830f18d11a5352ed0fcf74ec5dc25dd44fddc51ba2de33c11ba9ee",
+      "trigger_key": "f0b613d48f22dfc1bce018f3895c8c64079380cd77ddd97430955111011fa4f8",
+      "event_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "scope": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "story_json": "{\"id\":\"fate-monarch\",\"version\":\"1\",\"title\":\"君主命运：王冠的重量\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"NATION_FOUNDED\",\"NATION_SPLIT\",\"NATIONS_MERGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"monarch\"},\"start\":\"crown\",\"cooldownSeconds\":86400,\"nodes\":{\"accountable-steward\":{\"text\":\"你承诺重大资源用途应有可追溯依据。今天形成的是公开治理的个人誓愿，并没有发生任何国库支出。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"steward-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"steward-title\",\"type\":\"title\",\"target\":\"accountable-steward\",\"value\":\"问责承诺者\",\"permission\":null},{\"id\":\"steward-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"4\",\"permission\":null},{\"id\":\"steward-history\",\"type\":\"history\",\"target\":\"MONARCH_RESOURCE_ACCOUNTABILITY_VOW\",\"value\":\"一位君主承诺为重大资源用途保留公开可追溯的依据。\",\"permission\":null}],\"terminal\":true},\"crown\":{\"text\":\"王冠代表的责任远多于荣光。作为君主，你愿意先留下怎样的治理倡议？这不是一次立法、改制或国库操作。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"counsel\":{\"label\":\"让不同意见进入议事记录\",\"next\":\"open-council\",\"condition\":null,\"permission\":null,\"effects\":[]},\"stewardship\":{\"label\":\"承诺公开重大资源用途的依据\",\"next\":\"accountable-steward\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"open-council\":{\"text\":\"你主张把异议与共识一同归档，避免后人只听到一种声音。正式政治制度仍由已有权威系统处理。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"council-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"council-title\",\"type\":\"title\",\"target\":\"open-council-advocate\",\"value\":\"公议倡导者\",\"permission\":null},{\"id\":\"council-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"3\",\"permission\":null},{\"id\":\"council-history\",\"type\":\"history\",\"target\":\"MONARCH_OPEN_COUNCIL_VOW\",\"value\":\"一位君主承诺让不同意见进入国家议事记录。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "dde9b0f108820f1a551185af58eb41663b93c60e88119614f4d52d1b911ceec1",
+      "trigger_key": "b4259d522f8d23a6da026b30db8498898a56c01737afddd32824487f0c30e230",
+      "event_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "scope": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "story_json": "{\"id\":\"fate-mayor\",\"version\":\"1\",\"title\":\"城主命运：广场上的议题\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"NATION_FOUNDED\",\"TERRITORY_CHANGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"mayor\"},\"start\":\"square\",\"cooldownSeconds\":86400,\"nodes\":{\"civic-archivist\":{\"text\":\"你倡议把不同群体的城市记忆一同保存。纪念场所仍需征询社区与地区保护系统的许可。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"heritage-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"heritage-title\",\"type\":\"title\",\"target\":\"civic-memory-advocate\",\"value\":\"城市记忆倡导者\",\"permission\":null},{\"id\":\"heritage-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"4\",\"permission\":null},{\"id\":\"heritage-history\",\"type\":\"history\",\"target\":\"MAYOR_PUBLIC_MEMORY_PROPOSED\",\"value\":\"一位城主倡议保存城市中不同群体的共同记忆。\",\"permission\":null}],\"terminal\":true},\"civic-listener\":{\"text\":\"你提出先公开收集居民需求，再讨论预算。任何税收、资源拨付或世界施工都必须另行经过权威审批。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"needs-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"needs-title\",\"type\":\"title\",\"target\":\"civic-needs-listener\",\"value\":\"民意倾听者\",\"permission\":null},{\"id\":\"needs-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"3\",\"permission\":null},{\"id\":\"needs-history\",\"type\":\"history\",\"target\":\"MAYOR_CIVIC_HEARING_PROPOSED\",\"value\":\"一位城主提出在预算前公开听取居民民生需求。\",\"permission\":null}],\"terminal\":true},\"square\":{\"text\":\"居民在广场等候提出意见。作为城主，你准备先组织哪一项公开讨论？这次个人抉择不会自动建设、收税或征用土地。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"heritage\":{\"label\":\"讨论怎样保留城市的共同记忆\",\"next\":\"civic-archivist\",\"condition\":null,\"permission\":null,\"effects\":[]},\"needs\":{\"label\":\"先听取居民对安全和民生的需求\",\"next\":\"civic-listener\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false}}}"
+    },
+    {
+      "id": "e38be6a53bfc8cda6bb33d25fd92b396bc6c75fbf6c5e7a59f9b94203f23d769",
+      "trigger_key": "066f2a02e0b8182db420711b121cf01c603dc95209a71ee9e2ce918990fab0a6",
+      "event_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "scope": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "story_json": "{\"id\":\"fate-monarch\",\"version\":\"1\",\"title\":\"君主命运：王冠的重量\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"NATION_FOUNDED\",\"NATION_SPLIT\",\"NATIONS_MERGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"monarch\"},\"start\":\"crown\",\"cooldownSeconds\":86400,\"nodes\":{\"accountable-steward\":{\"text\":\"你承诺重大资源用途应有可追溯依据。今天形成的是公开治理的个人誓愿，并没有发生任何国库支出。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"steward-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"steward-title\",\"type\":\"title\",\"target\":\"accountable-steward\",\"value\":\"问责承诺者\",\"permission\":null},{\"id\":\"steward-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"4\",\"permission\":null},{\"id\":\"steward-history\",\"type\":\"history\",\"target\":\"MONARCH_RESOURCE_ACCOUNTABILITY_VOW\",\"value\":\"一位君主承诺为重大资源用途保留公开可追溯的依据。\",\"permission\":null}],\"terminal\":true},\"crown\":{\"text\":\"王冠代表的责任远多于荣光。作为君主，你愿意先留下怎样的治理倡议？这不是一次立法、改制或国库操作。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"counsel\":{\"label\":\"让不同意见进入议事记录\",\"next\":\"open-council\",\"condition\":null,\"permission\":null,\"effects\":[]},\"stewardship\":{\"label\":\"承诺公开重大资源用途的依据\",\"next\":\"accountable-steward\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"open-council\":{\"text\":\"你主张把异议与共识一同归档，避免后人只听到一种声音。正式政治制度仍由已有权威系统处理。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"council-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"council-title\",\"type\":\"title\",\"target\":\"open-council-advocate\",\"value\":\"公议倡导者\",\"permission\":null},{\"id\":\"council-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"3\",\"permission\":null},{\"id\":\"council-history\",\"type\":\"history\",\"target\":\"MONARCH_OPEN_COUNCIL_VOW\",\"value\":\"一位君主承诺让不同意见进入国家议事记录。\",\"permission\":null}],\"terminal\":true}}}"
+    },
+    {
+      "id": "f7d52b0c3dee4c7969b68f866ce7a3cccbaa517e03ab3954e60f9085682e2801",
+      "trigger_key": "d0fd0b02f30e218ffc62c3869d3d56fa2456aa1ea006b7ecad1c73096b587b66",
+      "event_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "scope": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "story_json": "{\"id\":\"fate-merchant\",\"version\":\"1\",\"title\":\"商人命运：账本的另一页\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"TERRITORY_CLAIMED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"merchant\"},\"start\":\"ledger\",\"cooldownSeconds\":86400,\"nodes\":{\"fair-trade\":{\"text\":\"你提出公开报价与灾后公平供给的倡议。是否形成交易合同，仍须由真实贸易系统与当事人确认。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"fair-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"fair-title\",\"type\":\"title\",\"target\":\"fair-trade-advocate\",\"value\":\"公平交易倡导者\",\"permission\":null},{\"id\":\"fair-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"3\",\"permission\":null},{\"id\":\"fair-history\",\"type\":\"history\",\"target\":\"MERCHANT_FAIR_TRADE_VOW\",\"value\":\"一位商人提出公开报价与公平供给的原则。\",\"permission\":null}],\"terminal\":true},\"ledger\":{\"text\":\"档案员青芜邀请你为未来商路提出一项原则。你准备让账本记录什么？此处不进行真实交易或物品转移。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"fair\":{\"label\":\"公开报价，反对利用灾难牟利\",\"next\":\"fair-trade\",\"condition\":null,\"permission\":null,\"effects\":[]},\"provenance\":{\"label\":\"记录货物出处与约定，减少争议\",\"next\":\"provenance\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"provenance\":{\"text\":\"你主张为贸易保留出处和约定的证据。今天留下的是原则草案，不是已完成的大宗贸易凭据。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"provenance-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"provenance-title\",\"type\":\"title\",\"target\":\"trade-record-keeper\",\"value\":\"商约记录者\",\"permission\":null},{\"id\":\"provenance-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"provenance-history\",\"type\":\"history\",\"target\":\"MERCHANT_PROVENANCE_VOW\",\"value\":\"一位商人承诺为交易保留货物出处与约定证据。\",\"permission\":null}],\"terminal\":true}}}"
+    }
+  ],
+  "story_trigger_receipts": [
+    {
+      "trigger_key": "3d26883e0efb3ced7f1c2f932d39b8a111b6cca267c91b4922c7ff802cbd4d56",
+      "scope": "world"
+    },
+    {
+      "trigger_key": "cf12b345de3346c5700ae66004f590a8fe00f67f20ccc7ada32e92ecf4da56ea",
+      "scope": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b"
+    },
+    {
+      "trigger_key": "cf12b345de3346c5700ae66004f590a8fe00f67f20ccc7ada32e92ecf4da56ea",
+      "scope": "player:501fd117-4620-35f4-882b-6d7044ea83a5"
+    }
+  ],
+  "event_causes": [
+    {
+      "event_id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "parent_id": "phase-two-folia:heir-discovery-1",
+      "root_id": "phase-two-folia:heir-discovery-1",
+      "depth": 1,
+      "story_path": "[\"last-heir\"]"
+    },
+    {
+      "event_id": "chronicle:8877782868cdd54743654d2c2ff338827424bee4ff52446484237b49fb5f6ecb",
+      "parent_id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "root_id": "phase-two-folia:heir-discovery-1",
+      "depth": 2,
+      "story_path": "[\"last-heir\",\"heir-legacy\"]"
+    },
+    {
+      "event_id": "chronicle:93613fbf3cb1299388d9404cfd0088ae64ea6b0e40f042f581566b6559bafe60",
+      "parent_id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "root_id": "phase-two-folia:heir-discovery-1",
+      "depth": 2,
+      "story_path": "[\"last-heir\",\"heir-legacy\"]"
+    },
+    {
+      "event_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "parent_id": null,
+      "root_id": "chronicle:arrival:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b:2026-11-19",
+      "depth": 0,
+      "story_path": "[]"
+    },
+    {
+      "event_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "parent_id": null,
+      "root_id": "chronicle:arrival:501fd117-4620-35f4-882b-6d7044ea83a5:2026-11-19",
+      "depth": 0,
+      "story_path": "[]"
+    },
+    {
+      "event_id": "chronicle:c1ea37ca12845b86bf817ecf136a6be44047a5471be94cc5eb2e580c17cba3aa",
+      "parent_id": "phase-two-folia:heir-discovery-1",
+      "root_id": "phase-two-folia:heir-discovery-1",
+      "depth": 1,
+      "story_path": "[\"last-heir\"]"
+    },
+    {
+      "event_id": "npc:6babc6a9-3a9e-41f2-a06c-2e97fa4eaff1",
+      "parent_id": null,
+      "root_id": "npc:6babc6a9-3a9e-41f2-a06c-2e97fa4eaff1",
+      "depth": 0,
+      "story_path": "[]"
+    },
+    {
+      "event_id": "phase-two-folia:heir-discovery-1",
+      "parent_id": null,
+      "root_id": "phase-two-folia:heir-discovery-1",
+      "depth": 0,
+      "story_path": "[]"
+    }
+  ],
+  "story_choice_log": [
+    {
+      "seq": 1,
+      "id": "91956d8bd464efe120c3ba8673bcbcfcba4f0bd7bc597bbdb64fa48d9c1f3e72",
+      "instance_id": "c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "source_event_id": "phase-two-folia:heir-discovery-1",
+      "story_id": "last-heir",
+      "story_version": "1",
+      "node_id": "summons",
+      "kind": "BALLOT",
+      "actor_key": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "player_id": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "nation_id": "",
+      "scope_key": "world",
+      "revision": 1,
+      "choice_id": "convene",
+      "chosen_at": "2026-11-19T19:45:54.186804400Z",
+      "committed_by": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 2,
+      "id": "64d0d78b7ecfac46901f6c3f82da8b6280903b84a39abda314a64a430bf1e925",
+      "instance_id": "c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "source_event_id": "phase-two-folia:heir-discovery-1",
+      "story_id": "last-heir",
+      "story_version": "1",
+      "node_id": "summons",
+      "kind": "BALLOT",
+      "actor_key": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "player_id": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "nation_id": "",
+      "scope_key": "world",
+      "revision": 1,
+      "choice_id": "convene",
+      "chosen_at": "2026-11-19T19:46:05.813766400Z",
+      "committed_by": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 3,
+      "id": "fc9123ee4d2e75c39f2342b5ef6b7920a140bee03b57eea5ab4d456ed42cc8b9",
+      "instance_id": "c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "source_event_id": "phase-two-folia:heir-discovery-1",
+      "story_id": "last-heir",
+      "story_version": "1",
+      "node_id": "summons",
+      "kind": "RESOLUTION",
+      "actor_key": "world",
+      "player_id": null,
+      "nation_id": "",
+      "scope_key": "world",
+      "revision": 1,
+      "choice_id": "convene",
+      "chosen_at": "2026-11-19T19:46:05.815784400Z",
+      "committed_by": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 4,
+      "id": "a4341f04ef5ba51db86b97e3ab0b0b3b26923630357234e3c35145b5b533baee",
+      "instance_id": "c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "source_event_id": "phase-two-folia:heir-discovery-1",
+      "story_id": "last-heir",
+      "story_version": "1",
+      "node_id": "council",
+      "kind": "BALLOT",
+      "actor_key": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "player_id": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "nation_id": "",
+      "scope_key": "world",
+      "revision": 1,
+      "choice_id": "support",
+      "chosen_at": "2026-11-19T19:46:15.986520800Z",
+      "committed_by": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 5,
+      "id": "d8383132693dc9ca19009d1422413c2530a7b58f2beca73d574b3a58319ca1d5",
+      "instance_id": "c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "source_event_id": "phase-two-folia:heir-discovery-1",
+      "story_id": "last-heir",
+      "story_version": "1",
+      "node_id": "council",
+      "kind": "BALLOT",
+      "actor_key": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "player_id": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "nation_id": "",
+      "scope_key": "world",
+      "revision": 1,
+      "choice_id": "support",
+      "chosen_at": "2026-11-19T19:46:26.414127400Z",
+      "committed_by": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 6,
+      "id": "68fdb5361239ec32fa394264a5b01eca016743f1480fa8a08cb02810322db9d8",
+      "instance_id": "c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "source_event_id": "phase-two-folia:heir-discovery-1",
+      "story_id": "last-heir",
+      "story_version": "1",
+      "node_id": "council",
+      "kind": "RESOLUTION",
+      "actor_key": "world",
+      "player_id": null,
+      "nation_id": "",
+      "scope_key": "world",
+      "revision": 1,
+      "choice_id": "support",
+      "chosen_at": "2026-11-19T19:46:26.415177Z",
+      "committed_by": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 7,
+      "id": "5de147c0a20e3c7d06e7ce6262e2ab8e01701a6e8dcc1a1ad6d51009b81671ab",
+      "instance_id": "c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "source_event_id": "phase-two-folia:heir-discovery-1",
+      "story_id": "last-heir",
+      "story_version": "1",
+      "node_id": "preparations",
+      "kind": "BALLOT",
+      "actor_key": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "player_id": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "nation_id": "",
+      "scope_key": "world",
+      "revision": 1,
+      "choice_id": "restoration",
+      "chosen_at": "2026-11-19T19:46:33.835479100Z",
+      "committed_by": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 8,
+      "id": "183028c2f5fb49f7fb9df661875aae03afa4b027e0fb0beb6483b5cc72144ade",
+      "instance_id": "c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "source_event_id": "phase-two-folia:heir-discovery-1",
+      "story_id": "last-heir",
+      "story_version": "1",
+      "node_id": "preparations",
+      "kind": "BALLOT",
+      "actor_key": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "player_id": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "nation_id": "",
+      "scope_key": "world",
+      "revision": 1,
+      "choice_id": "restoration",
+      "chosen_at": "2026-11-19T19:46:42.164717700Z",
+      "committed_by": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 9,
+      "id": "b83e72a0d1f0ba56d8e5d87834affc0039b1b0a9ff5d46407d141545cda7a244",
+      "instance_id": "c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "source_event_id": "phase-two-folia:heir-discovery-1",
+      "story_id": "last-heir",
+      "story_version": "1",
+      "node_id": "preparations",
+      "kind": "RESOLUTION",
+      "actor_key": "world",
+      "player_id": null,
+      "nation_id": "",
+      "scope_key": "world",
+      "revision": 1,
+      "choice_id": "restoration",
+      "chosen_at": "2026-11-19T19:46:42.165738900Z",
+      "committed_by": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 10,
+      "id": "1aba037bce9012518bf01e96cc42bfd3572f94b4d9fcdbe556494e153d62eb4e",
+      "instance_id": "c678f80a539ae523b2695ff963a53344cbcbb9b4eacf146e32dc22bf08b6b38d",
+      "source_event_id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "story_id": "heir-legacy",
+      "story_version": "1",
+      "node_id": "archive",
+      "kind": "BALLOT",
+      "actor_key": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "player_id": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "nation_id": "",
+      "scope_key": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "revision": 1,
+      "choice_id": "reconcile",
+      "chosen_at": "2026-11-19T19:49:31.303158200Z",
+      "committed_by": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 11,
+      "id": "f55965967aee52f82ec8e6e1ddf076b70efe09b0f725f163060329a85310e9b3",
+      "instance_id": "c678f80a539ae523b2695ff963a53344cbcbb9b4eacf146e32dc22bf08b6b38d",
+      "source_event_id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "story_id": "heir-legacy",
+      "story_version": "1",
+      "node_id": "archive",
+      "kind": "RESOLUTION",
+      "actor_key": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "player_id": null,
+      "nation_id": "",
+      "scope_key": "player:501fd117-4620-35f4-882b-6d7044ea83a5",
+      "revision": 1,
+      "choice_id": "reconcile",
+      "chosen_at": "2026-11-19T19:49:31.311213Z",
+      "committed_by": "501fd117-4620-35f4-882b-6d7044ea83a5",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 12,
+      "id": "352c00b85998760bd0daafde12577846524075fb5e6274fff49b4c08633f8b8c",
+      "instance_id": "7c659931af6fc64bd7ca129e475aa1269d89684fea01fe76d73af36d082bed13",
+      "source_event_id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "story_id": "heir-legacy",
+      "story_version": "1",
+      "node_id": "archive",
+      "kind": "BALLOT",
+      "actor_key": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "player_id": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "nation_id": "",
+      "scope_key": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "revision": 1,
+      "choice_id": "testimony",
+      "chosen_at": "2026-11-19T19:49:31.333940400Z",
+      "committed_by": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "provenance": "LIVE"
+    },
+    {
+      "seq": 13,
+      "id": "a49662b3695b874e89ecdd8e222d90a84c95b7f6dcea7114e8cde41b79de9e51",
+      "instance_id": "7c659931af6fc64bd7ca129e475aa1269d89684fea01fe76d73af36d082bed13",
+      "source_event_id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+      "story_id": "heir-legacy",
+      "story_version": "1",
+      "node_id": "archive",
+      "kind": "RESOLUTION",
+      "actor_key": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "player_id": null,
+      "nation_id": "",
+      "scope_key": "player:1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "revision": 1,
+      "choice_id": "testimony",
+      "chosen_at": "2026-11-19T19:49:31.334959800Z",
+      "committed_by": "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+      "provenance": "LIVE"
+    }
+  ],
+  "story_trigger_blocks": [],
+  "memory_sites": [
+    {
+      "id": "phase-two-live",
+      "event_id": "phase-two-folia:heir-discovery-1",
+      "json": "{\"id\":\"phase-two-live\",\"world\":\"af108c55-7a88-4b87-82bb-84268e673cf4\",\"x\":15,\"y\":-60,\"z\":15,\"title\":\"世界历史 · phase-two-live\",\"eventId\":\"phase-two-folia:heir-discovery-1\",\"npcId\":\"ancient-heir\",\"enabled\":true}"
+    },
+    {
+      "id": "phase-two-removed",
+      "event_id": "phase-two-folia:heir-discovery-1",
+      "json": "{\"id\":\"phase-two-removed\",\"world\":\"af108c55-7a88-4b87-82bb-84268e673cf4\",\"x\":15,\"y\":-60,\"z\":15,\"title\":\"世界历史 · phase-two-removed\",\"eventId\":\"phase-two-folia:heir-discovery-1\",\"npcId\":\"ancient-heir\",\"enabled\":false}"
+    }
+  ],
+  "native_scene_journal": [],
+  "story_definitions": [
+    {
+      "story": "fate-diplomat",
+      "version": "1",
+      "fingerprint": "73341543cc67fd9020f4822761eceb56e1d00af9d77aa3339a0fb6346207956e",
+      "json": "{\"id\":\"fate-diplomat\",\"version\":\"1\",\"title\":\"外交官命运：尚未签署的纸页\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"WAR_ENDED\",\"NATIONS_MERGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"diplomat\"},\"start\":\"draft\",\"cooldownSeconds\":86400,\"nodes\":{\"draft\":{\"text\":\"伊蕾娅邀请你思考谈判的第一步。身为外交官，你会先推动什么？这里形成的是倡议，不会冒充各国签署条约。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"evidence\":{\"label\":\"核对共同事实，再起草承诺\",\"next\":\"recorder\",\"condition\":null,\"permission\":null,\"effects\":[]},\"listen\":{\"label\":\"让各方陈述底线与担忧\",\"next\":\"listener\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"listener\":{\"text\":\"你主张先倾听各方担忧，避免把沉默当成同意。真实外交变更仍须各国权威代表授权。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"listener-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"listener-title\",\"type\":\"title\",\"target\":\"patient-envoy\",\"value\":\"耐心的使者\",\"permission\":null},{\"id\":\"listener-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"3\",\"permission\":null},{\"id\":\"listener-history\",\"type\":\"history\",\"target\":\"DIPLOMAT_LISTENING_PROPOSED\",\"value\":\"一位外交官提出先倾听各方底线与担忧的谈判原则。\",\"permission\":null}],\"terminal\":true},\"recorder\":{\"text\":\"你建议在起草承诺前列出可共同核验的事实。档案会保留这份方法倡议，不把它记成生效条约。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"recorder-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"recorder-title\",\"type\":\"title\",\"target\":\"diplomatic-evidence-keeper\",\"value\":\"外交证据保管者\",\"permission\":null},{\"id\":\"recorder-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"4\",\"permission\":null},{\"id\":\"recorder-history\",\"type\":\"history\",\"target\":\"DIPLOMAT_COMMON_FACTS_PROPOSED\",\"value\":\"一位外交官主张先核实共同事实再讨论正式承诺。\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "PENDING_TRIGGER 128f65a761c41ea505a4ec121bcaf874b40c172b4af289698c9fc64bfe295391",
+      "first_seen": "2026-11-19T21:49:02.262Z"
+    },
+    {
+      "story": "fate-explorer",
+      "version": "1",
+      "fingerprint": "32bd17d3291ba6211f615e5a8ffe93d1d8cdce86928d1a680d6754206dc942d7",
+      "json": "{\"id\":\"fate-explorer\",\"version\":\"1\",\"title\":\"探险家命运：地图边缘\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"TERRITORY_CLAIMED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"explorer\"},\"start\":\"map-edge\",\"cooldownSeconds\":86400,\"nodes\":{\"map-edge\":{\"text\":\"地图的空白不代表土地没有主人。作为探险家，你希望为下一次出行留下怎样的准则？这不是一次已完成的探索报告。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"preserve\":{\"label\":\"保护遗址，先记录再调查\",\"next\":\"site-guardian\",\"condition\":null,\"permission\":null,\"effects\":[]},\"safety\":{\"label\":\"共享危险与水源线索，尊重通行许可\",\"next\":\"safe-trail\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"safe-trail\":{\"text\":\"你提出分享可靠的路线风险信息，并在进入地区前取得许可。只有实际调查过的地点才会形成发现记录。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"trail-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"trail-title\",\"type\":\"title\",\"target\":\"considerate-pathfinder\",\"value\":\"审慎寻路人\",\"permission\":null},{\"id\":\"trail-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"3\",\"permission\":null},{\"id\":\"trail-history\",\"type\":\"history\",\"target\":\"EXPLORER_SAFE_TRAIL_VOW\",\"value\":\"一位探险家承诺分享可靠风险线索并尊重地区通行许可。\",\"permission\":null}],\"terminal\":true},\"site-guardian\":{\"text\":\"你承诺先记录原貌，再与所在地居民讨论调查。青芜赞同这种对历史负责的耐心。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"site-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"site-title\",\"type\":\"title\",\"target\":\"patient-site-guardian\",\"value\":\"遗址守护倡导者\",\"permission\":null},{\"id\":\"site-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"site-history\",\"type\":\"history\",\"target\":\"EXPLORER_SITE_PRESERVATION_VOW\",\"value\":\"一位探险家承诺先记录原貌并尊重当地居民的调查意愿。\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "PENDING_TRIGGER 121037c2237ba299aa712accda70a55ae74d7e3a4bc9adcb956001bb42aca9f1",
+      "first_seen": "2026-11-19T21:49:02.259Z"
+    },
+    {
+      "story": "fate-general",
+      "version": "1",
+      "fingerprint": "7a6a76dc984ea2b77015283c2dd72b452dd594df996fda3f5471734aa8039322",
+      "json": "{\"id\":\"fate-general\",\"version\":\"1\",\"title\":\"将军命运：沙盘之外\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"WAR_STARTED\",\"BATTLE_ENDED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"general\"},\"start\":\"strategy\",\"cooldownSeconds\":86400,\"nodes\":{\"quartermaster\":{\"text\":\"你提出作战前必须核实补给和撤离路线。任何实际调粮、征发或行军仍需国家权威服务批准。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"supply-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"supply-title\",\"type\":\"title\",\"target\":\"careful-strategist\",\"value\":\"审慎参谋\",\"permission\":null},{\"id\":\"supply-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"3\",\"permission\":null},{\"id\":\"supply-history\",\"type\":\"history\",\"target\":\"GENERAL_LOGISTICS_PROPOSED\",\"value\":\"一位将军提出优先核实补给与撤离路线的原则。\",\"permission\":null}],\"terminal\":true},\"restraint\":{\"text\":\"你主张保护俘虏与平民，并在目标达成后重新审视战事。议事厅将这份克制倡议归档。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"restraint-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"restraint-title\",\"type\":\"title\",\"target\":\"restrained-commander\",\"value\":\"克制的筹谋者\",\"permission\":null},{\"id\":\"restraint-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"4\",\"permission\":null},{\"id\":\"restraint-history\",\"type\":\"history\",\"target\":\"GENERAL_RESTRAINT_PROPOSED\",\"value\":\"一位将军提出保护俘虏与平民的战争克制倡议。\",\"permission\":null}],\"terminal\":true},\"strategy\":{\"text\":\"沙盘上的每一枚棋子都代表真实的人。作为将军，你准备先向议事厅提出哪项原则？这份建议尚不构成正式军令。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"restraint\":{\"label\":\"为战斗设定克制与停火准则\",\"next\":\"restraint\",\"condition\":null,\"permission\":null,\"effects\":[]},\"supply\":{\"label\":\"先核实补给和撤离路线\",\"next\":\"quartermaster\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false}}}",
+      "provenance": "PENDING_TRIGGER 0193bc45e74a9560e1fe4722ec490e90e4307a0fe872ebb087fbbf698313a25a",
+      "first_seen": "2026-11-19T21:49:02.255Z"
+    },
+    {
+      "story": "fate-mayor",
+      "version": "1",
+      "fingerprint": "556fb29efe37d0eb2fb20e898f5aec5b2a48edc518068a432a53021a7fe476a7",
+      "json": "{\"id\":\"fate-mayor\",\"version\":\"1\",\"title\":\"城主命运：广场上的议题\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"NATION_FOUNDED\",\"TERRITORY_CHANGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"mayor\"},\"start\":\"square\",\"cooldownSeconds\":86400,\"nodes\":{\"civic-archivist\":{\"text\":\"你倡议把不同群体的城市记忆一同保存。纪念场所仍需征询社区与地区保护系统的许可。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"heritage-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"heritage-title\",\"type\":\"title\",\"target\":\"civic-memory-advocate\",\"value\":\"城市记忆倡导者\",\"permission\":null},{\"id\":\"heritage-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"4\",\"permission\":null},{\"id\":\"heritage-history\",\"type\":\"history\",\"target\":\"MAYOR_PUBLIC_MEMORY_PROPOSED\",\"value\":\"一位城主倡议保存城市中不同群体的共同记忆。\",\"permission\":null}],\"terminal\":true},\"civic-listener\":{\"text\":\"你提出先公开收集居民需求，再讨论预算。任何税收、资源拨付或世界施工都必须另行经过权威审批。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"needs-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"6\",\"permission\":null},{\"id\":\"needs-title\",\"type\":\"title\",\"target\":\"civic-needs-listener\",\"value\":\"民意倾听者\",\"permission\":null},{\"id\":\"needs-reputation\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"3\",\"permission\":null},{\"id\":\"needs-history\",\"type\":\"history\",\"target\":\"MAYOR_CIVIC_HEARING_PROPOSED\",\"value\":\"一位城主提出在预算前公开听取居民民生需求。\",\"permission\":null}],\"terminal\":true},\"square\":{\"text\":\"居民在广场等候提出意见。作为城主，你准备先组织哪一项公开讨论？这次个人抉择不会自动建设、收税或征用土地。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"heritage\":{\"label\":\"讨论怎样保留城市的共同记忆\",\"next\":\"civic-archivist\",\"condition\":null,\"permission\":null,\"effects\":[]},\"needs\":{\"label\":\"先听取居民对安全和民生的需求\",\"next\":\"civic-listener\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false}}}",
+      "provenance": "PENDING_TRIGGER 378848a6d186f0b899b35ab856658f72526e89c7af4847f2fed7f0fc1d285176",
+      "first_seen": "2026-11-19T21:49:02.265Z"
+    },
+    {
+      "story": "fate-merchant",
+      "version": "1",
+      "fingerprint": "9157131a9d81d469a38aa2845e35ce48b7a1328cc6d04a30a9639d1434c3608c",
+      "json": "{\"id\":\"fate-merchant\",\"version\":\"1\",\"title\":\"商人命运：账本的另一页\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"TERRITORY_CLAIMED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"merchant\"},\"start\":\"ledger\",\"cooldownSeconds\":86400,\"nodes\":{\"fair-trade\":{\"text\":\"你提出公开报价与灾后公平供给的倡议。是否形成交易合同，仍须由真实贸易系统与当事人确认。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"fair-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"fair-title\",\"type\":\"title\",\"target\":\"fair-trade-advocate\",\"value\":\"公平交易倡导者\",\"permission\":null},{\"id\":\"fair-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"3\",\"permission\":null},{\"id\":\"fair-history\",\"type\":\"history\",\"target\":\"MERCHANT_FAIR_TRADE_VOW\",\"value\":\"一位商人提出公开报价与公平供给的原则。\",\"permission\":null}],\"terminal\":true},\"ledger\":{\"text\":\"档案员青芜邀请你为未来商路提出一项原则。你准备让账本记录什么？此处不进行真实交易或物品转移。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"fair\":{\"label\":\"公开报价，反对利用灾难牟利\",\"next\":\"fair-trade\",\"condition\":null,\"permission\":null,\"effects\":[]},\"provenance\":{\"label\":\"记录货物出处与约定，减少争议\",\"next\":\"provenance\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"provenance\":{\"text\":\"你主张为贸易保留出处和约定的证据。今天留下的是原则草案，不是已完成的大宗贸易凭据。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"provenance-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"provenance-title\",\"type\":\"title\",\"target\":\"trade-record-keeper\",\"value\":\"商约记录者\",\"permission\":null},{\"id\":\"provenance-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"provenance-history\",\"type\":\"history\",\"target\":\"MERCHANT_PROVENANCE_VOW\",\"value\":\"一位商人承诺为交易保留货物出处与约定证据。\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "PENDING_TRIGGER 32849ed36e842acfb656c550fe141fc6b3c0b597432b27d1060f84f55dbed381",
+      "first_seen": "2026-11-19T21:49:02.263Z"
+    },
+    {
+      "story": "fate-monarch",
+      "version": "1",
+      "fingerprint": "34c49fbb8d3a7eff280cf0ade59e2f806c3eb14de1bb47c008ddb40b0cf87b3d",
+      "json": "{\"id\":\"fate-monarch\",\"version\":\"1\",\"title\":\"君主命运：王冠的重量\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"NATION_FOUNDED\",\"NATION_SPLIT\",\"NATIONS_MERGED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"monarch\"},\"start\":\"crown\",\"cooldownSeconds\":86400,\"nodes\":{\"accountable-steward\":{\"text\":\"你承诺重大资源用途应有可追溯依据。今天形成的是公开治理的个人誓愿，并没有发生任何国库支出。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"steward-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"steward-title\",\"type\":\"title\",\"target\":\"accountable-steward\",\"value\":\"问责承诺者\",\"permission\":null},{\"id\":\"steward-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"4\",\"permission\":null},{\"id\":\"steward-history\",\"type\":\"history\",\"target\":\"MONARCH_RESOURCE_ACCOUNTABILITY_VOW\",\"value\":\"一位君主承诺为重大资源用途保留公开可追溯的依据。\",\"permission\":null}],\"terminal\":true},\"crown\":{\"text\":\"王冠代表的责任远多于荣光。作为君主，你愿意先留下怎样的治理倡议？这不是一次立法、改制或国库操作。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"counsel\":{\"label\":\"让不同意见进入议事记录\",\"next\":\"open-council\",\"condition\":null,\"permission\":null,\"effects\":[]},\"stewardship\":{\"label\":\"承诺公开重大资源用途的依据\",\"next\":\"accountable-steward\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"open-council\":{\"text\":\"你主张把异议与共识一同归档，避免后人只听到一种声音。正式政治制度仍由已有权威系统处理。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"council-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"council-title\",\"type\":\"title\",\"target\":\"open-council-advocate\",\"value\":\"公议倡导者\",\"permission\":null},{\"id\":\"council-reputation\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"3\",\"permission\":null},{\"id\":\"council-history\",\"type\":\"history\",\"target\":\"MONARCH_OPEN_COUNCIL_VOW\",\"value\":\"一位君主承诺让不同意见进入国家议事记录。\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "PENDING_TRIGGER d00a9adfc9830f18d11a5352ed0fcf74ec5dc25dd44fddc51ba2de33c11ba9ee",
+      "first_seen": "2026-11-19T21:49:02.275Z"
+    },
+    {
+      "story": "fate-scholar",
+      "version": "1",
+      "fingerprint": "d83df6f3cc9a2de2927c0154c81fc8e9a58bdf32b9902e3eb88421459bd82bb6",
+      "json": "{\"id\":\"fate-scholar\",\"version\":\"1\",\"title\":\"学者命运：未完成的注脚\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"TECHNOLOGY_BREAKTHROUGH\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"scholar\"},\"start\":\"manuscript\",\"cooldownSeconds\":86400,\"nodes\":{\"critical-archive\":{\"text\":\"你把疑点和反例与研究稿一同归档。承认未知，使下一次研究有了可靠起点。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"critical-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"critical-title\",\"type\":\"title\",\"target\":\"careful-questioner\",\"value\":\"审慎求证者\",\"permission\":null},{\"id\":\"critical-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"critical-history\",\"type\":\"history\",\"target\":\"SCHOLAR_CRITICAL_ARCHIVE_VOW\",\"value\":\"一位学者承诺在研究记录中保存疑点与反例。\",\"permission\":null}],\"terminal\":true},\"manuscript\":{\"text\":\"青芜向你展示一份仍待考证的研究稿。作为学者，你希望怎样让知识继续生长？这次选择不会自动解锁科技。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"open\":{\"label\":\"公开方法，让更多人复核\",\"next\":\"open-method\",\"condition\":null,\"permission\":null,\"effects\":[]},\"question\":{\"label\":\"列明疑点与反例，再继续研究\",\"next\":\"critical-archive\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"open-method\":{\"text\":\"你提出公开研究方法的原则。档案会把已证事实与推论分别标注，让后来者能够复核。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"method-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"method-title\",\"type\":\"title\",\"target\":\"open-method-scholar\",\"value\":\"公开方法的学者\",\"permission\":null},{\"id\":\"method-reputation\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"4\",\"permission\":null},{\"id\":\"method-history\",\"type\":\"history\",\"target\":\"SCHOLAR_OPEN_METHOD_VOW\",\"value\":\"一位学者提出公开研究方法并接受复核的原则。\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "PENDING_TRIGGER 00f28a433839acfebd8e966d6ac2d34a8bae7c350b4a2082e8e0302c4df547e1",
+      "first_seen": "2026-11-19T21:49:02.251Z"
+    },
+    {
+      "story": "fate-soldier",
+      "version": "1",
+      "fingerprint": "84d0c6273f739ad7466f2a39d0a6f72f00b793362026d4b6a3a5d81d310267d1",
+      "json": "{\"id\":\"fate-soldier\",\"version\":\"1\",\"title\":\"士兵命运：城门下的誓言\",\"scope\":\"PLAYER\",\"triggers\":[\"PLAYER_JOIN\",\"WAR_STARTED\",\"WAR_ENDED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"soldier\"},\"start\":\"watch\",\"cooldownSeconds\":86400,\"nodes\":{\"protector\":{\"text\":\"你在值守簿留下了保护平民的誓愿。老兵记住了你的选择，真正的救援仍需在实际行动中完成。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"protector-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"protector-title\",\"type\":\"title\",\"target\":\"civilian-guardian\",\"value\":\"平民守望者\",\"permission\":null},{\"id\":\"protector-trust\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"3\",\"permission\":null},{\"id\":\"protector-history\",\"type\":\"history\",\"target\":\"SOLDIER_CIVILIAN_VOW\",\"value\":\"一名士兵承诺优先保护平民与伤者。\",\"permission\":null}],\"terminal\":true},\"watch\":{\"text\":\"老兵岑岳问你，身为士兵，今天愿意怎样守护这片土地？这是一份个人誓愿，不会替国家宣战或征发物资。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"protect\":{\"label\":\"把平民与伤者的安全放在第一位\",\"next\":\"protector\",\"condition\":null,\"permission\":null,\"effects\":[]},\"remember\":{\"label\":\"记录无名者的故事，抵抗遗忘\",\"next\":\"witness\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"witness\":{\"text\":\"你愿意为普通人留下姓名与证词。岑岳把一本空白采访簿交到你面前；本剧情只登记誓愿，不凭空生成物品。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"witness-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"5\",\"permission\":null},{\"id\":\"witness-title\",\"type\":\"title\",\"target\":\"nameless-witness\",\"value\":\"无名者的见证人\",\"permission\":null},{\"id\":\"witness-trust\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"4\",\"permission\":null},{\"id\":\"witness-history\",\"type\":\"history\",\"target\":\"SOLDIER_TESTIMONY_VOW\",\"value\":\"一名士兵承诺记录普通人的战争见证。\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "PENDING_TRIGGER 118db072a2a5e9c393b3aa266a70d8e1a49ed5569d1b2293fc59727a7f708eef",
+      "first_seen": "2026-11-19T21:49:02.257Z"
+    },
+    {
+      "story": "heir-legacy",
+      "version": "1",
+      "fingerprint": "074c2c318a164df6dbd3e1dc3787622b425b7f11fe71b9ef781d95dfcfade533",
+      "json": "{\"id\":\"heir-legacy\",\"version\":\"1\",\"title\":\"旧都档案：每个人的那一票\",\"scope\":\"PLAYER\",\"triggers\":[\"HEIR_RESTORATION_SUPPORTED\",\"HEIR_RESTORATION_REJECTED\",\"IMPERIAL_HERITAGE_INITIATIVE\"],\"condition\":{\"all\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.resolution.world.last-heir/1/preparations\",\"op\":\"exists\",\"value\":null},{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.HEIR_RESTORATION_SUPPORTED\",\"op\":\"gt\",\"value\":\"0\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.HEIR_RESTORATION_REJECTED\",\"op\":\"gt\",\"value\":\"0\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.IMPERIAL_HERITAGE_INITIATIVE\",\"op\":\"gt\",\"value\":\"0\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null}],\"any\":null,\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"start\":\"archive\",\"cooldownSeconds\":604800,\"nodes\":{\"archive\":{\"text\":\"旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同决议。投过败方票、没有投票和表示支持，是不同的经历。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"reconcile\":{\"label\":\"对照公开决议与我亲历的结局记录\",\"next\":\"reconciled\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.resolution.world.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"permission\":null,\"effects\":[]},\"testimony\":{\"label\":\"记录我在议会实际投出的主张\",\"next\":\"personal\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"permission\":null,\"effects\":[]},\"witness\":{\"label\":\"我未在该轮投票，以见证者身份留下说明\",\"next\":\"witnessed\",\"condition\":{\"all\":null,\"any\":null,\"not\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"personal\":{\"text\":\"你的个人投票已有原始记录。档案不会把胜出的共同决议覆盖到你的个人立场上，也不会因你后来转国而改写当时的投票。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"testimony-history\",\"type\":\"history\",\"target\":\"HEIR_PERSONAL_TESTIMONY\",\"value\":\"参与者依据已保存的个人投票，补充了旧都议会口述档案。\",\"permission\":null},{\"id\":\"testimony-title\",\"type\":\"title\",\"target\":\"imperial-testimony-keeper\",\"value\":\"议会证言保存者\",\"permission\":null},{\"id\":\"testimony-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true},\"reconciled\":{\"text\":\"共同决议与参与者的个人选择分别保存。你核对了自己亲历的叙事结局与公开档案；这项核对不表示国家、战争或国库已经发生真实变更。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"archive-history\",\"type\":\"history\",\"target\":\"HEIR_RECORDS_RECONCILED\",\"value\":\"参与者核对了旧都议会共同决议及自己亲历的叙事结局。\",\"permission\":null},{\"id\":\"archive-title\",\"type\":\"title\",\"target\":\"imperial-archive-reader\",\"value\":\"旧都档案校读者\",\"permission\":null},{\"id\":\"archive-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true},\"witnessed\":{\"text\":\"档案将你标记为没有在该轮投票的参与见证者。没有投票不等于默许，也不会被补写成支持任何一方。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"witness-history\",\"type\":\"history\",\"target\":\"HEIR_WITNESS_ACCOUNT\",\"value\":\"一位未在该轮投票的参与者留下了旧都议会见证说明。\",\"permission\":null},{\"id\":\"witness-title\",\"type\":\"title\",\"target\":\"imperial-history-witness\",\"value\":\"旧都议会见证者\",\"permission\":null},{\"id\":\"witness-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "LEGACY_INSTANCE 7c659931af6fc64bd7ca129e475aa1269d89684fea01fe76d73af36d082bed13",
+      "first_seen": "2026-11-19T21:49:02.236Z"
+    },
+    {
+      "story": "heir-legacy",
+      "version": "2",
+      "fingerprint": "3b4335d5f45e758905fb4576ed0afbe61db848d6da55031cfc62b0d060352623",
+      "json": "{\"id\":\"heir-legacy\",\"version\":\"2\",\"title\":\"Phase Three Legacy v2\",\"scope\":\"PLAYER\",\"triggers\":[\"PHASE_THREE_ARCHIVE_REVIEWED\"],\"condition\":{\"all\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.phase-three-archive/1/desk\",\"op\":\"exists\",\"value\":null},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.resolution.world.last-heir/1/preparations\",\"op\":\"exists\",\"value\":null},{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.HEIR_RESTORATION_SUPPORTED\",\"op\":\"gt\",\"value\":\"0\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.HEIR_RESTORATION_REJECTED\",\"op\":\"gt\",\"value\":\"0\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"chronicle.history.player.IMPERIAL_HERITAGE_INITIATIVE\",\"op\":\"gt\",\"value\":\"0\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null}],\"any\":null,\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"start\":\"archive\",\"cooldownSeconds\":0,\"nodes\":{\"archive\":{\"text\":\"旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同决议。投过败方票、没有投票和表示支持，是不同的经历。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"reconcile\":{\"label\":\"对照公开决议与我亲历的结局记录\",\"next\":\"reconciled\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.resolution.world.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"permission\":null,\"effects\":[]},\"testimony\":{\"label\":\"记录我在议会实际投出的主张\",\"next\":\"personal\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"permission\":null,\"effects\":[]},\"witness\":{\"label\":\"我未在该轮投票，以见证者身份留下说明\",\"next\":\"witnessed\",\"condition\":{\"all\":null,\"any\":null,\"not\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.last-heir/1/council\",\"op\":\"exists\",\"value\":null},\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[]}},\"effects\":[{\"id\":\"phase-three-entry-gate\",\"type\":\"memory\",\"target\":\"phase-three.v2-entry\",\"value\":\"authorized\",\"permission\":\"phase-three.v2.ready\"}],\"terminal\":false},\"personal\":{\"text\":\"你的个人投票已有原始记录。档案不会把胜出的共同决议覆盖到你的个人立场上，也不会因你后来转国而改写当时的投票。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"testimony-history\",\"type\":\"history\",\"target\":\"PHASE_THREE_V2_TESTIMONY\",\"value\":\"参与者依据已保存的个人投票，补充了旧都议会口述档案。\",\"permission\":null},{\"id\":\"testimony-title\",\"type\":\"title\",\"target\":\"imperial-testimony-keeper\",\"value\":\"议会证言保存者\",\"permission\":null},{\"id\":\"testimony-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true},\"reconciled\":{\"text\":\"共同决议与参与者的个人选择分别保存。你核对了自己亲历的叙事结局与公开档案；这项核对不表示国家、战争或国库已经发生真实变更。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"archive-history\",\"type\":\"history\",\"target\":\"PHASE_THREE_V2_RECONCILED\",\"value\":\"参与者核对了旧都议会共同决议及自己亲历的叙事结局。\",\"permission\":null},{\"id\":\"archive-title\",\"type\":\"title\",\"target\":\"imperial-archive-reader\",\"value\":\"旧都档案校读者\",\"permission\":null},{\"id\":\"archive-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true},\"witnessed\":{\"text\":\"档案将你标记为没有在该轮投票的参与见证者。没有投票不等于默许，也不会被补写成支持任何一方。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"witness-history\",\"type\":\"history\",\"target\":\"PHASE_THREE_V2_WITNESS\",\"value\":\"一位未在该轮投票的参与者留下了旧都议会见证说明。\",\"permission\":null},{\"id\":\"witness-title\",\"type\":\"title\",\"target\":\"imperial-history-witness\",\"value\":\"旧都议会见证者\",\"permission\":null},{\"id\":\"witness-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "ACCEPTED_CONFIGURATION",
+      "first_seen": "2026-11-19T21:49:02.414Z"
+    },
+    {
+      "story": "last-heir",
+      "version": "1",
+      "fingerprint": "6a8399be2be33974c2dd3f1c6eb69892cdc4ec18f0cc810886351dda8338c3d1",
+      "json": "{\"id\":\"last-heir\",\"version\":\"1\",\"title\":\"帝国最后的继承人\",\"scope\":\"WORLD\",\"triggers\":[\"ANCIENT_HEIR_DISCOVERED\",\"NATIONS_MERGED\",\"WORLD_EVENT\"],\"condition\":null,\"start\":\"summons\",\"cooldownSeconds\":604800,\"nodes\":{\"council\":{\"text\":\"伊蕾娅请求各国表态。支持、反对、救济、考古和谈判都是有效的历史选择；每个选项需要两位不同参与者共同确认。先达到人数的主张成为本轮共同路线。国家的正式承诺仍须其权威服务批准，本次投票只形成剧情立场。\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"aid\":{\"label\":\"组织救济：提出资源援助方案\",\"next\":\"preparations\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"relief-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.relief\",\"value\":\"proposed\",\"permission\":null},{\"id\":\"relief-record\",\"type\":\"history\",\"target\":\"IMPERIAL_RELIEF_PROPOSED\",\"value\":\"各国代表提出旧都救济方案；本记录不表示国库已经扣款。\",\"permission\":null}]},\"diplomacy\":{\"label\":\"外交谈判：草拟共存条约\",\"next\":\"preparations\",\"condition\":{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"diplomat\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"monarch\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[{\"id\":\"treaty-draft\",\"type\":\"memory\",\"target\":\"old-imperial-capital.treaty\",\"value\":\"drafted\",\"permission\":null}]},\"oppose\":{\"label\":\"反对复国：要求保障现有国家主权\",\"next\":\"preparations\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"oppose-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.heir-position\",\"value\":\"opposed\",\"permission\":null},{\"id\":\"oppose-record\",\"type\":\"history\",\"target\":\"RESTORATION_OPPOSED\",\"value\":\"议会要求继承人尊重现有国家主权。\",\"permission\":null}]},\"ruins\":{\"label\":\"派遣学者：勘查古代遗迹\",\"next\":\"preparations\",\"condition\":{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"scholar\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"explorer\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[{\"id\":\"ruins-memory\",\"type\":\"memory\",\"target\":\"imperial-ruins.expedition\",\"value\":\"proposed\",\"permission\":null}]},\"support\":{\"label\":\"支持继承人：先保护旧都居民\",\"next\":\"preparations\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"support-pledge\",\"type\":\"reputation\",\"target\":\"ancient-heir\",\"value\":\"10\",\"permission\":null},{\"id\":\"support-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.heir-position\",\"value\":\"supported\",\"permission\":null}]}},\"effects\":[],\"terminal\":false},\"heritage\":{\"text\":\"议会提出共同保护旧都遗址。图书馆开始编纂这次会议的记录，后续考古与和平谈判可引用这份世界记忆。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"heritage-record\",\"type\":\"history\",\"target\":\"IMPERIAL_HERITAGE_INITIATIVE\",\"value\":\"各国参与者共同提出保护旧都历史遗产的倡议。\",\"permission\":null},{\"id\":\"heritage-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.legacy\",\"value\":\"shared-heritage\",\"permission\":null},{\"id\":\"heritage-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"15\",\"permission\":null},{\"id\":\"heritage-title\",\"type\":\"title\",\"target\":\"shared-history-founder\",\"value\":\"共同历史的缔造者\",\"permission\":null}],\"terminal\":true},\"preparations\":{\"text\":\"议会的第一项共识已经写入档案。旧都守军仍在等待最终决定。你们可以支持继承人重建政治共同体、拒绝复国，或主张以共同守护遗址结束争端。最后战役由现有 StarCore 剧情和任务脚本接管；此默认样例不虚构战役完成或修改外交。\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"compromise\":{\"label\":\"达成妥协：成立共同遗产倡议\",\"next\":\"heritage\",\"condition\":null,\"permission\":null,\"effects\":[]},\"restoration\":{\"label\":\"支持重建：留下复国倡议\",\"next\":\"restored\",\"condition\":null,\"permission\":null,\"effects\":[]},\"sovereignty\":{\"label\":\"拒绝复国：留下主权宣言\",\"next\":\"sovereign\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"restored\":{\"text\":\"复国倡议获得议会支持。真正的国家建立、战争与外交变动将在权威服务提交后另行载入正史。伊蕾娅将铭记这次援手。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"restoration-record\",\"type\":\"history\",\"target\":\"HEIR_RESTORATION_SUPPORTED\",\"value\":\"各国参与者共同支持古帝国继承人的复国倡议。\",\"permission\":null},{\"id\":\"restoration-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.legacy\",\"value\":\"restoration-initiative\",\"permission\":null},{\"id\":\"restoration-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"15\",\"permission\":null},{\"id\":\"restoration-title\",\"type\":\"title\",\"target\":\"old-capital-guardian\",\"value\":\"旧都的守望者\",\"permission\":null}],\"terminal\":true},\"sovereign\":{\"text\":\"议会否决复国倡议，确认以现有国家的主权为谈判基础。旧都的历史仍向所有人开放。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"sovereignty-record\",\"type\":\"history\",\"target\":\"HEIR_RESTORATION_REJECTED\",\"value\":\"各国参与者共同否决复国倡议，并主张尊重现有国家主权。\",\"permission\":null},{\"id\":\"sovereignty-memory\",\"type\":\"memory\",\"target\":\"old-imperial-capital.legacy\",\"value\":\"sovereignty-declaration\",\"permission\":null},{\"id\":\"sovereignty-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"15\",\"permission\":null},{\"id\":\"sovereignty-title\",\"type\":\"title\",\"target\":\"sovereignty-witness\",\"value\":\"主权见证者\",\"permission\":null}],\"terminal\":true},\"summons\":{\"text\":\"古代帝国的继承传说再次成为各国议题。自称继承人的伊蕾娅邀请代表前往旧都。请至少两位参与者共同决定是否召开议会。此为剧情提案，其真实性以来源证据和后续调查为准。\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"convene\":{\"label\":\"召集各国议会，公开继承证据\",\"next\":\"council\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"council-record\",\"type\":\"history\",\"target\":\"HEIR_COUNCIL_OPENED\",\"value\":\"各国代表决定公开审议古帝国的继承主张。\",\"permission\":null}]}},\"effects\":[],\"terminal\":false}}}",
+      "provenance": "LEGACY_INSTANCE c3c1964e52e6f88674b95586090467b4984c39197a3b37a248c03441302b19fd",
+      "first_seen": "2026-11-19T21:49:02.245Z"
+    },
+    {
+      "story": "phase-three-archive",
+      "version": "1",
+      "fingerprint": "c6b64c95deb27db352346f1f63cc2e72d573219e69090b2e3e4045dfed65af71",
+      "json": "{\"id\":\"phase-three-archive\",\"version\":\"1\",\"title\":\"Phase Three Archive Review\",\"scope\":\"PLAYER\",\"triggers\":[\"HEIR_RESTORATION_SUPPORTED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.heir-legacy/1/archive\",\"op\":\"exists\",\"value\":null},\"start\":\"desk\",\"cooldownSeconds\":0,\"nodes\":{\"annotated\":{\"text\":\"The real first-edition reconciliation remains unchanged.\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null},{\"id\":\"title\",\"type\":\"title\",\"target\":\"phase-three-commentator\",\"value\":\"Third phase archive commentator\",\"permission\":null},{\"id\":\"record\",\"type\":\"history\",\"target\":\"PHASE_THREE_ARCHIVE_REVIEWED\",\"value\":\"A real returning voter reviewed their saved reconciliation.\",\"permission\":null}],\"terminal\":true},\"desk\":{\"text\":\"Read your actual saved first-edition decision before writing a new review.\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"annotate\":{\"label\":\"Annotate the reconciled archive\",\"next\":\"annotated\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.heir-legacy/1/archive\",\"op\":\"eq\",\"value\":\"reconcile\"},\"permission\":null,\"effects\":[]},\"preserve\":{\"label\":\"Preserve the original testimony\",\"next\":\"preserved\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"past.player.choice.heir-legacy/1/archive\",\"op\":\"eq\",\"value\":\"testimony\"},\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"preserved\":{\"text\":\"The real first-edition testimony remains unchanged.\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"2\",\"permission\":null},{\"id\":\"title\",\"type\":\"title\",\"target\":\"phase-three-preserver\",\"value\":\"Third phase archive preserver\",\"permission\":null},{\"id\":\"record\",\"type\":\"history\",\"target\":\"PHASE_THREE_ARCHIVE_REVIEWED\",\"value\":\"A real returning voter reviewed their saved testimony.\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "ACCEPTED_CONFIGURATION",
+      "first_seen": "2026-11-19T21:49:02.419Z"
+    },
+    {
+      "story": "siege-embers",
+      "version": "1",
+      "fingerprint": "1897e750cd91b5f4db520fedf379c1df00d381d4e35191841a0a250f873f6bc8",
+      "json": "{\"id\":\"siege-embers\",\"version\":\"1\",\"title\":\"围城余烬\",\"scope\":\"NATION\",\"triggers\":[\"BATTLE_ENDED\",\"WAR_ENDED\"],\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"nation.id\",\"op\":\"exists\",\"value\":null},\"start\":\"aftermath\",\"cooldownSeconds\":86400,\"nodes\":{\"aftermath\":{\"text\":\"一场战事已经结束。你所在国家的居民希望整理城市战争记忆：如果来源确为围城，可将围城证据纳入档案；否则只把以下方案作为战后提案，不把未经证实的围城写成事实。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"memorial\":{\"label\":\"筹划战争纪念碑\",\"next\":\"remembrance\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"memorial-plan\",\"type\":\"memory\",\"target\":\"siege-city.memorial\",\"value\":\"planned\",\"permission\":null}]},\"supplies\":{\"label\":\"公布重建物资倡议\",\"next\":\"rebuilding\",\"condition\":{\"all\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"nation.treasury\",\"op\":\"gte\",\"value\":\"1000\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"resource.wood\",\"op\":\"gte\",\"value\":\"128\"}],\"any\":null,\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[{\"id\":\"supplies-plan\",\"type\":\"memory\",\"target\":\"siege-city.reconstruction\",\"value\":\"proposed\",\"permission\":null}]},\"veterans\":{\"label\":\"记录老兵与平民的口述史\",\"next\":\"oral-history\",\"condition\":null,\"permission\":null,\"effects\":[{\"id\":\"veteran-trust\",\"type\":\"reputation\",\"target\":\"siege-veteran\",\"value\":\"8\",\"permission\":null}]}},\"effects\":[],\"terminal\":false},\"memorial-end\":{\"text\":\"围城的记忆没有随烟尘消失。纪念碑计划和这次抉择被写入国家历史。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"memorial-record\",\"type\":\"history\",\"target\":\"SIEGE_MEMORIAL_PLANNED\",\"value\":\"战事结束后，参与者为遇难者提出城市纪念碑计划。\",\"permission\":null},{\"id\":\"memorial-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"10\",\"permission\":null},{\"id\":\"memorial-title\",\"type\":\"title\",\"target\":\"war-memory-guardian\",\"value\":\"战争记忆的守护者\",\"permission\":null}],\"terminal\":true},\"oral-history\":{\"text\":\"老兵愿意讲述战役，但也请求你保存平民的名字。图书馆将保留不同见证者的记录。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"listen\":{\"label\":\"同时保存军人与平民的证词\",\"next\":\"testimony-end\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"rebuilding\":{\"text\":\"你核对了国库和木材的当前快照，拟定重建倡议。样例不会扣款或转移物资；正式项目必须由 StarCore 权威服务重新检查并提交。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"publish\":{\"label\":\"公布重建倡议\",\"next\":\"reconstruction-end\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"reconstruction-end\":{\"text\":\"重建倡议已公告。世界记忆会记住这次承诺，未来剧情可以在实际捐赠完成后记录真正的重建成果。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"reconstruction-record\",\"type\":\"history\",\"target\":\"SIEGE_RECONSTRUCTION_PROPOSED\",\"value\":\"战事结束后，参与者提出重建倡议；尚未发生国库支出。\",\"permission\":null},{\"id\":\"reconstruction-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"10\",\"permission\":null}],\"terminal\":true},\"remembrance\":{\"text\":\"纪念碑计划已存入城市档案。碑文将同时纪念守军、平民与流离失所者；只有经过地区保护检查的建筑适配器才能真正放置建筑。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"publish\":{\"label\":\"将计划送交图书馆\",\"next\":\"memorial-end\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"testimony-end\":{\"text\":\"口述史已成为城市长期记忆。以后到访的学者可以循着真实历史寻找更多见证者。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"testimony-record\",\"type\":\"history\",\"target\":\"SIEGE_TESTIMONIES_COLLECTED\",\"value\":\"战后幸存者的证词被纳入国家口述史计划。\",\"permission\":null},{\"id\":\"testimony-memory\",\"type\":\"memory\",\"target\":\"siege-city.oral-history\",\"value\":\"collected\",\"permission\":null},{\"id\":\"testimony-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"10\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "ACCEPTED_CONFIGURATION",
+      "first_seen": "2026-11-19T21:49:02.421Z"
+    },
+    {
+      "story": "silk-road-scholar",
+      "version": "1",
+      "fingerprint": "86206e1ba59093a5e0d300d73a6a84951635bb91cd7cc2ee40536e6e88f73476",
+      "json": "{\"id\":\"silk-road-scholar\",\"version\":\"1\",\"title\":\"丝路学者\",\"scope\":\"PLAYER\",\"triggers\":[\"EXPLORATION_DISCOVERY\",\"TECHNOLOGY_BREAKTHROUGH\"],\"condition\":{\"all\":[{\"all\":null,\"any\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"scholar\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"explorer\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"merchant\"}],\"not\":null,\"fact\":null,\"op\":null,\"value\":null},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"tech.stage\",\"op\":\"gte\",\"value\":\"2\"}],\"any\":null,\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"start\":\"discovery\",\"cooldownSeconds\":86400,\"nodes\":{\"archive-end\":{\"text\":\"你把易碎账本交给档案员保存。谨慎的考证同样能为未来留下入口。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"archive-record\",\"type\":\"history\",\"target\":\"CARAVAN_ARCHIVE_PRESERVED\",\"value\":\"古驿站账本被妥善保存，等待后续考证。\",\"permission\":null},{\"id\":\"archive-trust\",\"type\":\"reputation\",\"target\":\"caravan-archivist\",\"value\":\"6\",\"permission\":null},{\"id\":\"archive-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"8\",\"permission\":null}],\"terminal\":true},\"commerce\":{\"text\":\"当前国家没有处于战争状态。你拟定了一份贸易路线建议；正式贸易、外交或财政变更仍由原有权威系统执行。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"propose\":{\"label\":\"提交贸易路线建议\",\"next\":\"trade-end\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"discovery\":{\"text\":\"探索或科技进步让旧商路档案再次受到关注。古驿站账本记载着贸易、技术传播和边境交往。你的身份将决定怎样整理这些线索；地点是否为新发现，应以触发事件的原始证据为准。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"map\":{\"label\":\"探险家：绘制驿道与水源地图\",\"next\":\"mapping\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"explorer\"},\"permission\":null,\"effects\":[]},\"research\":{\"label\":\"学者：整理账本与古代度量衡\",\"next\":\"research\",\"condition\":{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"scholar\"},\"permission\":null,\"effects\":[]},\"trade\":{\"label\":\"商人：提出和平贸易路线\",\"next\":\"commerce\",\"condition\":{\"all\":[{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"player.role\",\"op\":\"eq\",\"value\":\"merchant\"},{\"all\":null,\"any\":null,\"not\":null,\"fact\":\"nation.war\",\"op\":\"eq\",\"value\":\"false\"}],\"any\":null,\"not\":null,\"fact\":null,\"op\":null,\"value\":null},\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"map-end\":{\"text\":\"你的地图成为图书馆的一部分。探险家的脚步让尘封的商路重新进入共同记忆。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"map-record\",\"type\":\"history\",\"target\":\"CARAVAN_ROUTE_SURVEYED\",\"value\":\"一位探险家调查并公开了古驿道与水源线索。\",\"permission\":null},{\"id\":\"map-memory\",\"type\":\"memory\",\"target\":\"ancient-caravanserai.route\",\"value\":\"surveyed\",\"permission\":null},{\"id\":\"map-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"12\",\"permission\":null},{\"id\":\"map-title\",\"type\":\"title\",\"target\":\"old-road-pioneer\",\"value\":\"旧道开拓者\",\"permission\":null}],\"terminal\":true},\"mapping\":{\"text\":\"荒废驿道仍连接着几处水源。你标记了可供后续探索的地点，并准备把地图存入公共档案。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"share\":{\"label\":\"公开驿道调查记录\",\"next\":\"map-end\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"research\":{\"text\":\"你发现账本中的数字使用同一种古代度量衡。这是文明交流的线索，不能仅凭线索就宣称国家完成科技突破。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{\"preserve\":{\"label\":\"先保存原件，留待后续考证\",\"next\":\"archive-end\",\"condition\":null,\"permission\":null,\"effects\":[]},\"share\":{\"label\":\"向图书馆公开研究线索\",\"next\":\"research-end\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"research-end\":{\"text\":\"图书馆收录了你的研究线索。后来者能够据此继续研究，文明的知识在一次次选择中积累。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"research-record\",\"type\":\"history\",\"target\":\"CARAVAN_RESEARCH_PUBLISHED\",\"value\":\"一位学者公开了古驿站账本与度量衡的研究线索。\",\"permission\":null},{\"id\":\"research-memory\",\"type\":\"memory\",\"target\":\"ancient-caravanserai.research\",\"value\":\"published\",\"permission\":null},{\"id\":\"research-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"12\",\"permission\":null},{\"id\":\"research-title\",\"type\":\"title\",\"target\":\"silk-road-scholar\",\"value\":\"丝路学者\",\"permission\":null}],\"terminal\":true},\"trade-end\":{\"text\":\"贸易路线建议被送到各国代表面前。是否开放商路，需要他们通过真正的外交与贸易服务作出决定。\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"trade-record\",\"type\":\"history\",\"target\":\"CARAVAN_TRADE_PROPOSED\",\"value\":\"一位商人依据古驿站发现提出了和平贸易路线。\",\"permission\":null},{\"id\":\"trade-memory\",\"type\":\"memory\",\"target\":\"ancient-caravanserai.trade\",\"value\":\"proposed\",\"permission\":null},{\"id\":\"trade-honor\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"12\",\"permission\":null},{\"id\":\"trade-title\",\"type\":\"title\",\"target\":\"trade-route-envoy\",\"value\":\"商路联络人\",\"permission\":null}],\"terminal\":true}}}",
+      "provenance": "ACCEPTED_CONFIGURATION",
+      "first_seen": "2026-11-19T21:49:02.423Z"
+    }
+  ],
+  "integrity": [
+    "ok"
+  ],
+  "foreign_key_violations": [],
+  "row_counts": {
+    "events": 8,
+    "event_players": 11,
+    "event_nations": 0,
+    "instances": 3,
+    "outcomes": 17,
+    "facts": 16,
+    "story_triggers": 16,
+    "story_trigger_receipts": 3,
+    "event_causes": 8,
+    "story_choice_log": 13,
+    "story_trigger_blocks": 0,
+    "memory_sites": 2,
+    "native_scene_journal": 0,
+    "story_definitions": 14
+  }
+}

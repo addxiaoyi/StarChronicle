@@ -1,0 +1,69 @@
+id: siege-embers
+version: "1"
+title: "围城余烬"
+scope: NATION
+triggers: [BATTLE_ENDED, WAR_ENDED]
+condition: {fact: nation.id, op: exists}
+start: aftermath
+cooldownSeconds: 86400
+nodes:
+  aftermath:
+    text: "一场战事已经结束。你所在国家的居民希望整理城市战争记忆：如果来源确为围城，可将围城证据纳入档案；否则只把以下方案作为战后提案，不把未经证实的围城写成事实。"
+    choices:
+      memorial:
+        label: "筹划战争纪念碑"
+        next: remembrance
+        effects:
+          - {id: memorial-plan, type: memory, target: siege-city.memorial, value: "planned"}
+      veterans:
+        label: "记录老兵与平民的口述史"
+        next: oral-history
+        effects:
+          - {id: veteran-trust, type: reputation, target: siege-veteran, value: "8"}
+      supplies:
+        label: "公布重建物资倡议"
+        next: rebuilding
+        condition:
+          all:
+            - {fact: nation.treasury, op: gte, value: "1000"}
+            - {fact: resource.wood, op: gte, value: "128"}
+        effects:
+          - {id: supplies-plan, type: memory, target: siege-city.reconstruction, value: "proposed"}
+  remembrance:
+    text: "纪念碑计划已存入城市档案。碑文将同时纪念守军、平民与流离失所者；只有经过地区保护检查的建筑适配器才能真正放置建筑。"
+    choices:
+      publish:
+        label: "将计划送交图书馆"
+        next: memorial-end
+  oral-history:
+    text: "老兵愿意讲述战役，但也请求你保存平民的名字。图书馆将保留不同见证者的记录。"
+    choices:
+      listen:
+        label: "同时保存军人与平民的证词"
+        next: testimony-end
+  rebuilding:
+    text: "你核对了国库和木材的当前快照，拟定重建倡议。样例不会扣款或转移物资；正式项目必须由 StarCore 权威服务重新检查并提交。"
+    choices:
+      publish:
+        label: "公布重建倡议"
+        next: reconstruction-end
+  memorial-end:
+    text: "围城的记忆没有随烟尘消失。纪念碑计划和这次抉择被写入国家历史。"
+    terminal: true
+    effects:
+      - {id: memorial-record, type: history, target: SIEGE_MEMORIAL_PLANNED, value: "战事结束后，参与者为遇难者提出城市纪念碑计划。"}
+      - {id: memorial-honor, type: honor, target: player, value: "10"}
+      - {id: memorial-title, type: title, target: war-memory-guardian, value: "战争记忆的守护者"}
+  testimony-end:
+    text: "口述史已成为城市长期记忆。以后到访的学者可以循着真实历史寻找更多见证者。"
+    terminal: true
+    effects:
+      - {id: testimony-record, type: history, target: SIEGE_TESTIMONIES_COLLECTED, value: "战后幸存者的证词被纳入国家口述史计划。"}
+      - {id: testimony-memory, type: memory, target: siege-city.oral-history, value: "collected"}
+      - {id: testimony-honor, type: honor, target: player, value: "10"}
+  reconstruction-end:
+    text: "重建倡议已公告。世界记忆会记住这次承诺，未来剧情可以在实际捐赠完成后记录真正的重建成果。"
+    terminal: true
+    effects:
+      - {id: reconstruction-record, type: history, target: SIEGE_RECONSTRUCTION_PROPOSED, value: "战事结束后，参与者提出重建倡议；尚未发生国库支出。"}
+      - {id: reconstruction-honor, type: honor, target: player, value: "10"}

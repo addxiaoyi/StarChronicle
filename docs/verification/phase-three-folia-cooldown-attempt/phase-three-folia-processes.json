@@ -1,0 +1,106 @@
+{
+  "scope": "StarChronicle standalone on real Folia; NOT StarCore full-stack certification",
+  "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+  "fixture_compile_exit_code": 0,
+  "boots": [
+    {
+      "boot": 1,
+      "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "server_started_utc": "2026-11-19T21:37:57.154858+00:00",
+      "normal_console_stop_requested": true,
+      "clients_quit_requested": true,
+      "server_pid": 10416,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-jar",
+        "folia.jar",
+        "--nogui"
+      ],
+      "offline_evaluation_ack": {
+        "boot": 1,
+        "observedAt": "2026-11-19T21:38:56.787191Z",
+        "online": 0,
+        "report": {
+          "sourceEventId": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+          "storyId": "phase-three-archive",
+          "version": "1",
+          "status": "QUEUED",
+          "newSeeds": 2,
+          "matchingInstances": 0,
+          "completedInstances": 0,
+          "message": "仅登记持久触发；按当前真实身份、完成实例、冷却、版本与权限复核，未立即执行剧情或奖励"
+        },
+        "sourceId": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+        "status": "QUEUED"
+      },
+      "offline_evaluation_ack_observed_utc": "2026-11-19T21:38:56.794968+00:00",
+      "offline_snapshot_sha256": "c5e53ae473601f45b690ddb698d822a8a537120ac7857e6074145d9074787512",
+      "offline_snapshot_captured_utc": "2026-11-19T21:39:10.583728+00:00",
+      "client_start_ack": true,
+      "client_start_ack_utc": "2026-11-19T21:39:10.865262+00:00",
+      "client_pid": 9700,
+      "client_command": [
+        "node",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\tools\\phase-three-folia-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-folia-bfa80b9c",
+        "--boot",
+        "1"
+      ],
+      "client_started_utc": "2026-11-19T21:39:10.870430+00:00",
+      "client_exit_code": 0,
+      "client_ended_utc": "2026-11-19T21:41:19.361103+00:00",
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T21:41:45.737327+00:00",
+      "plugin_sha256_after": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "all_owned_children_exited": true
+    },
+    {
+      "boot": 2,
+      "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "server_started_utc": "2026-11-19T21:42:32.062090+00:00",
+      "normal_console_stop_requested": true,
+      "clients_quit_requested": true,
+      "server_pid": 16416,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-jar",
+        "folia.jar",
+        "--nogui"
+      ],
+      "client_start_ack": true,
+      "client_start_ack_utc": "2026-11-19T21:43:23.931665+00:00",
+      "client_pid": 5340,
+      "client_command": [
+        "node",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\tools\\phase-three-folia-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-folia-bfa80b9c",
+        "--boot",
+        "2"
+      ],
+      "client_started_utc": "2026-11-19T21:43:23.936789+00:00",
+      "client_exit_code": 0,
+      "client_ended_utc": "2026-11-19T21:47:05.186957+00:00",
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T21:47:13.136291+00:00",
+      "plugin_sha256_after": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "all_owned_children_exited": true
+    }
+  ],
+  "server_exit_codes": [
+    0,
+    0
+  ],
+  "client_exit_codes": [
+    0,
+    0
+  ],
+  "normal_console_stop_each_server": false,
+  "clients_quit_normally_each_boot": false,
+  "all_owned_children_exited": false
+}

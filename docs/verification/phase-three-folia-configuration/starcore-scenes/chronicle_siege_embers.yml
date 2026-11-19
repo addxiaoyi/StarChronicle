@@ -1,0 +1,36 @@
+id: chronicle_siege_embers
+title: "战后口述：余烬中的名字"
+version: "1.0.0"
+description: "围城余烬的单人见证场景，不把未经核验的战事认定为围城。"
+category: starchronicle
+startNode: witness
+nodes:
+  witness:
+    type: DIALOGUE
+    sceneName: "战后·临时档案室"
+    dialogues:
+      - {speakerId: siege-veteran, speakerName: "老兵", text: "战报写下胜负，幸存者却记得每一个名字。请让军人与平民都留下自己的声音。"}
+    choices:
+      names:
+        text: "同时记录军人与平民"
+        targetNode: names
+        effect: "flag:chronicle_siege_all_witnesses"
+      verify:
+        text: "先核验战役来源与时间"
+        targetNode: sources
+        effect: "flag:chronicle_siege_sources_checked"
+  names:
+    dialogues:
+      - "你准备整理口述证词。StarCore 的记录册制作任务可以提供实际的物资准备目标，证词本身仍需真实调查。"
+    nextNode: archive
+  sources:
+    dialogues:
+      - "战役是否为围城应由权威战报证明。你在档案中区分已确认事件、目击证词和重建提案。"
+    effect: "evidence:chronicle_siege_source_note"
+    nextNode: archive
+  archive:
+    dialogues:
+      - "共同记忆不会自动修复城市。请在 StarChronicle 剧情界面决定纪念、口述史或重建倡议的国家路线。"
+    isEnding: true
+    endingId: chronicle_siege_witness_seen
+    effect: "markEnding:chronicle_siege_witness_seen"

@@ -1,0 +1,34 @@
+id: fate-monarch
+version: "1"
+title: "君主命运：王冠的重量"
+scope: PLAYER
+triggers: [PLAYER_JOIN, NATION_FOUNDED, NATION_SPLIT, NATIONS_MERGED]
+condition: {fact: player.role, op: eq, value: monarch}
+start: crown
+cooldownSeconds: 86400
+nodes:
+  crown:
+    text: "王冠代表的责任远多于荣光。作为君主，你愿意先留下怎样的治理倡议？这不是一次立法、改制或国库操作。"
+    choices:
+      counsel:
+        label: "让不同意见进入议事记录"
+        next: open-council
+      stewardship:
+        label: "承诺公开重大资源用途的依据"
+        next: accountable-steward
+  open-council:
+    text: "你主张把异议与共识一同归档，避免后人只听到一种声音。正式政治制度仍由已有权威系统处理。"
+    terminal: true
+    effects:
+      - {id: council-honor, type: honor, target: player, value: "7"}
+      - {id: council-title, type: title, target: open-council-advocate, value: "公议倡导者"}
+      - {id: council-reputation, type: reputation, target: ancient-heir, value: "3"}
+      - {id: council-history, type: history, target: MONARCH_OPEN_COUNCIL_VOW, value: "一位君主承诺让不同意见进入国家议事记录。"}
+  accountable-steward:
+    text: "你承诺重大资源用途应有可追溯依据。今天形成的是公开治理的个人誓愿，并没有发生任何国库支出。"
+    terminal: true
+    effects:
+      - {id: steward-honor, type: honor, target: player, value: "7"}
+      - {id: steward-title, type: title, target: accountable-steward, value: "问责承诺者"}
+      - {id: steward-reputation, type: reputation, target: ancient-heir, value: "4"}
+      - {id: steward-history, type: history, target: MONARCH_RESOURCE_ACCOUNTABILITY_VOW, value: "一位君主承诺为重大资源用途保留公开可追溯的依据。"}

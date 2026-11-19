@@ -1,0 +1,34 @@
+id: fate-diplomat
+version: "1"
+title: "外交官命运：尚未签署的纸页"
+scope: PLAYER
+triggers: [PLAYER_JOIN, WAR_ENDED, NATIONS_MERGED]
+condition: {fact: player.role, op: eq, value: diplomat}
+start: draft
+cooldownSeconds: 86400
+nodes:
+  draft:
+    text: "伊蕾娅邀请你思考谈判的第一步。身为外交官，你会先推动什么？这里形成的是倡议，不会冒充各国签署条约。"
+    choices:
+      listen:
+        label: "让各方陈述底线与担忧"
+        next: listener
+      evidence:
+        label: "核对共同事实，再起草承诺"
+        next: recorder
+  listener:
+    text: "你主张先倾听各方担忧，避免把沉默当成同意。真实外交变更仍须各国权威代表授权。"
+    terminal: true
+    effects:
+      - {id: listener-honor, type: honor, target: player, value: "6"}
+      - {id: listener-title, type: title, target: patient-envoy, value: "耐心的使者"}
+      - {id: listener-reputation, type: reputation, target: ancient-heir, value: "3"}
+      - {id: listener-history, type: history, target: DIPLOMAT_LISTENING_PROPOSED, value: "一位外交官提出先倾听各方底线与担忧的谈判原则。"}
+  recorder:
+    text: "你建议在起草承诺前列出可共同核验的事实。档案会保留这份方法倡议，不把它记成生效条约。"
+    terminal: true
+    effects:
+      - {id: recorder-honor, type: honor, target: player, value: "6"}
+      - {id: recorder-title, type: title, target: diplomatic-evidence-keeper, value: "外交证据保管者"}
+      - {id: recorder-reputation, type: reputation, target: ancient-heir, value: "4"}
+      - {id: recorder-history, type: history, target: DIPLOMAT_COMMON_FACTS_PROPOSED, value: "一位外交官主张先核实共同事实再讨论正式承诺。"}

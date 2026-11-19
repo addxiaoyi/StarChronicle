@@ -13,3 +13,8 @@
 # Preserve the original Surefire failure evidence, including its generated whitespace.
 docs/verification/phase-three-completed-safety-red.txt -text whitespace=-blank-at-eol,-blank-at-eof
 docs/verification/phase-three-completed-safety-red.xml -text whitespace=-blank-at-eol,-blank-at-eof
+# Evidence inventories hash captured bytes. Never normalize their Windows line endings.
+docs/verification/phase-three-paper-* -text whitespace=-blank-at-eol,-blank-at-eof
+docs/verification/phase-three-folia-* -text whitespace=-blank-at-eol,-blank-at-eof
+docs/verification/phase-three-folia-configuration/** -text whitespace=-blank-at-eol,-blank-at-eof
+docs/verification/phase-three-folia-cooldown-attempt/** -text whitespace=-blank-at-eol,-blank-at-eof

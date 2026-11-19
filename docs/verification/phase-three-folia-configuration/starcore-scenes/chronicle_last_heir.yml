@@ -1,0 +1,36 @@
+id: chronicle_last_heir
+title: "旧都证词：继承人的请求"
+version: "1.0.0"
+description: "帝国最后的继承人的单人补充场景；国家立场由 StarChronicle 多人议会决定。"
+category: starchronicle
+startNode: arrival
+nodes:
+  arrival:
+    type: DIALOGUE
+    sceneName: "旧都·议事厅"
+    dialogues:
+      - {speakerId: ancient-heir, speakerName: "伊蕾娅", text: "请先审查我的证据，再决定是否支持复国。你无须因我的血脉而献上国家。"}
+    choices:
+      ask:
+        text: "查看继承证据的出处"
+        targetNode: evidence
+        effect: "flag:chronicle_heir_evidence_requested"
+      civilians:
+        text: "询问旧都居民的处境"
+        targetNode: civilians
+        effect: "flag:chronicle_heir_civilians_considered"
+  evidence:
+    dialogues:
+      - {speakerId: ancient-heir, speakerName: "伊蕾娅", text: "旧印玺、谱系与档案只是待查材料。请把证据交给学者与各国议会核验。抄录准备任务可通过 StarCore 原任务服务接取。"}
+    effect: "evidence:chronicle_heir_testimony"
+    nextNode: departure
+  civilians:
+    dialogues:
+      - {speakerId: ancient-heir, speakerName: "伊蕾娅", text: "他们先需要住所与食物。援助不等于宣誓效忠；真正的物资转移必须得到国家授权。"}
+    nextNode: departure
+  departure:
+    dialogues:
+      - "你把证词带回议会。请在 StarChronicle 剧情界面作出共同路线选择；此场景不代替国家授权或多人投票。"
+    isEnding: true
+    endingId: chronicle_heir_testimony_seen
+    effect: "markEnding:chronicle_heir_testimony_seen"

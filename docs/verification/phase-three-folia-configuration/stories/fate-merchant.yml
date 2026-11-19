@@ -1,0 +1,34 @@
+id: fate-merchant
+version: "1"
+title: "商人命运：账本的另一页"
+scope: PLAYER
+triggers: [PLAYER_JOIN, TERRITORY_CLAIMED]
+condition: {fact: player.role, op: eq, value: merchant}
+start: ledger
+cooldownSeconds: 86400
+nodes:
+  ledger:
+    text: "档案员青芜邀请你为未来商路提出一项原则。你准备让账本记录什么？此处不进行真实交易或物品转移。"
+    choices:
+      fair:
+        label: "公开报价，反对利用灾难牟利"
+        next: fair-trade
+      provenance:
+        label: "记录货物出处与约定，减少争议"
+        next: provenance
+  fair-trade:
+    text: "你提出公开报价与灾后公平供给的倡议。是否形成交易合同，仍须由真实贸易系统与当事人确认。"
+    terminal: true
+    effects:
+      - {id: fair-honor, type: honor, target: player, value: "5"}
+      - {id: fair-title, type: title, target: fair-trade-advocate, value: "公平交易倡导者"}
+      - {id: fair-reputation, type: reputation, target: caravan-archivist, value: "3"}
+      - {id: fair-history, type: history, target: MERCHANT_FAIR_TRADE_VOW, value: "一位商人提出公开报价与公平供给的原则。"}
+  provenance:
+    text: "你主张为贸易保留出处和约定的证据。今天留下的是原则草案，不是已完成的大宗贸易凭据。"
+    terminal: true
+    effects:
+      - {id: provenance-honor, type: honor, target: player, value: "5"}
+      - {id: provenance-title, type: title, target: trade-record-keeper, value: "商约记录者"}
+      - {id: provenance-reputation, type: reputation, target: caravan-archivist, value: "4"}
+      - {id: provenance-history, type: history, target: MERCHANT_PROVENANCE_VOW, value: "一位商人承诺为交易保留货物出处与约定证据。"}

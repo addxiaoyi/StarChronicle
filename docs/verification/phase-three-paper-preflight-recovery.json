@@ -1,0 +1,46 @@
+{
+  "pid": 4188,
+  "started_utc": "2026-11-19T21:19:30.771819+00:00",
+  "purpose": "Recover normal shutdown after Python GBK stdout failure; no state reset",
+  "product_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+  "compile_command": [
+    "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\javac.exe",
+    "-J-Xmx64m",
+    "--release",
+    "21",
+    "--add-modules",
+    "jdk.attach",
+    "-encoding",
+    "UTF-8",
+    "-d",
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c\\fixture\\recovery-classes",
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c\\fixture\\PhaseThreePaperStopAgent.java"
+  ],
+  "compile_exit_code": 0,
+  "agent_source_sha256": "f10283680fe98de04ce7f7a84b7f68860161a2bb544f3a9f89e79f3266a26424",
+  "attach_command": [
+    "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+    "-Xmx64m",
+    "--add-modules",
+    "jdk.attach",
+    "-cp",
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c\\fixture\\recovery-classes",
+    "smoke.PhaseThreePaperStopAgent",
+    "4188",
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c\\fixture\\phase-three-paper-stop-agent.jar",
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c",
+    "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c\\evidence\\preflight-normal-shutdown.json"
+  ],
+  "attach_exit_code": 0,
+  "agent_jar_sha256": "c56e4a6e6cf888da496e40181da4035e4fd184b4106fca52b51e0f5d7c0767b2",
+  "server_exit_code": 0,
+  "exited_utc": "2026-11-19T21:19:33.569527+00:00",
+  "normal_shutdown": {
+    "status": "NORMAL_BUKKIT_SHUTDOWN_INVOKED",
+    "pid": 4188,
+    "utc": "2026-11-19T21:19:32.170809500Z",
+    "product_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154"
+  },
+  "source_files_unchanged": true
+}

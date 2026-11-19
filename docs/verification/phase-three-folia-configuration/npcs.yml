@@ -1,0 +1,111 @@
+# Logical characters only. This file does not spawn or teleport third-party NPC entities.
+# Bind an existing external NPC under bindings after copying its real provider ID.
+profiles:
+  ancient-heir:
+    name: "伊蕾娅"
+    background: "古帝国旁系后裔，自称保管着失落的皇室印玺。她的主张仍需各国与学者共同考证。"
+    faction: imperial-claimants
+    initialPosition: claimant
+    growth:
+      - {id: public-speaker, threshold: 20, position: council-speaker}
+      - {id: heritage-guardian, threshold: 60, position: heritage-guardian}
+    bindings: []
+    dialogues:
+      - id: hostility
+        priority: 100
+        condition: {fact: npc.hostility, op: gte, value: "50"}
+        text: "{player.name}，我们之间还有许多误解。请先让事实而非威胁开口。"
+      - id: trusted-restoration
+        priority: 60
+        condition:
+          all:
+            - {fact: npc.trust, op: gte, value: "10"}
+            - {fact: region.old-imperial-capital.legacy, op: eq, value: restoration-initiative}
+        text: "议会支持的是一项有待兑现的倡议。我会接受各国继续查验我的证据，也不会把共同决议说成每一位参与者的个人立场。"
+      - id: personal-dissent
+        priority: 75
+        condition:
+          all:
+            - {fact: past.player.choice.last-heir/1/council, op: eq, value: oppose}
+            - {fact: past.resolution.world.last-heir/1/council, op: eq, value: support}
+        text: "议会当时支持了我的主张，但你曾投下反对票。我不会把共同决议说成你的个人立场。我们可以继续核对证据。"
+      - id: shared-heritage
+        priority: 50
+        condition: {fact: region.old-imperial-capital.legacy, op: eq, value: shared-heritage}
+        text: "无论王冠最终属于谁，共同保存旧都的记忆都值得继续。"
+      - id: nations-merged
+        priority: 20
+        condition: {fact: history.NATIONS_MERGED, op: gte, value: "1"}
+        text: "我听说了诸国联合的历史。新的共同体应由生活在其中的人决定。"
+      - id: introduction
+        priority: 0
+        text: "我是{npc.name}。请先阅读档案，再决定是否相信我的继承主张。"
+    reactions:
+      - {id: restoration-pledge, events: [HEIR_RESTORATION_SUPPORTED], reputation: 15, trust: 12, hostility: -5, growth: 20}
+      - {id: sovereign-dialogue, events: [HEIR_RESTORATION_REJECTED], reputation: -5, trust: -5, hostility: 5, growth: 10}
+      - {id: common-heritage, events: [IMPERIAL_HERITAGE_INITIATIVE], reputation: 10, trust: 15, hostility: -10, growth: 30}
+      - {id: unity-observer, events: [NATIONS_MERGED], growth: 5}
+  siege-veteran:
+    name: "老兵岑岳"
+    background: "在多次战事后为阵亡者整理姓名的退役士兵。他更关心平民是否平安，而不是胜利者的夸耀。"
+    faction: city-remembrance
+    initialPosition: veteran
+    growth:
+      - {id: memory-keeper, threshold: 20, position: memory-keeper}
+      - {id: civic-mentor, threshold: 60, position: civic-mentor}
+    bindings: []
+    dialogues:
+      - id: trusted-testimony
+        priority: 60
+        condition:
+          all:
+            - {fact: npc.trust, op: gte, value: "10"}
+            - {fact: region.siege-city.oral-history, op: eq, value: collected}
+        text: "谢谢你保存那些平凡的名字。图书馆里的证词，不只属于将军。"
+      - id: memorial
+        priority: 40
+        condition: {fact: region.siege-city.memorial, op: eq, value: planned}
+        text: "纪念碑还是一份计划。真正建造前，记得征询居民并取得地区许可。"
+      - id: aftermath
+        priority: 20
+        condition: {fact: history.WAR_ENDED, op: gte, value: "1"}
+        text: "战争已经结束过，但安宁需要每天维护。愿我们不会遗漏任何一位幸存者。"
+      - id: introduction
+        priority: 0
+        text: "别急着歌颂战争。先坐下，听听这座城里普通人的故事。"
+    reactions:
+      - {id: peace-memory, events: [WAR_ENDED], reputation: 2, trust: 2, hostility: -2, growth: 5}
+      - {id: testimony-preserved, events: [SIEGE_TESTIMONIES_COLLECTED], reputation: 10, trust: 12, growth: 20}
+      - {id: memorial-proposed, events: [SIEGE_MEMORIAL_PLANNED], reputation: 5, trust: 5, growth: 10}
+  caravan-archivist:
+    name: "商路档案员青芜"
+    background: "研究古驿道账本与度量衡的学者，坚信知识需要出处、考证和妥善保存。"
+    faction: caravan-library
+    initialPosition: archivist
+    growth:
+      - {id: senior-researcher, threshold: 20, position: senior-researcher}
+      - {id: library-curator, threshold: 60, position: library-curator}
+    bindings: []
+    dialogues:
+      - id: scholar-exchange
+        priority: 60
+        condition:
+          all:
+            - {fact: player.role, op: eq, value: scholar}
+            - {fact: npc.trust, op: gte, value: "10"}
+        text: "同行，欢迎回来。让我们把猜想、证据与尚未解决的问题分别记清。"
+      - id: researched
+        priority: 40
+        condition: {fact: history.CARAVAN_RESEARCH_PUBLISHED, op: gte, value: "1"}
+        text: "公开的账本线索已经让更多学者能够复核。这才是知识继续生长的方式。"
+      - id: route-survey
+        priority: 20
+        condition: {fact: region.ancient-caravanserai.route, op: eq, value: surveyed}
+        text: "地图标出的是调查线索。出发前还要核对当地的通行规则和安全情况。"
+      - id: introduction
+        priority: 0
+        text: "欢迎来到商路档案。这里保存考证过的记录，也清楚标注仍待证实的线索。"
+    reactions:
+      - {id: research-opened, events: [CARAVAN_RESEARCH_PUBLISHED], reputation: 12, trust: 12, growth: 20}
+      - {id: archive-protected, events: [CARAVAN_ARCHIVE_PRESERVED], reputation: 8, trust: 10, growth: 15}
+      - {id: map-completed, events: [CARAVAN_ROUTE_SURVEYED], reputation: 6, trust: 5, growth: 10}
