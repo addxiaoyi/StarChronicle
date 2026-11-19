@@ -168,3 +168,9 @@ quest: existing_quest_id
 此外随包八个 `fate-*.yml` 覆盖士兵、将军、商人、学者、探险家、外交官、城主、君主，各有两种完整结局。`PLAYER_JOIN` 是插件按UUID和UTC日去重的真实到服观察；身份仅来自当前权威上下文，不取事件metadata。详见 [FATE-STORIES.md](FATE-STORIES.md)。
 
 验证检查覆盖格式、图结构、任务／脚本存在性和效果白名单。它不检查叙事质量、不证明国家权威操作一定获批，也不模拟所有外部插件事件。
+
+## 退休版本与后安装内容
+
+当前schema 4保存实际接受／pinned的完整有效定义。新条件可用 `past.player.choice.last-heir/1/council` 精确引用退休版本；必须能从当前配置或真实版本档案确认节点、选项和作用域，不能回退到最新版本。同ID／版本改内容（包括自动原生绑定变化）会报冲突，应提升版本。退休图只读，不注册旧触发器或效果。完整可安装示例见 `examples/historical-codex.yml`。
+
+新内容不会仅因重放旧事件自动执行。管理员对一条已有来源使用 `/chronicle evaluate <事件ID> <剧情ID> <版本>` 登记，之后通过当前真实身份恢复。来源及原NPC反应不重写；同一作用域已完成的同源结果不重开，不同活动版本会等待且不提前消费新版receipt。详见 [CONTINUOUS-NARRATIVE.md](CONTINUOUS-NARRATIVE.md)。

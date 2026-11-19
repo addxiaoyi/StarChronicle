@@ -3,6 +3,7 @@ package io.github.addxiaoyi.starchronicle.config;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.github.addxiaoyi.starchronicle.core.DefinitionCatalog;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
@@ -11,6 +12,19 @@ import java.util.function.Predicate;
 public final class ConfigLoader {
     private ConfigLoader() {}
     public static List<StoryDefinition> load(Path directory, Predicate<String> scripts, Predicate<String> quests) throws IOException {
+        return load(directory,scripts,quests,DefinitionCatalog.empty());
+    }
+    /** Resolve current and explicitly versioned retired references after every current file is read. */
+    public static List<StoryDefinition> load(Path directory, Predicate<String> scripts, Predicate<String> quests,
+                                              DefinitionCatalog catalog) throws IOException {
+        List<StoryDefinition> result=loadWithoutDirectoryValidation(directory,scripts,quests);
+        validateAll(result,catalog);
+        return result;
+    }
+    /** Parse and locally validate current files without resolving cross-story references. Hosts
+     * may bind their effective definitions before the catalog-aware directory validation pass. */
+    public static List<StoryDefinition> loadWithoutDirectoryValidation(Path directory, Predicate<String> scripts,
+                                                                       Predicate<String> quests) throws IOException {
         List<StoryDefinition> result=new ArrayList<>();
         if(!Files.isDirectory(directory)) throw new IOException("Missing stories directory: "+directory);
         try(var files=Files.list(directory)) {
@@ -25,13 +39,15 @@ public final class ConfigLoader {
                 validate(story,scripts,quests); result.add(story);
             }
         }
-        validateAll(result);
         return List.copyOf(result);
     }
     /** Validate references only after every current definition has been loaded. Single-story
      * validation remains usable for pinned historical definitions whose sources were retired. */
     public static void validateAll(Collection<StoryDefinition> definitions) {
-        StoryDependencies.validate(definitions);
+        validateAll(definitions,DefinitionCatalog.empty());
+    }
+    public static void validateAll(Collection<StoryDefinition> definitions,DefinitionCatalog catalog) {
+        StoryDependencies.validate(definitions,catalog);
     }
     public static void validate(StoryDefinition s, Predicate<String> scripts, Predicate<String> quests) {
         if(s==null) fail("Null story");

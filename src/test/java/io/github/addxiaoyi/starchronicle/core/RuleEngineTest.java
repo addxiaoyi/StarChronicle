@@ -68,10 +68,12 @@ class RuleEngineTest {
     @Test void cooldownPreventsNewInstanceOnNewSource(){String id=start(StoryDefinition.Scope.WORLD,1);engine.choose(id,a,"yes",ctx(a,"alpha"));assertTrue(engine.accept(event("source-2",a),List.of(ctx(a,"alpha"))).instanceIds().isEmpty());assertEquals(3,engine.history(null,null,0,20).size());}
     @Test void historySupportsNationBiographyPaginationAndEvidence(){start(StoryDefinition.Scope.WORLD,1);assertEquals(1,engine.history("alpha",a,0,1).size());assertTrue(engine.history("missing",null,0,20).isEmpty());assertTrue(engine.history(null,null,1,1).isEmpty());assertTrue(engine.history(null,a,0,20).getFirst().evidence().contains("war-1"));assertThrows(IllegalArgumentException.class,()->engine.history(null,null,-1,20));}
     @Test void unknownDeliveryIsNotAutomaticallyReplayedAfterCrash(){
-        open(story(StoryDefinition.Scope.WORLD,1,List.of(new StoryDefinition.Effect("quest","quest.accept","existing-quest","accept",null))));
+        var original=story(StoryDefinition.Scope.WORLD,1,List.of(new StoryDefinition.Effect("quest","quest.accept","existing-quest","accept",null)));
+        open(original);
         String id=engine.accept(event("q",a),List.of(ctx(a,"alpha"))).instanceIds().getFirst();engine.choose(id,a,"yes",ctx(a,"alpha"));
         Delivery d=engine.pending().getFirst();assertTrue(engine.claimDelivery(d.outcomeId()));assertFalse(engine.claimDelivery(d.outcomeId()));engine.close();engine=null;
-        open(story(StoryDefinition.Scope.WORLD,1,List.of()));assertTrue(engine.pending().isEmpty());assertEquals(1,engine.uncertain().size());assertTrue(engine.acknowledgeUnknown(d.outcomeId()));assertTrue(engine.uncertain().isEmpty());
+        // Reopen the same accepted version; removing its quest would be a different graph.
+        open(original);assertTrue(engine.pending().isEmpty());assertEquals(1,engine.uncertain().size());assertTrue(engine.acknowledgeUnknown(d.outcomeId()));assertTrue(engine.uncertain().isEmpty());
     }
     @Test void externalDeliveryFinishesOnceAndRejectionNeverRetries(){
         open(story(StoryDefinition.Scope.WORLD,1,List.of(new StoryDefinition.Effect("script","narrative.start","s1","start",null))));String id=engine.accept(event("q",a),List.of(ctx(a,"alpha"))).instanceIds().getFirst();engine.choose(id,a,"yes",ctx(a,"alpha"));Delivery d=engine.pending().getFirst();engine.claimDelivery(d.outcomeId());engine.finishDelivery(d.outcomeId(),CoreGateway.DeliveryResult.REJECTED);assertTrue(engine.pending().isEmpty());assertFalse(engine.claimDelivery(d.outcomeId()));

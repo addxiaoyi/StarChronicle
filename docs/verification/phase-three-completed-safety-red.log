@@ -1,0 +1,507 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------< io.github.addxiaoyi:starchronicle >------------------
+[INFO] Building StarChronicle 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent (default) @ starchronicle ---
+[INFO] argLine set to -javaagent:C:\\Users\\Administrator\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.13\\org.jacoco.agent-0.8.13-runtime.jar=destfile=C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ starchronicle ---
+[INFO] Copying 19 resources from src\main\resources to target\classes
+[INFO] Copying 4 resources from  to target\classes\META-INF\starchronicle
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ starchronicle ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ starchronicle ---
+[INFO] skip non existing resourceDirectory C:\Users\Administrator\Documents\StarChronicle\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ starchronicle ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 43 source files with javac [debug release 21] to target\test-classes
+[INFO] 由于在类路径中发现了一个或多个处理程序，因此启用了
+  批注处理。未来发行版的 javac 可能会禁用批注处理，
+  除非至少按名称指定了一个处理程序 (-processor)，
+  或指定了搜索路径 (--processor-path, --processor-module-path)，
+  或显式启用了批注处理 (-proc:only, -proc:full)。
+  可使用 -Xlint:-options 隐藏此消息。
+  可使用 -proc:none 禁用批注处理。
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ starchronicle ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest
+[ERROR] Tests run: 4, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 1.713 s <<< FAILURE! -- in io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest
+[ERROR] io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.anotherActiveVersionDoesNotConsumeTheNewVersionsPendingScopeReceipt -- Time elapsed: 1.381 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Old pinned graph must not consume the new version's request ==> expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.anotherActiveVersionDoesNotConsumeTheNewVersionsPendingScopeReceipt(CompletedInstanceSafetyTest.java:159)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxFindsCompletedSemanticTupleWithNonstandardLegacyIdInsteadOfCreatingStableDuplicate -- Time elapsed: 0.077 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Semantic source/story/version/scope identity prevents a second ID ==> expected: <1> but was: <2>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:166)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:664)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxFindsCompletedSemanticTupleWithNonstandardLegacyIdInsteadOfCreatingStableDuplicate(CompletedInstanceSafetyTest.java:144)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(boolean)[1] -- Time elapsed: 0.081 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Completed JSON including pinned choices and timestamps is immutable ==> expected: <{
+  "id" : "ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c",
+  "definition" : {
+    "id" : "completed-safety",
+    "version" : "1",
+    "title" : "Preserved council 1",
+    "scope" : "WORLD",
+    "triggers" : [ "LEGACY_EVENT" ],
+    "condition" : null,
+    "start" : "council",
+    "cooldownSeconds" : 0,
+    "nodes" : {
+      "council" : {
+        "text" : "Council",
+        "script" : "legacy_scene",
+        "quest" : "legacy_quest",
+        "quorum" : 1,
+        "choices" : {
+          "oppose" : {
+            "label" : "Oppose",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          },
+          "support" : {
+            "label" : "Support",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          }
+        },
+        "effects" : [ {
+          "id" : "new-entry-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "700",
+          "permission" : null
+        } ],
+        "terminal" : false
+      },
+      "end" : {
+        "text" : "Recorded ending",
+        "script" : null,
+        "quest" : null,
+        "quorum" : 1,
+        "choices" : { },
+        "effects" : [ {
+          "id" : "end-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "15",
+          "permission" : null
+        } ],
+        "terminal" : true
+      }
+    }
+  },
+  "scopeKey" : "world",
+  "sourceEventId" : "legacy:completed-source",
+  "node" : "end",
+  "members" : {
+    "00000000-0000-0000-0000-000000000001" : "river",
+    "00000000-0000-0000-0000-000000000002" : "hill"
+  },
+  "votes" : { },
+  "choices" : {
+    "council" : "support",
+    "council/00000000-0000-0000-0000-000000000001" : "support",
+    "council/00000000-0000-0000-0000-000000000002" : "oppose"
+  },
+  "startedAt" : "2026-11-19T10:10:12.123456789Z",
+  "updatedAt" : "2026-11-19T10:11:12.123456789Z",
+  "completed" : true
+}
+> but was: <{"id":"ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c","definition":{"id":"completed-safety","version":"1","title":"Preserved council 1","scope":"WORLD","triggers":["LEGACY_EVENT"],"condition":null,"start":"council","cooldownSeconds":0,"nodes":{"council":{"text":"Council","script":"legacy_scene","quest":"legacy_quest","quorum":1,"choices":{"oppose":{"label":"Oppose","next":"end","condition":null,"permission":null,"effects":[]},"support":{"label":"Support","next":"end","condition":null,"permission":null,"effects":[]}},"effects":[{"id":"new-entry-honor","type":"honor","target":"player","value":"700","permission":null}],"terminal":false},"end":{"text":"Recorded ending","script":null,"quest":null,"quorum":1,"choices":{},"effects":[{"id":"end-honor","type":"honor","target":"player","value":"15","permission":null}],"terminal":true}}},"scopeKey":"world","sourceEventId":"legacy:completed-source","node":"council","members":{"00000000-0000-0000-0000-000000000001":"river"},"votes":{},"choices":{},"startedAt":"2026-11-20T10:11:12.123456789Z","updatedAt":"2026-11-20T10:11:12.123456789Z","completed":false}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1156)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(CompletedInstanceSafetyTest.java:125)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[ERROR] io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(boolean)[2] -- Time elapsed: 0.058 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Completed JSON including pinned choices and timestamps is immutable ==> expected: <{
+  "id" : "ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c",
+  "definition" : {
+    "id" : "completed-safety",
+    "version" : "1",
+    "title" : "Preserved council 1",
+    "scope" : "WORLD",
+    "triggers" : [ "LEGACY_EVENT" ],
+    "condition" : null,
+    "start" : "council",
+    "cooldownSeconds" : 0,
+    "nodes" : {
+      "council" : {
+        "text" : "Council",
+        "script" : "legacy_scene",
+        "quest" : "legacy_quest",
+        "quorum" : 1,
+        "choices" : {
+          "oppose" : {
+            "label" : "Oppose",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          },
+          "support" : {
+            "label" : "Support",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          }
+        },
+        "effects" : [ {
+          "id" : "new-entry-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "700",
+          "permission" : null
+        } ],
+        "terminal" : false
+      },
+      "end" : {
+        "text" : "Recorded ending",
+        "script" : null,
+        "quest" : null,
+        "quorum" : 1,
+        "choices" : { },
+        "effects" : [ {
+          "id" : "end-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "15",
+          "permission" : null
+        } ],
+        "terminal" : true
+      }
+    }
+  },
+  "scopeKey" : "world",
+  "sourceEventId" : "legacy:completed-source",
+  "node" : "end",
+  "members" : {
+    "00000000-0000-0000-0000-000000000001" : "river",
+    "00000000-0000-0000-0000-000000000002" : "hill"
+  },
+  "votes" : { },
+  "choices" : {
+    "council" : "support",
+    "council/00000000-0000-0000-0000-000000000001" : "support",
+    "council/00000000-0000-0000-0000-000000000002" : "oppose"
+  },
+  "startedAt" : "2026-11-19T10:10:12.123456789Z",
+  "updatedAt" : "2026-11-19T10:11:12.123456789Z",
+  "completed" : true
+}
+> but was: <{"id":"ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c","definition":{"id":"completed-safety","version":"1","title":"Preserved council 1","scope":"WORLD","triggers":["LEGACY_EVENT"],"condition":null,"start":"council","cooldownSeconds":0,"nodes":{"council":{"text":"Council","script":"legacy_scene","quest":"legacy_quest","quorum":1,"choices":{"oppose":{"label":"Oppose","next":"end","condition":null,"permission":null,"effects":[]},"support":{"label":"Support","next":"end","condition":null,"permission":null,"effects":[]}},"effects":[{"id":"new-entry-honor","type":"honor","target":"player","value":"700","permission":null}],"terminal":false},"end":{"text":"Recorded ending","script":null,"quest":null,"quorum":1,"choices":{},"effects":[{"id":"end-honor","type":"honor","target":"player","value":"15","permission":null}],"terminal":true}}},"scopeKey":"world","sourceEventId":"legacy:completed-source","node":"council","members":{"00000000-0000-0000-0000-000000000001":"river"},"votes":{},"choices":{},"startedAt":"2026-11-20T10:11:12.123456789Z","updatedAt":"2026-11-20T10:11:12.123456789Z","completed":false}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1156)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(CompletedInstanceSafetyTest.java:125)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   CompletedInstanceSafetyTest.anotherActiveVersionDoesNotConsumeTheNewVersionsPendingScopeReceipt:159 Old pinned graph must not consume the new version's request ==> expected: <false> but was: <true>
+[ERROR]   CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept:125 Completed JSON including pinned choices and timestamps is immutable ==> expected: <{
+  "id" : "ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c",
+  "definition" : {
+    "id" : "completed-safety",
+    "version" : "1",
+    "title" : "Preserved council 1",
+    "scope" : "WORLD",
+    "triggers" : [ "LEGACY_EVENT" ],
+    "condition" : null,
+    "start" : "council",
+    "cooldownSeconds" : 0,
+    "nodes" : {
+      "council" : {
+        "text" : "Council",
+        "script" : "legacy_scene",
+        "quest" : "legacy_quest",
+        "quorum" : 1,
+        "choices" : {
+          "oppose" : {
+            "label" : "Oppose",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          },
+          "support" : {
+            "label" : "Support",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          }
+        },
+        "effects" : [ {
+          "id" : "new-entry-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "700",
+          "permission" : null
+        } ],
+        "terminal" : false
+      },
+      "end" : {
+        "text" : "Recorded ending",
+        "script" : null,
+        "quest" : null,
+        "quorum" : 1,
+        "choices" : { },
+        "effects" : [ {
+          "id" : "end-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "15",
+          "permission" : null
+        } ],
+        "terminal" : true
+      }
+    }
+  },
+  "scopeKey" : "world",
+  "sourceEventId" : "legacy:completed-source",
+  "node" : "end",
+  "members" : {
+    "00000000-0000-0000-0000-000000000001" : "river",
+    "00000000-0000-0000-0000-000000000002" : "hill"
+  },
+  "votes" : { },
+  "choices" : {
+    "council" : "support",
+    "council/00000000-0000-0000-0000-000000000001" : "support",
+    "council/00000000-0000-0000-0000-000000000002" : "oppose"
+  },
+  "startedAt" : "2026-11-19T10:10:12.123456789Z",
+  "updatedAt" : "2026-11-19T10:11:12.123456789Z",
+  "completed" : true
+}
+> but was: <{"id":"ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c","definition":{"id":"completed-safety","version":"1","title":"Preserved council 1","scope":"WORLD","triggers":["LEGACY_EVENT"],"condition":null,"start":"council","cooldownSeconds":0,"nodes":{"council":{"text":"Council","script":"legacy_scene","quest":"legacy_quest","quorum":1,"choices":{"oppose":{"label":"Oppose","next":"end","condition":null,"permission":null,"effects":[]},"support":{"label":"Support","next":"end","condition":null,"permission":null,"effects":[]}},"effects":[{"id":"new-entry-honor","type":"honor","target":"player","value":"700","permission":null}],"terminal":false},"end":{"text":"Recorded ending","script":null,"quest":null,"quorum":1,"choices":{},"effects":[{"id":"end-honor","type":"honor","target":"player","value":"15","permission":null}],"terminal":true}}},"scopeKey":"world","sourceEventId":"legacy:completed-source","node":"council","members":{"00000000-0000-0000-0000-000000000001":"river"},"votes":{},"choices":{},"startedAt":"2026-11-20T10:11:12.123456789Z","updatedAt":"2026-11-20T10:11:12.123456789Z","completed":false}>
+[ERROR]   CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept:125 Completed JSON including pinned choices and timestamps is immutable ==> expected: <{
+  "id" : "ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c",
+  "definition" : {
+    "id" : "completed-safety",
+    "version" : "1",
+    "title" : "Preserved council 1",
+    "scope" : "WORLD",
+    "triggers" : [ "LEGACY_EVENT" ],
+    "condition" : null,
+    "start" : "council",
+    "cooldownSeconds" : 0,
+    "nodes" : {
+      "council" : {
+        "text" : "Council",
+        "script" : "legacy_scene",
+        "quest" : "legacy_quest",
+        "quorum" : 1,
+        "choices" : {
+          "oppose" : {
+            "label" : "Oppose",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          },
+          "support" : {
+            "label" : "Support",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          }
+        },
+        "effects" : [ {
+          "id" : "new-entry-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "700",
+          "permission" : null
+        } ],
+        "terminal" : false
+      },
+      "end" : {
+        "text" : "Recorded ending",
+        "script" : null,
+        "quest" : null,
+        "quorum" : 1,
+        "choices" : { },
+        "effects" : [ {
+          "id" : "end-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "15",
+          "permission" : null
+        } ],
+        "terminal" : true
+      }
+    }
+  },
+  "scopeKey" : "world",
+  "sourceEventId" : "legacy:completed-source",
+  "node" : "end",
+  "members" : {
+    "00000000-0000-0000-0000-000000000001" : "river",
+    "00000000-0000-0000-0000-000000000002" : "hill"
+  },
+  "votes" : { },
+  "choices" : {
+    "council" : "support",
+    "council/00000000-0000-0000-0000-000000000001" : "support",
+    "council/00000000-0000-0000-0000-000000000002" : "oppose"
+  },
+  "startedAt" : "2026-11-19T10:10:12.123456789Z",
+  "updatedAt" : "2026-11-19T10:11:12.123456789Z",
+  "completed" : true
+}
+> but was: <{"id":"ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c","definition":{"id":"completed-safety","version":"1","title":"Preserved council 1","scope":"WORLD","triggers":["LEGACY_EVENT"],"condition":null,"start":"council","cooldownSeconds":0,"nodes":{"council":{"text":"Council","script":"legacy_scene","quest":"legacy_quest","quorum":1,"choices":{"oppose":{"label":"Oppose","next":"end","condition":null,"permission":null,"effects":[]},"support":{"label":"Support","next":"end","condition":null,"permission":null,"effects":[]}},"effects":[{"id":"new-entry-honor","type":"honor","target":"player","value":"700","permission":null}],"terminal":false},"end":{"text":"Recorded ending","script":null,"quest":null,"quorum":1,"choices":{},"effects":[{"id":"end-honor","type":"honor","target":"player","value":"15","permission":null}],"terminal":true}}},"scopeKey":"world","sourceEventId":"legacy:completed-source","node":"council","members":{"00000000-0000-0000-0000-000000000001":"river"},"votes":{},"choices":{},"startedAt":"2026-11-20T10:11:12.123456789Z","updatedAt":"2026-11-20T10:11:12.123456789Z","completed":false}>
+[ERROR]   CompletedInstanceSafetyTest.residualInboxFindsCompletedSemanticTupleWithNonstandardLegacyIdInsteadOfCreatingStableDuplicate:144 Semantic source/story/version/scope identity prevents a second ID ==> expected: <1> but was: <2>
+[INFO] 
+[ERROR] Tests run: 4, Failures: 4, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  13.844 s
+[INFO] Finished at: 2026-11-20T04:41:06+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.2:test (default-test) on project starchronicle: There are test failures.
+[ERROR] 
+[ERROR] See C:\Users\Administrator\Documents\StarChronicle\target\surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

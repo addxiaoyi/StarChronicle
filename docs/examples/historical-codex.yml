@@ -1,0 +1,36 @@
+# Install only after last-heir/1 was actually accepted or retained in this server's
+# definition archive. This file deliberately does not invent the retired definition.
+# Register one existing matching ending with:
+# /chronicle evaluate <canonical ending event ID> historical-codex 1
+id: historical-codex
+version: "1"
+title: "重读帝国旧史"
+scope: PLAYER
+triggers: [HEIR_RESTORATION_SUPPORTED, HEIR_RESTORATION_REJECTED, IMPERIAL_HERITAGE_INITIATIVE]
+condition: {fact: past.player.choice.last-heir/1/council, op: exists}
+cooldownSeconds: 604800
+start: desk
+nodes:
+  desk:
+    text: "旧档保存着你当年的真实选择：{past.player.choice.last-heir/1/council}。今天，你愿意怎样阅读这段历史？"
+    choices:
+      preserve:
+        label: "原样保存我的历史证词"
+        next: preserved
+      annotate:
+        label: "保留原票，另写今天的批注"
+        next: annotated
+  preserved:
+    text: "档案保留原始记录。新的归档行为不会改变当年的选票或共同决议。"
+    terminal: true
+    effects:
+      - {id: codex-honor, type: honor, target: player, value: "2"}
+      - {id: codex-title, type: title, target: codex-preserver, value: "旧史保管人"}
+      - {id: codex-history, type: history, target: HISTORICAL_CODEX_PRESERVED, value: "一位真实投票者重新整理并保存了旧帝国档案。"}
+  annotated:
+    text: "你的批注成为今天的新记录。当年的原始选票仍完整保留。"
+    terminal: true
+    effects:
+      - {id: codex-honor, type: honor, target: player, value: "2"}
+      - {id: codex-title, type: title, target: codex-commentator, value: "旧史批注者"}
+      - {id: codex-history, type: history, target: HISTORICAL_CODEX_ANNOTATED, value: "一位真实投票者保留原始选票，并为旧帝国档案补写了新批注。"}

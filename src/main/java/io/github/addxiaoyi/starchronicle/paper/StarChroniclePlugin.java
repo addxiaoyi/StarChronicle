@@ -68,8 +68,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             if(getConfig().getBoolean("install-default-stories",true))for(String name:List.of("last-heir.yml","siege-embers.yml","silk-road-scholar.yml","heir-legacy.yml","integration-example.json.disabled","fate-soldier.yml","fate-general.yml","fate-merchant.yml","fate-scholar.yml","fate-explorer.yml","fate-diplomat.yml","fate-mayor.yml","fate-monarch.yml")) if(!Files.exists(stories.resolve(name)))saveResource("stories/"+name,false);
             if(!Files.exists(getDataFolder().toPath().resolve("npcs.yml")))saveResource("npcs.yml",false);
             NpcCatalog catalog=NpcCatalog.load(getDataFolder().toPath().resolve("npcs.yml"));
-            definitions=coreContent.bind(ConfigLoader.load(stories,gateway::hasScript,gateway::hasQuest));
             store=new SqliteStore(getDataFolder().toPath().resolve("chronicle.db"));
+            definitions=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(stories,gateway::hasScript,gateway::hasQuest));
             npcLedger=new NpcLedger(store,catalog);
             engine=new RuleEngine(store,definitions,Clock.systemUTC(),npcLedger);
             nativeJournal=new NativeSceneJournal(store,Clock.systemUTC());
@@ -285,6 +285,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     }
     private final class Service implements ChronicleService {
         @Override public CompletionStage<ProcessReport> submit(WorldEvent event){Objects.requireNonNull(event);return snapshots().thenCompose(contexts->query(()->{ProcessReport result=engine.accept(event,audience(event,contexts));deliverPending();return result;}));}
+        @Override public CompletionStage<HistoricalEvaluationReport> evaluateHistorical(String source,String story,String version){return query(()->engine.evaluateHistorical(source,story,version));}
         @Override public CompletionStage<ProcessReport> choose(String id,UUID player,String choice){return snapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.choose(id,player,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> choose(String id,UUID player,String expected,String choice){return snapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.choose(id,player,expected,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> join(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.join(id,context)));}
@@ -303,7 +304,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!sender.hasPermission("starchronicle.use")){sender.sendMessage("没有权限。");return true;}
         if(args.length>0 && args[0].equalsIgnoreCase("memory"))return memory(sender,args);
-        if(args.length>0 && Set.of("validate","reload","status","uncertain","ack","native-ack","blocked","demo").contains(args[0].toLowerCase(Locale.ROOT)))return admin(sender,args);
+        if(args.length>0 && Set.of("validate","reload","status","uncertain","ack","native-ack","blocked","evaluate","demo").contains(args[0].toLowerCase(Locale.ROOT)))return admin(sender,args);
         if(!(sender instanceof Player p)){sender.sendMessage("玩家命令: /chronicle [history|stories|join|choose]；控制台: /chronicle status|validate|uncertain");return true;}
         UUID id=p.getUniqueId();tasks.track(p);gateway.refreshContext(p,permissions);
         try {
@@ -356,8 +357,12 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         Consumer<String> reply=text->{if(player!=null)message(player,text);else tasks.global(()->sender.sendMessage(text));};
         switch(args[0].toLowerCase(Locale.ROOT)) {
             case "status"->reply.accept("StarCore="+gateway.available()+", stories="+definitions.size()+", workerQueue="+worker.getQueue().size());
-            case "validate"->query(()->{var valid=coreContent.bind(ConfigLoader.load(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));engine.validate(valid);return valid;}).whenComplete((valid,error)->reply.accept(error==null?"验证通过: "+valid.size()+" 条剧情（未更改运行中实例）":"验证失败: "+root(error).getMessage()));
-            case "reload"->query(()->{List<StoryDefinition> valid=coreContent.bind(ConfigLoader.load(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));Set<String> nextPermissions=permissionNodes(withPendingDefinitions(valid),engine.activeInstances());engine.reload(valid);permissions=nextPermissions;definitions=valid;return valid.size();}).whenComplete((count,error)->reply.accept(error==null?"已重载 "+count+" 条剧情；已有实例保留原定义与权限需求。":"重载失败，原定义保留: "+root(error).getMessage()));
+            case "validate"->query(()->{var valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));engine.validate(valid);return valid;}).whenComplete((valid,error)->reply.accept(error==null?"验证通过: "+valid.size()+" 条剧情（未更改运行中实例或版本目录）":"验证失败: "+root(error).getMessage()));
+            case "reload"->query(()->{List<StoryDefinition> valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));Set<String> nextPermissions=permissionNodes(withPendingDefinitions(valid),engine.activeInstances());engine.reload(valid);permissions=nextPermissions;definitions=valid;return valid.size();}).whenComplete((count,error)->reply.accept(error==null?"已重载 "+count+" 条剧情；已有实例保留原定义与权限需求。":"重载失败，原定义保留: "+root(error).getMessage()));
+            case "evaluate"->{
+                if(args.length!=4){reply.accept("用法: /chronicle evaluate <已保存事件ID> <剧情ID> <精确版本>；仅登记，不立即执行");break;}
+                service.evaluateHistorical(args[1],args[2],args[3]).whenComplete((report,error)->reply.accept(error==null?report.status()+"；新增受众种子="+report.newSeeds()+"；既有同源实例="+report.matchingInstances()+"（已完成="+report.completedInstances()+"）；"+report.message():"历史评估未登记: "+root(error).getMessage()));
+            }
             case "uncertain"->query(()->{List<String> lines=new ArrayList<>();var items=engine.uncertain();var scenes=nativeJournal.unknown(100);lines.add("UNKNOWN外部效果="+items.size()+"，原生场景="+scenes.size()+"；请先对账，不会自动重放。");items.stream().limit(20).forEach(d->lines.add(d.outcomeId()+" "+d.type()+" "+d.target()));scenes.stream().limit(20).forEach(e->lines.add("native "+e.request().outcomeId()+" player="+e.request().playerId()+" "+e.reason()));return lines;}).whenComplete((lines,error)->{if(error!=null)reply.accept(root(error).getMessage());else lines.forEach(reply);});
             case "blocked"->query(()->engine.triggerBlocks(100)).whenComplete((items,error)->{if(error!=null)reply.accept(root(error).getMessage());else if(items.isEmpty())reply.accept("暂无因果循环或深度限制拦截。");else items.forEach(item->reply.accept("source="+item.eventId()+" story="+item.storyId()+"/"+item.version()+" reason="+item.reason()));});
             case "native-ack"->{if(args.length!=3||!args[2].equals("CONFIRM_SCENE_COMPLETED")){reply.accept("独立确认原生场景已结束/放弃后: /chronicle native-ack <outcomeId> CONFIRM_SCENE_COMPLETED");break;}query(()->{boolean done=nativeJournal.acknowledgeCompleted(args[1]);if(done)confirmNativeStart(args[1]);return done;}).whenComplete((ok,error)->reply.accept(error==null?"原生隔离关闭结果: "+ok+"；未重放任何原生操作。":root(error).getMessage()));}
@@ -374,7 +379,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return true;
     }
     @Override public List<String> onTabComplete(CommandSender sender,Command command,String alias,String[] args) {
-        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","choose","status","validate","reload","uncertain","ack","native-ack","blocked","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","choose","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
         if(args.length==2&&args[0].equalsIgnoreCase("npc"))return npcLedger.catalog().profiles().keySet().stream().sorted().toList();
         if(args.length==2&&args[0].equalsIgnoreCase("history"))return List.of("nation","player");
         if(args.length==2&&args[0].equalsIgnoreCase("demo")&&sender.hasPermission("starchronicle.admin"))return definitions.stream().map(StoryDefinition::id).filter(s->s.startsWith(args[1])).toList();

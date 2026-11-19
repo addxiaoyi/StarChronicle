@@ -1,0 +1,292 @@
+-------------------------------------------------------------------------------
+Test set: io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 4, Errors: 0, Skipped: 0, Time elapsed: 1.713 s <<< FAILURE! -- in io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest
+io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.anotherActiveVersionDoesNotConsumeTheNewVersionsPendingScopeReceipt -- Time elapsed: 1.381 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Old pinned graph must not consume the new version's request ==> expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.anotherActiveVersionDoesNotConsumeTheNewVersionsPendingScopeReceipt(CompletedInstanceSafetyTest.java:159)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxFindsCompletedSemanticTupleWithNonstandardLegacyIdInsteadOfCreatingStableDuplicate -- Time elapsed: 0.077 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Semantic source/story/version/scope identity prevents a second ID ==> expected: <1> but was: <2>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:166)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:664)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxFindsCompletedSemanticTupleWithNonstandardLegacyIdInsteadOfCreatingStableDuplicate(CompletedInstanceSafetyTest.java:144)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(boolean)[1] -- Time elapsed: 0.081 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Completed JSON including pinned choices and timestamps is immutable ==> expected: <{
+  "id" : "ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c",
+  "definition" : {
+    "id" : "completed-safety",
+    "version" : "1",
+    "title" : "Preserved council 1",
+    "scope" : "WORLD",
+    "triggers" : [ "LEGACY_EVENT" ],
+    "condition" : null,
+    "start" : "council",
+    "cooldownSeconds" : 0,
+    "nodes" : {
+      "council" : {
+        "text" : "Council",
+        "script" : "legacy_scene",
+        "quest" : "legacy_quest",
+        "quorum" : 1,
+        "choices" : {
+          "oppose" : {
+            "label" : "Oppose",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          },
+          "support" : {
+            "label" : "Support",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          }
+        },
+        "effects" : [ {
+          "id" : "new-entry-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "700",
+          "permission" : null
+        } ],
+        "terminal" : false
+      },
+      "end" : {
+        "text" : "Recorded ending",
+        "script" : null,
+        "quest" : null,
+        "quorum" : 1,
+        "choices" : { },
+        "effects" : [ {
+          "id" : "end-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "15",
+          "permission" : null
+        } ],
+        "terminal" : true
+      }
+    }
+  },
+  "scopeKey" : "world",
+  "sourceEventId" : "legacy:completed-source",
+  "node" : "end",
+  "members" : {
+    "00000000-0000-0000-0000-000000000001" : "river",
+    "00000000-0000-0000-0000-000000000002" : "hill"
+  },
+  "votes" : { },
+  "choices" : {
+    "council" : "support",
+    "council/00000000-0000-0000-0000-000000000001" : "support",
+    "council/00000000-0000-0000-0000-000000000002" : "oppose"
+  },
+  "startedAt" : "2026-11-19T10:10:12.123456789Z",
+  "updatedAt" : "2026-11-19T10:11:12.123456789Z",
+  "completed" : true
+}
+> but was: <{"id":"ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c","definition":{"id":"completed-safety","version":"1","title":"Preserved council 1","scope":"WORLD","triggers":["LEGACY_EVENT"],"condition":null,"start":"council","cooldownSeconds":0,"nodes":{"council":{"text":"Council","script":"legacy_scene","quest":"legacy_quest","quorum":1,"choices":{"oppose":{"label":"Oppose","next":"end","condition":null,"permission":null,"effects":[]},"support":{"label":"Support","next":"end","condition":null,"permission":null,"effects":[]}},"effects":[{"id":"new-entry-honor","type":"honor","target":"player","value":"700","permission":null}],"terminal":false},"end":{"text":"Recorded ending","script":null,"quest":null,"quorum":1,"choices":{},"effects":[{"id":"end-honor","type":"honor","target":"player","value":"15","permission":null}],"terminal":true}}},"scopeKey":"world","sourceEventId":"legacy:completed-source","node":"council","members":{"00000000-0000-0000-0000-000000000001":"river"},"votes":{},"choices":{},"startedAt":"2026-11-20T10:11:12.123456789Z","updatedAt":"2026-11-20T10:11:12.123456789Z","completed":false}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1156)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(CompletedInstanceSafetyTest.java:125)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(boolean)[2] -- Time elapsed: 0.058 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+Completed JSON including pinned choices and timestamps is immutable ==> expected: <{
+  "id" : "ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c",
+  "definition" : {
+    "id" : "completed-safety",
+    "version" : "1",
+    "title" : "Preserved council 1",
+    "scope" : "WORLD",
+    "triggers" : [ "LEGACY_EVENT" ],
+    "condition" : null,
+    "start" : "council",
+    "cooldownSeconds" : 0,
+    "nodes" : {
+      "council" : {
+        "text" : "Council",
+        "script" : "legacy_scene",
+        "quest" : "legacy_quest",
+        "quorum" : 1,
+        "choices" : {
+          "oppose" : {
+            "label" : "Oppose",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          },
+          "support" : {
+            "label" : "Support",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          }
+        },
+        "effects" : [ {
+          "id" : "new-entry-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "700",
+          "permission" : null
+        } ],
+        "terminal" : false
+      },
+      "end" : {
+        "text" : "Recorded ending",
+        "script" : null,
+        "quest" : null,
+        "quorum" : 1,
+        "choices" : { },
+        "effects" : [ {
+          "id" : "end-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "15",
+          "permission" : null
+        } ],
+        "terminal" : true
+      }
+    }
+  },
+  "scopeKey" : "world",
+  "sourceEventId" : "legacy:completed-source",
+  "node" : "end",
+  "members" : {
+    "00000000-0000-0000-0000-000000000001" : "river",
+    "00000000-0000-0000-0000-000000000002" : "hill"
+  },
+  "votes" : { },
+  "choices" : {
+    "council" : "support",
+    "council/00000000-0000-0000-0000-000000000001" : "support",
+    "council/00000000-0000-0000-0000-000000000002" : "oppose"
+  },
+  "startedAt" : "2026-11-19T10:10:12.123456789Z",
+  "updatedAt" : "2026-11-19T10:11:12.123456789Z",
+  "completed" : true
+}
+> but was: <{"id":"ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c","definition":{"id":"completed-safety","version":"1","title":"Preserved council 1","scope":"WORLD","triggers":["LEGACY_EVENT"],"condition":null,"start":"council","cooldownSeconds":0,"nodes":{"council":{"text":"Council","script":"legacy_scene","quest":"legacy_quest","quorum":1,"choices":{"oppose":{"label":"Oppose","next":"end","condition":null,"permission":null,"effects":[]},"support":{"label":"Support","next":"end","condition":null,"permission":null,"effects":[]}},"effects":[{"id":"new-entry-honor","type":"honor","target":"player","value":"700","permission":null}],"terminal":false},"end":{"text":"Recorded ending","script":null,"quest":null,"quorum":1,"choices":{},"effects":[{"id":"end-honor","type":"honor","target":"player","value":"15","permission":null}],"terminal":true}}},"scopeKey":"world","sourceEventId":"legacy:completed-source","node":"council","members":{"00000000-0000-0000-0000-000000000001":"river"},"votes":{},"choices":{},"startedAt":"2026-11-20T10:11:12.123456789Z","updatedAt":"2026-11-20T10:11:12.123456789Z","completed":false}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1156)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(CompletedInstanceSafetyTest.java:125)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

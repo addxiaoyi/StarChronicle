@@ -13,6 +13,10 @@ import java.util.concurrent.CompletionStage;
  * Player snapshots are collected by StarChronicle, never accepted from commands or text providers. */
 public interface ChronicleService {
     CompletionStage<ProcessReport> submit(WorldEvent event);
+    /** Explicitly register one saved canonical source for one currently enabled version.
+     * Trusted plugins only; commands require starchronicle.admin. This queues work and
+     * never accepts caller-supplied identity, definitions, seeds or replacement evidence. */
+    default CompletionStage<HistoricalEvaluationReport> evaluateHistorical(String sourceEventId,String storyId,String expectedVersion){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Historical evaluation unavailable"));}
     CompletionStage<ProcessReport> choose(String instanceId, UUID playerId, String choiceId);
     CompletionStage<ProcessReport> choose(String instanceId, UUID playerId, String expectedNode, String choiceId);
     CompletionStage<ProcessReport> join(String instanceId, UUID playerId);

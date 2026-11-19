@@ -19,7 +19,7 @@ import static io.github.addxiaoyi.starchronicle.persistence.SqliteStore.*;
  * Call on a bounded worker, never a region thread. SQLite serializes cross-player transitions. */
 public final class RuleEngine implements AutoCloseable {
     private final SqliteStore store;
-    private volatile List<StoryDefinition> definitions;
+    private volatile StoryRuntime runtime;
     private final Clock clock;
     private final NpcLedger npcs;
     private static final DateTimeFormatter SORTABLE_TIME=new DateTimeFormatterBuilder().appendInstant(9).toFormatter();
@@ -31,13 +31,28 @@ public final class RuleEngine implements AutoCloseable {
         reload(definitions);
     }
     public void reload(List<StoryDefinition> validatedDefinitions){
-        validate(validatedDefinitions);
-        definitions=List.copyOf(validatedDefinitions);
+        List<StoryDefinition> current=List.copyOf(validatedDefinitions);
+        // Commit the exact accepted definitions before publishing one immutable runtime.
+        // Hold the storage monitor through publication so an in-flight transition never
+        // sees a mixture of old and new consumer lists across its derived effects.
+        synchronized(store) {
+            StoryRuntime next=store.transaction(c->{
+                validate(current,DefinitionCatalog.read(c));
+                DefinitionCatalog.archive(c,current,"ACCEPTED_CONFIGURATION");
+                return new StoryRuntime(current,DefinitionCatalog.read(c));
+            });
+            runtime=next;
+        }
     }
     public void validate(List<StoryDefinition> validatedDefinitions){
+        List<StoryDefinition> current=List.copyOf(validatedDefinitions);
+        store.transaction(c->{validate(current,DefinitionCatalog.read(c));return null;});
+    }
+    private void validate(List<StoryDefinition> validatedDefinitions,DefinitionCatalog catalog){
         Set<String> ids=new HashSet<>();
         for(var d:validatedDefinitions){ConfigLoader.validate(d,id->true,id->true);if(!ids.add(d.id()))throw new IllegalArgumentException("Duplicate story ID");}
-        if(!validatedDefinitions.isEmpty())ConfigLoader.validateAll(validatedDefinitions);
+        if(validatedDefinitions.isEmpty())catalog.validateCurrent(validatedDefinitions);
+        else ConfigLoader.validateAll(validatedDefinitions,catalog);
         if(npcs!=null)for(var d:validatedDefinitions)for(var n:d.nodes().values()) {
             validateNpcEffects(n.effects());for(var choice:n.choices().values())validateNpcEffects(choice.effects());
         }
@@ -55,7 +70,7 @@ public final class RuleEngine implements AutoCloseable {
             if(unique.put(ctx.playerId(),ctx)!=null) throw new IllegalArgumentException("Duplicate player context");
         }
         if(unique.size()>10000)throw new IllegalArgumentException("Too many trigger recipients");
-        List<StoryDefinition> rules=definitions;
+        List<StoryDefinition> rules=runtime.enabledDefinitions();
         return store.transaction(c->{
             boolean fresh=recordAndQueue(c,event,unique.values(),rules,EventCausality.root(event.id()));
             Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
@@ -65,7 +80,7 @@ public final class RuleEngine implements AutoCloseable {
 
     private static boolean audience(WorldEvent event,PlayerContext context){return event.globalAudience()||event.participants().contains(context.playerId())||!context.nationId().isBlank()&&event.nations().contains(context.nationId());}
     private static String scope(StoryDefinition rule,PlayerContext context){return switch(rule.scope()){case PLAYER->"player:"+context.playerId();case NATION->context.nationId().isBlank()?null:"nation:"+context.nationId();case WORLD->"world";};}
-    private static void queueTrigger(Connection c,StoryDefinition rule,WorldEvent event,Collection<PlayerContext> contexts)throws Exception {
+    private static int queueTrigger(Connection c,StoryDefinition rule,WorldEvent event,Collection<PlayerContext> contexts)throws Exception {
         Set<String> seeds=new TreeSet<>();
         switch(rule.scope()) {
             case WORLD->seeds.add("world");
@@ -73,9 +88,55 @@ public final class RuleEngine implements AutoCloseable {
             case NATION->{event.nations().forEach(id->seeds.add("nation:"+id));if(event.nations().isEmpty())event.participants().forEach(id->seeds.add("actor:"+id));contexts.stream().filter(ctx->!ctx.nationId().isBlank()&&(event.nations().isEmpty()||event.nations().contains(ctx.nationId()))).forEach(ctx->seeds.add("nation:"+ctx.nationId()));if(event.globalAudience()&&event.nations().isEmpty())seeds.add("nations:*");}
         }
         String trigger=stable(event.id(),rule.id(),rule.version());
-        for(String seed:seeds)try(var s=c.prepareStatement("INSERT OR IGNORE INTO story_triggers(id,trigger_key,event_id,scope,story_json) VALUES(?,?,?,?,?)")){
-            s.setString(1,stable(trigger,seed));s.setString(2,trigger);s.setString(3,event.id());s.setString(4,seed);s.setString(5,json(rule));s.executeUpdate();
+        // A stable trigger key pins one exact graph. An old pending row cannot be
+        // overwritten or silently hidden by a new graph using the same version.
+        try(var s=c.prepareStatement("SELECT DISTINCT story_json FROM story_triggers WHERE trigger_key=?")) {
+            s.setString(1,trigger);try(var r=s.executeQuery()){while(r.next())if(!json(decode(r.getString(1),StoryDefinition.class)).equals(json(rule)))throw new IllegalArgumentException("Conflicting pinned trigger definition: "+rule.id()+"/"+rule.version());}
         }
+        int inserted=0;
+        for(String seed:seeds) {
+            if(seed.equals("world")||seed.startsWith("player:")||seed.startsWith("nation:")) {
+                try(var s=c.prepareStatement("SELECT 1 FROM story_trigger_receipts WHERE trigger_key=? AND scope=?")) {
+                    s.setString(1,trigger);s.setString(2,seed);try(var r=s.executeQuery()){if(r.next())continue;}
+                }
+            }
+            try(var s=c.prepareStatement("INSERT OR IGNORE INTO story_triggers(id,trigger_key,event_id,scope,story_json) VALUES(?,?,?,?,?)")) {
+                s.setString(1,stable(trigger,seed));s.setString(2,trigger);s.setString(3,event.id());s.setString(4,seed);s.setString(5,json(rule));inserted+=s.executeUpdate();
+            }
+        }
+        return inserted;
+    }
+    /** Explicitly register only this saved source and exact enabled version. Execution is
+     * deferred to normal fresh-context polling; this never resubmits the source, applies
+     * its NPC reactions again, or invents the identities that existed at its old time. */
+    public HistoricalEvaluationReport evaluateHistorical(String sourceId,String storyId,String expectedVersion) {
+        Objects.requireNonNull(sourceId);Objects.requireNonNull(storyId);Objects.requireNonNull(expectedVersion);
+        return store.transaction(c->{
+            StoryDefinition rule=runtime.enabledDefinitions().stream().filter(d->d.id().equals(storyId)&&d.version().equals(expectedVersion)).findFirst().orElseThrow(()->new IllegalArgumentException("No enabled exact story version: "+storyId+"/"+expectedVersion));
+            WorldEvent source;
+            try(var s=c.prepareStatement("SELECT json FROM events WHERE id=?")) {
+                s.setString(1,sourceId);try(var r=s.executeQuery()){if(!r.next())throw new IllegalArgumentException("No saved canonical source event: "+sourceId);source=decode(r.getString(1),WorldEvent.class);}
+            }
+            if(!rule.triggers().contains(source.type()))throw new IllegalArgumentException("Canonical event type does not trigger this story version");
+            long matching=0,completed=0;
+            try(var s=c.prepareStatement("SELECT completed FROM instances WHERE story=? AND json_extract(json,'$.definition.version')=? AND json_extract(json,'$.sourceEventId')=?")) {
+                s.setString(1,storyId);s.setString(2,expectedVersion);s.setString(3,sourceId);try(var r=s.executeQuery()){while(r.next()){matching++;if(r.getBoolean(1))completed++;}}
+            }
+            String blocked=EventCausality.blockedReason(EventCausality.read(c,sourceId),storyId);
+            if(blocked!=null) {
+                EventCausality.block(c,sourceId,rule,blocked);
+                return new HistoricalEvaluationReport(sourceId,storyId,expectedVersion,HistoricalEvaluationReport.Status.BLOCKED_CAUSAL,0,matching,completed,blocked);
+            }
+            if(source.participants().isEmpty()&&source.nations().isEmpty()&&!source.globalAudience())
+                return new HistoricalEvaluationReport(sourceId,storyId,expectedVersion,HistoricalEvaluationReport.Status.NO_SOURCE_AUDIENCE,0,matching,completed,"来源没有参与者、国家或显式全服受众；不会补造历史身份");
+            int inserted=queueTrigger(c,rule,source,List.of());
+            String key=stable(sourceId,storyId,expectedVersion);boolean registered;
+            try(var s=c.prepareStatement("SELECT 1 FROM story_triggers WHERE trigger_key=? UNION ALL SELECT 1 FROM story_trigger_receipts WHERE trigger_key=? LIMIT 1")) {
+                s.setString(1,key);s.setString(2,key);try(var r=s.executeQuery()){registered=r.next();}
+            }
+            var status=inserted>0?HistoricalEvaluationReport.Status.QUEUED:registered?HistoricalEvaluationReport.Status.ALREADY_REGISTERED:HistoricalEvaluationReport.Status.NO_SOURCE_AUDIENCE;
+            return new HistoricalEvaluationReport(sourceId,storyId,expectedVersion,status,inserted,matching,completed,"仅登记持久触发；按当前真实身份、完成实例、冷却、版本与权限复核，未立即执行剧情或奖励");
+        });
     }
     private record PendingTrigger(String id,String triggerKey,String eventId,String seed,StoryDefinition definition){}
     private static Set<String> audienceSeeds(Collection<PlayerContext> contexts){Set<String> seeds=new HashSet<>(Set.of("world","players:*","nations:*"));for(var ctx:contexts){seeds.add("player:"+ctx.playerId());seeds.add("actor:"+ctx.playerId());if(!ctx.nationId().isBlank()){seeds.add("nation:"+ctx.nationId());seeds.add("nation-players:"+ctx.nationId());}}return seeds;}
@@ -126,8 +187,18 @@ public final class RuleEngine implements AutoCloseable {
     private boolean activate(Connection c,PendingTrigger trigger,WorldEvent source,String scope,List<PlayerContext> contexts,Set<String> changed)throws Exception {
         StoryDefinition rule=trigger.definition();boolean consumed;
         try(var s=c.prepareStatement("SELECT 1 FROM story_trigger_receipts WHERE trigger_key=? AND scope=?")){s.setString(1,trigger.triggerKey());s.setString(2,scope);try(var r=s.executeQuery()){consumed=r.next();}}
-        StoryInstance active=findActive(c,rule.id(),scope);
+        // Older databases may have completed snapshots without an inbox receipt. An
+        // immutable result itself proves consumption, even when its original ID was
+        // nonstandard. Never upsert a new start over that evidence or reward it again.
+        StoryInstance existing=findOrigin(c,rule,scope,source.id());
+        if(existing!=null&&existing.completed()) {
+            consumeTrigger(c,trigger.triggerKey(),scope);return true;
+        }
+        StoryInstance active=existing!=null?existing:findActive(c,rule.id(),scope);
         if(active!=null) {
+            // A queued newer version waits for the old pinned run to finish. It must
+            // not silently join the old graph and lose its own per-scope request.
+            if(!active.definition().version().equals(rule.version()))return consumed;
             WorldEvent origin=event(c,active.sourceEventId());boolean matched=false;
             for(var ctx:contexts)if(eligible(c,active,ctx,origin)){
                 matched=true;if(!active.contains(ctx.playerId())){active=addMember(c,active,ctx,origin);changed.add(active.id());}
@@ -140,10 +211,13 @@ public final class RuleEngine implements AutoCloseable {
             if(eligible.isEmpty())return false;
             String id=stable(rule.id(),rule.version(),scope,source.id());Map<UUID,String> members=new LinkedHashMap<>();for(var ctx:eligible)members.put(ctx.playerId(),ctx.nationId());
             active=new StoryInstance(id,rule,scope,source.id(),rule.start(),members,Map.of(),Map.of(),clock.instant(),clock.instant(),node.terminal());
-            save(c,active);enter(c,active,eligible.getFirst());changed.add(id);
+            create(c,active);enter(c,active,eligible.getFirst());changed.add(id);
         }
-        try(var s=c.prepareStatement("INSERT OR IGNORE INTO story_trigger_receipts VALUES(?,?)")){s.setString(1,trigger.triggerKey());s.setString(2,scope);s.executeUpdate();}
+        consumeTrigger(c,trigger.triggerKey(),scope);
         return true;
+    }
+    private static void consumeTrigger(Connection c,String key,String scope)throws SQLException {
+        try(var s=c.prepareStatement("INSERT OR IGNORE INTO story_trigger_receipts VALUES(?,?)")){s.setString(1,key);s.setString(2,scope);s.executeUpdate();}
     }
 
     /** Explicit opt-in to an already active shared story. Eligibility uses its original source evidence. */
@@ -232,7 +306,7 @@ public final class RuleEngine implements AutoCloseable {
                 if(e.type().equals("memory")) setFact(c,"WORLD","region."+e.target(),e.value());
                 else {
                     WorldEvent result=new WorldEvent("chronicle:"+outcome,e.target(),clock.instant(),i.members().keySet(),new HashSet<>(i.members().values().stream().filter(n->!n.isBlank()).toList()),Map.of("story",i.definition().id(),"outcome",e.value()),"StarChronicle","instance="+i.id()+"; action="+action+"; effect="+e.id()+"; source="+i.sourceEventId());
-                    recordAndQueue(c,result,List.of(),definitions,EventCausality.derive(c,i.sourceEventId(),i.definition().id()));
+                    recordAndQueue(c,result,List.of(),runtime.enabledDefinitions(),EventCausality.derive(c,i.sourceEventId(),i.definition().id()));
                 }
                 continue;
             }
@@ -387,7 +461,31 @@ public final class RuleEngine implements AutoCloseable {
     private static StoryInstance require(Connection c,String id)throws Exception {try(var s=c.prepareStatement("SELECT json FROM instances WHERE id=?")){s.setString(1,id);try(var r=s.executeQuery()){if(!r.next())throw new IllegalArgumentException("不存在的剧情实例");return decode(r.getString(1),StoryInstance.class);}}}
     private static StoryInstance findActive(Connection c,String story,String scope)throws Exception {try(var s=c.prepareStatement("SELECT json FROM instances WHERE story=? AND scope=? AND completed=0 LIMIT 1")){s.setString(1,story);s.setString(2,scope);try(var r=s.executeQuery()){return r.next()?decode(r.getString(1),StoryInstance.class):null;}}}
     private boolean cooling(Connection c,StoryDefinition rule,String scope)throws Exception {try(var s=c.prepareStatement("SELECT updated FROM instances WHERE story=? AND scope=? ORDER BY updated DESC LIMIT 1")){s.setString(1,rule.id());s.setString(2,scope);try(var r=s.executeQuery()){return r.next()&&Instant.parse(r.getString(1)).plusSeconds(rule.cooldownSeconds()).isAfter(clock.instant());}}}
-    private static void save(Connection c,StoryInstance i)throws Exception {try(var s=c.prepareStatement("INSERT INTO instances(id,story,scope,completed,updated,json) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET completed=excluded.completed,updated=excluded.updated,json=excluded.json")){s.setString(1,i.id());s.setString(2,i.definition().id());s.setString(3,i.scopeKey());s.setInt(4,i.completed()?1:0);s.setString(5,SORTABLE_TIME.format(i.updatedAt()));s.setString(6,json(i));s.executeUpdate();}}
+    private static StoryInstance findOrigin(Connection c,StoryDefinition rule,String scope,String source)throws Exception {
+        String expected=stable(rule.id(),rule.version(),scope,source);StoryInstance result=null;
+        try(var s=c.prepareStatement("SELECT json FROM instances WHERE id=? OR (story=? AND scope=? AND json_extract(json,'$.definition.version')=? AND json_extract(json,'$.sourceEventId')=?) ORDER BY completed DESC,id")) {
+            s.setString(1,expected);s.setString(2,rule.id());s.setString(3,scope);s.setString(4,rule.version());s.setString(5,source);
+            try(var r=s.executeQuery()){while(r.next()) {
+                StoryInstance i=decode(r.getString(1),StoryInstance.class);
+                boolean matches=i.definition().id().equals(rule.id())&&i.definition().version().equals(rule.version())&&i.scopeKey().equals(scope)&&i.sourceEventId().equals(source);
+                if(i.id().equals(expected)&&!matches)throw new IllegalStateException("Story instance ID collision: "+expected);
+                if(matches&&result==null)result=i;
+            }}
+        }
+        return result;
+    }
+    private static void create(Connection c,StoryInstance i)throws Exception {
+        try(var s=c.prepareStatement("INSERT INTO instances(id,story,scope,completed,updated,json) VALUES(?,?,?,?,?,?)")) {
+            s.setString(1,i.id());s.setString(2,i.definition().id());s.setString(3,i.scopeKey());s.setInt(4,i.completed()?1:0);s.setString(5,SORTABLE_TIME.format(i.updatedAt()));s.setString(6,json(i));
+            if(s.executeUpdate()!=1)throw new IllegalStateException("Story instance was not created");
+        }
+    }
+    private static void save(Connection c,StoryInstance i)throws Exception {
+        try(var s=c.prepareStatement("UPDATE instances SET completed=?,updated=?,json=? WHERE id=? AND completed=0 AND story=? AND scope=? AND json_extract(json,'$.definition.version')=? AND json_extract(json,'$.sourceEventId')=?")) {
+            s.setInt(1,i.completed()?1:0);s.setString(2,SORTABLE_TIME.format(i.updatedAt()));s.setString(3,json(i));s.setString(4,i.id());s.setString(5,i.definition().id());s.setString(6,i.scopeKey());s.setString(7,i.definition().version());s.setString(8,i.sourceEventId());
+            if(s.executeUpdate()!=1)throw new IllegalStateException("Story instance changed or was already completed: "+i.id());
+        }
+    }
     private static WorldEvent event(Connection c,String id)throws Exception {try(var s=c.prepareStatement("SELECT json FROM events WHERE id=?")){s.setString(1,id);try(var r=s.executeQuery()){if(!r.next())throw new IllegalStateException("Missing source evidence");return decode(r.getString(1),WorldEvent.class);}}}
     /** One source transaction owns history, NPC feedback, causal evidence and the durable
      * follow-up inbox. Derived history never recursively invokes accept or starts an instance. */

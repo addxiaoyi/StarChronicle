@@ -10,3 +10,6 @@
 # Unified patches require a space on empty context lines; logs preserve captured output.
 *.patch text eol=lf whitespace=-blank-at-eol
 *.log text eol=lf whitespace=-blank-at-eol
+# Preserve the original Surefire failure evidence, including its generated whitespace.
+docs/verification/phase-three-completed-safety-red.txt -text whitespace=-blank-at-eol,-blank-at-eof
+docs/verification/phase-three-completed-safety-red.xml -text whitespace=-blank-at-eol,-blank-at-eof

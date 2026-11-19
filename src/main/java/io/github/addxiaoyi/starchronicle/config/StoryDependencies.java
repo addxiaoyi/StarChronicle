@@ -1,5 +1,6 @@
 package io.github.addxiaoyi.starchronicle.config;
 
+import io.github.addxiaoyi.starchronicle.core.DefinitionCatalog;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
@@ -42,7 +43,14 @@ public final class StoryDependencies {
     }
 
     public static void validate(Collection<StoryDefinition> definitions) {
+        validate(definitions,DefinitionCatalog.empty());
+    }
+
+    /** Current IDs remain unique; a retired exact version is a read endpoint, not an enabled
+     * rule. Its own past dependencies, historical effects, scripts and quests are not expanded. */
+    public static void validate(Collection<StoryDefinition> definitions,DefinitionCatalog catalog) {
         if(definitions==null)throw new IllegalArgumentException("Null story definitions");
+        if(catalog==null)throw new IllegalArgumentException("Null definition catalog");
         Map<String,StoryDefinition> stories=new TreeMap<>();
         for(StoryDefinition story:definitions) {
             if(story==null)throw new IllegalArgumentException("Null story");
@@ -50,37 +58,41 @@ public final class StoryDependencies {
             if(stories.putIfAbsent(story.id(),story)!=null)throw new IllegalArgumentException("Duplicate story ID: "+story.id());
         }
         if(stories.isEmpty())throw new IllegalArgumentException("No enabled stories");
-        Map<String,Set<String>> graph=new TreeMap<>(),consumers=new HashMap<>();
+        // A current definition cannot conceal a different or ambiguous persisted definition
+        // under the same exact identity, even when a reference would otherwise resolve locally.
+        catalog.validateCurrent(definitions);
+        Map<Key,Set<Key>> graph=new TreeMap<>();Map<String,Set<Key>> consumers=new HashMap<>();
         for(StoryDefinition story:stories.values()) {
-            graph.put(story.id(),new TreeSet<>());
+            Key key=Key.of(story);graph.put(key,new TreeSet<>());
             if(story.triggers()==null||story.nodes()==null)throw new IllegalArgumentException("Missing triggers/nodes: "+story.id());
-            for(String trigger:story.triggers())consumers.computeIfAbsent(trigger,ignored->new TreeSet<>()).add(story.id());
+            for(String trigger:story.triggers())consumers.computeIfAbsent(trigger,ignored->new TreeSet<>()).add(key);
         }
         for(StoryDefinition owner:stories.values()) {
-            Consumer<Condition> check=condition->validateReference(owner,condition,stories);
+            Key ownerKey=Key.of(owner);
+            Consumer<Condition> check=condition->validateReference(owner,condition,stories,catalog);
             walk(owner.condition(),0,check);
             for(StoryDefinition.Node node:owner.nodes().values()) {
                 if(node==null)throw new IllegalArgumentException("Null node: "+owner.id());
-                historyEdges(owner.id(),node.effects(),consumers,graph);
+                historyEdges(ownerKey,node.effects(),consumers,graph);
                 for(StoryDefinition.Choice choice:node.choices().values()) {
                     if(choice==null)throw new IllegalArgumentException("Null choice: "+owner.id());
                     walk(choice.condition(),0,check);
-                    historyEdges(owner.id(),choice.effects(),consumers,graph);
+                    historyEdges(ownerKey,choice.effects(),consumers,graph);
                 }
             }
-            Set<String> mandatory=new HashSet<>(required(owner.condition(),true,0));
+            Set<Key> mandatory=new HashSet<>(required(owner.condition(),true,0));
             mandatory.addAll(requiredNode(owner.start(),owner,new HashMap<>(),new HashSet<>()));
-            for(String dependency:mandatory)graph.get(dependency).add(owner.id());
+            for(Key dependency:mandatory)graph.computeIfAbsent(dependency,ignored->new TreeSet<>()).add(ownerKey);
         }
         rejectCycles(graph);
     }
 
-    private static void validateReference(StoryDefinition owner,Condition condition,Map<String,StoryDefinition> stories) {
+    private static void validateReference(StoryDefinition owner,Condition condition,Map<String,StoryDefinition> stories,
+                                          DefinitionCatalog catalog) {
         var parsed=parse(condition.fact());if(parsed.isEmpty())return;
         validateComparison(condition);Reference reference=parsed.get();
         StoryDefinition target=stories.get(reference.storyId());
-        if(target==null)throw new IllegalArgumentException("Missing referenced story in "+owner.id()+": "+reference.storyId());
-        if(!target.version().equals(reference.version()))throw new IllegalArgumentException("Referenced story version mismatch in "+owner.id()+": "+condition.fact());
+        if(target==null||!target.version().equals(reference.version()))target=catalog.require(reference.storyId(),reference.version());
         if(reference.kind()==Kind.WORLD_RESOLUTION&&target.scope()!=StoryDefinition.Scope.WORLD
                 ||reference.kind()==Kind.NATION_RESOLUTION&&target.scope()!=StoryDefinition.Scope.NATION)
             throw new IllegalArgumentException("Referenced resolution scope mismatch in "+owner.id()+": "+condition.fact());
@@ -93,7 +105,7 @@ public final class StoryDependencies {
     /** What completed stories are unavoidable for this expression to have the desired truth?
      * Missing ordinary comparisons are UNKNOWN in either polarity. In contrast, exists=false
      * deliberately admits an absent past record, so NOT exists can bootstrap a first run. */
-    private static Set<String> required(Condition condition,boolean desired,int depth) {
+    private static Set<Key> required(Condition condition,boolean desired,int depth) {
         if(condition==null)return Set.of();
         if(depth>16)throw new IllegalArgumentException("Condition too deep");
         if(condition.all()!=null)return requiredGroup(condition.all(),desired,desired,depth);
@@ -101,14 +113,14 @@ public final class StoryDependencies {
         if(condition.not()!=null)return required(condition.not(),!desired,depth+1);
         var reference=parse(condition.fact());
         if(reference.isEmpty()||"exists".equals(condition.op())&&!desired)return Set.of();
-        return Set.of(reference.get().storyId());
+        return Set.of(new Key(reference.get().storyId(),reference.get().version()));
     }
 
     /** ALL=true and ANY=false need every child; the opposite cases may use any one child. */
-    private static Set<String> requiredGroup(List<Condition> children,boolean desired,boolean union,int depth) {
-        Set<String> result=null;
+    private static Set<Key> requiredGroup(List<Condition> children,boolean desired,boolean union,int depth) {
+        Set<Key> result=null;
         for(Condition child:children) {
-            Set<String> next=required(child,desired,depth+1);
+            Set<Key> next=required(child,desired,depth+1);
             if(result==null)result=new HashSet<>(next);
             else if(union)result.addAll(next);else result.retainAll(next);
         }
@@ -117,24 +129,24 @@ public final class StoryDependencies {
 
     /** Every valid choice is a possible completion route. A story is a hard prerequisite only
      * when all routes to a terminal need it, including requirements at later DAG nodes. */
-    private static Set<String> requiredNode(String id,StoryDefinition story,Map<String,Set<String>> memo,Set<String> visiting) {
-        Set<String> cached=memo.get(id);if(cached!=null)return cached;
+    private static Set<Key> requiredNode(String id,StoryDefinition story,Map<String,Set<Key>> memo,Set<String> visiting) {
+        Set<Key> cached=memo.get(id);if(cached!=null)return cached;
         StoryDefinition.Node node=story.nodes().get(id);
         if(node==null)throw new IllegalArgumentException("Missing story node in "+story.id()+": "+id);
         if(!visiting.add(id))throw new IllegalArgumentException("Cyclic node dependency: "+id);
-        Set<String> result=null;
+        Set<Key> result=null;
         if(!node.terminal()) {
             if(node.choices().isEmpty())throw new IllegalArgumentException("No completion route in "+story.id()+": "+id);
             for(StoryDefinition.Choice choice:node.choices().values()) {
-                Set<String> path=new HashSet<>(required(choice.condition(),true,0));
+                Set<Key> path=new HashSet<>(required(choice.condition(),true,0));
                 path.addAll(requiredNode(choice.next(),story,memo,visiting));
                 if(result==null)result=path;else result.retainAll(path);
             }
         }
-        visiting.remove(id);Set<String> answer=result==null?Set.of():Set.copyOf(result);memo.put(id,answer);return answer;
+        visiting.remove(id);Set<Key> answer=result==null?Set.of():Set.copyOf(result);memo.put(id,answer);return answer;
     }
 
-    private static void historyEdges(String producer,List<StoryDefinition.Effect> effects,Map<String,Set<String>> consumers,Map<String,Set<String>> graph) {
+    private static void historyEdges(Key producer,List<StoryDefinition.Effect> effects,Map<String,Set<Key>> consumers,Map<Key,Set<Key>> graph) {
         for(StoryDefinition.Effect effect:effects) {
             if(effect==null)throw new IllegalArgumentException("Null effect: "+producer);
             if("history".equals(effect.type()))graph.get(producer).addAll(consumers.getOrDefault(effect.target(),Set.of()));
@@ -150,25 +162,31 @@ public final class StoryDependencies {
         if(condition.not()!=null)walk(condition.not(),depth+1,visitor);
     }
 
-    private record Cursor(String story,Iterator<String> destinations) {}
+    private record Key(String id,String version) implements Comparable<Key> {
+        static Key of(StoryDefinition definition){return new Key(definition.id(),definition.version());}
+        @Override public int compareTo(Key other){int byId=id.compareTo(other.id);return byId!=0?byId:version.compareTo(other.version);}
+    }
+    private record Cursor(Key story,Iterator<Key> destinations) {}
     /** Iterative DFS also handles long valid story chains without using the Java call stack. */
-    private static void rejectCycles(Map<String,Set<String>> graph) {
-        Set<String> active=new HashSet<>(),done=new HashSet<>();List<String> path=new ArrayList<>();
+    private static void rejectCycles(Map<Key,Set<Key>> graph) {
+        Set<Key> active=new HashSet<>(),done=new HashSet<>();List<Key> path=new ArrayList<>();
         Deque<Cursor> pending=new ArrayDeque<>();
-        for(String start:graph.keySet()) {
+        for(Key start:graph.keySet()) {
             if(done.contains(start))continue;
-            active.add(start);path.add(start);pending.push(new Cursor(start,graph.get(start).iterator()));
+            active.add(start);path.add(start);pending.push(new Cursor(start,graph.getOrDefault(start,Set.of()).iterator()));
             while(!pending.isEmpty()) {
                 Cursor current=pending.peek();
                 if(!current.destinations().hasNext()) {
                     pending.pop();active.remove(current.story());done.add(current.story());path.removeLast();continue;
                 }
-                String next=current.destinations().next();
+                Key next=current.destinations().next();
                 if(active.contains(next)) {
-                    List<String> cycle=new ArrayList<>(path.subList(path.indexOf(next),path.size()));cycle.add(next);
-                    throw new IllegalArgumentException("Cyclic story dependency: "+String.join(" -> ",cycle));
+                    List<Key> cycle=new ArrayList<>(path.subList(path.indexOf(next),path.size()));cycle.add(next);
+                    // Every cycle consists of current definitions (retired rules are never
+                    // expanded), so their IDs are unique and the legacy diagnostic stays clear.
+                    throw new IllegalArgumentException("Cyclic story dependency: "+cycle.stream().map(Key::id).collect(java.util.stream.Collectors.joining(" -> ")));
                 }
-                if(!done.contains(next)){active.add(next);path.add(next);pending.push(new Cursor(next,graph.get(next).iterator()));}
+                if(!done.contains(next)){active.add(next);path.add(next);pending.push(new Cursor(next,graph.getOrDefault(next,Set.of()).iterator()));}
             }
         }
     }

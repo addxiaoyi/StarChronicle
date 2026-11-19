@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest" time="1.713" tests="4" errors="0" skipped="0" failures="4">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="GBK"/>
+    <property name="java.class.path" value="C:\Users\Administrator\Documents\StarChronicle\target\test-classes;C:\Users\Administrator\Documents\StarChronicle\target\classes;C:\Users\Administrator\.m2\repository\io\papermc\paper\paper-api\1.21.11-R0.1-SNAPSHOT\paper-api-1.21.11-R0.1-SNAPSHOT.jar;C:\Users\Administrator\.m2\repository\com\google\guava\guava\33.3.1-jre\guava-33.3.1-jre.jar;C:\Users\Administrator\.m2\repository\com\google\guava\failureaccess\1.0.2\failureaccess-1.0.2.jar;C:\Users\Administrator\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\Administrator\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\Administrator\.m2\repository\com\google\errorprone\error_prone_annotations\2.28.0\error_prone_annotations-2.28.0.jar;C:\Users\Administrator\.m2\repository\com\google\j2objc\j2objc-annotations\3.0.0\j2objc-annotations-3.0.0.jar;C:\Users\Administrator\.m2\repository\com\google\code\gson\gson\2.11.0\gson-2.11.0.jar;C:\Users\Administrator\.m2\repository\org\yaml\snakeyaml\2.2\snakeyaml-2.2.jar;C:\Users\Administrator\.m2\repository\org\joml\joml\1.10.8\joml-1.10.8.jar;C:\Users\Administrator\.m2\repository\it\unimi\dsi\fastutil\8.5.15\fastutil-8.5.15.jar;C:\Users\Administrator\.m2\repository\org\apache\logging\log4j\log4j-api\2.24.1\log4j-api-2.24.1.jar;C:\Users\Administrator\.m2\repository\org\slf4j\slf4j-api\2.0.16\slf4j-api-2.0.16.jar;C:\Users\Administrator\.m2\repository\com\mojang\brigadier\1.3.10\brigadier-1.3.10.jar;C:\Users\Administrator\.m2\repository\net\md-5\bungeecord-chat\1.21-R0.2-deprecated+build.21\bungeecord-chat-1.21-R0.2-deprecated+build.21.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-resolver-provider\3.9.6\maven-resolver-provider-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-model\3.9.6\maven-model-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-model-builder\3.9.6\maven-model-builder-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.26\plexus-interpolation-1.26.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-artifact\3.9.6\maven-artifact-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\apache\commons\commons-lang3\3.12.0\commons-lang3-3.12.0.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-builder-support\3.9.6\maven-builder-support-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.9.0.M2\org.eclipse.sisu.inject-0.9.0.M2.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-repository-metadata\3.9.6\maven-repository-metadata-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-api\1.9.18\maven-resolver-api-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-spi\1.9.18\maven-resolver-spi-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-util\1.9.18\maven-resolver-util-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-impl\1.9.18\maven-resolver-impl-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-named-locks\1.9.18\maven-resolver-named-locks-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\codehaus\plexus\plexus-utils\3.5.1\plexus-utils-3.5.1.jar;C:\Users\Administrator\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar;C:\Users\Administrator\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-api\4.26.1\adventure-api-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-key\4.26.1\adventure-key-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\examination-api\1.3.0\examination-api-1.3.0.jar;C:\Users\Administrator\.m2\repository\net\kyori\examination-string\1.3.0\examination-string-1.3.0.jar;C:\Users\Administrator\.m2\repository\org\jetbrains\annotations\26.0.2-1\annotations-26.0.2-1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-minimessage\4.26.1\adventure-text-minimessage-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-serializer-gson\4.26.1\adventure-text-serializer-gson-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-serializer-json\4.26.1\adventure-text-serializer-json-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\option\1.1.0\option-1.1.0.jar;C:\Users\Administrator\.m2\repository\com\google\auto\service\auto-service-annotations\1.1.1\auto-service-annotations-1.1.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-serializer-commons\4.26.1\adventure-text-serializer-commons-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-serializer-legacy\4.26.1\adventure-text-serializer-legacy-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-serializer-plain\4.26.1\adventure-text-serializer-plain-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-logger-slf4j\4.26.1\adventure-text-logger-slf4j-4.26.1.jar;C:\Users\Administrator\.m2\repository\org\checkerframework\checker-qual\3.49.2\checker-qual-3.49.2.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-connector-basic\1.9.18\maven-resolver-connector-basic-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-transport-http\1.9.18\maven-resolver-transport-http-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\httpcomponents\httpclient\4.5.14\httpclient-4.5.14.jar;C:\Users\Administrator\.m2\repository\org\apache\httpcomponents\httpcore\4.4.16\httpcore-4.4.16.jar;C:\Users\Administrator\.m2\repository\commons-codec\commons-codec\1.16.0\commons-codec-1.16.0.jar;C:\Users\Administrator\.m2\repository\org\slf4j\jcl-over-slf4j\1.7.36\jcl-over-slf4j-1.7.36.jar;C:\Users\Administrator\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.18.3\jackson-databind-2.18.3.jar;C:\Users\Administrator\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.18.3\jackson-annotations-2.18.3.jar;C:\Users\Administrator\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.18.3\jackson-core-2.18.3.jar;C:\Users\Administrator\.m2\repository\com\fasterxml\jackson\dataformat\jackson-dataformat-yaml\2.18.3\jackson-dataformat-yaml-2.18.3.jar;C:\Users\Administrator\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.18.3\jackson-datatype-jsr310-2.18.3.jar;C:\Users\Administrator\.m2\repository\org\xerial\sqlite-jdbc\3.49.1.0\sqlite-jdbc-3.49.1.0.jar;C:\Users\Administrator\.m2\repository\org\junit\jupiter\junit-jupiter\5.11.4\junit-jupiter-5.11.4.jar;C:\Users\Administrator\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.4\junit-jupiter-api-5.11.4.jar;C:\Users\Administrator\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Administrator\.m2\repository\org\junit\platform\junit-platform-commons\1.11.4\junit-platform-commons-1.11.4.jar;C:\Users\Administrator\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Administrator\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.4\junit-jupiter-params-5.11.4.jar;C:\Users\Administrator\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.4\junit-jupiter-engine-5.11.4.jar;C:\Users\Administrator\.m2\repository\org\junit\platform\junit-platform-engine\1.11.4\junit-platform-engine-1.11.4.jar;C:\Users\Administrator\.m2\repository\org\mockito\mockito-core\5.15.2\mockito-core-5.15.2.jar;C:\Users\Administrator\.m2\repository\net\bytebuddy\byte-buddy\1.15.11\byte-buddy-1.15.11.jar;C:\Users\Administrator\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.11\byte-buddy-agent-1.15.11.jar;C:\Users\Administrator\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Administrator\.m2\repository\org\slf4j\slf4j-simple\2.0.16\slf4j-simple-2.0.16.jar;"/>
+    <property name="java.vm.vendor" value="Microsoft"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://www.microsoft.com"/>
+    <property name="user.timezone" value="Asia/Shanghai"/>
+    <property name="os.name" value="Windows Server 2022"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="CN"/>
+    <property name="sun.boot.library.path" value="C:\Users\Administrator\Documents\luoseng\.toolchains\jdk-21.0.13.0.2+1\bin"/>
+    <property name="sun.java.command" value="C:\Users\Administrator\AppData\Local\Temp\surefire7260733731252855435\surefirebooter-20261120044102736_3.jar C:\Users\Administrator\AppData\Local\Temp\surefire7260733731252855435 2026-11-20T04-41-02_425-jvmRun1 surefire-20261120044102736_1tmp surefire_0-20261120044102736_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="CompletedInstanceSafetyTest"/>
+    <property name="surefire.test.class.path" value="C:\Users\Administrator\Documents\StarChronicle\target\test-classes;C:\Users\Administrator\Documents\StarChronicle\target\classes;C:\Users\Administrator\.m2\repository\io\papermc\paper\paper-api\1.21.11-R0.1-SNAPSHOT\paper-api-1.21.11-R0.1-SNAPSHOT.jar;C:\Users\Administrator\.m2\repository\com\google\guava\guava\33.3.1-jre\guava-33.3.1-jre.jar;C:\Users\Administrator\.m2\repository\com\google\guava\failureaccess\1.0.2\failureaccess-1.0.2.jar;C:\Users\Administrator\.m2\repository\com\google\guava\listenablefuture\9999.0-empty-to-avoid-conflict-with-guava\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:\Users\Administrator\.m2\repository\com\google\code\findbugs\jsr305\3.0.2\jsr305-3.0.2.jar;C:\Users\Administrator\.m2\repository\com\google\errorprone\error_prone_annotations\2.28.0\error_prone_annotations-2.28.0.jar;C:\Users\Administrator\.m2\repository\com\google\j2objc\j2objc-annotations\3.0.0\j2objc-annotations-3.0.0.jar;C:\Users\Administrator\.m2\repository\com\google\code\gson\gson\2.11.0\gson-2.11.0.jar;C:\Users\Administrator\.m2\repository\org\yaml\snakeyaml\2.2\snakeyaml-2.2.jar;C:\Users\Administrator\.m2\repository\org\joml\joml\1.10.8\joml-1.10.8.jar;C:\Users\Administrator\.m2\repository\it\unimi\dsi\fastutil\8.5.15\fastutil-8.5.15.jar;C:\Users\Administrator\.m2\repository\org\apache\logging\log4j\log4j-api\2.24.1\log4j-api-2.24.1.jar;C:\Users\Administrator\.m2\repository\org\slf4j\slf4j-api\2.0.16\slf4j-api-2.0.16.jar;C:\Users\Administrator\.m2\repository\com\mojang\brigadier\1.3.10\brigadier-1.3.10.jar;C:\Users\Administrator\.m2\repository\net\md-5\bungeecord-chat\1.21-R0.2-deprecated+build.21\bungeecord-chat-1.21-R0.2-deprecated+build.21.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-resolver-provider\3.9.6\maven-resolver-provider-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-model\3.9.6\maven-model-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-model-builder\3.9.6\maven-model-builder-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.26\plexus-interpolation-1.26.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-artifact\3.9.6\maven-artifact-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\apache\commons\commons-lang3\3.12.0\commons-lang3-3.12.0.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-builder-support\3.9.6\maven-builder-support-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.9.0.M2\org.eclipse.sisu.inject-0.9.0.M2.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\maven-repository-metadata\3.9.6\maven-repository-metadata-3.9.6.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-api\1.9.18\maven-resolver-api-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-spi\1.9.18\maven-resolver-spi-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-util\1.9.18\maven-resolver-util-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-impl\1.9.18\maven-resolver-impl-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-named-locks\1.9.18\maven-resolver-named-locks-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\codehaus\plexus\plexus-utils\3.5.1\plexus-utils-3.5.1.jar;C:\Users\Administrator\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar;C:\Users\Administrator\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-api\4.26.1\adventure-api-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-key\4.26.1\adventure-key-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\examination-api\1.3.0\examination-api-1.3.0.jar;C:\Users\Administrator\.m2\repository\net\kyori\examination-string\1.3.0\examination-string-1.3.0.jar;C:\Users\Administrator\.m2\repository\org\jetbrains\annotations\26.0.2-1\annotations-26.0.2-1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-minimessage\4.26.1\adventure-text-minimessage-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-serializer-gson\4.26.1\adventure-text-serializer-gson-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-serializer-json\4.26.1\adventure-text-serializer-json-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\option\1.1.0\option-1.1.0.jar;C:\Users\Administrator\.m2\repository\com\google\auto\service\auto-service-annotations\1.1.1\auto-service-annotations-1.1.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-serializer-commons\4.26.1\adventure-text-serializer-commons-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-serializer-legacy\4.26.1\adventure-text-serializer-legacy-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-serializer-plain\4.26.1\adventure-text-serializer-plain-4.26.1.jar;C:\Users\Administrator\.m2\repository\net\kyori\adventure-text-logger-slf4j\4.26.1\adventure-text-logger-slf4j-4.26.1.jar;C:\Users\Administrator\.m2\repository\org\checkerframework\checker-qual\3.49.2\checker-qual-3.49.2.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-connector-basic\1.9.18\maven-resolver-connector-basic-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\maven\resolver\maven-resolver-transport-http\1.9.18\maven-resolver-transport-http-1.9.18.jar;C:\Users\Administrator\.m2\repository\org\apache\httpcomponents\httpclient\4.5.14\httpclient-4.5.14.jar;C:\Users\Administrator\.m2\repository\org\apache\httpcomponents\httpcore\4.4.16\httpcore-4.4.16.jar;C:\Users\Administrator\.m2\repository\commons-codec\commons-codec\1.16.0\commons-codec-1.16.0.jar;C:\Users\Administrator\.m2\repository\org\slf4j\jcl-over-slf4j\1.7.36\jcl-over-slf4j-1.7.36.jar;C:\Users\Administrator\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.18.3\jackson-databind-2.18.3.jar;C:\Users\Administrator\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.18.3\jackson-annotations-2.18.3.jar;C:\Users\Administrator\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.18.3\jackson-core-2.18.3.jar;C:\Users\Administrator\.m2\repository\com\fasterxml\jackson\dataformat\jackson-dataformat-yaml\2.18.3\jackson-dataformat-yaml-2.18.3.jar;C:\Users\Administrator\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.18.3\jackson-datatype-jsr310-2.18.3.jar;C:\Users\Administrator\.m2\repository\org\xerial\sqlite-jdbc\3.49.1.0\sqlite-jdbc-3.49.1.0.jar;C:\Users\Administrator\.m2\repository\org\junit\jupiter\junit-jupiter\5.11.4\junit-jupiter-5.11.4.jar;C:\Users\Administrator\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.4\junit-jupiter-api-5.11.4.jar;C:\Users\Administrator\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Administrator\.m2\repository\org\junit\platform\junit-platform-commons\1.11.4\junit-platform-commons-1.11.4.jar;C:\Users\Administrator\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Administrator\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.4\junit-jupiter-params-5.11.4.jar;C:\Users\Administrator\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.4\junit-jupiter-engine-5.11.4.jar;C:\Users\Administrator\.m2\repository\org\junit\platform\junit-platform-engine\1.11.4\junit-platform-engine-1.11.4.jar;C:\Users\Administrator\.m2\repository\org\mockito\mockito-core\5.15.2\mockito-core-5.15.2.jar;C:\Users\Administrator\.m2\repository\net\bytebuddy\byte-buddy\1.15.11\byte-buddy-1.15.11.jar;C:\Users\Administrator\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.11\byte-buddy-agent-1.15.11.jar;C:\Users\Administrator\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Administrator\.m2\repository\org\slf4j\slf4j-simple\2.0.16\slf4j-simple-2.0.16.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\Administrator"/>
+    <property name="user.language" value="zh"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-10-22"/>
+    <property name="java.home" value="C:\Users\Administrator\Documents\luoseng\.toolchains\jdk-21.0.13.0.2+1"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\Administrator\Documents\StarChronicle"/>
+    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\Administrator\AppData\Local\Temp\surefire7260733731252855435\surefirebooter-20261120044102736_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.13.0.2+1-LTS"/>
+    <property name="user.name" value="Administrator"/>
+    <property name="stdout.encoding" value="GBK"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Microsoft-15780113"/>
+    <property name="localRepository" value="C:\Users\Administrator\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/microsoft/openjdk/issues"/>
+    <property name="java.io.tmpdir" value="C:\Users\ADMINI~1\AppData\Local\Temp\"/>
+    <property name="java.version" value="21.0.13.0.2"/>
+    <property name="user.dir" value="C:\Users\Administrator\Documents\StarChronicle"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="GBK"/>
+    <property name="java.library.path" value="C:\Users\Administrator\Documents\luoseng\.toolchains\jdk-21.0.13.0.2+1\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Users\Administrator\.codex\tmp\arg0-windows\codex-arg0tDUSSl;C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\libheif\libheif\bin;C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\jxrlib\jxrlib\bin;C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\poppler\Library\bin;C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\tectonic;C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\override;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Users\Administrator\AppData\Roaming\npm;C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\fallback;C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin;C:\Users\Administrator\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\git\cmd;C:\Users\Administrator\AppData\Local\OpenAI\Codex\bin\504d5969ef8b22e3;C:\Users\Administrator\AppData\Local\OpenAI\Codex\bin\5b4923dff14fbe66;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="GBK"/>
+    <property name="java.vendor" value="Microsoft"/>
+    <property name="java.vm.version" value="21.0.13.0.2+1-LTS"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="anotherActiveVersionDoesNotConsumeTheNewVersionsPendingScopeReceipt" classname="io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest" time="1.381">
+    <failure message="Old pinned graph must not consume the new version&apos;s request ==&gt; expected: &lt;false&gt; but was: &lt;true&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: Old pinned graph must not consume the new version's request ==> expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.anotherActiveVersionDoesNotConsumeTheNewVersionsPendingScopeReceipt(CompletedInstanceSafetyTest.java:159)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+  </testcase>
+  <testcase name="residualInboxFindsCompletedSemanticTupleWithNonstandardLegacyIdInsteadOfCreatingStableDuplicate" classname="io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest" time="0.077">
+    <failure message="Semantic source/story/version/scope identity prevents a second ID ==&gt; expected: &lt;1&gt; but was: &lt;2&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: Semantic source/story/version/scope identity prevents a second ID ==> expected: <1> but was: <2>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:166)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:664)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxFindsCompletedSemanticTupleWithNonstandardLegacyIdInsteadOfCreatingStableDuplicate(CompletedInstanceSafetyTest.java:144)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+  </testcase>
+  <testcase name="residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(boolean)[1]" classname="io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest" time="0.081">
+    <failure message="Completed JSON including pinned choices and timestamps is immutable ==&gt; expected: &lt;{&#10;  &quot;id&quot; : &quot;ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c&quot;,&#10;  &quot;definition&quot; : {&#10;    &quot;id&quot; : &quot;completed-safety&quot;,&#10;    &quot;version&quot; : &quot;1&quot;,&#10;    &quot;title&quot; : &quot;Preserved council 1&quot;,&#10;    &quot;scope&quot; : &quot;WORLD&quot;,&#10;    &quot;triggers&quot; : [ &quot;LEGACY_EVENT&quot; ],&#10;    &quot;condition&quot; : null,&#10;    &quot;start&quot; : &quot;council&quot;,&#10;    &quot;cooldownSeconds&quot; : 0,&#10;    &quot;nodes&quot; : {&#10;      &quot;council&quot; : {&#10;        &quot;text&quot; : &quot;Council&quot;,&#10;        &quot;script&quot; : &quot;legacy_scene&quot;,&#10;        &quot;quest&quot; : &quot;legacy_quest&quot;,&#10;        &quot;quorum&quot; : 1,&#10;        &quot;choices&quot; : {&#10;          &quot;oppose&quot; : {&#10;            &quot;label&quot; : &quot;Oppose&quot;,&#10;            &quot;next&quot; : &quot;end&quot;,&#10;            &quot;condition&quot; : null,&#10;            &quot;permission&quot; : null,&#10;            &quot;effects&quot; : [ ]&#10;          },&#10;          &quot;support&quot; : {&#10;            &quot;label&quot; : &quot;Support&quot;,&#10;            &quot;next&quot; : &quot;end&quot;,&#10;            &quot;condition&quot; : null,&#10;            &quot;permission&quot; : null,&#10;            &quot;effects&quot; : [ ]&#10;          }&#10;        },&#10;        &quot;effects&quot; : [ {&#10;          &quot;id&quot; : &quot;new-entry-honor&quot;,&#10;          &quot;type&quot; : &quot;honor&quot;,&#10;          &quot;target&quot; : &quot;player&quot;,&#10;          &quot;value&quot; : &quot;700&quot;,&#10;          &quot;permission&quot; : null&#10;        } ],&#10;        &quot;terminal&quot; : false&#10;      },&#10;      &quot;end&quot; : {&#10;        &quot;text&quot; : &quot;Recorded ending&quot;,&#10;        &quot;script&quot; : null,&#10;        &quot;quest&quot; : null,&#10;        &quot;quorum&quot; : 1,&#10;        &quot;choices&quot; : { },&#10;        &quot;effects&quot; : [ {&#10;          &quot;id&quot; : &quot;end-honor&quot;,&#10;          &quot;type&quot; : &quot;honor&quot;,&#10;          &quot;target&quot; : &quot;player&quot;,&#10;          &quot;value&quot; : &quot;15&quot;,&#10;          &quot;permission&quot; : null&#10;        } ],&#10;        &quot;terminal&quot; : true&#10;      }&#10;    }&#10;  },&#10;  &quot;scopeKey&quot; : &quot;world&quot;,&#10;  &quot;sourceEventId&quot; : &quot;legacy:completed-source&quot;,&#10;  &quot;node&quot; : &quot;end&quot;,&#10;  &quot;members&quot; : {&#10;    &quot;00000000-0000-0000-0000-000000000001&quot; : &quot;river&quot;,&#10;    &quot;00000000-0000-0000-0000-000000000002&quot; : &quot;hill&quot;&#10;  },&#10;  &quot;votes&quot; : { },&#10;  &quot;choices&quot; : {&#10;    &quot;council&quot; : &quot;support&quot;,&#10;    &quot;council/00000000-0000-0000-0000-000000000001&quot; : &quot;support&quot;,&#10;    &quot;council/00000000-0000-0000-0000-000000000002&quot; : &quot;oppose&quot;&#10;  },&#10;  &quot;startedAt&quot; : &quot;2026-11-19T10:10:12.123456789Z&quot;,&#10;  &quot;updatedAt&quot; : &quot;2026-11-19T10:11:12.123456789Z&quot;,&#10;  &quot;completed&quot; : true&#10;}&#10;&gt; but was: &lt;{&quot;id&quot;:&quot;ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c&quot;,&quot;definition&quot;:{&quot;id&quot;:&quot;completed-safety&quot;,&quot;version&quot;:&quot;1&quot;,&quot;title&quot;:&quot;Preserved council 1&quot;,&quot;scope&quot;:&quot;WORLD&quot;,&quot;triggers&quot;:[&quot;LEGACY_EVENT&quot;],&quot;condition&quot;:null,&quot;start&quot;:&quot;council&quot;,&quot;cooldownSeconds&quot;:0,&quot;nodes&quot;:{&quot;council&quot;:{&quot;text&quot;:&quot;Council&quot;,&quot;script&quot;:&quot;legacy_scene&quot;,&quot;quest&quot;:&quot;legacy_quest&quot;,&quot;quorum&quot;:1,&quot;choices&quot;:{&quot;oppose&quot;:{&quot;label&quot;:&quot;Oppose&quot;,&quot;next&quot;:&quot;end&quot;,&quot;condition&quot;:null,&quot;permission&quot;:null,&quot;effects&quot;:[]},&quot;support&quot;:{&quot;label&quot;:&quot;Support&quot;,&quot;next&quot;:&quot;end&quot;,&quot;condition&quot;:null,&quot;permission&quot;:null,&quot;effects&quot;:[]}},&quot;effects&quot;:[{&quot;id&quot;:&quot;new-entry-honor&quot;,&quot;type&quot;:&quot;honor&quot;,&quot;target&quot;:&quot;player&quot;,&quot;value&quot;:&quot;700&quot;,&quot;permission&quot;:null}],&quot;terminal&quot;:false},&quot;end&quot;:{&quot;text&quot;:&quot;Recorded ending&quot;,&quot;script&quot;:null,&quot;quest&quot;:null,&quot;quorum&quot;:1,&quot;choices&quot;:{},&quot;effects&quot;:[{&quot;id&quot;:&quot;end-honor&quot;,&quot;type&quot;:&quot;honor&quot;,&quot;target&quot;:&quot;player&quot;,&quot;value&quot;:&quot;15&quot;,&quot;permission&quot;:null}],&quot;terminal&quot;:true}}},&quot;scopeKey&quot;:&quot;world&quot;,&quot;sourceEventId&quot;:&quot;legacy:completed-source&quot;,&quot;node&quot;:&quot;council&quot;,&quot;members&quot;:{&quot;00000000-0000-0000-0000-000000000001&quot;:&quot;river&quot;},&quot;votes&quot;:{},&quot;choices&quot;:{},&quot;startedAt&quot;:&quot;2026-11-20T10:11:12.123456789Z&quot;,&quot;updatedAt&quot;:&quot;2026-11-20T10:11:12.123456789Z&quot;,&quot;completed&quot;:false}&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
+Completed JSON including pinned choices and timestamps is immutable ==> expected: <{
+  "id" : "ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c",
+  "definition" : {
+    "id" : "completed-safety",
+    "version" : "1",
+    "title" : "Preserved council 1",
+    "scope" : "WORLD",
+    "triggers" : [ "LEGACY_EVENT" ],
+    "condition" : null,
+    "start" : "council",
+    "cooldownSeconds" : 0,
+    "nodes" : {
+      "council" : {
+        "text" : "Council",
+        "script" : "legacy_scene",
+        "quest" : "legacy_quest",
+        "quorum" : 1,
+        "choices" : {
+          "oppose" : {
+            "label" : "Oppose",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          },
+          "support" : {
+            "label" : "Support",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          }
+        },
+        "effects" : [ {
+          "id" : "new-entry-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "700",
+          "permission" : null
+        } ],
+        "terminal" : false
+      },
+      "end" : {
+        "text" : "Recorded ending",
+        "script" : null,
+        "quest" : null,
+        "quorum" : 1,
+        "choices" : { },
+        "effects" : [ {
+          "id" : "end-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "15",
+          "permission" : null
+        } ],
+        "terminal" : true
+      }
+    }
+  },
+  "scopeKey" : "world",
+  "sourceEventId" : "legacy:completed-source",
+  "node" : "end",
+  "members" : {
+    "00000000-0000-0000-0000-000000000001" : "river",
+    "00000000-0000-0000-0000-000000000002" : "hill"
+  },
+  "votes" : { },
+  "choices" : {
+    "council" : "support",
+    "council/00000000-0000-0000-0000-000000000001" : "support",
+    "council/00000000-0000-0000-0000-000000000002" : "oppose"
+  },
+  "startedAt" : "2026-11-19T10:10:12.123456789Z",
+  "updatedAt" : "2026-11-19T10:11:12.123456789Z",
+  "completed" : true
+}
+> but was: <{"id":"ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c","definition":{"id":"completed-safety","version":"1","title":"Preserved council 1","scope":"WORLD","triggers":["LEGACY_EVENT"],"condition":null,"start":"council","cooldownSeconds":0,"nodes":{"council":{"text":"Council","script":"legacy_scene","quest":"legacy_quest","quorum":1,"choices":{"oppose":{"label":"Oppose","next":"end","condition":null,"permission":null,"effects":[]},"support":{"label":"Support","next":"end","condition":null,"permission":null,"effects":[]}},"effects":[{"id":"new-entry-honor","type":"honor","target":"player","value":"700","permission":null}],"terminal":false},"end":{"text":"Recorded ending","script":null,"quest":null,"quorum":1,"choices":{},"effects":[{"id":"end-honor","type":"honor","target":"player","value":"15","permission":null}],"terminal":true}}},"scopeKey":"world","sourceEventId":"legacy:completed-source","node":"council","members":{"00000000-0000-0000-0000-000000000001":"river"},"votes":{},"choices":{},"startedAt":"2026-11-20T10:11:12.123456789Z","updatedAt":"2026-11-20T10:11:12.123456789Z","completed":false}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1156)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(CompletedInstanceSafetyTest.java:125)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+  </testcase>
+  <testcase name="residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(boolean)[2]" classname="io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest" time="0.058">
+    <failure message="Completed JSON including pinned choices and timestamps is immutable ==&gt; expected: &lt;{&#10;  &quot;id&quot; : &quot;ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c&quot;,&#10;  &quot;definition&quot; : {&#10;    &quot;id&quot; : &quot;completed-safety&quot;,&#10;    &quot;version&quot; : &quot;1&quot;,&#10;    &quot;title&quot; : &quot;Preserved council 1&quot;,&#10;    &quot;scope&quot; : &quot;WORLD&quot;,&#10;    &quot;triggers&quot; : [ &quot;LEGACY_EVENT&quot; ],&#10;    &quot;condition&quot; : null,&#10;    &quot;start&quot; : &quot;council&quot;,&#10;    &quot;cooldownSeconds&quot; : 0,&#10;    &quot;nodes&quot; : {&#10;      &quot;council&quot; : {&#10;        &quot;text&quot; : &quot;Council&quot;,&#10;        &quot;script&quot; : &quot;legacy_scene&quot;,&#10;        &quot;quest&quot; : &quot;legacy_quest&quot;,&#10;        &quot;quorum&quot; : 1,&#10;        &quot;choices&quot; : {&#10;          &quot;oppose&quot; : {&#10;            &quot;label&quot; : &quot;Oppose&quot;,&#10;            &quot;next&quot; : &quot;end&quot;,&#10;            &quot;condition&quot; : null,&#10;            &quot;permission&quot; : null,&#10;            &quot;effects&quot; : [ ]&#10;          },&#10;          &quot;support&quot; : {&#10;            &quot;label&quot; : &quot;Support&quot;,&#10;            &quot;next&quot; : &quot;end&quot;,&#10;            &quot;condition&quot; : null,&#10;            &quot;permission&quot; : null,&#10;            &quot;effects&quot; : [ ]&#10;          }&#10;        },&#10;        &quot;effects&quot; : [ {&#10;          &quot;id&quot; : &quot;new-entry-honor&quot;,&#10;          &quot;type&quot; : &quot;honor&quot;,&#10;          &quot;target&quot; : &quot;player&quot;,&#10;          &quot;value&quot; : &quot;700&quot;,&#10;          &quot;permission&quot; : null&#10;        } ],&#10;        &quot;terminal&quot; : false&#10;      },&#10;      &quot;end&quot; : {&#10;        &quot;text&quot; : &quot;Recorded ending&quot;,&#10;        &quot;script&quot; : null,&#10;        &quot;quest&quot; : null,&#10;        &quot;quorum&quot; : 1,&#10;        &quot;choices&quot; : { },&#10;        &quot;effects&quot; : [ {&#10;          &quot;id&quot; : &quot;end-honor&quot;,&#10;          &quot;type&quot; : &quot;honor&quot;,&#10;          &quot;target&quot; : &quot;player&quot;,&#10;          &quot;value&quot; : &quot;15&quot;,&#10;          &quot;permission&quot; : null&#10;        } ],&#10;        &quot;terminal&quot; : true&#10;      }&#10;    }&#10;  },&#10;  &quot;scopeKey&quot; : &quot;world&quot;,&#10;  &quot;sourceEventId&quot; : &quot;legacy:completed-source&quot;,&#10;  &quot;node&quot; : &quot;end&quot;,&#10;  &quot;members&quot; : {&#10;    &quot;00000000-0000-0000-0000-000000000001&quot; : &quot;river&quot;,&#10;    &quot;00000000-0000-0000-0000-000000000002&quot; : &quot;hill&quot;&#10;  },&#10;  &quot;votes&quot; : { },&#10;  &quot;choices&quot; : {&#10;    &quot;council&quot; : &quot;support&quot;,&#10;    &quot;council/00000000-0000-0000-0000-000000000001&quot; : &quot;support&quot;,&#10;    &quot;council/00000000-0000-0000-0000-000000000002&quot; : &quot;oppose&quot;&#10;  },&#10;  &quot;startedAt&quot; : &quot;2026-11-19T10:10:12.123456789Z&quot;,&#10;  &quot;updatedAt&quot; : &quot;2026-11-19T10:11:12.123456789Z&quot;,&#10;  &quot;completed&quot; : true&#10;}&#10;&gt; but was: &lt;{&quot;id&quot;:&quot;ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c&quot;,&quot;definition&quot;:{&quot;id&quot;:&quot;completed-safety&quot;,&quot;version&quot;:&quot;1&quot;,&quot;title&quot;:&quot;Preserved council 1&quot;,&quot;scope&quot;:&quot;WORLD&quot;,&quot;triggers&quot;:[&quot;LEGACY_EVENT&quot;],&quot;condition&quot;:null,&quot;start&quot;:&quot;council&quot;,&quot;cooldownSeconds&quot;:0,&quot;nodes&quot;:{&quot;council&quot;:{&quot;text&quot;:&quot;Council&quot;,&quot;script&quot;:&quot;legacy_scene&quot;,&quot;quest&quot;:&quot;legacy_quest&quot;,&quot;quorum&quot;:1,&quot;choices&quot;:{&quot;oppose&quot;:{&quot;label&quot;:&quot;Oppose&quot;,&quot;next&quot;:&quot;end&quot;,&quot;condition&quot;:null,&quot;permission&quot;:null,&quot;effects&quot;:[]},&quot;support&quot;:{&quot;label&quot;:&quot;Support&quot;,&quot;next&quot;:&quot;end&quot;,&quot;condition&quot;:null,&quot;permission&quot;:null,&quot;effects&quot;:[]}},&quot;effects&quot;:[{&quot;id&quot;:&quot;new-entry-honor&quot;,&quot;type&quot;:&quot;honor&quot;,&quot;target&quot;:&quot;player&quot;,&quot;value&quot;:&quot;700&quot;,&quot;permission&quot;:null}],&quot;terminal&quot;:false},&quot;end&quot;:{&quot;text&quot;:&quot;Recorded ending&quot;,&quot;script&quot;:null,&quot;quest&quot;:null,&quot;quorum&quot;:1,&quot;choices&quot;:{},&quot;effects&quot;:[{&quot;id&quot;:&quot;end-honor&quot;,&quot;type&quot;:&quot;honor&quot;,&quot;target&quot;:&quot;player&quot;,&quot;value&quot;:&quot;15&quot;,&quot;permission&quot;:null}],&quot;terminal&quot;:true}}},&quot;scopeKey&quot;:&quot;world&quot;,&quot;sourceEventId&quot;:&quot;legacy:completed-source&quot;,&quot;node&quot;:&quot;council&quot;,&quot;members&quot;:{&quot;00000000-0000-0000-0000-000000000001&quot;:&quot;river&quot;},&quot;votes&quot;:{},&quot;choices&quot;:{},&quot;startedAt&quot;:&quot;2026-11-20T10:11:12.123456789Z&quot;,&quot;updatedAt&quot;:&quot;2026-11-20T10:11:12.123456789Z&quot;,&quot;completed&quot;:false}&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: 
+Completed JSON including pinned choices and timestamps is immutable ==> expected: <{
+  "id" : "ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c",
+  "definition" : {
+    "id" : "completed-safety",
+    "version" : "1",
+    "title" : "Preserved council 1",
+    "scope" : "WORLD",
+    "triggers" : [ "LEGACY_EVENT" ],
+    "condition" : null,
+    "start" : "council",
+    "cooldownSeconds" : 0,
+    "nodes" : {
+      "council" : {
+        "text" : "Council",
+        "script" : "legacy_scene",
+        "quest" : "legacy_quest",
+        "quorum" : 1,
+        "choices" : {
+          "oppose" : {
+            "label" : "Oppose",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          },
+          "support" : {
+            "label" : "Support",
+            "next" : "end",
+            "condition" : null,
+            "permission" : null,
+            "effects" : [ ]
+          }
+        },
+        "effects" : [ {
+          "id" : "new-entry-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "700",
+          "permission" : null
+        } ],
+        "terminal" : false
+      },
+      "end" : {
+        "text" : "Recorded ending",
+        "script" : null,
+        "quest" : null,
+        "quorum" : 1,
+        "choices" : { },
+        "effects" : [ {
+          "id" : "end-honor",
+          "type" : "honor",
+          "target" : "player",
+          "value" : "15",
+          "permission" : null
+        } ],
+        "terminal" : true
+      }
+    }
+  },
+  "scopeKey" : "world",
+  "sourceEventId" : "legacy:completed-source",
+  "node" : "end",
+  "members" : {
+    "00000000-0000-0000-0000-000000000001" : "river",
+    "00000000-0000-0000-0000-000000000002" : "hill"
+  },
+  "votes" : { },
+  "choices" : {
+    "council" : "support",
+    "council/00000000-0000-0000-0000-000000000001" : "support",
+    "council/00000000-0000-0000-0000-000000000002" : "oppose"
+  },
+  "startedAt" : "2026-11-19T10:10:12.123456789Z",
+  "updatedAt" : "2026-11-19T10:11:12.123456789Z",
+  "completed" : true
+}
+> but was: <{"id":"ee687cbb2dfad7924832a8084e6c5633277105969213a49ddd39321eaa139e5c","definition":{"id":"completed-safety","version":"1","title":"Preserved council 1","scope":"WORLD","triggers":["LEGACY_EVENT"],"condition":null,"start":"council","cooldownSeconds":0,"nodes":{"council":{"text":"Council","script":"legacy_scene","quest":"legacy_quest","quorum":1,"choices":{"oppose":{"label":"Oppose","next":"end","condition":null,"permission":null,"effects":[]},"support":{"label":"Support","next":"end","condition":null,"permission":null,"effects":[]}},"effects":[{"id":"new-entry-honor","type":"honor","target":"player","value":"700","permission":null}],"terminal":false},"end":{"text":"Recorded ending","script":null,"quest":null,"quorum":1,"choices":{},"effects":[{"id":"end-honor","type":"honor","target":"player","value":"15","permission":null}],"terminal":true}}},"scopeKey":"world","sourceEventId":"legacy:completed-source","node":"council","members":{"00000000-0000-0000-0000-000000000001":"river"},"votes":{},"choices":{},"startedAt":"2026-11-20T10:11:12.123456789Z","updatedAt":"2026-11-20T10:11:12.123456789Z","completed":false}>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1156)
+	at io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.residualInboxCannotOverwriteCompletedStableInstanceThroughResumeOrDuplicateAccept(CompletedInstanceSafetyTest.java:125)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.stream.ReferencePipeline$7$1.accept(ReferencePipeline.java:276)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1708)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+]]></failure>
+  </testcase>
+</testsuite>

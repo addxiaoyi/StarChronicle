@@ -10,13 +10,13 @@ commands:
     description: World history, collaborative stories and administrative diagnostics
     aliases: [scchronicle]
     permission: starchronicle.use
-    usage: /chronicle [stories|scene|history|book|npc|fate|past|memory|join|choose|status|validate|reload|blocked]
+    usage: /chronicle [stories|scene|history|book|npc|fate|past|memory|join|choose|status|validate|reload|blocked|evaluate]
 permissions:
   starchronicle.use:
     description: Read histories and participate in eligible stories
     default: true
   starchronicle.admin:
-    description: Validate content, inspect uncertain effects and emit explicitly enabled test events
+    description: Validate content, evaluate saved history, inspect uncertain effects and emit explicitly enabled test events
     default: op
   starchronicle.identity.soldier:
     description: Trusted soldier identity supplied by the server administrator

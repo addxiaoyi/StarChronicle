@@ -3,13 +3,14 @@ package io.github.addxiaoyi.starchronicle.persistence;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.github.addxiaoyi.starchronicle.core.ChoiceLedger;
+import io.github.addxiaoyi.starchronicle.core.DefinitionCatalog;
 import io.github.addxiaoyi.starchronicle.history.EventCausality;
 import java.nio.file.*;
 import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    public static final int SCHEMA_VERSION=3;
+    public static final int SCHEMA_VERSION=4;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;
@@ -33,6 +34,7 @@ public final class SqliteStore implements AutoCloseable {
                 s.execute("CREATE INDEX IF NOT EXISTS player_history ON event_players(player,event_id)");
                 s.execute("CREATE TABLE IF NOT EXISTS instances(id TEXT PRIMARY KEY,story TEXT NOT NULL,scope TEXT NOT NULL,completed INTEGER NOT NULL,updated TEXT NOT NULL,json TEXT NOT NULL)");
                 s.execute("CREATE INDEX IF NOT EXISTS active_instances ON instances(story,scope,completed)");
+                s.execute("CREATE INDEX IF NOT EXISTS instance_origin ON instances(story,scope,json_extract(json,'$.definition.version'),json_extract(json,'$.sourceEventId'))");
                 s.execute("CREATE TABLE IF NOT EXISTS outcomes(id TEXT PRIMARY KEY,status TEXT NOT NULL,json TEXT NOT NULL)");
                 s.execute("CREATE INDEX IF NOT EXISTS outcome_delivery_status ON outcomes(status,id)");
                 s.execute("CREATE TABLE IF NOT EXISTS facts(owner TEXT NOT NULL,key TEXT NOT NULL,value TEXT NOT NULL,PRIMARY KEY(owner,key))");
@@ -44,7 +46,9 @@ public final class SqliteStore implements AutoCloseable {
                 s.execute("CREATE INDEX IF NOT EXISTS native_scene_player_status ON native_scene_journal(player,status,id)");
                 ChoiceLedger.createSchema(connection);
                 EventCausality.createSchema(connection);
+                DefinitionCatalog.createSchema(connection);
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);
+                if(oldVersion<4)DefinitionCatalog.migrateSnapshots(connection);
                 s.execute("PRAGMA user_version="+SCHEMA_VERSION);
                 // A process may have died after a non-idempotent external call. Never replay it blindly.
                 s.execute("UPDATE outcomes SET status='UNKNOWN' WHERE status='RUNNING'");

@@ -38,7 +38,7 @@ chronicle.recollections(playerId, List.of(
 ));
 ```
 
-所有规则和 NPC 条件会去除上下文伪造的保留历史命名空间，再从当前 SQLite 事务构造。剧情 `history` 结果、NPC反应、选择日志、因果记录及待触发定义同事务提交；内部派生结果只入箱，不递归执行剧情或等待 Bukkit。运行时因果链重复故事／深度32后只拦截后续并保留来源历史；管理员 `/chronicle blocked` 可查，不能把这类确定未执行的拦截当作外部 UNKNOWN 已执行。当前新配置引用仍按当前目录版本校验，退休定义目录尚待后续，API／旧 pinned 快照读取已保存历史不受文件删除影响。
+所有规则和 NPC 条件会去除上下文伪造的保留历史命名空间，再从当前 SQLite 事务构造。剧情 `history` 结果、NPC反应、选择日志、因果记录及待触发定义同事务提交；内部派生结果只入箱，不递归执行剧情或等待 Bukkit。运行时因果链重复故事／深度32后只拦截后续并保留来源历史；管理员 `/chronicle blocked` 可查，不能把这类确定未执行的拦截当作外部 UNKNOWN 已执行。当前新配置精确解析当前定义与真实持久化退休版本；内容冲突会明确拒绝，退休定义只提供引用证据，不注册为可执行规则。已有历史读取仍不受文件删除影响。
 
 `scene(playerId)` 与 `sceneAction(playerId, expectedScript, expectedNode, visibleChoiceIndex)` 提供自有 StarCore 原生场景的只读投影和委托操作。Bukkit／原生状态的读取与调用在玩家实体线程执行，恢复日志由持久化工作线程管理。索引从1开始，0只允许推进没有选项的节点。`NativeSceneAdapter` 使用上游 `ConditionEvaluator` 过滤对话和可见选项，实际推进调用 `NarrativeEngine.advanceNode/selectChoice`；不会解释上游效果。只允许当前对象仍归本插件注册的脚本，拒绝过期节点和外部脚本。`/chronicle scene` 和剧情GUI的补充场景入口使用同一入口。
 
@@ -217,10 +217,16 @@ NPC 提供者是可选展示扩展点。注册方必须记录自己创建／附�
 5. 真实原生权威服务可用时内置最低优先级 `StarCoreAuthorityProvider`：`type=authority,target=diplomacy.invite,value=对方国家UUID,permission=starcore.nation.ally.add`。它重新验证当前君主、国籍、Bukkit与StarCore国家权限，只发送需对方另行接受的邀请。自定义提供者可用更高服务优先级覆盖；未知操作默认拒绝。不确定结果不自动重试。接入NPC插件时按目录绑定真实外部ID。
 6. 正常停服后备份数据库；运行中备份必须包含 SQLite WAL 的一致性方案。不要只复制正在写入的 `.db` 文件。
 
-数据库 schema 3 在保留 V1/V2 原数据的基础上，同事务创建选择日志及派生因果表，并将旧实例仍保存的选择导入为 `LEGACY_INSTANCE`；未知原投票时间／提交人保持NULL，中间改投不可重建。迁移失败会回滚版本和局部导入，重开不重复；较新 schema 会拒绝由旧程序打开。升级仍不能倒推出已消费来源的旧规则／资格，或补造原生 Request/checkpoint，不自动 backfill 这些触发或奖励。升级前正常停服并备份。详情见 [CONTINUOUS-NARRATIVE.md](CONTINUOUS-NARRATIVE.md)。
+schema 3 的选择迁移在保留 V1/V2 原数据的基础上，同事务创建选择日志及派生因果表，并将旧实例仍保存的选择导入为 `LEGACY_INSTANCE`；未知原投票时间／提交人保持NULL，中间改投不可重建。迁移失败会回滚版本和局部导入，重开不重复；较新 schema 会拒绝由旧程序打开。升级仍不能倒推出已消费来源的旧规则／资格，或补造原生 Request/checkpoint，不自动 backfill 这些触发或奖励。升级前正常停服并备份。详情见 [CONTINUOUS-NARRATIVE.md](CONTINUOUS-NARRATIVE.md)。
 
 `ObservationJournal` 为缺少提交后事件的权威快照提供同事务基线与持久ingress，成功accept后才ack；重启重投保持原ID和证据。原生完整国家列表用于观察国家消失，真实技术集合用于观察新解锁。首都迁移必须有可信 `SnapshotProvider` 的CAPITALS完整集合：审计CityService无持久指定首都getter，默认不猜迁都。重要战役取真实战争记录；探索／大型事件需要有稳定提交证据的服内集成。SenLuoPlugin 实际是 CraftEngine 内容插件，它的烹饪预提交事件不能当作国家历史权威来源。见 [HISTORY-OBSERVATION.md](HISTORY-OBSERVATION.md)。
 
 审计版本的 StarCore 缺少 `folia-supported: true`，且 NarrativeModule 仍使用 Bukkit 主线程定时器。未修改的上游不能据此宣称在 Folia 生产可用。`require-starcore: true` 时其服务不可用会使本插件安全停用；Folia 下显式 standalone 可以运行独立编排／历史，但不会得到真实国家身份或上游任务／剧情执行能力。即使另有可加载的上游适配构建，StarChronicle 仍会在 Folia 拒绝 `narrative.start`，直到完成单独线程兼容审计。
 
 缺少上游发生时间的已提交事件会使用 `facts.time_basis=OBSERVED` 并在 evidence 标注观察时间。本地保留第一次成功记录的时间；同一稳定来源 ID 的后续观察时间变化不构成内容冲突，其他事实、来源、参与者等仍严格比对。没有这一结构化标记的事件仍严格校验时间。观察时间不是精确发生时间，也不证明停服期间漏掉的事件能够自动补齐。
+
+## 精确版本目录与已有历史评估
+
+`ChronicleService.evaluateHistorical(sourceEventId, storyId, expectedVersion)` 返回 `CompletionStage<HistoricalEvaluationReport>`。它仅为已保存canonical来源登记一个当前启用的精确剧情版本，不接收任意定义、玩家上下文或替换事件，也不立即执行效果。`QUEUED / ALREADY_REGISTERED / NO_SOURCE_AUDIENCE / BLOCKED_CAUSAL` 含义及原始历史保护见 [CONTINUOUS-NARRATIVE.md](CONTINUOUS-NARRATIVE.md)。命令 `/chronicle evaluate <事件ID> <剧情ID> <版本>` 要求管理权限；可信插件API保留现有服务端信任边界。
+
+当前schema为4。`DefinitionCatalog` 仅包含正式接受的有效定义或真实旧快照，以ID／版本／canonical指纹保存冲突变体；`require(id, version)` 精确解析，缺失／歧义抛异常。`ConfigLoader.load(..., catalog)`、`validateAll(definitions, catalog)`支持退休版本；两阶段加载先做单文件校验，再绑定原生内容，最后由RuleEngine事务校验和归档。纯validate不归档。已有原生执行、国家权限、UNKNOWN对账与Folia边界不变。

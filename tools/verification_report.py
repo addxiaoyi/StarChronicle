@@ -33,6 +33,9 @@ with zipfile.ZipFile(artifact) as jar:
     required = ["plugin.yml", "config.yml", "npcs.yml", "stories/last-heir.yml", "stories/siege-embers.yml", "stories/silk-road-scholar.yml", "stories/heir-legacy.yml", entry_class]
     required += [f"stories/fate-{role}.yml" for role in ("soldier", "general", "merchant", "scholar", "explorer", "diplomat", "mayor", "monarch")]
     required += [f"starcore-scenes/chronicle_{scene}.yml" for scene in ("last_heir", "siege_embers", "silk_road")]
+    required += ["io/github/addxiaoyi/starchronicle/core/DefinitionCatalog.class",
+                 "io/github/addxiaoyi/starchronicle/core/StoryRuntime.class",
+                 "io/github/addxiaoyi/starchronicle/api/HistoricalEvaluationReport.class"]
     for name in required:
         if name not in names:
             raise SystemExit(f"Artifact missing {name}")
