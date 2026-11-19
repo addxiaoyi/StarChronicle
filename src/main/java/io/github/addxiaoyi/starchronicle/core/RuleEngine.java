@@ -22,12 +22,17 @@ public final class RuleEngine implements AutoCloseable {
     private volatile StoryRuntime runtime;
     private final Clock clock;
     private final NpcLedger npcs;
+    private final NationalVoteAuthority nationalAuthority;
     private static final DateTimeFormatter SORTABLE_TIME=new DateTimeFormatterBuilder().appendInstant(9).toFormatter();
     public RuleEngine(SqliteStore store,List<StoryDefinition> definitions,Clock clock) {
         this(store,definitions,clock,null);
     }
     public RuleEngine(SqliteStore store,List<StoryDefinition> definitions,Clock clock,NpcLedger npcs) {
+        this(store,definitions,clock,npcs,NationalVoteAuthority.denying());
+    }
+    public RuleEngine(SqliteStore store,List<StoryDefinition> definitions,Clock clock,NpcLedger npcs,NationalVoteAuthority nationalAuthority) {
         this.store=Objects.requireNonNull(store);this.clock=Objects.requireNonNull(clock);this.npcs=npcs;
+        this.nationalAuthority=Objects.requireNonNull(nationalAuthority);
         reload(definitions);
     }
     public void reload(List<StoryDefinition> validatedDefinitions){
@@ -244,9 +249,7 @@ public final class RuleEngine implements AutoCloseable {
         return store.transaction(c->{
             StoryInstance i=require(c,instanceId);
             if(i.completed()) throw new IllegalStateException("剧情已经结束");
-            // The separate national-seat ledger is not integrated yet in this isolated
-            // worktree. Never reinterpret an explicitly national ballot as a player vote.
-            if(i.definition().voteUnit()==StoryDefinition.VoteUnit.NATION)throw new SecurityException("国家表决尚未接入权威席位账本，拒绝按玩家票计票");
+            if(i.definition().voteUnit()==StoryDefinition.VoteUnit.NATION)throw new SecurityException("国家表决须使用带阶段及修订号的 nationalVote 接口，请刷新国家议事界面");
             if(expectedNode!=null&&!expectedNode.equals(i.node()))throw new IllegalStateException("剧情阶段已改变，请刷新界面");
             if(!i.contains(player)) throw new SecurityException("请先加入剧情");
             if(!i.members().get(player).equals(context.nationId())) throw new SecurityException("国籍已变化，请由管理员审核成员资格");
@@ -273,6 +276,131 @@ public final class RuleEngine implements AutoCloseable {
             enter(c,moved,context);
             return new ProcessReport(false,List.of(i.id()),next.terminal()?"剧情已完成，历史已经保存":"已进入下一阶段");
         });
+    }
+
+    /** One native national monitor encloses the complete local transaction. No external
+     * delivery, Bukkit access or native mutation is allowed inside this callback. */
+    public ProcessReport nationalVote(String instanceId,UUID player,String expectedNode,long expectedRevision,String choiceId,PlayerContext context) {
+        nationalRequest(player,expectedNode,expectedRevision,context);Objects.requireNonNull(choiceId);
+        return authorized(context,view->store.transaction(c->{
+            StoryInstance before=nationalActive(c,instanceId,expectedNode,context);
+            var node=before.definition().nodes().get(before.node());var choice=node.choices().get(choiceId);
+            if(choice==null)throw new IllegalArgumentException("不存在的剧情选项");
+            Map<String,String> state=facts(c,context,event(c,before.sourceEventId()),before);
+            if(!test(before.definition().condition(),state)||!context.permitted(choice.permission())||!test(choice.condition(),state))throw new SecurityException("不满足国家剧情或分支条件");
+            requirePermissions(node.effects(),context);requirePermissions(choice.effects(),context);
+            var next=before.definition().nodes().get(choice.next());requirePermissions(next.effects(),context);
+            Instant now=clock.instant();
+            var mutation=NationalVoteLedger.cast(c,before,context,view,choiceId,expectedRevision,now);
+            if(!mutation.changed())return new ProcessReport(true,List.of(before.id()),"本国已记录相同立场");
+            if(mutation.resolution().isEmpty()) {
+                save(c,new StoryInstance(before.id(),before.definition(),before.scopeKey(),before.sourceEventId(),before.node(),before.members(),Map.of(),before.choices(),before.startedAt(),now,false));
+                long count=mutation.snapshot().counts().getOrDefault(choiceId,0L);
+                return new ProcessReport(false,List.of(before.id()),"国家立场已记录，一国一席 "+count+"/"+node.quorum());
+            }
+            ChoiceLedger.recordNationalResolution(c,before,context,before.node(),choiceId,now);
+            Map<String,String> choices=new LinkedHashMap<>(before.choices());choices.put(before.node(),choiceId);
+            StoryInstance moved=new StoryInstance(before.id(),before.definition(),before.scopeKey(),before.sourceEventId(),choice.next(),before.members(),Map.of(),choices,before.startedAt(),now,next.terminal());
+            save(c,moved);
+            applyEffects(c,before,"choice/"+before.node()+"/"+choiceId,choice.effects(),context);
+            enter(c,moved,context);
+            return new ProcessReport(false,List.of(before.id()),next.terminal()?"国家决议已冻结，剧情及历史已保存":"国家决议已冻结，已进入下一阶段");
+        }));
+    }
+    /** Withdrawal preserves its tombstone and revision even when branch conditions change. */
+    public ProcessReport withdrawNationalVote(String instanceId,UUID player,String expectedNode,long expectedRevision,PlayerContext context) {
+        nationalRequest(player,expectedNode,expectedRevision,context);
+        return authorized(context,view->store.transaction(c->{
+            StoryInstance before=nationalActive(c,instanceId,expectedNode,context);Instant now=clock.instant();
+            var mutation=NationalVoteLedger.withdraw(c,before,context,view,expectedRevision,now);
+            if(!mutation.changed())return new ProcessReport(true,List.of(before.id()),"本国没有可撤回的有效立场");
+            save(c,new StoryInstance(before.id(),before.definition(),before.scopeKey(),before.sourceEventId(),before.node(),before.members(),Map.of(),before.choices(),before.startedAt(),now,false));
+            return new ProcessReport(false,List.of(before.id()),"已撤回本国立场并保存修订证据");
+        }));
+    }
+    private static void nationalRequest(UUID player,String node,long revision,PlayerContext context) {
+        Objects.requireNonNull(context);Objects.requireNonNull(player);Objects.requireNonNull(node);
+        if(!player.equals(context.playerId()))throw new SecurityException("Player context mismatch");
+        if(!context.permitted("starchronicle.use"))throw new SecurityException("缺少剧情使用权限");
+        if(node.isBlank()||revision<0)throw new IllegalArgumentException("A national ballot requires an expected node and nonnegative revision");
+    }
+    private static StoryInstance nationalActive(Connection c,String id,String node,PlayerContext context)throws Exception {
+        StoryInstance before=require(c,id);nationalDefinition(before);
+        if(before.completed()||before.definition().nodes().get(before.node()).terminal())throw new IllegalStateException("国家议事阶段已经结束");
+        if(!node.equals(before.node()))throw new IllegalStateException("剧情阶段已改变，请刷新界面");
+        if(!before.contains(context.playerId()))throw new SecurityException("请先加入剧情");
+        if(!Objects.equals(before.members().get(context.playerId()),context.nationId()))throw new SecurityException("国籍已变化，请由管理员审核成员资格");
+        return before;
+    }
+    private static void nationalDefinition(StoryInstance before) {
+        if(before.definition().voteUnit()!=StoryDefinition.VoteUnit.NATION||before.definition().scope()==StoryDefinition.Scope.PLAYER)throw new IllegalArgumentException("此剧情不使用国家表决");
+        if(!before.votes().isEmpty()||before.choices().keySet().stream().anyMatch(k->k.contains("/")))throw new IllegalStateException("国家剧情存在非法个人选票数据");
+    }
+    /** Recorded projections are readable by joined members even without a native authority.
+     * Acquire native authority BEFORE storage, and never convert callback/storage errors to denial. */
+    public NationalVoteState nationalState(String instanceId,PlayerContext context) {
+        Objects.requireNonNull(context);
+        if(!context.permitted("starchronicle.use"))throw new SecurityException("缺少剧情使用权限");
+        boolean[] entered={false};
+        try {
+            return authorized(context,()->entered[0]=true,view->store.transaction(c->nationalState(c,instanceId,context,view)));
+        }catch(RuntimeException failure) {
+            if(entered[0])throw failure;
+            return store.transaction(c->nationalState(c,instanceId,context,null));
+        }
+    }
+    private NationalVoteState nationalState(Connection c,String id,PlayerContext context,NationalVoteAuthority.View view)throws Exception {
+        StoryInstance instance=require(c,id);nationalDefinition(instance);
+        if(!instance.contains(context.playerId()))throw new SecurityException("请先加入剧情");
+        String node=instance.node();
+        if(instance.completed())try(var s=c.prepareStatement("SELECT node_id FROM story_choice_log WHERE instance_id=? AND kind='RESOLUTION' ORDER BY seq DESC LIMIT 1")) {
+            s.setString(1,id);try(var r=s.executeQuery()){if(r.next())node=r.getString(1);}
+        }
+        var snapshot=NationalVoteLedger.snapshot(c,instance,node);var definition=instance.definition().nodes().get(node);
+        var own=snapshot.ballots().stream().filter(v->v.nationId().equals(context.nationId())).findFirst();
+        long revision=own.map(NationalVoteState.Ballot::revision).orElse(0L);
+        boolean representative=view!=null&&context.playerId().equals(view.actorId())&&context.nationId().equals(view.nationId());
+        boolean open=!instance.completed()&&!definition.terminal()&&snapshot.resolution().isEmpty()&&instance.node().equals(node);
+        WorldEvent source=event(c,instance.sourceEventId());
+        boolean electorate=!source.nations().isEmpty()?source.nations().contains(context.nationId()):source.globalAudience();
+        boolean eligible=representative&&open&&!context.nationId().isBlank()&&Objects.equals(instance.members().get(context.playerId()),context.nationId())&&electorate
+            &&(instance.definition().scope()!=StoryDefinition.Scope.NATION||instance.scopeKey().equals("nation:"+context.nationId()));
+        boolean canVote=eligible&&!visibleChoices(c,instance,context,true).isEmpty();
+        boolean canWithdraw=eligible&&own.map(v->v.status().equals("ACTIVE")).orElse(false);
+        String message=instance.completed()?"决议为已冻结历史；国家后续变动不会重算历史":!representative?"只读记录；国家代表资格须由原生权威服务核验":"一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订";
+        return new NationalVoteState(id,node,definition.quorum(),snapshot.resolution().map(NationalVoteLedger.Resolution::choiceId).orElse(null),instance.completed(),context.nationId(),revision,representative,canVote,canWithdraw,message,snapshot.counts(),snapshot.ballots());
+    }
+    /** Reject an asynchronous, reused or cross-thread authority callback before touching SQL.
+     * Service providers are trusted adapters; the view cannot escape its synchronous scope. */
+    private <T>T authorized(PlayerContext context,NationalVoteAuthority.Authorized<T> operation) {
+        return authorized(context,()->{},operation);
+    }
+    private <T>T authorized(PlayerContext context,Runnable callbackEntered,NationalVoteAuthority.Authorized<T> operation) {
+        Thread owner=Thread.currentThread();boolean[] invoked={false},active={true};Object[] result={null};Throwable[] callbackFailure={null};
+        try {
+            nationalAuthority.withRepresentative(context.playerId(),context.nationId(),nativeView->{
+                callbackEntered.run();
+                try {
+                if(!active[0]||Thread.currentThread()!=owner||invoked[0])throw new SecurityException("National authority callback must be synchronous, single-use and on its calling thread");
+                invoked[0]=true;Objects.requireNonNull(nativeView,"Missing national authority view");
+                NationalVoteAuthority.View scoped=new NationalVoteAuthority.View(){
+                    private void check(){if(!active[0]||Thread.currentThread()!=owner)throw new SecurityException("National authority view has expired");}
+                    public UUID actorId(){check();return nativeView.actorId();}
+                    public String nationId(){check();return nativeView.nationId();}
+                    public Instant checkedAt(){check();return nativeView.checkedAt();}
+                    public String issuer(){check();return nativeView.issuer();}
+                    public String evidence(){check();return nativeView.evidence();}
+                    public boolean nationExists(String nation)throws Exception{check();return nativeView.nationExists(nation);}
+                };
+                    if(!context.playerId().equals(scoped.actorId())||!context.nationId().equals(scoped.nationId()))throw new SecurityException("National authority identity mismatch");
+                    T value=operation.run(scoped);result[0]=value;return value;
+                }catch(Exception|Error failure){callbackFailure[0]=failure;throw failure;}
+            });
+            if(callbackFailure[0]!=null)throw new IllegalStateException("National authority suppressed a failed callback",callbackFailure[0]);
+            if(!invoked[0])throw new SecurityException("National authority did not provide a representative callback");
+            @SuppressWarnings("unchecked") T value=(T)result[0];return value;
+        }catch(RuntimeException failure){throw failure;}catch(Exception failure){throw new IllegalStateException("National representative authority failed",failure);}
+        finally{active[0]=false;}
     }
 
     private StoryInstance addMember(Connection c,StoryInstance i,PlayerContext ctx,WorldEvent origin)throws Exception {
@@ -383,15 +511,22 @@ public final class RuleEngine implements AutoCloseable {
         }
         return List.copyOf(visible);
     });}
-    public Map<String,StoryDefinition.Choice> availableChoices(String instanceId,PlayerContext context){return store.transaction(c->{
-        StoryInstance instance=require(c,instanceId);
+    public Map<String,StoryDefinition.Choice> availableChoices(String instanceId,PlayerContext context){
+        boolean national=store.transaction(c->require(c,instanceId).definition().voteUnit()==StoryDefinition.VoteUnit.NATION);
+        if(national&&!nationalState(instanceId,context).canVote())return Map.of();
+        return store.transaction(c->visibleChoices(c,require(c,instanceId),context,national));
+    }
+    private Map<String,StoryDefinition.Choice> visibleChoices(Connection c,StoryInstance instance,PlayerContext context,boolean national)throws Exception {
         if(instance.completed()||!instance.contains(context.playerId())||!instance.members().get(context.playerId()).equals(context.nationId()))return Map.of();
         Map<String,String> state=facts(c,context,event(c,instance.sourceEventId()),instance);
+        if(national&&(!test(instance.definition().condition(),state)||!permitted(instance.definition().nodes().get(instance.node()).effects(),context)))return Map.of();
         Map<String,StoryDefinition.Choice> visible=new LinkedHashMap<>();
-        for(var entry:instance.definition().nodes().get(instance.node()).choices().entrySet())
-            if(context.permitted(entry.getValue().permission())&&test(entry.getValue().condition(),state))visible.put(entry.getKey(),entry.getValue());
+        for(var entry:instance.definition().nodes().get(instance.node()).choices().entrySet()) {
+            var choice=entry.getValue();
+            if(context.permitted(choice.permission())&&test(choice.condition(),state)&&(!national||permitted(choice.effects(),context)&&permitted(instance.definition().nodes().get(choice.next()).effects(),context)))visible.put(entry.getKey(),choice);
+        }
         return Collections.unmodifiableMap(visible);
-    });}
+    }
     public Map<String,String> facts(UUID player){return store.transaction(c->Map.copyOf(readFacts(c,player.toString())));}
     public Map<String,String> worldFacts(){return store.transaction(c->Map.copyOf(readFacts(c,"WORLD")));}
     /** Canonical read projection for trusted integrations; the server supplies current identity.

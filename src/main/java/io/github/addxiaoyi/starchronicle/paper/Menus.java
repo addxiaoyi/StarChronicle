@@ -2,12 +2,17 @@ package io.github.addxiaoyi.starchronicle.paper;
 
 import io.github.addxiaoyi.starchronicle.api.WorldEvent;
 import io.github.addxiaoyi.starchronicle.api.NativeScene;
+import io.github.addxiaoyi.starchronicle.api.NationalVoteState;
+import io.github.addxiaoyi.starchronicle.api.ChronicleService;
 import io.github.addxiaoyi.starchronicle.config.StoryDefinition;
 import io.github.addxiaoyi.starchronicle.core.StoryInstance;
+import io.github.addxiaoyi.starchronicle.core.ProcessReport;
 import io.github.addxiaoyi.starchronicle.memory.HistoryBook;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -18,6 +23,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -29,6 +35,8 @@ public final class Menus implements Listener {
     private static final int PAGE=45;
     private static final DateTimeFormatter TIME=DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss 'UTC'").withZone(ZoneOffset.UTC);
     private final StarChroniclePlugin plugin;
+    private final Map<UUID,Long> nationalRequests=new ConcurrentHashMap<>();
+    private final AtomicLong nationalRequestSequence=new AtomicLong();
     public Menus(StarChroniclePlugin plugin) { this.plugin=plugin; }
 
     /** Identity, not inventory title, authorizes menu handling. Each session belongs to one viewer. */
@@ -50,6 +58,7 @@ public final class Menus implements Listener {
     @EventHandler public void drag(InventoryDragEvent event) {
         if(event.getView().getTopInventory().getHolder() instanceof Session) event.setCancelled(true);
     }
+    @EventHandler public void left(PlayerQuitEvent event){nationalRequests.remove(event.getPlayer().getUniqueId());}
     public void history(UUID viewer, String nation, UUID person, int page) {
         int safePage=Math.max(0,page);
         plugin.service().history(nation,person,safePage,PAGE).whenComplete((events,error)-> {
@@ -153,6 +162,7 @@ public final class Menus implements Listener {
         });
     }
     public void stories(UUID viewer,int requestedPage) {
+        nationalRequests.remove(viewer);
         plugin.service().instances(viewer).thenCombine(plugin.service().availableInstances(viewer),(own,active)->{
             Map<String,StoryInstance> all=new TreeMap<>();own.forEach(i->all.put(i.id(),i));active.forEach(i->all.put(i.id(),i));return List.copyOf(all.values());
         }).whenComplete((items,error)->{
@@ -174,12 +184,15 @@ public final class Menus implements Listener {
         });
     }
     private void story(UUID viewer,StoryInstance instance) {
+        if(instance.definition().voteUnit()==StoryDefinition.VoteUnit.NATION && instance.contains(viewer)){national(viewer,instance.id());return;}
         plugin.service().availableChoices(instance.id(),viewer).whenComplete((available,error)->{
         if(error!=null){plugin.failure(viewer,error);return;}
         plugin.present(viewer,p->{
             Session s=create(viewer,instance.title());
             StoryDefinition.Node node=instance.definition().nodes().get(instance.node());
-            put(s,4,Material.WRITTEN_BOOK,instance.title(),List.of("实例: "+instance.id(),"当前阶段: "+instance.node(),"投票: "+instance.votes().size()+" / "+node.quorum()),null);
+            put(s,4,Material.WRITTEN_BOOK,instance.title(),instance.definition().voteUnit()==StoryDefinition.VoteUnit.NATION
+                    ?List.of("实例: "+instance.id(),"当前阶段: "+instance.node(),"国家投票：一国一席，加入后可查看已记录票。")
+                    :List.of("实例: "+instance.id(),"当前阶段: "+instance.node(),"投票: "+instance.votes().size()+" / "+node.quorum()),null);
             List<String> text=wrap(node.text()==null?"":node.text());
             put(s,0,Material.PAPER,"剧情文本",text,null);
             if(!instance.contains(viewer) && !instance.completed()) {
@@ -200,6 +213,112 @@ public final class Menus implements Listener {
             p.openInventory(s.inventory);
         });
         });
+    }
+    /** A country page is assembled from one pinned node and one revision token. The
+     * second state read detects changes while choice conditions were being evaluated. */
+    record NationalPage(StoryInstance instance,NationalVoteState state,Map<String,StoryDefinition.Choice> choices){
+        NationalPage{choices=Map.copyOf(choices);}
+    }
+    private static final class ChangedNationalPage extends IllegalStateException {
+        ChangedNationalPage(){super("国家投票节点或修订号已变化，请刷新后再操作。");}
+    }
+    static CompletionStage<NationalPage> nationalPage(ChronicleService service,UUID viewer,String instanceId,int retries){
+        return service.instances(viewer).thenCompose(items->{
+            StoryInstance instance=items.stream().filter(item->item.id().equals(instanceId)&&item.contains(viewer)).findFirst()
+                    .orElseThrow(()->new SecurityException("只能查看自己已加入实例的国家票。"));
+            if(instance.definition().voteUnit()!=StoryDefinition.VoteUnit.NATION)throw new IllegalArgumentException("该实例使用个人投票，请从剧情列表继续。");
+            return service.nationalState(instanceId,viewer).thenCompose(before->{
+                CompletionStage<Map<String,StoryDefinition.Choice>> visible=before.canVote()&&!before.completed()
+                        ?service.availableChoices(instanceId,viewer):CompletableFuture.completedFuture(Map.of());
+                return visible.thenCompose(choices->service.nationalState(instanceId,viewer).thenApply(after->{
+                        if(!nationalPageMatches(instance,before,after))throw new ChangedNationalPage();
+                        return new NationalPage(instance,after,choices);
+                    }));
+            });
+        }).exceptionallyCompose(error->{
+            Throwable cause=error;while(cause instanceof CompletionException&&cause.getCause()!=null)cause=cause.getCause();
+            return cause instanceof ChangedNationalPage&&retries>0?nationalPage(service,viewer,instanceId,retries-1):CompletableFuture.failedFuture(cause);
+        });
+    }
+    static boolean nationalPageMatches(StoryInstance instance,NationalVoteState before,NationalVoteState after){
+        return instance.id().equals(before.instanceId())&&instance.id().equals(after.instanceId())
+                &&before.nodeId().equals(after.nodeId())&&(instance.completed()||instance.node().equals(after.nodeId()))
+                &&instance.definition().nodes().containsKey(after.nodeId())
+                &&before.viewerRevision()==after.viewerRevision()&&Objects.equals(before.viewerNationId(),after.viewerNationId())
+                &&before.completed()==after.completed()&&instance.completed()==after.completed()
+                &&before.representative()==after.representative()&&before.canVote()==after.canVote()&&before.canWithdraw()==after.canWithdraw()
+                &&before.quorum()==after.quorum()&&instance.definition().nodes().get(after.nodeId()).quorum()==after.quorum()
+                &&Objects.equals(before.resolution(),after.resolution());
+    }
+    /** Tokens are captured from the displayed state, never recovered from latest state at
+     * click time. The backend retains the final CAS and live native authority check. */
+    static Runnable nationalVoteAction(ChronicleService service,UUID viewer,NationalVoteState state,String choice,
+                                      Consumer<ProcessReport> success,Consumer<Throwable> failure,Runnable refresh){
+        return ()->{
+            if(state.completed()||!state.canVote()){failure.accept(new SecurityException("当前国家票只能旁观或已冻结。"));refresh.run();return;}
+            try{service.nationalVote(state.instanceId(),viewer,state.nodeId(),state.viewerRevision(),choice)
+                    .whenComplete((report,error)->{if(error!=null)failure.accept(error);else success.accept(report);refresh.run();});}
+            catch(RuntimeException error){failure.accept(error);refresh.run();}
+        };
+    }
+    static Runnable nationalWithdrawAction(ChronicleService service,UUID viewer,NationalVoteState state,
+                                          Consumer<ProcessReport> success,Consumer<Throwable> failure,Runnable refresh){
+        return ()->{
+            if(state.completed()||!state.canWithdraw()){failure.accept(new SecurityException("当前国家票不可撤回或已冻结。"));refresh.run();return;}
+            try{service.withdrawNationalVote(state.instanceId(),viewer,state.nodeId(),state.viewerRevision())
+                    .whenComplete((report,error)->{if(error!=null)failure.accept(error);else success.accept(report);refresh.run();});}
+            catch(RuntimeException error){failure.accept(error);refresh.run();}
+        };
+    }
+    public void national(UUID viewer,String instanceId){national(viewer,instanceId,false,0);}
+    private void national(UUID viewer,String instanceId,boolean ledger,int requestedPage){
+        long request=nationalRequestSequence.incrementAndGet();nationalRequests.put(viewer,request);
+        nationalPage(plugin.service(),viewer,instanceId,2).whenComplete((page,error)->{
+            if(!Objects.equals(nationalRequests.get(viewer),request))return;
+            if(error!=null){plugin.failure(viewer,error);return;}
+            plugin.present(viewer,p->{
+                if(!Objects.equals(nationalRequests.get(viewer),request))return;
+                if(ledger){nationalLedger(viewer,page,requestedPage,p);return;}
+                NationalVoteState state=page.state();StoryDefinition.Node node=page.instance().definition().nodes().get(page.instance().completed()?page.instance().node():state.nodeId());
+                Session s=create(viewer,"国家议会 · "+page.instance().title());
+                put(s,4,Material.WRITTEN_BOOK,page.instance().title(),List.of("实例: "+state.instanceId(),"当前阶段: "+page.instance().node(),"国家票节点: "+state.nodeId(),"一国一席；法定国家席数: "+state.quorum()),null);
+                put(s,0,Material.PAPER,"剧情文本",wrap(Objects.toString(node.text(),"")),null);
+                put(s,1,Material.WHITE_BANNER,"国家票规则",List.of("国家票不等于代表本人或全体国民的个人意愿。","计数仅为已记录投影；最终落定会重新核验国家存续。","已冻结或已完成的票不能更改。"),null);
+                List<String> viewerInfo=new ArrayList<>(List.of("当前核验国家: "+(state.viewerNationId().isBlank()?"无":state.viewerNationId()),"国家票修订号: "+state.viewerRevision(),state.representative()?"当前真实国家持有人资格已核验。":"当前没有已核验的国家代表资格，可旁观已记录票。"));
+                viewerInfo.add(Objects.toString(state.message(),""));
+                put(s,2,Material.PLAYER_HEAD,"你的国家代表资格",viewerInfo,null);
+                List<String> counts=new ArrayList<>();new TreeMap<>(state.counts()).forEach((choice,count)->counts.add(choice+": "+count));
+                if(counts.isEmpty())counts.add("暂无已记录的有效国家票。");counts.add("落定结果: "+(state.resolution()==null||state.resolution().isBlank()?"尚未落定":state.resolution()));
+                put(s,6,Material.CLOCK,"已记录票投影",counts,null);
+                Runnable refresh=()->national(viewer,instanceId);
+                if(!state.completed()&&state.canVote()){
+                    int slot=9;for(var entry:new TreeMap<>(page.choices()).entrySet()){
+                        if(slot>=45)break;String choice=entry.getKey();
+                        put(s,slot++,Material.LIME_DYE,entry.getValue().label(),List.of("国家选项: "+choice,"节点: "+state.nodeId(),"修订号: "+state.viewerRevision(),"提交时重新核验真实持有人和国家存续。"),
+                                nationalVoteAction(plugin.service(),viewer,state,choice,report->plugin.message(viewer,report.message()),failure->plugin.failure(viewer,failure),refresh));
+                    }
+                }else put(s,31,Material.PAPER,state.completed()?"此篇国家决议已落定":"当前仅可旁观",List.of(Objects.toString(state.message(),"")),null);
+                if(!state.completed()&&state.canWithdraw())put(s,46,Material.BARRIER,"撤回本国当前票",List.of("仅撤回未冻结票；保留修订历史。","节点: "+state.nodeId(),"修订号: "+state.viewerRevision()),
+                        nationalWithdrawAction(plugin.service(),viewer,state,report->plugin.message(viewer,report.message()),failure->plugin.failure(viewer,failure),refresh));
+                put(s,47,Material.BOOK,"各国已记录票",List.of("查看每国修订号、状态和提交者。"),()->national(viewer,instanceId,true,0));
+                put(s,48,Material.COMPASS,"刷新资格与票数",List.of("刷新不会自动代替旧修订号提交。"),refresh);
+                put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer,0));p.openInventory(s.inventory);
+            });
+        });
+    }
+    private void nationalLedger(UUID viewer,NationalPage page,int requestedPage,Player player){
+        NationalVoteState state=page.state();List<NationalVoteState.Ballot> ballots=state.ballots().stream().sorted(Comparator.comparing(NationalVoteState.Ballot::nationId)).toList();
+        int current=Math.max(0,Math.min(requestedPage,Math.max(0,(ballots.size()-1)/PAGE)));Session s=create(viewer,"已记录国家票 · "+(current+1));
+        for(int i=0;i<PAGE&&current*PAGE+i<ballots.size();i++){
+            var ballot=ballots.get(current*PAGE+i);List<String> lore=new ArrayList<>(List.of("修订号: "+ballot.revision(),"状态: "+ballot.status(),"选项: "+Objects.toString(ballot.choiceId(),"（已撤回）"),"提交者: "+Objects.toString(ballot.actorId(),"无"),"核验时间: "+(ballot.checkedAt()==null?"无":TIME.format(ballot.checkedAt()))));
+            lore.add("权威来源: "+Objects.toString(ballot.authorityEvidence(),""));put(s,i,Material.WHITE_BANNER,ballot.nationId(),lore,null);
+        }
+        if(ballots.isEmpty())put(s,22,Material.PAPER,"暂无国家票记录",List.of("一国一席；个人身份、OP和职业不会自动获得国家票权。"),null);
+        if(current>0)put(s,45,Material.ARROW,"上一页",List.of(),()->national(viewer,state.instanceId(),true,current-1));
+        put(s,48,Material.COMPASS,"返回国家议会",List.of(),()->national(viewer,state.instanceId()));
+        put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer,0));
+        if((current+1)*PAGE<ballots.size())put(s,53,Material.ARROW,"下一页",List.of(),()->national(viewer,state.instanceId(),true,current+1));
+        player.openInventory(s.inventory);
     }
     private static void chunks(String label,String value,List<String> out) { String s=Objects.toString(value,"");if(s.isEmpty()){out.add(label+"\n（空）");return;}for(int i=0;i<s.length();i+=240)out.add(label+" · "+(i/240+1)+"\n"+s.substring(i,Math.min(i+240,s.length()))); }
     static List<String> wrap(String text) { List<String> lines=new ArrayList<>();for(String part:text.split("\\R",-1)){if(part.isEmpty())lines.add("");else for(int i=0;i<part.length();i+=38)lines.add(part.substring(i,Math.min(i+38,part.length())));}return lines; }

@@ -10,10 +10,10 @@ import java.util.regex.Pattern;
  * production edges remain conservative; runtime guards still protect pinned causal feedback. */
 public final class StoryDependencies {
     private static final Pattern ID=Pattern.compile("[A-Za-z0-9_.-]{1,80}");
-    private static final String PLAYER="past.player.choice.",WORLD="past.resolution.world.",NATION="past.resolution.nation.";
+    private static final String PLAYER="past.player.choice.",NATIONAL_CHOICE="past.nation.choice.",WORLD="past.resolution.world.",NATION="past.resolution.nation.";
     private StoryDependencies() {}
 
-    public enum Kind { PLAYER_CHOICE, WORLD_RESOLUTION, NATION_RESOLUTION }
+    public enum Kind { PLAYER_CHOICE, NATION_CHOICE, WORLD_RESOLUTION, NATION_RESOLUTION }
     public record Reference(Kind kind,String storyId,String version,String nodeId) {
         public Reference {
             Objects.requireNonNull(kind,"kind");
@@ -27,6 +27,7 @@ public final class StoryDependencies {
         if(fact==null||!fact.startsWith("past."))return Optional.empty();
         Kind kind;String suffix;
         if(fact.startsWith(PLAYER)){kind=Kind.PLAYER_CHOICE;suffix=fact.substring(PLAYER.length());}
+        else if(fact.startsWith(NATIONAL_CHOICE)){kind=Kind.NATION_CHOICE;suffix=fact.substring(NATIONAL_CHOICE.length());}
         else if(fact.startsWith(WORLD)){kind=Kind.WORLD_RESOLUTION;suffix=fact.substring(WORLD.length());}
         else if(fact.startsWith(NATION)){kind=Kind.NATION_RESOLUTION;suffix=fact.substring(NATION.length());}
         else throw new IllegalArgumentException("Unknown past fact namespace: "+fact);
@@ -96,6 +97,9 @@ public final class StoryDependencies {
         if(reference.kind()==Kind.WORLD_RESOLUTION&&target.scope()!=StoryDefinition.Scope.WORLD
                 ||reference.kind()==Kind.NATION_RESOLUTION&&target.scope()!=StoryDefinition.Scope.NATION)
             throw new IllegalArgumentException("Referenced resolution scope mismatch in "+owner.id()+": "+condition.fact());
+        if(reference.kind()==Kind.PLAYER_CHOICE&&target.voteUnit()!=StoryDefinition.VoteUnit.PLAYER
+                ||reference.kind()==Kind.NATION_CHOICE&&(target.voteUnit()!=StoryDefinition.VoteUnit.NATION||target.scope()==StoryDefinition.Scope.PLAYER))
+            throw new IllegalArgumentException("Referenced choice vote unit mismatch in "+owner.id()+": "+condition.fact());
         StoryDefinition.Node targetNode=target.nodes().get(reference.nodeId());
         if(targetNode==null)throw new IllegalArgumentException("Missing referenced node in "+owner.id()+": "+condition.fact());
         if(!"exists".equals(condition.op())&&!targetNode.choices().containsKey(condition.value()))

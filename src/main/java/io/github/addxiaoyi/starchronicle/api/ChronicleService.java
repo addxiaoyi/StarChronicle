@@ -19,6 +19,11 @@ public interface ChronicleService {
     default CompletionStage<HistoricalEvaluationReport> evaluateHistorical(String sourceEventId,String storyId,String expectedVersion){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Historical evaluation unavailable"));}
     CompletionStage<ProcessReport> choose(String instanceId, UUID playerId, String choiceId);
     CompletionStage<ProcessReport> choose(String instanceId, UUID playerId, String expectedNode, String choiceId);
+    /** Current identity is collected by Chronicle. Tokens come from nationalState, never
+     * caller-supplied nationality/rank. A stale node or country revision cannot overwrite a vote. */
+    default CompletionStage<ProcessReport> nationalVote(String instanceId,UUID playerId,String expectedNode,long expectedRevision,String choiceId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("National ballots unavailable"));}
+    default CompletionStage<ProcessReport> withdrawNationalVote(String instanceId,UUID playerId,String expectedNode,long expectedRevision){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("National ballots unavailable"));}
+    default CompletionStage<NationalVoteState> nationalState(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("National ballots unavailable"));}
     CompletionStage<ProcessReport> join(String instanceId, UUID playerId);
     CompletionStage<List<StoryInstance>> instances(UUID playerId);
     CompletionStage<List<StoryInstance>> activeInstances();

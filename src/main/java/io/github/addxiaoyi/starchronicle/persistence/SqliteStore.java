@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.github.addxiaoyi.starchronicle.core.ChoiceLedger;
 import io.github.addxiaoyi.starchronicle.core.DefinitionCatalog;
+import io.github.addxiaoyi.starchronicle.core.NationalVoteLedger;
 import io.github.addxiaoyi.starchronicle.history.EventCausality;
 import java.nio.file.*;
 import java.sql.*;
@@ -45,6 +46,7 @@ public final class SqliteStore implements AutoCloseable {
                 s.execute("CREATE TABLE IF NOT EXISTS native_scene_journal(id TEXT PRIMARY KEY,player TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('READY','RUNNING','UNKNOWN','COMPLETED')),revision INTEGER NOT NULL,json TEXT NOT NULL)");
                 s.execute("CREATE INDEX IF NOT EXISTS native_scene_player_status ON native_scene_journal(player,status,id)");
                 ChoiceLedger.createSchema(connection);
+                NationalVoteLedger.createSchema(connection);
                 EventCausality.createSchema(connection);
                 DefinitionCatalog.createSchema(connection);
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);

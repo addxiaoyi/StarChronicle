@@ -6,6 +6,7 @@ import io.github.addxiaoyi.starchronicle.core.*;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreBridge;
 import io.github.addxiaoyi.starchronicle.integration.SnapshotCollector;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProvider;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthority;
 import io.github.addxiaoyi.starchronicle.integration.CoreContentInstaller;
 import io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapter;
 import io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournal;
@@ -27,6 +28,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.ServiceRegisterEvent;
+import org.bukkit.event.server.ServiceUnregisterEvent;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -53,6 +57,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private volatile Set<String> permissions=Set.of();
     private ChronicleService service;
     private volatile List<StoryDefinition> definitions=List.of();
+    private volatile NationalVoteAuthority nationalVoteAuthority=NationalVoteAuthority.denying();
     @Override public void onEnable() {
         try {
             saveDefaultConfig();
@@ -71,7 +76,16 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             store=new SqliteStore(getDataFolder().toPath().resolve("chronicle.db"));
             definitions=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(stories,gateway::hasScript,gateway::hasQuest));
             npcLedger=new NpcLedger(store,catalog);
-            engine=new RuleEngine(store,definitions,Clock.systemUTC(),npcLedger);
+            NationalVoteAuthority builtinNationalAuthority=new StarCoreNationalVoteAuthority(gateway);
+            nationalVoteAuthority=builtinNationalAuthority;
+            // The stable proxy reads only a volatile trusted provider. Registry/Bukkit
+            // access stays outside the provider's native authority monitor and SQL lock.
+            NationalVoteAuthority nationalAuthorityProxy=new NationalVoteAuthority(){
+                @Override public <T>T withRepresentative(UUID actor,String nation,Authorized<T> operation)throws Exception {
+                    return nationalVoteAuthority.withRepresentative(actor,nation,operation);
+                }
+            };
+            engine=new RuleEngine(store,definitions,Clock.systemUTC(),npcLedger,nationalAuthorityProxy);
             nativeJournal=new NativeSceneJournal(store,Clock.systemUTC());
             memoryLedger=new MemoryLedger(store);
             observations=new ObservationJournal(store,Clock.systemUTC());
@@ -85,6 +99,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             var builtinAuthority=new StarCoreAuthorityProvider(gateway);
             if(builtinAuthority.available())getServer().getServicesManager().register(AuthorityProvider.class,builtinAuthority,this,ServicePriority.Lowest);
             menus=new Menus(this);getServer().getPluginManager().registerEvents(menus,this);getServer().getPluginManager().registerEvents(this,this);
+            getServer().getServicesManager().register(NationalVoteAuthority.class,builtinNationalAuthority,this,ServicePriority.Lowest);
+            refreshNationalVoteAuthority(null);
             PluginCommand command=Objects.requireNonNull(getCommand("chronicle"));command.setExecutor(this);command.setTabCompleter(this);
             gateway.start(event->service.submit(event).exceptionally(error->{getLogger().warning("Source event was not accepted: "+error.getMessage());return null;}));
             npcs=new NpcHooks(this,this::npcInteraction);if(getConfig().getBoolean("npc-hooks",true))npcs.start();
@@ -100,6 +116,27 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     }
     public ChronicleService service(){return service;}
     public CoreGateway gateway(){return gateway;}
+    /** Service lifecycle events select trusted plugin providers outside native authority
+     * callbacks. An unregistered provider is removed immediately, including when the host
+     * fires its event before removing the registration from the registry collection. */
+    private void refreshNationalVoteAuthority(RegisteredServiceProvider<?> excluded) {
+        nationalVoteAuthority=getServer().getServicesManager().getRegistrations(NationalVoteAuthority.class).stream()
+                .filter(registration->excluded==null||registration.getProvider()!=excluded.getProvider())
+                .max(Comparator.<RegisteredServiceProvider<NationalVoteAuthority>>comparingInt(registration->registration.getPriority().ordinal())
+                        .thenComparingInt(registration->registration.getPlugin()==this?0:1))
+                .map(RegisteredServiceProvider::getProvider).orElseGet(NationalVoteAuthority::denying);
+    }
+    @EventHandler public void nationalAuthorityRegistered(ServiceRegisterEvent event) {
+        if(running.get()&&event.getProvider().getService()==NationalVoteAuthority.class)refreshNationalVoteAuthority(null);
+    }
+    @EventHandler public void nationalAuthorityUnregistered(ServiceUnregisterEvent event) {
+        if(event.getProvider().getService()==NationalVoteAuthority.class){
+            // Fail closed before any registry lookup; a removed extension is never kept
+            // as the delegate while another provider is being selected.
+            nationalVoteAuthority=NationalVoteAuthority.denying();
+            if(running.get())refreshNationalVoteAuthority(event.getProvider());
+        }
+    }
     private void pollSources() {
         snapshots().thenCompose(contexts->query(()->{
             nativeJournal.isolateOrphans(nativeFlights.players());
@@ -151,6 +188,10 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         List<CompletableFuture<PlayerContext>> all=tasks.onlineIds().stream().map(id->snapshot(id).exceptionally(error->null).toCompletableFuture()).toList();
         return CompletableFuture.allOf(all.toArray(CompletableFuture[]::new)).thenApply(ignored->all.stream().map(CompletableFuture::join).filter(Objects::nonNull).toList());
     }
+    private CompletionStage<PlayerContext> nationalSnapshot(UUID player){return snapshot(player).thenApply(context->{
+        if(!context.permitted("starchronicle.use"))throw new SecurityException("缺少编年史使用权限");
+        return context;
+    });}
     @FunctionalInterface private interface PlayerWork<T>{T run(Player player)throws Exception;}
     private <T> CompletionStage<T> playerQuery(UUID id,PlayerWork<T> work) {
         return playerQuery(id,work,new InvocationGate());
@@ -288,6 +329,9 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<HistoricalEvaluationReport> evaluateHistorical(String source,String story,String version){return query(()->engine.evaluateHistorical(source,story,version));}
         @Override public CompletionStage<ProcessReport> choose(String id,UUID player,String choice){return snapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.choose(id,player,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> choose(String id,UUID player,String expected,String choice){return snapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.choose(id,player,expected,choice,context);deliverPending();return result;}));}
+        @Override public CompletionStage<ProcessReport> nationalVote(String id,UUID player,String expected,long revision,String choice){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.nationalVote(id,player,expected,revision,choice,context);deliverPending();return result;}));}
+        @Override public CompletionStage<ProcessReport> withdrawNationalVote(String id,UUID player,String expected,long revision){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.withdrawNationalVote(id,player,expected,revision,context);deliverPending();return result;}));}
+        @Override public CompletionStage<NationalVoteState> nationalState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->{NationalVoteState result=engine.nationalState(id,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> join(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.join(id,context)));}
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player);}));}
         @Override public CompletionStage<List<StoryInstance>> activeInstances(){return query(engine::activeInstances);}
@@ -305,7 +349,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         if(!sender.hasPermission("starchronicle.use")){sender.sendMessage("没有权限。");return true;}
         if(args.length>0 && args[0].equalsIgnoreCase("memory"))return memory(sender,args);
         if(args.length>0 && Set.of("validate","reload","status","uncertain","ack","native-ack","blocked","evaluate","demo").contains(args[0].toLowerCase(Locale.ROOT)))return admin(sender,args);
-        if(!(sender instanceof Player p)){sender.sendMessage("玩家命令: /chronicle [history|stories|join|choose]；控制台: /chronicle status|validate|uncertain");return true;}
+        if(!(sender instanceof Player p)){sender.sendMessage("玩家命令: /chronicle [history|stories|join|choose|national|vote|withdraw]；控制台: /chronicle status|validate|uncertain");return true;}
         UUID id=p.getUniqueId();tasks.track(p);gateway.refreshContext(p,permissions);
         try {
             String action=args.length==0?"stories":args[0].toLowerCase(Locale.ROOT);
@@ -316,7 +360,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 case "fate"->menus.fate(id);
                 case "past"->{
                     if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle past <剧情ID/版本/节点ID>");
-                    service.recollections(id,List.of("past.player.choice."+args[1],"past.resolution.world."+args[1],"past.resolution.nation."+args[1])).whenComplete((facts,error)->{
+                    service.recollections(id,List.of("past.player.choice."+args[1],"past.resolution.world."+args[1],"past.resolution.nation."+args[1],"past.nation.choice."+args[1])).whenComplete((facts,error)->{
                         if(error!=null)failure(id,error);else message(id,facts.isEmpty()?"暂无已完成剧情中的可核验抉择。":new TreeMap<>(facts).entrySet().stream().map(e->e.getKey()+" = "+e.getValue()).collect(java.util.stream.Collectors.joining("\n")));
                     });
                 }
@@ -329,11 +373,19 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 }
                 case "join"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle join <实例ID>");service.join(args[1],id).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id,0);}});}
                 case "choose"->{if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle choose <实例ID> <当前节点ID> <选项ID>");service.choose(args[1],id,args[2],args[3]).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id,0);}});}
-                default->message(id,"/chronicle stories | history [nation 国家ID|player UUID/me] [页] | join 实例ID | choose 实例ID 节点ID 选项ID");
+                case "national"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle national <实例ID>");menus.national(id,args[1]);}
+                case "vote"->{if(args.length!=5)throw new IllegalArgumentException("用法: /chronicle vote <实例ID> <当前节点ID> <国家票修订号> <选项ID>");long revision=nationalRevision(args[3]);nationalResponse(id,args[1],service.nationalVote(args[1],id,args[2],revision,args[4]));}
+                case "withdraw"->{if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle withdraw <实例ID> <当前节点ID> <国家票修订号>");long revision=nationalRevision(args[3]);nationalResponse(id,args[1],service.withdrawNationalVote(args[1],id,args[2],revision));}
+                default->message(id,"/chronicle stories | history [nation 国家ID|player UUID/me] [页] | join 实例ID | choose 实例ID 节点ID 选项ID | national 实例ID | vote 实例ID 节点ID 修订号 选项ID | withdraw 实例ID 节点ID 修订号");
             }
         } catch(IllegalArgumentException error){message(id,error.getMessage());}
         return true;
     }
+    private static long nationalRevision(String value){long revision=Long.parseLong(value);if(revision<0)throw new IllegalArgumentException("国家票修订号不能为负数；请刷新国家投票界面。");return revision;}
+    private void nationalResponse(UUID viewer,String instance,CompletionStage<ProcessReport> operation){operation.whenComplete((report,error)->{
+        if(error!=null)failure(viewer,error);else message(viewer,report.message());
+        menus.national(viewer,instance); // a rejected stale token must obtain a fresh page
+    });}
     private boolean memory(CommandSender sender,String[] args) {
         if(!sender.hasPermission("starchronicle.admin")){sender.sendMessage("没有管理权限。");return true;}
         if(!(sender instanceof Player player)){sender.sendMessage("请在拟设置纪念点的位置执行玩家命令。");return true;}
@@ -379,13 +431,14 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return true;
     }
     @Override public List<String> onTabComplete(CommandSender sender,Command command,String alias,String[] args) {
-        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","choose","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","choose","national","vote","withdraw","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
         if(args.length==2&&args[0].equalsIgnoreCase("npc"))return npcLedger.catalog().profiles().keySet().stream().sorted().toList();
         if(args.length==2&&args[0].equalsIgnoreCase("history"))return List.of("nation","player");
         if(args.length==2&&args[0].equalsIgnoreCase("demo")&&sender.hasPermission("starchronicle.admin"))return definitions.stream().map(StoryDefinition::id).filter(s->s.startsWith(args[1])).toList();
         return List.of();
     }
     @Override public void onDisable() {
+        nationalVoteAuthority=NationalVoteAuthority.denying();
         if(!running.getAndSet(false)){if(worker==null){if(engine!=null)engine.close();else if(store!=null)store.close();}if(textService!=null)textService.close();if(coreContent!=null)coreContent.close();if(gateway!=null)gateway.close();return;}
         if(poll!=null)poll.cancel();if(npcs!=null)npcs.close();if(memorySites!=null)memorySites.close();if(textService!=null)textService.close();if(coreContent!=null)coreContent.close();if(gateway!=null)gateway.close();
         getServer().getServicesManager().unregisterAll(this);HandlerList.unregisterAll((Listener)this);if(menus!=null)HandlerList.unregisterAll(menus);

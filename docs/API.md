@@ -229,4 +229,12 @@ schema 3 的选择迁移在保留 V1/V2 原数据的基础上，同事务创建�
 
 `ChronicleService.evaluateHistorical(sourceEventId, storyId, expectedVersion)` 返回 `CompletionStage<HistoricalEvaluationReport>`。它仅为已保存canonical来源登记一个当前启用的精确剧情版本，不接收任意定义、玩家上下文或替换事件，也不立即执行效果。`QUEUED / ALREADY_REGISTERED / NO_SOURCE_AUDIENCE / BLOCKED_CAUSAL` 含义及原始历史保护见 [CONTINUOUS-NARRATIVE.md](CONTINUOUS-NARRATIVE.md)。命令 `/chronicle evaluate <事件ID> <剧情ID> <版本>` 要求管理权限；可信插件API保留现有服务端信任边界。
 
-当前schema为4。`DefinitionCatalog` 仅包含正式接受的有效定义或真实旧快照，以ID／版本／canonical指纹保存冲突变体；`require(id, version)` 精确解析，缺失／歧义抛异常。`ConfigLoader.load(..., catalog)`、`validateAll(definitions, catalog)`支持退休版本；两阶段加载先做单文件校验，再绑定原生内容，最后由RuleEngine事务校验和归档。纯validate不归档。已有原生执行、国家权限、UNKNOWN对账与Folia边界不变。
+当前schema为5；旧定义的原始JSON／SHA及来源原样保留，新增格式sidecar记录V1→V2语义关系，默认 `voteUnit: PLAYER` 不改变旧剧情计票。`DefinitionCatalog` 仅包含正式接受的有效定义或真实旧快照，以ID／版本／canonical指纹保存冲突变体；`require(id, version)` 精确解析，缺失／歧义抛异常。`ConfigLoader.load(..., catalog)`、`validateAll(definitions, catalog)`支持退休版本；两阶段加载先做单文件校验，再绑定原生内容，最后由RuleEngine事务校验和归档。纯validate不归档。已有原生执行、国家权限、UNKNOWN对账与Folia边界不变。
+
+## 国家席位与修订令牌
+
+`voteUnit: NATION` 使用独立的国家动作账本，一国在一个实例节点只有一席。界面先读取 `nationalState(instanceId, playerId)`，再将该页面的 `nodeId`、`viewerRevision` 原样传给 `nationalVote(instanceId, playerId, expectedNode, expectedRevision, choiceId)` 或 `withdrawNationalVote(instanceId, playerId, expectedNode, expectedRevision)`。旧 `choose` 两个重载拒绝国家表决，不能通过省略令牌绕过CAS。API仅接受玩家UUID，当前国籍和权限由服务收集。
+
+正式代表权由 `NationalVoteAuthority` 提供，内置适配器在实际 StarCore NationModule 的同步边界内验证当前国家持有人。OP、职业、称号和自填facts不能提供代表资格。缺少服务时仍可查看已加入实例的只读票据；提交默认拒绝。已记录票数只代表最近成功核验的投影，下一次提交会重新核验所有计票国家。冻结决议不因后续灭国而重算。
+
+`past.nation.choice.STORY/VERSION/NODE` 读取当前真实国家在已完成国家剧情中的最新动作；撤回／失效产生缺失值，不回退更早支持。它不是代表个人的 `past.player.choice`，也不替代 WORLD／NATION实例各自的 `past.resolution.*`。完整格式、国家服务合同、配置示例与运维边界见 [国家议事协议](NATIONAL-COUNCIL.md)。

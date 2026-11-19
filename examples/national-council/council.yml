@@ -1,0 +1,52 @@
+# Optional example. This directory is not installed into plugins/StarChronicle/stories.
+# A trusted server adapter must submit a real, committed source event with a stable ID,
+# type REGIONAL_RELIEF_COUNCIL_OPENED, and explicit eligible native nation UUIDs.
+id: national-relief-council
+version: "1"
+title: "边境救济议会：各国留下的一席"
+scope: WORLD
+voteUnit: NATION
+triggers: [REGIONAL_RELIEF_COUNCIL_OPENED]
+cooldownSeconds: 604800
+start: mandate
+nodes:
+  mandate:
+    text: "边境救济议会开始记录各国的正式立场。每个国家只有一席；只有当前原生国家持有人可以提交。此记录不等于代表本人或每位国民的个人意愿，也不直接划拨国库或物资。至少两个仍存续国家对同一选项投票后，本阶段冻结。"
+    quorum: 2
+    choices:
+      coordinate:
+        label: "本国主张建立共同协调清单"
+        permission: starchronicle.use
+        next: charter
+        effects:
+          - {id: coordinated-mandate, type: memory, target: relief-council.mandate, value: "各国议会共同协调倡议已形成；尚无原生资源划拨。"}
+      local:
+        label: "本国主张由各国分别公布计划"
+        permission: starchronicle.use
+        next: charter
+        effects:
+          - {id: local-mandate, type: memory, target: relief-council.mandate, value: "各国议会选择分别公布计划；尚无原生资源划拨。"}
+  charter:
+    text: "第一阶段决议已冻结，不能改写。各国现在对档案制度另行表决；这是新的节点，国家票修订号从该节点自己的记录读取。此前未达法定席数的国家立场仍与共同决议分别保存。"
+    quorum: 2
+    choices:
+      public-ledger:
+        label: "本国主张公开救济清册"
+        permission: starchronicle.use
+        next: published
+      regional-records:
+        label: "本国主张保存地区核验记录"
+        permission: starchronicle.use
+        next: regional
+  published:
+    text: "议会已冻结两阶段国家表决。公开清册成为本次叙事决议，编年史保留每国的实际票与共同结果。真实国库、物资和外交状态仍以 StarCore 权威服务为准。"
+    terminal: true
+    effects:
+      - {id: public-charter-memory, type: memory, target: relief-council.charter, value: "议会通过公开清册倡议；实际资源调配须另经原生服务。"}
+      - {id: public-charter-history, type: history, target: NATIONAL_RELIEF_COUNCIL_CLOSED, value: "边境救济议会以公开清册倡议结束；各国国家票及证据分别归档。"}
+  regional:
+    text: "议会已冻结两阶段国家表决。地区核验记录成为本次叙事决议，编年史保留每国的实际票与共同结果。真实国库、物资和外交状态仍以 StarCore 权威服务为准。"
+    terminal: true
+    effects:
+      - {id: regional-charter-memory, type: memory, target: relief-council.charter, value: "议会通过地区核验记录倡议；实际资源调配须另经原生服务。"}
+      - {id: regional-charter-history, type: history, target: NATIONAL_RELIEF_COUNCIL_CLOSED, value: "边境救济议会以地区核验记录倡议结束；各国国家票及证据分别归档。"}
