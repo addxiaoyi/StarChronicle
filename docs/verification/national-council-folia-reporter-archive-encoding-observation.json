@@ -1,0 +1,14 @@
+{
+  "classification": "REPORTER_ARCHIVE_ENCODING_FAILURE_NOT_PRODUCT_FAILURE",
+  "noted_at_utc": "2026-11-19T23:33:20.485060+00:00",
+  "execution_observation_is_transcribed": true,
+  "observed_exit_code": 1,
+  "observed_error": "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd3 in position 145: invalid continuation byte",
+  "source_log": "fixture-compile-attempt1.log",
+  "source_log_raw_sha256": "e6a73367425a64c0a1d37ea9ec4704cc80d0f5aa932da34951ad8eda5ee49060",
+  "source_encoding_verified_by_strict_decode": "cp936",
+  "cause": "The added raw javac log uses its Windows locale encoding; the archive loop incorrectly treated every .log as UTF-8. Product checks had already passed but public archive creation stopped before inventory refresh.",
+  "original_raw_stdout_saved": false,
+  "product_or_server_or_database_or_raw_gui_changed_to_fix": false,
+  "repair": "Preserve compiler log bytes exactly and produce a separately labelled strict cp936-to-UTF8 readable derivative; rebuild and verify the complete archive."
+}

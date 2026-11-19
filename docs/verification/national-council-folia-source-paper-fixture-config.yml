@@ -1,0 +1,14 @@
+expected-sha: 792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694
+nations:
+  A: 421acafc-185a-4e1d-a20b-d6143a03ee22
+  B: 75cab410-280c-4e0e-b854-94c0f57f9dec
+  C: 6030ce13-0f3c-4ff0-9efc-c2633647d7f7
+native-seeded: true
+seed-reported: true
+sources:
+  primary:
+    time: '2026-11-19T22:52:37.948855600Z'
+    id: national-paper:primary:1
+  invalidation:
+    time: '2026-11-19T22:58:52.295387300Z'
+    id: national-paper:invalidation:1

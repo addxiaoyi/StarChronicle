@@ -1,0 +1,637 @@
+Starting org.bukkit.craftbukkit.Main
+[07:18:28 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.13.0.2+1-LTS; Microsoft Microsoft-15780113) on Windows Server 2022 10.0 (amd64)
+[07:18:28 INFO]: [bootstrap] Loading Folia 1.21.11-14-ver/1.21.11@529aabc (2026-02-22T20:22:23Z) for Minecraft 1.21.11
+[07:18:29 INFO]: [PluginInitializerManager] Initializing plugins...
+[07:18:30 INFO]: [PluginInitializerManager] Initialized 2 plugins
+[07:18:30 INFO]: [PluginInitializerManager] Bukkit plugins (2):
+ - NationalCouncilFoliaFixture (1), StarChronicle (0.1.0-SNAPSHOT)
+[07:18:36 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[07:18:38 INFO]: Loaded 1470 recipes
+[07:18:38 INFO]: Loaded 1584 advancements
+[07:18:38 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[07:18:39 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 515.3ms
+[07:18:39 INFO]: Starting minecraft server version 1.21.11
+[33;1m[07:18:39 WARN]: ****************************
+[m[33;1m[07:18:39 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
+[m[33;1m[07:18:39 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.
+[m[33;1m[07:18:39 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/
+[m[33;1m[07:18:39 WARN]: ****************************
+[m[07:18:39 INFO]: Loading properties
+[07:18:39 INFO]: This server is running Folia version 1.21.11-14-ver/1.21.11@529aabc (2026-02-22T20:22:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
+[07:18:39 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[07:18:39 INFO]: Server Ping Player Sample Count: 12
+[07:18:39 INFO]: Using 4 threads for Netty based IO
+[07:18:40 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
+[07:18:40 INFO]: [io.papermc.paper.threadedregions.TickRegions] Initialised EDF Folia scheduler with initial 2 target thread(s)
+[07:18:40 INFO]: Default game type: CREATIVE
+[07:18:40 INFO]: Generating keypair
+> 
+  
+[07:18:41 INFO]: Starting Minecraft server on 127.0.0.1:25604
+> 
+  
+[07:18:41 INFO]: Paper: Using Java compression from Velocity.
+> 
+  
+[07:18:41 INFO]: Paper: Using Java cipher from Velocity.
+> 
+  
+[07:18:41 INFO]: [StarChronicle] Loading server plugin StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[07:18:41 INFO]: [NationalCouncilFoliaFixture] Loading server plugin NationalCouncilFoliaFixture v1
+> 
+  
+[07:18:41 INFO]: Server permissions file permissions.yml is empty, ignoring it
+> 
+  
+[33;1m[07:18:41 WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[m> 
+  
+[33;1m[07:18:41 WARN]: The server will make no attempt to authenticate usernames. Beware.
+[m> 
+  
+[33;1m[07:18:41 WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[m> 
+  
+[33;1m[07:18:41 WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[m> 
+  
+[07:18:41 INFO]: Preparing level "world"
+> 
+  
+[07:18:41 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...
+> 
+  
+[07:18:41 INFO]: Preparing spawn area: 100%
+> 
+  
+[07:18:41 INFO]: Prepared spawn area in 1 ms
+> 
+  
+[07:18:41 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...
+> 
+  
+[07:18:41 INFO]: Preparing spawn area: 100%
+> 
+  
+[07:18:41 INFO]: Prepared spawn area in 1 ms
+> 
+  
+[07:18:41 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...
+> 
+  
+[07:18:41 INFO]: Prepared spawn area in 0 ms
+> 
+  
+[07:18:41 INFO]: Done preparing level "world" (0.470s)
+> 
+  
+[07:18:41 INFO]: [StarChronicle] Enabling StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[33;1m[07:18:41 WARN]: [StarChronicle] StarCore f769e627 NarrativeEngine uses Bukkit's main-thread scheduler; narrative.start is disabled on Folia. Chronicle state/history remain available.
+[m> 
+  
+[33;1m[07:18:41 WARN]: [StarChronicle] STANDALONE MODE: no authoritative StarCore identity, task, narrative or nation mutations are available
+[m> 
+  
+[07:18:42 INFO]: [StarChronicle] Native supplemental scene registration: {chronicle_silk_road=UNAVAILABLE, chronicle_siege_embers=UNAVAILABLE, chronicle_last_heir=UNAVAILABLE}
+> 
+  
+[07:18:43 INFO]: [StarChronicle] Loaded 2 validated stories; durable history/outbox ready
+> 
+  
+[07:18:43 INFO]: [NationalCouncilFoliaFixture] Enabling NationalCouncilFoliaFixture v1
+> 
+  
+[07:18:43 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READY {"authorityProviders":["io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthority"],"installedPlugins":["NationalCouncilFoliaFixture","StarChronicle"],"noDatabaseAccess":true,"noFabricatedNation":true,"plugin_sha256":"792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694","server_port":25604}
+> 
+  
+[07:18:43 INFO]: [spark] The spark plugin has been preferred but was not loaded. The bundled spark profiler will enabled instead.
+> 
+  
+[07:18:43 INFO]: [spark] The spark profiler will not be enabled because it is currently disabled in the configuration.
+> 
+  
+[07:18:43 INFO]: Done (15.972s)! For help, type "help"
+> 
+  
+[07:19:28 INFO]: UUID of player PhaseTwoB is 28a86e57-337f-3ee8-8593-6eed0ce4d3d6
+> 
+  
+[07:19:28 INFO]: UUID of player PhaseTwoD is 63e2bb34-acdd-360c-a4b5-57c748f2ef53
+> 
+  
+[07:19:28 INFO]: UUID of player PhaseTwoC is 140669be-0a1a-3206-a8b1-20d23a596b3a
+> 
+  
+[07:19:28 INFO]: UUID of player PhaseTwoA is 08ffd450-5001-3023-a480-057fef707037
+> 
+  
+[07:19:30 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_IDENTITY {"admin":false,"grantedNation":false,"op":false,"owned":true,"player":"A","use":true,"uuid":"08ffd450-5001-3023-a480-057fef707037"}
+> 
+  
+[07:19:30 INFO]: [93mPhaseTwoA joined the game[0m
+> 
+  
+[07:19:30 INFO]: PhaseTwoA[/127.0.0.1:49453] logged in with entity id 1 at ([world]-6.5, -60.0, -13.5)
+> 
+  
+[07:19:30 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_IDENTITY {"admin":false,"grantedNation":false,"op":false,"owned":true,"player":"B","use":true,"uuid":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6"}
+> 
+  
+[07:19:30 INFO]: [93mPhaseTwoB joined the game[0m
+> 
+  
+[07:19:30 INFO]: PhaseTwoB[/127.0.0.1:49454] logged in with entity id 2 at ([world]-5.5, -60.0, 3.5)
+> 
+  
+[07:19:30 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_IDENTITY {"admin":false,"grantedNation":false,"op":false,"owned":true,"player":"C","use":true,"uuid":"140669be-0a1a-3206-a8b1-20d23a596b3a"}
+> 
+  
+[07:19:30 INFO]: [93mPhaseTwoC joined the game[0m
+> 
+  
+[07:19:30 INFO]: PhaseTwoC[/127.0.0.1:49455] logged in with entity id 3 at ([world]-5.5, -60.0, 1.5)
+> 
+  
+[07:19:30 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_IDENTITY {"admin":false,"grantedNation":false,"op":false,"owned":true,"player":"D","use":true,"uuid":"63e2bb34-acdd-360c-a4b5-57c748f2ef53"}
+> 
+  
+[07:19:30 INFO]: [93mPhaseTwoD joined the game[0m
+> 
+  
+[07:19:30 INFO]: PhaseTwoD[/127.0.0.1:49456] logged in with entity id 4 at ([world]2.5, -60.0, 0.5)
+> > 
+  
+[07:19:50 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_IDENTITY {"admin":false,"grantedNation":false,"op":false,"owned":true,"player":"A","use":true,"uuid":"08ffd450-5001-3023-a480-057fef707037"}
+> 
+  
+[07:19:50 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_IDENTITY {"admin":false,"grantedNation":false,"op":false,"owned":true,"player":"B","use":true,"uuid":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6"}
+> 
+  
+[07:19:50 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_IDENTITY {"admin":false,"grantedNation":false,"op":false,"owned":true,"player":"C","use":true,"uuid":"140669be-0a1a-3206-a8b1-20d23a596b3a"}
+> 
+  
+[07:19:50 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_IDENTITY {"admin":false,"grantedNation":false,"op":false,"owned":true,"player":"D","use":true,"uuid":"63e2bb34-acdd-360c-a4b5-57c748f2ef53"}
+> > > > > > > > > > > > > > > > > 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_INSTANCE {"choices":{},"completed":false,"id":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","members":{"08ffd450-5001-3023-a480-057fef707037":"421acafc-185a-4e1d-a20b-d6143a03ee22","140669be-0a1a-3206-a8b1-20d23a596b3a":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","28a86e57-337f-3ee8-8593-6eed0ce4d3d6":"75cab410-280c-4e0e-b854-94c0f57f9dec","63e2bb34-acdd-360c-a4b5-57c748f2ef53":"421acafc-185a-4e1d-a20b-d6143a03ee22"},"player":"A","story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_INSTANCE {"choices":{"council":"yes"},"completed":true,"id":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","members":{"08ffd450-5001-3023-a480-057fef707037":"421acafc-185a-4e1d-a20b-d6143a03ee22","140669be-0a1a-3206-a8b1-20d23a596b3a":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","28a86e57-337f-3ee8-8593-6eed0ce4d3d6":"75cab410-280c-4e0e-b854-94c0f57f9dec","63e2bb34-acdd-360c-a4b5-57c748f2ef53":"421acafc-185a-4e1d-a20b-d6143a03ee22"},"player":"A","story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"A","state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]},"story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"A","state":{"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"只读记录；国家代表资格须由原生权威服务核验","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]},"story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_RECOLLECTIONS {"facts":{"chronicle.history.player.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","chronicle.history.world.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","past.resolution.world.national-smoke-primary/1/council":"yes"},"nationFactsAbsent":true,"player":"A"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_FATE {"expectedHonor":"7","facts":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"unassigned"},"player":"A"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_INSTANCE {"choices":{},"completed":false,"id":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","members":{"08ffd450-5001-3023-a480-057fef707037":"421acafc-185a-4e1d-a20b-d6143a03ee22","140669be-0a1a-3206-a8b1-20d23a596b3a":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","28a86e57-337f-3ee8-8593-6eed0ce4d3d6":"75cab410-280c-4e0e-b854-94c0f57f9dec","63e2bb34-acdd-360c-a4b5-57c748f2ef53":"421acafc-185a-4e1d-a20b-d6143a03ee22"},"player":"B","story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_INSTANCE {"choices":{"council":"yes"},"completed":true,"id":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","members":{"08ffd450-5001-3023-a480-057fef707037":"421acafc-185a-4e1d-a20b-d6143a03ee22","140669be-0a1a-3206-a8b1-20d23a596b3a":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","28a86e57-337f-3ee8-8593-6eed0ce4d3d6":"75cab410-280c-4e0e-b854-94c0f57f9dec","63e2bb34-acdd-360c-a4b5-57c748f2ef53":"421acafc-185a-4e1d-a20b-d6143a03ee22"},"player":"B","story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"B","state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]},"story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"B","state":{"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"只读记录；国家代表资格须由原生权威服务核验","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]},"story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_RECOLLECTIONS {"facts":{"chronicle.history.player.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","chronicle.history.world.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","past.resolution.world.national-smoke-primary/1/council":"yes"},"nationFactsAbsent":true,"player":"B"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_FATE {"expectedHonor":"7","facts":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"unassigned"},"player":"B"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_INSTANCE {"choices":{},"completed":false,"id":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","members":{"08ffd450-5001-3023-a480-057fef707037":"421acafc-185a-4e1d-a20b-d6143a03ee22","140669be-0a1a-3206-a8b1-20d23a596b3a":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","28a86e57-337f-3ee8-8593-6eed0ce4d3d6":"75cab410-280c-4e0e-b854-94c0f57f9dec","63e2bb34-acdd-360c-a4b5-57c748f2ef53":"421acafc-185a-4e1d-a20b-d6143a03ee22"},"player":"C","story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_INSTANCE {"choices":{"council":"yes"},"completed":true,"id":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","members":{"08ffd450-5001-3023-a480-057fef707037":"421acafc-185a-4e1d-a20b-d6143a03ee22","140669be-0a1a-3206-a8b1-20d23a596b3a":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","28a86e57-337f-3ee8-8593-6eed0ce4d3d6":"75cab410-280c-4e0e-b854-94c0f57f9dec","63e2bb34-acdd-360c-a4b5-57c748f2ef53":"421acafc-185a-4e1d-a20b-d6143a03ee22"},"player":"C","story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"C","state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]},"story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"C","state":{"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"只读记录；国家代表资格须由原生权威服务核验","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]},"story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_RECOLLECTIONS {"facts":{"chronicle.history.player.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","chronicle.history.world.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","past.resolution.world.national-smoke-primary/1/council":"yes"},"nationFactsAbsent":true,"player":"C"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_FATE {"expectedHonor":"7","facts":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"unassigned"},"player":"C"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_INSTANCE {"choices":{},"completed":false,"id":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","members":{"08ffd450-5001-3023-a480-057fef707037":"421acafc-185a-4e1d-a20b-d6143a03ee22","140669be-0a1a-3206-a8b1-20d23a596b3a":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","28a86e57-337f-3ee8-8593-6eed0ce4d3d6":"75cab410-280c-4e0e-b854-94c0f57f9dec","63e2bb34-acdd-360c-a4b5-57c748f2ef53":"421acafc-185a-4e1d-a20b-d6143a03ee22"},"player":"D","story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_INSTANCE {"choices":{"council":"yes"},"completed":true,"id":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","members":{"08ffd450-5001-3023-a480-057fef707037":"421acafc-185a-4e1d-a20b-d6143a03ee22","140669be-0a1a-3206-a8b1-20d23a596b3a":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","28a86e57-337f-3ee8-8593-6eed0ce4d3d6":"75cab410-280c-4e0e-b854-94c0f57f9dec","63e2bb34-acdd-360c-a4b5-57c748f2ef53":"421acafc-185a-4e1d-a20b-d6143a03ee22"},"player":"D","story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"D","state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]},"story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"D","state":{"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"只读记录；国家代表资格须由原生权威服务核验","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]},"story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_RECOLLECTIONS {"facts":{"chronicle.history.player.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","chronicle.history.world.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","past.resolution.world.national-smoke-primary/1/council":"yes"},"nationFactsAbsent":true,"player":"D"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_FATE {"expectedHonor":"7","facts":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"unassigned"},"player":"D"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"A","story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"A","story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"B","story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"B","story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"C","story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"C","story":"national-smoke-invalidation"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"D","story":"national-smoke-primary"}
+> 
+  
+[07:20:07 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"D","story":"national-smoke-invalidation"}
+> 
+  
+[07:20:30 INFO]: PhaseTwoA issued server command: /chronicle national 5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d
+> 
+  
+[07:20:30 INFO]: PhaseTwoB issued server command: /chronicle national 5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d
+> 
+  
+[07:20:30 INFO]: PhaseTwoC issued server command: /chronicle national 5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d
+> 
+  
+[07:20:30 INFO]: PhaseTwoD issued server command: /chronicle national 5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d
+> > > > > 
+  
+[07:20:43 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_VIEW {"holder":"io.github.addxiaoyi.starchronicle.paper.Menus$Session","owned":true,"player":"D","slots":[{"lore":["§7The actual country decision and its st","§7able receipts are retained."],"material":"PAPER","name":"§6剧情文本","slot":0},{"lore":["§7国家票不等于代表本人或全体国民的个人意愿。","§7计数仅为已记录投影；最终落定会重新核验国家存续。","§7已冻结或已完成的票不能更改。"],"material":"WHITE_BANNER","name":"§6国家票规则","slot":1},{"lore":["§7当前核验国家: 无","§7国家票修订号: 0","§7当前没有已核验的国家代表资格，可旁观已记录票。","§7决议为已冻结历史；国家后续变动不会重算历史"],"material":"PLAYER_HEAD","name":"§6你的国家代表资格","slot":2},{"lore":["§7实例: 5a1c500e7f07558e6cd888e909caf2e0f8","§7e2548a256e07603b704ee0b872f68d","§7当前阶段: done","§7国家票节点: council","§7一国一席；法定国家席数: 2"],"material":"WRITTEN_BOOK","name":"§6National smoke primary","slot":4},{"lore":["§7no: 1","§7yes: 2","§7落定结果: yes"],"material":"CLOCK","name":"§6已记录票投影","slot":6},{"lore":["§7决议为已冻结历史；国家后续变动不会重算历史"],"material":"PAPER","name":"§6此篇国家决议已落定","slot":31},{"lore":["§7查看每国修订号、状态和提交者。"],"material":"BOOK","name":"§6各国已记录票","slot":47},{"lore":["§7刷新不会自动代替旧修订号提交。"],"material":"COMPASS","name":"§6刷新资格与票数","slot":48},{"lore":[],"material":"ARROW","name":"§6返回剧情列表","slot":49}],"title":"国家议会 · National smoke primary"}
+> 
+  
+[07:20:43 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_VIEW {"holder":"io.github.addxiaoyi.starchronicle.paper.Menus$Session","owned":true,"player":"A","slots":[{"lore":["§7The actual country decision and its st","§7able receipts are retained."],"material":"PAPER","name":"§6剧情文本","slot":0},{"lore":["§7国家票不等于代表本人或全体国民的个人意愿。","§7计数仅为已记录投影；最终落定会重新核验国家存续。","§7已冻结或已完成的票不能更改。"],"material":"WHITE_BANNER","name":"§6国家票规则","slot":1},{"lore":["§7当前核验国家: 无","§7国家票修订号: 0","§7当前没有已核验的国家代表资格，可旁观已记录票。","§7决议为已冻结历史；国家后续变动不会重算历史"],"material":"PLAYER_HEAD","name":"§6你的国家代表资格","slot":2},{"lore":["§7实例: 5a1c500e7f07558e6cd888e909caf2e0f8","§7e2548a256e07603b704ee0b872f68d","§7当前阶段: done","§7国家票节点: council","§7一国一席；法定国家席数: 2"],"material":"WRITTEN_BOOK","name":"§6National smoke primary","slot":4},{"lore":["§7no: 1","§7yes: 2","§7落定结果: yes"],"material":"CLOCK","name":"§6已记录票投影","slot":6},{"lore":["§7决议为已冻结历史；国家后续变动不会重算历史"],"material":"PAPER","name":"§6此篇国家决议已落定","slot":31},{"lore":["§7查看每国修订号、状态和提交者。"],"material":"BOOK","name":"§6各国已记录票","slot":47},{"lore":["§7刷新不会自动代替旧修订号提交。"],"material":"COMPASS","name":"§6刷新资格与票数","slot":48},{"lore":[],"material":"ARROW","name":"§6返回剧情列表","slot":49}],"title":"国家议会 · National smoke primary"}
+> 
+  
+[07:20:43 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_VIEW {"holder":"io.github.addxiaoyi.starchronicle.paper.Menus$Session","owned":true,"player":"B","slots":[{"lore":["§7The actual country decision and its st","§7able receipts are retained."],"material":"PAPER","name":"§6剧情文本","slot":0},{"lore":["§7国家票不等于代表本人或全体国民的个人意愿。","§7计数仅为已记录投影；最终落定会重新核验国家存续。","§7已冻结或已完成的票不能更改。"],"material":"WHITE_BANNER","name":"§6国家票规则","slot":1},{"lore":["§7当前核验国家: 无","§7国家票修订号: 0","§7当前没有已核验的国家代表资格，可旁观已记录票。","§7决议为已冻结历史；国家后续变动不会重算历史"],"material":"PLAYER_HEAD","name":"§6你的国家代表资格","slot":2},{"lore":["§7实例: 5a1c500e7f07558e6cd888e909caf2e0f8","§7e2548a256e07603b704ee0b872f68d","§7当前阶段: done","§7国家票节点: council","§7一国一席；法定国家席数: 2"],"material":"WRITTEN_BOOK","name":"§6National smoke primary","slot":4},{"lore":["§7no: 1","§7yes: 2","§7落定结果: yes"],"material":"CLOCK","name":"§6已记录票投影","slot":6},{"lore":["§7决议为已冻结历史；国家后续变动不会重算历史"],"material":"PAPER","name":"§6此篇国家决议已落定","slot":31},{"lore":["§7查看每国修订号、状态和提交者。"],"material":"BOOK","name":"§6各国已记录票","slot":47},{"lore":["§7刷新不会自动代替旧修订号提交。"],"material":"COMPASS","name":"§6刷新资格与票数","slot":48},{"lore":[],"material":"ARROW","name":"§6返回剧情列表","slot":49}],"title":"国家议会 · National smoke primary"}
+> 
+  
+[07:20:43 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_VIEW {"holder":"io.github.addxiaoyi.starchronicle.paper.Menus$Session","owned":true,"player":"C","slots":[{"lore":["§7The actual country decision and its st","§7able receipts are retained."],"material":"PAPER","name":"§6剧情文本","slot":0},{"lore":["§7国家票不等于代表本人或全体国民的个人意愿。","§7计数仅为已记录投影；最终落定会重新核验国家存续。","§7已冻结或已完成的票不能更改。"],"material":"WHITE_BANNER","name":"§6国家票规则","slot":1},{"lore":["§7当前核验国家: 无","§7国家票修订号: 0","§7当前没有已核验的国家代表资格，可旁观已记录票。","§7决议为已冻结历史；国家后续变动不会重算历史"],"material":"PLAYER_HEAD","name":"§6你的国家代表资格","slot":2},{"lore":["§7实例: 5a1c500e7f07558e6cd888e909caf2e0f8","§7e2548a256e07603b704ee0b872f68d","§7当前阶段: done","§7国家票节点: council","§7一国一席；法定国家席数: 2"],"material":"WRITTEN_BOOK","name":"§6National smoke primary","slot":4},{"lore":["§7no: 1","§7yes: 2","§7落定结果: yes"],"material":"CLOCK","name":"§6已记录票投影","slot":6},{"lore":["§7决议为已冻结历史；国家后续变动不会重算历史"],"material":"PAPER","name":"§6此篇国家决议已落定","slot":31},{"lore":["§7查看每国修订号、状态和提交者。"],"material":"BOOK","name":"§6各国已记录票","slot":47},{"lore":["§7刷新不会自动代替旧修订号提交。"],"material":"COMPASS","name":"§6刷新资格与票数","slot":48},{"lore":[],"material":"ARROW","name":"§6返回剧情列表","slot":49}],"title":"国家议会 · National smoke primary"}
+> 
+  
+[07:20:59 INFO]: PhaseTwoA issued server command: /chronicle national 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868
+> 
+  
+[07:20:59 INFO]: PhaseTwoB issued server command: /chronicle national 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868
+> 
+  
+[07:20:59 INFO]: PhaseTwoC issued server command: /chronicle national 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868
+> 
+  
+[07:21:00 INFO]: PhaseTwoD issued server command: /chronicle national 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868
+> > > > > 
+  
+[07:21:10 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_VIEW {"holder":"io.github.addxiaoyi.starchronicle.paper.Menus$Session","owned":true,"player":"A","slots":[{"lore":["§7A formal country seat requires the cur","§7rent native holder. Ordinary witnesses","§7 have no national vote."],"material":"PAPER","name":"§6剧情文本","slot":0},{"lore":["§7国家票不等于代表本人或全体国民的个人意愿。","§7计数仅为已记录投影；最终落定会重新核验国家存续。","§7已冻结或已完成的票不能更改。"],"material":"WHITE_BANNER","name":"§6国家票规则","slot":1},{"lore":["§7当前核验国家: 无","§7国家票修订号: 0","§7当前没有已核验的国家代表资格，可旁观已记录票。","§7只读记录；国家代表资格须由原生权威服务核验"],"material":"PLAYER_HEAD","name":"§6你的国家代表资格","slot":2},{"lore":["§7实例: 122ad7c3d57366dae01b76cf15a9d4eee4","§781d9d9fc94ec9175d5b01364f20868","§7当前阶段: council","§7国家票节点: council","§7一国一席；法定国家席数: 3"],"material":"WRITTEN_BOOK","name":"§6National smoke invalidation","slot":4},{"lore":["§7no: 1","§7yes: 1","§7落定结果: 尚未落定"],"material":"CLOCK","name":"§6已记录票投影","slot":6},{"lore":["§7只读记录；国家代表资格须由原生权威服务核验"],"material":"PAPER","name":"§6当前仅可旁观","slot":31},{"lore":["§7查看每国修订号、状态和提交者。"],"material":"BOOK","name":"§6各国已记录票","slot":47},{"lore":["§7刷新不会自动代替旧修订号提交。"],"material":"COMPASS","name":"§6刷新资格与票数","slot":48},{"lore":[],"material":"ARROW","name":"§6返回剧情列表","slot":49}],"title":"国家议会 · National smoke invalidation"}
+> 
+  
+[07:21:10 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_VIEW {"holder":"io.github.addxiaoyi.starchronicle.paper.Menus$Session","owned":true,"player":"B","slots":[{"lore":["§7A formal country seat requires the cur","§7rent native holder. Ordinary witnesses","§7 have no national vote."],"material":"PAPER","name":"§6剧情文本","slot":0},{"lore":["§7国家票不等于代表本人或全体国民的个人意愿。","§7计数仅为已记录投影；最终落定会重新核验国家存续。","§7已冻结或已完成的票不能更改。"],"material":"WHITE_BANNER","name":"§6国家票规则","slot":1},{"lore":["§7当前核验国家: 无","§7国家票修订号: 0","§7当前没有已核验的国家代表资格，可旁观已记录票。","§7只读记录；国家代表资格须由原生权威服务核验"],"material":"PLAYER_HEAD","name":"§6你的国家代表资格","slot":2},{"lore":["§7实例: 122ad7c3d57366dae01b76cf15a9d4eee4","§781d9d9fc94ec9175d5b01364f20868","§7当前阶段: council","§7国家票节点: council","§7一国一席；法定国家席数: 3"],"material":"WRITTEN_BOOK","name":"§6National smoke invalidation","slot":4},{"lore":["§7no: 1","§7yes: 1","§7落定结果: 尚未落定"],"material":"CLOCK","name":"§6已记录票投影","slot":6},{"lore":["§7只读记录；国家代表资格须由原生权威服务核验"],"material":"PAPER","name":"§6当前仅可旁观","slot":31},{"lore":["§7查看每国修订号、状态和提交者。"],"material":"BOOK","name":"§6各国已记录票","slot":47},{"lore":["§7刷新不会自动代替旧修订号提交。"],"material":"COMPASS","name":"§6刷新资格与票数","slot":48},{"lore":[],"material":"ARROW","name":"§6返回剧情列表","slot":49}],"title":"国家议会 · National smoke invalidation"}
+> 
+  
+[07:21:10 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_VIEW {"holder":"io.github.addxiaoyi.starchronicle.paper.Menus$Session","owned":true,"player":"C","slots":[{"lore":["§7A formal country seat requires the cur","§7rent native holder. Ordinary witnesses","§7 have no national vote."],"material":"PAPER","name":"§6剧情文本","slot":0},{"lore":["§7国家票不等于代表本人或全体国民的个人意愿。","§7计数仅为已记录投影；最终落定会重新核验国家存续。","§7已冻结或已完成的票不能更改。"],"material":"WHITE_BANNER","name":"§6国家票规则","slot":1},{"lore":["§7当前核验国家: 无","§7国家票修订号: 0","§7当前没有已核验的国家代表资格，可旁观已记录票。","§7只读记录；国家代表资格须由原生权威服务核验"],"material":"PLAYER_HEAD","name":"§6你的国家代表资格","slot":2},{"lore":["§7实例: 122ad7c3d57366dae01b76cf15a9d4eee4","§781d9d9fc94ec9175d5b01364f20868","§7当前阶段: council","§7国家票节点: council","§7一国一席；法定国家席数: 3"],"material":"WRITTEN_BOOK","name":"§6National smoke invalidation","slot":4},{"lore":["§7no: 1","§7yes: 1","§7落定结果: 尚未落定"],"material":"CLOCK","name":"§6已记录票投影","slot":6},{"lore":["§7只读记录；国家代表资格须由原生权威服务核验"],"material":"PAPER","name":"§6当前仅可旁观","slot":31},{"lore":["§7查看每国修订号、状态和提交者。"],"material":"BOOK","name":"§6各国已记录票","slot":47},{"lore":["§7刷新不会自动代替旧修订号提交。"],"material":"COMPASS","name":"§6刷新资格与票数","slot":48},{"lore":[],"material":"ARROW","name":"§6返回剧情列表","slot":49}],"title":"国家议会 · National smoke invalidation"}
+> 
+  
+[07:21:10 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_VIEW {"holder":"io.github.addxiaoyi.starchronicle.paper.Menus$Session","owned":true,"player":"D","slots":[{"lore":["§7A formal country seat requires the cur","§7rent native holder. Ordinary witnesses","§7 have no national vote."],"material":"PAPER","name":"§6剧情文本","slot":0},{"lore":["§7国家票不等于代表本人或全体国民的个人意愿。","§7计数仅为已记录投影；最终落定会重新核验国家存续。","§7已冻结或已完成的票不能更改。"],"material":"WHITE_BANNER","name":"§6国家票规则","slot":1},{"lore":["§7当前核验国家: 无","§7国家票修订号: 0","§7当前没有已核验的国家代表资格，可旁观已记录票。","§7只读记录；国家代表资格须由原生权威服务核验"],"material":"PLAYER_HEAD","name":"§6你的国家代表资格","slot":2},{"lore":["§7实例: 122ad7c3d57366dae01b76cf15a9d4eee4","§781d9d9fc94ec9175d5b01364f20868","§7当前阶段: council","§7国家票节点: council","§7一国一席；法定国家席数: 3"],"material":"WRITTEN_BOOK","name":"§6National smoke invalidation","slot":4},{"lore":["§7no: 1","§7yes: 1","§7落定结果: 尚未落定"],"material":"CLOCK","name":"§6已记录票投影","slot":6},{"lore":["§7只读记录；国家代表资格须由原生权威服务核验"],"material":"PAPER","name":"§6当前仅可旁观","slot":31},{"lore":["§7查看每国修订号、状态和提交者。"],"material":"BOOK","name":"§6各国已记录票","slot":47},{"lore":["§7刷新不会自动代替旧修订号提交。"],"material":"COMPASS","name":"§6刷新资格与票数","slot":48},{"lore":[],"material":"ARROW","name":"§6返回剧情列表","slot":49}],"title":"国家议会 · National smoke invalidation"}
+> > > > > > > 
+  
+[07:21:33 INFO]: PhaseTwoA issued server command: /chronicle vote 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868 council 0 yes
+> ncfolia reject-vote D invalidatio> > 
+  
+[07:21:33 INFO]: PhaseTwoA issued server command: /chronicle withdraw 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868 council 0
+> 
+  
+[33;1m[07:21:33 WARN]: [StarChronicle] Player operation failed: A current native nation is required
+[m> 
+  
+[07:21:33 INFO]: PhaseTwoB issued server command: /chronicle vote 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868 council 0 yes
+> 
+  
+[07:21:33 INFO]: PhaseTwoB issued server command: /chronicle withdraw 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868 council 0
+> 
+  
+[07:21:33 INFO]: PhaseTwoC issued server command: /chronicle vote 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868 council 0 yes
+> 
+  
+[07:21:33 INFO]: PhaseTwoC issued server command: /chronicle withdraw 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868 council 0
+> 
+  
+[07:21:33 INFO]: PhaseTwoD issued server command: /chronicle vote 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868 council 0 yes
+> 
+  
+[07:21:33 INFO]: PhaseTwoD issued server command: /chronicle withdraw 122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868 council 0
+> 
+  
+[33;1m[07:21:33 WARN]: [StarChronicle] Player operation failed: A current native nation is required
+[m> 
+  
+[07:21:33 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_EXPECTED_REJECTION {"action":"VOTE","cause":"java.lang.SecurityException: A current native nation is required","choice":"yes","player":"A","revision":0,"story":"national-smoke-invalidation"}
+> 
+  
+[07:21:33 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_EXPECTED_REJECTION {"action":"WITHDRAW","cause":"java.lang.SecurityException: A current native nation is required","choice":"","player":"A","revision":0,"story":"national-smoke-invalidation"}
+> 
+  
+[33;1m[07:21:33 WARN]: [StarChronicle] Player operation failed: A current native nation is required
+[m> 
+  
+[33;1m[07:21:33 WARN]: [StarChronicle] Player operation failed: A current native nation is required
+[m> 
+  
+[07:21:33 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_EXPECTED_REJECTION {"action":"VOTE","cause":"java.lang.SecurityException: A current native nation is required","choice":"yes","player":"B","revision":0,"story":"national-smoke-invalidation"}
+> 
+  
+[07:21:33 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_EXPECTED_REJECTION {"action":"WITHDRAW","cause":"java.lang.SecurityException: A current native nation is required","choice":"","player":"B","revision":0,"story":"national-smoke-invalidation"}
+> 
+  
+[33;1m[07:21:33 WARN]: [StarChronicle] Player operation failed: A current native nation is required
+[m> 
+  
+[33;1m[07:21:33 WARN]: [StarChronicle] Player operation failed: A current native nation is required
+[m> 
+  
+[07:21:33 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_EXPECTED_REJECTION {"action":"VOTE","cause":"java.lang.SecurityException: A current native nation is required","choice":"yes","player":"C","revision":0,"story":"national-smoke-invalidation"}
+> 
+  
+[07:21:33 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_EXPECTED_REJECTION {"action":"WITHDRAW","cause":"java.lang.SecurityException: A current native nation is required","choice":"","player":"C","revision":0,"story":"national-smoke-invalidation"}
+> 
+  
+[33;1m[07:21:33 WARN]: [StarChronicle] Player operation failed: A current native nation is required
+[m> 
+  
+[33;1m[07:21:33 WARN]: [StarChronicle] Player operation failed: A current native nation is required
+[m> 
+  
+[07:21:33 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_EXPECTED_REJECTION {"action":"VOTE","cause":"java.lang.SecurityException: A current native nation is required","choice":"yes","player":"D","revision":0,"story":"national-smoke-invalidation"}
+> 
+  
+[07:21:33 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_EXPECTED_REJECTION {"action":"WITHDRAW","cause":"java.lang.SecurityException: A current native nation is required","choice":"","player":"D","revision":0,"story":"national-smoke-invalidation"}
+> > > > > > > > > > > > > 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"A","state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]},"story":"national-smoke-primary"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"A","state":{"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"只读记录；国家代表资格须由原生权威服务核验","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]},"story":"national-smoke-invalidation"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_RECOLLECTIONS {"facts":{"chronicle.history.player.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","chronicle.history.world.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","past.resolution.world.national-smoke-primary/1/council":"yes"},"nationFactsAbsent":true,"player":"A"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_FATE {"expectedHonor":"7","facts":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"unassigned"},"player":"A"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"B","state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]},"story":"national-smoke-primary"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"B","state":{"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"只读记录；国家代表资格须由原生权威服务核验","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]},"story":"national-smoke-invalidation"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_RECOLLECTIONS {"facts":{"chronicle.history.player.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","chronicle.history.world.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","past.resolution.world.national-smoke-primary/1/council":"yes"},"nationFactsAbsent":true,"player":"B"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_FATE {"expectedHonor":"7","facts":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"unassigned"},"player":"B"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"C","state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]},"story":"national-smoke-primary"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"C","state":{"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"只读记录；国家代表资格须由原生权威服务核验","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]},"story":"national-smoke-invalidation"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_RECOLLECTIONS {"facts":{"chronicle.history.player.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","chronicle.history.world.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","past.resolution.world.national-smoke-primary/1/council":"yes"},"nationFactsAbsent":true,"player":"C"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_FATE {"expectedHonor":"7","facts":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"unassigned"},"player":"C"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"D","state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]},"story":"national-smoke-primary"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_STATE {"freshNationBlank":true,"originalStatePreserved":true,"player":"D","state":{"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"","viewerRevision":0,"representative":false,"canVote":false,"canWithdraw":false,"message":"只读记录；国家代表资格须由原生权威服务核验","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]},"story":"national-smoke-invalidation"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_RECOLLECTIONS {"facts":{"chronicle.history.player.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","chronicle.history.world.NATIONAL_COUNCIL_SMOKE_FINISHED":"1","past.resolution.world.national-smoke-primary/1/council":"yes"},"nationFactsAbsent":true,"player":"D"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_FATE {"expectedHonor":"7","facts":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"unassigned"},"player":"D"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"A","story":"national-smoke-primary"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"A","story":"national-smoke-invalidation"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"B","story":"national-smoke-primary"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"B","story":"national-smoke-invalidation"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"C","story":"national-smoke-primary"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"C","story":"national-smoke-invalidation"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"D","story":"national-smoke-primary"}
+> 
+  
+[07:22:21 INFO]: [NationalCouncilFoliaFixture] NATIONAL_FOLIA_READ_ONLY_CHOICES {"choices":[],"player":"D","story":"national-smoke-invalidation"}
+> 
+  
+[07:22:34 INFO]: PhaseTwoA issued server command: /chronicle history
+> 
+  
+[07:23:13 INFO]: PhaseTwoC lost connection: Disconnected
+> 
+  
+[07:23:13 INFO]: [93mPhaseTwoC left the game[0m
+> 
+  
+[07:23:13 INFO]: PhaseTwoB lost connection: Disconnected
+> 
+  
+[07:23:13 INFO]: [93mPhaseTwoB left the game[0m
+> 
+  
+[07:23:13 INFO]: PhaseTwoA lost connection: Disconnected
+> 
+  
+[07:23:13 INFO]: [93mPhaseTwoA left the game[0m
+> 
+  
+[07:23:13 INFO]: PhaseTwoD lost connection: Disconnected
+> 
+  
+[07:23:13 INFO]: [93mPhaseTwoD left the game[0m
+> > 
+  
+[07:23:26 INFO]: Stopping the server
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Awaiting scheduler termination for 60s...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Scheduler halted
+> 
+  
+[07:23:26 INFO]: Stopping server
+> 
+  
+[07:23:26 INFO]: [NationalCouncilFoliaFixture] Disabling NationalCouncilFoliaFixture v1
+> 
+  
+[07:23:26 INFO]: [StarChronicle] Disabling StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Halting chunk systems...
+> 
+  
+[07:23:26 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world'
+> 
+  
+[07:23:26 INFO]: [ChunkHolderManager] Halted chunk system for world 'world'
+> 
+  
+[07:23:26 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_nether'
+> 
+  
+[07:23:26 INFO]: [ChunkHolderManager] Halted chunk system for world 'world_nether'
+> 
+  
+[07:23:26 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_the_end'
+> 
+  
+[07:23:26 INFO]: [ChunkHolderManager] Halted chunk system for world 'world_the_end'
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Halted chunk systems
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Finishing pending teleports...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Finished pending teleports
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving all worlds
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving world data for world 'world'
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Closing player inventories...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Closed player inventories
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving chunks...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved chunks
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving level data...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved level data
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved world data for world 'world'
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving world data for world 'world_nether'
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Closing player inventories...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Closed player inventories
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving chunks...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved chunks
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving level data...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved level data
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved world data for world 'world_nether'
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving world data for world 'world_the_end'
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Closing player inventories...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Closed player inventories
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving chunks...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved chunks
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving level data...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved level data
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved world data for world 'world_the_end'
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved all worlds
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saving all player data...
+> 
+  
+[07:23:26 INFO]: [RegionShutdownThread] Saved all player data
+> 
+  
+[07:23:26 INFO]: Waiting for all RegionFile I/O tasks to complete...
+> 
+  
+[07:23:26 INFO]: All RegionFile I/O tasks to complete
+> 
+  
+[07:23:26 INFO]: [MoonriseCommon] Awaiting termination of worker pool for up to 60s...
+> 
+  
+[07:23:26 INFO]: [MoonriseCommon] Awaiting termination of I/O pool for up to 60s...
+> 

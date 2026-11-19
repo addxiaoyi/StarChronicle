@@ -1,0 +1,126 @@
+2026-11-19T22:55:01.502Z CONNECTING {"boot":1,"player":"A","username":"PhaseTwoA"}
+2026-11-19T22:55:01.507Z CONNECTING {"boot":1,"player":"B","username":"PhaseTwoB"}
+2026-11-19T22:55:01.510Z CONNECTING {"boot":1,"player":"C","username":"PhaseTwoC"}
+2026-11-19T22:55:01.512Z CONNECTING {"boot":1,"player":"D","username":"PhaseTwoD"}
+2026-11-19T22:55:02.148Z MESSAGE {"boot":1,"player":"A","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T22:55:02.150Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-19T22:55:02.150Z MESSAGE {"boot":1,"player":"A","message":"=== Fatigue Status Title ==="}
+2026-11-19T22:55:02.151Z MESSAGE {"boot":1,"player":"A","message":"总体疲劳：0%%"}
+2026-11-19T22:55:02.151Z MESSAGE {"boot":1,"player":"A","message":"等级：精神饱满"}
+2026-11-19T22:55:02.156Z MESSAGE {"boot":1,"player":"A","message":"身体：0%%"}
+2026-11-19T22:55:02.157Z MESSAGE {"boot":1,"player":"A","message":"精神：0%%"}
+2026-11-19T22:55:02.157Z MESSAGE {"boot":1,"player":"A","message":"战斗：0%%"}
+2026-11-19T22:55:02.157Z MESSAGE {"boot":1,"player":"A","message":"行军：0%%"}
+2026-11-19T22:55:02.158Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-19T22:55:02.158Z MESSAGE {"boot":1,"player":"A","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T22:55:02.159Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-19T22:55:02.159Z MESSAGE {"boot":1,"player":"A","message":"欢迎回来, PhaseTwoA!"}
+2026-11-19T22:55:02.159Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-19T22:55:02.160Z MESSAGE {"boot":1,"player":"A","message":"╔══════════════════════════╗"}
+2026-11-19T22:55:02.161Z MESSAGE {"boot":1,"player":"A","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T22:55:02.161Z MESSAGE {"boot":1,"player":"A","message":"╚══════════════════════════╝"}
+2026-11-19T22:55:02.162Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-19T22:55:02.163Z MESSAGE {"boot":1,"player":"A","message":"当前阶段: PRODUCTION"}
+2026-11-19T22:55:02.163Z MESSAGE {"boot":1,"player":"A","message":"完成度: 0%"}
+2026-11-19T22:55:02.164Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-19T22:55:02.164Z MESSAGE {"boot":1,"player":"A","message":"建议行动:"}
+2026-11-19T22:55:02.165Z MESSAGE {"boot":1,"player":"A","message":"  采集资源"}
+2026-11-19T22:55:02.166Z MESSAGE {"boot":1,"player":"A","message":"  训练军队"}
+2026-11-19T22:55:02.166Z MESSAGE {"boot":1,"player":"A","message":"  研究科技"}
+2026-11-19T22:55:02.167Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-19T22:55:02.167Z MESSAGE {"boot":1,"player":"A","message":"PhaseTwoA joined the game"}
+2026-11-19T22:55:02.172Z SPAWN {"boot":1,"player":"A","username":"PhaseTwoA","uuid":"08ffd450-5001-3023-a480-057fef707037"}
+2026-11-19T22:55:02.182Z MESSAGE {"boot":1,"player":"A","message":"PhaseTwoB joined the game"}
+2026-11-19T22:55:02.187Z MESSAGE {"boot":1,"player":"B","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T22:55:02.187Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-19T22:55:02.188Z MESSAGE {"boot":1,"player":"B","message":"=== Fatigue Status Title ==="}
+2026-11-19T22:55:02.188Z MESSAGE {"boot":1,"player":"B","message":"总体疲劳：0%%"}
+2026-11-19T22:55:02.189Z MESSAGE {"boot":1,"player":"B","message":"等级：精神饱满"}
+2026-11-19T22:55:02.189Z MESSAGE {"boot":1,"player":"B","message":"身体：0%%"}
+2026-11-19T22:55:02.189Z MESSAGE {"boot":1,"player":"B","message":"精神：0%%"}
+2026-11-19T22:55:02.190Z MESSAGE {"boot":1,"player":"B","message":"战斗：0%%"}
+2026-11-19T22:55:02.190Z MESSAGE {"boot":1,"player":"B","message":"行军：0%%"}
+2026-11-19T22:55:02.190Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-19T22:55:02.191Z MESSAGE {"boot":1,"player":"B","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T22:55:02.191Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-19T22:55:02.192Z MESSAGE {"boot":1,"player":"B","message":"欢迎回来, PhaseTwoB!"}
+2026-11-19T22:55:02.192Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-19T22:55:02.193Z MESSAGE {"boot":1,"player":"B","message":"╔══════════════════════════╗"}
+2026-11-19T22:55:02.194Z MESSAGE {"boot":1,"player":"B","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T22:55:02.194Z MESSAGE {"boot":1,"player":"B","message":"╚══════════════════════════╝"}
+2026-11-19T22:55:02.195Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-19T22:55:02.195Z MESSAGE {"boot":1,"player":"B","message":"当前阶段: PRODUCTION"}
+2026-11-19T22:55:02.196Z MESSAGE {"boot":1,"player":"B","message":"完成度: 0%"}
+2026-11-19T22:55:02.209Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-19T22:55:02.212Z MESSAGE {"boot":1,"player":"B","message":"建议行动:"}
+2026-11-19T22:55:02.213Z MESSAGE {"boot":1,"player":"B","message":"  采集资源"}
+2026-11-19T22:55:02.213Z MESSAGE {"boot":1,"player":"B","message":"  训练军队"}
+2026-11-19T22:55:02.214Z MESSAGE {"boot":1,"player":"B","message":"  研究科技"}
+2026-11-19T22:55:02.214Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-19T22:55:02.215Z MESSAGE {"boot":1,"player":"B","message":"PhaseTwoB joined the game"}
+2026-11-19T22:55:02.216Z MESSAGE {"boot":1,"player":"B","message":"PhaseTwoC joined the game"}
+2026-11-19T22:55:02.219Z MESSAGE {"boot":1,"player":"C","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T22:55:02.220Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-19T22:55:02.220Z MESSAGE {"boot":1,"player":"C","message":"=== Fatigue Status Title ==="}
+2026-11-19T22:55:02.221Z MESSAGE {"boot":1,"player":"C","message":"总体疲劳：0%%"}
+2026-11-19T22:55:02.222Z MESSAGE {"boot":1,"player":"C","message":"等级：精神饱满"}
+2026-11-19T22:55:02.222Z MESSAGE {"boot":1,"player":"C","message":"身体：0%%"}
+2026-11-19T22:55:02.222Z MESSAGE {"boot":1,"player":"C","message":"精神：0%%"}
+2026-11-19T22:55:02.223Z MESSAGE {"boot":1,"player":"C","message":"战斗：0%%"}
+2026-11-19T22:55:02.225Z MESSAGE {"boot":1,"player":"C","message":"行军：0%%"}
+2026-11-19T22:55:02.225Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-19T22:55:02.225Z MESSAGE {"boot":1,"player":"C","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T22:55:02.226Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-19T22:55:02.226Z MESSAGE {"boot":1,"player":"C","message":"欢迎回来, PhaseTwoC!"}
+2026-11-19T22:55:02.226Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-19T22:55:02.227Z MESSAGE {"boot":1,"player":"C","message":"╔══════════════════════════╗"}
+2026-11-19T22:55:02.228Z MESSAGE {"boot":1,"player":"C","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T22:55:02.234Z MESSAGE {"boot":1,"player":"C","message":"╚══════════════════════════╝"}
+2026-11-19T22:55:02.234Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-19T22:55:02.235Z MESSAGE {"boot":1,"player":"C","message":"当前阶段: PRODUCTION"}
+2026-11-19T22:55:02.235Z MESSAGE {"boot":1,"player":"C","message":"完成度: 0%"}
+2026-11-19T22:55:02.235Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-19T22:55:02.236Z MESSAGE {"boot":1,"player":"C","message":"建议行动:"}
+2026-11-19T22:55:02.236Z MESSAGE {"boot":1,"player":"C","message":"  采集资源"}
+2026-11-19T22:55:02.237Z MESSAGE {"boot":1,"player":"C","message":"  训练军队"}
+2026-11-19T22:55:02.237Z MESSAGE {"boot":1,"player":"C","message":"  研究科技"}
+2026-11-19T22:55:02.237Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-19T22:55:02.238Z MESSAGE {"boot":1,"player":"C","message":"PhaseTwoC joined the game"}
+2026-11-19T22:55:02.240Z MESSAGE {"boot":1,"player":"A","message":"PhaseTwoC joined the game"}
+2026-11-19T22:55:02.241Z MESSAGE {"boot":1,"player":"A","message":"PhaseTwoD joined the game"}
+2026-11-19T22:55:02.242Z MESSAGE {"boot":1,"player":"C","message":"PhaseTwoD joined the game"}
+2026-11-19T22:55:02.246Z MESSAGE {"boot":1,"player":"D","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T22:55:02.246Z MESSAGE {"boot":1,"player":"D","message":""}
+2026-11-19T22:55:02.247Z MESSAGE {"boot":1,"player":"D","message":"=== Fatigue Status Title ==="}
+2026-11-19T22:55:02.247Z MESSAGE {"boot":1,"player":"D","message":"总体疲劳：0%%"}
+2026-11-19T22:55:02.247Z MESSAGE {"boot":1,"player":"D","message":"等级：精神饱满"}
+2026-11-19T22:55:02.248Z MESSAGE {"boot":1,"player":"D","message":"身体：0%%"}
+2026-11-19T22:55:02.248Z MESSAGE {"boot":1,"player":"D","message":"精神：0%%"}
+2026-11-19T22:55:02.249Z MESSAGE {"boot":1,"player":"D","message":"战斗：0%%"}
+2026-11-19T22:55:02.249Z MESSAGE {"boot":1,"player":"D","message":"行军：0%%"}
+2026-11-19T22:55:02.249Z MESSAGE {"boot":1,"player":"D","message":""}
+2026-11-19T22:55:02.250Z MESSAGE {"boot":1,"player":"D","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T22:55:02.250Z MESSAGE {"boot":1,"player":"D","message":""}
+2026-11-19T22:55:02.251Z MESSAGE {"boot":1,"player":"D","message":"欢迎回来, PhaseTwoD!"}
+2026-11-19T22:55:02.251Z MESSAGE {"boot":1,"player":"D","message":""}
+2026-11-19T22:55:02.251Z MESSAGE {"boot":1,"player":"D","message":"╔══════════════════════════╗"}
+2026-11-19T22:55:02.252Z MESSAGE {"boot":1,"player":"D","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T22:55:02.252Z MESSAGE {"boot":1,"player":"D","message":"╚══════════════════════════╝"}
+2026-11-19T22:55:02.253Z MESSAGE {"boot":1,"player":"D","message":""}
+2026-11-19T22:55:02.253Z MESSAGE {"boot":1,"player":"D","message":"当前阶段: PRODUCTION"}
+2026-11-19T22:55:02.254Z MESSAGE {"boot":1,"player":"D","message":"完成度: 0%"}
+2026-11-19T22:55:02.254Z MESSAGE {"boot":1,"player":"D","message":""}
+2026-11-19T22:55:02.255Z MESSAGE {"boot":1,"player":"D","message":"建议行动:"}
+2026-11-19T22:55:02.255Z MESSAGE {"boot":1,"player":"D","message":"  采集资源"}
+2026-11-19T22:55:02.256Z MESSAGE {"boot":1,"player":"D","message":"  训练军队"}
+2026-11-19T22:55:02.256Z MESSAGE {"boot":1,"player":"D","message":"  研究科技"}
+2026-11-19T22:55:02.257Z MESSAGE {"boot":1,"player":"D","message":""}
+2026-11-19T22:55:02.257Z MESSAGE {"boot":1,"player":"D","message":"PhaseTwoD joined the game"}
+2026-11-19T22:55:02.259Z MESSAGE {"boot":1,"player":"B","message":"PhaseTwoD joined the game"}
+2026-11-19T22:55:02.260Z SPAWN {"boot":1,"player":"B","username":"PhaseTwoB","uuid":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6"}
+2026-11-19T22:55:02.261Z SPAWN {"boot":1,"player":"D","username":"PhaseTwoD","uuid":"63e2bb34-acdd-360c-a4b5-57c748f2ef53"}
+2026-11-19T22:55:02.262Z SPAWN {"boot":1,"player":"C","username":"PhaseTwoC","uuid":"140669be-0a1a-3206-a8b1-20d23a596b3a"}
+2026-11-19T22:55:38.157Z ENDED {"boot":1,"player":"A","reason":"national council acceptance complete"}
+2026-11-19T22:55:38.159Z ENDED {"boot":1,"player":"B","reason":"national council acceptance complete"}
+2026-11-19T22:55:38.159Z ENDED {"boot":1,"player":"C","reason":"national council acceptance complete"}
+2026-11-19T22:55:38.160Z ENDED {"boot":1,"player":"D","reason":"national council acceptance complete"}

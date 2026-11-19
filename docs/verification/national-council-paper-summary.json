@@ -1,0 +1,776 @@
+{
+  "status": "PASS",
+  "scope": "Real Paper national-council feature acceptance across three normal main boots and four non-OP clients; not a clean-start certification of every upstream module or a Folia claim.",
+  "label": "final",
+  "generated_utc": "2026-11-19T23:12:02.462137+00:00",
+  "plugin_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694",
+  "fixture_sha256": "de238763374e8623f4443d6f332df05b28516308c1d3732f7e9dee314cb5a2f0",
+  "starcore_sha256": "953f926f12384e0cfafae6f55d266a10c7156468e7e28be75518c3f7b413884b",
+  "paper_sha256": "5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba",
+  "checks": [
+    {
+      "name": "all_three_captures_use_exact_product_and_fixture",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "retained_source_runtime_assets_are_unchanged",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "compiled_fixture_source_and_attempt_are_fingerprint_bound",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "all_three_consistent_snapshots_pass_structure_integrity_and_foreign_keys",
+      "status": "PASS",
+      "detail": [
+        19,
+        21,
+        21
+      ]
+    },
+    {
+      "name": "all_three_snapshot_reads_preserve_main_and_sidecar_bytes",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "three_serial_main_server_and_client_boots_exit_zero",
+      "status": "PASS",
+      "detail": [
+        {
+          "boot": 1,
+          "server_exit": 0,
+          "client_exit": 0
+        },
+        {
+          "boot": 2,
+          "server_exit": 0,
+          "client_exit": 0
+        },
+        {
+          "boot": 3,
+          "server_exit": 0,
+          "client_exit": 0
+        }
+      ]
+    },
+    {
+      "name": "boot1_four_actual_pinned_client_identities",
+      "status": "PASS",
+      "detail": {
+        "C": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+        "A": "08ffd450-5001-3023-a480-057fef707037",
+        "B": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+        "D": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+      }
+    },
+    {
+      "name": "boot2_four_actual_pinned_client_identities",
+      "status": "PASS",
+      "detail": {
+        "D": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+        "C": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+        "B": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+        "A": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "name": "boot3_four_actual_pinned_client_identities",
+      "status": "PASS",
+      "detail": {
+        "D": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+        "B": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+        "C": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+        "A": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "name": "real_native_identity_checks_use_non_op_non_admin_clients",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "three_genuine_countries_initially_persisted",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "actual_native_succession_to_D_survives_first_restart_checkpoint",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "ordinary_member_D_is_rejected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "stale_country_revision_is_rejected",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "former_native_holder_A_is_rejected_after_transfer",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "primary_instance_id_source_and_pinned_definition_survive_both_restarts",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "boot1_retains_unresolved_D_revision4_and_B_withdrawal_revision2",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "same_country_two_citizens_are_not_counted_as_two_country_seats",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "successor_revote_and_withdraw_append_without_rewriting_original_holder",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "first_restart_preserves_every_previously_committed_action_byte_value",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "pending_campaign_has_no_personal_choices_rewards_or_premature_resolution",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "fresh_clients_revalidate_pending_and_withdrawn_state_after_restart",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "final_primary_has_yes_two_countries_and_no_one_country",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "exactly_one_immutable_country_resolution_is_persisted",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "exactly_one_world_resolution_and_no_personal_ballots",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "opposing_country_no_is_distinct_from_world_yes_and_absent_personal_choice",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "supporting_country_yes_is_not_a_personal_ballot",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "all_four_receivers_keep_exactly_seven_honor_across_restart_and_replay",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "five_stable_done_receipts_are_unchanged",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "canonical_source_replay_is_observed_duplicate_twice",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "original_primary_source_time_actors_hash_and_evidence_never_rewritten",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "one_stable_ending_event_remains_after_replay",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "native_country_B_really_disappears_and_is_not_recreated_on_restart",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "native_absence_invalidates_B_revision2_with_null_choice",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "invalidation_preserves_original_B_action_and_attributes_actual_D_checker",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "invalidation_campaign_stays_unresolved_without_fabricating_quorum",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "second_restart_preserves_logs_projections_bindings_freeze_choice_and_receipts",
+      "status": "PASS",
+      "detail": [
+        "story_nation_vote_log",
+        "story_nation_votes",
+        "story_nation_actor_bindings",
+        "story_nation_resolutions",
+        "story_choice_log",
+        "outcomes"
+      ]
+    },
+    {
+      "name": "frozen_historical_B_no_survives_later_native_country_destruction",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "completed_node_refuses_further_national_vote",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "actual_native_country_move_and_new_holder_transfer_are_persisted",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "real_current_holder_of_new_country_still_cannot_carry_original_campaign_membership",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "real_GUI_A_and_C_yes_clicks_reach_the_country_ledger",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "ordinary_country_member_GUI_has_no_vote_choices",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "completed_GUI_exposes_real_three_country_revision_and_authority_rows",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "actual_clients_have_no_unclassified_protocol_or_action_failures",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "name": "two_harness_disconnect_checks_are_retained_and_rechecked_after_same_client_reconnect",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "tty_preflight_is_separate_from_three_main_boots_and_stopped_normally",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "initial_inspector_sidecar_only_diagnostic_is_preserved_with_unchanged_main_and_table_data",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "same_candidate_current_surefire_reports_are_passing",
+      "status": "PASS",
+      "detail": {
+        "tests": 674,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "suites": 65
+      }
+    },
+    {
+      "name": "surefire_candidate_jar_matches_the_exercised_product",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "name": "known_upstream_windows_directory_fsync_scope_is_explicitly_retained",
+      "status": "PASS",
+      "detail": null
+    }
+  ],
+  "passed": 51,
+  "total": 51,
+  "build": {
+    "tests": 674,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "suites": 65
+  },
+  "server_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "client_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "claim_all_logs_clean": false,
+  "has_recorded_harness_and_upstream_incidents": true,
+  "incidents": {
+    "preflight_without_tty": [
+      {
+        "boot": 1,
+        "server_pid": 15048,
+        "server_command": [
+          "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+          "-Xms256M",
+          "-Xmx768M",
+          "-XX:MaxMetaspaceSize=256M",
+          "-Dfile.encoding=UTF-8",
+          "-jar",
+          "paper.jar",
+          "--nogui"
+        ],
+        "started_at": 1795128571.1021712,
+        "server_exit": 0,
+        "client_exit": null,
+        "finished_at": 1795128651.8818834,
+        "reason": "Tool omitted tty=true; EOF before clients; normal Bukkit shutdown through owned fingerprint-bound agent; not counted as multiplayer acceptance"
+      }
+    ],
+    "preflight_shutdown_receipt": {
+      "status": "NORMAL_BUKKIT_SHUTDOWN_INVOKED",
+      "pid": 15048,
+      "utc": "2026-11-19T22:50:50.695851300Z",
+      "product_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+    },
+    "offline_fixture_checks": [
+      {
+        "line": 23,
+        "event": {
+          "kind": "FAILED",
+          "time": "2026-11-19T22:54:28.164921900Z",
+          "value": {
+            "error": "java.lang.IllegalStateException: Actual client must be connected: PhaseTwoD",
+            "operation": "check-pending"
+          }
+        }
+      },
+      {
+        "line": 24,
+        "event": {
+          "kind": "FAILED",
+          "time": "2026-11-19T22:54:28.165969400Z",
+          "value": {
+            "error": "java.lang.IllegalStateException: Actual client must be connected: PhaseTwoB",
+            "operation": "state"
+          }
+        }
+      }
+    ],
+    "same_identity_reconnect": {
+      "pid": 14464,
+      "boot": 1,
+      "reason": "Reconnect same real players after controller disconnected them before asynchronous pending snapshot; no world or database reset",
+      "started": "2026-11-19T22:55:00.665Z",
+      "exit_code": 0,
+      "signal": null,
+      "finished": "2026-11-19T22:55:38.189Z"
+    },
+    "inspector_first_attempt": {
+      "evidence": "evidence/national-council-boot1.json",
+      "sha256": "16b0ad7339ff44ad344ff2d9408b28ad383989564aef2ae695ed58370d240224",
+      "main_database_bytes_unchanged": true,
+      "explanation": "mode=ro on the owned stopped WAL-mode copy created only empty WAL/SHM metadata; initial FAIL is retained. Corrected captures use mode=ro&immutable=1 after checking no nonempty WAL/journal; database main bytes and every table content remained identical."
+    },
+    "upstream_windows_directory_fsync": {
+      "observed": true,
+      "locations": [
+        {
+          "boot": 1,
+          "line": 316,
+          "text": "Caused by: java.nio.file.AccessDeniedException: C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\paper-national-792a84e3\\plugins\\StarCore\\dungeon\\player-snapshots"
+        }
+      ],
+      "scope": "StarCore dungeon/player-snapshots directory fsync raised Windows AccessDenied during startup. This is retained upstream startup scope, not a claim that every StarCore subsystem or all logs are clean. Native nation and Chronicle acceptance proceeded through their real ready services."
+    },
+    "all_server_error_and_exception_lines": [
+      {
+        "boot": 1,
+        "line": 124,
+        "text": "[06:51:46] [Server thread/WARN]: [StarCore] ProtocolLib is unavailable; falling back to another nation menu provider: ClassNotFoundException: com.comphenix.protocol.ProtocolLibrary"
+      },
+      {
+        "boot": 1,
+        "line": 294,
+        "text": "[06:51:48] [Server thread/ERROR]: [StarCore] Failed to enable STARCORE module: dungeon"
+      },
+      {
+        "boot": 1,
+        "line": 295,
+        "text": "java.lang.IllegalStateException: DUNGEON_DIRECTORY_SYNC_FAILED path=C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\paper-national-792a84e3\\plugins\\StarCore\\dungeon\\player-snapshots"
+      },
+      {
+        "boot": 1,
+        "line": 316,
+        "text": "Caused by: java.nio.file.AccessDeniedException: C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\paper-national-792a84e3\\plugins\\StarCore\\dungeon\\player-snapshots"
+      },
+      {
+        "boot": 1,
+        "line": 317,
+        "text": "\tat java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:89) ~[?:?]"
+      },
+      {
+        "boot": 1,
+        "line": 318,
+        "text": "\tat java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103) ~[?:?]"
+      },
+      {
+        "boot": 1,
+        "line": 319,
+        "text": "\tat java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108) ~[?:?]"
+      },
+      {
+        "boot": 1,
+        "line": 571,
+        "text": "[06:53:10] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {\"action\":\"VOTE\",\"choice\":\"yes\",\"error\":\"java.util.concurrent.CompletionException: java.lang.SecurityException: Only the nation's current authoritative holder may cast its ballot\",\"player\":\"D\",\"revision\":1,\"story\":\"national-smoke-primary\"}"
+      },
+      {
+        "boot": 1,
+        "line": 573,
+        "text": "[06:53:10] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {\"action\":\"VOTE\",\"choice\":\"no\",\"error\":\"java.util.concurrent.CompletionException: java.lang.IllegalStateException: National ballot revision changed; refresh before submitting\",\"player\":\"A\",\"revision\":0,\"story\":\"national-smoke-primary\"}"
+      },
+      {
+        "boot": 1,
+        "line": 579,
+        "text": "[06:53:49] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {\"action\":\"VOTE\",\"choice\":\"yes\",\"error\":\"java.util.concurrent.CompletionException: java.lang.SecurityException: Only the nation's current authoritative holder may cast its ballot\",\"player\":\"A\",\"revision\":1,\"story\":\"national-smoke-primary\"}"
+      },
+      {
+        "boot": 1,
+        "line": 592,
+        "text": "[06:54:28] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_FAILED {\"error\":\"java.lang.IllegalStateException: Actual client must be connected: PhaseTwoD\",\"operation\":\"check-pending\"}"
+      },
+      {
+        "boot": 1,
+        "line": 593,
+        "text": "[06:54:28] [Server thread/WARN]: java.lang.IllegalStateException: Actual client must be connected: PhaseTwoD"
+      },
+      {
+        "boot": 1,
+        "line": 619,
+        "text": "[06:54:28] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_FAILED {\"error\":\"java.lang.IllegalStateException: Actual client must be connected: PhaseTwoB\",\"operation\":\"state\"}"
+      },
+      {
+        "boot": 1,
+        "line": 620,
+        "text": "[06:54:28] [Server thread/WARN]: java.lang.IllegalStateException: Actual client must be connected: PhaseTwoB"
+      },
+      {
+        "boot": 2,
+        "line": 123,
+        "text": "[06:57:06] [Server thread/WARN]: [StarCore] ProtocolLib is unavailable; falling back to another nation menu provider: ClassNotFoundException: com.comphenix.protocol.ProtocolLibrary"
+      },
+      {
+        "boot": 3,
+        "line": 122,
+        "text": "[07:00:59] [Server thread/WARN]: [StarCore] ProtocolLib is unavailable; falling back to another nation menu provider: ClassNotFoundException: com.comphenix.protocol.ProtocolLibrary"
+      },
+      {
+        "boot": 3,
+        "line": 540,
+        "text": "[07:02:39] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {\"action\":\"VOTE\",\"choice\":\"yes\",\"error\":\"java.util.concurrent.CompletionException: java.lang.IllegalStateException: 国家议事阶段已经结束\",\"player\":\"D\",\"revision\":4,\"story\":\"national-smoke-primary\"}"
+      },
+      {
+        "boot": 3,
+        "line": 549,
+        "text": "[07:03:27] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {\"action\":\"VOTE\",\"choice\":\"yes\",\"error\":\"java.util.concurrent.CompletionException: java.lang.SecurityException: 国籍已变化，请由管理员审核成员资格\",\"player\":\"A\",\"revision\":1,\"story\":\"national-smoke-invalidation\"}"
+      }
+    ]
+  },
+  "evidence_index": [
+    {
+      "path": "evidence/fixture-compile-attempt1.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/national-council-boot1-complete-server.log",
+      "size": 96871,
+      "sha256": "a01fce7419cd8e91f8a28e4b0a40f59a76acfae197b6a222955c9fbab7d5130b"
+    },
+    {
+      "path": "evidence/national-council-boot1.log",
+      "size": 90484,
+      "sha256": "6a602c1249c589048ad3a1607127f098cf82750f74b17e79861c910c02c81996"
+    },
+    {
+      "path": "evidence/national-council-boot2-complete-server.log",
+      "size": 100913,
+      "sha256": "e8e13d6e9494dadd7ca6786edfe568f5571e1cbca68797a36134a0cb8c12f9df"
+    },
+    {
+      "path": "evidence/national-council-boot2.log",
+      "size": 94460,
+      "sha256": "806eb982e1dfd92c7381a8998137866305f0bcbdf43013d01554c28ed8e80ed7"
+    },
+    {
+      "path": "evidence/national-council-boot3-complete-server.log",
+      "size": 97675,
+      "sha256": "38c5551771231e03eafc57d564720611c811b3f880cc7b82292f9454a7764029"
+    },
+    {
+      "path": "evidence/national-council-boot3.log",
+      "size": 91264,
+      "sha256": "c575c8d2263bd239c6a761d395a61375edde5c1b58334b4ccc7e08bdb9aae6cc"
+    },
+    {
+      "path": "evidence/national-council-client-boot1-reconnect.log",
+      "size": 11462,
+      "sha256": "a224a1aed260eb2a3c0a6cb0d3144d93dbf662404158fd7487c652cfad8b6502"
+    },
+    {
+      "path": "evidence/national-council-client-boot1.log",
+      "size": 30333,
+      "sha256": "905a5bc0a7df522ac7ba9f59b5fb2f0e9d9be1c4b289e6ce6e4e0a2eaea848fe"
+    },
+    {
+      "path": "evidence/national-council-client-boot2.log",
+      "size": 20614,
+      "sha256": "01009edb4940a990e8c977b3b556b7b5b631d7aa4525613f7c099e42650da031"
+    },
+    {
+      "path": "evidence/national-council-client-boot3.log",
+      "size": 29230,
+      "sha256": "f150d191b2ba15f5e4e66728e81f1df1168d061a5b330a921d87ccf16fbe49cb"
+    },
+    {
+      "path": "evidence/national-council-client-reconnect-process.json",
+      "size": 293,
+      "sha256": "097d8cc1edd57cd87e3dd6108dc2d9e3159a922a3aa263ed3eb905f6b0855e0c"
+    },
+    {
+      "path": "evidence/national-council-clients.log",
+      "size": 91219,
+      "sha256": "52998805c1839efeeeeec47bc9dcba4283e24f5259ca39ce8024817728413b5b"
+    },
+    {
+      "path": "evidence/national-council-preflight-complete-server.log",
+      "size": 77327,
+      "sha256": "191c903e3bb113eb99a9e09826e80526f74909f242ef1deccd5d797b6e58addb"
+    },
+    {
+      "path": "evidence/national-council-preflight.log",
+      "size": 71121,
+      "sha256": "846c891f0c4a27d5fb62cae67d1dc824887364aad092a4304bf266e2eaa4a7e7"
+    },
+    {
+      "path": "evidence/national-council-processes.json",
+      "size": 4089,
+      "sha256": "f644ee324661e07c45498dfe5307c0aee9450eb386966da21cc8dd6922513de2"
+    },
+    {
+      "path": "evidence/national-council-report-review.json",
+      "size": 27421,
+      "sha256": "4c7f879fc12c6d3ec4fe0294e2f255dc651f54a045401be4f6a49ac0f5f20c25"
+    },
+    {
+      "path": "evidence/national-fixture.jsonl",
+      "size": 70811,
+      "sha256": "457590dded2f933d8e71976c5976ea65f54d60592ccbe10657a61e9036510d07"
+    },
+    {
+      "path": "evidence/preflight-normal-shutdown.json",
+      "size": 179,
+      "sha256": "e8ac89b3c87d38ada89f950d1260083627703cd036601f7d38e7f7fa06abeb05"
+    },
+    {
+      "path": "evidence/national-council-boot1-immutable.json",
+      "size": 326037,
+      "sha256": "eb60dea1e19370b53c4f5344aa2c001fa9f4bddf2668be209182e9932a2ae92d"
+    },
+    {
+      "path": "evidence/national-council-boot2.json",
+      "size": 397582,
+      "sha256": "a122d141af4b0bfdc6da95e7e0f7df28753631dd477a79425531eb84e6ba370f"
+    },
+    {
+      "path": "evidence/national-council-boot3.json",
+      "size": 418556,
+      "sha256": "0710789533fdc47a01afa797259966fcf74bfbe85375b6c231fc6cf5ac626201"
+    },
+    {
+      "path": "evidence/national-council-boot1.json",
+      "size": 308437,
+      "sha256": "16b0ad7339ff44ad344ff2d9408b28ad383989564aef2ae695ed58370d240224"
+    }
+  ],
+  "players": {
+    "A": "08ffd450-5001-3023-a480-057fef707037",
+    "B": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+    "C": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+    "D": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+  },
+  "native_country_ids": {
+    "river": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+    "hill": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+    "coast": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+  },
+  "checkpoint_provenance": [
+    {
+      "checkpoint": "boot1",
+      "normal_server_exit_record": {
+        "boot": 1,
+        "server_pid": 10572,
+        "server_command": [
+          "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+          "-Xms256M",
+          "-Xmx768M",
+          "-XX:MaxMetaspaceSize=256M",
+          "-Dfile.encoding=UTF-8",
+          "-jar",
+          "paper.jar",
+          "--nogui"
+        ],
+        "started_at": 1795128688.9435737,
+        "server_exit": 0,
+        "client_exit": 0,
+        "client_pid": 17136,
+        "client_command": [
+          "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+          "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\tools\\national-council-clients.cjs",
+          "--run-dir",
+          "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\paper-national-792a84e3",
+          "--boot",
+          "1",
+          "--expected-sha",
+          "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+        ],
+        "finished_at": 1795128939.971982
+      },
+      "fixture_config_sha256": "02d639d6a76966820e3a2b060b669d11bdb6aa24b9ceb76714b8feed989d5285",
+      "origin": "Coordinator-provided consistent copies captured after normal shutdown; original runtime may already be in a later boot.",
+      "authenticity_limit": "Hashes identify exactly these stopped copies. Process exit and semantic state corroborate provenance; this tool cannot cryptographically prove an earlier filesystem copy operation after the live runtime has advanced."
+    },
+    {
+      "checkpoint": "boot2",
+      "normal_server_exit_record": {
+        "boot": 2,
+        "server_pid": 15028,
+        "server_command": [
+          "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+          "-Xms256M",
+          "-Xmx768M",
+          "-XX:MaxMetaspaceSize=256M",
+          "-Dfile.encoding=UTF-8",
+          "-jar",
+          "paper.jar",
+          "--nogui"
+        ],
+        "started_at": 1795129008.051823,
+        "server_exit": 0,
+        "client_exit": 0,
+        "client_pid": 16568,
+        "client_command": [
+          "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+          "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\tools\\national-council-clients.cjs",
+          "--run-dir",
+          "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\paper-national-792a84e3",
+          "--boot",
+          "2",
+          "--expected-sha",
+          "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+        ],
+        "finished_at": 1795129190.2597876
+      },
+      "fixture_config_sha256": "0dd01a5dfa26cc90042bd58c7987eb7958ca89bf8847f8e2b0e16dbb782feedb",
+      "origin": "Coordinator-provided consistent copies captured after normal shutdown; original runtime may already be in a later boot.",
+      "authenticity_limit": "Hashes identify exactly these stopped copies. Process exit and semantic state corroborate provenance; this tool cannot cryptographically prove an earlier filesystem copy operation after the live runtime has advanced."
+    },
+    {
+      "checkpoint": "boot3",
+      "normal_server_exit_record": {
+        "boot": 3,
+        "server_pid": 13600,
+        "server_command": [
+          "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+          "-Xms256M",
+          "-Xmx768M",
+          "-XX:MaxMetaspaceSize=256M",
+          "-Dfile.encoding=UTF-8",
+          "-jar",
+          "paper.jar",
+          "--nogui"
+        ],
+        "started_at": 1795129240.8525002,
+        "server_exit": 0,
+        "client_exit": 0,
+        "client_pid": 6840,
+        "client_command": [
+          "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+          "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\tools\\national-council-clients.cjs",
+          "--run-dir",
+          "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\paper-national-792a84e3",
+          "--boot",
+          "3",
+          "--expected-sha",
+          "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+        ],
+        "finished_at": 1795129477.371324
+      },
+      "fixture_config_sha256": "0dd01a5dfa26cc90042bd58c7987eb7958ca89bf8847f8e2b0e16dbb782feedb",
+      "origin": "Coordinator-provided consistent copies captured after normal shutdown; original runtime may already be in a later boot.",
+      "authenticity_limit": "Hashes identify exactly these stopped copies. Process exit and semantic state corroborate provenance; this tool cannot cryptographically prove an earlier filesystem copy operation after the live runtime has advanced."
+    }
+  ],
+  "configuration_contents_archived": false,
+  "raw_database_snapshots_stay_in_ignored_run": true,
+  "sanitized_archives": [
+    {
+      "name": "national-council-paper-boot1-server.log",
+      "sha256": "fe108d92fae5028fe9e5e71351793b4f4c68ca90aecc479f65e190af8ce1bfaf",
+      "credential_line_redactions": 0,
+      "line_endings_normalized_to_lf": true
+    },
+    {
+      "name": "national-council-paper-boot2-server.log",
+      "sha256": "c2b35ff89077bcc641572fbd8ae9351b84fbaf0e1c7d5f16efc0345e6da34e43",
+      "credential_line_redactions": 0,
+      "line_endings_normalized_to_lf": true
+    },
+    {
+      "name": "national-council-paper-boot3-server.log",
+      "sha256": "22f49d6f6fdc266a3e75e938c59c0156ed9c7baf524f6e02da1f52f43002add9",
+      "credential_line_redactions": 0,
+      "line_endings_normalized_to_lf": true
+    },
+    {
+      "name": "national-council-paper-preflight-server.log",
+      "sha256": "721e8b85c01c73530fbc44d4e8796547adf35893112ca198c7c4cf3130a7931a",
+      "credential_line_redactions": 1,
+      "line_endings_normalized_to_lf": true
+    },
+    {
+      "name": "national-council-paper-client-reconnect.log",
+      "sha256": "a224a1aed260eb2a3c0a6cb0d3144d93dbf662404158fd7487c652cfad8b6502",
+      "credential_line_redactions": 0,
+      "line_endings_normalized_to_lf": true
+    }
+  ]
+}

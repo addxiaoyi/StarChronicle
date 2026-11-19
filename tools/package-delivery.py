@@ -13,12 +13,13 @@ import xml.etree.ElementTree as ET
 root = Path(__file__).resolve().parents[1]
 plugin = root / "target/starchronicle-0.1.0-SNAPSHOT.jar"
 sources = root / "target/starchronicle-0.1.0-SNAPSHOT-sources.jar"
-report = root / "docs/TEST-REPORT.md"
-if not all(p.is_file() for p in (plugin, sources, report)):
-    raise SystemExit("Run a successful clean verify and verification_report.py first")
+if not all(p.is_file() for p in (plugin, sources)):
+    raise SystemExit("Run a successful clean verify first")
 digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
-if digest(plugin) not in report.read_text(encoding="utf-8"):
-    raise SystemExit("Build report does not identify the current plugin JAR")
+report = next((p for p in (root / "docs/NATIONAL-COUNCIL-TEST-REPORT.md", root / "docs/TEST-REPORT.md")
+               if p.is_file() and digest(plugin) in p.read_text(encoding="utf-8")), None)
+if report is None:
+    raise SystemExit("No actual build report identifies the current plugin JAR")
 
 # The source JAR is proof that the delivered main source matches this compiled snapshot.
 with zipfile.ZipFile(sources) as jar:
@@ -36,7 +37,7 @@ with zipfile.ZipFile(plugin) as jar:
 listed = subprocess.run(["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
                         cwd=root, capture_output=True, check=True).stdout.decode("utf-8").split("\0")
 top = {"README.md", "LICENSE", "pom.xml", "mvnw", "mvnw.cmd", ".gitignore", ".gitattributes"}
-directories = {"src", "docs", "tools", "patches", ".mvn", ".github"}
+directories = {"src", "docs", "tools", "patches", "examples", ".mvn", ".github"}
 files = []
 for name in sorted(set(listed)):
     if not name:

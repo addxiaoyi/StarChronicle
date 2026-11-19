@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-11-19T22:54:59.476609+00:00",
+  "head": "242b09c37c64712ac50ce1a6f5e656e3c6d948fe",
+  "run_id": 44631993203,
+  "files": {
+    "national-council-ci-branch.json": {
+      "sha256": "324361f870c6d7e259c6840a20afe663f9065fd3d077172980ce688cc85df86a",
+      "bytes": 3692
+    },
+    "national-council-ci-job.json": {
+      "sha256": "a8d883267bde2dc627d731e0508f661afd7166d5d9ecfb531da0e5b331ba4636",
+      "bytes": 2639
+    },
+    "national-council-ci-jobs.json": {
+      "sha256": "95ca304f1c8dc02c2d67f0770b1be67fc992c1ba3aecae35ddc8a059bc6e301f",
+      "bytes": 2666
+    },
+    "national-council-ci-report.md": {
+      "sha256": "7f0e767eada33488dee4d2b747620dc626970b79c7ae6d77b63663a9a0a84e0e",
+      "bytes": 1222
+    },
+    "national-council-ci-run.json": {
+      "sha256": "426a1221fa1754868c32b725e59de9aa65b24b3b01c1b07e4e24c8d1e23ee0ad",
+      "bytes": 12499
+    },
+    "national-council-ci-runs.json": {
+      "sha256": "41fb87bc07e0830e7e2934ce66ac125fcb234e5ba33faea2673144707e8a08b6",
+      "bytes": 12535
+    },
+    "national-council-ci-summary.json": {
+      "sha256": "371a9dd22a23f8413e394ea036815bae2fb5f4f9b2c3e27e07a02f33636b0e18",
+      "bytes": 3786
+    },
+    "national-council-ci-tool.py": {
+      "sha256": "6a3acf5ee90be2559b9f05fd09ce10e5a486d63f9d2c77c2a06c4c2d1571aa6d",
+      "bytes": 11758
+    },
+    "national-council-ci-verify.log": {
+      "sha256": "3ec7aabd484fa217d43fd8e1237653494e468c0faa48b35cbf410fe103c2e3cc",
+      "bytes": 51056
+    }
+  }
+}

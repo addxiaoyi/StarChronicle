@@ -1,0 +1,466 @@
+﻿2026-11-19T22:48:17.2250416Z Current runner version: '2.338.2'
+2026-11-19T22:48:17.2269193Z ##[group]Runner Image Provisioner
+2026-11-19T22:48:17.2269739Z Hosted Compute Agent
+2026-11-19T22:48:17.2270184Z Version: 20261111.635
+2026-11-19T22:48:17.2270607Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-19T22:48:17.2271063Z Build Date: 2026-11-11T01:49:01Z
+2026-11-19T22:48:17.2271488Z Worker ID: {bd26d3da-b9cd-4e7d-9953-a46f8bd46189}
+2026-11-19T22:48:17.2271909Z Region: centralus
+2026-11-19T22:48:17.2272280Z Cloud: Azure
+2026-11-19T22:48:17.2272823Z ##[endgroup]
+2026-11-19T22:48:17.2273906Z ##[group]Operating System
+2026-11-19T22:48:17.2274325Z Ubuntu
+2026-11-19T22:48:17.2274641Z 26.04.1
+2026-11-19T22:48:17.2275009Z LTS
+2026-11-19T22:48:17.2275358Z ##[endgroup]
+2026-11-19T22:48:17.2275676Z ##[group]Runner Image
+2026-11-19T22:48:17.2276077Z Image: ubuntu-26.04
+2026-11-19T22:48:17.2276437Z Version: 20261116.202.1
+2026-11-19T22:48:17.2277274Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261116.202/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-19T22:48:17.2278141Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261116.202
+2026-11-19T22:48:17.2278745Z ##[endgroup]
+2026-11-19T22:48:17.2279411Z ##[group]GITHUB_TOKEN Permissions
+2026-11-19T22:48:17.2280700Z Contents: read
+2026-11-19T22:48:17.2281048Z Metadata: read
+2026-11-19T22:48:17.2281428Z ##[endgroup]
+2026-11-19T22:48:17.2282978Z Secret source: Actions
+2026-11-19T22:48:17.2283589Z Cache mode: write
+2026-11-19T22:48:17.2284053Z Prepare workflow directory
+2026-11-19T22:48:17.2530860Z Prepare all required actions
+2026-11-19T22:48:17.2563258Z Getting action download info
+2026-11-19T22:48:17.4922084Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-19T22:48:17.5994743Z Download action repository 'actions/setup-java@v4' (SHA:cf277c60eb25467037889841efdb72551f06f6c3)
+2026-11-19T22:48:18.0571630Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-19T22:48:18.2297456Z Complete job name: verify
+2026-11-19T22:48:18.2832224Z ##[group]Run actions/checkout@v4
+2026-11-19T22:48:18.2832859Z with:
+2026-11-19T22:48:18.2833140Z   repository: addxiaoyi/StarChronicle
+2026-11-19T22:48:18.2835470Z   token: ***
+2026-11-19T22:48:18.2835737Z   ssh-strict: true
+2026-11-19T22:48:18.2836007Z   ssh-user: git
+2026-11-19T22:48:18.2836317Z   persist-credentials: true
+2026-11-19T22:48:18.2836620Z   clean: true
+2026-11-19T22:48:18.2836897Z   sparse-checkout-cone-mode: true
+2026-11-19T22:48:18.2837216Z   fetch-depth: 1
+2026-11-19T22:48:18.2837482Z   fetch-tags: false
+2026-11-19T22:48:18.2837761Z   show-progress: true
+2026-11-19T22:48:18.2838053Z   lfs: false
+2026-11-19T22:48:18.2838319Z   submodules: false
+2026-11-19T22:48:18.2838599Z   set-safe-directory: true
+2026-11-19T22:48:18.2838913Z   allow-unsafe-pr-checkout: false
+2026-11-19T22:48:18.2839306Z ##[endgroup]
+2026-11-19T22:48:18.4845705Z Syncing repository: addxiaoyi/StarChronicle
+2026-11-19T22:48:18.4847416Z ##[group]Getting Git version info
+2026-11-19T22:48:18.4848028Z Working directory is '/home/runner/work/StarChronicle/StarChronicle'
+2026-11-19T22:48:18.4849069Z [command]/usr/bin/git version
+2026-11-19T22:48:18.4849640Z git version 2.56.1
+2026-11-19T22:48:18.4857704Z ##[endgroup]
+2026-11-19T22:48:18.4867660Z Temporarily overriding HOME='/home/runner/work/_temp/ad569512-60f3-4943-a19f-01c3d2cf87f4' before making global git config changes
+2026-11-19T22:48:18.4871315Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-19T22:48:18.4872154Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/StarChronicle/StarChronicle
+2026-11-19T22:48:18.4995818Z Deleting the contents of '/home/runner/work/StarChronicle/StarChronicle'
+2026-11-19T22:48:18.5013863Z ##[group]Initializing the repository
+2026-11-19T22:48:18.5014841Z [command]/usr/bin/git init /home/runner/work/StarChronicle/StarChronicle
+2026-11-19T22:48:18.5095504Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-19T22:48:18.5096752Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-19T22:48:18.5097324Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-19T22:48:18.5097781Z hint: call:
+2026-11-19T22:48:18.5098028Z hint:
+2026-11-19T22:48:18.5098462Z hint: 	git config --global init.defaultBranch <name>
+2026-11-19T22:48:18.5098840Z hint:
+2026-11-19T22:48:18.5099189Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-19T22:48:18.5100174Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-19T22:48:18.5100883Z hint:
+2026-11-19T22:48:18.5101273Z hint: 	git branch -m <name>
+2026-11-19T22:48:18.5101712Z hint:
+2026-11-19T22:48:18.5102453Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-19T22:48:18.5103827Z Initialized empty Git repository in /home/runner/work/StarChronicle/StarChronicle/.git/
+2026-11-19T22:48:18.5115417Z [command]/usr/bin/git remote add origin https://github.com/addxiaoyi/StarChronicle
+2026-11-19T22:48:18.5170651Z ##[endgroup]
+2026-11-19T22:48:18.5174587Z ##[group]Disabling automatic garbage collection
+2026-11-19T22:48:18.5175272Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-19T22:48:18.5212799Z ##[endgroup]
+2026-11-19T22:48:18.5213524Z ##[group]Setting up auth
+2026-11-19T22:48:18.5216708Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-19T22:48:18.5246251Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-19T22:48:18.5618059Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-19T22:48:18.5650213Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-19T22:48:18.5881822Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-19T22:48:18.5909309Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-19T22:48:18.6121892Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-19T22:48:18.6152980Z ##[endgroup]
+2026-11-19T22:48:18.6153638Z ##[group]Fetching the repository
+2026-11-19T22:48:18.6159073Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +242b09c37c64712ac50ce1a6f5e656e3c6d948fe:refs/remotes/origin/codex/national-council
+2026-11-19T22:48:19.4120646Z From https://github.com/addxiaoyi/StarChronicle
+2026-11-19T22:48:19.4122879Z  * [new ref]         242b09c37c64712ac50ce1a6f5e656e3c6d948fe -> origin/codex/national-council
+2026-11-19T22:48:19.4126256Z ##[endgroup]
+2026-11-19T22:48:19.4127534Z ##[group]Determining the checkout info
+2026-11-19T22:48:19.4128927Z ##[endgroup]
+2026-11-19T22:48:19.4133533Z [command]/usr/bin/git sparse-checkout disable
+2026-11-19T22:48:19.4177106Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-19T22:48:19.4210858Z ##[group]Checking out the ref
+2026-11-19T22:48:19.4212169Z [command]/usr/bin/git checkout --progress --force -B codex/national-council refs/remotes/origin/codex/national-council
+2026-11-19T22:48:19.4686709Z Switched to a new branch 'codex/national-council'
+2026-11-19T22:48:19.4690527Z branch 'codex/national-council' set up to track 'origin/codex/national-council'.
+2026-11-19T22:48:19.4703542Z ##[endgroup]
+2026-11-19T22:48:19.4746562Z [command]/usr/bin/git log -1 --format=%H
+2026-11-19T22:48:19.4833089Z 242b09c37c64712ac50ce1a6f5e656e3c6d948fe
+2026-11-19T22:48:19.5095134Z ##[group]Run actions/setup-java@v4
+2026-11-19T22:48:19.5095838Z with:
+2026-11-19T22:48:19.5096504Z   distribution: temurin
+2026-11-19T22:48:19.5097098Z   java-version: 21
+2026-11-19T22:48:19.5097637Z   cache: maven
+2026-11-19T22:48:19.5098179Z   java-package: jdk
+2026-11-19T22:48:19.5098741Z   check-latest: false
+2026-11-19T22:48:19.5099312Z   server-id: github
+2026-11-19T22:48:19.5099883Z   server-username: GITHUB_ACTOR
+2026-11-19T22:48:19.5100568Z   server-password: GITHUB_TOKEN
+2026-11-19T22:48:19.5101222Z   overwrite-settings: true
+2026-11-19T22:48:19.5101846Z   job-status: success
+2026-11-19T22:48:19.5107722Z   token: ***
+2026-11-19T22:48:19.5108248Z ##[endgroup]
+2026-11-19T22:48:19.6271032Z ##[warning]setup-java v4 is deprecated and will no longer receive updates. Please migrate to actions/setup-java@v5.
+2026-11-19T22:48:19.6279613Z ##[group]Installed distributions
+2026-11-19T22:48:19.6290901Z Resolved Java 21.0.13+9 from tool-cache
+2026-11-19T22:48:19.6291896Z Setting Java 21.0.13+9 as the default
+2026-11-19T22:48:19.6298263Z (node:2194) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-19T22:48:19.6300848Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-19T22:48:19.6302721Z Creating toolchains.xml for JDK version 21 from temurin
+2026-11-19T22:48:19.6345099Z Writing to /home/runner/.m2/toolchains.xml
+2026-11-19T22:48:19.6345949Z 
+2026-11-19T22:48:19.6346322Z Java configuration:
+2026-11-19T22:48:19.6347253Z   Distribution: temurin
+2026-11-19T22:48:19.6348309Z   Version: 21.0.13+9
+2026-11-19T22:48:19.6349245Z   Path: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-19T22:48:19.6350611Z 
+2026-11-19T22:48:19.6351592Z ##[endgroup]
+2026-11-19T22:48:19.6369122Z Creating settings.xml with server-id: github
+2026-11-19T22:48:19.6379674Z Writing to /home/runner/.m2/settings.xml
+2026-11-19T22:48:19.8450933Z maven cache is not found
+2026-11-19T22:48:19.8643599Z ##[group]Run set -o pipefail
+2026-11-19T22:48:19.8644290Z [36;1mset -o pipefail[0m
+2026-11-19T22:48:19.8645046Z [36;1m./mvnw -B -ntp clean verify 2>&1 | tee verify-build.log[0m
+2026-11-19T22:48:19.8679916Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-19T22:48:19.8680683Z env:
+2026-11-19T22:48:19.8681374Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-19T22:48:19.8682546Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-19T22:48:19.8683412Z ##[endgroup]
+2026-11-19T22:48:21.2894819Z [INFO] Scanning for projects...
+2026-11-19T22:48:21.3546075Z [INFO] 
+2026-11-19T22:48:21.3546600Z [INFO] -----------------< io.github.addxiaoyi:starchronicle >------------------
+2026-11-19T22:48:21.3547036Z [INFO] Building StarChronicle 0.1.0-SNAPSHOT
+2026-11-19T22:48:21.3547489Z [INFO]   from pom.xml
+2026-11-19T22:48:21.3568789Z [INFO] --------------------------------[ jar ]---------------------------------
+2026-11-19T22:48:43.1332843Z [INFO] 
+2026-11-19T22:48:43.1343612Z [INFO] --- clean:3.2.0:clean (default-clean) @ starchronicle ---
+2026-11-19T22:48:43.4555097Z [INFO] 
+2026-11-19T22:48:43.4555573Z [INFO] --- jacoco:0.8.13:prepare-agent (default) @ starchronicle ---
+2026-11-19T22:48:44.4273755Z [INFO] argLine set to -javaagent:/home/runner/.m2/repository/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar=destfile=/home/runner/work/StarChronicle/StarChronicle/target/jacoco.exec
+2026-11-19T22:48:44.4276887Z [INFO] 
+2026-11-19T22:48:44.4277540Z [INFO] --- resources:3.3.1:resources (default-resources) @ starchronicle ---
+2026-11-19T22:48:44.6269049Z [INFO] Artifact org.codehaus.plexus:plexus-interpolation:jar:1.26 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [central (https://repo.maven.apache.org/maven2, default, releases), apache.snapshots (https://repository.apache.org/snapshots, default, snapshots)]
+2026-11-19T22:48:44.6272110Z [INFO] Artifact org.codehaus.plexus:plexus-utils:jar:3.5.1 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [central (https://repo.maven.apache.org/maven2, default, releases), apache.snapshots (https://repository.apache.org/snapshots, default, snapshots)]
+2026-11-19T22:48:44.6277458Z [INFO] Artifact javax.inject:javax.inject:jar:1 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [central (https://repo.maven.apache.org/maven2, default, releases), apache.snapshots (https://repository.apache.org/snapshots, default, snapshots)]
+2026-11-19T22:48:44.6279661Z [INFO] Artifact org.apache.commons:commons-lang3:jar:3.12.0 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [central (https://repo.maven.apache.org/maven2, default, releases), apache.snapshots (https://repository.apache.org/snapshots, default, snapshots)]
+2026-11-19T22:48:44.6281924Z [INFO] Artifact org.codehaus.plexus:plexus-interpolation:jar:1.26 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [central (https://repo.maven.apache.org/maven2, default, releases), apache.snapshots (https://repository.apache.org/snapshots, default, snapshots)]
+2026-11-19T22:48:44.6296091Z [INFO] Artifact org.codehaus.plexus:plexus-utils:jar:3.5.1 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [central (https://repo.maven.apache.org/maven2, default, releases), apache.snapshots (https://repository.apache.org/snapshots, default, snapshots)]
+2026-11-19T22:48:44.6301974Z [INFO] Artifact javax.inject:javax.inject:jar:1 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [central (https://repo.maven.apache.org/maven2, default, releases), apache.snapshots (https://repository.apache.org/snapshots, default, snapshots)]
+2026-11-19T22:48:44.6304262Z [INFO] Artifact org.apache.commons:commons-lang3:jar:3.12.0 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [central (https://repo.maven.apache.org/maven2, default, releases), apache.snapshots (https://repository.apache.org/snapshots, default, snapshots)]
+2026-11-19T22:48:44.7384413Z [INFO] Copying 19 resources from src/main/resources to target/classes
+2026-11-19T22:48:44.7429234Z [INFO] Copying 5 resources from  to target/classes/META-INF/starchronicle
+2026-11-19T22:48:44.7444802Z [INFO] 
+2026-11-19T22:48:44.7468351Z [INFO] --- compiler:3.13.0:compile (default-compile) @ starchronicle ---
+2026-11-19T22:48:45.5381206Z [INFO] Recompiling the module because of changed source code.
+2026-11-19T22:48:45.5421094Z [INFO] Compiling 55 source files with javac [debug release 21] to target/classes
+2026-11-19T22:48:47.7414381Z [INFO] Annotation processing is enabled because one or more processors were found
+2026-11-19T22:48:47.7433299Z   on the class path. A future release of javac may disable annotation processing
+2026-11-19T22:48:47.7434934Z   unless at least one processor is specified by name (-processor), or a search
+2026-11-19T22:48:47.7435795Z   path is specified (--processor-path, --processor-module-path), or annotation
+2026-11-19T22:48:47.7476362Z   processing is enabled explicitly (-proc:only, -proc:full).
+2026-11-19T22:48:47.7500294Z   Use -Xlint:-options to suppress this message.
+2026-11-19T22:48:47.7520733Z   Use -proc:none to disable annotation processing.
+2026-11-19T22:48:47.7521659Z [INFO] 
+2026-11-19T22:48:47.7556589Z [INFO] --- resources:3.3.1:testResources (default-testResources) @ starchronicle ---
+2026-11-19T22:48:47.7593012Z [INFO] skip non existing resourceDirectory /home/runner/work/StarChronicle/StarChronicle/src/test/resources
+2026-11-19T22:48:47.7596731Z [INFO] 
+2026-11-19T22:48:47.7630959Z [INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ starchronicle ---
+2026-11-19T22:48:47.7653025Z [INFO] Recompiling the module because of changed dependency.
+2026-11-19T22:48:47.7679312Z [INFO] Compiling 65 source files with javac [debug release 21] to target/test-classes
+2026-11-19T22:48:49.7544512Z [INFO] Annotation processing is enabled because one or more processors were found
+2026-11-19T22:48:49.7563573Z   on the class path. A future release of javac may disable annotation processing
+2026-11-19T22:48:49.7623177Z   unless at least one processor is specified by name (-processor), or a search
+2026-11-19T22:48:49.7653901Z   path is specified (--processor-path, --processor-module-path), or annotation
+2026-11-19T22:48:49.7683127Z   processing is enabled explicitly (-proc:only, -proc:full).
+2026-11-19T22:48:49.7713201Z   Use -Xlint:-options to suppress this message.
+2026-11-19T22:48:49.7725450Z   Use -proc:none to disable annotation processing.
+2026-11-19T22:48:49.7728003Z [INFO] /home/runner/work/StarChronicle/StarChronicle/src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalMenusTest.java: /home/runner/work/StarChronicle/StarChronicle/src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalMenusTest.java uses unchecked or unsafe operations.
+2026-11-19T22:48:49.7729678Z [INFO] /home/runner/work/StarChronicle/StarChronicle/src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalMenusTest.java: Recompile with -Xlint:unchecked for details.
+2026-11-19T22:48:49.7730393Z [INFO] 
+2026-11-19T22:48:49.7743017Z [INFO] --- surefire:3.5.2:test (default-test) @ starchronicle ---
+2026-11-19T22:48:50.5600339Z [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+2026-11-19T22:48:50.8425800Z [INFO] Artifact org.apiguardian:apiguardian-api:jar:1.1.2 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [central (https://repo.maven.apache.org/maven2, default, releases), apache.snapshots (https://repository.apache.org/snapshots, default, snapshots)]
+2026-11-19T22:48:50.8446996Z [INFO] Artifact org.apiguardian:apiguardian-api:jar:1.1.2 is present in the local repository, but cached from a remote repository ID that is unavailable in current build context, verifying that is downloadable from [central (https://repo.maven.apache.org/maven2, default, releases), apache.snapshots (https://repository.apache.org/snapshots, default, snapshots)]
+2026-11-19T22:48:51.1924693Z [INFO] 
+2026-11-19T22:48:51.1925129Z [INFO] -------------------------------------------------------
+2026-11-19T22:48:51.1935184Z [INFO]  T E S T S
+2026-11-19T22:48:51.1937043Z [INFO] -------------------------------------------------------
+2026-11-19T22:48:52.3283734Z [INFO] Running io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest
+2026-11-19T22:48:52.9894807Z [INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.641 s -- in io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest
+2026-11-19T22:48:52.9897618Z [INFO] Running io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest
+2026-11-19T22:48:53.5558922Z [INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.578 s -- in io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest
+2026-11-19T22:48:53.5560056Z [INFO] Running io.github.addxiaoyi.starchronicle.config.ConditionLogicTest
+2026-11-19T22:48:53.5711694Z [INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in io.github.addxiaoyi.starchronicle.config.ConditionLogicTest
+2026-11-19T22:48:53.5713251Z [INFO] Running io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest
+2026-11-19T22:48:53.8410882Z [INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.269 s -- in io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest
+2026-11-19T22:48:53.8413558Z [INFO] Running io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest
+2026-11-19T22:48:54.0482571Z [INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.205 s -- in io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest
+2026-11-19T22:48:54.0483558Z [INFO] Running io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest
+2026-11-19T22:48:54.1114979Z [INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s -- in io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest
+2026-11-19T22:48:54.1130857Z [INFO] Running io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest
+2026-11-19T22:48:54.1923883Z [INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.083 s -- in io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest
+2026-11-19T22:48:54.1924689Z [INFO] Running io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest
+2026-11-19T22:48:54.4197952Z [INFO] Tests run: 50, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.226 s -- in io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest
+2026-11-19T22:48:54.4215626Z [INFO] Running io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest
+2026-11-19T22:48:54.4746647Z [INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.055 s -- in io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest
+2026-11-19T22:48:54.4763189Z [INFO] Running io.github.addxiaoyi.starchronicle.paper.MenusTest
+2026-11-19T22:48:54.6631713Z Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#0.3
+2026-11-19T22:48:54.7619302Z WARNING: A Java agent has been loaded dynamically (/home/runner/.m2/repository/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar)
+2026-11-19T22:48:54.7620167Z WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+2026-11-19T22:48:54.7620792Z WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+2026-11-19T22:48:54.7621329Z WARNING: Dynamic loading of agents will be disallowed by default in a future release
+2026-11-19T22:48:54.7733419Z OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-11-19T22:48:56.6201935Z [INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.136 s -- in io.github.addxiaoyi.starchronicle.paper.MenusTest
+2026-11-19T22:48:56.6236927Z [INFO] Running io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest
+2026-11-19T22:48:57.7229713Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.091 s -- in io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest
+2026-11-19T22:48:57.7230821Z [INFO] Running io.github.addxiaoyi.starchronicle.paper.RegionTasksTest
+2026-11-19T22:48:57.7855817Z [INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.066 s -- in io.github.addxiaoyi.starchronicle.paper.RegionTasksTest
+2026-11-19T22:48:57.7857795Z [INFO] Running io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest
+2026-11-19T22:48:58.1323940Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.343 s -- in io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest
+2026-11-19T22:48:58.1325279Z [INFO] Running io.github.addxiaoyi.starchronicle.paper.StateWorkerTest
+2026-11-19T22:48:58.1424020Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in io.github.addxiaoyi.starchronicle.paper.StateWorkerTest
+2026-11-19T22:48:58.1424996Z [INFO] Running io.github.addxiaoyi.starchronicle.paper.MemorySitesTest
+2026-11-19T22:48:59.5202498Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.376 s -- in io.github.addxiaoyi.starchronicle.paper.MemorySitesTest
+2026-11-19T22:48:59.5205002Z [INFO] Running io.github.addxiaoyi.starchronicle.paper.NationalServicesTest
+2026-11-19T22:48:59.7066563Z [INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.186 s -- in io.github.addxiaoyi.starchronicle.paper.NationalServicesTest
+2026-11-19T22:48:59.7094078Z [INFO] Running io.github.addxiaoyi.starchronicle.paper.NationalMenusTest
+2026-11-19T22:48:59.7309192Z [INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in io.github.addxiaoyi.starchronicle.paper.NationalMenusTest
+2026-11-19T22:48:59.7323025Z [INFO] Running io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest
+2026-11-19T22:48:59.7388507Z [INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest
+2026-11-19T22:48:59.7403431Z [INFO] Running io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest
+2026-11-19T22:48:59.8767545Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.133 s -- in io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest
+2026-11-19T22:48:59.8811334Z [INFO] Running io.github.addxiaoyi.starchronicle.history.EventCausalityTest
+2026-11-19T22:48:59.9986108Z [INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.118 s -- in io.github.addxiaoyi.starchronicle.history.EventCausalityTest
+2026-11-19T22:48:59.9991948Z [INFO] Running io.github.addxiaoyi.starchronicle.history.ObservationJournalTest
+2026-11-19T22:49:00.2474477Z [INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.249 s -- in io.github.addxiaoyi.starchronicle.history.ObservationJournalTest
+2026-11-19T22:49:00.2475811Z [INFO] Running io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest
+2026-11-19T22:49:00.4044442Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.151 s -- in io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest
+2026-11-19T22:49:00.4053446Z [INFO] Running io.github.addxiaoyi.starchronicle.persistence.ChoiceSchemaUpgradeTest
+2026-11-19T22:49:00.5673945Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.169 s -- in io.github.addxiaoyi.starchronicle.persistence.ChoiceSchemaUpgradeTest
+2026-11-19T22:49:00.5684161Z [INFO] Running io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest
+2026-11-19T22:49:00.9026306Z [INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.330 s -- in io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest
+2026-11-19T22:49:00.9047479Z [INFO] Running io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest
+2026-11-19T22:49:01.0624537Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.162 s -- in io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest
+2026-11-19T22:49:01.0644698Z [INFO] Running io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest
+2026-11-19T22:49:01.1344241Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.073 s -- in io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest
+2026-11-19T22:49:01.1346017Z [INFO] Running io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest
+2026-11-19T22:49:01.2798390Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.145 s -- in io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest
+2026-11-19T22:49:01.2801452Z [INFO] Running io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest
+2026-11-19T22:49:01.3735304Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.092 s -- in io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest
+2026-11-19T22:49:01.3745290Z [INFO] Running io.github.addxiaoyi.starchronicle.npc.NpcSystemTest
+2026-11-19T22:49:01.6048436Z [INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.230 s -- in io.github.addxiaoyi.starchronicle.npc.NpcSystemTest
+2026-11-19T22:49:01.6067754Z [INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest
+2026-11-19T22:49:01.6234546Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest
+2026-11-19T22:49:01.6243604Z [INFO] Running io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest
+2026-11-19T22:49:01.7164392Z [INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.091 s -- in io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest
+2026-11-19T22:49:01.7165553Z [INFO] Running io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest
+2026-11-19T22:49:01.7504556Z [INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s -- in io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest
+2026-11-19T22:49:01.7523375Z [INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest
+2026-11-19T22:49:01.9269413Z [INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.176 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest
+2026-11-19T22:49:01.9278995Z [INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest
+2026-11-19T22:49:01.9524158Z [INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest
+2026-11-19T22:49:01.9544119Z [INFO] Running io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest
+2026-11-19T22:49:01.9584243Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest
+2026-11-19T22:49:01.9593586Z [INFO] Running io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest
+2026-11-19T22:49:01.9969446Z [INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.036 s -- in io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest
+2026-11-19T22:49:02.0034397Z [INFO] Running io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest
+2026-11-19T22:49:02.0063524Z [INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest
+2026-11-19T22:49:02.0075774Z [INFO] Running io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest
+2026-11-19T22:49:02.0076734Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest
+2026-11-19T22:49:02.0077561Z [INFO] Running io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest
+2026-11-19T22:49:02.1629830Z [INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.145 s -- in io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest
+2026-11-19T22:49:02.1654962Z [INFO] Running io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest
+2026-11-19T22:49:02.3444620Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.191 s -- in io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest
+2026-11-19T22:49:02.3447044Z [INFO] Running io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest
+2026-11-19T22:49:02.3615445Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest
+2026-11-19T22:49:02.3617677Z [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalVoteLedgerTest
+2026-11-19T22:49:02.7939018Z [INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.429 s -- in io.github.addxiaoyi.starchronicle.core.NationalVoteLedgerTest
+2026-11-19T22:49:02.7939887Z [INFO] Running io.github.addxiaoyi.starchronicle.core.FateStoriesTest
+2026-11-19T22:49:03.5583899Z [INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.764 s -- in io.github.addxiaoyi.starchronicle.core.FateStoriesTest
+2026-11-19T22:49:03.5604239Z [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest
+2026-11-19T22:49:03.9465619Z [INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.381 s -- in io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest
+2026-11-19T22:49:03.9498203Z [INFO] Running io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest
+2026-11-19T22:49:04.4004310Z [INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.449 s -- in io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest
+2026-11-19T22:49:04.4014803Z [INFO] Running io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest
+2026-11-19T22:49:05.8620679Z [INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.470 s -- in io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest
+2026-11-19T22:49:05.8647338Z [INFO] Running io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest
+2026-11-19T22:49:06.2341911Z [INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.370 s -- in io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest
+2026-11-19T22:49:06.2342999Z [INFO] Running io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest
+2026-11-19T22:49:06.4127218Z [INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.179 s -- in io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest
+2026-11-19T22:49:06.4173392Z [INFO] Running io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest
+2026-11-19T22:49:06.4265469Z [INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest
+2026-11-19T22:49:06.4266414Z [INFO] Running io.github.addxiaoyi.starchronicle.core.RuleEngineTest
+2026-11-19T22:49:06.7165537Z [INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.268 s -- in io.github.addxiaoyi.starchronicle.core.RuleEngineTest
+2026-11-19T22:49:06.7189279Z [INFO] Running io.github.addxiaoyi.starchronicle.core.InvocationGateTest
+2026-11-19T22:49:06.7208404Z [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in io.github.addxiaoyi.starchronicle.core.InvocationGateTest
+2026-11-19T22:49:06.7215220Z [INFO] Running io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest
+2026-11-19T22:49:06.7426240Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.030 s -- in io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest
+2026-11-19T22:49:06.7426748Z [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalVotePreparationTest
+2026-11-19T22:49:06.7538486Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in io.github.addxiaoyi.starchronicle.core.NationalVotePreparationTest
+2026-11-19T22:49:06.7583906Z [INFO] Running io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest
+2026-11-19T22:49:06.7674664Z [INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest
+2026-11-19T22:49:06.7675761Z [INFO] Running io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest
+2026-11-19T22:49:06.9937908Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.227 s -- in io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest
+2026-11-19T22:49:06.9939394Z [INFO] Running io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest
+2026-11-19T22:49:07.0851243Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.091 s -- in io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest
+2026-11-19T22:49:07.0856974Z [INFO] Running io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest
+2026-11-19T22:49:07.1623799Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.076 s -- in io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest
+2026-11-19T22:49:07.1624521Z [INFO] Running io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest
+2026-11-19T22:49:07.3229029Z [INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.157 s -- in io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest
+2026-11-19T22:49:07.3230334Z [INFO] Running io.github.addxiaoyi.starchronicle.core.TextServiceTest
+2026-11-19T22:49:09.3674094Z [INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.046 s -- in io.github.addxiaoyi.starchronicle.core.TextServiceTest
+2026-11-19T22:49:09.3674842Z [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalRuleEngineTest
+2026-11-19T22:49:09.5575840Z [INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.189 s -- in io.github.addxiaoyi.starchronicle.core.NationalRuleEngineTest
+2026-11-19T22:49:09.5576554Z [INFO] Running io.github.addxiaoyi.starchronicle.core.RecollectionsTest
+2026-11-19T22:49:09.6472166Z [INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.089 s -- in io.github.addxiaoyi.starchronicle.core.RecollectionsTest
+2026-11-19T22:49:09.6472797Z [INFO] Running io.github.addxiaoyi.starchronicle.core.NativeDispatchTest
+2026-11-19T22:49:09.6555556Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in io.github.addxiaoyi.starchronicle.core.NativeDispatchTest
+2026-11-19T22:49:09.6556022Z [INFO] Running io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest
+2026-11-19T22:49:09.7673305Z [INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.111 s -- in io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest
+2026-11-19T22:49:09.7673986Z [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalRuleEngineAuthorityBoundaryTest
+2026-11-19T22:49:09.8601829Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.092 s -- in io.github.addxiaoyi.starchronicle.core.NationalRuleEngineAuthorityBoundaryTest
+2026-11-19T22:49:09.8602751Z [INFO] Running io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest
+2026-11-19T22:49:09.8675981Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest
+2026-11-19T22:49:09.9237383Z [INFO] 
+2026-11-19T22:49:09.9237936Z [INFO] Results:
+2026-11-19T22:49:09.9239975Z [INFO] 
+2026-11-19T22:49:09.9240158Z [INFO] Tests run: 674, Failures: 0, Errors: 0, Skipped: 0
+2026-11-19T22:49:09.9240357Z [INFO] 
+2026-11-19T22:49:09.9260920Z [INFO] 
+2026-11-19T22:49:09.9262112Z [INFO] --- jar:3.4.2:jar (default-jar) @ starchronicle ---
+2026-11-19T22:49:10.8850095Z [INFO] Building jar: /home/runner/work/StarChronicle/StarChronicle/target/starchronicle-0.1.0-SNAPSHOT.jar
+2026-11-19T22:49:10.9190967Z [INFO] 
+2026-11-19T22:49:10.9191955Z [INFO] --- source:3.3.1:jar-no-fork (sources) @ starchronicle ---
+2026-11-19T22:49:11.5064270Z [INFO] Building jar: /home/runner/work/StarChronicle/StarChronicle/target/starchronicle-0.1.0-SNAPSHOT-sources.jar
+2026-11-19T22:49:11.5379279Z [INFO] 
+2026-11-19T22:49:11.5381885Z [INFO] --- shade:3.6.0:shade (default) @ starchronicle ---
+2026-11-19T22:49:11.8725272Z [INFO] Including org.yaml:snakeyaml:jar:2.2 in the shaded jar.
+2026-11-19T22:49:11.8726541Z [INFO] Including com.fasterxml.jackson.core:jackson-databind:jar:2.18.3 in the shaded jar.
+2026-11-19T22:49:11.8727254Z [INFO] Including com.fasterxml.jackson.core:jackson-annotations:jar:2.18.3 in the shaded jar.
+2026-11-19T22:49:11.8727919Z [INFO] Including com.fasterxml.jackson.core:jackson-core:jar:2.18.3 in the shaded jar.
+2026-11-19T22:49:11.8728613Z [INFO] Including com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.18.3 in the shaded jar.
+2026-11-19T22:49:11.8729362Z [INFO] Including com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.18.3 in the shaded jar.
+2026-11-19T22:49:11.8730064Z [INFO] Including org.xerial:sqlite-jdbc:jar:3.49.1.0 in the shaded jar.
+2026-11-19T22:49:14.2223480Z [WARNING] jackson-annotations-2.18.3.jar, jackson-core-2.18.3.jar, jackson-databind-2.18.3.jar, jackson-dataformat-yaml-2.18.3.jar, jackson-datatype-jsr310-2.18.3.jar define 2 overlapping resources: 
+2026-11-19T22:49:14.2225541Z [WARNING]   - META-INF/LICENSE
+2026-11-19T22:49:14.2230496Z [WARNING]   - META-INF/NOTICE
+2026-11-19T22:49:14.2231660Z [WARNING] jackson-annotations-2.18.3.jar, jackson-core-2.18.3.jar, jackson-databind-2.18.3.jar, jackson-dataformat-yaml-2.18.3.jar, jackson-datatype-jsr310-2.18.3.jar, snakeyaml-2.2.jar, sqlite-jdbc-3.49.1.0.jar, starchronicle-0.1.0-SNAPSHOT.jar define 1 overlapping resource: 
+2026-11-19T22:49:14.2232956Z [WARNING]   - META-INF/MANIFEST.MF
+2026-11-19T22:49:14.2233438Z [WARNING] maven-shade-plugin has detected that some files are
+2026-11-19T22:49:14.2234022Z [WARNING] present in two or more JARs. When this happens, only one
+2026-11-19T22:49:14.2234598Z [WARNING] single version of the file is copied to the uber jar.
+2026-11-19T22:49:14.2235179Z [WARNING] Usually this is not harmful and you can skip these warnings,
+2026-11-19T22:49:14.2235794Z [WARNING] otherwise try to manually exclude artifacts based on
+2026-11-19T22:49:14.2236407Z [WARNING] mvn dependency:tree -Ddetail=true and the above output.
+2026-11-19T22:49:14.2237005Z [WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+2026-11-19T22:49:14.2324429Z [INFO] Replacing original artifact with shaded artifact.
+2026-11-19T22:49:14.2329238Z [INFO] Replacing /home/runner/work/StarChronicle/StarChronicle/target/starchronicle-0.1.0-SNAPSHOT.jar with /home/runner/work/StarChronicle/StarChronicle/target/starchronicle-0.1.0-SNAPSHOT-shaded.jar
+2026-11-19T22:49:14.2330676Z [INFO] 
+2026-11-19T22:49:14.2331154Z [INFO] --- jacoco:0.8.13:report (report) @ starchronicle ---
+2026-11-19T22:49:14.2400960Z [INFO] Loading execution data file /home/runner/work/StarChronicle/StarChronicle/target/jacoco.exec
+2026-11-19T22:49:14.4050252Z [INFO] Analyzed bundle 'StarChronicle' with 113 classes
+2026-11-19T22:49:14.5560118Z [INFO] ------------------------------------------------------------------------
+2026-11-19T22:49:14.5584247Z [INFO] BUILD SUCCESS
+2026-11-19T22:49:14.5584972Z [INFO] ------------------------------------------------------------------------
+2026-11-19T22:49:14.5585546Z [INFO] Total time:  53.294 s
+2026-11-19T22:49:14.5586048Z [INFO] Finished at: 2026-11-19T22:49:14Z
+2026-11-19T22:49:14.5586497Z [INFO] ------------------------------------------------------------------------
+2026-11-19T22:49:14.6166954Z ##[group]Run python3 tools/verification_report.py verify-build.log
+2026-11-19T22:49:14.6167527Z [36;1mpython3 tools/verification_report.py verify-build.log[0m
+2026-11-19T22:49:14.6218700Z shell: /usr/bin/bash -e {0}
+2026-11-19T22:49:14.6218875Z env:
+2026-11-19T22:49:14.6219257Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-19T22:49:14.6219546Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-19T22:49:14.6220157Z ##[endgroup]
+2026-11-19T22:49:14.7156690Z Wrote /home/runner/work/StarChronicle/StarChronicle/docs/TEST-REPORT.md; tests=674, failures=0, errors=0
+2026-11-19T22:49:14.7319036Z ##[group]Run python3 tools/package-delivery.py
+2026-11-19T22:49:14.7319298Z [36;1mpython3 tools/package-delivery.py[0m
+2026-11-19T22:49:14.7319487Z [36;1mpython3 tools/verify-delivery.py[0m
+2026-11-19T22:49:14.7352241Z shell: /usr/bin/bash -e {0}
+2026-11-19T22:49:14.7352504Z env:
+2026-11-19T22:49:14.7352727Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-19T22:49:14.7353001Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-19T22:49:14.7353213Z ##[endgroup]
+2026-11-19T22:49:15.4350800Z {"path": "/home/runner/work/StarChronicle/StarChronicle/target/starchronicle-0.1.0-SNAPSHOT-delivery.zip", "bytes": 21824225, "sha256": "3ab49eeaf091600fe11ecda70f8169dad88efea24da6f55051ecbe9b1ffa846b", "project_files": 608}
+2026-11-19T22:49:15.6084053Z {"path": "/home/runner/work/StarChronicle/StarChronicle/target/starchronicle-0.1.0-SNAPSHOT-delivery.zip", "entries": 743, "tests": 674, "plugin_sha256": "06c917516707ac9a943601d2d4712f191fc7f79aa5bfd8cf8c71088b572291f7", "zip_sha256": "3ab49eeaf091600fe11ecda70f8169dad88efea24da6f55051ecbe9b1ffa846b", "status": "VERIFIED"}
+2026-11-19T22:49:15.6246080Z ##[group]Run actions/upload-artifact@v4
+2026-11-19T22:49:15.6246313Z with:
+2026-11-19T22:49:15.6246461Z   name: build-and-reports
+2026-11-19T22:49:15.6246812Z   path: target/*.jar
+target/*-delivery.zip
+target/surefire-reports/
+target/site/jacoco/
+docs/TEST-REPORT.md
+verify-build.log
+
+2026-11-19T22:49:15.6247169Z   if-no-files-found: warn
+2026-11-19T22:49:15.6247322Z   compression-level: 6
+2026-11-19T22:49:15.6247469Z   overwrite: false
+2026-11-19T22:49:15.6247606Z   include-hidden-files: false
+2026-11-19T22:49:15.6247757Z env:
+2026-11-19T22:49:15.6247940Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-19T22:49:15.6248290Z   JAVA_HOME_21_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.13-9/x64
+2026-11-19T22:49:15.6248593Z ##[endgroup]
+2026-11-19T22:49:15.7521297Z (node:2562) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-19T22:49:15.7526403Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-19T22:49:15.7976167Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-19T22:49:15.7978045Z The least common ancestor is /home/runner/work/StarChronicle/StarChronicle. This will be the root directory of the artifact
+2026-11-19T22:49:15.7978716Z With the provided path, there will be 344 files uploaded
+2026-11-19T22:49:15.7981380Z Artifact name is valid!
+2026-11-19T22:49:15.7982041Z Root directory input is valid!
+2026-11-19T22:49:16.0789151Z Beginning upload of artifact content to blob storage
+2026-11-19T22:49:16.5690293Z (node:2562) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-19T22:49:17.1247325Z Uploaded bytes 8388608
+2026-11-19T22:49:17.3806131Z Uploaded bytes 16777216
+2026-11-19T22:49:17.5241490Z Uploaded bytes 25165824
+2026-11-19T22:49:17.6517416Z Uploaded bytes 33554432
+2026-11-19T22:49:17.8284998Z Uploaded bytes 40355306
+2026-11-19T22:49:17.8749746Z Finished uploading artifact content to blob storage!
+2026-11-19T22:49:17.8750372Z SHA256 digest of uploaded artifact zip is 3027e54c76a9f2ff67ecd0bf85616dd13c85c4f801e9786bfcd584c4267be0ce
+2026-11-19T22:49:17.8751990Z Finalizing artifact upload
+2026-11-19T22:49:18.2222091Z Artifact build-and-reports.zip successfully finalized. Artifact ID 14581387636
+2026-11-19T22:49:18.2222753Z Artifact build-and-reports has been successfully uploaded! Final size is 40355306 bytes. Artifact ID is 14581387636
+2026-11-19T22:49:18.2228039Z Artifact download URL: https://github.com/addxiaoyi/StarChronicle/actions/runs/44631993203/artifacts/14581387636
+2026-11-19T22:49:18.2554313Z Post job cleanup.
+2026-11-19T22:49:18.3532266Z (node:2580) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-19T22:49:18.3533100Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-19T22:49:18.3698363Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/StarChronicle/StarChronicle --files-from manifest.txt --use-compress-program zstdmt
+2026-11-19T22:49:18.7038137Z (node:2580) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-19T22:49:19.6973193Z Sent 41746432 of 81204755 (51.4%), 39.8 MBs/sec
+2026-11-19T22:49:20.6970364Z Sent 81204755 of 81204755 (100.0%), 38.7 MBs/sec
+2026-11-19T22:49:21.0686323Z Cache saved with the key: setup-java-Linux-x64-maven-2a6b2b8f7678264089c762a733fc9365b4f8a33c5b19d4dfd8d6bcc78dd23f72
+2026-11-19T22:49:21.0856299Z Post job cleanup.
+2026-11-19T22:49:21.1432263Z [command]/usr/bin/git version
+2026-11-19T22:49:21.1467500Z git version 2.56.1
+2026-11-19T22:49:21.1490466Z Temporarily overriding HOME='/home/runner/work/_temp/ea33b0af-aff2-4787-8ab5-14d3a498a3ae' before making global git config changes
+2026-11-19T22:49:21.1491376Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-19T22:49:21.1494695Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/StarChronicle/StarChronicle
+2026-11-19T22:49:21.1527310Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-19T22:49:21.1557330Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-19T22:49:21.1821886Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-19T22:49:21.1847536Z http.https://github.com/.extraheader
+2026-11-19T22:49:21.1854032Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-19T22:49:21.1887160Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-19T22:49:21.2128715Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-19T22:49:21.2157801Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-19T22:49:21.2492920Z Cleaning up orphan processes
+2026-11-19T22:49:21.2743819Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-java@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

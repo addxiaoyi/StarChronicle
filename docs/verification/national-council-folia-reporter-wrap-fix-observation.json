@@ -1,0 +1,16 @@
+{
+  "classification": "REPORTER_PARSER_FAILURE_NOT_PRODUCT_FAILURE",
+  "observation": "The first actual CLI run exited 1 with one check false and emitted no public PASS. Its local summary filename was reused by the later corrected report, so this JSON is an explicitly transcribed execution observation, not the original raw command output or original failed summary.",
+  "command": [
+    "python",
+    "tools/report-national-council-folia.py",
+    "--expected-sha",
+    "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+  ],
+  "observed_exit_code": 1,
+  "observed_message": "Actual Folia checks failed; no public PASS emitted: actual_recorded_ballot_gui_preserves_each_original_revision_actor_status_and_authority",
+  "cause": "Original pure ledger_gui expected complete actor UUID and authority JSON within single lore lines, while the actual menu wraps those exact values over multiple lines.",
+  "original_reporter_file": "national-council-folia-reporter-before-wrap-fix.py",
+  "original_reporter_sha256": "961488c0420f8a1c48dde43f8d84f999cf08bf53fb552ecf394c7f7db5c5493a",
+  "data_or_server_changed_to_fix": false
+}
