@@ -1,0 +1,106 @@
+{
+  "status": "PASS",
+  "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+  "source_database": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\expanded-paper-release-smoke\\plugins\\StarChronicle\\chronicle.db",
+  "source_database_sha256": "28885c47a58c7ce218131423b88bf16fcb248d736f2b18d12d34f8b0274510c3",
+  "source_schema_version": 2,
+  "target_schema_version": 4,
+  "source_files_before": {
+    "database": {
+      "exists": true,
+      "bytes": 274432,
+      "sha256": "28885c47a58c7ce218131423b88bf16fcb248d736f2b18d12d34f8b0274510c3"
+    },
+    "-wal": {
+      "exists": true,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "-shm": {
+      "exists": true,
+      "bytes": 32768,
+      "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    "-journal": {
+      "exists": false
+    }
+  },
+  "source_files_after": {
+    "database": {
+      "exists": true,
+      "bytes": 274432,
+      "sha256": "28885c47a58c7ce218131423b88bf16fcb248d736f2b18d12d34f8b0274510c3"
+    },
+    "-wal": {
+      "exists": true,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "-shm": {
+      "exists": true,
+      "bytes": 32768,
+      "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    "-journal": {
+      "exists": false
+    }
+  },
+  "checks": {
+    "actual_probe_compilation_exit_zero": true,
+    "actual_production_probe_exit_zero": true,
+    "actual_source_schema_2_or_3": true,
+    "source_schema_matches_requested_assertion": true,
+    "consistent_readonly_backup_matches_source": true,
+    "source_foreign_keys_and_integrity_ok": true,
+    "compiled_and_production_schema_are_4": true,
+    "every_original_table_column_and_typed_value_preserved_first_open": true,
+    "every_original_table_column_and_typed_value_preserved_second_open": true,
+    "every_original_schema_object_preserved": true,
+    "catalog_contains_exact_actual_canonical_definition_variants": true,
+    "catalog_conflicts_are_retained_and_reported_without_winners": true,
+    "origin_expression_index_is_used_for_real_instance_tuple": true,
+    "foreign_keys_and_integrity_ok": true,
+    "second_open_adds_or_changes_no_table_value": true,
+    "second_open_adds_or_changes_no_schema_or_catalog_metadata": true,
+    "new_legacy_choices_match_actual_surviving_snapshot_count": true,
+    "new_legacy_choice_times_and_committers_remain_unknown": true,
+    "original_database_and_all_sidecar_bytes_states_unchanged": true,
+    "final_product_fingerprint_unchanged": true
+  },
+  "error": null,
+  "baseline_database_sha256": "99d134a8561cfcad11cb975f713a16ecd67b33580c88c15c5593e7a663d58640",
+  "upgraded_clone_sha256": "51f18175b7e4085100034ed5911c9e8cdf27751eeaee4d3839eec6f345967c70",
+  "java_version": "21.0.13.0.2",
+  "jdbc_driver": "3.49.1.0",
+  "original_tables": [
+    "event_nations",
+    "event_players",
+    "events",
+    "facts",
+    "instances",
+    "memory_sites",
+    "native_scene_journal",
+    "observation_baselines",
+    "observation_ingress",
+    "outcomes",
+    "story_trigger_receipts",
+    "story_triggers"
+  ],
+  "catalog_key_count": 12,
+  "catalog_variant_count": 12,
+  "catalog_conflicts": [],
+  "origin_query": {
+    "matched_instance_ids": [
+      "4b37747b44fc2c2c184622eb5dcfa79da450767ea2028a6ba1909077a744a3d2"
+    ],
+    "plan": [
+      "SEARCH instances USING INDEX instance_origin (story=? AND scope=? AND <expr>=? AND <expr>=?)"
+    ],
+    "sample_instance_id": "4b37747b44fc2c2c184622eb5dcfa79da450767ea2028a6ba1909077a744a3d2",
+    "scope": "world",
+    "source_event_id": "expanded:offline-source:1",
+    "story": "expanded-offline",
+    "version": "1"
+  },
+  "scope": "Read-only immutable backup of the explicitly supplied, normally stopped real schema-2/3 database. Production SqliteStore opens only the isolated clone twice; no server, upstream task migration, reward replay or power-loss certification."
+}

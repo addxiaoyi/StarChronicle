@@ -1,6 +1,6 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-20T05:03:12+08:00（Asia/Shanghai）。
+生成时间：2026-11-20T05:12:20+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
@@ -103,6 +103,9 @@
 | [Continuous narrative Paper + StarCore](verification/phase-two-paper-report.md) | `d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b` | 否，不能覆盖当前构建 | PASS；31/31 |
 | [Continuous narrative Folia standalone](verification/phase-two-folia-report.md) | `d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b` | 否，不能覆盖当前构建 | PASS；56/56 |
 | [Actual V2 database upgrade](verification/phase-two-v2-upgrade-report.md) | `d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b` | 否，不能覆盖当前构建 | PASS；11/11 |
+| [Actual definition upgrade: folia-v3-bfa80b9c](verification/definition-upgrade-folia-v3-bfa80b9c-report.md) | `bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154` | 是 | PASS；19/19 |
+| [Actual definition upgrade: paper-v2-bfa80b9c](verification/definition-upgrade-paper-v2-bfa80b9c-report.md) | `bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154` | 是 | PASS；20/20 |
+| [Actual definition upgrade: paper-v3-bfa80b9c](verification/definition-upgrade-paper-v3-bfa80b9c-report.md) | `bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154` | 是 | PASS；19/19 |
 
 ## 验证边界
 

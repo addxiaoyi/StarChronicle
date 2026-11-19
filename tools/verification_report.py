@@ -89,7 +89,11 @@ for path in (artifact, sources):
     lines.append(f"| `{path.relative_to(root).as_posix()}` | {path.stat().st_size} | `{hashlib.sha256(path.read_bytes()).hexdigest()}` |")
 lines += ["", "## 真实服务器证据与构建对应", "", "以下实机证据独立于JUnit统计。构建指纹不同的旧报告保留为回归背景，不能作为当前JAR实机验收。", "", "| 报告 | 实测构建SHA-256 | 对应当前JAR | 记录结论 |", "|---|---|---|---|"]
 current_hash=hashlib.sha256(artifact.read_bytes()).hexdigest()
-for prefix,title in (("paper-smoke","Paper + StarCore"),("folia-smoke","Folia standalone"),("expanded-paper-smoke","Expanded Paper + StarCore"),("expanded-folia-smoke","Expanded Folia standalone"),("phase-two-paper","Continuous narrative Paper + StarCore"),("phase-two-folia","Continuous narrative Folia standalone"),("phase-two-v2-upgrade","Actual V2 database upgrade")):
+evidence_reports=[("paper-smoke","Paper + StarCore"),("folia-smoke","Folia standalone"),("expanded-paper-smoke","Expanded Paper + StarCore"),("expanded-folia-smoke","Expanded Folia standalone"),("phase-two-paper","Continuous narrative Paper + StarCore"),("phase-two-folia","Continuous narrative Folia standalone"),("phase-two-v2-upgrade","Actual V2 database upgrade"),("phase-three-paper","Version catalog Paper + StarCore"),("phase-three-folia","Version catalog Folia standalone")]
+for summary_path in sorted((root/"docs/verification").glob("definition-upgrade-*-summary.json")):
+    prefix=summary_path.name.removesuffix("-summary.json")
+    evidence_reports.append((prefix,"Actual definition upgrade: "+prefix.removeprefix("definition-upgrade-")))
+for prefix,title in evidence_reports:
     report=root/f"docs/verification/{prefix}-report.md"
     summary=root/f"docs/verification/{prefix}-summary.json"
     if not report.is_file() or not summary.is_file():
