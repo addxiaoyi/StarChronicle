@@ -102,7 +102,7 @@ public final class CoreContentInstaller implements AutoCloseable {
             if(optInNativeQuests&&blank(quest)&&quests.containsKey(bundle.quest())&&bridge.hasQuest(bundle.quest()))quest=bundle.quest();
             if(Objects.equals(script,first.script())&&Objects.equals(quest,first.quest())){result.add(story);continue;}
             Map<String,Node> nodes=new LinkedHashMap<>(story.nodes());nodes.put(story.start(),new Node(first.text(),script,quest,first.quorum(),first.choices(),first.effects(),first.terminal()));
-            result.add(new StoryDefinition(story.id(),story.version(),story.title(),story.scope(),story.triggers(),story.condition(),story.start(),story.cooldownSeconds(),nodes));
+            result.add(new StoryDefinition(story.id(),story.version(),story.title(),story.scope(),story.triggers(),story.condition(),story.start(),story.cooldownSeconds(),nodes,story.voteUnit()));
         }
         return List.copyOf(result);
     }

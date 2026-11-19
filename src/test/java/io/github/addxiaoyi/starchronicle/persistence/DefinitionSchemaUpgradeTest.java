@@ -101,7 +101,7 @@ class DefinitionSchemaUpgradeTest {
         List<List<String>> firstArchive;
         try(var store=new SqliteStore(database())) {
             firstArchive=store.transaction(connection->{
-                assertEquals("4",scalar(connection,"PRAGMA user_version"));assertEquals(4,SqliteStore.SCHEMA_VERSION);assertEquals(recovered(old),snapshot(connection));assertPayloadBytes(old,snapshot(connection));oldSchema.forEach((name,ddl)->{try{assertEquals(ddl,schema(connection).get(name),name);}catch(SQLException error){throw new IllegalStateException(error);}});
+                assertEquals("5",scalar(connection,"PRAGMA user_version"));assertEquals(5,SqliteStore.SCHEMA_VERSION);assertEquals(recovered(old),snapshot(connection));assertPayloadBytes(old,snapshot(connection));oldSchema.forEach((name,ddl)->{try{assertEquals(ddl,schema(connection).get(name),name);}catch(SQLException error){throw new IllegalStateException(error);}});
                 var catalog=DefinitionCatalog.read(connection);assertEquals(2,catalog.keys().size());assertEquals(3,Integer.parseInt(scalar(connection,"SELECT COUNT(*) FROM story_definitions")));
                 assertThrows(IllegalArgumentException.class,()->catalog.require("retired-a","1"));assertEquals(pending(),catalog.require("retired-pending","7"));
                 assertEquals(Set.of("LEGACY_INSTANCE old:active","LEGACY_INSTANCE old:completed","PENDING_TRIGGER old:pending"),new HashSet<>(rows(connection,"SELECT provenance FROM story_definitions").stream().map(row->row.getFirst()).toList()));
@@ -140,7 +140,7 @@ class DefinitionSchemaUpgradeTest {
             try(var update=connection.prepareStatement("UPDATE story_triggers SET story_json=? WHERE id='old:pending'")){update.setString(1,original);update.executeUpdate();}
         }
         List<List<String>> archive;
-        try(var store=new SqliteStore(database())) {archive=store.transaction(connection->{assertEquals("4",scalar(connection,"PRAGMA user_version"));assertEquals(original,scalar(connection,"SELECT story_json FROM story_triggers WHERE id='old:pending'"));return rows(connection,"SELECT * FROM story_definitions ORDER BY story,version,fingerprint");});}
+        try(var store=new SqliteStore(database())) {archive=store.transaction(connection->{assertEquals("5",scalar(connection,"PRAGMA user_version"));assertEquals(original,scalar(connection,"SELECT story_json FROM story_triggers WHERE id='old:pending'"));return rows(connection,"SELECT * FROM story_definitions ORDER BY story,version,fingerprint");});}
         try(var store=new SqliteStore(database())) {store.transaction(connection->{assertEquals(archive,rows(connection,"SELECT * FROM story_definitions ORDER BY story,version,fingerprint"));assertEquals(3,archive.size());return null;});}
     }
 }

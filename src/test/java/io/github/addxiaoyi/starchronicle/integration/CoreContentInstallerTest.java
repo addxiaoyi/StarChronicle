@@ -41,6 +41,12 @@ class CoreContentInstallerTest {
         StoryDefinition original=story("last-heir",null,null);when(bridge.available()).thenReturn(false);installer.install();assertSame(original,installer.bind(List.of(original)).getFirst());
         when(bridge.available()).thenReturn(true);doReturn(false).when(bridge).installScript(any());installer.install();assertSame(original,installer.bind(List.of(original)).getFirst());
     }
+    @Test void confirmedNativeBindingPreservesExplicitNationalVoteUnit() {
+        StoryDefinition template=story("last-heir",null,null);
+        StoryDefinition national=new StoryDefinition(template.id(),"2",template.title(),Scope.WORLD,template.triggers(),template.condition(),template.start(),template.cooldownSeconds(),template.nodes(),VoteUnit.NATION);
+        installer.install();StoryDefinition bound=installer.bind(List.of(national)).getFirst();
+        assertEquals("chronicle_last_heir",bound.nodes().get("start").script());assertEquals(VoteUnit.NATION,bound.voteUnit());assertEquals(Scope.WORLD,bound.scope());assertEquals("2",bound.version());
+    }
     @Test void explicitYamlReferencesAndUnrelatedStoriesArePreserved() {
         installer.install();StoryDefinition explicit=story("last-heir","admin_scene","admin_quest"),unrelated=story("my-campaign",null,null);
         var bound=installer.bind(List.of(explicit,unrelated));assertSame(explicit,bound.get(0));assertSame(unrelated,bound.get(1));

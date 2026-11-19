@@ -70,8 +70,8 @@ public final class RuleEngine implements AutoCloseable {
             if(unique.put(ctx.playerId(),ctx)!=null) throw new IllegalArgumentException("Duplicate player context");
         }
         if(unique.size()>10000)throw new IllegalArgumentException("Too many trigger recipients");
-        List<StoryDefinition> rules=runtime.enabledDefinitions();
         return store.transaction(c->{
+            List<StoryDefinition> rules=runtime.enabledDefinitions();
             boolean fresh=recordAndQueue(c,event,unique.values(),rules,EventCausality.root(event.id()));
             Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
             return new ProcessReport(!fresh,List.copyOf(changed),fresh?"已记录事件与剧情变更":changed.isEmpty()?"事件已处理":"历史未重复，已恢复尚未交付的剧情触发");
@@ -244,6 +244,9 @@ public final class RuleEngine implements AutoCloseable {
         return store.transaction(c->{
             StoryInstance i=require(c,instanceId);
             if(i.completed()) throw new IllegalStateException("剧情已经结束");
+            // The separate national-seat ledger is not integrated yet in this isolated
+            // worktree. Never reinterpret an explicitly national ballot as a player vote.
+            if(i.definition().voteUnit()==StoryDefinition.VoteUnit.NATION)throw new SecurityException("国家表决尚未接入权威席位账本，拒绝按玩家票计票");
             if(expectedNode!=null&&!expectedNode.equals(i.node()))throw new IllegalStateException("剧情阶段已改变，请刷新界面");
             if(!i.contains(player)) throw new SecurityException("请先加入剧情");
             if(!i.members().get(player).equals(context.nationId())) throw new SecurityException("国籍已变化，请由管理员审核成员资格");

@@ -53,6 +53,7 @@ public final class ConfigLoader {
         if(s==null) fail("Null story");
         id(s.id()); id(s.version()); text(s.title());if(s.title().length()>128)fail("Story title too long");
         if(s.scope()==null||s.triggers()==null||s.triggers().isEmpty()||s.cooldownSeconds()<0) fail("Invalid scope, triggers or cooldown: "+s.id());
+        if(s.voteUnit()==StoryDefinition.VoteUnit.NATION&&s.scope()==StoryDefinition.Scope.PLAYER)fail("National voting cannot use PLAYER scope: "+s.id());
         s.triggers().forEach(ConfigLoader::text);
         if(s.nodes()==null||s.nodes().isEmpty()||s.nodes().size()>256||!s.nodes().containsKey(s.start())) fail("Invalid start/nodes: "+s.id());
         condition(s.condition(),0);
@@ -60,6 +61,7 @@ public final class ConfigLoader {
             id(entry.getKey()); var n=entry.getValue();
             if(n==null) fail("Null node"); text(n.text());
             if(n.quorum()>10000) fail("Quorum too large");
+            if(s.voteUnit()==StoryDefinition.VoteUnit.NATION&&s.scope()==StoryDefinition.Scope.NATION&&n.quorum()>1)fail("One NATION instance has only one national seat: "+s.id()+"/"+entry.getKey());
             if(n.terminal()&&!n.choices().isEmpty() || !n.terminal()&&n.choices().isEmpty()) fail("Terminal/choices mismatch: "+entry.getKey());
             if(n.choices().size()>36) fail("GUI supports at most 36 choices");
             if(present(n.script())&&!scripts.test(n.script())) fail("Missing StarCore script: "+n.script());

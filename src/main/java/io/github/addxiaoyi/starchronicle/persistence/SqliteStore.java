@@ -10,7 +10,7 @@ import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    public static final int SCHEMA_VERSION=4;
+    public static final int SCHEMA_VERSION=5;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;
@@ -49,6 +49,7 @@ public final class SqliteStore implements AutoCloseable {
                 DefinitionCatalog.createSchema(connection);
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);
                 if(oldVersion<4)DefinitionCatalog.migrateSnapshots(connection);
+                if(oldVersion<5)DefinitionCatalog.migrateCanonicalV2(connection);
                 s.execute("PRAGMA user_version="+SCHEMA_VERSION);
                 // A process may have died after a non-idempotent external call. Never replay it blindly.
                 s.execute("UPDATE outcomes SET status='UNKNOWN' WHERE status='RUNNING'");
