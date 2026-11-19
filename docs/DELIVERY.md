@@ -21,7 +21,7 @@ Linux/macOS 的第一条命令改为 `./mvnw -B -ntp clean verify > verify-build
 
 `target/starchronicle-0.1.0-SNAPSHOT-delivery.zip` 包含：
 
-- `StarChronicle/`：工程源码、测试、配置、三条主剧情、八条身份线、文档、审计证据、验证工具和上游候选补丁。
+- `StarChronicle/`：工程源码、测试、配置、三条主剧情、《旧都档案》后续、八条身份线、文档、审计证据、验证工具和上游候选补丁。
 - `artifacts/`：经过校验的插件 JAR 与 sources JAR。
 - `build-reports/`：本次实际 Surefire XML／文本报告及 JaCoCo XML／CSV。
 - `MANIFEST-SHA256.json`：逐文件校验值、两份 JAR 的校验值及实际测试数量。
@@ -37,5 +37,7 @@ ZIP 不包含 Git 元数据、运行世界、服务器数据库、缓存或第�
 升级已有服务器前，应在正常停服后备份整个 `plugins/StarChronicle/`。当前 schema 3 保留 V1/V2 原事件、实例和回执，同事务增加选择日志与因果链，旧选择导入不伪造原投票时间。它不能补造旧版从未保存的触发定义或原生会话令牌，也不会自动补排新安装的后续。恢复旧备份时，应连同其对应插件版本恢复，不要把旧代码直接打开新 schema 作为回滚方法。参见 [连续叙事与迁移](CONTINUOUS-NARRATIVE.md)。
 
 真实服证据按 JAR SHA-256 对应。重新编译产生的新指纹，即使源码相同，也不会自动继承旧 JAR 的实服验收结论；本地构建测试与部署验收分别列在 [TEST-REPORT.md](TEST-REPORT.md)。
+
+当前 `d765e0d1…943b` JAR 已完成 443 项 Maven 测试、[Paper + StarCore 31 项](verification/phase-two-paper-report.md)、[Folia standalone 56 项](verification/phase-two-folia-report.md)及[实际 V2 数据库迁移 11 项](verification/phase-two-v2-upgrade-report.md)。两套实服均实际完成三次启动及正常退出；Folia standalone 不代表 StarCore 全栈 Folia 兼容。原始失败、人工时序观察与复验边界随报告保留。
 
 源码基线提交 `aa278396aa98245eff8c01d157799aef3b561118` 的 GitHub Linux CI 已完成且结论为 `success`；构建、指纹报告、交付包验证和产物上传步骤均成功。官方 API 的原始返回已保存为 [run](verification/github-ci-aa27839-run.json) 和 [jobs](verification/github-ci-aa27839-jobs.json)。此项证明该提交的 Linux 构建流程，不把 CI 重新编译的二进制当作已经完成上述实服验收的本地 JAR。

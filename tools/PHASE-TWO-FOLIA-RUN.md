@@ -29,7 +29,7 @@ an isolated loopback listener on 25578, explicit standalone mode, and a 12,000-t
 hands over the serial JVM window, compile the clearly named test-only fixture:
 
 ```text
-python tools/build-phase-two-folia-fixture.py --run-dir run/phase-two-folia-SHA8 --expected-sha APPROVED_SHA
+python tools/build-phase-two-folia-fixture.py --run-dir run/phase-two-folia-SHA8 --expected-sha APPROVED_SHA --java-home C:\Users\Administrator\Documents\starworld-tools\jdk-21.0.13.1+2
 ```
 
 The fixture never creates a `PlayerContext`, nation, role, reward or authority
@@ -42,7 +42,7 @@ third-boot replay. No additional story definition or external NPC plugin is adde
 ## Boot one: finish the default shared story and preserve its derived inbox
 
 ```text
-python tools/phase-two-folia-session.py --run-dir run/phase-two-folia-SHA8 --expected-sha APPROVED_SHA --boot 1
+python tools/phase-two-folia-session.py --run-dir run/phase-two-folia-SHA8 --expected-sha APPROVED_SHA --boot 1 --java C:\Users\Administrator\Documents\starworld-tools\jdk-21.0.13.1+2\bin\java.exe
 ```
 
 The launcher records the actual server PID, starts two real Minecraft protocol
@@ -139,13 +139,21 @@ event. Do not write SQL to create, consume or repair a trigger.
 ## Boot two: real login recovery and different actual GUI choices
 
 ```text
-python tools/phase-two-folia-session.py --run-dir run/phase-two-folia-SHA8 --expected-sha APPROVED_SHA --boot 2
+python tools/phase-two-folia-session.py --run-dir run/phase-two-folia-SHA8 --expected-sha APPROVED_SHA --boot 2 --java C:\Users\Administrator\Documents\starworld-tools\jdk-21.0.13.1+2\bin\java.exe
 ```
 
 The same two actual clients log in. Production login recovery must create their
 two independent PLAYER `heir-legacy` instances from the retained derived inbox;
 **never run `begin` or replay the source on this boot**. Inspect them, verify the
 world/player history and actual past choices, and exercise the default UI:
+
+Before any fixture `inspect` command or GUI that queries instances, capture the
+intermediate state in a separate command invocation. This preserves evidence
+that actual login recovery already created both unvoted personal instances:
+
+```text
+python tools/inspect-phase-two-folia.py --run-dir run/phase-two-folia-SHA8 --expected-sha APPROVED_SHA --stage restored --output run/phase-two-folia-SHA8/evidence/phase-two-folia-login-recovered.json
+```
 
 ```text
 server phase2folia inspect PhaseTwoFoliaA
@@ -214,7 +222,7 @@ server stop
 ## Boot three: completed-state recovery and unchanged source replay
 
 ```text
-python tools/phase-two-folia-session.py --run-dir run/phase-two-folia-SHA8 --expected-sha APPROVED_SHA --boot 3
+python tools/phase-two-folia-session.py --run-dir run/phase-two-folia-SHA8 --expected-sha APPROVED_SHA --boot 3 --java C:\Users\Administrator\Documents\starworld-tools\jdk-21.0.13.1+2\bin\java.exe
 ```
 
 After both actual logins, inspect/probe/NPC/site/GUI reads without casting another

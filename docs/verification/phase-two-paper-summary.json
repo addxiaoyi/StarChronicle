@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "plugin_sha256": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+  "run_name": "phase-two-paper-release-smoke",
+  "server_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "client_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "checks": {
+    "all_snapshots_and_copied_jar_match_frozen_artifact": true,
+    "published_stories_and_npc_file_match_jar_resources": true,
+    "three_actual_server_processes_stopped_normally": true,
+    "three_actual_client_controllers_exit_normally": true,
+    "four_actual_non_operator_founders_and_four_distinct_nations": true,
+    "source_and_ending_preserve_exact_four_historical_members": true,
+    "real_epic_api_votes_keep_dissent_and_unvoted_member_distinct": true,
+    "ending_queues_pinned_followup_before_any_personal_instance": true,
+    "first_restart_keeps_choice_rows_and_source_causes": true,
+    "four_real_logins_recover_four_individual_followups": true,
+    "automatic_join_recovery_is_captured_before_fixture_instance_queries": true,
+    "late_client_only_connects_after_the_first_boot": true,
+    "late_membership_is_committed_by_real_native_service": true,
+    "late_citizen_reads_world_and_national_history_but_not_personal_choice": true,
+    "late_citizen_gets_no_personal_story_reward_or_fabricated_actor": true,
+    "dissent_and_support_select_actual_default_npc_dialogues": true,
+    "actual_gui_exposes_only_eligible_archive_choices": true,
+    "actual_api_rejects_voter_witness_and_unvoted_testimony": true,
+    "three_actual_gui_branches_complete_with_correct_personal_history": true,
+    "three_completed_archives_award_17_and_unfinished_b_stays_15": true,
+    "actual_story_permission_denial_has_no_authority_outcome": true,
+    "explicit_actual_permission_allows_one_done_native_invitation": true,
+    "already_committed_authority_outcome_coalesces_in_same_boot": true,
+    "native_a_really_advances_and_recovers_its_own_checkpoint": true,
+    "native_a_completes_through_gui_and_never_restarts_on_boot3": true,
+    "native_start_outcome_ids_do_not_replay": true,
+    "third_boot_and_source_replay_do_not_duplicate_stories_choices_rewards": true,
+    "real_past_command_npc_fate_story_and_history_gui_packets": true,
+    "schema3_integrity_and_foreign_keys_pass_at_every_stage": true,
+    "no_uncertain_native_or_causal_blocks_are_hidden": true,
+    "no_unhandled_fixture_failure_source_collision_or_chronicle_runtime_warning": true
+  },
+  "scope": "Three real Paper boots, audited StarCore, four actual founders, one late native member, shipped epic and archive stories, persistent original ballots, NPC dialogue, real GUI choices, native checkpoint recovery and source replay"
+}

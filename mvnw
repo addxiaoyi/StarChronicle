@@ -177,6 +177,7 @@ verbose "Downloading to: $TMP_DOWNLOAD_DIR/$distributionUrlName"
 
 # select .zip or .tar.gz
 if ! command -v unzip >/dev/null; then
+  [ -z "${distributionSha256Sum-}" ] || die "unzip is required to verify and extract the pinned Maven ZIP; install unzip before retrying"
   distributionUrl="${distributionUrl%.zip}.tar.gz"
   distributionUrlName="${distributionUrl##*/}"
 fi
@@ -191,12 +192,20 @@ case "${MVNW_PASSWORD:+has-password}" in
 has-password) [ -n "${MVNW_USERNAME-}" ] || MVNW_USERNAME='' MVNW_PASSWORD='' ;;
 esac
 
-if [ -z "${MVNW_USERNAME-}" ] && command -v wget >/dev/null; then
-  verbose "Found wget ... using wget"
-  wget ${__MVNW_QUIET_WGET:+"$__MVNW_QUIET_WGET"} "$distributionUrl" -O "$TMP_DOWNLOAD_DIR/$distributionUrlName" || die "wget: Failed to fetch $distributionUrl"
-elif [ -z "${MVNW_USERNAME-}" ] && command -v curl >/dev/null; then
-  verbose "Found curl ... using curl"
-  curl ${__MVNW_QUIET_CURL:+"$__MVNW_QUIET_CURL"} -f -L -o "$TMP_DOWNLOAD_DIR/$distributionUrlName" "$distributionUrl" || die "curl: Failed to fetch $distributionUrl"
+download_with_curl() {
+  command -v curl >/dev/null || return 1
+  verbose "Found curl ... using curl with bounded retries"
+  curl ${__MVNW_QUIET_CURL:+"$__MVNW_QUIET_CURL"} --show-error -f -L --retry 3 --retry-delay 2 --connect-timeout 15 --max-time 120 -o "$TMP_DOWNLOAD_DIR/$distributionUrlName" "$distributionUrl"
+}
+
+download_with_wget() {
+  command -v wget >/dev/null || return 1
+  verbose "Found wget ... using wget with bounded retries"
+  wget ${__MVNW_QUIET_WGET:+"$__MVNW_QUIET_WGET"} --tries=3 --timeout=30 "$distributionUrl" -O "$TMP_DOWNLOAD_DIR/$distributionUrlName"
+}
+
+if [ -z "${MVNW_USERNAME-}" ] && { download_with_curl || download_with_wget; }; then
+  :
 elif set_java_home; then
   verbose "Falling back to use Java to download"
   javaSource="$TMP_DOWNLOAD_DIR/Downloader.java"
@@ -211,7 +220,12 @@ elif set_java_home; then
 	  public static void main( String[] args ) throws Exception
 	  {
 	    setDefault( new Downloader() );
-	    java.nio.file.Files.copy( java.net.URI.create( args[0] ).toURL().openStream(), java.nio.file.Paths.get( args[1] ).toAbsolutePath().normalize() );
+	    java.net.URLConnection connection = java.net.URI.create( args[0] ).toURL().openConnection();
+	    connection.setConnectTimeout( 15000 );
+	    connection.setReadTimeout( 120000 );
+	    try ( java.io.InputStream input = connection.getInputStream() ) {
+	      java.nio.file.Files.copy( input, java.nio.file.Paths.get( args[1] ).toAbsolutePath().normalize(), java.nio.file.StandardCopyOption.REPLACE_EXISTING );
+	    }
 	  }
 	}
 	END
@@ -220,6 +234,8 @@ elif set_java_home; then
   "$(native_path "$JAVACCMD")" "$(native_path "$javaSource")" || die "Failed to compile Downloader.java"
   verbose " - Running Downloader.java ..."
   "$(native_path "$JAVACMD")" -cp "$(native_path "$TMP_DOWNLOAD_DIR")" Downloader "$distributionUrl" "$(native_path "$targetZip")"
+else
+  die "Failed to download Maven: curl/wget failed or are unavailable, and no Java downloader is available"
 fi
 
 # If specified, validate the SHA-256 sum of the Maven distribution zip file

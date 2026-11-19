@@ -1,0 +1,116 @@
+{
+  "scope": "StarChronicle standalone on real Folia; NOT StarCore full-stack Folia certification",
+  "plugin_sha256": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+  "fixture_compile_exit_code": 0,
+  "boots": [
+    {
+      "boot": 1,
+      "plugin_sha256": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+      "server_started_utc": "2026-11-19T19:43:32.206113+00:00",
+      "normal_console_stop_requested": true,
+      "clients_quit_requested": true,
+      "server_pid": 12664,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-jar",
+        "folia.jar",
+        "--nogui"
+      ],
+      "client_pid": 13368,
+      "client_command": [
+        "node",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\tools\\phase-two-folia-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-two-folia-d765e0d1",
+        "--boot",
+        "1"
+      ],
+      "client_started_utc": "2026-11-19T19:44:05.096575+00:00",
+      "client_exit_code": 0,
+      "client_ended_utc": "2026-11-19T19:46:54.962931+00:00",
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T19:47:04.458286+00:00",
+      "plugin_sha256_after": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+      "all_owned_children_exited": true
+    },
+    {
+      "boot": 2,
+      "plugin_sha256": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+      "server_started_utc": "2026-11-19T19:48:05.560638+00:00",
+      "normal_console_stop_requested": true,
+      "clients_quit_requested": true,
+      "server_pid": 8252,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-jar",
+        "folia.jar",
+        "--nogui"
+      ],
+      "client_pid": 10540,
+      "client_command": [
+        "node",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\tools\\phase-two-folia-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-two-folia-d765e0d1",
+        "--boot",
+        "2"
+      ],
+      "client_started_utc": "2026-11-19T19:48:23.201685+00:00",
+      "client_exit_code": 0,
+      "client_ended_utc": "2026-11-19T19:50:43.781679+00:00",
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T19:50:53.082791+00:00",
+      "plugin_sha256_after": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+      "all_owned_children_exited": true
+    },
+    {
+      "boot": 3,
+      "plugin_sha256": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+      "server_started_utc": "2026-11-19T19:51:19.705626+00:00",
+      "normal_console_stop_requested": true,
+      "clients_quit_requested": true,
+      "server_pid": 6572,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-jar",
+        "folia.jar",
+        "--nogui"
+      ],
+      "client_pid": 15092,
+      "client_command": [
+        "node",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\tools\\phase-two-folia-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-two-folia-d765e0d1",
+        "--boot",
+        "3"
+      ],
+      "client_started_utc": "2026-11-19T19:51:37.190483+00:00",
+      "client_exit_code": 0,
+      "client_ended_utc": "2026-11-19T19:53:10.948180+00:00",
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T19:53:20.642614+00:00",
+      "plugin_sha256_after": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+      "all_owned_children_exited": true
+    }
+  ],
+  "server_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "client_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "normal_console_stop_each_server": true,
+  "clients_quit_normally_each_boot": true,
+  "all_owned_children_exited": true
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "operation": "initial fixture preparation compilation attempt",
+    "observed_exit_code": 1,
+    "observed_error": "KeyError: 'JAVA_HOME'",
+    "jvm_started": false,
+    "database_written": false,
+    "correction": "New build tool accepts explicit --java-home; verified retained JDK path is C:/Users/Administrator/Documents/starworld-tools/jdk-21.0.13.1+2. Empty pre-compilation classes directory may be reused; existing compiled artifacts remain protected."
+  }
+]

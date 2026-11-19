@@ -1,6 +1,6 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-20T03:35:33+08:00（Asia/Shanghai）。
+生成时间：2026-11-20T04:26:57+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
@@ -92,6 +92,8 @@
 | [Folia standalone](verification/folia-smoke-report.md) | `5e227d20c46eeb91dd98d9d33e6f55cd66fbfc4fd7ecd7391f57eb9643f0d86e` | 否，不能覆盖当前构建 | PASS；18/18 |
 | [Expanded Paper + StarCore](verification/expanded-paper-smoke-report.md) | `abaadf4c4dd318d518687bafe2596f43e32c9f9a115b4074deeae9f37abc22df` | 否，不能覆盖当前构建 | PASS；27/27 |
 | [Expanded Folia standalone](verification/expanded-folia-smoke-report.md) | `abaadf4c4dd318d518687bafe2596f43e32c9f9a115b4074deeae9f37abc22df` | 否，不能覆盖当前构建 | PASS；45/45 |
+| [Continuous narrative Paper + StarCore](verification/phase-two-paper-report.md) | `d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b` | 是 | PASS；31/31 |
+| [Continuous narrative Folia standalone](verification/phase-two-folia-report.md) | `d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b` | 是 | PASS；56/56 |
 | [Actual V2 database upgrade](verification/phase-two-v2-upgrade-report.md) | `d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b` | 是 | PASS；11/11 |
 
 ## 验证边界

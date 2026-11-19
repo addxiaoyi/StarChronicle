@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "generated_utc": "2026-11-19T20:28:26+00:00",
+  "wrapper_sha256": "39337d57f6d232e6f353be8603cd46eda3096ba22946115208c3860a42cc360a",
+  "distribution_sha256": "0d7125e8c91097b36edb990ea5934e6c68b4440eef4ea96510a0f6815e7eeadb",
+  "official_distribution_sha512": "03e2d65d4483a3396980629f260e25cac0d8b6f7f2791e4dc20bc83f9514db8d0f05b0479e699a5f34679250c49c8e52e961262ded468a20de0be254d8207076",
+  "checks": {
+    "official_sha512_and_configured_sha256": true,
+    "bash_syntax": true,
+    "https_fresh_bootstrap": true,
+    "https_used_curl": true,
+    "wrong_checksum_rejected_before_install": true,
+    "failed_curl_falls_back_to_wget_contract": true,
+    "failed_transports_java_replaces_partial_download": true
+  },
+  "processes": {
+    "https-fresh": {
+      "exit_code": 0,
+      "cache": "run/wrapper-bootstrap-3865b202faa2/https-fresh-cache"
+    },
+    "checksum-rejection": {
+      "exit_code": 1,
+      "cache": "run/wrapper-bootstrap-3865b202faa2/checksum-rejection-cache"
+    },
+    "curl-fallback": {
+      "exit_code": 0,
+      "cache": "run/wrapper-bootstrap-3865b202faa2/curl-fallback-cache"
+    },
+    "java-fallback": {
+      "exit_code": 0,
+      "cache": "run/wrapper-bootstrap-3865b202faa2/java-fallback-cache"
+    }
+  },
+  "limits": [
+    "Git Bash on Windows, not a Linux runner",
+    "Fallback transport failures/wget success use shims; Java download is real",
+    "Only Maven --version is run; not a replacement for clean verify"
+  ]
+}

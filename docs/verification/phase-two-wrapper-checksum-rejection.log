@@ -1,0 +1,10 @@
+Couldn't find MAVEN_HOME, downloading and installing it ...
+Downloading from: file:///C:/Users/Administrator/Documents/StarChronicle/target/apache-maven-3.9.11-bin.zip
+Downloading to: /tmp/tmp.5WB1WFJPex/apache-maven-3.9.11-bin.zip
+Found curl ... using curl with bounded retries
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+Error: Failed to validate Maven distribution SHA-256, your Maven distribution might be compromised.
+If you updated your Maven version, you need to update the specified distributionSha256Sum property.

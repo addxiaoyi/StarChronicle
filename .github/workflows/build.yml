@@ -16,7 +16,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          ./mvnw -B -ntp clean verify | tee verify-build.log
+          ./mvnw -B -ntp clean verify 2>&1 | tee verify-build.log
       - name: Verify artifact fingerprints and generate the report
         run: python3 tools/verification_report.py verify-build.log
       - name: Package source, artifacts and actual test reports

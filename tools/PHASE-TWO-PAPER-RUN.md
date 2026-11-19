@@ -136,7 +136,8 @@ action; sending a chat command does not synchronously open its GUI.
    Open actual `/chronicle fate`, `/chronicle history`, `/chronicle history player me`
    and click a history entry for its evidence window; retain protocol components.
 8. Run console `phase2 invite-config`, wait for the actual configuration reload, then
-   `phase2 invite-begin` and `phase2 invite-choose`. The actual A founder still explicitly
+   `phase2 invite-begin`. Wait for `PHASE2_INVITE_SUBMITTED` before running
+   `phase2 invite-choose`; the begin operation is asynchronous. The actual A founder still explicitly
    lacks `starcore.nation.ally.add`: require a SecurityException and no authority outcome.
    Capture `python tools/inspect-phase-two-paper.py invite-denied`. Then `phase2 allow`,
    wait for its actual permission attachment, and run `phase2 invite-choose` again.

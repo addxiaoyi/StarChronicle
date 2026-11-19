@@ -1,6 +1,6 @@
 """Evaluate retained phase-two standalone Folia evidence; never start or stop a JVM.
 
-Run only after collecting the four read-only snapshots, three complete server logs,
+Run only after collecting the five read-only snapshots, three complete server logs,
 protocol client log, and observed process exits in the selected runtime/evidence.
 Missing inputs are fatal; no previous verification report is read or overwritten.
 """
@@ -68,11 +68,15 @@ def main() -> None:
     evidence = run / "evidence"
     output = (args.output_dir or evidence).resolve()
     snapshots = {stage: read_json(evidence / f"{PREFIX}-{stage}.json") for stage in STAGES}
+    login_recovered = read_json(evidence / f"{PREFIX}-login-recovered.json")
     logs = [(evidence / f"{PREFIX}-boot{boot}.log").read_text(encoding="utf-8") for boot in (1, 2, 3)]
     client_text = (evidence / f"{PREFIX}-clients.log").read_text(encoding="utf-8")
     processes = read_json(evidence / f"{PREFIX}-processes.json")
     protocol = parse_protocol(client_text)
     markers = [parse_server(log) for log in logs]
+    java_runtimes = [re.search(r"\[bootstrap\] Running Java (.+)$", log, re.M).group(1).strip() for log in logs]
+    setup_failure_path = evidence / f"{PREFIX}-setup-failures.json"
+    setup_failures = read_json(setup_failure_path) if setup_failure_path.is_file() else []
     before, after, replay, restored = (snapshots[stage] for stage in STAGES)
     checks, details = {}, {}
 
@@ -170,6 +174,33 @@ def main() -> None:
         return [row for row in before["story_triggers"] if row["event_id"] == supported and json.loads(row["story_json"])["id"] == "heir-legacy"]
 
     check("derived_followup_pending_for_both_players_before_first_stop", lambda: not records(before, "heir-legacy") and len(pending_followups()) == 2 and {row["scope"] for row in pending_followups()} == {"player:" + player for player in players})
+
+    def login_snapshot_preserves_source_after_actual_logins():
+        spawn_times = []
+        for line in client_text.splitlines():
+            match = re.match(r"^(\S+) SPAWN (\{.*\})$", line)
+            if match and json.loads(match[2]).get("boot") == 2:
+                spawn_times.append(datetime.fromisoformat(match[1].replace("Z", "+00:00")))
+        captured = datetime.fromisoformat(login_recovered["captured_utc"])
+        return len(spawn_times) == 2 and captured >= max(spawn_times) and Path(login_recovered["run_path"]).resolve() == run and login_recovered["plugin_sha256"] == expected and all(
+            login_recovered[key] == before[key] for key in ("server_sha256", "fixture_sha256", "fixture_source_sha256", "schema_version", "database_open_mode", "excluded_columns")) and login_recovered["schema_version"] == 3 and login_recovered["integrity"] == ["ok"] and login_recovered["foreign_key_violations"] == [] and all(
+            login_recovered[table] == before[table] for table in ("events", "event_players", "event_nations", "event_causes"))
+
+    check("login_recovery_snapshot_is_same_artifact_and_history_after_both_real_logins", login_snapshot_preserves_source_after_actual_logins)
+
+    def login_recovered_without_new_choice_or_reward():
+        rows = records(login_recovered, "heir-legacy")
+        supported = typed_event(before, SUPPORTED)["id"]
+        if len(login_recovered["instances"]) != 3 or len(rows) != 2 or heir(login_recovered) != heir(before):
+            return False
+        if {next(iter(row["members"])) for row in rows} != players or any(len(row["members"]) != 1 or set(row["members"].values()) != {""} or row["scopeKey"] != "player:" + next(iter(row["members"])) or row["node"] != "archive" or row["completed"] is not False or row["votes"] != {} or row["choices"] != {} or row["sourceEventId"] != supported for row in rows):
+            return False
+        pending = login_recovered["story_triggers"]
+        receipts = login_recovered["story_trigger_receipts"]
+        return len(pending) == 16 and all(json.loads(row["story_json"])["id"].startswith("fate-") for row in pending) and len(receipts) == 3 and all(any(receipt["trigger_key"] == row["trigger_key"] and receipt["scope"] == row["scope"] for receipt in receipts) for row in pending_followups()) and len(login_recovered["story_choice_log"]) == 9 and len(login_recovered["outcomes"]) == 11 and all(
+            login_recovered[table] == before[table] for table in ("story_choice_log", "outcomes", "facts")) and all(facts(login_recovered).get((player, "player.honor")) == "15" for player in players)
+
+    check("login_alone_consumes_two_personal_inboxes_without_votes_or_rewards", login_recovered_without_new_choice_or_reward)
 
     def followups_are_complete(snapshot):
         rows = records(snapshot, "heir-legacy")
@@ -276,7 +307,10 @@ def main() -> None:
     output.mkdir(parents=True, exist_ok=True)
     summary = {"scope": "StarChronicle standalone on real Folia; NOT StarCore full-stack Folia certification", "plugin_sha256": expected,
                "run_directory": str(run), "server": "Folia 1.21.11 build 14", "region_threads": 2,
+               "java_runtime_per_boot": java_runtimes, "setup_failures_before_jvm": setup_failures,
                "captured_asia_shanghai": restored["captured_asia_shanghai"], "server_exit_codes": processes.get("server_exit_codes"),
+               "login_recovery_captured_utc": login_recovered["captured_utc"],
+               "login_recovery_query_order_note": "The operator observed this capture before fixture instance inspection. The automated checks establish capture after both protocol SPAWN timestamps and verify its unvoted state; second-resolution server logs do not independently establish sub-second order against the first fixture query.",
                "client_exit_codes": processes.get("client_exit_codes"), "checks": checks, "details": details,
                "passed": sum(checks.values()), "total": len(checks), "all_passed": all(checks.values())}
     (output / f"{PREFIX}-summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -289,9 +323,14 @@ Scope: the selected StarChronicle product in explicit standalone mode. This is *
 - Runtime: `{run}`.
 - Captured in Asia/Shanghai: `{restored['captured_asia_shanghai']}`.
 - Official Folia 1.21.11 build 14 server SHA-256: `{SERVER_SHA}`.
+- Actual Java runtime from each boot log: `{'; '.join(sorted(set(java_runtimes)))}`.
 - Three serial server boots, two protocol clients on each boot, and two actual region tick threads are checked against retained evidence. Process results are read from `{PREFIX}-processes.json`, never inferred from a log ending.
 
+Setup evidence retains {len(setup_failures)} pre-JVM preparation failure(s) in `{PREFIX}-setup-failures.json`: {', '.join(item.get('observed_error', 'unspecified') for item in setup_failures) or 'none'}. Each retained record states whether Java started or the database was written. Compilation used the explicitly selected installed JDK, whose actual runtime is recorded above. Pre-JVM setup attempts are not relabelled as server boots.
+
 The scenario retains all twelve bundled story files unchanged. An explicitly test-only source goes through the real ChronicleService and its fresh player snapshots. Both players vote convene, support, and restoration in last-heir. The first stop preserves the real completion and the unconsumed derived heir-legacy inbox. Second-boot logins recover each personal follow-up without resubmitting the source. The client trace and database must agree that A chooses testimony and B chooses reconcile. Third-boot restoration and duplicate source replay must preserve all result tables, personal ballots, collective resolutions, causal paths, honor, titles, NPC relationships, and memory registry rows.
+
+The extra `{PREFIX}-login-recovered.json` capture checks the intermediate recovery state after both real protocol logins: two separate personal archive nodes, no new ballots or outcomes, and both inbox receipts consumed. The operator observed this capture before fixture instance inspection. Its capture time is checked against the protocol SPAWN timestamps; second-resolution server log timestamps do not independently prove sub-second order against the first fixture query.
 
 API observations separately verify global and personal supported-event counts, recorded personal and shared choices, absent national projections, and the unassigned standalone role. Protocol evidence exercises the personal story GUI, history and evidence menus, NPC dossier, fate menu, written history book, historical-choice command, and unavailable native scene rejection. Region-owned observations cover live memory entities, a disabled-site tombstone, and an unrelated bystander.
 
@@ -301,7 +340,7 @@ API observations separately verify global and personal supported-event counts, r
 
 Observed result: **{summary['passed']}/{summary['total']} checks passed**. The machine-readable summary retains any evaluation errors, and its `all_passed` field is true only when every check succeeds.
 
-Evidence is local to this isolated runtime: `{PREFIX}-boot1.log`, `{PREFIX}-boot2.log`, `{PREFIX}-boot3.log`, `{PREFIX}-clients.log`, `{PREFIX}-processes.json`, and four `{PREFIX}-*.json` read-only snapshots. SQLite was opened with `mode=ro` and `query_only=ON`; only polling liveness column `story_triggers.checked` is excluded from result comparison. Product, server, fixture binary, and fixture source hashes are retained in every snapshot.
+Evidence is local to this isolated runtime: `{PREFIX}-boot1.log`, `{PREFIX}-boot2.log`, `{PREFIX}-boot3.log`, `{PREFIX}-clients.log`, `{PREFIX}-processes.json`, and five `{PREFIX}-*.json` read-only snapshots including the intermediate login recovery capture. SQLite was opened with `mode=ro` and `query_only=ON`; only polling liveness column `story_triggers.checked` is excluded from result comparison. Product, server, fixture binary, and fixture source hashes are retained in every snapshot.
 
 Limits: protocol automation is not human visual acceptance. This report does not certify StarCore on Folia, real national mutations, external NPC providers, external reward settlement, crash or power-loss durability, or an AI service. Earlier artifacts and reports are not used as proof for this product hash.
 """

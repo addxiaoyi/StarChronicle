@@ -1,0 +1,514 @@
+2026-11-19T19:30:04.234Z CONNECTING {"boot":"boot1","player":"A","username":"PhaseTwoA","late":false}
+2026-11-19T19:30:04.264Z CONNECTING {"boot":"boot1","player":"B","username":"PhaseTwoB","late":false}
+2026-11-19T19:30:04.268Z CONNECTING {"boot":"boot1","player":"C","username":"PhaseTwoC","late":false}
+2026-11-19T19:30:04.271Z CONNECTING {"boot":"boot1","player":"D","username":"PhaseTwoD","late":false}
+2026-11-19T19:30:07.465Z MESSAGE {"boot":"boot1","player":"D","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:30:07.468Z MESSAGE {"boot":"boot1","player":"D","message":""}
+2026-11-19T19:30:07.481Z MESSAGE {"boot":"boot1","player":"D","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:30:07.485Z MESSAGE {"boot":"boot1","player":"D","message":"总体疲劳：0%%"}
+2026-11-19T19:30:07.495Z MESSAGE {"boot":"boot1","player":"D","message":"等级：精神饱满"}
+2026-11-19T19:30:07.496Z MESSAGE {"boot":"boot1","player":"D","message":"身体：0%%"}
+2026-11-19T19:30:07.500Z MESSAGE {"boot":"boot1","player":"D","message":"精神：0%%"}
+2026-11-19T19:30:07.500Z MESSAGE {"boot":"boot1","player":"D","message":"战斗：0%%"}
+2026-11-19T19:30:07.501Z MESSAGE {"boot":"boot1","player":"D","message":"行军：0%%"}
+2026-11-19T19:30:07.504Z MESSAGE {"boot":"boot1","player":"D","message":""}
+2026-11-19T19:30:07.508Z MESSAGE {"boot":"boot1","player":"D","message":""}
+2026-11-19T19:30:07.510Z MESSAGE {"boot":"boot1","player":"D","message":"╔══════════════════════════╗"}
+2026-11-19T19:30:07.513Z MESSAGE {"boot":"boot1","player":"D","message":"║    ★ 欢迎来到星核世界 ★    ║"}
+2026-11-19T19:30:07.522Z MESSAGE {"boot":"boot1","player":"D","message":"╚══════════════════════════╝"}
+2026-11-19T19:30:07.526Z MESSAGE {"boot":"boot1","player":"D","message":""}
+2026-11-19T19:30:07.535Z MESSAGE {"boot":"boot1","player":"D","message":"在这里，你可以："}
+2026-11-19T19:30:07.538Z MESSAGE {"boot":"boot1","player":"D","message":"  • 采集资源，建立经济基础"}
+2026-11-19T19:30:07.540Z MESSAGE {"boot":"boot1","player":"D","message":"  • 训练军队，保卫领土扩张"}
+2026-11-19T19:30:07.542Z MESSAGE {"boot":"boot1","player":"D","message":"  • 开展外交，建立同盟关系"}
+2026-11-19T19:30:07.545Z MESSAGE {"boot":"boot1","player":"D","message":"  • 研究科技，推动国家进步"}
+2026-11-19T19:30:07.549Z MESSAGE {"boot":"boot1","player":"D","message":"  • 完成任务，解锁成就奖励"}
+2026-11-19T19:30:07.550Z MESSAGE {"boot":"boot1","player":"D","message":""}
+2026-11-19T19:30:07.552Z MESSAGE {"boot":"boot1","player":"D","message":"输入 /starcore help 查看所有指令"}
+2026-11-19T19:30:07.553Z MESSAGE {"boot":"boot1","player":"D","message":"或点击屏幕上的菜单按钮开始探索"}
+2026-11-19T19:30:07.557Z MESSAGE {"boot":"boot1","player":"D","message":""}
+2026-11-19T19:30:07.562Z MESSAGE {"boot":"boot1","player":"D","message":"已收到 STARCORE 玩法指南，右键打开。"}
+2026-11-19T19:30:07.566Z MESSAGE {"boot":"boot1","player":"D","message":"PhaseTwoD joined the game"}
+2026-11-19T19:30:07.574Z MESSAGE {"boot":"boot1","player":"D","message":"✓ 解锁新称号: 新人"}
+2026-11-19T19:30:07.577Z MESSAGE {"boot":"boot1","player":"D","message":"✓ 解锁新徽章: 新手徽章"}
+2026-11-19T19:30:07.591Z SPAWN {"boot":"boot1","player":"D","username":"PhaseTwoD","uuid":"63e2bb34-acdd-360c-a4b5-57c748f2ef53"}
+2026-11-19T19:30:07.644Z MESSAGE {"boot":"boot1","player":"D","message":"PhaseTwoA joined the game"}
+2026-11-19T19:30:07.834Z MESSAGE {"boot":"boot1","player":"D","message":"PhaseTwoC joined the game"}
+2026-11-19T19:30:07.841Z MESSAGE {"boot":"boot1","player":"D","message":"PhaseTwoB joined the game"}
+2026-11-19T19:30:07.897Z MESSAGE {"boot":"boot1","player":"A","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:30:07.913Z MESSAGE {"boot":"boot1","player":"A","message":""}
+2026-11-19T19:30:07.914Z MESSAGE {"boot":"boot1","player":"A","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:30:07.920Z MESSAGE {"boot":"boot1","player":"A","message":"总体疲劳：0%%"}
+2026-11-19T19:30:07.957Z MESSAGE {"boot":"boot1","player":"A","message":"等级：精神饱满"}
+2026-11-19T19:30:07.960Z MESSAGE {"boot":"boot1","player":"A","message":"身体：0%%"}
+2026-11-19T19:30:07.961Z MESSAGE {"boot":"boot1","player":"A","message":"精神：0%%"}
+2026-11-19T19:30:07.963Z MESSAGE {"boot":"boot1","player":"A","message":"战斗：0%%"}
+2026-11-19T19:30:07.965Z MESSAGE {"boot":"boot1","player":"A","message":"行军：0%%"}
+2026-11-19T19:30:07.966Z MESSAGE {"boot":"boot1","player":"A","message":""}
+2026-11-19T19:30:07.968Z MESSAGE {"boot":"boot1","player":"A","message":""}
+2026-11-19T19:30:07.969Z MESSAGE {"boot":"boot1","player":"A","message":"╔══════════════════════════╗"}
+2026-11-19T19:30:07.971Z MESSAGE {"boot":"boot1","player":"A","message":"║    ★ 欢迎来到星核世界 ★    ║"}
+2026-11-19T19:30:07.984Z MESSAGE {"boot":"boot1","player":"A","message":"╚══════════════════════════╝"}
+2026-11-19T19:30:07.986Z MESSAGE {"boot":"boot1","player":"A","message":""}
+2026-11-19T19:30:07.987Z MESSAGE {"boot":"boot1","player":"A","message":"在这里，你可以："}
+2026-11-19T19:30:07.990Z MESSAGE {"boot":"boot1","player":"A","message":"  • 采集资源，建立经济基础"}
+2026-11-19T19:30:07.991Z MESSAGE {"boot":"boot1","player":"A","message":"  • 训练军队，保卫领土扩张"}
+2026-11-19T19:30:07.992Z MESSAGE {"boot":"boot1","player":"A","message":"  • 开展外交，建立同盟关系"}
+2026-11-19T19:30:07.993Z MESSAGE {"boot":"boot1","player":"A","message":"  • 研究科技，推动国家进步"}
+2026-11-19T19:30:07.994Z MESSAGE {"boot":"boot1","player":"A","message":"  • 完成任务，解锁成就奖励"}
+2026-11-19T19:30:07.995Z MESSAGE {"boot":"boot1","player":"A","message":""}
+2026-11-19T19:30:07.995Z MESSAGE {"boot":"boot1","player":"A","message":"输入 /starcore help 查看所有指令"}
+2026-11-19T19:30:07.996Z MESSAGE {"boot":"boot1","player":"A","message":"或点击屏幕上的菜单按钮开始探索"}
+2026-11-19T19:30:07.996Z MESSAGE {"boot":"boot1","player":"A","message":""}
+2026-11-19T19:30:07.997Z MESSAGE {"boot":"boot1","player":"A","message":"已收到 STARCORE 玩法指南，右键打开。"}
+2026-11-19T19:30:07.998Z MESSAGE {"boot":"boot1","player":"A","message":"PhaseTwoA joined the game"}
+2026-11-19T19:30:08.000Z MESSAGE {"boot":"boot1","player":"A","message":"PhaseTwoC joined the game"}
+2026-11-19T19:30:08.001Z MESSAGE {"boot":"boot1","player":"A","message":"PhaseTwoB joined the game"}
+2026-11-19T19:30:08.002Z MESSAGE {"boot":"boot1","player":"A","message":"✓ 解锁新称号: 新人"}
+2026-11-19T19:30:08.003Z MESSAGE {"boot":"boot1","player":"A","message":"✓ 解锁新徽章: 新手徽章"}
+2026-11-19T19:30:08.004Z SPAWN {"boot":"boot1","player":"A","username":"PhaseTwoA","uuid":"08ffd450-5001-3023-a480-057fef707037"}
+2026-11-19T19:30:08.013Z MESSAGE {"boot":"boot1","player":"C","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:30:08.014Z MESSAGE {"boot":"boot1","player":"C","message":""}
+2026-11-19T19:30:08.015Z MESSAGE {"boot":"boot1","player":"C","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:30:08.015Z MESSAGE {"boot":"boot1","player":"C","message":"总体疲劳：0%%"}
+2026-11-19T19:30:08.016Z MESSAGE {"boot":"boot1","player":"C","message":"等级：精神饱满"}
+2026-11-19T19:30:08.016Z MESSAGE {"boot":"boot1","player":"C","message":"身体：0%%"}
+2026-11-19T19:30:08.017Z MESSAGE {"boot":"boot1","player":"C","message":"精神：0%%"}
+2026-11-19T19:30:08.017Z MESSAGE {"boot":"boot1","player":"C","message":"战斗：0%%"}
+2026-11-19T19:30:08.018Z MESSAGE {"boot":"boot1","player":"C","message":"行军：0%%"}
+2026-11-19T19:30:08.018Z MESSAGE {"boot":"boot1","player":"C","message":""}
+2026-11-19T19:30:08.019Z MESSAGE {"boot":"boot1","player":"C","message":""}
+2026-11-19T19:30:08.020Z MESSAGE {"boot":"boot1","player":"C","message":"╔══════════════════════════╗"}
+2026-11-19T19:30:08.020Z MESSAGE {"boot":"boot1","player":"C","message":"║    ★ 欢迎来到星核世界 ★    ║"}
+2026-11-19T19:30:08.021Z MESSAGE {"boot":"boot1","player":"C","message":"╚══════════════════════════╝"}
+2026-11-19T19:30:08.022Z MESSAGE {"boot":"boot1","player":"C","message":""}
+2026-11-19T19:30:08.042Z MESSAGE {"boot":"boot1","player":"C","message":"在这里，你可以："}
+2026-11-19T19:30:08.044Z MESSAGE {"boot":"boot1","player":"C","message":"  • 采集资源，建立经济基础"}
+2026-11-19T19:30:08.048Z MESSAGE {"boot":"boot1","player":"C","message":"  • 训练军队，保卫领土扩张"}
+2026-11-19T19:30:08.050Z MESSAGE {"boot":"boot1","player":"C","message":"  • 开展外交，建立同盟关系"}
+2026-11-19T19:30:08.052Z MESSAGE {"boot":"boot1","player":"C","message":"  • 研究科技，推动国家进步"}
+2026-11-19T19:30:08.054Z MESSAGE {"boot":"boot1","player":"C","message":"  • 完成任务，解锁成就奖励"}
+2026-11-19T19:30:08.056Z MESSAGE {"boot":"boot1","player":"C","message":""}
+2026-11-19T19:30:08.057Z MESSAGE {"boot":"boot1","player":"C","message":"输入 /starcore help 查看所有指令"}
+2026-11-19T19:30:08.059Z MESSAGE {"boot":"boot1","player":"C","message":"或点击屏幕上的菜单按钮开始探索"}
+2026-11-19T19:30:08.060Z MESSAGE {"boot":"boot1","player":"C","message":""}
+2026-11-19T19:30:08.061Z MESSAGE {"boot":"boot1","player":"C","message":"已收到 STARCORE 玩法指南，右键打开。"}
+2026-11-19T19:30:08.062Z MESSAGE {"boot":"boot1","player":"C","message":"PhaseTwoC joined the game"}
+2026-11-19T19:30:08.065Z MESSAGE {"boot":"boot1","player":"C","message":"PhaseTwoB joined the game"}
+2026-11-19T19:30:08.066Z MESSAGE {"boot":"boot1","player":"C","message":"✓ 解锁新称号: 新人"}
+2026-11-19T19:30:08.068Z MESSAGE {"boot":"boot1","player":"C","message":"✓ 解锁新徽章: 新手徽章"}
+2026-11-19T19:30:08.070Z SPAWN {"boot":"boot1","player":"C","username":"PhaseTwoC","uuid":"140669be-0a1a-3206-a8b1-20d23a596b3a"}
+2026-11-19T19:30:08.097Z MESSAGE {"boot":"boot1","player":"B","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:30:08.099Z MESSAGE {"boot":"boot1","player":"B","message":""}
+2026-11-19T19:30:08.100Z MESSAGE {"boot":"boot1","player":"B","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:30:08.102Z MESSAGE {"boot":"boot1","player":"B","message":"总体疲劳：0%%"}
+2026-11-19T19:30:08.103Z MESSAGE {"boot":"boot1","player":"B","message":"等级：精神饱满"}
+2026-11-19T19:30:08.104Z MESSAGE {"boot":"boot1","player":"B","message":"身体：0%%"}
+2026-11-19T19:30:08.105Z MESSAGE {"boot":"boot1","player":"B","message":"精神：0%%"}
+2026-11-19T19:30:08.107Z MESSAGE {"boot":"boot1","player":"B","message":"战斗：0%%"}
+2026-11-19T19:30:08.108Z MESSAGE {"boot":"boot1","player":"B","message":"行军：0%%"}
+2026-11-19T19:30:08.109Z MESSAGE {"boot":"boot1","player":"B","message":""}
+2026-11-19T19:30:08.110Z MESSAGE {"boot":"boot1","player":"B","message":""}
+2026-11-19T19:30:08.111Z MESSAGE {"boot":"boot1","player":"B","message":"╔══════════════════════════╗"}
+2026-11-19T19:30:08.112Z MESSAGE {"boot":"boot1","player":"B","message":"║    ★ 欢迎来到星核世界 ★    ║"}
+2026-11-19T19:30:08.113Z MESSAGE {"boot":"boot1","player":"B","message":"╚══════════════════════════╝"}
+2026-11-19T19:30:08.115Z MESSAGE {"boot":"boot1","player":"B","message":""}
+2026-11-19T19:30:08.116Z MESSAGE {"boot":"boot1","player":"B","message":"在这里，你可以："}
+2026-11-19T19:30:08.118Z MESSAGE {"boot":"boot1","player":"B","message":"  • 采集资源，建立经济基础"}
+2026-11-19T19:30:08.119Z MESSAGE {"boot":"boot1","player":"B","message":"  • 训练军队，保卫领土扩张"}
+2026-11-19T19:30:08.144Z MESSAGE {"boot":"boot1","player":"B","message":"  • 开展外交，建立同盟关系"}
+2026-11-19T19:30:08.148Z MESSAGE {"boot":"boot1","player":"B","message":"  • 研究科技，推动国家进步"}
+2026-11-19T19:30:08.151Z MESSAGE {"boot":"boot1","player":"B","message":"  • 完成任务，解锁成就奖励"}
+2026-11-19T19:30:08.154Z MESSAGE {"boot":"boot1","player":"B","message":""}
+2026-11-19T19:30:08.155Z MESSAGE {"boot":"boot1","player":"B","message":"输入 /starcore help 查看所有指令"}
+2026-11-19T19:30:08.157Z MESSAGE {"boot":"boot1","player":"B","message":"或点击屏幕上的菜单按钮开始探索"}
+2026-11-19T19:30:08.158Z MESSAGE {"boot":"boot1","player":"B","message":""}
+2026-11-19T19:30:08.159Z MESSAGE {"boot":"boot1","player":"B","message":"已收到 STARCORE 玩法指南，右键打开。"}
+2026-11-19T19:30:08.161Z MESSAGE {"boot":"boot1","player":"B","message":"PhaseTwoB joined the game"}
+2026-11-19T19:30:08.163Z SPAWN {"boot":"boot1","player":"B","username":"PhaseTwoB","uuid":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6"}
+2026-11-19T19:30:08.201Z MESSAGE {"boot":"boot1","player":"B","message":"✓ 解锁新称号: 新人"}
+2026-11-19T19:30:08.204Z MESSAGE {"boot":"boot1","player":"B","message":"✓ 解锁新徽章: 新手徽章"}
+2026-11-19T19:30:35.657Z SENT {"boot":"boot1","player":"A","message":"/chronicle scene"}
+2026-11-19T19:30:35.784Z WINDOW {"boot":"boot1","player":"A","id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":6}
+2026-11-19T19:30:47.864Z CLIENT_VIEW {"boot":"boot1","player":"A","window":{"id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"slots":[{"slot":0,"name":"paper","label":"场景文本","lore":["伊蕾娅：请先审查我的证据，再决定是否支持复国。你无须因我的血脉而献上国家。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"场景文本"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"伊蕾娅：请先审查我的证据，再决定是否支持复国。你无须因我的血脉而献上国家。"}}}]}]},{"slot":4,"name":"written_book","label":"旧都证词：继承人的请求","lore":["执行器: StarCore NarrativeEngine","脚本: chronicle_last_heir","节点: arrival"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"旧都证词：继承人的请求"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"执行器: StarCore NarrativeEngine"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"脚本: chronicle_last_heir"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"节点: arrival"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":9,"name":"lime_dye","label":"查看继承证据的出处","lore":["原生选项: 1"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"查看继承证据的出处"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"原生选项: 1"}}}]}]},{"slot":10,"name":"lime_dye","label":"询问旧都居民的处境","lore":["原生选项: 2"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"询问旧都居民的处境"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"原生选项: 2"}}}]}]},{"slot":49,"name":"compass","label":"共同剧情","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"共同剧情"}}}}]}]}}
+2026-11-19T19:30:47.872Z CLICKED {"boot":"boot1","player":"A","slot":9}
+2026-11-19T19:30:47.979Z WINDOW {"boot":"boot1","player":"A","id":2,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T19:30:48.967Z CLICKED {"boot":"boot1","player":"A","slot":31}
+2026-11-19T19:30:49.026Z WINDOW {"boot":"boot1","player":"A","id":3,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T19:31:32.090Z ENDED {"boot":"boot1","player":"A","reason":"phase two acceptance complete"}
+2026-11-19T19:31:32.093Z ENDED {"boot":"boot1","player":"B","reason":"phase two acceptance complete"}
+2026-11-19T19:31:32.094Z ENDED {"boot":"boot1","player":"C","reason":"phase two acceptance complete"}
+2026-11-19T19:31:32.095Z ENDED {"boot":"boot1","player":"D","reason":"phase two acceptance complete"}
+2026-11-19T19:33:19.961Z CONNECTING {"boot":"boot2","player":"A","username":"PhaseTwoA","late":false}
+2026-11-19T19:33:19.966Z CONNECTING {"boot":"boot2","player":"B","username":"PhaseTwoB","late":false}
+2026-11-19T19:33:19.970Z CONNECTING {"boot":"boot2","player":"C","username":"PhaseTwoC","late":false}
+2026-11-19T19:33:19.972Z CONNECTING {"boot":"boot2","player":"D","username":"PhaseTwoD","late":false}
+2026-11-19T19:33:22.255Z MESSAGE {"boot":"boot2","player":"D","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:33:22.272Z MESSAGE {"boot":"boot2","player":"D","message":""}
+2026-11-19T19:33:22.273Z MESSAGE {"boot":"boot2","player":"D","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:33:22.273Z MESSAGE {"boot":"boot2","player":"D","message":"总体疲劳：0%%"}
+2026-11-19T19:33:22.433Z MESSAGE {"boot":"boot2","player":"D","message":"等级：精神饱满"}
+2026-11-19T19:33:22.435Z MESSAGE {"boot":"boot2","player":"D","message":"身体：0%%"}
+2026-11-19T19:33:22.437Z MESSAGE {"boot":"boot2","player":"D","message":"精神：0%%"}
+2026-11-19T19:33:22.438Z MESSAGE {"boot":"boot2","player":"D","message":"战斗：0%%"}
+2026-11-19T19:33:22.438Z MESSAGE {"boot":"boot2","player":"D","message":"行军：0%%"}
+2026-11-19T19:33:22.454Z MESSAGE {"boot":"boot2","player":"D","message":""}
+2026-11-19T19:33:22.454Z MESSAGE {"boot":"boot2","player":"D","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T19:33:22.502Z MESSAGE {"boot":"boot2","player":"D","message":""}
+2026-11-19T19:33:22.639Z MESSAGE {"boot":"boot2","player":"D","message":"欢迎回来, PhaseTwoD!"}
+2026-11-19T19:33:22.643Z MESSAGE {"boot":"boot2","player":"D","message":""}
+2026-11-19T19:33:22.645Z MESSAGE {"boot":"boot2","player":"D","message":"╔══════════════════════════╗"}
+2026-11-19T19:33:22.647Z MESSAGE {"boot":"boot2","player":"D","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T19:33:22.650Z MESSAGE {"boot":"boot2","player":"D","message":"╚══════════════════════════╝"}
+2026-11-19T19:33:22.651Z MESSAGE {"boot":"boot2","player":"D","message":""}
+2026-11-19T19:33:22.652Z MESSAGE {"boot":"boot2","player":"D","message":"当前阶段: PRODUCTION"}
+2026-11-19T19:33:22.653Z MESSAGE {"boot":"boot2","player":"D","message":"完成度: 0%"}
+2026-11-19T19:33:22.654Z MESSAGE {"boot":"boot2","player":"D","message":""}
+2026-11-19T19:33:22.655Z MESSAGE {"boot":"boot2","player":"D","message":"建议行动:"}
+2026-11-19T19:33:22.657Z MESSAGE {"boot":"boot2","player":"D","message":"  采集资源"}
+2026-11-19T19:33:22.673Z MESSAGE {"boot":"boot2","player":"D","message":"  训练军队"}
+2026-11-19T19:33:22.675Z MESSAGE {"boot":"boot2","player":"D","message":"  研究科技"}
+2026-11-19T19:33:22.676Z MESSAGE {"boot":"boot2","player":"D","message":""}
+2026-11-19T19:33:22.679Z MESSAGE {"boot":"boot2","player":"D","message":"PhaseTwoD joined the game"}
+2026-11-19T19:33:22.683Z MESSAGE {"boot":"boot2","player":"D","message":"PhaseTwoC joined the game"}
+2026-11-19T19:33:22.698Z MESSAGE {"boot":"boot2","player":"D","message":"PhaseTwoB joined the game"}
+2026-11-19T19:33:22.703Z MESSAGE {"boot":"boot2","player":"D","message":"PhaseTwoA joined the game"}
+2026-11-19T19:33:22.746Z SPAWN {"boot":"boot2","player":"D","username":"PhaseTwoD","uuid":"63e2bb34-acdd-360c-a4b5-57c748f2ef53"}
+2026-11-19T19:33:22.839Z MESSAGE {"boot":"boot2","player":"C","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:33:22.844Z MESSAGE {"boot":"boot2","player":"C","message":""}
+2026-11-19T19:33:22.848Z MESSAGE {"boot":"boot2","player":"C","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:33:22.850Z MESSAGE {"boot":"boot2","player":"C","message":"总体疲劳：0%%"}
+2026-11-19T19:33:22.853Z MESSAGE {"boot":"boot2","player":"C","message":"等级：精神饱满"}
+2026-11-19T19:33:22.855Z MESSAGE {"boot":"boot2","player":"C","message":"身体：0%%"}
+2026-11-19T19:33:22.857Z MESSAGE {"boot":"boot2","player":"C","message":"精神：0%%"}
+2026-11-19T19:33:22.873Z MESSAGE {"boot":"boot2","player":"C","message":"战斗：0%%"}
+2026-11-19T19:33:22.874Z MESSAGE {"boot":"boot2","player":"C","message":"行军：0%%"}
+2026-11-19T19:33:22.876Z MESSAGE {"boot":"boot2","player":"C","message":""}
+2026-11-19T19:33:22.877Z MESSAGE {"boot":"boot2","player":"C","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T19:33:22.878Z MESSAGE {"boot":"boot2","player":"C","message":""}
+2026-11-19T19:33:22.880Z MESSAGE {"boot":"boot2","player":"C","message":"欢迎回来, PhaseTwoC!"}
+2026-11-19T19:33:22.882Z MESSAGE {"boot":"boot2","player":"C","message":""}
+2026-11-19T19:33:22.884Z MESSAGE {"boot":"boot2","player":"C","message":"╔══════════════════════════╗"}
+2026-11-19T19:33:22.885Z MESSAGE {"boot":"boot2","player":"C","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T19:33:22.887Z MESSAGE {"boot":"boot2","player":"C","message":"╚══════════════════════════╝"}
+2026-11-19T19:33:22.890Z MESSAGE {"boot":"boot2","player":"C","message":""}
+2026-11-19T19:33:22.891Z MESSAGE {"boot":"boot2","player":"C","message":"当前阶段: PRODUCTION"}
+2026-11-19T19:33:22.893Z MESSAGE {"boot":"boot2","player":"C","message":"完成度: 0%"}
+2026-11-19T19:33:22.893Z MESSAGE {"boot":"boot2","player":"C","message":""}
+2026-11-19T19:33:22.895Z MESSAGE {"boot":"boot2","player":"C","message":"建议行动:"}
+2026-11-19T19:33:22.895Z MESSAGE {"boot":"boot2","player":"C","message":"  采集资源"}
+2026-11-19T19:33:22.896Z MESSAGE {"boot":"boot2","player":"C","message":"  训练军队"}
+2026-11-19T19:33:22.897Z MESSAGE {"boot":"boot2","player":"C","message":"  研究科技"}
+2026-11-19T19:33:22.897Z MESSAGE {"boot":"boot2","player":"C","message":""}
+2026-11-19T19:33:22.898Z MESSAGE {"boot":"boot2","player":"C","message":"PhaseTwoC joined the game"}
+2026-11-19T19:33:22.899Z MESSAGE {"boot":"boot2","player":"C","message":"PhaseTwoB joined the game"}
+2026-11-19T19:33:22.900Z MESSAGE {"boot":"boot2","player":"C","message":"PhaseTwoA joined the game"}
+2026-11-19T19:33:22.901Z SPAWN {"boot":"boot2","player":"C","username":"PhaseTwoC","uuid":"140669be-0a1a-3206-a8b1-20d23a596b3a"}
+2026-11-19T19:33:22.935Z MESSAGE {"boot":"boot2","player":"B","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:33:22.942Z MESSAGE {"boot":"boot2","player":"B","message":""}
+2026-11-19T19:33:22.943Z MESSAGE {"boot":"boot2","player":"B","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:33:22.944Z MESSAGE {"boot":"boot2","player":"B","message":"总体疲劳：0%%"}
+2026-11-19T19:33:22.946Z MESSAGE {"boot":"boot2","player":"B","message":"等级：精神饱满"}
+2026-11-19T19:33:22.947Z MESSAGE {"boot":"boot2","player":"B","message":"身体：0%%"}
+2026-11-19T19:33:22.949Z MESSAGE {"boot":"boot2","player":"B","message":"精神：0%%"}
+2026-11-19T19:33:22.951Z MESSAGE {"boot":"boot2","player":"B","message":"战斗：0%%"}
+2026-11-19T19:33:22.952Z MESSAGE {"boot":"boot2","player":"B","message":"行军：0%%"}
+2026-11-19T19:33:22.954Z MESSAGE {"boot":"boot2","player":"B","message":""}
+2026-11-19T19:33:22.955Z MESSAGE {"boot":"boot2","player":"B","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T19:33:22.956Z MESSAGE {"boot":"boot2","player":"B","message":""}
+2026-11-19T19:33:22.957Z MESSAGE {"boot":"boot2","player":"B","message":"欢迎回来, PhaseTwoB!"}
+2026-11-19T19:33:22.974Z MESSAGE {"boot":"boot2","player":"B","message":""}
+2026-11-19T19:33:22.975Z MESSAGE {"boot":"boot2","player":"B","message":"╔══════════════════════════╗"}
+2026-11-19T19:33:22.977Z MESSAGE {"boot":"boot2","player":"B","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T19:33:22.978Z MESSAGE {"boot":"boot2","player":"B","message":"╚══════════════════════════╝"}
+2026-11-19T19:33:22.980Z MESSAGE {"boot":"boot2","player":"B","message":""}
+2026-11-19T19:33:22.981Z MESSAGE {"boot":"boot2","player":"B","message":"当前阶段: PRODUCTION"}
+2026-11-19T19:33:22.983Z MESSAGE {"boot":"boot2","player":"B","message":"完成度: 0%"}
+2026-11-19T19:33:22.985Z MESSAGE {"boot":"boot2","player":"B","message":""}
+2026-11-19T19:33:22.986Z MESSAGE {"boot":"boot2","player":"B","message":"建议行动:"}
+2026-11-19T19:33:22.987Z MESSAGE {"boot":"boot2","player":"B","message":"  采集资源"}
+2026-11-19T19:33:22.989Z MESSAGE {"boot":"boot2","player":"B","message":"  训练军队"}
+2026-11-19T19:33:22.990Z MESSAGE {"boot":"boot2","player":"B","message":"  研究科技"}
+2026-11-19T19:33:22.992Z MESSAGE {"boot":"boot2","player":"B","message":""}
+2026-11-19T19:33:22.993Z MESSAGE {"boot":"boot2","player":"B","message":"PhaseTwoB joined the game"}
+2026-11-19T19:33:22.994Z MESSAGE {"boot":"boot2","player":"B","message":"PhaseTwoA joined the game"}
+2026-11-19T19:33:22.996Z SPAWN {"boot":"boot2","player":"B","username":"PhaseTwoB","uuid":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6"}
+2026-11-19T19:33:23.028Z MESSAGE {"boot":"boot2","player":"A","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:33:23.033Z MESSAGE {"boot":"boot2","player":"A","message":""}
+2026-11-19T19:33:23.034Z MESSAGE {"boot":"boot2","player":"A","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:33:23.035Z MESSAGE {"boot":"boot2","player":"A","message":"总体疲劳：0%%"}
+2026-11-19T19:33:23.037Z MESSAGE {"boot":"boot2","player":"A","message":"等级：精神饱满"}
+2026-11-19T19:33:23.039Z MESSAGE {"boot":"boot2","player":"A","message":"身体：0%%"}
+2026-11-19T19:33:23.040Z MESSAGE {"boot":"boot2","player":"A","message":"精神：0%%"}
+2026-11-19T19:33:23.041Z MESSAGE {"boot":"boot2","player":"A","message":"战斗：0%%"}
+2026-11-19T19:33:23.042Z MESSAGE {"boot":"boot2","player":"A","message":"行军：0%%"}
+2026-11-19T19:33:23.044Z MESSAGE {"boot":"boot2","player":"A","message":""}
+2026-11-19T19:33:23.045Z MESSAGE {"boot":"boot2","player":"A","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T19:33:23.046Z MESSAGE {"boot":"boot2","player":"A","message":""}
+2026-11-19T19:33:23.047Z MESSAGE {"boot":"boot2","player":"A","message":"欢迎回来, PhaseTwoA!"}
+2026-11-19T19:33:23.048Z MESSAGE {"boot":"boot2","player":"A","message":""}
+2026-11-19T19:33:23.048Z MESSAGE {"boot":"boot2","player":"A","message":"╔══════════════════════════╗"}
+2026-11-19T19:33:23.049Z MESSAGE {"boot":"boot2","player":"A","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T19:33:23.050Z MESSAGE {"boot":"boot2","player":"A","message":"╚══════════════════════════╝"}
+2026-11-19T19:33:23.050Z MESSAGE {"boot":"boot2","player":"A","message":""}
+2026-11-19T19:33:23.051Z MESSAGE {"boot":"boot2","player":"A","message":"当前阶段: PRODUCTION"}
+2026-11-19T19:33:23.052Z MESSAGE {"boot":"boot2","player":"A","message":"完成度: 0%"}
+2026-11-19T19:33:23.053Z MESSAGE {"boot":"boot2","player":"A","message":""}
+2026-11-19T19:33:23.053Z MESSAGE {"boot":"boot2","player":"A","message":"建议行动:"}
+2026-11-19T19:33:23.054Z MESSAGE {"boot":"boot2","player":"A","message":"  采集资源"}
+2026-11-19T19:33:23.055Z MESSAGE {"boot":"boot2","player":"A","message":"  训练军队"}
+2026-11-19T19:33:23.056Z MESSAGE {"boot":"boot2","player":"A","message":"  研究科技"}
+2026-11-19T19:33:23.056Z MESSAGE {"boot":"boot2","player":"A","message":""}
+2026-11-19T19:33:23.082Z MESSAGE {"boot":"boot2","player":"A","message":"PhaseTwoA joined the game"}
+2026-11-19T19:33:23.085Z SPAWN {"boot":"boot2","player":"A","username":"PhaseTwoA","uuid":"08ffd450-5001-3023-a480-057fef707037"}
+2026-11-19T19:33:59.620Z CONNECTING {"boot":"boot2","player":"E","username":"PhaseTwoE","late":true}
+2026-11-19T19:33:59.747Z MESSAGE {"boot":"boot2","player":"B","message":"PhaseTwoE joined the game"}
+2026-11-19T19:33:59.761Z MESSAGE {"boot":"boot2","player":"D","message":"PhaseTwoE joined the game"}
+2026-11-19T19:33:59.770Z MESSAGE {"boot":"boot2","player":"C","message":"PhaseTwoE joined the game"}
+2026-11-19T19:33:59.776Z MESSAGE {"boot":"boot2","player":"A","message":"PhaseTwoE joined the game"}
+2026-11-19T19:33:59.779Z MESSAGE {"boot":"boot2","player":"E","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:33:59.791Z MESSAGE {"boot":"boot2","player":"E","message":""}
+2026-11-19T19:33:59.792Z MESSAGE {"boot":"boot2","player":"E","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:33:59.794Z MESSAGE {"boot":"boot2","player":"E","message":"总体疲劳：0%%"}
+2026-11-19T19:33:59.796Z MESSAGE {"boot":"boot2","player":"E","message":"等级：精神饱满"}
+2026-11-19T19:33:59.797Z MESSAGE {"boot":"boot2","player":"E","message":"身体：0%%"}
+2026-11-19T19:33:59.799Z MESSAGE {"boot":"boot2","player":"E","message":"精神：0%%"}
+2026-11-19T19:33:59.800Z MESSAGE {"boot":"boot2","player":"E","message":"战斗：0%%"}
+2026-11-19T19:33:59.801Z MESSAGE {"boot":"boot2","player":"E","message":"行军：0%%"}
+2026-11-19T19:33:59.802Z MESSAGE {"boot":"boot2","player":"E","message":""}
+2026-11-19T19:33:59.802Z MESSAGE {"boot":"boot2","player":"E","message":""}
+2026-11-19T19:33:59.803Z MESSAGE {"boot":"boot2","player":"E","message":"╔══════════════════════════╗"}
+2026-11-19T19:33:59.803Z MESSAGE {"boot":"boot2","player":"E","message":"║    ★ 欢迎来到星核世界 ★    ║"}
+2026-11-19T19:33:59.804Z MESSAGE {"boot":"boot2","player":"E","message":"╚══════════════════════════╝"}
+2026-11-19T19:33:59.805Z MESSAGE {"boot":"boot2","player":"E","message":""}
+2026-11-19T19:33:59.806Z MESSAGE {"boot":"boot2","player":"E","message":"在这里，你可以："}
+2026-11-19T19:33:59.807Z MESSAGE {"boot":"boot2","player":"E","message":"  • 采集资源，建立经济基础"}
+2026-11-19T19:33:59.813Z MESSAGE {"boot":"boot2","player":"E","message":"  • 训练军队，保卫领土扩张"}
+2026-11-19T19:33:59.816Z MESSAGE {"boot":"boot2","player":"E","message":"  • 开展外交，建立同盟关系"}
+2026-11-19T19:33:59.817Z MESSAGE {"boot":"boot2","player":"E","message":"  • 研究科技，推动国家进步"}
+2026-11-19T19:33:59.818Z MESSAGE {"boot":"boot2","player":"E","message":"  • 完成任务，解锁成就奖励"}
+2026-11-19T19:33:59.819Z MESSAGE {"boot":"boot2","player":"E","message":""}
+2026-11-19T19:33:59.820Z MESSAGE {"boot":"boot2","player":"E","message":"输入 /starcore help 查看所有指令"}
+2026-11-19T19:33:59.820Z MESSAGE {"boot":"boot2","player":"E","message":"或点击屏幕上的菜单按钮开始探索"}
+2026-11-19T19:33:59.821Z MESSAGE {"boot":"boot2","player":"E","message":""}
+2026-11-19T19:33:59.822Z MESSAGE {"boot":"boot2","player":"E","message":"已收到 STARCORE 玩法指南，右键打开。"}
+2026-11-19T19:33:59.823Z MESSAGE {"boot":"boot2","player":"E","message":"PhaseTwoE joined the game"}
+2026-11-19T19:33:59.827Z MESSAGE {"boot":"boot2","player":"E","message":"✓ 解锁新称号: 新人"}
+2026-11-19T19:33:59.828Z MESSAGE {"boot":"boot2","player":"E","message":"✓ 解锁新徽章: 新手徽章"}
+2026-11-19T19:33:59.829Z SPAWN {"boot":"boot2","player":"E","username":"PhaseTwoE","uuid":"537e4ee6-1f2c-3a76-ac52-997d9d6a41a7"}
+2026-11-19T19:34:14.624Z SENT {"boot":"boot2","player":"A","message":"/chronicle scene"}
+2026-11-19T19:34:14.626Z SENT {"boot":"boot2","player":"D","message":"/chronicle npc ancient-heir"}
+2026-11-19T19:34:14.632Z SENT {"boot":"boot2","player":"C","message":"/chronicle past last-heir/1/council"}
+2026-11-19T19:34:14.634Z SENT {"boot":"boot2","player":"D","message":"/chronicle past last-heir/1/council"}
+2026-11-19T19:34:14.724Z WINDOW {"boot":"boot2","player":"D","id":1,"title":{"type":"string","value":"人物档案 · 伊蕾娅"},"items":7}
+2026-11-19T19:34:14.729Z MESSAGE {"boot":"boot2","player":"D","message":"[编年史] past.player.choice.last-heir/1/council = oppose\npast.resolution.world.last-heir/1/council = support"}
+2026-11-19T19:34:14.733Z MESSAGE {"boot":"boot2","player":"C","message":"[编年史] past.resolution.world.last-heir/1/council = support"}
+2026-11-19T19:34:14.735Z WINDOW {"boot":"boot2","player":"A","id":1,"title":{"type":"string","value":"原生场景 · 旧都证词：继承人的请求"},"items":5}
+2026-11-19T19:34:38.574Z CLIENT_VIEW {"boot":"boot2","player":"D","window":{"id":1,"title":{"type":"string","value":"人物档案 · 伊蕾娅"},"slots":[{"slot":4,"name":"player_head","label":"伊蕾娅","lore":["阵营: imperial-claimants","职位: council-speaker","成长: 20"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"伊蕾娅"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"阵营: imperial-claimants"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"职位: council-speaker"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"成长: 20"}}}]}]},{"slot":10,"name":"book","label":"人物背景","lore":["古帝国旁系后裔，自称保管着失落的皇室印玺。她的主张仍需各国与学者共同考证。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"人物背景"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"古帝国旁系后裔，自称保管着失落的皇室印玺。她的主张仍需各国与学者共同考证。"}}}]}]},{"slot":12,"name":"emerald","label":"你与此人的关系","lore":["声望: 25","信任: 12","敌对: 0"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"你与此人的关系"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"声望: 25"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"信任: 12"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"敌对: 0"}}}]}]},{"slot":14,"name":"paper","label":"此刻的对话","lore":["议会当时支持了我的主张，但你曾投下反对票。我不会把共同决议说成你的个人立场。","我们可以继续核对证据。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"此刻的对话"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"议会当时支持了我的主张，但你曾投下反对票。我不会把共同决议说成你的个人立场。"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"我们可以继续核对证据。"}}}]}]},{"slot":31,"name":"compass","label":"相关剧情","lore":["按当前身份和已发生的事件筛选。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"相关剧情"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"按当前身份和已发生的事件筛选。"}}}]}]},{"slot":49,"name":"clock","label":"查阅世界历史","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"查阅世界历史"}}}}]}]}}
+2026-11-19T19:34:38.582Z CLICKED {"boot":"boot2","player":"A","slot":31}
+2026-11-19T19:34:38.670Z MESSAGE {"boot":"boot2","player":"A","message":"[编年史] 原生补充场景已结束；共同议会进度仍由编年史剧情控制。"}
+2026-11-19T19:34:38.719Z WINDOW {"boot":"boot2","player":"A","id":2,"title":{"type":"string","value":"共同书写历史 · 1"},"items":6}
+2026-11-19T19:34:40.790Z SENT {"boot":"boot2","player":"A","message":"/chronicle stories"}
+2026-11-19T19:34:40.791Z SENT {"boot":"boot2","player":"C","message":"/chronicle stories"}
+2026-11-19T19:34:40.792Z SENT {"boot":"boot2","player":"D","message":"/chronicle stories"}
+2026-11-19T19:34:40.866Z WINDOW {"boot":"boot2","player":"A","id":3,"title":{"type":"string","value":"共同书写历史 · 1"},"items":6}
+2026-11-19T19:34:40.874Z WINDOW {"boot":"boot2","player":"C","id":1,"title":{"type":"string","value":"共同书写历史 · 1"},"items":6}
+2026-11-19T19:34:40.913Z WINDOW {"boot":"boot2","player":"D","id":2,"title":{"type":"string","value":"共同书写历史 · 1"},"items":6}
+2026-11-19T19:34:41.902Z CLICKED {"boot":"boot2","player":"A","slot":1,"matchedName":"旧都档案：每个人的那一票"}
+2026-11-19T19:34:41.905Z CLICKED {"boot":"boot2","player":"C","slot":2,"matchedName":"旧都档案：每个人的那一票"}
+2026-11-19T19:34:41.906Z CLICKED {"boot":"boot2","player":"D","slot":1,"matchedName":"旧都档案：每个人的那一票"}
+2026-11-19T19:34:41.971Z WINDOW {"boot":"boot2","player":"D","id":3,"title":{"type":"string","value":"旧都档案：每个人的那一票"},"items":6}
+2026-11-19T19:34:41.982Z WINDOW {"boot":"boot2","player":"C","id":2,"title":{"type":"string","value":"旧都档案：每个人的那一票"},"items":6}
+2026-11-19T19:34:42.004Z WINDOW {"boot":"boot2","player":"A","id":4,"title":{"type":"string","value":"旧都档案：每个人的那一票"},"items":6}
+2026-11-19T19:36:27.345Z CHOICES_VERIFIED {"boot":"boot2","player":"A","choices":["reconcile","testimony"]}
+2026-11-19T19:36:27.346Z CHOICES_VERIFIED {"boot":"boot2","player":"C","choices":["reconcile","witness"]}
+2026-11-19T19:36:27.347Z CHOICES_VERIFIED {"boot":"boot2","player":"D","choices":["reconcile","testimony"]}
+2026-11-19T19:36:27.347Z CLIENT_VIEW {"boot":"boot2","player":"A","window":{"id":4,"title":{"type":"string","value":"旧都档案：每个人的那一票"},"slots":[{"slot":0,"name":"paper","label":"剧情文本","lore":["旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同","决议。投过败方票、没有投票和表示支持，是不同的经历。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"剧情文本"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"决议。投过败方票、没有投票和表示支持，是不同的经历。"}}}]}]},{"slot":4,"name":"written_book","label":"旧都档案：每个人的那一票","lore":["实例: 58ff06133d2e28e9f5f0050f3735349f2f","fed54b80994c2a7793d56e40355736","当前阶段: archive","投票: 0 / 1"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"旧都档案：每个人的那一票"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"实例: 58ff06133d2e28e9f5f0050f3735349f2f"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"fed54b80994c2a7793d56e40355736"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"当前阶段: archive"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"投票: 0 / 1"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":9,"name":"lime_dye","label":"对照公开决议与我亲历的结局记录","lore":["选项: reconcile","权限和条件由服务端即时重新验证。","同一阶段每人保留一票；达到法定人数后推进。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"对照公开决议与我亲历的结局记录"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"选项: reconcile"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"权限和条件由服务端即时重新验证。"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"同一阶段每人保留一票；达到法定人数后推进。"}}}]}]},{"slot":10,"name":"lime_dye","label":"记录我在议会实际投出的主张","lore":["选项: testimony","权限和条件由服务端即时重新验证。","同一阶段每人保留一票；达到法定人数后推进。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"记录我在议会实际投出的主张"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"选项: testimony"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"权限和条件由服务端即时重新验证。"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"同一阶段每人保留一票；达到法定人数后推进。"}}}]}]},{"slot":49,"name":"arrow","label":"返回剧情列表","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"返回剧情列表"}}}}]}]}}
+2026-11-19T19:36:27.350Z CLIENT_VIEW {"boot":"boot2","player":"C","window":{"id":2,"title":{"type":"string","value":"旧都档案：每个人的那一票"},"slots":[{"slot":0,"name":"paper","label":"剧情文本","lore":["旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同","决议。投过败方票、没有投票和表示支持，是不同的经历。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"剧情文本"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"决议。投过败方票、没有投票和表示支持，是不同的经历。"}}}]}]},{"slot":4,"name":"written_book","label":"旧都档案：每个人的那一票","lore":["实例: ac427c342e8ea47efc0586d4dfd66fcfcd","9ad649f7e9ca702e565bebbfdc4843","当前阶段: archive","投票: 0 / 1"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"旧都档案：每个人的那一票"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"实例: ac427c342e8ea47efc0586d4dfd66fcfcd"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"9ad649f7e9ca702e565bebbfdc4843"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"当前阶段: archive"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"投票: 0 / 1"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":9,"name":"lime_dye","label":"对照公开决议与我亲历的结局记录","lore":["选项: reconcile","权限和条件由服务端即时重新验证。","同一阶段每人保留一票；达到法定人数后推进。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"对照公开决议与我亲历的结局记录"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"选项: reconcile"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"权限和条件由服务端即时重新验证。"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"同一阶段每人保留一票；达到法定人数后推进。"}}}]}]},{"slot":10,"name":"lime_dye","label":"我未在该轮投票，以见证者身份留下说明","lore":["选项: witness","权限和条件由服务端即时重新验证。","同一阶段每人保留一票；达到法定人数后推进。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"我未在该轮投票，以见证者身份留下说明"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"选项: witness"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"权限和条件由服务端即时重新验证。"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"同一阶段每人保留一票；达到法定人数后推进。"}}}]}]},{"slot":49,"name":"arrow","label":"返回剧情列表","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"返回剧情列表"}}}}]}]}}
+2026-11-19T19:36:27.353Z CLIENT_VIEW {"boot":"boot2","player":"D","window":{"id":3,"title":{"type":"string","value":"旧都档案：每个人的那一票"},"slots":[{"slot":0,"name":"paper","label":"剧情文本","lore":["旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同","决议。投过败方票、没有投票和表示支持，是不同的经历。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"剧情文本"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"旧都图书馆开始编纂议会之后的档案。这里分别保存每个人实际投出的主张和最终共同"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"决议。投过败方票、没有投票和表示支持，是不同的经历。"}}}]}]},{"slot":4,"name":"written_book","label":"旧都档案：每个人的那一票","lore":["实例: a45f0a61a86ae5fbdf730ed729059ea420","5d039b7ec479fa580e24c5fe1a8c93","当前阶段: archive","投票: 0 / 1"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"旧都档案：每个人的那一票"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"实例: a45f0a61a86ae5fbdf730ed729059ea420"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"5d039b7ec479fa580e24c5fe1a8c93"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"当前阶段: archive"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"投票: 0 / 1"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":9,"name":"lime_dye","label":"对照公开决议与我亲历的结局记录","lore":["选项: reconcile","权限和条件由服务端即时重新验证。","同一阶段每人保留一票；达到法定人数后推进。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"对照公开决议与我亲历的结局记录"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"选项: reconcile"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"权限和条件由服务端即时重新验证。"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"同一阶段每人保留一票；达到法定人数后推进。"}}}]}]},{"slot":10,"name":"lime_dye","label":"记录我在议会实际投出的主张","lore":["选项: testimony","权限和条件由服务端即时重新验证。","同一阶段每人保留一票；达到法定人数后推进。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"记录我在议会实际投出的主张"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"选项: testimony"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"权限和条件由服务端即时重新验证。"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"同一阶段每人保留一票；达到法定人数后推进。"}}}]}]},{"slot":49,"name":"arrow","label":"返回剧情列表","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"返回剧情列表"}}}}]}]}}
+2026-11-19T19:36:44.990Z CLICKED {"boot":"boot2","player":"A","slot":10,"choice":"testimony","matchedName":"记录我在议会实际投出的主张"}
+2026-11-19T19:36:44.991Z CLICKED {"boot":"boot2","player":"C","slot":10,"choice":"witness","matchedName":"我未在该轮投票，以见证者身份留下说明"}
+2026-11-19T19:36:44.994Z CLICKED {"boot":"boot2","player":"D","slot":9,"choice":"reconcile","matchedName":"对照公开决议与我亲历的结局记录"}
+2026-11-19T19:36:45.062Z MESSAGE {"boot":"boot2","player":"D","message":"[编年史] 剧情已完成，历史已经保存"}
+2026-11-19T19:36:45.066Z MESSAGE {"boot":"boot2","player":"C","message":"[编年史] 剧情已完成，历史已经保存"}
+2026-11-19T19:36:45.067Z MESSAGE {"boot":"boot2","player":"A","message":"[编年史] 剧情已完成，历史已经保存"}
+2026-11-19T19:36:45.115Z WINDOW {"boot":"boot2","player":"D","id":4,"title":{"type":"string","value":"共同书写历史 · 1"},"items":6}
+2026-11-19T19:36:45.119Z WINDOW {"boot":"boot2","player":"C","id":3,"title":{"type":"string","value":"共同书写历史 · 1"},"items":6}
+2026-11-19T19:36:45.121Z WINDOW {"boot":"boot2","player":"A","id":5,"title":{"type":"string","value":"共同书写历史 · 1"},"items":6}
+2026-11-19T19:37:00.714Z SENT {"boot":"boot2","player":"A","message":"/chronicle fate"}
+2026-11-19T19:37:00.716Z SENT {"boot":"boot2","player":"C","message":"/chronicle history"}
+2026-11-19T19:37:00.723Z SENT {"boot":"boot2","player":"D","message":"/chronicle history player me"}
+2026-11-19T19:37:00.769Z WINDOW {"boot":"boot2","player":"C","id":4,"title":{"type":"string","value":"世界编年史 · 1"},"items":20}
+2026-11-19T19:37:00.802Z WINDOW {"boot":"boot2","player":"D","id":5,"title":{"type":"string","value":"世界编年史 · 1"},"items":10}
+2026-11-19T19:37:00.814Z WINDOW {"boot":"boot2","player":"A","id":6,"title":{"type":"string","value":"我的命运与历史荣誉"},"items":6}
+2026-11-19T19:37:09.103Z CLIENT_VIEW {"boot":"boot2","player":"A","window":{"id":6,"title":{"type":"string","value":"我的命运与历史荣誉"},"slots":[{"slot":4,"name":"player_head","label":"当前命运","lore":["身份: monarch","荣誉: 17"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"当前命运"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"身份: monarch"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"荣誉: 17"}}}]}]},{"slot":9,"name":"name_tag","label":"议会证言保存者","lore":["历史称号: title.imperial-testimony-keeper"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"议会证言保存者"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"历史称号: title.imperial-testimony-keeper"}}}]}]},{"slot":10,"name":"name_tag","label":"旧都的守望者","lore":["历史称号: title.old-capital-guardian"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"旧都的守望者"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"历史称号: title.old-capital-guardian"}}}]}]},{"slot":48,"name":"written_book","label":"我的传记","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"我的传记"}}}},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":49,"name":"compass","label":"专属剧情","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"专属剧情"}}}}]}]}}
+2026-11-19T19:37:09.129Z CLIENT_VIEW {"boot":"boot2","player":"C","window":{"id":4,"title":{"type":"string","value":"世界编年史 · 1"},"slots":[{"slot":0,"name":"written_book","label":"HEIR_RECORDS_RECONCILED","lore":["2026-11-19 19:36:45 UTC","国家: fd61755c-7d80-40cf-aa0b-5737c710c8","f4","来源: StarChronicle","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"HEIR_RECORDS_RECONCILED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:36:45 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: fd61755c-7d80-40cf-aa0b-5737c710c8"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"f4"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":1,"name":"written_book","label":"HEIR_WITNESS_ACCOUNT","lore":["2026-11-19 19:36:45 UTC","国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d","54","来源: StarChronicle","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"HEIR_WITNESS_ACCOUNT"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:36:45 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"54"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":2,"name":"written_book","label":"HEIR_PERSONAL_TESTIMONY","lore":["2026-11-19 19:36:45 UTC","国家: d0ad16cb-6c42-41fd-9930-1e1b648c48","da","来源: StarChronicle","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"HEIR_PERSONAL_TESTIMONY"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:36:45 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: d0ad16cb-6c42-41fd-9930-1e1b648c48"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"da"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":3,"name":"written_book","label":"PLAYER_JOIN","lore":["2026-11-19 19:33:59 UTC","国家: ","来源: StarChronicle.PlayerJoinEvent","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"PLAYER_JOIN"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:33:59 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: "}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle.PlayerJoinEvent"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":4,"name":"written_book","label":"HEIR_RESTORATION_SUPPORTED","lore":["2026-11-19 19:31:16 UTC","国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d","54, d0ad16cb-6c42-41fd-9930-1e1b648c48","da, 25f77bd3-9110-44b5-a6c3-aee49ed195","58, fd61755c-7d80-40cf-aa0b-5737c710c8","f4","来源: StarChronicle","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"HEIR_RESTORATION_SUPPORTED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:31:16 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"54, d0ad16cb-6c42-41fd-9930-1e1b648c48"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"da, 25f77bd3-9110-44b5-a6c3-aee49ed195"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"58, fd61755c-7d80-40cf-aa0b-5737c710c8"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"f4"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":5,"name":"written_book","label":"HEIR_COUNCIL_OPENED","lore":["2026-11-19 19:30:50 UTC","国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d","54, d0ad16cb-6c42-41fd-9930-1e1b648c48","da, 25f77bd3-9110-44b5-a6c3-aee49ed195","58, fd61755c-7d80-40cf-aa0b-5737c710c8","f4","来源: StarChronicle","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"HEIR_COUNCIL_OPENED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:50 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"54, d0ad16cb-6c42-41fd-9930-1e1b648c48"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"da, 25f77bd3-9110-44b5-a6c3-aee49ed195"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"58, fd61755c-7d80-40cf-aa0b-5737c710c8"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"f4"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":6,"name":"written_book","label":"ANCIENT_HEIR_DISCOVERED","lore":["2026-11-19 19:30:34 UTC","国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d","54, d0ad16cb-6c42-41fd-9930-1e1b648c48","da, 25f77bd3-9110-44b5-a6c3-aee49ed195","58, fd61755c-7d80-40cf-aa0b-5737c710c8","f4","来源: PhaseTwoPaperFixture","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"ANCIENT_HEIR_DISCOVERED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:34 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"54, d0ad16cb-6c42-41fd-9930-1e1b648c48"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"da, 25f77bd3-9110-44b5-a6c3-aee49ed195"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"58, fd61755c-7d80-40cf-aa0b-5737c710c8"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"f4"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: PhaseTwoPaperFixture"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":7,"name":"written_book","label":"NATION_FOUNDED","lore":["2026-11-19 19:30:34 UTC","国家: fd61755c-7d80-40cf-aa0b-5737c710c8","f4","来源: StarCore","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"NATION_FOUNDED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:34 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: fd61755c-7d80-40cf-aa0b-5737c710c8"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"f4"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarCore"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":8,"name":"written_book","label":"NATION_FOUNDED","lore":["2026-11-19 19:30:34 UTC","国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d","54","来源: StarCore","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"NATION_FOUNDED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:34 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"54"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarCore"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":9,"name":"written_book","label":"NATION_FOUNDED","lore":["2026-11-19 19:30:34 UTC","国家: 25f77bd3-9110-44b5-a6c3-aee49ed195","58","来源: StarCore","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"NATION_FOUNDED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:34 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: 25f77bd3-9110-44b5-a6c3-aee49ed195"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"58"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarCore"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":10,"name":"written_book","label":"NATION_FOUNDED","lore":["2026-11-19 19:30:34 UTC","国家: d0ad16cb-6c42-41fd-9930-1e1b648c48","da","来源: StarCore","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"NATION_FOUNDED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:34 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: d0ad16cb-6c42-41fd-9930-1e1b648c48"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"da"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarCore"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":11,"name":"written_book","label":"PLAYER_JOIN","lore":["2026-11-19 19:30:07 UTC","国家: ","来源: StarChronicle.PlayerJoinEvent","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"PLAYER_JOIN"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:07 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: "}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle.PlayerJoinEvent"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":12,"name":"written_book","label":"PLAYER_JOIN","lore":["2026-11-19 19:30:07 UTC","国家: ","来源: StarChronicle.PlayerJoinEvent","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"PLAYER_JOIN"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:07 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: "}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle.PlayerJoinEvent"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":13,"name":"written_book","label":"PLAYER_JOIN","lore":["2026-11-19 19:30:07 UTC","国家: ","来源: StarChronicle.PlayerJoinEvent","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"PLAYER_JOIN"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:07 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: "}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle.PlayerJoinEvent"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":14,"name":"written_book","label":"PLAYER_JOIN","lore":["2026-11-19 19:30:07 UTC","国家: ","来源: StarChronicle.PlayerJoinEvent","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"PLAYER_JOIN"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:07 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: "}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle.PlayerJoinEvent"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":46,"name":"clock","label":"全服历史","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"全服历史"}}}}]},{"slot":47,"name":"white_banner","label":"本国历史","lore":["b0bbe965-8d52-4d4b-9b71-9a01a7e58d54"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"本国历史"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"b0bbe965-8d52-4d4b-9b71-9a01a7e58d54"}}}]}]},{"slot":48,"name":"player_head","label":"个人传记","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"个人传记"}}}}]},{"slot":49,"name":"compass","label":"我的剧情","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"我的剧情"}}}}]}]}}
+2026-11-19T19:37:09.183Z CLIENT_VIEW {"boot":"boot2","player":"D","window":{"id":5,"title":{"type":"string","value":"世界编年史 · 1"},"slots":[{"slot":0,"name":"written_book","label":"HEIR_RECORDS_RECONCILED","lore":["2026-11-19 19:36:45 UTC","国家: fd61755c-7d80-40cf-aa0b-5737c710c8","f4","来源: StarChronicle","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"HEIR_RECORDS_RECONCILED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:36:45 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: fd61755c-7d80-40cf-aa0b-5737c710c8"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"f4"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":1,"name":"written_book","label":"HEIR_RESTORATION_SUPPORTED","lore":["2026-11-19 19:31:16 UTC","国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d","54, d0ad16cb-6c42-41fd-9930-1e1b648c48","da, 25f77bd3-9110-44b5-a6c3-aee49ed195","58, fd61755c-7d80-40cf-aa0b-5737c710c8","f4","来源: StarChronicle","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"HEIR_RESTORATION_SUPPORTED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:31:16 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"54, d0ad16cb-6c42-41fd-9930-1e1b648c48"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"da, 25f77bd3-9110-44b5-a6c3-aee49ed195"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"58, fd61755c-7d80-40cf-aa0b-5737c710c8"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"f4"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":2,"name":"written_book","label":"HEIR_COUNCIL_OPENED","lore":["2026-11-19 19:30:50 UTC","国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d","54, d0ad16cb-6c42-41fd-9930-1e1b648c48","da, 25f77bd3-9110-44b5-a6c3-aee49ed195","58, fd61755c-7d80-40cf-aa0b-5737c710c8","f4","来源: StarChronicle","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"HEIR_COUNCIL_OPENED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:50 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"54, d0ad16cb-6c42-41fd-9930-1e1b648c48"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"da, 25f77bd3-9110-44b5-a6c3-aee49ed195"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"58, fd61755c-7d80-40cf-aa0b-5737c710c8"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"f4"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":3,"name":"written_book","label":"ANCIENT_HEIR_DISCOVERED","lore":["2026-11-19 19:30:34 UTC","国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d","54, d0ad16cb-6c42-41fd-9930-1e1b648c48","da, 25f77bd3-9110-44b5-a6c3-aee49ed195","58, fd61755c-7d80-40cf-aa0b-5737c710c8","f4","来源: PhaseTwoPaperFixture","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"ANCIENT_HEIR_DISCOVERED"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:34 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: b0bbe965-8d52-4d4b-9b71-9a01a7e58d"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"54, d0ad16cb-6c42-41fd-9930-1e1b648c48"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"da, 25f77bd3-9110-44b5-a6c3-aee49ed195"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"58, fd61755c-7d80-40cf-aa0b-5737c710c8"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"f4"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: PhaseTwoPaperFixture"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":4,"name":"written_book","label":"PLAYER_JOIN","lore":["2026-11-19 19:30:07 UTC","国家: ","来源: StarChronicle.PlayerJoinEvent","点击查看完整证据与事件 ID"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"PLAYER_JOIN"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:30:07 UTC"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"国家: "}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"来源: StarChronicle.PlayerJoinEvent"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"点击查看完整证据与事件 ID"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":46,"name":"clock","label":"全服历史","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"全服历史"}}}}]},{"slot":47,"name":"white_banner","label":"本国历史","lore":["fd61755c-7d80-40cf-aa0b-5737c710c8f4"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"本国历史"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"fd61755c-7d80-40cf-aa0b-5737c710c8f4"}}}]}]},{"slot":48,"name":"player_head","label":"个人传记","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"个人传记"}}}}]},{"slot":49,"name":"compass","label":"我的剧情","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"我的剧情"}}}}]}]}}
+2026-11-19T19:37:09.204Z CLICKED {"boot":"boot2","player":"C","slot":0}
+2026-11-19T19:37:09.216Z WINDOW {"boot":"boot2","player":"C","id":5,"title":{"type":"string","value":"历史证据 · 1"},"items":12}
+2026-11-19T19:37:16.615Z CLIENT_VIEW {"boot":"boot2","player":"C","window":{"id":5,"title":{"type":"string","value":"历史证据 · 1"},"slots":[{"slot":0,"name":"paper","label":"事件 ID","lore":["chronicle:6d52568bac46176f54b7a5e99ba9","de497aa470ec6fb5d02161529b789208bc43"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"事件 ID"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"chronicle:6d52568bac46176f54b7a5e99ba9"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"de497aa470ec6fb5d02161529b789208bc43"}}}]}]},{"slot":1,"name":"paper","label":"类型","lore":["HEIR_RECORDS_RECONCILED"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"类型"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"HEIR_RECORDS_RECONCILED"}}}]}]},{"slot":2,"name":"paper","label":"发生时间","lore":["2026-11-19 19:36:45 UTC"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"发生时间"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"2026-11-19 19:36:45 UTC"}}}]}]},{"slot":3,"name":"paper","label":"来源","lore":["StarChronicle"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"来源"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"StarChronicle"}}}]}]},{"slot":4,"name":"paper","label":"所属国家","lore":["fd61755c-7d80-40cf-aa0b-5737c710c8f4"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"所属国家"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"fd61755c-7d80-40cf-aa0b-5737c710c8f4"}}}]}]},{"slot":5,"name":"paper","label":"参与者 UUID","lore":["63e2bb34-acdd-360c-a4b5-57c748f2ef53"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"参与者 UUID"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"63e2bb34-acdd-360c-a4b5-57c748f2ef53"}}}]}]},{"slot":6,"name":"paper","label":"来源证据 · 1","lore":["instance=a45f0a61a86ae5fbdf730ed729059","ea4205d039b7ec479fa580e24c5fe1a8c93; a","ction=node/reconciled; effect=archive-","history; source=chronicle:975377c7394a","74dbaafc65237cf43cdccda38990fe1b2ef3f4","6b428f6464ebe7"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"来源证据 · 1"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"instance=a45f0a61a86ae5fbdf730ed729059"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"ea4205d039b7ec479fa580e24c5fe1a8c93; a"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"ction=node/reconciled; effect=archive-"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"history; source=chronicle:975377c7394a"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"74dbaafc65237cf43cdccda38990fe1b2ef3f4"}}},{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"6b428f6464ebe7"}}}]}]},{"slot":7,"name":"paper","label":"事实 · outcome · 1","lore":["参与者核对了旧都议会共同决议及自己亲历的叙事结局。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"事实 · outcome · 1"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"参与者核对了旧都议会共同决议及自己亲历的叙事结局。"}}}]}]},{"slot":8,"name":"paper","label":"事实 · story · 1","lore":["heir-legacy"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"事实 · story · 1"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"heir-legacy"}}}]}]},{"slot":48,"name":"written_book","label":"阅读真实历史书","lore":["书中保留本事件 ID、来源与完整证据。"],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"阅读真实历史书"}}}},{"type":"lore","data":[{"type":"compound","value":{"color":{"type":"string","value":"gray"},"text":{"type":"string","value":"书中保留本事件 ID、来源与完整证据。"}}}]},{"type":"written_book_content","data":{"rawTitle":"","author":"","generation":0,"pages":[],"resolved":false}}]},{"slot":49,"name":"book","label":"返回历史","lore":[],"components":[{"type":"custom_name","data":{"type":"compound","value":{"color":{"type":"string","value":"gold"},"text":{"type":"string","value":"返回历史"}}}}]}]}}
+2026-11-19T19:39:07.402Z ENDED {"boot":"boot2","player":"C","reason":"phase two acceptance complete"}
+2026-11-19T19:39:07.405Z ENDED {"boot":"boot2","player":"D","reason":"phase two acceptance complete"}
+2026-11-19T19:39:07.408Z ENDED {"boot":"boot2","player":"B","reason":"phase two acceptance complete"}
+2026-11-19T19:39:07.409Z ENDED {"boot":"boot2","player":"A","reason":"phase two acceptance complete"}
+2026-11-19T19:39:07.410Z ENDED {"boot":"boot2","player":"E","reason":"phase two acceptance complete"}
+2026-11-19T19:40:14.523Z CONNECTING {"boot":"boot3","player":"A","username":"PhaseTwoA","late":false}
+2026-11-19T19:40:14.528Z CONNECTING {"boot":"boot3","player":"B","username":"PhaseTwoB","late":false}
+2026-11-19T19:40:14.531Z CONNECTING {"boot":"boot3","player":"C","username":"PhaseTwoC","late":false}
+2026-11-19T19:40:14.535Z CONNECTING {"boot":"boot3","player":"D","username":"PhaseTwoD","late":false}
+2026-11-19T19:40:16.925Z MESSAGE {"boot":"boot3","player":"C","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:40:16.947Z MESSAGE {"boot":"boot3","player":"C","message":""}
+2026-11-19T19:40:17.004Z MESSAGE {"boot":"boot3","player":"C","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:40:17.134Z MESSAGE {"boot":"boot3","player":"C","message":"总体疲劳：0%%"}
+2026-11-19T19:40:17.135Z MESSAGE {"boot":"boot3","player":"C","message":"等级：精神饱满"}
+2026-11-19T19:40:17.157Z MESSAGE {"boot":"boot3","player":"C","message":"身体：0%%"}
+2026-11-19T19:40:17.161Z MESSAGE {"boot":"boot3","player":"C","message":"精神：0%%"}
+2026-11-19T19:40:17.379Z MESSAGE {"boot":"boot3","player":"C","message":"战斗：0%%"}
+2026-11-19T19:40:17.427Z MESSAGE {"boot":"boot3","player":"C","message":"行军：0%%"}
+2026-11-19T19:40:17.445Z MESSAGE {"boot":"boot3","player":"C","message":""}
+2026-11-19T19:40:17.474Z MESSAGE {"boot":"boot3","player":"C","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T19:40:17.490Z MESSAGE {"boot":"boot3","player":"C","message":""}
+2026-11-19T19:40:17.523Z MESSAGE {"boot":"boot3","player":"C","message":"欢迎回来, PhaseTwoC!"}
+2026-11-19T19:40:17.526Z MESSAGE {"boot":"boot3","player":"C","message":""}
+2026-11-19T19:40:17.530Z MESSAGE {"boot":"boot3","player":"C","message":"╔══════════════════════════╗"}
+2026-11-19T19:40:17.532Z MESSAGE {"boot":"boot3","player":"C","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T19:40:17.534Z MESSAGE {"boot":"boot3","player":"C","message":"╚══════════════════════════╝"}
+2026-11-19T19:40:17.535Z MESSAGE {"boot":"boot3","player":"C","message":""}
+2026-11-19T19:40:17.537Z MESSAGE {"boot":"boot3","player":"C","message":"当前阶段: PRODUCTION"}
+2026-11-19T19:40:17.538Z MESSAGE {"boot":"boot3","player":"C","message":"完成度: 0%"}
+2026-11-19T19:40:17.540Z MESSAGE {"boot":"boot3","player":"C","message":""}
+2026-11-19T19:40:17.541Z MESSAGE {"boot":"boot3","player":"C","message":"建议行动:"}
+2026-11-19T19:40:17.542Z MESSAGE {"boot":"boot3","player":"C","message":"  采集资源"}
+2026-11-19T19:40:17.544Z MESSAGE {"boot":"boot3","player":"C","message":"  训练军队"}
+2026-11-19T19:40:17.546Z MESSAGE {"boot":"boot3","player":"C","message":"  研究科技"}
+2026-11-19T19:40:17.548Z MESSAGE {"boot":"boot3","player":"C","message":""}
+2026-11-19T19:40:17.573Z MESSAGE {"boot":"boot3","player":"C","message":"PhaseTwoC joined the game"}
+2026-11-19T19:40:17.577Z MESSAGE {"boot":"boot3","player":"C","message":"PhaseTwoD joined the game"}
+2026-11-19T19:40:17.579Z MESSAGE {"boot":"boot3","player":"C","message":"PhaseTwoA joined the game"}
+2026-11-19T19:40:17.581Z MESSAGE {"boot":"boot3","player":"C","message":"PhaseTwoB joined the game"}
+2026-11-19T19:40:17.586Z SPAWN {"boot":"boot3","player":"C","username":"PhaseTwoC","uuid":"140669be-0a1a-3206-a8b1-20d23a596b3a"}
+2026-11-19T19:40:17.666Z MESSAGE {"boot":"boot3","player":"D","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:40:17.686Z MESSAGE {"boot":"boot3","player":"D","message":""}
+2026-11-19T19:40:17.688Z MESSAGE {"boot":"boot3","player":"D","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:40:17.690Z MESSAGE {"boot":"boot3","player":"D","message":"总体疲劳：0%%"}
+2026-11-19T19:40:17.691Z MESSAGE {"boot":"boot3","player":"D","message":"等级：精神饱满"}
+2026-11-19T19:40:17.691Z MESSAGE {"boot":"boot3","player":"D","message":"身体：0%%"}
+2026-11-19T19:40:17.693Z MESSAGE {"boot":"boot3","player":"D","message":"精神：0%%"}
+2026-11-19T19:40:17.694Z MESSAGE {"boot":"boot3","player":"D","message":"战斗：0%%"}
+2026-11-19T19:40:17.695Z MESSAGE {"boot":"boot3","player":"D","message":"行军：0%%"}
+2026-11-19T19:40:17.696Z MESSAGE {"boot":"boot3","player":"D","message":""}
+2026-11-19T19:40:17.696Z MESSAGE {"boot":"boot3","player":"D","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T19:40:17.697Z MESSAGE {"boot":"boot3","player":"D","message":""}
+2026-11-19T19:40:17.698Z MESSAGE {"boot":"boot3","player":"D","message":"欢迎回来, PhaseTwoD!"}
+2026-11-19T19:40:17.723Z MESSAGE {"boot":"boot3","player":"D","message":""}
+2026-11-19T19:40:17.725Z MESSAGE {"boot":"boot3","player":"D","message":"╔══════════════════════════╗"}
+2026-11-19T19:40:17.729Z MESSAGE {"boot":"boot3","player":"D","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T19:40:17.737Z MESSAGE {"boot":"boot3","player":"D","message":"╚══════════════════════════╝"}
+2026-11-19T19:40:17.743Z MESSAGE {"boot":"boot3","player":"D","message":""}
+2026-11-19T19:40:17.743Z MESSAGE {"boot":"boot3","player":"D","message":"当前阶段: PRODUCTION"}
+2026-11-19T19:40:17.745Z MESSAGE {"boot":"boot3","player":"D","message":"完成度: 0%"}
+2026-11-19T19:40:17.746Z MESSAGE {"boot":"boot3","player":"D","message":""}
+2026-11-19T19:40:17.746Z MESSAGE {"boot":"boot3","player":"D","message":"建议行动:"}
+2026-11-19T19:40:17.748Z MESSAGE {"boot":"boot3","player":"D","message":"  采集资源"}
+2026-11-19T19:40:17.769Z MESSAGE {"boot":"boot3","player":"D","message":"  训练军队"}
+2026-11-19T19:40:17.770Z MESSAGE {"boot":"boot3","player":"D","message":"  研究科技"}
+2026-11-19T19:40:17.772Z MESSAGE {"boot":"boot3","player":"D","message":""}
+2026-11-19T19:40:17.773Z MESSAGE {"boot":"boot3","player":"D","message":"PhaseTwoD joined the game"}
+2026-11-19T19:40:17.776Z MESSAGE {"boot":"boot3","player":"D","message":"PhaseTwoA joined the game"}
+2026-11-19T19:40:17.778Z MESSAGE {"boot":"boot3","player":"D","message":"PhaseTwoB joined the game"}
+2026-11-19T19:40:17.780Z SPAWN {"boot":"boot3","player":"D","username":"PhaseTwoD","uuid":"63e2bb34-acdd-360c-a4b5-57c748f2ef53"}
+2026-11-19T19:40:17.825Z MESSAGE {"boot":"boot3","player":"A","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:40:17.828Z MESSAGE {"boot":"boot3","player":"A","message":""}
+2026-11-19T19:40:17.829Z MESSAGE {"boot":"boot3","player":"A","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:40:17.831Z MESSAGE {"boot":"boot3","player":"A","message":"总体疲劳：0%%"}
+2026-11-19T19:40:17.832Z MESSAGE {"boot":"boot3","player":"A","message":"等级：精神饱满"}
+2026-11-19T19:40:17.833Z MESSAGE {"boot":"boot3","player":"A","message":"身体：0%%"}
+2026-11-19T19:40:17.833Z MESSAGE {"boot":"boot3","player":"A","message":"精神：0%%"}
+2026-11-19T19:40:17.834Z MESSAGE {"boot":"boot3","player":"A","message":"战斗：0%%"}
+2026-11-19T19:40:17.835Z MESSAGE {"boot":"boot3","player":"A","message":"行军：0%%"}
+2026-11-19T19:40:17.835Z MESSAGE {"boot":"boot3","player":"A","message":""}
+2026-11-19T19:40:17.836Z MESSAGE {"boot":"boot3","player":"A","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T19:40:17.836Z MESSAGE {"boot":"boot3","player":"A","message":""}
+2026-11-19T19:40:17.837Z MESSAGE {"boot":"boot3","player":"A","message":"欢迎回来, PhaseTwoA!"}
+2026-11-19T19:40:17.837Z MESSAGE {"boot":"boot3","player":"A","message":""}
+2026-11-19T19:40:17.838Z MESSAGE {"boot":"boot3","player":"A","message":"╔══════════════════════════╗"}
+2026-11-19T19:40:17.839Z MESSAGE {"boot":"boot3","player":"A","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T19:40:17.840Z MESSAGE {"boot":"boot3","player":"A","message":"╚══════════════════════════╝"}
+2026-11-19T19:40:17.840Z MESSAGE {"boot":"boot3","player":"A","message":""}
+2026-11-19T19:40:17.841Z MESSAGE {"boot":"boot3","player":"A","message":"当前阶段: PRODUCTION"}
+2026-11-19T19:40:17.841Z MESSAGE {"boot":"boot3","player":"A","message":"完成度: 0%"}
+2026-11-19T19:40:17.842Z MESSAGE {"boot":"boot3","player":"A","message":""}
+2026-11-19T19:40:17.842Z MESSAGE {"boot":"boot3","player":"A","message":"建议行动:"}
+2026-11-19T19:40:17.843Z MESSAGE {"boot":"boot3","player":"A","message":"  采集资源"}
+2026-11-19T19:40:17.844Z MESSAGE {"boot":"boot3","player":"A","message":"  训练军队"}
+2026-11-19T19:40:17.845Z MESSAGE {"boot":"boot3","player":"A","message":"  研究科技"}
+2026-11-19T19:40:17.846Z MESSAGE {"boot":"boot3","player":"A","message":""}
+2026-11-19T19:40:17.846Z MESSAGE {"boot":"boot3","player":"A","message":"PhaseTwoA joined the game"}
+2026-11-19T19:40:17.848Z MESSAGE {"boot":"boot3","player":"A","message":"PhaseTwoB joined the game"}
+2026-11-19T19:40:17.850Z SPAWN {"boot":"boot3","player":"A","username":"PhaseTwoA","uuid":"08ffd450-5001-3023-a480-057fef707037"}
+2026-11-19T19:40:17.944Z MESSAGE {"boot":"boot3","player":"B","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:40:17.979Z MESSAGE {"boot":"boot3","player":"B","message":""}
+2026-11-19T19:40:17.981Z MESSAGE {"boot":"boot3","player":"B","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:40:17.983Z MESSAGE {"boot":"boot3","player":"B","message":"总体疲劳：0%%"}
+2026-11-19T19:40:17.984Z MESSAGE {"boot":"boot3","player":"B","message":"等级：精神饱满"}
+2026-11-19T19:40:17.986Z MESSAGE {"boot":"boot3","player":"B","message":"身体：0%%"}
+2026-11-19T19:40:17.987Z MESSAGE {"boot":"boot3","player":"B","message":"精神：0%%"}
+2026-11-19T19:40:17.989Z MESSAGE {"boot":"boot3","player":"B","message":"战斗：0%%"}
+2026-11-19T19:40:17.990Z MESSAGE {"boot":"boot3","player":"B","message":"行军：0%%"}
+2026-11-19T19:40:17.991Z MESSAGE {"boot":"boot3","player":"B","message":""}
+2026-11-19T19:40:17.992Z MESSAGE {"boot":"boot3","player":"B","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T19:40:17.993Z MESSAGE {"boot":"boot3","player":"B","message":""}
+2026-11-19T19:40:17.995Z MESSAGE {"boot":"boot3","player":"B","message":"欢迎回来, PhaseTwoB!"}
+2026-11-19T19:40:17.996Z MESSAGE {"boot":"boot3","player":"B","message":""}
+2026-11-19T19:40:17.996Z MESSAGE {"boot":"boot3","player":"B","message":"╔══════════════════════════╗"}
+2026-11-19T19:40:17.997Z MESSAGE {"boot":"boot3","player":"B","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T19:40:17.998Z MESSAGE {"boot":"boot3","player":"B","message":"╚══════════════════════════╝"}
+2026-11-19T19:40:18.032Z MESSAGE {"boot":"boot3","player":"B","message":""}
+2026-11-19T19:40:18.034Z MESSAGE {"boot":"boot3","player":"B","message":"当前阶段: PRODUCTION"}
+2026-11-19T19:40:18.036Z MESSAGE {"boot":"boot3","player":"B","message":"完成度: 0%"}
+2026-11-19T19:40:18.037Z MESSAGE {"boot":"boot3","player":"B","message":""}
+2026-11-19T19:40:18.038Z MESSAGE {"boot":"boot3","player":"B","message":"建议行动:"}
+2026-11-19T19:40:18.039Z MESSAGE {"boot":"boot3","player":"B","message":"  采集资源"}
+2026-11-19T19:40:18.039Z MESSAGE {"boot":"boot3","player":"B","message":"  训练军队"}
+2026-11-19T19:40:18.040Z MESSAGE {"boot":"boot3","player":"B","message":"  研究科技"}
+2026-11-19T19:40:18.041Z MESSAGE {"boot":"boot3","player":"B","message":""}
+2026-11-19T19:40:18.041Z MESSAGE {"boot":"boot3","player":"B","message":"PhaseTwoB joined the game"}
+2026-11-19T19:40:18.044Z SPAWN {"boot":"boot3","player":"B","username":"PhaseTwoB","uuid":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6"}
+2026-11-19T19:40:31.854Z CONNECTING {"boot":"boot3","player":"E","username":"PhaseTwoE","late":true}
+2026-11-19T19:40:31.991Z MESSAGE {"boot":"boot3","player":"C","message":"PhaseTwoE joined the game"}
+2026-11-19T19:40:32.022Z MESSAGE {"boot":"boot3","player":"D","message":"PhaseTwoE joined the game"}
+2026-11-19T19:40:32.029Z MESSAGE {"boot":"boot3","player":"B","message":"PhaseTwoE joined the game"}
+2026-11-19T19:40:32.030Z MESSAGE {"boot":"boot3","player":"A","message":"PhaseTwoE joined the game"}
+2026-11-19T19:40:32.042Z MESSAGE {"boot":"boot3","player":"E","message":"[四季系统] 当前季节: 春季"}
+2026-11-19T19:40:32.046Z MESSAGE {"boot":"boot3","player":"E","message":""}
+2026-11-19T19:40:32.047Z MESSAGE {"boot":"boot3","player":"E","message":"=== Fatigue Status Title ==="}
+2026-11-19T19:40:32.053Z MESSAGE {"boot":"boot3","player":"E","message":"总体疲劳：0%%"}
+2026-11-19T19:40:32.055Z MESSAGE {"boot":"boot3","player":"E","message":"等级：精神饱满"}
+2026-11-19T19:40:32.056Z MESSAGE {"boot":"boot3","player":"E","message":"身体：0%%"}
+2026-11-19T19:40:32.058Z MESSAGE {"boot":"boot3","player":"E","message":"精神：0%%"}
+2026-11-19T19:40:32.059Z MESSAGE {"boot":"boot3","player":"E","message":"战斗：0%%"}
+2026-11-19T19:40:32.060Z MESSAGE {"boot":"boot3","player":"E","message":"行军：0%%"}
+2026-11-19T19:40:32.061Z MESSAGE {"boot":"boot3","player":"E","message":""}
+2026-11-19T19:40:32.062Z MESSAGE {"boot":"boot3","player":"E","message":"Donation Reward Unclaimed: 1"}
+2026-11-19T19:40:32.063Z MESSAGE {"boot":"boot3","player":"E","message":""}
+2026-11-19T19:40:32.064Z MESSAGE {"boot":"boot3","player":"E","message":"欢迎回来, PhaseTwoE!"}
+2026-11-19T19:40:32.065Z MESSAGE {"boot":"boot3","player":"E","message":""}
+2026-11-19T19:40:32.066Z MESSAGE {"boot":"boot3","player":"E","message":"╔══════════════════════════╗"}
+2026-11-19T19:40:32.067Z MESSAGE {"boot":"boot3","player":"E","message":"║  ★ 每日玩法指南 ★  ║"}
+2026-11-19T19:40:32.068Z MESSAGE {"boot":"boot3","player":"E","message":"╚══════════════════════════╝"}
+2026-11-19T19:40:32.069Z MESSAGE {"boot":"boot3","player":"E","message":""}
+2026-11-19T19:40:32.070Z MESSAGE {"boot":"boot3","player":"E","message":"当前阶段: PRODUCTION"}
+2026-11-19T19:40:32.071Z MESSAGE {"boot":"boot3","player":"E","message":"完成度: 0%"}
+2026-11-19T19:40:32.072Z MESSAGE {"boot":"boot3","player":"E","message":""}
+2026-11-19T19:40:32.073Z MESSAGE {"boot":"boot3","player":"E","message":"建议行动:"}
+2026-11-19T19:40:32.074Z MESSAGE {"boot":"boot3","player":"E","message":"  采集资源"}
+2026-11-19T19:40:32.075Z MESSAGE {"boot":"boot3","player":"E","message":"  训练军队"}
+2026-11-19T19:40:32.075Z MESSAGE {"boot":"boot3","player":"E","message":"  研究科技"}
+2026-11-19T19:40:32.076Z MESSAGE {"boot":"boot3","player":"E","message":""}
+2026-11-19T19:40:32.077Z MESSAGE {"boot":"boot3","player":"E","message":"PhaseTwoE joined the game"}
+2026-11-19T19:40:32.083Z SPAWN {"boot":"boot3","player":"E","username":"PhaseTwoE","uuid":"537e4ee6-1f2c-3a76-ac52-997d9d6a41a7"}
+2026-11-19T19:41:12.755Z ENDED {"boot":"boot3","player":"D","reason":"phase two acceptance complete"}
+2026-11-19T19:41:12.761Z ENDED {"boot":"boot3","player":"C","reason":"phase two acceptance complete"}
+2026-11-19T19:41:12.763Z ENDED {"boot":"boot3","player":"A","reason":"phase two acceptance complete"}
+2026-11-19T19:41:12.763Z ENDED {"boot":"boot3","player":"B","reason":"phase two acceptance complete"}
+2026-11-19T19:41:12.764Z ENDED {"boot":"boot3","player":"E","reason":"phase two acceptance complete"}

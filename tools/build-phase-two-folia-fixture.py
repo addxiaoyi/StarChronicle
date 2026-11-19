@@ -11,6 +11,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run-dir', type=Path, required=True)
     parser.add_argument('--expected-sha', required=True)
+    parser.add_argument('--java-home', type=Path, default=Path(os.environ['JAVA_HOME']) if os.environ.get('JAVA_HOME') else None)
     args = parser.parse_args()
     run = args.run_dir.resolve()
     if run.parent != (ROOT / 'run').resolve() or not run.name.startswith('phase-two-folia-'):
@@ -23,13 +24,15 @@ def main():
     if digest(source) != manifest['fixture_source_sha256']:
         raise SystemExit('Fixture source drifted after preparation')
     classes = run / 'fixture' / 'classes'
-    if classes.exists() or (run / 'plugins' / 'PhaseTwoFoliaFixture.jar').exists():
+    if classes.exists() and any(classes.iterdir()) or (run / 'plugins' / 'PhaseTwoFoliaFixture.jar').exists():
         raise SystemExit('Refusing to overwrite an already compiled fixture')
-    classes.mkdir()
+    if args.java_home is None or not (args.java_home / 'bin' / 'javac.exe').is_file():
+        parser.error('Supply --java-home pointing to the installed JDK when JAVA_HOME is unavailable')
+    classes.mkdir(exist_ok=True)
     jars = sorted((run / 'libraries').rglob('*.jar')) + [run / 'plugins' / 'StarChronicle.jar', Path.home() / '.m2/repository/io/papermc/paper/paper-api/1.21.11-R0.1-SNAPSHOT/paper-api-1.21.11-R0.1-SNAPSHOT.jar']
     arguments = run / 'fixture' / 'javac.args'
     arguments.write_text('--release 21\n-encoding UTF-8\n-cp\n"' + ';'.join(str(path).replace('\\', '/') for path in jars) + '"\n-d\n"' + str(classes).replace('\\', '/') + '"\n"' + str(source).replace('\\', '/') + '"\n', encoding='utf-8')
-    compiled = subprocess.run([str(Path(os.environ['JAVA_HOME']) / 'bin' / 'javac.exe'), '@' + str(arguments)], check=True)
+    compiled = subprocess.run([str(args.java_home / 'bin' / 'javac.exe'), '@' + str(arguments)], check=True)
     artifact = run / 'plugins' / 'PhaseTwoFoliaFixture.jar'
     with zipfile.ZipFile(artifact, 'w') as archive:
         archive.writestr('plugin.yml', 'name: PhaseTwoFoliaFixture\nversion: 1\nmain: smoke.PhaseTwoFoliaFixture\napi-version: "1.21"\ndepend: [StarChronicle]\nfolia-supported: true\ncommands:\n  phase2folia:\n    description: Isolated phase-two acceptance API and ownership inspector\n')
