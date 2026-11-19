@@ -1,0 +1,34 @@
+{
+  "scope": "Three real Paper boots over a cloned actual schema3 database, real StarCore and four original clients; source run untouched",
+  "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+  "boots": [
+    {
+      "boot": 1,
+      "server_started_utc": "2026-11-19T21:15:56.245000+00:00",
+      "server_pid": 4188,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-XX:MaxMetaspaceSize=256M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "commands": [],
+      "normal_console_stop_requested": false,
+      "clients_quit_requested": false,
+      "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "plugin_sha256_after": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "all_owned_children_exited": false,
+      "source_files_unchanged": true
+    }
+  ],
+  "server_exit_codes": [
+    null
+  ],
+  "client_exit_codes": [
+    null
+  ]
+}

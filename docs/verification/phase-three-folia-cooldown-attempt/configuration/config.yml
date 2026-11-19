@@ -1,0 +1,6 @@
+require-starcore: false
+install-default-stories: false
+admin-demo-enabled: false
+npc-hooks: false
+worker-queue-capacity: 2048
+poll-ticks: 12000

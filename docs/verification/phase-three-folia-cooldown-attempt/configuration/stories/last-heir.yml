@@ -1,0 +1,94 @@
+id: last-heir
+version: "1"
+title: "帝国最后的继承人"
+scope: WORLD
+triggers: [ANCIENT_HEIR_DISCOVERED, NATIONS_MERGED, WORLD_EVENT]
+cooldownSeconds: 604800
+start: summons
+nodes:
+  summons:
+    text: "古代帝国的继承传说再次成为各国议题。自称继承人的伊蕾娅邀请代表前往旧都。请至少两位参与者共同决定是否召开议会。此为剧情提案，其真实性以来源证据和后续调查为准。"
+    quorum: 2
+    choices:
+      convene:
+        label: "召集各国议会，公开继承证据"
+        next: council
+        effects:
+          - {id: council-record, type: history, target: HEIR_COUNCIL_OPENED, value: "各国代表决定公开审议古帝国的继承主张。"}
+  council:
+    text: "伊蕾娅请求各国表态。支持、反对、救济、考古和谈判都是有效的历史选择；每个选项需要两位不同参与者共同确认。先达到人数的主张成为本轮共同路线。国家的正式承诺仍须其权威服务批准，本次投票只形成剧情立场。"
+    quorum: 2
+    choices:
+      support:
+        label: "支持继承人：先保护旧都居民"
+        next: preparations
+        effects:
+          - {id: support-pledge, type: reputation, target: ancient-heir, value: "10"}
+          - {id: support-memory, type: memory, target: old-imperial-capital.heir-position, value: "supported"}
+      oppose:
+        label: "反对复国：要求保障现有国家主权"
+        next: preparations
+        effects:
+          - {id: oppose-memory, type: memory, target: old-imperial-capital.heir-position, value: "opposed"}
+          - {id: oppose-record, type: history, target: RESTORATION_OPPOSED, value: "议会要求继承人尊重现有国家主权。"}
+      aid:
+        label: "组织救济：提出资源援助方案"
+        next: preparations
+        effects:
+          - {id: relief-memory, type: memory, target: old-imperial-capital.relief, value: "proposed"}
+          - {id: relief-record, type: history, target: IMPERIAL_RELIEF_PROPOSED, value: "各国代表提出旧都救济方案；本记录不表示国库已经扣款。"}
+      ruins:
+        label: "派遣学者：勘查古代遗迹"
+        next: preparations
+        condition:
+          any:
+            - {fact: player.role, op: eq, value: scholar}
+            - {fact: player.role, op: eq, value: explorer}
+        effects:
+          - {id: ruins-memory, type: memory, target: imperial-ruins.expedition, value: "proposed"}
+      diplomacy:
+        label: "外交谈判：草拟共存条约"
+        next: preparations
+        condition:
+          any:
+            - {fact: player.role, op: eq, value: diplomat}
+            - {fact: player.role, op: eq, value: monarch}
+        effects:
+          - {id: treaty-draft, type: memory, target: old-imperial-capital.treaty, value: "drafted"}
+  preparations:
+    text: "议会的第一项共识已经写入档案。旧都守军仍在等待最终决定。你们可以支持继承人重建政治共同体、拒绝复国，或主张以共同守护遗址结束争端。最后战役由现有 StarCore 剧情和任务脚本接管；此默认样例不虚构战役完成或修改外交。"
+    quorum: 2
+    choices:
+      restoration:
+        label: "支持重建：留下复国倡议"
+        next: restored
+      sovereignty:
+        label: "拒绝复国：留下主权宣言"
+        next: sovereign
+      compromise:
+        label: "达成妥协：成立共同遗产倡议"
+        next: heritage
+  restored:
+    text: "复国倡议获得议会支持。真正的国家建立、战争与外交变动将在权威服务提交后另行载入正史。伊蕾娅将铭记这次援手。"
+    terminal: true
+    effects:
+      - {id: restoration-record, type: history, target: HEIR_RESTORATION_SUPPORTED, value: "各国参与者共同支持古帝国继承人的复国倡议。"}
+      - {id: restoration-memory, type: memory, target: old-imperial-capital.legacy, value: "restoration-initiative"}
+      - {id: restoration-honor, type: honor, target: player, value: "15"}
+      - {id: restoration-title, type: title, target: old-capital-guardian, value: "旧都的守望者"}
+  sovereign:
+    text: "议会否决复国倡议，确认以现有国家的主权为谈判基础。旧都的历史仍向所有人开放。"
+    terminal: true
+    effects:
+      - {id: sovereignty-record, type: history, target: HEIR_RESTORATION_REJECTED, value: "各国参与者共同否决复国倡议，并主张尊重现有国家主权。"}
+      - {id: sovereignty-memory, type: memory, target: old-imperial-capital.legacy, value: "sovereignty-declaration"}
+      - {id: sovereignty-honor, type: honor, target: player, value: "15"}
+      - {id: sovereignty-title, type: title, target: sovereignty-witness, value: "主权见证者"}
+  heritage:
+    text: "议会提出共同保护旧都遗址。图书馆开始编纂这次会议的记录，后续考古与和平谈判可引用这份世界记忆。"
+    terminal: true
+    effects:
+      - {id: heritage-record, type: history, target: IMPERIAL_HERITAGE_INITIATIVE, value: "各国参与者共同提出保护旧都历史遗产的倡议。"}
+      - {id: heritage-memory, type: memory, target: old-imperial-capital.legacy, value: "shared-heritage"}
+      - {id: heritage-honor, type: honor, target: player, value: "15"}
+      - {id: heritage-title, type: title, target: shared-history-founder, value: "共同历史的缔造者"}

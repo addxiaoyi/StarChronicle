@@ -1,0 +1,109 @@
+{
+  "scope": "StarChronicle standalone on real Folia; NOT StarCore full-stack certification",
+  "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+  "source_plugin_sha256": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+  "source_database_sha256": "ae81e4685823dcb59b53b0864ab8d28f4bfad47db6d915f3fff80e651a74e598",
+  "run_directory": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-folia-bfa80b9c-r2",
+  "java_runtime_per_boot": [
+    "21 (OpenJDK 64-Bit Server VM 21.0.13.1+2-LTS; Microsoft Microsoft-16059585) on Windows Server 2022 10.0 (amd64)",
+    "21 (OpenJDK 64-Bit Server VM 21.0.13.1+2-LTS; Microsoft Microsoft-16059585) on Windows Server 2022 10.0 (amd64)",
+    "21 (OpenJDK 64-Bit Server VM 21.0.13.1+2-LTS; Microsoft Microsoft-16059585) on Windows Server 2022 10.0 (amd64)"
+  ],
+  "server_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "client_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "preparation_notes": null,
+  "prior_attempt": {
+    "metadata": {
+      "recorded_utc": "2026-11-19T21:49:45.743990+00:00",
+      "source_database_sha256": "ae81e4685823dcb59b53b0864ab8d28f4bfad47db6d915f3fff80e651a74e598",
+      "prior_attempt_directory": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-folia-bfa80b9c",
+      "prior_stopped_database_sha256": "fe1ceddb435cd495cb9cb90ab2d3cbc6039e806cc23a392ec321d5265ae913ef",
+      "prior_attempt_result": "same-story seven-day cooldown correctly blocked immediate v2; two normally stopped boots retained unchanged",
+      "prior_server_exit_codes": [
+        0,
+        0
+      ],
+      "prior_client_exit_codes": [
+        0,
+        0
+      ],
+      "new_run_directory": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-folia-bfa80b9c-r2",
+      "new_run_result_scope": "Independent untouched-source fork; test v2 cooldownSeconds:0 from first definition acceptance; three boots must be evaluated separately",
+      "new_v2_story_sha256": "6e5cf0a6e5dd232d5201dd8a915a5976db92bf7497b36a77a7bae1dd92aa0319"
+    },
+    "observed_retained_attempt": {
+      "server_exit_codes": [
+        0,
+        0
+      ],
+      "client_exit_codes": [
+        0,
+        0
+      ],
+      "retained_database_sha256": "fe1ceddb435cd495cb9cb90ab2d3cbc6039e806cc23a392ec321d5265ae913ef",
+      "cooldown_seconds": [
+        604800
+      ]
+    },
+    "verification_passed": true,
+    "exit_code_scope": "Prior two-boot exits are retained here only. The top-level three-boot exits belong exclusively to the current independent runtime."
+  },
+  "checks": {
+    "approved_final_product_all_snapshots_and_runtime": true,
+    "same_server_fixture_and_source_hashes_each_boot": true,
+    "real_schema3_baseline_and_readonly_schema4_migration_evidence": true,
+    "original_source_database_and_sidecars_unchanged": true,
+    "baseline_is_actual_previous_verified_cohort": true,
+    "no_historical_results_changed_during_offline_migration": true,
+    "every_old_choice_outcome_instance_and_non_honor_row_is_byte_equivalent": true,
+    "canonical_source_payload_hash_and_actor_evidence_unchanged": true,
+    "real_retired_v1_definition_is_migrated_once_without_reconstruction": true,
+    "current_v2_and_b_are_archived_as_distinct_versions": true,
+    "test_v1_to_b_to_v2_chain_uses_exact_real_references_and_a_real_permission_gate": true,
+    "thirteen_current_stories_and_install_defaults_disabled": true,
+    "real_folia_two_region_threads_and_standalone_boundary": true,
+    "offline_evaluation_only_queues_two_real_player_inboxes": true,
+    "explicit_offline_api_ack_snapshot_operator_ack_and_login_have_strict_utc_order": true,
+    "actual_original_player_names_and_uuids_each_boot": true,
+    "owning_region_lowest_real_permission_false_then_true": true,
+    "players_remain_in_distinct_actual_regions": true,
+    "real_logins_recover_b_without_granting_rewards_or_v2": true,
+    "b_recovery_capture_follows_both_logins_and_strictly_precedes_any_command_or_fixture_query": true,
+    "b_real_gui_uses_each_actual_old_personal_choice": true,
+    "b_completes_once_and_awards_only_two_new_honor_per_player": true,
+    "real_permission_denial_keeps_v2_derived_inboxes_across_first_stop": true,
+    "second_boot_permission_and_completed_b_restore_two_unvoted_v2_instances": true,
+    "v2_recovery_capture_follows_both_logins_and_strictly_precedes_any_command_or_fixture_query": true,
+    "v2_real_gui_branches_are_version_2_testimony_and_reconcile": true,
+    "both_v2_endings_and_honor21_survive_restarts": true,
+    "old_first_edition_votes_remain_the_original_testimony_and_reconcile": true,
+    "new_choice_rows_are_live_exact_actor_versions_and_stable_receipts": true,
+    "actual_derived_causal_paths_run_b_then_v2_without_a_retired_loop": true,
+    "third_boot_re_evaluation_is_natural_key_already_registered": true,
+    "restoration_and_repeated_evaluation_change_no_game_result_table": true,
+    "canonical_history_counts_old_choices_and_current_choices_are_read_by_api": true,
+    "no_role_or_nation_is_fabricated": true,
+    "historical_npc_relationship_and_dialogue_are_unchanged": true,
+    "cloned_world_memory_and_unrelated_bystander_keep_real_region_ownership": true,
+    "native_scene_stays_unavailable_and_action_rejected": true,
+    "actual_story_history_npc_fate_and_book_protocol_paths": true,
+    "gui_presented_on_actual_owner_and_shift_click_preserved": true,
+    "three_real_server_and_client_processes_have_acknowledged_normal_zero_exits": true,
+    "six_real_clients_quit_and_end_normally": true,
+    "all_servers_finished_player_save_and_region_io": true,
+    "no_thread_check_plugin_failure_or_protocol_timeout": true,
+    "preserved_two_boot_cooldown_case_and_current_zero_cooldown_fork_have_separate_unchanged_sources_and_exits": true
+  },
+  "details": {},
+  "passed": 44,
+  "total": 44,
+  "all_passed": true
+}

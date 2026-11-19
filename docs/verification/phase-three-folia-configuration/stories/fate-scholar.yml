@@ -1,0 +1,34 @@
+id: fate-scholar
+version: "1"
+title: "学者命运：未完成的注脚"
+scope: PLAYER
+triggers: [PLAYER_JOIN, TECHNOLOGY_BREAKTHROUGH]
+condition: {fact: player.role, op: eq, value: scholar}
+start: manuscript
+cooldownSeconds: 86400
+nodes:
+  manuscript:
+    text: "青芜向你展示一份仍待考证的研究稿。作为学者，你希望怎样让知识继续生长？这次选择不会自动解锁科技。"
+    choices:
+      open:
+        label: "公开方法，让更多人复核"
+        next: open-method
+      question:
+        label: "列明疑点与反例，再继续研究"
+        next: critical-archive
+  open-method:
+    text: "你提出公开研究方法的原则。档案会把已证事实与推论分别标注，让后来者能够复核。"
+    terminal: true
+    effects:
+      - {id: method-honor, type: honor, target: player, value: "5"}
+      - {id: method-title, type: title, target: open-method-scholar, value: "公开方法的学者"}
+      - {id: method-reputation, type: reputation, target: caravan-archivist, value: "4"}
+      - {id: method-history, type: history, target: SCHOLAR_OPEN_METHOD_VOW, value: "一位学者提出公开研究方法并接受复核的原则。"}
+  critical-archive:
+    text: "你把疑点和反例与研究稿一同归档。承认未知，使下一次研究有了可靠起点。"
+    terminal: true
+    effects:
+      - {id: critical-honor, type: honor, target: player, value: "5"}
+      - {id: critical-title, type: title, target: careful-questioner, value: "审慎求证者"}
+      - {id: critical-reputation, type: reputation, target: caravan-archivist, value: "4"}
+      - {id: critical-history, type: history, target: SCHOLAR_CRITICAL_ARCHIVE_VOW, value: "一位学者承诺在研究记录中保存疑点与反例。"}

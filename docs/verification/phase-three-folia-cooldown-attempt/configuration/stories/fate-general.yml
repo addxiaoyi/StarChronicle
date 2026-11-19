@@ -1,0 +1,34 @@
+id: fate-general
+version: "1"
+title: "将军命运：沙盘之外"
+scope: PLAYER
+triggers: [PLAYER_JOIN, WAR_STARTED, BATTLE_ENDED]
+condition: {fact: player.role, op: eq, value: general}
+start: strategy
+cooldownSeconds: 86400
+nodes:
+  strategy:
+    text: "沙盘上的每一枚棋子都代表真实的人。作为将军，你准备先向议事厅提出哪项原则？这份建议尚不构成正式军令。"
+    choices:
+      supply:
+        label: "先核实补给和撤离路线"
+        next: quartermaster
+      restraint:
+        label: "为战斗设定克制与停火准则"
+        next: restraint
+  quartermaster:
+    text: "你提出作战前必须核实补给和撤离路线。任何实际调粮、征发或行军仍需国家权威服务批准。"
+    terminal: true
+    effects:
+      - {id: supply-honor, type: honor, target: player, value: "6"}
+      - {id: supply-title, type: title, target: careful-strategist, value: "审慎参谋"}
+      - {id: supply-reputation, type: reputation, target: siege-veteran, value: "3"}
+      - {id: supply-history, type: history, target: GENERAL_LOGISTICS_PROPOSED, value: "一位将军提出优先核实补给与撤离路线的原则。"}
+  restraint:
+    text: "你主张保护俘虏与平民，并在目标达成后重新审视战事。议事厅将这份克制倡议归档。"
+    terminal: true
+    effects:
+      - {id: restraint-honor, type: honor, target: player, value: "6"}
+      - {id: restraint-title, type: title, target: restrained-commander, value: "克制的筹谋者"}
+      - {id: restraint-reputation, type: reputation, target: siege-veteran, value: "4"}
+      - {id: restraint-history, type: history, target: GENERAL_RESTRAINT_PROPOSED, value: "一位将军提出保护俘虏与平民的战争克制倡议。"}

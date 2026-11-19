@@ -11,6 +11,7 @@ run/
 dependency-reduced-pom.xml
 *.log
 !docs/verification/*.log
+!docs/verification/**/*.log
 hs_err_pid*
 replay_pid*
 *.mdmp

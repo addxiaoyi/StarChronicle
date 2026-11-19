@@ -1,0 +1,34 @@
+# TEST ONLY: exact real old ballots are read; none are supplied by the fixture.
+id: phase-three-archive
+version: "1"
+title: "Phase Three Archive Review"
+scope: PLAYER
+triggers: [HEIR_RESTORATION_SUPPORTED]
+condition: {fact: past.player.choice.heir-legacy/1/archive, op: exists}
+start: desk
+nodes:
+  desk:
+    text: "Read your actual saved first-edition decision before writing a new review."
+    choices:
+      preserve:
+        label: "Preserve the original testimony"
+        condition: {fact: past.player.choice.heir-legacy/1/archive, op: eq, value: testimony}
+        next: preserved
+      annotate:
+        label: "Annotate the reconciled archive"
+        condition: {fact: past.player.choice.heir-legacy/1/archive, op: eq, value: reconcile}
+        next: annotated
+  preserved:
+    text: "The real first-edition testimony remains unchanged."
+    terminal: true
+    effects:
+      - {id: honor, type: honor, target: player, value: "2"}
+      - {id: title, type: title, target: phase-three-preserver, value: "Third phase archive preserver"}
+      - {id: record, type: history, target: PHASE_THREE_ARCHIVE_REVIEWED, value: "A real returning voter reviewed their saved testimony."}
+  annotated:
+    text: "The real first-edition reconciliation remains unchanged."
+    terminal: true
+    effects:
+      - {id: honor, type: honor, target: player, value: "2"}
+      - {id: title, type: title, target: phase-three-commentator, value: "Third phase archive commentator"}
+      - {id: record, type: history, target: PHASE_THREE_ARCHIVE_REVIEWED, value: "A real returning voter reviewed their saved reconciliation."}

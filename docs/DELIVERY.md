@@ -46,4 +46,4 @@ ZIP 不包含 Git 元数据、运行世界、服务器数据库、缓存或第�
 
 ## 当前版本目录迭代
 
-新JAR `bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154` 已完成514项 `clean verify` 测试，包含真实旧库形状的completed保护、退休版本引用、显式历史评估、权限、并发及实际YAML分支。对应旧存档升级和新Paper/Folia验收正在执行，不能将上面的旧JAR实服结果移给它。最终对应关系以 [TEST-REPORT.md](TEST-REPORT.md) 为准。上一完整交付仍保存在 `run/delivery-checkpoints/phase2-d765e0d1-6652853/`。
+新JAR `bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154` 已完成514项 `clean verify` 测试，包含真实旧库形状的completed保护、退休版本引用、显式历史评估、权限、并发及实际YAML分支。同一JAR另已完成Paper + StarCore 43项、Folia standalone 45项；真实Paper V3/Folia V3迁移各19项、Paper V2迁移20项全部通过。三次完整服务器与客户端正常退出，启动器预检失败和七天冷却测试场景独立保留；不能将上面的旧JAR实服结果移给它。最终对应关系以 [TEST-REPORT.md](TEST-REPORT.md) 为准。上一完整交付仍保存在 `run/delivery-checkpoints/phase2-d765e0d1-6652853/`。

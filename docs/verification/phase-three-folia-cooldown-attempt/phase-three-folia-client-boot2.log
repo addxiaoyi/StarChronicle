@@ -1,0 +1,12 @@
+2026-11-19T21:43:24.768Z CLIENT_PROCESS {"boot":2,"pid":5340,"port":25578,"scope":"StarChronicle standalone on real Folia; NOT StarCore full-stack certification"}
+2026-11-19T21:43:27.226Z MESSAGE {"boot":2,"player":"A","text":"PhaseTwoFoliaA joined the game"}
+2026-11-19T21:43:27.227Z MESSAGE {"boot":2,"player":"A","text":"PhaseTwoFoliaB joined the game"}
+2026-11-19T21:43:27.233Z MESSAGE {"boot":2,"player":"B","text":"PhaseTwoFoliaA joined the game"}
+2026-11-19T21:43:27.234Z MESSAGE {"boot":2,"player":"B","text":"PhaseTwoFoliaB joined the game"}
+2026-11-19T21:43:27.273Z SPAWN {"boot":2,"player":"A","username":"PhaseTwoFoliaA","uuid":"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b"}
+2026-11-19T21:43:27.274Z SPAWN {"boot":2,"player":"B","username":"PhaseTwoFoliaB","uuid":"501fd117-4620-35f4-882b-6d7044ea83a5"}
+2026-11-19T21:47:05.163Z QUIT {"boot":2,"reason":"phase-three acceptance completed normally"}
+2026-11-19T21:47:05.163Z QUIT_REQUESTED {"boot":2,"player":"A","reason":"phase-three acceptance completed normally"}
+2026-11-19T21:47:05.165Z QUIT_REQUESTED {"boot":2,"player":"B","reason":"phase-three acceptance completed normally"}
+2026-11-19T21:47:05.168Z ENDED {"boot":2,"player":"A","reason":"phase-three acceptance completed normally","requestedQuit":true}
+2026-11-19T21:47:05.169Z ENDED {"boot":2,"player":"B","reason":"phase-three acceptance completed normally","requestedQuit":true}

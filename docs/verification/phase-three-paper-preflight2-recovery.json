@@ -1,0 +1,26 @@
+{
+  "server_pid": 6636,
+  "launcher_pid": 9736,
+  "started_utc": "2026-11-19T21:23:44.081197+00:00",
+  "reason": "Tool stdin closed because exec omitted tty=true; no clients or commands were started",
+  "product_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+  "attach_command": [
+    "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+    "-Xmx64m",
+    "--add-modules",
+    "jdk.attach",
+    "-cp",
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c\\fixture\\recovery-classes",
+    "smoke.PhaseThreePaperStopAgent",
+    "6636",
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c\\fixture\\phase-three-paper-stop-agent.jar",
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c",
+    "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c\\evidence\\preflight2-normal-shutdown.json"
+  ],
+  "attach_exit_code": 0,
+  "server_exit_code": 0,
+  "launcher_exit_code": 1,
+  "exited_utc": "2026-11-19T21:23:45.974384+00:00",
+  "source_files_unchanged": true
+}

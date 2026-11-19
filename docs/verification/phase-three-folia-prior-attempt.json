@@ -1,0 +1,18 @@
+{
+  "recorded_utc": "2026-11-19T21:49:45.743990+00:00",
+  "source_database_sha256": "ae81e4685823dcb59b53b0864ab8d28f4bfad47db6d915f3fff80e651a74e598",
+  "prior_attempt_directory": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-folia-bfa80b9c",
+  "prior_stopped_database_sha256": "fe1ceddb435cd495cb9cb90ab2d3cbc6039e806cc23a392ec321d5265ae913ef",
+  "prior_attempt_result": "same-story seven-day cooldown correctly blocked immediate v2; two normally stopped boots retained unchanged",
+  "prior_server_exit_codes": [
+    0,
+    0
+  ],
+  "prior_client_exit_codes": [
+    0,
+    0
+  ],
+  "new_run_directory": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-folia-bfa80b9c-r2",
+  "new_run_result_scope": "Independent untouched-source fork; test v2 cooldownSeconds:0 from first definition acceptance; three boots must be evaluated separately",
+  "new_v2_story_sha256": "6e5cf0a6e5dd232d5201dd8a915a5976db92bf7497b36a77a7bae1dd92aa0319"
+}

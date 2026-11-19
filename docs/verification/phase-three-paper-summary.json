@@ -1,0 +1,149 @@
+{
+  "status": "PASS",
+  "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+  "fixture_sha256": "5581ec71ab91ca20374fb7d49ff8b28470c8130d03f35d830d53df30bbcebb14",
+  "run_name": "phase-three-paper-bfa80b9c",
+  "server_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "client_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "fixture_compile_exit_code": 0,
+  "fixture_compile_attempts": [
+    {
+      "attempt": 1,
+      "exit_code": 2,
+      "command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\javac.exe",
+        "@C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c\\fixture\\javac.args"
+      ],
+      "log": "evidence/fixture-compile-attempt1.log",
+      "note": "Retained first tooling attempt: javac rejects -J VM options inside an argument file; no class or server was started."
+    },
+    {
+      "attempt": 2,
+      "exit_code": 0,
+      "command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\javac.exe",
+        "-J-Xmx128m",
+        "@C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c\\fixture\\javac.args"
+      ],
+      "log": "evidence/fixture-compile-attempt2.log"
+    }
+  ],
+  "preflight_attempts": [
+    {
+      "boot": 1,
+      "server_started_utc": "2026-11-19T21:15:56.245000+00:00",
+      "server_pid": 4188,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-XX:MaxMetaspaceSize=256M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "commands": [],
+      "normal_console_stop_requested": false,
+      "clients_quit_requested": false,
+      "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "plugin_sha256_after": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "all_owned_children_exited": true,
+      "source_files_unchanged": true,
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T21:19:33.569527+00:00",
+      "launcher_problem": "UnicodeEncodeError: GBK stdout could not encode upstream Unicode log; no client controller started",
+      "recovered_normal_bukkit_shutdown": true
+    },
+    {
+      "boot": 1,
+      "server_started_utc": "2026-11-19T21:20:04.201687+00:00",
+      "server_pid": 6636,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-XX:MaxMetaspaceSize=256M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "commands": [],
+      "normal_console_stop_requested": false,
+      "clients_quit_requested": false,
+      "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "server_done_utc": "2026-11-19T21:20:26.861314+00:00",
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T21:23:45.727302+00:00",
+      "plugin_sha256_after": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "all_owned_children_exited": true,
+      "source_files_unchanged": true,
+      "launcher_problem": "Tool stdin closed because exec omitted tty=true; no clients or commands were started",
+      "recovered_normal_bukkit_shutdown": true,
+      "launcher_exit_code": 1
+    }
+  ],
+  "all_observed_server_exit_codes": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "checks": {
+    "frozen_product_and_fixture_match_every_snapshot": true,
+    "actual_original_schema3_database_and_source_files_are_preserved": true,
+    "production_migration_preserves_original_history_instance_choice_outcome_and_inbox_payloads": true,
+    "schema4_integrity_and_foreign_keys_pass_every_stage": true,
+    "catalog_archives_exact_retired_a1_and_real_effective_native_binding": true,
+    "current_new_versions_are_absent_before_pure_validation": true,
+    "pure_validate_does_not_archive_publish_or_mutate_the_runtime": true,
+    "reload_enables_exact_a2_and_b_while_retiring_a1": true,
+    "retired_yaml_bytes_are_retained_and_not_reinstalled": true,
+    "four_original_nonop_clients_and_real_native_nations_are_reused": true,
+    "nonop_evaluate_is_rejected_without_registering_new_content": true,
+    "ordinary_canonical_redelivery_does_not_backfill_installed_content": true,
+    "console_admin_explicitly_registers_each_exact_new_version": true,
+    "explicit_registration_pins_eight_seeds_per_story_without_immediate_execution": true,
+    "trusted_api_retries_keep_the_already_registered_natural_keys": true,
+    "disabled_old_and_wrong_current_versions_are_rejected": true,
+    "first_restart_retains_offline_registration_before_clients_join": true,
+    "fresh_real_logins_activate_only_completed_a1_holders_automatically": true,
+    "retired_a1_personal_choices_remain_distinct_in_live_recollections": true,
+    "failed_same_version_reload_preserves_catalog_and_actual_runtime": true,
+    "restoring_exact_content_keeps_the_same_published_fingerprints": true,
+    "old_b_stays_active_and_new_scope_receipts_wait_across_second_restart": true,
+    "actual_gui_completes_three_new_personal_runs_each_before_second_stop": true,
+    "retired_old_b_really_completes_through_its_original_gui_on_boot3": true,
+    "all_actual_a2_gui_choices_are_recorded": true,
+    "all_actual_b_gui_choices_match_the_exact_retired_personal_choice": true,
+    "eight_new_completed_instances_have_stable_ids_correct_single_members_and_original_source": true,
+    "final_honor_is_exactly_22_for_each_actual_player": true,
+    "live_choice_ledger_preserves_both_old_and_new_versions": true,
+    "new_personal_history_has_correct_parent_root_depth_and_story_path": true,
+    "new_history_types_and_each_original_player_nation_match_exactly": true,
+    "all_previously_completed_json_and_original_source_payloads_are_immutable": true,
+    "original_choice_log_rows_and_done_outcome_payloads_remain_exact": true,
+    "old_source_npc_feedback_is_not_applied_again": true,
+    "completed_evaluations_and_source_replays_do_not_repeat_rewards_or_history": true,
+    "boot3_itself_observes_both_console_and_api_retries_and_source_duplicates": true,
+    "boot3_itself_rejects_all_eight_completed_choices": true,
+    "final_native_and_causal_state_has_no_unresolved_execution": true,
+    "all_three_real_server_and_client_processes_exit_normally": true,
+    "extra_failed_preflights_are_retained_separately_and_normally_recovered": true,
+    "all_four_clients_normally_disconnect_in_every_boot": true,
+    "no_fixture_protocol_or_product_runtime_failure_is_hidden": true,
+    "actual_history_and_version_gui_inventory_components_are_retained": true
+  },
+  "scope": "Three real Paper boots over a cloned actual schema3 database, real StarCore and four original clients; source run untouched; two extra pre-client console preflights are retained separately and are not counted among the three complete acceptance boots",
+  "source_database_sha256": "5192091cf2f905ee2e163e4c7b3368c91f828599ccd20e9bd0f3e51311db0d95"
+}

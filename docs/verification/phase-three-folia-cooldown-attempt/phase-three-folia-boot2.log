@@ -1,0 +1,313 @@
+Starting org.bukkit.craftbukkit.Main
+[05:42:34 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.13.1+2-LTS; Microsoft Microsoft-16059585) on Windows Server 2022 10.0 (amd64)
+[05:42:34 INFO]: [bootstrap] Loading Folia 1.21.11-14-ver/1.21.11@529aabc (2026-02-22T20:22:23Z) for Minecraft 1.21.11
+[05:42:35 INFO]: [PluginInitializerManager] Initializing plugins...
+[05:42:35 INFO]: [PluginInitializerManager] Initialized 2 plugins
+[05:42:35 INFO]: [PluginInitializerManager] Bukkit plugins (2):
+ - PhaseThreeFoliaFixture (1), StarChronicle (0.1.0-SNAPSHOT)
+[05:42:42 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[05:42:44 INFO]: Loaded 1470 recipes
+[05:42:44 INFO]: Loaded 1584 advancements
+[05:42:44 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[05:42:45 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 476.5ms
+[05:42:45 INFO]: Starting minecraft server version 1.21.11
+[33;1m[05:42:45 WARN]: ****************************
+[m[33;1m[05:42:45 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
+[m[33;1m[05:42:45 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.
+[m[33;1m[05:42:45 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/
+[m[33;1m[05:42:45 WARN]: ****************************
+[m[05:42:45 INFO]: Loading properties
+[05:42:45 INFO]: This server is running Folia version 1.21.11-14-ver/1.21.11@529aabc (2026-02-22T20:22:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
+[05:42:45 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[05:42:45 INFO]: Server Ping Player Sample Count: 12
+[05:42:45 INFO]: Using 4 threads for Netty based IO
+[05:42:46 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
+[05:42:46 INFO]: [io.papermc.paper.threadedregions.TickRegions] Initialised EDF Folia scheduler with initial 2 target thread(s)
+[05:42:46 INFO]: Default game type: CREATIVE
+[05:42:46 INFO]: Generating keypair
+> 
+  
+[05:42:47 INFO]: Starting Minecraft server on 127.0.0.1:25578
+> 
+  
+[05:42:47 INFO]: Paper: Using Java compression from Velocity.
+> 
+  
+[05:42:47 INFO]: Paper: Using Java cipher from Velocity.
+> 
+  
+[05:42:47 INFO]: [StarChronicle] Loading server plugin StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[05:42:47 INFO]: [PhaseThreeFoliaFixture] Loading server plugin PhaseThreeFoliaFixture v1
+> 
+  
+[05:42:47 INFO]: Server permissions file permissions.yml is empty, ignoring it
+> 
+  
+[33;1m[05:42:47 WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[m> 
+  
+[33;1m[05:42:47 WARN]: The server will make no attempt to authenticate usernames. Beware.
+[m> 
+  
+[33;1m[05:42:47 WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[m> 
+  
+[33;1m[05:42:47 WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[m> 
+  
+[05:42:47 INFO]: Preparing level "world"
+> 
+  
+[05:42:47 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...
+> 
+  
+[05:42:47 INFO]: Preparing spawn area: 100%
+> 
+  
+[05:42:47 INFO]: Prepared spawn area in 1 ms
+> 
+  
+[05:42:47 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...
+> 
+  
+[05:42:47 INFO]: Prepared spawn area in 0 ms
+> 
+  
+[05:42:47 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...
+> 
+  
+[05:42:47 INFO]: Prepared spawn area in 0 ms
+> 
+  
+[05:42:47 INFO]: Done preparing level "world" (0.472s)
+> 
+  
+[05:42:47 INFO]: [StarChronicle] Enabling StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[33;1m[05:42:47 WARN]: [StarChronicle] StarCore f769e627 NarrativeEngine uses Bukkit's main-thread scheduler; narrative.start is disabled on Folia. Chronicle state/history remain available.
+[m> 
+  
+[33;1m[05:42:47 WARN]: [StarChronicle] STANDALONE MODE: no authoritative StarCore identity, task, narrative or nation mutations are available
+[m> 
+  
+[05:42:48 INFO]: [StarChronicle] Native supplemental scene registration: {chronicle_last_heir=UNAVAILABLE, chronicle_siege_embers=UNAVAILABLE, chronicle_silk_road=UNAVAILABLE}
+> 
+  
+[05:42:49 INFO]: [StarChronicle] Loaded 13 validated stories; durable history/outbox ready
+> 
+  
+[05:42:49 INFO]: [PhaseThreeFoliaFixture] Enabling PhaseThreeFoliaFixture v1
+> 
+  
+[05:42:49 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_BOOT {"boot":2,"online":0,"sourceId":"chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492"}
+> 
+  
+[05:42:49 INFO]: [spark] The spark plugin has been preferred but was not loaded. The bundled spark profiler will enabled instead.
+> 
+  
+[05:42:49 INFO]: [spark] The spark profiler will not be enabled because it is currently disabled in the configuration.
+> 
+  
+[05:42:49 INFO]: Done (16.505s)! For help, type "help"
+> 
+  
+[05:43:24 INFO]: UUID of player PhaseTwoFoliaA is 1d93f8d9-73dd-379e-ad87-fa6b7b92a55b
+> 
+  
+[05:43:24 INFO]: UUID of player PhaseTwoFoliaB is 501fd117-4620-35f4-882b-6d7044ea83a5
+> 
+  
+[05:43:27 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_GATE {"granted":true,"observedAt":"2026-11-19T21:43:27.096544100Z","owned":true,"permission":"phase-three.v2.ready","player":"A","priority":"LOWEST","uuid":"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b"}
+> 
+  
+[05:43:27 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_GATE {"granted":true,"observedAt":"2026-11-19T21:43:27.096544100Z","owned":true,"permission":"phase-three.v2.ready","player":"B","priority":"LOWEST","uuid":"501fd117-4620-35f4-882b-6d7044ea83a5"}
+> 
+  
+[05:43:27 INFO]: [93mPhaseTwoFoliaA joined the game[0m
+> 
+  
+[05:43:27 INFO]: [93mPhaseTwoFoliaB joined the game[0m
+> 
+  
+[05:43:27 INFO]: PhaseTwoFoliaA[/127.0.0.1:61719] logged in with entity id 33 at ([world]15.109186192125396, -60.0, 15.109186192125396)
+> 
+  
+[05:43:27 INFO]: PhaseTwoFoliaB[/127.0.0.1:61720] logged in with entity id 32 at ([world]4095.5, -60.0, 4095.5)
+> 
+  
+[05:47:05 INFO]: PhaseTwoFoliaB lost connection: Disconnected
+> 
+  
+[05:47:05 INFO]: PhaseTwoFoliaA lost connection: Disconnected
+> 
+  
+[05:47:05 INFO]: [93mPhaseTwoFoliaB left the game[0m
+> 
+  
+[05:47:05 INFO]: [93mPhaseTwoFoliaA left the game[0m
+> > 
+  
+[05:47:12 INFO]: Stopping the server
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Awaiting scheduler termination for 60s...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Scheduler halted
+> 
+  
+[05:47:12 INFO]: Stopping server
+> 
+  
+[05:47:12 INFO]: [PhaseThreeFoliaFixture] Disabling PhaseThreeFoliaFixture v1
+> 
+  
+[05:47:12 INFO]: [StarChronicle] Disabling StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Halting chunk systems...
+> 
+  
+[05:47:12 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world'
+> 
+  
+[05:47:12 INFO]: [ChunkHolderManager] Halted chunk system for world 'world'
+> 
+  
+[05:47:12 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_nether'
+> 
+  
+[05:47:12 INFO]: [ChunkHolderManager] Halted chunk system for world 'world_nether'
+> 
+  
+[05:47:12 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_the_end'
+> 
+  
+[05:47:12 INFO]: [ChunkHolderManager] Halted chunk system for world 'world_the_end'
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Halted chunk systems
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Finishing pending teleports...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Finished pending teleports
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving all worlds
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving world data for world 'world'
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Closing player inventories...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Closed player inventories
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving chunks...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving chunks around region around chunk [255, 255] in world 'world'
+> 
+  
+[05:47:12 INFO]: [ChunkHolderManager] Saved 121 block chunks, 121 entity chunks, 0 poi chunks in world 'world' in 0.12s
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving chunks around region around chunk [0, 0] in world 'world'
+> 
+  
+[05:47:12 INFO]: [ChunkHolderManager] Saved 121 block chunks, 121 entity chunks, 0 poi chunks in world 'world' in 0.25s
+> 
+  
+[05:47:12 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'world'
+> 
+  
+[05:47:12 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'world'
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved chunks
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving level data...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved level data
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved world data for world 'world'
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving world data for world 'world_nether'
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Closing player inventories...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Closed player inventories
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving chunks...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved chunks
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving level data...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved level data
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved world data for world 'world_nether'
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving world data for world 'world_the_end'
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Closing player inventories...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Closed player inventories
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving chunks...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved chunks
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving level data...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved level data
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved world data for world 'world_the_end'
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved all worlds
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saving all player data...
+> 
+  
+[05:47:12 INFO]: [RegionShutdownThread] Saved all player data
+> 
+  
+[05:47:12 INFO]: Waiting for all RegionFile I/O tasks to complete...
+> 
+  
+[05:47:12 INFO]: All RegionFile I/O tasks to complete
+> 
+  
+[05:47:12 INFO]: [MoonriseCommon] Awaiting termination of worker pool for up to 60s...
+> 
+  
+[05:47:12 INFO]: [MoonriseCommon] Awaiting termination of I/O pool for up to 60s...
+> 

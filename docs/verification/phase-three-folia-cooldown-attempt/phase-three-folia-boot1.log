@@ -1,0 +1,338 @@
+Starting org.bukkit.craftbukkit.Main
+[05:37:59 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.13.1+2-LTS; Microsoft Microsoft-16059585) on Windows Server 2022 10.0 (amd64)
+[05:37:59 INFO]: [bootstrap] Loading Folia 1.21.11-14-ver/1.21.11@529aabc (2026-02-22T20:22:23Z) for Minecraft 1.21.11
+[05:38:00 INFO]: [PluginInitializerManager] Initializing plugins...
+[05:38:01 INFO]: [ReobfServer] Remapping server...
+[05:38:09 INFO]: [ReobfServer] Done remapping server in 7551ms.
+[05:38:09 INFO]: [PluginRemapper] Remapping plugin 'plugins\StarChronicle.jar'...
+[05:38:09 INFO]: [PluginRemapper] Remapping plugin 'plugins\PhaseThreeFoliaFixture.jar'...
+[05:38:09 INFO]: [PluginRemapper] Done remapping plugin 'plugins\PhaseThreeFoliaFixture.jar' in 242ms.
+[05:38:12 INFO]: [PluginRemapper] Done remapping plugin 'plugins\StarChronicle.jar' in 3317ms.
+[05:38:12 INFO]: [PluginInitializerManager] Initialized 2 plugins
+[05:38:12 INFO]: [PluginInitializerManager] Bukkit plugins (2):
+ - PhaseThreeFoliaFixture (1), StarChronicle (0.1.0-SNAPSHOT)
+[05:38:18 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[05:38:21 INFO]: Loaded 1470 recipes
+[05:38:21 INFO]: Loaded 1584 advancements
+[05:38:21 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[05:38:21 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 449.1ms
+[05:38:21 INFO]: Starting minecraft server version 1.21.11
+[33;1m[05:38:21 WARN]: ****************************
+[m[33;1m[05:38:21 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
+[m[33;1m[05:38:21 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.
+[m[33;1m[05:38:21 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/
+[m[33;1m[05:38:21 WARN]: ****************************
+[m[05:38:21 INFO]: Loading properties
+[05:38:21 INFO]: This server is running Folia version 1.21.11-14-ver/1.21.11@529aabc (2026-02-22T20:22:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
+[05:38:22 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[05:38:22 INFO]: Server Ping Player Sample Count: 12
+[05:38:22 INFO]: Using 4 threads for Netty based IO
+[05:38:22 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
+[05:38:22 INFO]: [io.papermc.paper.threadedregions.TickRegions] Initialised EDF Folia scheduler with initial 2 target thread(s)
+[05:38:23 INFO]: Default game type: CREATIVE
+[05:38:23 INFO]: Generating keypair
+[05:38:23 INFO]: Starting Minecraft server on 127.0.0.1:25578
+> 
+  
+[05:38:23 INFO]: Paper: Using Java compression from Velocity.
+> 
+  
+[05:38:23 INFO]: Paper: Using Java cipher from Velocity.
+> 
+  
+[05:38:23 INFO]: [StarChronicle] Loading server plugin StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[05:38:23 INFO]: [PhaseThreeFoliaFixture] Loading server plugin PhaseThreeFoliaFixture v1
+> 
+  
+[33;1m[05:38:23 WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[m> 
+  
+[33;1m[05:38:23 WARN]: The server will make no attempt to authenticate usernames. Beware.
+[m> 
+  
+[33;1m[05:38:23 WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[m> 
+  
+[33;1m[05:38:23 WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[m> 
+  
+[05:38:23 INFO]: Preparing level "world"
+> 
+  
+[05:38:24 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...
+> 
+  
+[05:38:24 INFO]: Preparing spawn area: 100%
+> 
+  
+[05:38:24 INFO]: Prepared spawn area in 1 ms
+> 
+  
+[05:38:24 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...
+> 
+  
+[05:38:24 INFO]: Prepared spawn area in 0 ms
+> 
+  
+[05:38:24 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...
+> 
+  
+[05:38:24 INFO]: Preparing spawn area: 100%
+> 
+  
+[05:38:24 INFO]: Prepared spawn area in 1 ms
+> 
+  
+[05:38:24 INFO]: Done preparing level "world" (0.496s)
+> 
+  
+[05:38:24 INFO]: [StarChronicle] Enabling StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[33;1m[05:38:24 WARN]: [StarChronicle] StarCore f769e627 NarrativeEngine uses Bukkit's main-thread scheduler; narrative.start is disabled on Folia. Chronicle state/history remain available.
+[m> 
+  
+[33;1m[05:38:24 WARN]: [StarChronicle] STANDALONE MODE: no authoritative StarCore identity, task, narrative or nation mutations are available
+[m> 
+  
+[05:38:25 INFO]: [StarChronicle] Native supplemental scene registration: {chronicle_silk_road=UNAVAILABLE, chronicle_last_heir=UNAVAILABLE, chronicle_siege_embers=UNAVAILABLE}
+> 
+  
+[05:38:26 INFO]: [StarChronicle] Loaded 13 validated stories; durable history/outbox ready
+> 
+  
+[05:38:26 INFO]: [PhaseThreeFoliaFixture] Enabling PhaseThreeFoliaFixture v1
+> 
+  
+[05:38:26 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_BOOT {"boot":1,"online":0,"sourceId":"chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492"}
+> 
+  
+[05:38:26 INFO]: [spark] The spark plugin has been preferred but was not loaded. The bundled spark profiler will enabled instead.
+> 
+  
+[05:38:26 INFO]: [spark] The spark profiler will not be enabled because it is currently disabled in the configuration.
+> 
+  
+[05:38:26 INFO]: Done (27.698s)! For help, type "help"
+> > 
+  
+[05:38:56 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_EVALUATED {"boot":1,"observedAt":"2026-11-19T21:38:56.787191Z","online":0,"report":{"sourceEventId":"chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492","storyId":"phase-three-archive","version":"1","status":"QUEUED","newSeeds":2,"matchingInstances":0,"completedInstances":0,"message":"仅登记持久触发；按当前真实身份、完成实例、冷却、版本与权限复核，未立即执行剧情或奖励"},"sourceId":"chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492","status":"QUEUED"}
+> 
+  
+[05:39:12 INFO]: UUID of player PhaseTwoFoliaB is 501fd117-4620-35f4-882b-6d7044ea83a5
+> 
+  
+[05:39:12 INFO]: UUID of player PhaseTwoFoliaA is 1d93f8d9-73dd-379e-ad87-fa6b7b92a55b
+> 
+  
+[05:39:13 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_GATE {"granted":false,"observedAt":"2026-11-19T21:39:13.849839200Z","owned":true,"permission":"phase-three.v2.ready","player":"B","priority":"LOWEST","uuid":"501fd117-4620-35f4-882b-6d7044ea83a5"}
+> 
+  
+[05:39:13 INFO]: [93mPhaseTwoFoliaB joined the game[0m
+> 
+  
+[05:39:13 INFO]: PhaseTwoFoliaB[/127.0.0.1:61549] logged in with entity id 30 at ([world]4095.5, -60.0, 4095.5)
+> 
+  
+[05:39:13 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_GATE {"granted":false,"observedAt":"2026-11-19T21:39:13.971636500Z","owned":true,"permission":"phase-three.v2.ready","player":"A","priority":"LOWEST","uuid":"1d93f8d9-73dd-379e-ad87-fa6b7b92a55b"}
+> 
+  
+[05:39:13 INFO]: [93mPhaseTwoFoliaA joined the game[0m
+> 
+  
+[05:39:13 INFO]: PhaseTwoFoliaA[/127.0.0.1:61548] logged in with entity id 31 at ([world]15.254473190627055, -60.0, 15.254473190627055)
+> > > > > 
+  
+[05:39:55 INFO]: PhaseTwoFoliaB issued server command: /chronicle past heir-legacy/1/archive
+> 
+  
+[05:39:55 INFO]: PhaseTwoFoliaB issued server command: /chronicle stories
+> 
+  
+[05:39:55 INFO]: PhaseTwoFoliaA issued server command: /chronicle past heir-legacy/1/archive
+> 
+  
+[05:39:55 INFO]: PhaseTwoFoliaA issued server command: /chronicle stories
+> 
+  
+[05:39:55 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_SEPARATION {"otherOwned":false,"owned":true,"player":"A"}
+> 
+  
+[05:39:55 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_RECOLLECTIONS {"facts":{"chronicle.history.player.HEIR_RESTORATION_SUPPORTED":"1","chronicle.history.world.HEIR_RESTORATION_SUPPORTED":"1","history.HEIR_RESTORATION_SUPPORTED":"1","past.player.choice.heir-legacy/1/archive":"reconcile","past.player.choice.last-heir/1/council":"support","past.resolution.world.last-heir/1/council":"support"},"nationAbsent":true,"player":"B"}
+> 
+  
+[05:39:55 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_FATE {"facts":{"npc.ancient-heir.growth":"20","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"council-speaker","npc.ancient-heir.reputation":"25","npc.ancient-heir.trust":"12","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"17","player.role":"unassigned","title.imperial-archive-reader":"旧都档案校读者","title.old-capital-guardian":"旧都的守望者"},"honor":"17","player":"B","role":"unassigned"}
+> 
+  
+[05:39:55 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_RECOLLECTIONS {"facts":{"chronicle.history.player.HEIR_RESTORATION_SUPPORTED":"1","chronicle.history.world.HEIR_RESTORATION_SUPPORTED":"1","history.HEIR_RESTORATION_SUPPORTED":"1","past.player.choice.heir-legacy/1/archive":"testimony","past.player.choice.last-heir/1/council":"support","past.resolution.world.last-heir/1/council":"support"},"nationAbsent":true,"player":"A"}
+> 
+  
+[05:39:55 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_FATE {"facts":{"npc.ancient-heir.growth":"20","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"council-speaker","npc.ancient-heir.reputation":"25","npc.ancient-heir.trust":"12","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"17","player.role":"unassigned","title.imperial-testimony-keeper":"议会证言保存者","title.old-capital-guardian":"旧都的守望者"},"honor":"17","player":"A","role":"unassigned"}
+> 
+  
+[05:39:55 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_SITES {"bystanders":1,"chunk":"0,0","owned":true,"sites":{"phase-two-live":["monument:INTERACTION","text:TEXT_DISPLAY","veteran:VILLAGER"]}}
+> > > 
+  
+[05:40:37 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_VIEW {"holder":"io.github.addxiaoyi.starchronicle.paper.Menus$Session","owned":true,"player":"B","title":"Phase Three Archive Review"}
+> 
+  
+[05:40:37 INFO]: [PhaseThreeFoliaFixture] PHASE_THREE_VIEW {"holder":"io.github.addxiaoyi.starchronicle.paper.Menus$Session","owned":true,"player":"A","title":"Phase Three Archive Review"}
+> 
+  
+[05:41:19 INFO]: PhaseTwoFoliaB lost connection: Disconnected
+> 
+  
+[05:41:19 INFO]: PhaseTwoFoliaA lost connection: Disconnected
+> 
+  
+[05:41:19 INFO]: [93mPhaseTwoFoliaB left the game[0m
+> 
+  
+[05:41:19 INFO]: [93mPhaseTwoFoliaA left the game[0m
+> > 
+  
+[05:41:45 INFO]: Stopping the server
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Awaiting scheduler termination for 60s...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Scheduler halted
+> 
+  
+[05:41:45 INFO]: Stopping server
+> 
+  
+[05:41:45 INFO]: [PhaseThreeFoliaFixture] Disabling PhaseThreeFoliaFixture v1
+> 
+  
+[05:41:45 INFO]: [StarChronicle] Disabling StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Halting chunk systems...
+> 
+  
+[05:41:45 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world'
+> 
+  
+[05:41:45 INFO]: [ChunkHolderManager] Halted chunk system for world 'world'
+> 
+  
+[05:41:45 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_nether'
+> 
+  
+[05:41:45 INFO]: [ChunkHolderManager] Halted chunk system for world 'world_nether'
+> 
+  
+[05:41:45 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_the_end'
+> 
+  
+[05:41:45 INFO]: [ChunkHolderManager] Halted chunk system for world 'world_the_end'
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Halted chunk systems
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Finishing pending teleports...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Finished pending teleports
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving all worlds
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving world data for world 'world'
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Closing player inventories...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Closed player inventories
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving chunks...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved chunks
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving level data...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved level data
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved world data for world 'world'
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving world data for world 'world_nether'
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Closing player inventories...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Closed player inventories
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving chunks...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved chunks
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving level data...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved level data
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved world data for world 'world_nether'
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving world data for world 'world_the_end'
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Closing player inventories...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Closed player inventories
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving chunks...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved chunks
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving level data...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved level data
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved world data for world 'world_the_end'
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved all worlds
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saving all player data...
+> 
+  
+[05:41:45 INFO]: [RegionShutdownThread] Saved all player data
+> 
+  
+[05:41:45 INFO]: Waiting for all RegionFile I/O tasks to complete...
+> 
+  
+[05:41:45 INFO]: All RegionFile I/O tasks to complete
+> 
+  
+[05:41:45 INFO]: [MoonriseCommon] Awaiting termination of worker pool for up to 60s...
+> 
+  
+[05:41:45 INFO]: [MoonriseCommon] Awaiting termination of I/O pool for up to 60s...
+> 

@@ -1,0 +1,18 @@
+{
+  "status": "FAILED_ACCEPTANCE_SCENARIO_CONFIGURATION",
+  "observed_utc": "2026-11-19T21:48:06.352047+00:00",
+  "reason": "Test v2 retained legitimate 604800-second same-story cooldown after actual recent v1 completion; true owner/LOWEST login permission did not bypass cooldown. No instance API or GUI query was made on boot2.",
+  "product_defect": false,
+  "source_database_modified": false,
+  "runtime_modified_after_start": false,
+  "server_exit_codes": [
+    0,
+    0
+  ],
+  "client_exit_codes": [
+    0,
+    0
+  ],
+  "all_two_boot_owned_children_exited": true,
+  "correction": "Only new acceptance preparation tool sets test v2 cooldownSeconds:0; prepare a new directory from untouched phase2 source. Preserve this run unchanged."
+}

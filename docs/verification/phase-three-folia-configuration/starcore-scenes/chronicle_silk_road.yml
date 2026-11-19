@@ -1,0 +1,36 @@
+id: chronicle_silk_road
+title: "驿站残卷：商路上的知识"
+version: "1.0.0"
+description: "丝路学者的单人调查场景，科技阶段与贸易结果仍取自权威来源。"
+category: starchronicle
+startNode: ledger
+nodes:
+  ledger:
+    type: DIALOGUE
+    sceneName: "古驿站·档案架"
+    dialogues:
+      - {speakerId: caravan-archivist, speakerName: "档案员", text: "这些账本记录着货物、度量衡与水源。你看到的是研究的开端，并非已经完成的科技突破。"}
+    choices:
+      compare:
+        text: "比较账本中的度量衡"
+        targetNode: measures
+        effect: "flag:chronicle_caravan_measures"
+      survey:
+        text: "整理驿道与水源的线索"
+        targetNode: route
+        effect: "flag:chronicle_caravan_route"
+  measures:
+    dialogues:
+      - "不同时代的数字可以互相印证。你记录了出处，准备将线索交给学者继续考证。"
+    effect: "evidence:chronicle_caravan_ledger"
+    nextNode: library
+  route:
+    dialogues:
+      - "地图只应记录实际调查到的道路。StarCore 的空地图制作任务可用于勘测准备，不会自动发现地点或开放贸易。"
+    nextNode: library
+  library:
+    dialogues:
+      - "你将选择保全原件、公开研究，或提出和平商路。请在 StarChronicle 剧情界面提交你的决定。"
+    isEnding: true
+    endingId: chronicle_caravan_clue_seen
+    effect: "markEnding:chronicle_caravan_clue_seen"

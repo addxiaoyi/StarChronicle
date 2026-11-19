@@ -1,0 +1,34 @@
+id: fate-mayor
+version: "1"
+title: "城主命运：广场上的议题"
+scope: PLAYER
+triggers: [PLAYER_JOIN, NATION_FOUNDED, TERRITORY_CHANGED]
+condition: {fact: player.role, op: eq, value: mayor}
+start: square
+cooldownSeconds: 86400
+nodes:
+  square:
+    text: "居民在广场等候提出意见。作为城主，你准备先组织哪一项公开讨论？这次个人抉择不会自动建设、收税或征用土地。"
+    choices:
+      needs:
+        label: "先听取居民对安全和民生的需求"
+        next: civic-listener
+      heritage:
+        label: "讨论怎样保留城市的共同记忆"
+        next: civic-archivist
+  civic-listener:
+    text: "你提出先公开收集居民需求，再讨论预算。任何税收、资源拨付或世界施工都必须另行经过权威审批。"
+    terminal: true
+    effects:
+      - {id: needs-honor, type: honor, target: player, value: "6"}
+      - {id: needs-title, type: title, target: civic-needs-listener, value: "民意倾听者"}
+      - {id: needs-reputation, type: reputation, target: siege-veteran, value: "3"}
+      - {id: needs-history, type: history, target: MAYOR_CIVIC_HEARING_PROPOSED, value: "一位城主提出在预算前公开听取居民民生需求。"}
+  civic-archivist:
+    text: "你倡议把不同群体的城市记忆一同保存。纪念场所仍需征询社区与地区保护系统的许可。"
+    terminal: true
+    effects:
+      - {id: heritage-honor, type: honor, target: player, value: "6"}
+      - {id: heritage-title, type: title, target: civic-memory-advocate, value: "城市记忆倡导者"}
+      - {id: heritage-reputation, type: reputation, target: siege-veteran, value: "4"}
+      - {id: heritage-history, type: history, target: MAYOR_PUBLIC_MEMORY_PROPOSED, value: "一位城主倡议保存城市中不同群体的共同记忆。"}

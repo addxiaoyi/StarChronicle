@@ -1,0 +1,39 @@
+{
+  "status": "BOOT_2_OBSERVED",
+  "prepared_utc": "2026-11-19T21:13:40.147727+00:00",
+  "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+  "server_sha256": "f52c408490a0225611e67907a3ca19f7e6da2c6bc899e715d5f46844e7103c39",
+  "fixture_source_sha256": "e103900a44402cdde4cb8b51a2c1bac55df07ecbd71337ecaeb9916978bfe250",
+  "source_database_sha256": "ae81e4685823dcb59b53b0864ab8d28f4bfad47db6d915f3fff80e651a74e598",
+  "source_original_path": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-two-folia-d765e0d1\\plugins\\StarChronicle\\chronicle.db",
+  "source_plugin_sha256": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+  "source_event_id": "chronicle:5ad9905c3336c82bef3538e5b469a5ae23e6031566a1d9f3af9d4ed07a78b492",
+  "cohort": [
+    "1d93f8d9-73dd-379e-ad87-fa6b7b92a55b",
+    "501fd117-4620-35f4-882b-6d7044ea83a5"
+  ],
+  "run_directory": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-folia-bfa80b9c",
+  "story_count": 13,
+  "story_sha256": {
+    "fate-diplomat.yml": "cdccb1ff306366f60f4bf33768e244f866aa20ef50175b9ca0acd5f7ea2f9bdc",
+    "fate-explorer.yml": "9fc0c27a29261491e0b0c55a14c221a9b873bf5e0f5cd2eede763fa8daa1a099",
+    "fate-general.yml": "f47e877905b62784aa0298e37893abf7ccb0a9849e2ac54593b470cb260c0a5d",
+    "fate-mayor.yml": "a5080206e727597f539f68db08e8c980cb83ddf06c179c6390b3185d74499397",
+    "fate-merchant.yml": "4a0a8667bc1596c7b7c015f6840497cc46ea242cc400dfa29431b21d07dc5e83",
+    "fate-monarch.yml": "10aa1e265023d6411a21761e1aad619e38e9f6ec7e0d8a248364bc4fd526411f",
+    "fate-scholar.yml": "9534cc3785ba64b21c552dd0ac9097a5e75a6681c7c9d74b907b313ca548c8a6",
+    "fate-soldier.yml": "fc31becc543fa8795b174d263740841f754d232cdb23ced54a6e85882a072dd8",
+    "heir-legacy.yml": "22757d08e2c9726baf3c9325b1e4d0b82813bd82fc698637b2e2eff8ebd735d8",
+    "last-heir.yml": "a1135bd6a60ec53293026c8e0d7a91147820aa049315a21ad94b4a445fc086d6",
+    "phase-three-archive.yml": "6fd2c2b02afbdf70c9b8d14fabbe19d94a4f30def686d91f71ad422d26e09d6e",
+    "siege-embers.yml": "7c5442d73427cb19e901b00321d9b3ffdeb5ed5ffac64be75682cb2eca2acfe4",
+    "silk-road-scholar.yml": "d9d01943917a868b308131d3f635dbf1ecd1aadfcad6ec7d9f1207267f160bdc"
+  },
+  "scope": "StarChronicle standalone on real Folia; NOT StarCore full-stack certification",
+  "server_port": 25578,
+  "poll_ticks": 12000,
+  "fixture_compiled": true,
+  "server_started": true,
+  "fixture_compile_exit_code": 0,
+  "fixture_sha256": "ecf66e4735b43fb0c095db94bb45c031557a709251c2766db18dc45c21ff6c45"
+}

@@ -1,0 +1,857 @@
+{
+  "scope": "Three real Paper boots over a cloned actual schema3 database, real StarCore and four original clients; source run untouched",
+  "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+  "boots": [
+    {
+      "boot": 1,
+      "server_started_utc": "2026-11-19T21:24:00.600655+00:00",
+      "server_pid": 5684,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-XX:MaxMetaspaceSize=256M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "commands": [
+        {
+          "utc": "2026-11-19T21:25:06.732318+00:00",
+          "target": "inspector",
+          "command": "boot1-migrated-offline",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:25:35.695010+00:00",
+          "target": "server",
+          "command": "phase3 seed"
+        },
+        {
+          "utc": "2026-11-19T21:25:35.696098+00:00",
+          "target": "server",
+          "command": "phase3 facts A"
+        },
+        {
+          "utc": "2026-11-19T21:25:35.698690+00:00",
+          "target": "server",
+          "command": "phase3 facts B"
+        },
+        {
+          "utc": "2026-11-19T21:25:35.699699+00:00",
+          "target": "server",
+          "command": "phase3 facts C"
+        },
+        {
+          "utc": "2026-11-19T21:25:35.700738+00:00",
+          "target": "server",
+          "command": "phase3 facts D"
+        },
+        {
+          "utc": "2026-11-19T21:25:35.702240+00:00",
+          "target": "server",
+          "command": "phase3 runtime migrated"
+        },
+        {
+          "utc": "2026-11-19T21:25:56.530901+00:00",
+          "target": "inspector",
+          "command": "boot1-baseline",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:25:56.530901+00:00",
+          "target": "server",
+          "command": "phase3 install"
+        },
+        {
+          "utc": "2026-11-19T21:26:09.948851+00:00",
+          "target": "server",
+          "command": "phase3 runtime before-validate"
+        },
+        {
+          "utc": "2026-11-19T21:26:10.319148+00:00",
+          "target": "inspector",
+          "command": "boot1-before-validate",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:26:10.319148+00:00",
+          "target": "server",
+          "command": "chronicle validate"
+        },
+        {
+          "utc": "2026-11-19T21:26:23.629075+00:00",
+          "target": "server",
+          "command": "phase3 runtime validated"
+        },
+        {
+          "utc": "2026-11-19T21:26:23.982713+00:00",
+          "target": "inspector",
+          "command": "boot1-validated",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:26:23.982713+00:00",
+          "target": "server",
+          "command": "chronicle reload"
+        },
+        {
+          "utc": "2026-11-19T21:26:38.241672+00:00",
+          "target": "server",
+          "command": "phase3 runtime published"
+        },
+        {
+          "utc": "2026-11-19T21:26:38.601315+00:00",
+          "target": "inspector",
+          "command": "boot1-published",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:26:38.601315+00:00",
+          "target": "client",
+          "command": "chat A /chronicle evaluate chronicle:975377c7394a74dbaafc65237cf43cdccda38990fe1b2ef3f46b428f6464ebe7 phase-three-catalog-reader 1"
+        },
+        {
+          "utc": "2026-11-19T21:26:57.789984+00:00",
+          "target": "client",
+          "command": "assert-message A 管理权限"
+        },
+        {
+          "utc": "2026-11-19T21:26:58.144132+00:00",
+          "target": "inspector",
+          "command": "boot1-nonop-denied",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:26:58.144132+00:00",
+          "target": "server",
+          "command": "phase3 replay ending"
+        },
+        {
+          "utc": "2026-11-19T21:27:17.888605+00:00",
+          "target": "inspector",
+          "command": "boot1-normal-replay",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:27:17.888605+00:00",
+          "target": "server",
+          "command": "phase3 reject-evaluate heir-legacy 1"
+        },
+        {
+          "utc": "2026-11-19T21:27:17.888605+00:00",
+          "target": "server",
+          "command": "phase3 reject-evaluate phase-three-catalog-reader 2"
+        },
+        {
+          "utc": "2026-11-19T21:27:17.888605+00:00",
+          "target": "client",
+          "command": "quit"
+        },
+        {
+          "utc": "2026-11-19T21:27:30.133520+00:00",
+          "target": "server",
+          "command": "chronicle evaluate chronicle:975377c7394a74dbaafc65237cf43cdccda38990fe1b2ef3f46b428f6464ebe7 heir-legacy 2"
+        },
+        {
+          "utc": "2026-11-19T21:27:46.246657+00:00",
+          "target": "server",
+          "command": "chronicle evaluate chronicle:975377c7394a74dbaafc65237cf43cdccda38990fe1b2ef3f46b428f6464ebe7 phase-three-catalog-reader 1"
+        },
+        {
+          "utc": "2026-11-19T21:27:59.652671+00:00",
+          "target": "server",
+          "command": "phase3 evaluate heir-legacy 2"
+        },
+        {
+          "utc": "2026-11-19T21:27:59.653446+00:00",
+          "target": "server",
+          "command": "phase3 evaluate phase-three-catalog-reader 1"
+        },
+        {
+          "utc": "2026-11-19T21:28:15.015108+00:00",
+          "target": "inspector",
+          "command": "boot1-explicit-queued",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:28:15.015108+00:00",
+          "target": "server",
+          "command": "stop"
+        }
+      ],
+      "normal_console_stop_requested": true,
+      "clients_quit_requested": true,
+      "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "server_done_utc": "2026-11-19T21:24:23.588624+00:00",
+      "client_pid": 15640,
+      "client_command": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\tools\\phase-three-paper-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c",
+        "--boot",
+        "1",
+        "--expected-sha",
+        "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154"
+      ],
+      "client_started_utc": "2026-11-19T21:25:06.737937+00:00",
+      "client_exit_code": 0,
+      "client_ended_utc": "2026-11-19T21:27:17.941067+00:00",
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T21:28:16.497660+00:00",
+      "plugin_sha256_after": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "all_owned_children_exited": true,
+      "source_files_unchanged": true
+    },
+    {
+      "boot": 2,
+      "server_started_utc": "2026-11-19T21:28:47.906579+00:00",
+      "server_pid": 15384,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-XX:MaxMetaspaceSize=256M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "commands": [
+        {
+          "utc": "2026-11-19T21:29:56.092251+00:00",
+          "target": "inspector",
+          "command": "boot2-offline",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:30:31.014566+00:00",
+          "target": "server",
+          "command": "phase3 seed"
+        },
+        {
+          "utc": "2026-11-19T21:30:31.014566+00:00",
+          "target": "server",
+          "command": "phase3 facts A"
+        },
+        {
+          "utc": "2026-11-19T21:30:31.015602+00:00",
+          "target": "server",
+          "command": "phase3 facts B"
+        },
+        {
+          "utc": "2026-11-19T21:30:31.015602+00:00",
+          "target": "server",
+          "command": "phase3 facts C"
+        },
+        {
+          "utc": "2026-11-19T21:30:31.016644+00:00",
+          "target": "server",
+          "command": "phase3 facts D"
+        },
+        {
+          "utc": "2026-11-19T21:30:44.996932+00:00",
+          "target": "inspector",
+          "command": "boot2-joined",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:30:44.996932+00:00",
+          "target": "server",
+          "command": "phase3 runtime before-bad"
+        },
+        {
+          "utc": "2026-11-19T21:30:45.355177+00:00",
+          "target": "inspector",
+          "command": "boot2-before-bad-reload",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:30:45.355177+00:00",
+          "target": "server",
+          "command": "phase3 bad-config"
+        },
+        {
+          "utc": "2026-11-19T21:30:55.960496+00:00",
+          "target": "server",
+          "command": "chronicle reload"
+        },
+        {
+          "utc": "2026-11-19T21:31:12.825603+00:00",
+          "target": "server",
+          "command": "phase3 runtime bad-reload"
+        },
+        {
+          "utc": "2026-11-19T21:31:13.192224+00:00",
+          "target": "inspector",
+          "command": "boot2-bad-reload",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:31:13.192224+00:00",
+          "target": "server",
+          "command": "phase3 restore-config"
+        },
+        {
+          "utc": "2026-11-19T21:31:27.006458+00:00",
+          "target": "server",
+          "command": "chronicle reload"
+        },
+        {
+          "utc": "2026-11-19T21:31:43.428281+00:00",
+          "target": "server",
+          "command": "phase3 runtime restored"
+        },
+        {
+          "utc": "2026-11-19T21:31:43.789982+00:00",
+          "target": "inspector",
+          "command": "boot2-restored",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:31:43.789982+00:00",
+          "target": "client",
+          "command": "open-story A 旧都档案·第二卷"
+        },
+        {
+          "utc": "2026-11-19T21:31:43.789982+00:00",
+          "target": "client",
+          "command": "assert-choices A annotate"
+        },
+        {
+          "utc": "2026-11-19T21:31:43.789982+00:00",
+          "target": "client",
+          "command": "inspect A"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.710496+00:00",
+          "target": "client",
+          "command": "choice A annotate"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.711560+00:00",
+          "target": "client",
+          "command": "open-story A 旧档中的版本坐标"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.724481+00:00",
+          "target": "client",
+          "command": "assert-choices A testimony"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.725811+00:00",
+          "target": "client",
+          "command": "inspect A"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.726527+00:00",
+          "target": "client",
+          "command": "choice A testimony"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.727628+00:00",
+          "target": "client",
+          "command": "open-story C 旧都档案·第二卷"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.728651+00:00",
+          "target": "client",
+          "command": "assert-choices C annotate"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.730447+00:00",
+          "target": "client",
+          "command": "inspect C"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.731188+00:00",
+          "target": "client",
+          "command": "choice C annotate"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.731188+00:00",
+          "target": "client",
+          "command": "open-story C 旧档中的版本坐标"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.732248+00:00",
+          "target": "client",
+          "command": "assert-choices C witness"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.732781+00:00",
+          "target": "client",
+          "command": "inspect C"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.732781+00:00",
+          "target": "client",
+          "command": "choice C witness"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.733760+00:00",
+          "target": "client",
+          "command": "open-story D 旧都档案·第二卷"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.733760+00:00",
+          "target": "client",
+          "command": "assert-choices D annotate"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.734842+00:00",
+          "target": "client",
+          "command": "inspect D"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.734842+00:00",
+          "target": "client",
+          "command": "choice D annotate"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.735754+00:00",
+          "target": "client",
+          "command": "open-story D 旧档中的版本坐标"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.736346+00:00",
+          "target": "client",
+          "command": "assert-choices D reconcile"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.736346+00:00",
+          "target": "client",
+          "command": "inspect D"
+        },
+        {
+          "utc": "2026-11-19T21:32:13.737415+00:00",
+          "target": "client",
+          "command": "choice D reconcile"
+        },
+        {
+          "utc": "2026-11-19T21:33:56.927801+00:00",
+          "target": "server",
+          "command": "phase3 inspect A"
+        },
+        {
+          "utc": "2026-11-19T21:33:56.928868+00:00",
+          "target": "server",
+          "command": "phase3 inspect B"
+        },
+        {
+          "utc": "2026-11-19T21:33:56.929276+00:00",
+          "target": "server",
+          "command": "phase3 inspect C"
+        },
+        {
+          "utc": "2026-11-19T21:33:56.929878+00:00",
+          "target": "server",
+          "command": "phase3 inspect D"
+        },
+        {
+          "utc": "2026-11-19T21:34:02.703681+00:00",
+          "target": "inspector",
+          "command": "boot2-completed",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:34:02.703681+00:00",
+          "target": "client",
+          "command": "quit"
+        },
+        {
+          "utc": "2026-11-19T21:34:07.929779+00:00",
+          "target": "server",
+          "command": "stop"
+        }
+      ],
+      "normal_console_stop_requested": true,
+      "clients_quit_requested": true,
+      "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "server_done_utc": "2026-11-19T21:29:10.851600+00:00",
+      "client_pid": 8856,
+      "client_command": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\tools\\phase-three-paper-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c",
+        "--boot",
+        "2",
+        "--expected-sha",
+        "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154"
+      ],
+      "client_started_utc": "2026-11-19T21:29:56.098482+00:00",
+      "client_exit_code": 0,
+      "client_ended_utc": "2026-11-19T21:34:02.764441+00:00",
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T21:34:09.727662+00:00",
+      "plugin_sha256_after": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "all_owned_children_exited": true,
+      "source_files_unchanged": true
+    },
+    {
+      "boot": 3,
+      "server_started_utc": "2026-11-19T21:34:29.586185+00:00",
+      "server_pid": 16832,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-XX:MaxMetaspaceSize=256M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "commands": [
+        {
+          "utc": "2026-11-19T21:35:09.569016+00:00",
+          "target": "inspector",
+          "command": "boot3-offline",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:35:30.249803+00:00",
+          "target": "server",
+          "command": "phase3 seed"
+        },
+        {
+          "utc": "2026-11-19T21:35:30.250348+00:00",
+          "target": "server",
+          "command": "phase3 facts A"
+        },
+        {
+          "utc": "2026-11-19T21:35:30.251353+00:00",
+          "target": "server",
+          "command": "phase3 facts B"
+        },
+        {
+          "utc": "2026-11-19T21:35:30.251353+00:00",
+          "target": "server",
+          "command": "phase3 facts C"
+        },
+        {
+          "utc": "2026-11-19T21:35:30.252360+00:00",
+          "target": "server",
+          "command": "phase3 facts D"
+        },
+        {
+          "utc": "2026-11-19T21:35:37.624894+00:00",
+          "target": "inspector",
+          "command": "boot3-joined",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:35:37.624894+00:00",
+          "target": "client",
+          "command": "open-story B 旧都档案：每个人的那一票"
+        },
+        {
+          "utc": "2026-11-19T21:35:37.624894+00:00",
+          "target": "client",
+          "command": "assert-choices B reconcile,testimony"
+        },
+        {
+          "utc": "2026-11-19T21:35:37.624894+00:00",
+          "target": "client",
+          "command": "inspect B"
+        },
+        {
+          "utc": "2026-11-19T21:35:37.624894+00:00",
+          "target": "client",
+          "command": "choice B testimony"
+        },
+        {
+          "utc": "2026-11-19T21:35:44.116060+00:00",
+          "target": "server",
+          "command": "phase3 facts B"
+        },
+        {
+          "utc": "2026-11-19T21:35:44.477194+00:00",
+          "target": "inspector",
+          "command": "boot3-old-b-completed",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:35:51.948179+00:00",
+          "target": "client",
+          "command": "open-story B 旧都档案·第二卷"
+        },
+        {
+          "utc": "2026-11-19T21:35:51.951263+00:00",
+          "target": "client",
+          "command": "assert-choices B annotate"
+        },
+        {
+          "utc": "2026-11-19T21:35:51.951263+00:00",
+          "target": "client",
+          "command": "inspect B"
+        },
+        {
+          "utc": "2026-11-19T21:35:51.952272+00:00",
+          "target": "client",
+          "command": "choice B annotate"
+        },
+        {
+          "utc": "2026-11-19T21:35:51.952272+00:00",
+          "target": "client",
+          "command": "open-story B 旧档中的版本坐标"
+        },
+        {
+          "utc": "2026-11-19T21:35:51.953306+00:00",
+          "target": "client",
+          "command": "assert-choices B testimony"
+        },
+        {
+          "utc": "2026-11-19T21:35:51.953306+00:00",
+          "target": "client",
+          "command": "inspect B"
+        },
+        {
+          "utc": "2026-11-19T21:35:51.953306+00:00",
+          "target": "client",
+          "command": "choice B testimony"
+        },
+        {
+          "utc": "2026-11-19T21:35:59.905192+00:00",
+          "target": "client",
+          "command": "chat A /chronicle history"
+        },
+        {
+          "utc": "2026-11-19T21:35:59.914042+00:00",
+          "target": "client",
+          "command": "wait-window A 世界编年史"
+        },
+        {
+          "utc": "2026-11-19T21:35:59.915188+00:00",
+          "target": "client",
+          "command": "inspect A"
+        },
+        {
+          "utc": "2026-11-19T21:35:59.916153+00:00",
+          "target": "client",
+          "command": "click A 0"
+        },
+        {
+          "utc": "2026-11-19T21:35:59.916153+00:00",
+          "target": "client",
+          "command": "wait-window A 历史证据"
+        },
+        {
+          "utc": "2026-11-19T21:35:59.916153+00:00",
+          "target": "client",
+          "command": "inspect A"
+        },
+        {
+          "utc": "2026-11-19T21:36:06.796132+00:00",
+          "target": "server",
+          "command": "phase3 inspect A"
+        },
+        {
+          "utc": "2026-11-19T21:36:06.797195+00:00",
+          "target": "server",
+          "command": "phase3 inspect B"
+        },
+        {
+          "utc": "2026-11-19T21:36:06.798234+00:00",
+          "target": "server",
+          "command": "phase3 inspect C"
+        },
+        {
+          "utc": "2026-11-19T21:36:06.798234+00:00",
+          "target": "server",
+          "command": "phase3 inspect D"
+        },
+        {
+          "utc": "2026-11-19T21:36:06.799274+00:00",
+          "target": "server",
+          "command": "phase3 runtime boot3-final"
+        },
+        {
+          "utc": "2026-11-19T21:36:15.956610+00:00",
+          "target": "inspector",
+          "command": "boot3-completed",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:36:15.956610+00:00",
+          "target": "server",
+          "command": "chronicle evaluate chronicle:975377c7394a74dbaafc65237cf43cdccda38990fe1b2ef3f46b428f6464ebe7 heir-legacy 2"
+        },
+        {
+          "utc": "2026-11-19T21:36:15.956610+00:00",
+          "target": "server",
+          "command": "chronicle evaluate chronicle:975377c7394a74dbaafc65237cf43cdccda38990fe1b2ef3f46b428f6464ebe7 phase-three-catalog-reader 1"
+        },
+        {
+          "utc": "2026-11-19T21:36:15.956610+00:00",
+          "target": "server",
+          "command": "phase3 evaluate heir-legacy 2"
+        },
+        {
+          "utc": "2026-11-19T21:36:15.956610+00:00",
+          "target": "server",
+          "command": "phase3 evaluate phase-three-catalog-reader 1"
+        },
+        {
+          "utc": "2026-11-19T21:36:15.956610+00:00",
+          "target": "server",
+          "command": "phase3 replay ending"
+        },
+        {
+          "utc": "2026-11-19T21:36:15.956610+00:00",
+          "target": "server",
+          "command": "phase3 replay discovery"
+        },
+        {
+          "utc": "2026-11-19T21:36:22.988562+00:00",
+          "target": "server",
+          "command": "phase3 complete-replay A heir-legacy 2 annotate"
+        },
+        {
+          "utc": "2026-11-19T21:36:22.989672+00:00",
+          "target": "server",
+          "command": "phase3 complete-replay A phase-three-catalog-reader 1 testimony"
+        },
+        {
+          "utc": "2026-11-19T21:36:22.991730+00:00",
+          "target": "server",
+          "command": "phase3 complete-replay B heir-legacy 2 annotate"
+        },
+        {
+          "utc": "2026-11-19T21:36:22.992373+00:00",
+          "target": "server",
+          "command": "phase3 complete-replay B phase-three-catalog-reader 1 testimony"
+        },
+        {
+          "utc": "2026-11-19T21:36:22.993231+00:00",
+          "target": "server",
+          "command": "phase3 complete-replay C heir-legacy 2 annotate"
+        },
+        {
+          "utc": "2026-11-19T21:36:22.994292+00:00",
+          "target": "server",
+          "command": "phase3 complete-replay C phase-three-catalog-reader 1 witness"
+        },
+        {
+          "utc": "2026-11-19T21:36:22.995335+00:00",
+          "target": "server",
+          "command": "phase3 complete-replay D heir-legacy 2 annotate"
+        },
+        {
+          "utc": "2026-11-19T21:36:22.997346+00:00",
+          "target": "server",
+          "command": "phase3 complete-replay D phase-three-catalog-reader 1 reconcile"
+        },
+        {
+          "utc": "2026-11-19T21:36:30.540960+00:00",
+          "target": "inspector",
+          "command": "boot3-replayed",
+          "exit_code": 0
+        },
+        {
+          "utc": "2026-11-19T21:36:30.540960+00:00",
+          "target": "client",
+          "command": "quit"
+        },
+        {
+          "utc": "2026-11-19T21:36:36.324341+00:00",
+          "target": "server",
+          "command": "stop"
+        }
+      ],
+      "normal_console_stop_requested": true,
+      "clients_quit_requested": true,
+      "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "server_done_utc": "2026-11-19T21:34:52.721709+00:00",
+      "client_pid": 16440,
+      "client_command": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\tools\\phase-three-paper-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\phase-three-paper-bfa80b9c",
+        "--boot",
+        "3",
+        "--expected-sha",
+        "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154"
+      ],
+      "client_started_utc": "2026-11-19T21:35:09.574722+00:00",
+      "client_exit_code": 0,
+      "client_ended_utc": "2026-11-19T21:36:30.594854+00:00",
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T21:36:38.074253+00:00",
+      "plugin_sha256_after": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "all_owned_children_exited": true,
+      "source_files_unchanged": true
+    }
+  ],
+  "server_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "client_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "preflight_attempts": [
+    {
+      "boot": 1,
+      "server_started_utc": "2026-11-19T21:15:56.245000+00:00",
+      "server_pid": 4188,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-XX:MaxMetaspaceSize=256M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "commands": [],
+      "normal_console_stop_requested": false,
+      "clients_quit_requested": false,
+      "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "plugin_sha256_after": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "all_owned_children_exited": true,
+      "source_files_unchanged": true,
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T21:19:33.569527+00:00",
+      "launcher_problem": "UnicodeEncodeError: GBK stdout could not encode upstream Unicode log; no client controller started",
+      "recovered_normal_bukkit_shutdown": true
+    },
+    {
+      "boot": 1,
+      "server_started_utc": "2026-11-19T21:20:04.201687+00:00",
+      "server_pid": 6636,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-XX:MaxMetaspaceSize=256M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "commands": [],
+      "normal_console_stop_requested": false,
+      "clients_quit_requested": false,
+      "plugin_sha256": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "server_done_utc": "2026-11-19T21:20:26.861314+00:00",
+      "server_exit_code": 0,
+      "server_ended_utc": "2026-11-19T21:23:45.727302+00:00",
+      "plugin_sha256_after": "bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154",
+      "all_owned_children_exited": true,
+      "source_files_unchanged": true,
+      "launcher_problem": "Tool stdin closed because exec omitted tty=true; no clients or commands were started",
+      "recovered_normal_bukkit_shutdown": true,
+      "launcher_exit_code": 1
+    }
+  ],
+  "retained_preflight_recovery": "preflight-recovery.json"
+}
