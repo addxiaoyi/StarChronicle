@@ -10,7 +10,7 @@ At StarCore commit `f769e62799e769a18fe51305b545869a17f80cd1`, `NarrativeEngine.
 
 ## Domain API and state machine
 
-Create `new NativeSceneJournal(store, clock)` once at startup on the persistence worker. `SqliteStore` schema version 2 centrally creates its table/index alongside the deferred-trigger tables; opening a version-1 store preserves existing events, facts and receipts. Journal initialization changes every abandoned `RUNNING` row to `UNKNOWN` in one transaction. Do not construct a second journal while a first instance has active calls.
+Create `new NativeSceneJournal(store, clock)` once at startup on the persistence worker. `SqliteStore` schema version 3 retains the native/deferred-trigger tables introduced in version 2 and adds the independent choice/causal records; opening a version-1/2 store preserves its existing events, facts and receipts. Journal initialization changes every abandoned `RUNNING` row to `UNKNOWN` in one transaction. Do not construct a second journal while a first instance has active calls.
 
 * `Request(outcomeId, instanceId, playerId, nationId, scriptId, scriptFingerprint, initialNode, permission)` links a stable campaign delivery to an owned `chronicle_` native scene and its exact lowercase SHA-256 content fingerprint. The optional explicit native initial node and required permission are persisted and included in collision checks; compatibility constructors default omitted fields to empty strings. A stored permission is a requirement to recheck, never a permission grant.
 * `prepare(request)` is idempotent for an identical request and rejects the same ID carrying a different payload. Its first state is `READY`, revision zero, no checkpoint. It does not admit or execute native work.

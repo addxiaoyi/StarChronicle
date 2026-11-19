@@ -1,6 +1,9 @@
 # Production default: fail closed when StarCore authority services are absent.
 # Set false only to use the independent rule/history engine without StarCore identity or effects.
 require-starcore: true
+# Install missing bundled examples on enable. Set false before removing/renaming examples;
+# existing story files are never overwritten or deleted by this setting.
+install-default-stories: true
 # Explicitly opt in on a test server. Never accepts player-supplied nation/permission snapshots.
 admin-demo-enabled: false
 npc-hooks: true

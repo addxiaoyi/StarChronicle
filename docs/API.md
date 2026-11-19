@@ -26,6 +26,20 @@ chronicle.choose(instanceId, playerId, renderedNodeId, choiceId);
 
 如果玩家看到界面后阶段已经变化，即使后续节点恰有同名选项，旧点击也会被拒绝。无 `expectedNode` 的旧重载为可信自动化保留，不应用于延迟 GUI 点击。
 
+## 跨剧情记忆与范围历史
+
+`ChronicleService.recollections(UUID playerId, Collection<String> references)` 用新鲜服务端身份返回最多256个明确请求的历史事实，结果不可变；调用方不能提供国籍或权限。支持旧 `history.TYPE`、新 `chronicle.history.world/nation/player.TYPE` 与 `past.player.choice.STORY/VERSION/NODE`、`past.resolution.world/nation.STORY/VERSION/NODE`。只返回请求且可核验的键；已知主体的显式新计数可以为0，未知主体缺失。`past.*` 只投影已完成实例中的最新提交日志，败方个人票与共同决议分开，未投票者没有个人票。详见 [连续叙事协议](CONTINUOUS-NARRATIVE.md)。
+
+```java
+chronicle.recollections(playerId, List.of(
+    "past.player.choice.last-heir/1/council",
+    "past.resolution.world.last-heir/1/council",
+    "chronicle.history.player.HEIR_RESTORATION_SUPPORTED"
+));
+```
+
+所有规则和 NPC 条件会去除上下文伪造的保留历史命名空间，再从当前 SQLite 事务构造。剧情 `history` 结果、NPC反应、选择日志、因果记录及待触发定义同事务提交；内部派生结果只入箱，不递归执行剧情或等待 Bukkit。运行时因果链重复故事／深度32后只拦截后续并保留来源历史；管理员 `/chronicle blocked` 可查，不能把这类确定未执行的拦截当作外部 UNKNOWN 已执行。当前新配置引用仍按当前目录版本校验，退休定义目录尚待后续，API／旧 pinned 快照读取已保存历史不受文件删除影响。
+
 `scene(playerId)` 与 `sceneAction(playerId, expectedScript, expectedNode, visibleChoiceIndex)` 提供自有 StarCore 原生场景的只读投影和委托操作。Bukkit／原生状态的读取与调用在玩家实体线程执行，恢复日志由持久化工作线程管理。索引从1开始，0只允许推进没有选项的节点。`NativeSceneAdapter` 使用上游 `ConditionEvaluator` 过滤对话和可见选项，实际推进调用 `NarrativeEngine.advanceNode/selectChoice`；不会解释上游效果。只允许当前对象仍归本插件注册的脚本，拒绝过期节点和外部脚本。`/chronicle scene` 和剧情GUI的补充场景入口使用同一入口。
 
 自动恢复另受下文三个自有场景的指纹、命名空间、checkpoint 和持久化操作令牌约束。仅有 `chronicle_` 名称或一个空投影不构成恢复／完成证明。未完成上游线程审计时，Folia 上的原生场景访问和执行继续关闭。
@@ -203,7 +217,7 @@ NPC 提供者是可选展示扩展点。注册方必须记录自己创建／附�
 5. 真实原生权威服务可用时内置最低优先级 `StarCoreAuthorityProvider`：`type=authority,target=diplomacy.invite,value=对方国家UUID,permission=starcore.nation.ally.add`。它重新验证当前君主、国籍、Bukkit与StarCore国家权限，只发送需对方另行接受的邀请。自定义提供者可用更高服务优先级覆盖；未知操作默认拒绝。不确定结果不自动重试。接入NPC插件时按目录绑定真实外部ID。
 6. 正常停服后备份数据库；运行中备份必须包含 SQLite WAL 的一致性方案。不要只复制正在写入的 `.db` 文件。
 
-数据库 schema 2 增量创建触发收据与原生恢复日志，从 V1 升级保留已有历史、实例、投票、facts 和效果回执；较新 schema 会拒绝由旧程序打开。升级不能凭空倒推出旧版已经消费的来源应匹配哪一版规则，也不能从旧原生会话重建从未保存的 Request/checkpoint，因此不自动 backfill 这些触发或会话，更不会为补历史而重发奖励。升级前仍应正常停服并备份。
+数据库 schema 3 在保留 V1/V2 原数据的基础上，同事务创建选择日志及派生因果表，并将旧实例仍保存的选择导入为 `LEGACY_INSTANCE`；未知原投票时间／提交人保持NULL，中间改投不可重建。迁移失败会回滚版本和局部导入，重开不重复；较新 schema 会拒绝由旧程序打开。升级仍不能倒推出已消费来源的旧规则／资格，或补造原生 Request/checkpoint，不自动 backfill 这些触发或奖励。升级前正常停服并备份。详情见 [CONTINUOUS-NARRATIVE.md](CONTINUOUS-NARRATIVE.md)。
 
 `ObservationJournal` 为缺少提交后事件的权威快照提供同事务基线与持久ingress，成功accept后才ack；重启重投保持原ID和证据。原生完整国家列表用于观察国家消失，真实技术集合用于观察新解锁。首都迁移必须有可信 `SnapshotProvider` 的CAPITALS完整集合：审计CityService无持久指定首都getter，默认不猜迁都。重要战役取真实战争记录；探索／大型事件需要有稳定提交证据的服内集成。SenLuoPlugin 实际是 CraftEngine 内容插件，它的烹饪预提交事件不能当作国家历史权威来源。见 [HISTORY-OBSERVATION.md](HISTORY-OBSERVATION.md)。
 

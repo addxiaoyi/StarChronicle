@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "plugin_sha256": "d765e0d14b9a9122e0ba1304c9c1b0d3ef844d4458295b1f4847ecb213bd943b",
+  "source_database_sha256": "28885c47a58c7ce218131423b88bf16fcb248d736f2b18d12d34f8b0274510c3",
+  "source_version": 2,
+  "target_version": 3,
+  "imported_log_rows": 14,
+  "original_tables": [
+    "event_nations",
+    "event_players",
+    "events",
+    "facts",
+    "instances",
+    "memory_sites",
+    "native_scene_journal",
+    "observation_baselines",
+    "observation_ingress",
+    "outcomes",
+    "story_trigger_receipts",
+    "story_triggers"
+  ],
+  "checks": {
+    "actual_original_v2_database": true,
+    "original_database_bytes_unchanged": true,
+    "verified_final_product": true,
+    "production_constructor_upgraded_to_v3": true,
+    "all_original_columns_and_payloads_preserved": true,
+    "real_surviving_choices_were_imported": true,
+    "legacy_time_and_committer_remain_unknown": true,
+    "second_open_preserves_every_log_sequence_and_id": true,
+    "no_invented_legacy_causal_ancestry": true,
+    "foreign_keys_and_integrity_ok": true,
+    "actual_compile_and_probe_exit_zero": true
+  },
+  "scope": "Read-only backup of actual phase-one Paper database; production SqliteStore constructor, not a server/native quest migration"
+}

@@ -3,6 +3,9 @@ package io.github.addxiaoyi.starchronicle.npc;
 import io.github.addxiaoyi.starchronicle.api.PlayerContext;
 import io.github.addxiaoyi.starchronicle.api.WorldEvent;
 import io.github.addxiaoyi.starchronicle.core.RuleEngine;
+import io.github.addxiaoyi.starchronicle.core.ChoiceLedger;
+import io.github.addxiaoyi.starchronicle.config.Condition;
+import io.github.addxiaoyi.starchronicle.history.HistoricalFacts;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
 
 import java.sql.Connection;
@@ -14,7 +17,7 @@ import java.util.regex.Pattern;
 /** Durable NPC relationships and global growth. All writes require the caller's source transaction. */
 public final class NpcLedger {
     public static final int RELATIONSHIP_MIN=-1000,RELATIONSHIP_MAX=1000,HOSTILITY_MIN=0,HOSTILITY_MAX=1000,GROWTH_MAX=1_000_000;
-    private static final Pattern PLACEHOLDER=Pattern.compile("\\{([A-Za-z0-9_.:-]{1,128})}");
+    private static final Pattern PLACEHOLDER=Pattern.compile("\\{([^{}\\r\\n]{1,4096})}");
     private final SqliteStore store;
     private final NpcCatalog catalog;
     public NpcLedger(SqliteStore store,NpcCatalog catalog) {this.store=Objects.requireNonNull(store);this.catalog=Objects.requireNonNull(catalog);}
@@ -35,15 +38,16 @@ public final class NpcLedger {
         }
         for(var entry:catalog.profiles().entrySet()) {
             String npcId=entry.getKey();
+            Set<String> requested=references(npcId);
             for(var reaction:entry.getValue().reactions()) {
                 if(!reaction.events().contains(event.type()))continue;
                 String receipt="npc-reaction:"+RuleEngine.stable(event.id(),npcId,reaction.id());
                 if(!receipt(connection,receipt,event.id(),npcId,reaction.id()))continue;
-                Map<String,String> global=eventFacts(connection,event,npcId,null);
+                Map<String,String> global=eventFacts(connection,event,npcId,null,requested);
                 boolean globalMatch=reaction.condition()==null||!needsPlayer(reaction.condition())&&reaction.condition().test(global);
                 List<UUID> matching=new ArrayList<>();
                 for(UUID player:event.participants()) {
-                    Map<String,String> personal=eventFacts(connection,event,npcId,player);
+                    Map<String,String> personal=eventFacts(connection,event,npcId,player,requested);
                     if(reaction.condition()==null||reaction.condition().test(personal))matching.add(player);
                 }
                 // A player-specific condition may drive a single global promotion when any evidenced participant matches.
@@ -101,18 +105,20 @@ public final class NpcLedger {
         Map<String,String> facts=new HashMap<>(context.facts());
         worldFacts.forEach((key,value)->{if(key.startsWith("region.")||key.startsWith("choice.")||key.startsWith("story.choice."))facts.put(key,value);});
         facts.putAll(read(connection,"WORLD"));facts.putAll(npcFacts(connection,player));
-        history(connection,facts);
+        history(connection,facts,player,context.nationId(),references(npcId));
         facts.put("player.id",player.toString());
         if(context.nationId().isBlank())facts.remove("nation.id");else facts.put("nation.id",context.nationId());
         metadata(facts,npcId);return facts;
     }
-    private Map<String,String> eventFacts(Connection connection,WorldEvent event,String npcId,UUID player) throws SQLException {
+    private Map<String,String> eventFacts(Connection connection,WorldEvent event,String npcId,UUID player,Collection<String> requested) throws SQLException {
         Map<String,String> facts=new HashMap<>(read(connection,"WORLD"));
         for(var entry:event.facts().entrySet())facts.put("event."+entry.getKey(),entry.getValue());
         facts.put("event.type",event.type());facts.put("event.source",event.source());
         if(player!=null){facts.putAll(npcFacts(connection,player));facts.put("player.id",player.toString());}
         else defaults(connection,facts,npcId,null);
-        history(connection,facts);metadata(facts,npcId);return facts;
+        // Event actors provide UUID evidence, not their current authoritative nationality.
+        // Never choose an arbitrary event nation to manufacture a current national subject.
+        history(connection,facts,player,null,requested);metadata(facts,npcId);return facts;
     }
     private Map<String,String> npcFacts(Connection connection,UUID player) throws SQLException {
         Map<String,String> facts=new HashMap<>();
@@ -137,17 +143,21 @@ public final class NpcLedger {
         facts.put("npc.position",facts.getOrDefault(prefix+"position",profile.initialPosition()));
         for(String key:List.of("growth","reputation","trust","hostility"))facts.put("npc."+key,facts.getOrDefault(prefix+key,"0"));
     }
-    private static void history(Connection connection,Map<String,String> facts) throws SQLException {
+    private static void history(Connection connection,Map<String,String> facts,UUID player,String nation,Collection<String> requested) throws SQLException {
         // Caller-supplied contexts cannot fabricate historical counts for dialogue or reaction predicates.
-        facts.keySet().removeIf(key->key.startsWith("history."));
-        try(var statement=connection.createStatement();var result=statement.executeQuery("SELECT type,COUNT(*) FROM events GROUP BY type")) {
-            while(result.next())facts.put("history."+result.getString(1),result.getString(2));
-        }
+        facts.keySet().removeIf(key->key.startsWith("history.")||key.startsWith("chronicle.history.")||key.startsWith("past."));
+        facts.putAll(HistoricalFacts.read(connection,player,nation,requested));
+        facts.putAll(ChoiceLedger.read(connection,player,nation,requested));
+    }
+    private Set<String> references(String npcId) {
+        var profile=catalog.require(npcId);
+        Condition[] conditions=java.util.stream.Stream.concat(profile.dialogues().stream().map(NpcCatalog.Dialogue::condition),profile.reactions().stream().map(NpcCatalog.Reaction::condition)).toArray(Condition[]::new);
+        Set<String> requested=new HashSet<>(HistoricalFacts.requested(conditions));requested.addAll(ChoiceLedger.requested(conditions));return Set.copyOf(requested);
     }
     private static boolean needsPlayer(io.github.addxiaoyi.starchronicle.config.Condition condition) {
         if(condition.fact()!=null) {
             String fact=condition.fact();
-            return fact.startsWith("player.")||Set.of("npc.reputation","npc.trust","npc.hostility").contains(fact)
+            return fact.startsWith("player.")||fact.startsWith("chronicle.history.player.")||fact.startsWith("past.player.")||Set.of("npc.reputation","npc.trust","npc.hostility").contains(fact)
                     ||fact.startsWith("npc.")&&(fact.endsWith(".reputation")||fact.endsWith(".trust")||fact.endsWith(".hostility"));
         }
         if(condition.not()!=null)return needsPlayer(condition.not());

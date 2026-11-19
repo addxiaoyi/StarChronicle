@@ -30,7 +30,7 @@ if not artifact.is_file() or not sources.is_file():
 with zipfile.ZipFile(artifact) as jar:
     names = jar.namelist()
     entry_class = "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin.class"
-    required = ["plugin.yml", "config.yml", "npcs.yml", "stories/last-heir.yml", "stories/siege-embers.yml", "stories/silk-road-scholar.yml", entry_class]
+    required = ["plugin.yml", "config.yml", "npcs.yml", "stories/last-heir.yml", "stories/siege-embers.yml", "stories/silk-road-scholar.yml", "stories/heir-legacy.yml", entry_class]
     required += [f"stories/fate-{role}.yml" for role in ("soldier", "general", "merchant", "scholar", "explorer", "diplomat", "mayor", "monarch")]
     required += [f"starcore-scenes/chronicle_{scene}.yml" for scene in ("last_heir", "siege_embers", "silk_road")]
     for name in required:
@@ -48,7 +48,7 @@ with zipfile.ZipFile(artifact) as jar:
             name=resource.relative_to(root / "src/main/resources").as_posix()
             if name not in names or jar.read(name)!=resource.read_bytes():
                 raise SystemExit("Resource changed after build: "+name)
-    for name in ("API.md","STORY-FORMAT.md"):
+    for name in ("API.md","STORY-FORMAT.md","CONTINUOUS-NARRATIVE.md"):
         if jar.read("META-INF/starchronicle/docs/"+name)!=(root/"docs"/name).read_bytes():
             raise SystemExit("Embedded documentation changed after build: "+name)
 with zipfile.ZipFile(sources) as jar:
@@ -66,7 +66,7 @@ lines = [
     "## 构建结果", "", f"- 执行命令：`{verify_command}`（Java 21）。",
     "- Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。",
     f"- 单元／集成回归：{total[0]} 项，失败 {total[1]}，错误 {total[2]}，跳过 {total[3]}。",
-    "- 产物包含真实插件入口、配置、三条主剧情、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。",
+    "- 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。",
     "- 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。",
     "- 同时生成全部 Java 源码 JAR。", "",
     "| 测试套件 | 项数 | 失败 | 错误 | 跳过 |", "|---|---:|---:|---:|---:|"
@@ -86,7 +86,7 @@ for path in (artifact, sources):
     lines.append(f"| `{path.relative_to(root).as_posix()}` | {path.stat().st_size} | `{hashlib.sha256(path.read_bytes()).hexdigest()}` |")
 lines += ["", "## 真实服务器证据与构建对应", "", "以下实机证据独立于JUnit统计。构建指纹不同的旧报告保留为回归背景，不能作为当前JAR实机验收。", "", "| 报告 | 实测构建SHA-256 | 对应当前JAR | 记录结论 |", "|---|---|---|---|"]
 current_hash=hashlib.sha256(artifact.read_bytes()).hexdigest()
-for prefix,title in (("paper-smoke","Paper + StarCore"),("folia-smoke","Folia standalone"),("expanded-paper-smoke","Expanded Paper + StarCore"),("expanded-folia-smoke","Expanded Folia standalone")):
+for prefix,title in (("paper-smoke","Paper + StarCore"),("folia-smoke","Folia standalone"),("expanded-paper-smoke","Expanded Paper + StarCore"),("expanded-folia-smoke","Expanded Folia standalone"),("phase-two-paper","Continuous narrative Paper + StarCore"),("phase-two-folia","Continuous narrative Folia standalone"),("phase-two-v2-upgrade","Actual V2 database upgrade")):
     report=root/f"docs/verification/{prefix}-report.md"
     summary=root/f"docs/verification/{prefix}-summary.json"
     if not report.is_file() or not summary.is_file():

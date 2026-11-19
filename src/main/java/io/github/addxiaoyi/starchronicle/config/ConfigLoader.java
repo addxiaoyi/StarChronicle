@@ -25,10 +25,13 @@ public final class ConfigLoader {
                 validate(story,scripts,quests); result.add(story);
             }
         }
-        Set<String> ids=new HashSet<>();
-        for(var story:result) if(!ids.add(story.id())) fail("Duplicate story ID: "+story.id());
-        if(result.isEmpty()) fail("No enabled stories");
+        validateAll(result);
         return List.copyOf(result);
+    }
+    /** Validate references only after every current definition has been loaded. Single-story
+     * validation remains usable for pinned historical definitions whose sources were retired. */
+    public static void validateAll(Collection<StoryDefinition> definitions) {
+        StoryDependencies.validate(definitions);
     }
     public static void validate(StoryDefinition s, Predicate<String> scripts, Predicate<String> quests) {
         if(s==null) fail("Null story");
@@ -70,7 +73,8 @@ public final class ConfigLoader {
             switch(e.type()) {
                 case "honor","reputation","trust","hostility","growth" -> { try { if(Math.abs((long)Integer.parseInt(e.value()))>100000) fail("Effect amount too large"); } catch(NumberFormatException ex){fail("Expected integer amount");} }
                 case "position" -> id(e.value());
-                case "title","memory","history" -> { }
+                case "title","memory" -> { }
+                case "history" -> {if(e.target().length()>128)fail("History event type exceeds 128 characters");}
                 case "narrative.start" -> {if(!scripts.test(e.target())) fail("Missing StarCore script: "+e.target());}
                 case "quest.accept" -> {if(!quests.test(e.target())) fail("Missing StarCore quest: "+e.target());}
                 case "authority" -> {if(!present(e.permission())||e.permission().contains("*")) fail("Authority effect requires explicit permission");}
@@ -85,6 +89,8 @@ public final class ConfigLoader {
         if(variants!=1) fail("Condition requires exactly one of all/any/not/fact");
         if(c.fact()!=null) {
             text(c.fact()); if(!Set.of("eq","ne","exists","gte","lte","gt","lt").contains(c.op()==null?"":c.op())) fail("Invalid condition operator");
+            if(c.fact().startsWith("history.")||c.fact().startsWith("chronicle.history."))io.github.addxiaoyi.starchronicle.history.HistoricalFacts.accepts(c.fact());
+            StoryDependencies.validateComparison(c);
             if(!"exists".equals(c.op())&&c.value()==null) fail("Missing comparison value");
             if(!"exists".equals(c.op())&&c.value().length()>4096) fail("Condition value too large");
             if(Set.of("gte","lte","gt","lt").contains(c.op()))try {

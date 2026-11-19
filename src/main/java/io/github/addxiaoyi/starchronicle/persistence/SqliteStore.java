@@ -2,12 +2,14 @@ package io.github.addxiaoyi.starchronicle.persistence;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.github.addxiaoyi.starchronicle.core.ChoiceLedger;
+import io.github.addxiaoyi.starchronicle.history.EventCausality;
 import java.nio.file.*;
 import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    public static final int SCHEMA_VERSION=2;
+    public static final int SCHEMA_VERSION=3;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;
@@ -20,7 +22,9 @@ public final class SqliteStore implements AutoCloseable {
             opened=connection;
             try(var s=connection.createStatement()) {
                 s.execute("PRAGMA journal_mode=WAL");s.execute("PRAGMA synchronous=FULL");s.execute("PRAGMA foreign_keys=ON");s.execute("PRAGMA busy_timeout=5000");
-                try(var r=s.executeQuery("PRAGMA user_version")){if(r.next()&&r.getInt(1)>SCHEMA_VERSION) throw new IllegalStateException("Database schema newer than this plugin");}
+                int oldVersion;
+                try(var r=s.executeQuery("PRAGMA user_version")){oldVersion=r.next()?r.getInt(1):0;if(oldVersion>SCHEMA_VERSION) throw new IllegalStateException("Database schema newer than this plugin");}
+                connection.setAutoCommit(false);
                 s.execute("CREATE TABLE IF NOT EXISTS events(id TEXT PRIMARY KEY,type TEXT NOT NULL,time TEXT NOT NULL,hash TEXT NOT NULL,json TEXT NOT NULL)");
                 s.execute("CREATE TABLE IF NOT EXISTS event_nations(event_id TEXT REFERENCES events(id),nation TEXT NOT NULL,PRIMARY KEY(event_id,nation))");
                 s.execute("CREATE TABLE IF NOT EXISTS event_players(event_id TEXT REFERENCES events(id),player TEXT NOT NULL,PRIMARY KEY(event_id,player))");
@@ -38,11 +42,16 @@ public final class SqliteStore implements AutoCloseable {
                 s.execute("CREATE TABLE IF NOT EXISTS story_trigger_receipts(trigger_key TEXT NOT NULL,scope TEXT NOT NULL,PRIMARY KEY(trigger_key,scope))");
                 s.execute("CREATE TABLE IF NOT EXISTS native_scene_journal(id TEXT PRIMARY KEY,player TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('READY','RUNNING','UNKNOWN','COMPLETED')),revision INTEGER NOT NULL,json TEXT NOT NULL)");
                 s.execute("CREATE INDEX IF NOT EXISTS native_scene_player_status ON native_scene_journal(player,status,id)");
+                ChoiceLedger.createSchema(connection);
+                EventCausality.createSchema(connection);
+                if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);
                 s.execute("PRAGMA user_version="+SCHEMA_VERSION);
                 // A process may have died after a non-idempotent external call. Never replay it blindly.
                 s.execute("UPDATE outcomes SET status='UNKNOWN' WHERE status='RUNNING'");
+                connection.commit();
             }
-        }catch(Exception e){if(opened!=null)try{opened.close();}catch(SQLException close){e.addSuppressed(close);}throw new IllegalStateException("Cannot open StarChronicle database",e);}
+            connection.setAutoCommit(true);
+        }catch(Exception e){if(opened!=null){try{if(!opened.getAutoCommit())opened.rollback();}catch(SQLException rollback){e.addSuppressed(rollback);}try{opened.close();}catch(SQLException close){e.addSuppressed(close);}}throw new IllegalStateException("Cannot open StarChronicle database",e);}
     }
     @FunctionalInterface public interface Work<T>{T run(Connection c)throws Exception;}
     public synchronized <T>T transaction(Work<T> work){

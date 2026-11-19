@@ -4,6 +4,8 @@ import io.github.addxiaoyi.starchronicle.api.*;
 import io.github.addxiaoyi.starchronicle.config.*;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
 import io.github.addxiaoyi.starchronicle.npc.NpcLedger;
+import io.github.addxiaoyi.starchronicle.history.HistoricalFacts;
+import io.github.addxiaoyi.starchronicle.history.EventCausality;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.*;
@@ -35,6 +37,7 @@ public final class RuleEngine implements AutoCloseable {
     public void validate(List<StoryDefinition> validatedDefinitions){
         Set<String> ids=new HashSet<>();
         for(var d:validatedDefinitions){ConfigLoader.validate(d,id->true,id->true);if(!ids.add(d.id()))throw new IllegalArgumentException("Duplicate story ID");}
+        if(!validatedDefinitions.isEmpty())ConfigLoader.validateAll(validatedDefinitions);
         if(npcs!=null)for(var d:validatedDefinitions)for(var n:d.nodes().values()) {
             validateNpcEffects(n.effects());for(var choice:n.choices().values())validateNpcEffects(choice.effects());
         }
@@ -54,8 +57,7 @@ public final class RuleEngine implements AutoCloseable {
         if(unique.size()>10000)throw new IllegalArgumentException("Too many trigger recipients");
         List<StoryDefinition> rules=definitions;
         return store.transaction(c->{
-            boolean fresh=record(c,event);
-            if(fresh)for(var rule:rules)if(rule.triggers().contains(event.type()))queueTrigger(c,rule,event,unique.values());
+            boolean fresh=recordAndQueue(c,event,unique.values(),rules,EventCausality.root(event.id()));
             Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
             return new ProcessReport(!fresh,List.copyOf(changed),fresh?"已记录事件与剧情变更":changed.isEmpty()?"事件已处理":"历史未重复，已恢复尚未交付的剧情触发");
         });
@@ -134,7 +136,7 @@ public final class RuleEngine implements AutoCloseable {
         }else if(!consumed) {
             if(cooling(c,rule,scope))return false;
             var node=rule.nodes().get(rule.start());List<PlayerContext> eligible=new ArrayList<>();
-            for(var ctx:contexts)if(test(rule.condition(),facts(c,ctx,source,null))&&permitted(node.effects(),ctx))eligible.add(ctx);
+            for(var ctx:contexts)if(test(rule.condition(),facts(c,ctx,source,null,rule))&&permitted(node.effects(),ctx))eligible.add(ctx);
             if(eligible.isEmpty())return false;
             String id=stable(rule.id(),rule.version(),scope,source.id());Map<UUID,String> members=new LinkedHashMap<>();for(var ctx:eligible)members.put(ctx.playerId(),ctx.nationId());
             active=new StoryInstance(id,rule,scope,source.id(),rule.start(),members,Map.of(),Map.of(),clock.instant(),clock.instant(),node.terminal());
@@ -180,15 +182,18 @@ public final class RuleEngine implements AutoCloseable {
             var next=i.definition().nodes().get(choice.next());requirePermissions(next.effects(),context);
             Map<UUID,String> votes=new LinkedHashMap<>(i.votes());votes.put(player,choiceId);
             Map<String,String> choices=new LinkedHashMap<>(i.choices());choices.put(i.node()+"/"+player,choiceId);
+            ChoiceLedger.recordBallot(c,i,context,i.node(),choiceId,clock.instant());
             long count=votes.values().stream().filter(choiceId::equals).count();
             if(count<node.quorum()) {
                 save(c,new StoryInstance(i.id(),i.definition(),i.scopeKey(),i.sourceEventId(),i.node(),i.members(),votes,choices,i.startedAt(),clock.instant(),false));
                 return new ProcessReport(false,List.of(i.id()),"已投票 "+count+"/"+node.quorum());
             }
             choices.put(i.node(),choiceId);
-            applyEffects(c,i,"choice/"+i.node()+"/"+choiceId,choice.effects(),context);
+            ChoiceLedger.recordResolution(c,i,context,i.node(),choiceId,clock.instant());
             StoryInstance moved=new StoryInstance(i.id(),i.definition(),i.scopeKey(),i.sourceEventId(),choice.next(),i.members(),Map.of(),choices,i.startedAt(),clock.instant(),next.terminal());
-            save(c,moved);enter(c,moved,context);
+            save(c,moved);
+            applyEffects(c,i,"choice/"+i.node()+"/"+choiceId,choice.effects(),context);
+            enter(c,moved,context);
             return new ProcessReport(false,List.of(i.id()),next.terminal()?"剧情已完成，历史已经保存":"已进入下一阶段");
         });
     }
@@ -225,7 +230,10 @@ public final class RuleEngine implements AutoCloseable {
                 String outcome=stable(i.id(),action,e.id(),"WORLD");
                 if(!receipt(c,outcome,"DONE","{}")) continue;
                 if(e.type().equals("memory")) setFact(c,"WORLD","region."+e.target(),e.value());
-                else record(c,new WorldEvent("chronicle:"+outcome,e.target(),clock.instant(),i.members().keySet(),new HashSet<>(i.members().values().stream().filter(n->!n.isBlank()).toList()),Map.of("story",i.definition().id(),"outcome",e.value()),"StarChronicle","instance="+i.id()+"; action="+action+"; effect="+e.id()+"; source="+i.sourceEventId()));
+                else {
+                    WorldEvent result=new WorldEvent("chronicle:"+outcome,e.target(),clock.instant(),i.members().keySet(),new HashSet<>(i.members().values().stream().filter(n->!n.isBlank()).toList()),Map.of("story",i.definition().id(),"outcome",e.value()),"StarChronicle","instance="+i.id()+"; action="+action+"; effect="+e.id()+"; source="+i.sourceEventId());
+                    recordAndQueue(c,result,List.of(),definitions,EventCausality.derive(c,i.sourceEventId(),i.definition().id()));
+                }
                 continue;
             }
             if(NpcLedger.isGlobalEffect(e.type())) {
@@ -255,13 +263,24 @@ public final class RuleEngine implements AutoCloseable {
     private static boolean permitted(List<StoryDefinition.Effect> effects,PlayerContext ctx){return effects.stream().allMatch(e->ctx.permitted(e.permission()));}
     private static boolean test(Condition c,Map<String,String> facts){return c==null||c.test(facts);}
     private Map<String,String> facts(Connection c,PlayerContext context,WorldEvent event,StoryInstance instance)throws Exception {
+        return facts(c,context,event,instance,instance==null?null:instance.definition());
+    }
+    private static Condition[] conditions(StoryDefinition definition) {
+        if(definition==null)return new Condition[0];
+        List<Condition> conditions=new ArrayList<>();conditions.add(definition.condition());
+        for(var node:definition.nodes().values())for(var choice:node.choices().values())conditions.add(choice.condition());
+        return conditions.toArray(Condition[]::new);
+    }
+    private Map<String,String> facts(Connection c,PlayerContext context,WorldEvent event,StoryInstance instance,StoryDefinition definition)throws Exception {
         Map<String,String> facts=new HashMap<>(context.facts());facts.put("player.id",context.playerId().toString());
         if(!context.nationId().isBlank()) facts.put("nation.id",context.nationId()); else facts.remove("nation.id");
         for(var entry:event.facts().entrySet()) facts.put("event."+entry.getKey(),entry.getValue());
         facts.put("event.type",event.type());facts.putAll(readFacts(c,"WORLD"));facts.putAll(readFacts(c,context.playerId().toString()));
         if(npcs!=null)facts.putAll(npcs.facts(c,context.playerId()));
-        facts.keySet().removeIf(k->k.startsWith("history."));
-        try(var s=c.prepareStatement("SELECT type,COUNT(*) FROM events GROUP BY type");var r=s.executeQuery()) {while(r.next()) facts.put("history."+r.getString(1),r.getString(2));}
+        facts.keySet().removeIf(k->k.startsWith("history.")||k.startsWith("chronicle.history.")||k.startsWith("past."));
+        Condition[] required=conditions(definition);
+        facts.putAll(HistoricalFacts.read(c,context.playerId(),context.nationId(),HistoricalFacts.requested(required)));
+        facts.putAll(ChoiceLedger.read(c,context.playerId(),context.nationId(),ChoiceLedger.requested(required)));
         if(instance!=null) {
             // Collective resolution and personal choices are distinct. Two passes make actor
             // precedence deterministic regardless of immutable-map iteration order after restart.
@@ -298,6 +317,24 @@ public final class RuleEngine implements AutoCloseable {
     });}
     public Map<String,String> facts(UUID player){return store.transaction(c->Map.copyOf(readFacts(c,player.toString())));}
     public Map<String,String> worldFacts(){return store.transaction(c->Map.copyOf(readFacts(c,"WORLD")));}
+    /** Canonical read projection for trusted integrations; the server supplies current identity.
+     * Explicit references keep cross-story reads bounded and do not grant any authority. */
+    public Map<String,String> recollections(PlayerContext context,Collection<String> requested) {
+        Objects.requireNonNull(context);Objects.requireNonNull(requested);
+        if(requested.size()>256)throw new IllegalArgumentException("Too many historical fact references");
+        Set<String> refs=new LinkedHashSet<>();
+        for(String ref:requested) {
+            Objects.requireNonNull(ref);
+            if(ref.startsWith("past."))StoryDependencies.parse(ref);
+            else if(!HistoricalFacts.accepts(ref))throw new IllegalArgumentException("Unsupported historical fact reference: "+ref);
+            refs.add(ref);
+        }
+        return store.transaction(c->{Map<String,String> result=new LinkedHashMap<>();
+            var history=HistoricalFacts.read(c,context.playerId(),context.nationId(),refs);
+            for(String ref:refs)if(history.containsKey(ref))result.put(ref,history.get(ref));
+            result.putAll(ChoiceLedger.read(c,context.playerId(),context.nationId(),refs));return Map.copyOf(result);
+        });
+    }
     /** Durable observation baseline for upstream sources without post-commit events.
      * First observation returns null; disappearance is meaningful only for complete authoritative scans. */
     public Map<String,String> observe(String namespace,Map<String,String> snapshot) {
@@ -352,6 +389,19 @@ public final class RuleEngine implements AutoCloseable {
     private boolean cooling(Connection c,StoryDefinition rule,String scope)throws Exception {try(var s=c.prepareStatement("SELECT updated FROM instances WHERE story=? AND scope=? ORDER BY updated DESC LIMIT 1")){s.setString(1,rule.id());s.setString(2,scope);try(var r=s.executeQuery()){return r.next()&&Instant.parse(r.getString(1)).plusSeconds(rule.cooldownSeconds()).isAfter(clock.instant());}}}
     private static void save(Connection c,StoryInstance i)throws Exception {try(var s=c.prepareStatement("INSERT INTO instances(id,story,scope,completed,updated,json) VALUES(?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET completed=excluded.completed,updated=excluded.updated,json=excluded.json")){s.setString(1,i.id());s.setString(2,i.definition().id());s.setString(3,i.scopeKey());s.setInt(4,i.completed()?1:0);s.setString(5,SORTABLE_TIME.format(i.updatedAt()));s.setString(6,json(i));s.executeUpdate();}}
     private static WorldEvent event(Connection c,String id)throws Exception {try(var s=c.prepareStatement("SELECT json FROM events WHERE id=?")){s.setString(1,id);try(var r=s.executeQuery()){if(!r.next())throw new IllegalStateException("Missing source evidence");return decode(r.getString(1),WorldEvent.class);}}}
+    /** One source transaction owns history, NPC feedback, causal evidence and the durable
+     * follow-up inbox. Derived history never recursively invokes accept or starts an instance. */
+    private boolean recordAndQueue(Connection c,WorldEvent event,Collection<PlayerContext> contexts,List<StoryDefinition> rules,EventCausality.Trace trace)throws Exception {
+        if(!record(c,event))return false;
+        EventCausality.record(c,event.id(),trace);
+        for(var rule:rules)if(rule.triggers().contains(event.type())) {
+            String reason=EventCausality.blockedReason(trace,rule.id());
+            if(reason==null)queueTrigger(c,rule,event,contexts);else EventCausality.block(c,event.id(),rule,reason);
+        }
+        return true;
+    }
+    public List<EventCausality.Block> triggerBlocks(int limit){return store.transaction(c->EventCausality.blocks(c,limit));}
+    public EventCausality.Trace causality(String eventId){return store.transaction(c->EventCausality.read(c,eventId));}
     private boolean record(Connection c,WorldEvent e)throws Exception {
         Map<String,Object> canonical=new TreeMap<>();canonical.put("id",e.id());canonical.put("type",e.type());canonical.put("time","OBSERVED".equals(e.facts().get("time_basis"))?"OBSERVED":e.occurredAt().toString());canonical.put("players",e.participants().stream().map(UUID::toString).sorted().toList());canonical.put("nations",new TreeSet<>(e.nations()));canonical.put("facts",new TreeMap<>(e.facts()));canonical.put("source",e.source());canonical.put("evidence",e.evidence());
         String hash=stable(json(canonical));

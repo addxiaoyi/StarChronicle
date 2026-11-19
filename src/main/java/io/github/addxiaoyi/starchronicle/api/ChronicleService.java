@@ -21,6 +21,9 @@ public interface ChronicleService {
     CompletionStage<List<StoryInstance>> availableInstances(UUID playerId);
     CompletionStage<Map<String,StoryDefinition.Choice>> availableChoices(String instanceId, UUID playerId);
     CompletionStage<List<WorldEvent>> history(String nationId, UUID playerId, int page, int size);
+    /** At most 256 explicit past.* or history references. Identity is freshly collected by
+     * Chronicle; unknown subjects and choices are absent rather than fabricated. */
+    default CompletionStage<Map<String,String>> recollections(UUID playerId,java.util.Collection<String> references){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Historical fact projection unavailable"));}
     /** Catalog-bound read-only dialogue; current player and historical context are collected by the server. */
     default CompletionStage<NpcView> npc(UUID playerId,String npcId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("NPC module unavailable"));}
     /** Persisted honor, historical titles, and NPC relationships; this is not a mutation API. */

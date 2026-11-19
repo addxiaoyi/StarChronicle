@@ -65,7 +65,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             coreContent=new CoreContentInstaller(gateway,getDataFolder().toPath());
             var installed=coreContent.install();getLogger().info("Native supplemental scene registration: "+installed.scenes());
             Path stories=getDataFolder().toPath().resolve("stories");Files.createDirectories(stories);
-            for(String name:List.of("last-heir.yml","siege-embers.yml","silk-road-scholar.yml","integration-example.json.disabled","fate-soldier.yml","fate-general.yml","fate-merchant.yml","fate-scholar.yml","fate-explorer.yml","fate-diplomat.yml","fate-mayor.yml","fate-monarch.yml")) if(!Files.exists(stories.resolve(name)))saveResource("stories/"+name,false);
+            if(getConfig().getBoolean("install-default-stories",true))for(String name:List.of("last-heir.yml","siege-embers.yml","silk-road-scholar.yml","heir-legacy.yml","integration-example.json.disabled","fate-soldier.yml","fate-general.yml","fate-merchant.yml","fate-scholar.yml","fate-explorer.yml","fate-diplomat.yml","fate-mayor.yml","fate-monarch.yml")) if(!Files.exists(stories.resolve(name)))saveResource("stories/"+name,false);
             if(!Files.exists(getDataFolder().toPath().resolve("npcs.yml")))saveResource("npcs.yml",false);
             NpcCatalog catalog=NpcCatalog.load(getDataFolder().toPath().resolve("npcs.yml"));
             definitions=coreContent.bind(ConfigLoader.load(stories,gateway::hasScript,gateway::hasQuest));
@@ -293,6 +293,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<List<StoryInstance>> availableInstances(UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableInstances(context)));}
         @Override public CompletionStage<Map<String,StoryDefinition.Choice>> availableChoices(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableChoices(id,context)));}
         @Override public CompletionStage<List<WorldEvent>> history(String nation,UUID player,int page,int size){return query(()->engine.history(nation,player,page,size));}
+        @Override public CompletionStage<Map<String,String>> recollections(UUID player,Collection<String> references){List<String> refs=List.copyOf(references);return snapshot(player).thenCompose(context->query(()->engine.recollections(context,refs)));}
         @Override public CompletionStage<NpcView> npc(UUID player,String npc){return snapshot(player).thenCompose(context->query(()->npcLedger.view(player,npc,context,engine.worldFacts())));}
         @Override public CompletionStage<Map<String,String>> fate(UUID player){return snapshot(player).thenCompose(context->query(()->{Map<String,String> facts=new TreeMap<>(engine.facts(player));facts.putAll(npcLedger.facts(player));facts.put("player.role",context.facts().getOrDefault("player.role","unassigned"));return Map.copyOf(facts);}));}
         @Override public CompletionStage<String> describe(String template,Map<String,String> facts){var registered=getServer().getServicesManager().getRegistration(TextProvider.class);return textService.describe(registered==null?null:registered.getProvider(),template,facts);}
@@ -302,7 +303,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!sender.hasPermission("starchronicle.use")){sender.sendMessage("没有权限。");return true;}
         if(args.length>0 && args[0].equalsIgnoreCase("memory"))return memory(sender,args);
-        if(args.length>0 && Set.of("validate","reload","status","uncertain","ack","native-ack","demo").contains(args[0].toLowerCase(Locale.ROOT)))return admin(sender,args);
+        if(args.length>0 && Set.of("validate","reload","status","uncertain","ack","native-ack","blocked","demo").contains(args[0].toLowerCase(Locale.ROOT)))return admin(sender,args);
         if(!(sender instanceof Player p)){sender.sendMessage("玩家命令: /chronicle [history|stories|join|choose]；控制台: /chronicle status|validate|uncertain");return true;}
         UUID id=p.getUniqueId();tasks.track(p);gateway.refreshContext(p,permissions);
         try {
@@ -312,6 +313,12 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 case "scene"->menus.scene(id);
                 case "npc"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle npc <逻辑NPC ID>");menus.npc(id,args[1]);}
                 case "fate"->menus.fate(id);
+                case "past"->{
+                    if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle past <剧情ID/版本/节点ID>");
+                    service.recollections(id,List.of("past.player.choice."+args[1],"past.resolution.world."+args[1],"past.resolution.nation."+args[1])).whenComplete((facts,error)->{
+                        if(error!=null)failure(id,error);else message(id,facts.isEmpty()?"暂无已完成剧情中的可核验抉择。":new TreeMap<>(facts).entrySet().stream().map(e->e.getKey()+" = "+e.getValue()).collect(java.util.stream.Collectors.joining("\n")));
+                    });
+                }
                 case "book"->{int volume=args.length>1?Integer.parseInt(args[1])-1:0;if(volume<0)throw new IllegalArgumentException("卷数从1开始");service.history(null,null,volume,1).whenComplete((events,error)->{if(error!=null)failure(id,error);else menus.book(id,events);});}
                 case "history"->{String nation=null;UUID person=null;int page=0;
                     if(args.length>=3&&args[1].equalsIgnoreCase("nation")){nation=args[2];if(args.length>3)page=Integer.parseInt(args[3])-1;}
@@ -352,6 +359,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             case "validate"->query(()->{var valid=coreContent.bind(ConfigLoader.load(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));engine.validate(valid);return valid;}).whenComplete((valid,error)->reply.accept(error==null?"验证通过: "+valid.size()+" 条剧情（未更改运行中实例）":"验证失败: "+root(error).getMessage()));
             case "reload"->query(()->{List<StoryDefinition> valid=coreContent.bind(ConfigLoader.load(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));Set<String> nextPermissions=permissionNodes(withPendingDefinitions(valid),engine.activeInstances());engine.reload(valid);permissions=nextPermissions;definitions=valid;return valid.size();}).whenComplete((count,error)->reply.accept(error==null?"已重载 "+count+" 条剧情；已有实例保留原定义与权限需求。":"重载失败，原定义保留: "+root(error).getMessage()));
             case "uncertain"->query(()->{List<String> lines=new ArrayList<>();var items=engine.uncertain();var scenes=nativeJournal.unknown(100);lines.add("UNKNOWN外部效果="+items.size()+"，原生场景="+scenes.size()+"；请先对账，不会自动重放。");items.stream().limit(20).forEach(d->lines.add(d.outcomeId()+" "+d.type()+" "+d.target()));scenes.stream().limit(20).forEach(e->lines.add("native "+e.request().outcomeId()+" player="+e.request().playerId()+" "+e.reason()));return lines;}).whenComplete((lines,error)->{if(error!=null)reply.accept(root(error).getMessage());else lines.forEach(reply);});
+            case "blocked"->query(()->engine.triggerBlocks(100)).whenComplete((items,error)->{if(error!=null)reply.accept(root(error).getMessage());else if(items.isEmpty())reply.accept("暂无因果循环或深度限制拦截。");else items.forEach(item->reply.accept("source="+item.eventId()+" story="+item.storyId()+"/"+item.version()+" reason="+item.reason()));});
             case "native-ack"->{if(args.length!=3||!args[2].equals("CONFIRM_SCENE_COMPLETED")){reply.accept("独立确认原生场景已结束/放弃后: /chronicle native-ack <outcomeId> CONFIRM_SCENE_COMPLETED");break;}query(()->{boolean done=nativeJournal.acknowledgeCompleted(args[1]);if(done)confirmNativeStart(args[1]);return done;}).whenComplete((ok,error)->reply.accept(error==null?"原生隔离关闭结果: "+ok+"；未重放任何原生操作。":root(error).getMessage()));}
             case "ack"->{if(args.length!=3||!args[2].equals("CONFIRM_APPLIED")){reply.accept("对账确认已实际应用后: /chronicle ack <outcomeId> CONFIRM_APPLIED");break;}query(()->engine.acknowledgeUnknown(args[1])).whenComplete((ok,error)->reply.accept(error==null?"确认结果: "+ok:root(error).getMessage()));}
             case "demo"->{
@@ -366,7 +374,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return true;
     }
     @Override public List<String> onTabComplete(CommandSender sender,Command command,String alias,String[] args) {
-        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","memory","join","choose","status","validate","reload","uncertain","ack","native-ack","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","choose","status","validate","reload","uncertain","ack","native-ack","blocked","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
         if(args.length==2&&args[0].equalsIgnoreCase("npc"))return npcLedger.catalog().profiles().keySet().stream().sorted().toList();
         if(args.length==2&&args[0].equalsIgnoreCase("history"))return List.of("nation","player");
         if(args.length==2&&args[0].equalsIgnoreCase("demo")&&sender.hasPermission("starchronicle.admin"))return definitions.stream().map(StoryDefinition::id).filter(s->s.startsWith(args[1])).toList();

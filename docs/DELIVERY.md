@@ -34,7 +34,7 @@ ZIP 不包含 Git 元数据、运行世界、服务器数据库、缓存或第�
 
 正常停服后放置插件 JAR，再启动验证。默认 `require-starcore: true` 要求可用的真实 StarCore 服务；显式独立模式只提供本插件自己的规则、历史和展示能力。完整 StarCore/Folia 的限制见 [FOLIA-COMPATIBILITY.md](FOLIA-COMPATIBILITY.md)。
 
-升级已有服务器前，应在正常停服后备份整个 `plugins/StarChronicle/`。当前 schema 2 会保留原事件、实例和回执，并迁移新增的离线触发与原生场景 journal；它不能补造旧版从未保存的触发定义或原生会话令牌。恢复旧备份时，应连同其对应插件版本恢复，不要把旧代码直接打开新 schema 作为回滚方法。
+升级已有服务器前，应在正常停服后备份整个 `plugins/StarChronicle/`。当前 schema 3 保留 V1/V2 原事件、实例和回执，同事务增加选择日志与因果链，旧选择导入不伪造原投票时间。它不能补造旧版从未保存的触发定义或原生会话令牌，也不会自动补排新安装的后续。恢复旧备份时，应连同其对应插件版本恢复，不要把旧代码直接打开新 schema 作为回滚方法。参见 [连续叙事与迁移](CONTINUOUS-NARRATIVE.md)。
 
 真实服证据按 JAR SHA-256 对应。重新编译产生的新指纹，即使源码相同，也不会自动继承旧 JAR 的实服验收结论；本地构建测试与部署验收分别列在 [TEST-REPORT.md](TEST-REPORT.md)。
 

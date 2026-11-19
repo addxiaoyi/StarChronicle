@@ -13,6 +13,9 @@
 | 多玩家／多国家实例 | `StoryInstance`、`RuleEngine.join/choose` | PLAYER/NATION/WORLD隔离、共享投票、改投；并发测试；WORLD按玩家计数而非一国一票 |
 | 持久化与重启恢复 | `persistence/SqliteStore.java` | SQLite WAL + FULL事务；节点、成员、票、定义快照、来源与结果回执持久化 |
 | 事件与奖励去重 | `RuleEngine.record/applyEffects`、outcomes表 | 相同来源重放无操作、同ID不同证据拒绝；本地奖励与迁移同事务；外部UNKNOWN隔离 |
+| 跨剧情个人选择与共同决议 | `ChoiceLedger`、`StoryDependencies`、`recollections` API | 完成实例的实际个人投票与WORLD/NATION共同决议分离；未知旧投票时间不伪造；目录引用与必需循环校验 |
+| 国家／个人历史条件 | `HistoricalFacts`、`NpcLedger` | `chronicle.history.*`直接查询正史索引；旧history.TYPE逐字兼容；已知0与未知主体不同 |
+| 自产结果接续与因果保护 | `RuleEngine.recordAndQueue`、`EventCausality`、`heir-legacy.yml` | 同事务历史／NPC／入箱；离线恢复、跨旧pinned环与32层保护；原事件保留并提供blocked诊断 |
 | 世界历史与证据 | `api/WorldEvent.java`、`RuleEngine.history` | 时间轴、国家、个人、交集过滤及分页；来源ID、时间、参与者、国家、source/evidence |
 | 历史与剧情GUI | `paper/Menus.java` | 玩家实体线程展示、分页、资格过滤、节点令牌；真实客户端视觉验收范围看测试报告 |
 | 三条完整剧情 | `stories/last-heir.yml`、`siege-embers.yml`、`silk-road-scholar.yml` | `SampleStoryPlaythroughTest` 遍历22条root→ending路线并在中途重启、重放 |
@@ -43,7 +46,7 @@
 
 ## 后续阶段与明确缺口
 
-完整目标的逐项后续清单、Chronicle 可独立完成的 P1/P2、上游真实前置条件及最小事务实现路径见 [REMAINING-WORK.md](REMAINING-WORK.md)。其中跨剧情选择、剧情自产历史的自动接续、国家／个人范围的历史条件统计仍未实现；当前实例选择、结果正史和历史 GUI 查询不能替代这些能力。
+完整目标的逐项后续清单、Chronicle 可独立完成的工作与上游真实前置条件见 [REMAINING-WORK.md](REMAINING-WORK.md)。跨剧情选择、自产结果接续和范围历史条件现已有实际代码及持久化测试，具体语义见 [CONTINUOUS-NARRATIVE.md](CONTINUOUS-NARRATIVE.md)；当前构建与实服是否对应仍以 `TEST-REPORT.md` 的精确指纹为准。
 
 - 默认国家史诗仍将复国、资源划拨和最终战役视为待权威服务批准的提案；内置外交适配器可安全发邀请，不能代替所有国家同意或创建虚构战役。服内生产内容应绑定真实任务、战争和授权目标。
 - 首都变更缺少上游公开持久化权威读接口；已有可信完整快照SPI和可靠journal，不能在缺少提供者时声称原生自动记录迁都。

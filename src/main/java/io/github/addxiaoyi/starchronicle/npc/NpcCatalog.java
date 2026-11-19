@@ -131,8 +131,10 @@ public record NpcCatalog(Map<String, Profile> profiles) {
         int variants=(condition.all()!=null?1:0)+(condition.any()!=null?1:0)+(condition.not()!=null?1:0)+(condition.fact()!=null?1:0);
         if(variants!=1)fail("NPC condition requires exactly one expression");
         if(condition.fact()!=null) {
-            text(condition.fact(),128);
+            text(condition.fact(),4096);
             if(!Set.of("eq","ne","exists","gte","lte","gt","lt").contains(Objects.toString(condition.op(),"")))fail("Unknown NPC condition operator");
+            if(io.github.addxiaoyi.starchronicle.config.StoryDependencies.parse(condition.fact()).isPresent()&&!Set.of("eq","ne","exists").contains(condition.op()))fail("NPC past choices support eq, ne or exists");
+            if(condition.fact().startsWith("history.")||condition.fact().startsWith("chronicle.history."))io.github.addxiaoyi.starchronicle.history.HistoricalFacts.accepts(condition.fact());
             if(!"exists".equals(condition.op()))text(condition.value(),4096);
         } else {
             if(condition.op()!=null||condition.value()!=null)fail("Composite NPC condition cannot contain comparison fields");

@@ -21,7 +21,14 @@ profiles:
           all:
             - {fact: npc.trust, op: gte, value: "10"}
             - {fact: region.old-imperial-capital.legacy, op: eq, value: restoration-initiative}
-        text: "你支持的是一项有待兑现的倡议。我会记得这份信任，也会接受各国继续查验我的证据。"
+        text: "议会支持的是一项有待兑现的倡议。我会接受各国继续查验我的证据，也不会把共同决议说成每一位参与者的个人立场。"
+      - id: personal-dissent
+        priority: 75
+        condition:
+          all:
+            - {fact: past.player.choice.last-heir/1/council, op: eq, value: oppose}
+            - {fact: past.resolution.world.last-heir/1/council, op: eq, value: support}
+        text: "议会当时支持了我的主张，但你曾投下反对票。我不会把共同决议说成你的个人立场。我们可以继续核对证据。"
       - id: shared-heritage
         priority: 50
         condition: {fact: region.old-imperial-capital.legacy, op: eq, value: shared-heritage}
