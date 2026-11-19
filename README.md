@@ -1,5 +1,7 @@
 # StarChronicle
 
+当前国家议事开发见[一国一席协议与完整可选剧情](docs/NATIONAL-COUNCIL.md)及[对应构件测试报告](docs/NATIONAL-COUNCIL-TEST-REPORT.md)。它增加当前国家持有人授权、修订号改票／撤回和冻结决议；既有默认剧情继续保留原投票单位。完整目标仍按[剩余工作](docs/REMAINING-WORK.md)推进。
+
 Minecraft 国战服务器的长期剧情编排与世界历史插件。玩家通过共同抉择、国家事件和个人身份参与服务器历史。它复用 StarCore 的 NarrativeEngine、任务接受机制和国家权威服务，在其外部补充配置规则、多人实例、持久化投票、世界记忆和历史查询。
 
 本仓库在第一阶段工程上增加了真实的跨剧情选择、范围历史条件与结果接续，目标为 **Java 21、Paper/Folia 1.21.11**。所有实际国家状态变更均须由 StarCore 的受信任服务完成。默认剧情只修改 StarChronicle 本地荣誉、称号、NPC 声望和逻辑记忆，不会直接扣国库、改外交、发物品或运行管理命令。

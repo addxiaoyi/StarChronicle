@@ -18,3 +18,7 @@ docs/verification/phase-three-paper-* -text whitespace=-blank-at-eol,-blank-at-e
 docs/verification/phase-three-folia-* -text whitespace=-blank-at-eol,-blank-at-eof
 docs/verification/phase-three-folia-configuration/** -text whitespace=-blank-at-eol,-blank-at-eof
 docs/verification/phase-three-folia-cooldown-attempt/** -text whitespace=-blank-at-eol,-blank-at-eof
+
+# Preserve the byte hashes of national-council Maven and server evidence.
+docs/verification/national-council-* -text whitespace=-blank-at-eol,-blank-at-eof
+docs/verification/national-council-surefire/** -text whitespace=-blank-at-eol,-blank-at-eof

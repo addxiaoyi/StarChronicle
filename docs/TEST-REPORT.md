@@ -1,5 +1,7 @@
 # StarChronicle 构建与验证报告
 
+> 本文件保留此前已验收构件的514项测试与对应运行证据。当前 `codex/national-council` 开发构件的674项测试、独立指纹及国家功能验收范围见 [国家议事测试报告](NATIONAL-COUNCIL-TEST-REPORT.md)，两者不能混用。
+
 生成时间：2026-11-20T06:04:51+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
