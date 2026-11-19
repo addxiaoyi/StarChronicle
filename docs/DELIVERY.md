@@ -40,4 +40,6 @@ ZIP 不包含 Git 元数据、运行世界、服务器数据库、缓存或第�
 
 当前 `d765e0d1…943b` JAR 已完成 443 项 Maven 测试、[Paper + StarCore 31 项](verification/phase-two-paper-report.md)、[Folia standalone 56 项](verification/phase-two-folia-report.md)及[实际 V2 数据库迁移 11 项](verification/phase-two-v2-upgrade-report.md)。两套实服均实际完成三次启动及正常退出；Folia standalone 不代表 StarCore 全栈 Folia 兼容。原始失败、人工时序观察与复验边界随报告保留。
 
-源码基线提交 `aa278396aa98245eff8c01d157799aef3b561118` 的 GitHub Linux CI 已完成且结论为 `success`；构建、指纹报告、交付包验证和产物上传步骤均成功。官方 API 的原始返回已保存为 [run](verification/github-ci-aa27839-run.json) 和 [jobs](verification/github-ci-aa27839-jobs.json)。此项证明该提交的 Linux 构建流程，不把 CI 重新编译的二进制当作已经完成上述实服验收的本地 JAR。
+源码检查点 `176e35b3c50ff99dab36073b5169797580d2300e` 的 GitHub Linux CI（run `44609270146`）已完成且结论为 `success`：443项测试无失败、错误或跳过，构建、指纹报告、交付包验证和产物上传均成功。官方 API 与完整作业日志见 [CI报告](verification/phase-two-ci-report.md)。CI重编译JAR的指纹为 `58909fc3…7f36`，它不是上述完成实服验收的本地 `d765e0d1…943b` JAR。
+
+更早基线 `aa278396aa98245eff8c01d157799aef3b561118` 的Linux成功证据也继续保留：[run](verification/github-ci-aa27839-run.json)、[jobs](verification/github-ci-aa27839-jobs.json)。旧证据不覆盖当前代码。
