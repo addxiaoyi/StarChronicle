@@ -72,7 +72,7 @@ checks={
     'native_scene_unavailable_and_action_rejected':'FEATURE_SCENE present=false' in ''.join(logs) and 'FEATURE_SCENE_ACTION rejected=true' in ''.join(logs) and any(event=='SENT' and data.get('message')=='/chronicle scene' for event,data in protocol) and any(event=='MESSAGE' and '暂无自有StarCore场景' in data.get('text','') for event,data in protocol),
     'standalone_role_remained_unassigned':any('FEATURE_FATE' in line and 'role=unassigned' in line and 'honor=3' in line for log in logs for line in log.splitlines()),
     'sqlite_integrity_ok_all_captures':all(s['integrity']=='ok' for s in snapshots.values()),
-    'no_folia_thread_or_plugin_exception':not any(re.search(r'(?i)thread check failed|not on an entity|not on a region|Asynchronous .+!|UnsupportedOperationException|Error occurred while|Exception in thread|FEATURE_\w+_FAILED|FEATURE_FIXTURE_FAILED',log) for log in logs),
+    'no_folia_thread_violation_or_unhandled_plugin_exception':not any(re.search(r'(?i)thread check failed|not on an entity|not on a region|Asynchronous .+!|UnsupportedOperationException|Error occurred while|Exception in thread|FEATURE_\w+_FAILED|FEATURE_FIXTURE_FAILED',log) for log in logs),
     'all_server_and_client_processes_exit_zero':processes.get('server_exit_codes')==[0,0,0] and processes.get('client_exit_codes')==[0,0,0],
     'all_normal_shutdowns_observed':all('Saved all player data' in log and 'All RegionFile I/O tasks to complete' in log for log in logs),
     'no_client_error_or_bounded_timeout':not any(event in ['ERROR','TIMEOUT','ACTION_FAILED'] for event,_ in protocol),
@@ -96,6 +96,8 @@ First boot: the two real clients were separated into distant regions; the fixtur
 Second boot: the original instance, both members and A's single vote were restored; the enabled site's three entities were unique, the disabled site's entities were absent, and the unrelated armor stand remained. Actual cohort members joining also restored the separate deferred WORLD trigger from the event committed while everyone was offline. The two participants completed that story with one local title/history result. B's vote then completed the original shared instance. One durable NPC reaction changed each participant's reputation/trust and the character's growth/position; each participant received one local honor/title result. Replays changed no recorded table. Third boot: both completed instances, receipts, relationships, titles, growth, enabled site and disabled tombstone survived another normal restart without repetition.
 
 Actual client commands and protocol clicks exercised history list/evidence, the shared story, NPC dossier, fate menu and written history book. The monument opened its exact stored source evidence; the veteran opened NPC dialogue. Shift-click rollback preserved the client inventory and menu item. A server-side player-owner inspector also verified the open GUI. Standalone fate remained `unassigned`; no role was invented to force an identity story. Native scene viewing returned empty and an attempted scene action was refused.
+
+Expected negative checks remain visible in the retained logs: the deliberately nonexistent memory source produced one `Player operation failed: Chronicle transaction failed` warning; the non-admin placement was denied; completed-choice repeats were refused; and the unavailable native scene action returned a security failure. These checks created no unauthorized memory row or repeated reward and are not counted as unhandled Folia thread failures.
 
 | Check | Result |
 | --- | --- |

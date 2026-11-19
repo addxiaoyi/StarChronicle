@@ -95,7 +95,9 @@ for prefix,title in (("paper-smoke","Paper + StarCore"),("folia-smoke","Folia st
     tested=data.get("plugin_sha256",data.get("artifact_sha256","未记录"))
     checks=data.get("checks",{})
     boolean_checks=[value for value in checks.values() if isinstance(value,bool)] if isinstance(checks,dict) else []
-    status=data.get("status","见独立报告")
+    status=data.get("status")
+    if not status:
+        status="PASS" if boolean_checks and all(boolean_checks) else "见独立报告"
     if boolean_checks:
         status+=f"；{sum(boolean_checks)}/{len(boolean_checks)}"
     lines.append(f"| [{title}](verification/{prefix}-report.md) | `{tested}` | {'是' if tested==current_hash else '否，不能覆盖当前构建'} | {status} |")

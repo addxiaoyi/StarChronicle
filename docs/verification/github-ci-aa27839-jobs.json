@@ -1,0 +1,113 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 135782675488,
+      "run_id": 44587039860,
+      "workflow_name": "Maven verification",
+      "head_branch": "codex/dynamic-narrative-engine",
+      "run_url": "https://api.github.com/repos/addxiaoyi/StarChronicle/actions/runs/44587039860",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOV0QBL88AAAAfnUc0IA",
+      "head_sha": "aa278396aa98245eff8c01d157799aef3b561118",
+      "url": "https://api.github.com/repos/addxiaoyi/StarChronicle/actions/jobs/135782675488",
+      "html_url": "https://github.com/addxiaoyi/StarChronicle/actions/runs/44587039860/job/135782675488",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T18:22:07Z",
+      "started_at": "2026-11-19T18:22:09Z",
+      "completed_at": "2026-11-19T18:23:01Z",
+      "name": "verify",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T18:22:10Z",
+          "completed_at": "2026-11-19T18:22:11Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T18:22:11Z",
+          "completed_at": "2026-11-19T18:22:11Z"
+        },
+        {
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T18:22:11Z",
+          "completed_at": "2026-11-19T18:22:12Z"
+        },
+        {
+          "name": "Build and test with the pinned Maven Wrapper",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T18:22:12Z",
+          "completed_at": "2026-11-19T18:22:54Z"
+        },
+        {
+          "name": "Verify artifact fingerprints and generate the report",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T18:22:54Z",
+          "completed_at": "2026-11-19T18:22:54Z"
+        },
+        {
+          "name": "Package source, artifacts and actual test reports",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T18:22:54Z",
+          "completed_at": "2026-11-19T18:22:55Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T18:22:55Z",
+          "completed_at": "2026-11-19T18:22:57Z"
+        },
+        {
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-19T18:22:57Z",
+          "completed_at": "2026-11-19T18:22:59Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-19T18:22:59Z",
+          "completed_at": "2026-11-19T18:22:59Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T18:22:59Z",
+          "completed_at": "2026-11-19T18:22:59Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/addxiaoyi/StarChronicle/check-runs/135782675488",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000010057,
+      "runner_name": "GitHub Actions 1000010057",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

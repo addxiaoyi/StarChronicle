@@ -37,3 +37,5 @@ ZIP 不包含 Git 元数据、运行世界、服务器数据库、缓存或第�
 升级已有服务器前，应在正常停服后备份整个 `plugins/StarChronicle/`。当前 schema 2 会保留原事件、实例和回执，并迁移新增的离线触发与原生场景 journal；它不能补造旧版从未保存的触发定义或原生会话令牌。恢复旧备份时，应连同其对应插件版本恢复，不要把旧代码直接打开新 schema 作为回滚方法。
 
 真实服证据按 JAR SHA-256 对应。重新编译产生的新指纹，即使源码相同，也不会自动继承旧 JAR 的实服验收结论；本地构建测试与部署验收分别列在 [TEST-REPORT.md](TEST-REPORT.md)。
+
+源码基线提交 `aa278396aa98245eff8c01d157799aef3b561118` 的 GitHub Linux CI 已完成且结论为 `success`；构建、指纹报告、交付包验证和产物上传步骤均成功。官方 API 的原始返回已保存为 [run](verification/github-ci-aa27839-run.json) 和 [jobs](verification/github-ci-aa27839-jobs.json)。此项证明该提交的 Linux 构建流程，不把 CI 重新编译的二进制当作已经完成上述实服验收的本地 JAR。
