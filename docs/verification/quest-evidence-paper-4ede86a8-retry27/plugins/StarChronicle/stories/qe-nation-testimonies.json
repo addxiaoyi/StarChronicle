@@ -1,0 +1,50 @@
+{
+  "id": "qe-nation-testimonies",
+  "version": "1",
+  "title": "Quest evidence — country testimonies",
+  "scope": "WORLD",
+  "voteUnit": "NATION",
+  "triggers": [
+    "QE_NATION_FIXTURE"
+  ],
+  "start": "await",
+  "cooldownSeconds": 0,
+  "nodes": {
+    "await": {
+      "text": "Fixture-only acceptance: real CRAFT_ITEM progress and the actual native GUI must commit a durable completion before this choice is available.",
+      "quorum": 1,
+      "effects": [
+        {
+          "id": "native-craft-proof",
+          "type": "quest.await",
+          "target": "chronicle_siege_testimonies",
+          "value": "NATION"
+        }
+      ],
+      "choices": {
+        "yes": {
+          "label": "Record the country decision",
+          "next": "done"
+        }
+      }
+    },
+    "done": {
+      "text": "The true native receipt and actual player choice are preserved once.",
+      "terminal": true,
+      "effects": [
+        {
+          "id": "stable-honor",
+          "type": "honor",
+          "target": "player",
+          "value": "7"
+        },
+        {
+          "id": "stable-ending",
+          "type": "history",
+          "target": "QE_NATION_FINISHED",
+          "value": "Fixture-only completed campaign, following real native craft and GUI submission."
+        }
+      ]
+    }
+  }
+}

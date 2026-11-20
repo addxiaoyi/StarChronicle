@@ -1,0 +1,38 @@
+{
+  "status": "FAIL",
+  "product_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+  "source_run": "run/paper-quest-evidence-4ede86a8-retry26",
+  "files": [
+    {
+      "file": "quest-evidence-owner.json",
+      "bytes": 4236,
+      "sha256": "558584079f51544899e94041ba7fda5bc61549aa09182555dbb49974c858c1d6"
+    },
+    {
+      "file": "quest-evidence-processes.json",
+      "bytes": 4538,
+      "sha256": "377ed267b520df3db35af2a1461362ace41953f09cb652a69decb999572cc789"
+    },
+    {
+      "file": "quest-evidence-clients.log",
+      "bytes": 216881,
+      "sha256": "9f326b3086fca0b49b3c8b4057e7fe16632cb5ed9043b7a898d02802a1704742"
+    },
+    {
+      "file": "quest-fixture.jsonl",
+      "bytes": 16466,
+      "sha256": "538f4232efbdfa54ad347aa841d5d6ef0c411c11ce248549e257ab6e2003dc8f"
+    },
+    {
+      "file": "quest-evidence-owner-stdout.log",
+      "bytes": 2084,
+      "sha256": "afafbecc38bdfa30cdca158ea18fc4ceac22148e242d1cc9687bea96faed5299"
+    },
+    {
+      "file": "quest-evidence-detached-launch.json",
+      "bytes": 1241,
+      "sha256": "42849296d4f62aa13683b8633c6d93d728c537d46356d555e4fe441b817e7aa2"
+    }
+  ],
+  "reason": "Boot1 early barrier failed on first full-window response after compass pickup; eight paper placements had server confirmations. First response does not prove final server rejection. No compass placement/result click. Server/client 0/1, no checkpoint. Vendor source snapshots stay in original run; distributed logs preserve provenance hashes."
+}

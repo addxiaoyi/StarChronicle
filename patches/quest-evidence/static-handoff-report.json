@@ -1,0 +1,336 @@
+{
+  "baseline": "f769e62799e769a18fe51305b545869a17f80cd1",
+  "patchSha256": "2b2c941e82c1182436e4dff0b1f3f7d8d3431864a9537a5bb557cf6f82f2d69c",
+  "patchBytes": 336891,
+  "checks": {
+    "native_diff_whitespace": {
+      "exitCode": 0,
+      "output": ""
+    },
+    "patch_applies_to_audited_baseline": {
+      "exitCode": 0,
+      "output": "",
+      "baseline": "f769e62799e769a18fe51305b545869a17f80cd1",
+      "independentCheckout": "C:/Users/Administrator/Documents/StarChronicle-audit/starcore"
+    },
+    "original_audit_source_remains_clean": {
+      "exitCode": 0,
+      "output": "",
+      "status": "clean"
+    }
+  },
+  "jvmExecutedByImplementingAgent": false,
+  "nativeTestsAdded": 38,
+  "nativeTestsExecutedByImplementingAgent": 0,
+  "initialCompileReportedByCoordinator": {
+    "exitCode": 0,
+    "beforeFinalRetryIdentitySafeguards": true
+  },
+  "validationOwner": "coordinating agent",
+  "focusedRunReportedByCoordinator": {
+    "tests": 21,
+    "failures": 0,
+    "errors": 1,
+    "rootCause": "Gson anonymous immutable-map values view serialized native completion collection as JSON null",
+    "fixedInCurrentPatch": true,
+    "requiresRerun": true
+  },
+  "focusedRerunReportedByCoordinator": {
+    "tests": 22,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "build": "SUCCESS",
+    "exitCode": 0,
+    "rawLog": "run/native-quest-focused-tests-r2.log",
+    "mavenElapsed": "02:57 min",
+    "mavenFinishedAt": "2026-11-20T08:27:26+08:00",
+    "surefireSuitesReadByImplementingAgent": [
+      {
+        "name": "dev.starcore.starcore.quest.QuestTrackedRunPersistenceTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.QuestTrackedRunPersistenceTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.evidence.QuestCompletionJournalTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestCompletionJournalTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.QuestEvidenceServiceTest",
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.QuestEvidenceServiceTest.xml"
+      }
+    ],
+    "jvmStillNotExecutedByImplementingAgent": true
+  },
+  "storageAuthorityAddedAfterFocused22Success": {
+    "api": "storageAuthorityId()",
+    "file": "quest/evidence-authority.properties",
+    "newTests": 11,
+    "requiresCoordinatingRerun": false,
+    "receiptIssuerUnchanged": true
+  },
+  "nativeAuthorityPackageReportedByCoordinator": {
+    "tests": 33,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "build": "SUCCESS",
+    "exitCode": 0,
+    "rawLog": "run/native-quest-authority-package.log",
+    "mavenElapsed": "02:42 min",
+    "mavenFinishedAt": "2026-11-20T08:38:58+08:00",
+    "surefireSuitesReadByImplementingAgent": [
+      {
+        "name": "dev.starcore.starcore.quest.QuestTrackedRunPersistenceTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.QuestTrackedRunPersistenceTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.evidence.QuestCompletionJournalTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestCompletionJournalTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.QuestEvidenceServiceTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.QuestEvidenceServiceTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.evidence.QuestEvidenceAuthorityTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestEvidenceAuthorityTest.xml"
+      }
+    ],
+    "artifact": {
+      "path": "run/upstream-starcore-quest-evidence/target/starcore-1.0.0.jar",
+      "bytes": 19545321,
+      "sha256": "9b6cf3eb1480de9cf4e1df2e8dcfff2762a277ff4939955b6f5ae6094ee696cd",
+      "newNativeClassesPresent": [
+        "dev/starcore/starcore/quest/evidence/QuestCompletionJournal.class",
+        "dev/starcore/starcore/quest/evidence/QuestDefinitionFingerprint.class",
+        "dev/starcore/starcore/quest/evidence/QuestEvidenceAuthority.class",
+        "dev/starcore/starcore/quest/evidence/QuestEvidenceService.class"
+      ]
+    },
+    "jvmNotExecutedByImplementingAgent": true,
+    "sourcePatchSha256AtBuild": "6c42f8c5ce26fb2300ff2142fcbabdfae7ea475265213c5e74bc7b517de38ce7"
+  },
+  "currentSourceDiffMatchesExportedPatch": true,
+  "currentSourceCoveredByNative33Success": false,
+  "nativeMenuFixAfter33Success": {
+    "detailFrameSize": 54,
+    "completionSlot": 32,
+    "backSlot": 49,
+    "newBehaviorTests": 3,
+    "sourceIncludedInCurrentPackage": true,
+    "reason": "Actual openQuestDetail wrote slot49 and border45..53 into a36slot inventory"
+  },
+  "chronicleCleanVerifyReportedByCoordinator": {
+    "rawLog": "run/quest-evidence-clean-verify-r2.log",
+    "tests": 777,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "build": "SUCCESS",
+    "exitCode": 0,
+    "mavenElapsed": "01:22 min",
+    "mavenFinishedAt": "2026-11-20T08:43:47+08:00",
+    "newUiSuite": {
+      "name": "io.github.addxiaoyi.starchronicle.paper.QuestGateMenusTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "surefireXml": "target/surefire-reports/TEST-io.github.addxiaoyi.starchronicle.paper.QuestGateMenusTest.xml",
+      "readByImplementingAgent": true
+    },
+    "artifact": {
+      "path": "target/starchronicle-0.1.0-SNAPSHOT.jar",
+      "bytes": 17798822,
+      "sha256": "9fd7769f0bff7d30fc67faa3e2e11beed5cd806e0c4f96355c894e17a9c10ddb"
+    }
+  },
+  "currentSourceCoveredByNativeFullQuest180Success": false,
+  "nativeFullQuestPackageReportedByCoordinator": {
+    "sourcePatchSha256AtBuild": "37216bb55ff30f601b9e47d70a00e4ef02b0f256c99d92a6c2c2331166ae8323",
+    "tests": 180,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "build": "SUCCESS",
+    "exitCode": 0,
+    "rawLog": "run/native-quest-full-regression-package.log",
+    "mavenElapsed": "03:38 min",
+    "mavenFinishedAt": "2026-11-20T08:51:57+08:00",
+    "newTestSuitesReadByImplementingAgent": [
+      {
+        "name": "dev.starcore.starcore.quest.QuestTrackedRunPersistenceTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.QuestTrackedRunPersistenceTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.evidence.QuestCompletionJournalTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestCompletionJournalTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.QuestEvidenceServiceTest",
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.QuestEvidenceServiceTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.evidence.QuestEvidenceAuthorityTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestEvidenceAuthorityTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.evidence.QuestEvidenceNativeMenuTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestEvidenceNativeMenuTest.xml"
+      }
+    ],
+    "artifact": {
+      "path": "run/upstream-starcore-quest-evidence/target/starcore-1.0.0.jar",
+      "bytes": 19545320,
+      "sha256": "1358d8e304c72f7ea575e9b30a9d6b311edd7651e132a4c66ed4bb450ef9c3a7"
+    },
+    "jvmNotExecutedByImplementingAgent": true,
+    "paperFixturePreparedByCoordinator": "run/paper-quest-evidence-9fd7769f",
+    "paperRuntimeResultsPending": true
+  },
+  "postBuildLifecycleRepair": {
+    "expiryAndDailyResetNotified": true,
+    "newNativeTests": 2,
+    "focusedSuitesPassed": true,
+    "sourceIncludedInCurrentPackage": true,
+    "reconciliationApiForUnknownStillMissing": true
+  },
+  "currentNativePackage": {
+    "path": "run/upstream-starcore-quest-evidence/target/starcore-1.0.0.jar",
+    "bytes": 19550467,
+    "sha256": "c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a",
+    "packageLog": "run/native-quest-package-r6.log",
+    "packageTestsSkipped": true,
+    "sourcePatchSha256": "2b2c941e82c1182436e4dff0b1f3f7d8d3431864a9537a5bb557cf6f82f2d69c"
+  },
+  "currentFocusedQuestEvidenceRun": {
+    "tests": 44,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "build": "SUCCESS",
+    "rawLog": null,
+    "evidence": "Current Surefire XML results; six suites are timestamped 2026-11-20T15:33 local and each records the same Maven test selector.",
+    "surefireSuites": [
+      {
+        "name": "dev.starcore.starcore.quest.QuestEvidenceServiceTest",
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.QuestEvidenceServiceTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.QuestTrackedRunPersistenceTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.QuestTrackedRunPersistenceTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.evidence.QuestCompletionJournalTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestCompletionJournalTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.evidence.QuestEvidenceAuthorityTest",
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestEvidenceAuthorityTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.quest.evidence.QuestEvidenceNativeMenuTest",
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestEvidenceNativeMenuTest.xml"
+      },
+      {
+        "name": "dev.starcore.starcore.module.dungeon.DungeonFileDurabilityTest",
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "xml": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.module.dungeon.DungeonFileDurabilityTest.xml"
+      }
+    ],
+    "sourcePatchSha256": "2b2c941e82c1182436e4dff0b1f3f7d8d3431864a9537a5bb557cf6f82f2d69c",
+    "coveredByCurrentNativePackage": true
+  },
+  "latestFullUpstreamRun": {
+    "tests": 7968,
+    "failures": 11,
+    "errors": 123,
+    "skipped": 21,
+    "build": "FAILURE",
+    "rawLog": "run/native-quest-full-regression-r6.log",
+    "note": "Full upstream suite did not pass; failures/errors span non-quest suites and are not asserted to be baseline-only."
+  },
+  "currentSourceCoveredByFocused38Tests": true,
+  "currentSourceCoveredByFocused44SuiteReports": true,
+  "currentDungeonDirectorySyncFix": {
+    "behavior": "On Windows, only AccessDeniedException while opening a confirmed directory channel is treated as unsupported; other I/O errors and channel-force errors remain fatal.",
+    "tests": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "testXml": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.module.dungeon.DungeonFileDurabilityTest.xml",
+    "includedInCurrentNativeJar": true
+  },
+  "candidateJarSha256": "c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a"
+}

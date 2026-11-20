@@ -22,3 +22,6 @@ docs/verification/phase-three-folia-cooldown-attempt/** -text whitespace=-blank-
 # Preserve the byte hashes of national-council Maven and server evidence.
 docs/verification/national-council-* -text whitespace=-blank-at-eol,-blank-at-eof
 docs/verification/national-council-surefire/** -text whitespace=-blank-at-eol,-blank-at-eof
+
+# Raw evidence manifests describe exact captured bytes, including CRLF on Windows.
+docs/verification/** -text whitespace=-blank-at-eol,-blank-at-eof

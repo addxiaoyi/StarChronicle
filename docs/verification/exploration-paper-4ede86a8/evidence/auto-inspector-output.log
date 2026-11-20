@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "platform": "paper",
+  "product_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+  "cases": {
+    "real_walk": true,
+    "cancelled_teleport_no_discovery": true,
+    "real_teleport": true,
+    "actual_gui_choice": true,
+    "restart_canonical_identity": true,
+    "repeat_arrival_idempotent": true
+  }
+}

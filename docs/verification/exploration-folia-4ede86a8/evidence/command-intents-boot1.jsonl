@@ -1,0 +1,17 @@
+{"sequence": 1, "command": "clients start", "time": "2026-11-20T13:57:01.722420+00:00", "cursors": {"fixture": 2, "client": 0}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 2, "command": "server exploreverify station", "time": "2026-11-20T13:57:06.261135+00:00", "cursors": {"fixture": 2, "client": 3}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 3, "command": "server exploreverify start", "time": "2026-11-20T13:57:06.800391+00:00", "cursors": {"fixture": 3, "client": 3}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 4, "command": "server exploreverify check zero", "time": "2026-11-20T13:57:07.194129+00:00", "cursors": {"fixture": 4, "client": 3}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 5, "command": "client walk", "time": "2026-11-20T13:57:07.444607+00:00", "cursors": {"fixture": 5, "client": 3}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 6, "command": "server exploreverify check walk", "time": "2026-11-20T13:57:12.110857+00:00", "cursors": {"fixture": 5, "client": 4}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 7, "command": "client open walk", "time": "2026-11-20T13:57:12.450731+00:00", "cursors": {"fixture": 6, "client": 4}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 8, "command": "client choose", "time": "2026-11-20T13:57:12.793643+00:00", "cursors": {"fixture": 6, "client": 8}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 9, "command": "server exploreverify check walk-ended", "time": "2026-11-20T13:57:13.123670+00:00", "cursors": {"fixture": 6, "client": 11}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 10, "command": "server exploreverify teleport outside", "time": "2026-11-20T13:57:13.464276+00:00", "cursors": {"fixture": 7, "client": 11}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 11, "command": "server exploreverify teleport inside", "time": "2026-11-20T13:57:13.651867+00:00", "cursors": {"fixture": 8, "client": 11}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 12, "command": "server exploreverify check both", "time": "2026-11-20T13:57:16.887251+00:00", "cursors": {"fixture": 9, "client": 11}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 13, "command": "client open teleport", "time": "2026-11-20T13:57:17.250017+00:00", "cursors": {"fixture": 10, "client": 11}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 14, "command": "client choose", "time": "2026-11-20T13:57:18.052238+00:00", "cursors": {"fixture": 10, "client": 15}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 15, "command": "server exploreverify check final", "time": "2026-11-20T13:57:18.403727+00:00", "cursors": {"fixture": 10, "client": 18}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 16, "command": "client quit", "time": "2026-11-20T13:57:18.737595+00:00", "cursors": {"fixture": 11, "client": 18}, "session_pid": 4828, "session_identity": "134396565807461887"}
+{"sequence": 17, "command": "server stop", "time": "2026-11-20T13:57:18.939314+00:00", "cursors": {"fixture": 11, "client": 20}, "session_pid": 4828, "session_identity": "134396565807461887"}

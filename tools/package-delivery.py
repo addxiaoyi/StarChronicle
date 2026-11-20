@@ -7,6 +7,7 @@ from pathlib import Path
 import hashlib
 import json
 import subprocess
+import sys
 import zipfile
 import xml.etree.ElementTree as ET
 
@@ -20,6 +21,11 @@ report = next((p for p in (root / "docs/NATIONAL-COUNCIL-TEST-REPORT.md", root /
                if p.is_file() and digest(plugin) in p.read_text(encoding="utf-8")), None)
 if report is None:
     raise SystemExit("No actual build report identifies the current plugin JAR")
+
+# Inner evidence inventories must still match captured bytes after checkout/transport.
+# The delivery's outer checksum alone cannot detect earlier newline normalization.
+subprocess.run([sys.executable, str(root / "tools/verify-evidence-archives.py")],
+               cwd=root, check=True, capture_output=True)
 
 # The source JAR is proof that the delivered main source matches this compiled snapshot.
 with zipfile.ZipFile(sources) as jar:

@@ -1,0 +1,13 @@
+{
+  "tests": 19,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "kind": "OFFLINE_INSPECTOR_REGRESSION",
+  "sources": {
+    "tools/inspect-quest-evidence-paper.py": "9ae19bfd414aa628c0c69b28eef61799e60c00e8d2670aeb172d3e46164e1a2c",
+    "tools/test_quest_evidence_contract.py": "0411eb930b55371d4189bd367322b396a3b11b5bab1b360fefbcb0aaddb32fc6"
+  },
+  "log_sha256": "0341cdb32ec54f9c58666af6bb8e6d272ae6898fb65b8ea846fea7b8ab9ef5f9",
+  "scope": "Canonical projection, actual raw crafting wire schema and source provenance, negative tamper cases. No runtime/server starts."
+}

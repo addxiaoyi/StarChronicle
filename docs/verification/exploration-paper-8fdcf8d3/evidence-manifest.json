@@ -1,0 +1,114 @@
+{
+  "source_run": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-8fdcf8d3-paper-retry1",
+  "plugin_sha256": "8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051",
+  "files": [
+    {
+      "source": "preparation.json",
+      "file": "preparation.json",
+      "sha256": "e15b5d214804caf835cd8101eecd3551a368c4cd8176004d1b6a97b863ffd240",
+      "bytes": 2528
+    },
+    {
+      "source": "evidence/processes.json",
+      "file": "evidence/processes.json",
+      "sha256": "8219428bcd04302787d7be2528c365590bd0b31b53528abffc7854d79b77975c",
+      "bytes": 4299
+    },
+    {
+      "source": "evidence/inspection.json",
+      "file": "evidence/inspection.json",
+      "sha256": "5655d919aa9d7c57927ec49b00e28860d6c86208414b2c07357417e5517ccb55",
+      "bytes": 13066
+    },
+    {
+      "source": "evidence/fixture.jsonl",
+      "file": "evidence/fixture.jsonl",
+      "sha256": "805751322184952b7abfc384c5d8c7cf363017c24271c2069be84cd0de35411a",
+      "bytes": 20877
+    },
+    {
+      "source": "evidence/clients.jsonl",
+      "file": "evidence/clients.jsonl",
+      "sha256": "d4236775d2eb31be4a4779e281cea2786e8aaca305ce191f018c3a7d63a430b1",
+      "bytes": 3906
+    },
+    {
+      "source": "plugins/StarChronicle/config.yml",
+      "file": "plugins/StarChronicle/config.yml",
+      "sha256": "883bc0928800765448d5055a0d2ef533b9317f24deb82578161f00df63b72bcb",
+      "bytes": 711
+    },
+    {
+      "source": "plugins/StarChronicle/stories/fixture-exploration-walk.json",
+      "file": "plugins/StarChronicle/stories/fixture-exploration-walk.json",
+      "sha256": "ba3e6111def498fc7c6163755e57833dc3f082e1fcd5da6679e749905a28a2f9",
+      "bytes": 1079
+    },
+    {
+      "source": "plugins/StarChronicle/stories/fixture-exploration-teleport.json",
+      "file": "plugins/StarChronicle/stories/fixture-exploration-teleport.json",
+      "sha256": "cb3e06df7de2261a0b97a5899b4f517e573e875613209d6d640188e2f327dbeb",
+      "bytes": 1095
+    },
+    {
+      "source": "evidence/server-boot1.log",
+      "file": "evidence/server-boot1.log",
+      "sha256": "eea5cef9bce15fce067da4db015a4b03773b61651bbdcd79a7650eabf1d99557",
+      "bytes": 24704
+    },
+    {
+      "source": "evidence/client-boot1.log",
+      "file": "evidence/client-boot1.log",
+      "sha256": "be4b03118851616e50a06eda554637ce1f3ef8ef6fe7b16d295aad7647bd2e17",
+      "bytes": 3115
+    },
+    {
+      "source": "evidence/client-used-boot1.cjs",
+      "file": "evidence/client-used-boot1.cjs",
+      "sha256": "cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99",
+      "bytes": 8014
+    },
+    {
+      "source": "evidence/controller-used-boot1.py",
+      "file": "evidence/controller-used-boot1.py",
+      "sha256": "2207deaaac25584b8f52ffec305e36fffdad7fef79624c4cd4bff4086704cf37",
+      "bytes": 43398
+    },
+    {
+      "source": "evidence/checkpoints/boot1/checkpoint.json",
+      "file": "evidence/checkpoints/boot1/checkpoint.json",
+      "sha256": "17b50c860d589ab2c0a01da66279ed66c52ed2ed2b7926bf4ea374995fab357e",
+      "bytes": 378
+    },
+    {
+      "source": "evidence/server-boot2.log",
+      "file": "evidence/server-boot2.log",
+      "sha256": "b65e249f73765d575a3669fea25bad6071b7a11034f5a91c9689f665993d2d22",
+      "bytes": 16118
+    },
+    {
+      "source": "evidence/client-boot2.log",
+      "file": "evidence/client-boot2.log",
+      "sha256": "147e6012b47e98416850c07d47d8a6db02a3da4c175ffae8a06f594a08c6a82b",
+      "bytes": 817
+    },
+    {
+      "source": "evidence/client-used-boot2.cjs",
+      "file": "evidence/client-used-boot2.cjs",
+      "sha256": "cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99",
+      "bytes": 8014
+    },
+    {
+      "source": "evidence/controller-used-boot2.py",
+      "file": "evidence/controller-used-boot2.py",
+      "sha256": "2207deaaac25584b8f52ffec305e36fffdad7fef79624c4cd4bff4086704cf37",
+      "bytes": 43398
+    },
+    {
+      "source": "evidence/checkpoints/boot2/checkpoint.json",
+      "file": "evidence/checkpoints/boot2/checkpoint.json",
+      "sha256": "89a43bdaa5b15e67872a325b8137a31e048265ddd0b42cf27639b44dc8061193",
+      "bytes": 378
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+2026-11-20T12:58:26.286Z CLIENT_PROCESS {"boot":1,"pid":19928,"product_sha256":"8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051","source_sha256":"cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99"}
+2026-11-20T12:58:29.682Z MESSAGE {"boot":1,"message":"ChronicleScout joined the game"}
+2026-11-20T12:58:29.736Z SPAWN {"boot":1,"uuid":"60a7e774-4887-37d4-92b1-3a14e5484028","position":{"x":5.5,"y":-60,"z":-5.5}}
+2026-11-20T12:58:35.225Z WALK_ARRIVED {"boot":1,"before":{"x":1000.5,"y":-60,"z":1.5},"after":{"x":1005.4225040178642,"y":-60,"z":1.4999999999993412},"implementation":"real control-state movement packets"}
+2026-11-20T12:58:37.369Z READ_COMMAND {"boot":1,"command":"/chronicle stories"}
+2026-11-20T12:58:37.593Z WINDOW {"boot":1,"id":1,"title":"共同书写历史 · 1","type":"minecraft:generic_9x6"}
+2026-11-20T12:58:37.692Z WINDOW {"boot":1,"id":2,"title":"Exploration evidence walk","type":"minecraft:generic_9x6"}
+2026-11-20T12:58:37.692Z STORY_VERIFIED {"boot":1,"story":"fixture-exploration-walk","instance":"58952ccae34670f042b75f3946fe1d0b1b1e89caa0336edd00b91913af433375","title":"Exploration evidence walk","slot":0,"header":{"label":"Exploration evidence walk","lore":["实例: 58952ccae34670f042b75f3946fe1d0b1b","1e89caa0336edd00b91913af433375","当前阶段: arrival","投票: 0 / 1"]}}
+2026-11-20T12:58:38.585Z MESSAGE {"boot":1,"message":"[编年史] 剧情已完成，历史已经保存"}
+2026-11-20T12:58:38.638Z WINDOW {"boot":1,"id":3,"title":"共同书写历史 · 1","type":"minecraft:generic_9x6"}
+2026-11-20T12:58:38.639Z GUI_CHOICE {"boot":1,"story":"fixture-exploration-walk","instance":"58952ccae34670f042b75f3946fe1d0b1b1e89caa0336edd00b91913af433375","node":"arrival","choice":"yes","slot":9,"realClick":true}
+2026-11-20T12:58:44.025Z READ_COMMAND {"boot":1,"command":"/chronicle stories"}
+2026-11-20T12:58:44.436Z WINDOW {"boot":1,"id":4,"title":"共同书写历史 · 1","type":"minecraft:generic_9x6"}
+2026-11-20T12:58:44.537Z WINDOW {"boot":1,"id":5,"title":"Exploration evidence teleport","type":"minecraft:generic_9x6"}
+2026-11-20T12:58:44.538Z STORY_VERIFIED {"boot":1,"story":"fixture-exploration-teleport","instance":"226e2a1e463ace24784a69a8c505e75db05abda23d8a1b523a67dd04f10c8754","title":"Exploration evidence teleport","slot":0,"header":{"label":"Exploration evidence teleport","lore":["实例: 226e2a1e463ace24784a69a8c505e75db0","5abda23d8a1b523a67dd04f10c8754","当前阶段: arrival","投票: 0 / 1"]}}
+2026-11-20T12:58:45.433Z MESSAGE {"boot":1,"message":"[编年史] 剧情已完成，历史已经保存"}
+2026-11-20T12:58:45.486Z WINDOW {"boot":1,"id":6,"title":"共同书写历史 · 1","type":"minecraft:generic_9x6"}
+2026-11-20T12:58:45.487Z GUI_CHOICE {"boot":1,"story":"fixture-exploration-teleport","instance":"226e2a1e463ace24784a69a8c505e75db05abda23d8a1b523a67dd04f10c8754","node":"arrival","choice":"yes","slot":9,"realClick":true}
+2026-11-20T12:58:47.391Z QUIT_REQUESTED {"boot":1}
+2026-11-20T12:58:47.479Z ENDED {"boot":1,"reason":"exploration acceptance normal quit","requestedQuit":true}

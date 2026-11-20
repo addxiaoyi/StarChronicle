@@ -1,0 +1,37 @@
+OBSERVED boot=1 Paper Done and fixture READY
+SENT boot=1 sequence=1 clients start A,B,C
+OBSERVED boot=1 exact actual client SPAWN cohort
+SENT boot=1 sequence=2 server qeverify seed
+OBSERVED boot=1 server qeverify seed
+SENT boot=1 sequence=3 server qeverify begin player
+OBSERVED boot=1 server qeverify begin player
+SENT boot=1 sequence=4 server qeverify begin nation
+OBSERVED boot=1 server qeverify begin nation
+SENT boot=1 sequence=5 server qeverify begin atlas
+OBSERVED boot=1 server qeverify begin atlas
+OBSERVED boot=1 actual native persisted ACTIVE admission A player
+SENT boot=1 sequence=6 server qeverify check-native A player 0 read
+OBSERVED boot=1 server qeverify check-native A player 0 read
+SENT boot=1 sequence=7 server qeverify craft-kit A paper
+OBSERVED boot=1 server qeverify craft-kit A paper
+SENT boot=1 sequence=8 client craft A paper
+OBSERVED boot=1 client craft A paper
+SENT boot=1 sequence=9 server qeverify check-native A player 3 capture
+OBSERVED boot=1 server qeverify check-native A player 3 capture
+OBSERVED boot=1 actual native persisted ACTIVE admission B nation
+SENT boot=1 sequence=10 server qeverify check-native B nation 0 read
+OBSERVED boot=1 server qeverify check-native B nation 0 read
+SENT boot=1 sequence=11 server qeverify craft-kit B book
+OBSERVED boot=1 server qeverify craft-kit B book
+SENT boot=1 sequence=12 client craft B book
+OBSERVED boot=1 client craft B book
+SENT boot=1 sequence=13 server qeverify check-native B nation 1 capture
+OBSERVED boot=1 server qeverify check-native B nation 1 capture
+OBSERVED boot=1 actual native persisted ACTIVE admission C atlas
+SENT boot=1 sequence=14 server qeverify check-native C atlas 0 read
+OBSERVED boot=1 server qeverify check-native C atlas 0 read
+SENT boot=1 sequence=15 server qeverify craft-kit C map
+OBSERVED boot=1 server qeverify craft-kit C map
+SENT boot=1 sequence=16 client craft C map
+ACCEPTANCE_FAILED RuntimeError: Actual protocol client failure observed
+SENT boot=1 sequence=17 abort coordinator encountered a failed or ambiguous acceptance step

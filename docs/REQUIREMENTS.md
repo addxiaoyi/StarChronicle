@@ -10,6 +10,7 @@
 | 先审计并优先复用 | `UPSTREAM-AUDIT.md`、`integration/StarCoreBridge.java` | 使用上游 NarrativeEngine、ScriptLoader、QuestService；不复制原执行器或Boss系统 |
 | 配置驱动可运行规则 | `config/StoryDefinition.java`、`Condition.java`、`ConfigLoader.java` | `ConfigLoaderTest` 与 `SampleStoryContractTest`；严格未知字段、图结构、任务／脚本引用和效果白名单 |
 | 事件条件触发 | `core/RuleEngine.accept`、`integration/StarCoreBridge` | `RuleEngineTest` 的来源条件／历史条件／缺失事实校验；真实可订阅范围见审计 |
+| 配置地区真实首访 | `paper/ExplorationDiscoveries`、`ExplorationRegion`、`FirstVisitJournal`、`FirstVisitBuffer` | 方块移动、独立传送监听及实际落点复核；稳定世界／范围身份、首访持久重投、正常停服缓冲排空；`FirstVisitJournalTest` 连接真实《丝路学者》并重启重放，实服结果独立列出 |
 | 多玩家／多国家实例 | `StoryInstance`、`RuleEngine.join/choose` | PLAYER/NATION/WORLD隔离、共享投票、改投；并发测试；WORLD按玩家计数而非一国一票 |
 | 持久化与重启恢复 | `persistence/SqliteStore.java` | SQLite WAL + FULL事务；节点、成员、票、定义快照、来源与结果回执持久化 |
 | 事件与奖励去重 | `RuleEngine.record/applyEffects`、outcomes表 | 相同来源重放无操作、同ID不同证据拒绝；本地奖励与迁移同事务；外部UNKNOWN隔离 |
@@ -40,7 +41,8 @@
 | 科技突破 | 完成事件适配 + 事务观测日志对权威解锁集合差分 | 原生TechnologyModule完整快照检测新解锁；标明观察时间，不冒称研究完成时间。当前tech.stage取实际已解锁定义的最高时代，不按技术数猜测 |
 | 国家消失 | 原生NationModule完整权威快照 + `ObservationJournal` | 首轮只建基线；状态变化与待入库事件同事务，重启后重投／确认；不推断灭亡原因、精确时间或未知参与者 |
 | 首都迁移 | 可信 `SnapshotProvider` 的CAPITALS完整快照或已提交事件API | 审计CityService无持久化指定首都getter；不能把可重算缓存／最高等级城市当迁都。原生此项保持不可用，需服内权威提供者 |
-| 重大贸易／探索／继承人出现／大型世界事件 | 可信扩展服务提交稳定来源ID与证据 | 默认没有伪造这些服务器事实的轮询器；管理员demo明确记为测试事件 |
+| 配置地区探索 | 可选真实玩家位置生产者生成 `EXPLORATION_DISCOVERY` | 仅覆盖配置世界 UUID 的明确方块区域；不冒称任意地形首次发现。入库后重投不会重复奖励 |
+| 重大贸易／继承人出现／大型世界事件 | 可信扩展服务提交稳定来源ID与证据 | 默认没有伪造这些服务器事实的轮询器；管理员demo明确记为测试事件 |
 
 历史的 `participants` 表示来源证据明确列出的参与人；剧情 `members` 是当前符合条件、加入共同叙事的玩家。相关国家在线国民可以成为剧情受众，但不会因此改写原战争或战役的参与者名单。剧情自产结果历史会列出作出该剧情抉择时的成员。
 

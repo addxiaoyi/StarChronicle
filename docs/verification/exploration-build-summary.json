@@ -1,0 +1,557 @@
+{
+  "kind": "BUILD_ONLY",
+  "runtime_validation": false,
+  "log": "run/exploration-clean-verify-r2.log",
+  "log_sha256": "d65db54e9950d5c007b0e72c467135ea366265d928623e07599aea95d0b0d8bf",
+  "tests": 795,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "plugin_sha256": "8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051",
+  "sources_jar_sha256": "5bfb035563a51b6bb49673691bb57b7b7bb35f14858762148fafc739ebaf1d8e",
+  "suites": [
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.config.ConditionLogicTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.config.QuestGateConfigTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest",
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.FateStoriesTest",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.InvocationGateTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.NationalRuleEngineAuthorityBoundaryTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.NationalRuleEngineTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.NationalVoteLedgerTest",
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.NationalVotePreparationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.NativeDispatchTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.QuestGateDriverTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.QuestGateEngineTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.QuestGateLedgerTest",
+      "tests": 32,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.RecollectionsTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.RuleEngineTest",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest",
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.core.TextServiceTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.history.EventCausalityTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.history.FirstVisitBufferTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.history.ObservationJournalTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest",
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest",
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.npc.NpcSystemTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.ExplorationDiscoveriesTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.ExplorationRegionTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.FirstVisitJournalTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.MemorySitesTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.MenusTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.NationalMenusTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.NationalServicesTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.QuestGateMenusTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.RegionTasksTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.paper.StateWorkerTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.persistence.ChoiceSchemaUpgradeTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "suite": "io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "scope": "Configuration-driven cuboid first visits, immutable ingress/ack redelivery, bounded worker rejection and shutdown drain, post-event actual player ownership, real bundled Silk Road replay, existing full regression; entity-owned periodic actual-position confirmation covers eventless Folia teleportAsync",
+  "limitations": [
+    "Paper/Folia actual arrival verification is recorded separately.",
+    "Native StarCore quest evidence has its own candidate and incomplete real-runtime acceptance.",
+    "795 unit/integration cases do not prove all original project requirements."
+  ],
+  "previous_build": {
+    "tests": 794,
+    "plugin_sha256": "9612b1a4fa8039e4115cd4f3da81d07e9a0782d5aa3f1b452a965f858d856e02",
+    "sources_jar_sha256": "b655c464c37151364e58a53a70a2fa5a0c57238bdae90c1c50a016111c031284",
+    "log": "run/exploration-clean-verify-r1.log",
+    "log_sha256": "2da955837154cd4e2964b41d5650b2ab90fede36be7ba8cea24b99d69526b915"
+  },
+  "artifact_contents_verified": [
+    "io/github/addxiaoyi/starchronicle/paper/ExplorationDiscoveries.class",
+    "io/github/addxiaoyi/starchronicle/history/FirstVisitJournal.class",
+    "io/github/addxiaoyi/starchronicle/history/FirstVisitBuffer.class"
+  ]
+}

@@ -1,0 +1,27 @@
+{"sequence": 1, "command": "clients start A,C"}
+{"sequence": 2, "command": "server qeverify seed"}
+{"sequence": 3, "command": "server qeverify check-receipt A player"}
+{"sequence": 4, "command": "server qeverify check-receipt B nation"}
+{"sequence": 5, "command": "server qeverify check-receipt C atlas"}
+{"sequence": 6, "command": "server qeverify state A player"}
+{"sequence": 7, "command": "server qeverify state C atlas"}
+{"sequence": 8, "command": "server qeverify state A nation"}
+{"sequence": 9, "command": "server qeverify state C nation"}
+{"sequence": 10, "command": "server qeverify check-offline-country"}
+{"sequence": 11, "command": "client open-story C Quest evidence — country testimonies"}
+{"sequence": 12, "command": "client inspect C"}
+{"sequence": 13, "command": "client close C"}
+{"sequence": 14, "command": "client open-story A Quest evidence — personal records"}
+{"sequence": 15, "command": "client choice A yes"}
+{"sequence": 16, "command": "client open-story A Quest evidence — country testimonies"}
+{"sequence": 17, "command": "client choice A yes"}
+{"sequence": 18, "command": "client open-story C Quest evidence — caravan atlas"}
+{"sequence": 19, "command": "client choice C yes"}
+{"sequence": 20, "command": "server qeverify check-final-before-replay"}
+{"sequence": 21, "command": "server qeverify replay player"}
+{"sequence": 22, "command": "server qeverify replay nation"}
+{"sequence": 23, "command": "server qeverify replay atlas"}
+{"sequence": 24, "command": "server qeverify check-final"}
+{"sequence": 25, "command": "server qeverify flush"}
+{"sequence": 26, "command": "client quit all"}
+{"sequence": 27, "command": "server stop"}

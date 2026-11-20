@@ -1,0 +1,61 @@
+{
+  "source_run": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-9612b1a4-paper-retry3",
+  "product_sha256": "9612b1a4fa8039e4115cd4f3da81d07e9a0782d5aa3f1b452a965f858d856e02",
+  "scope": "Historical successful Paper build; superseded by Folia eventless teleport fix",
+  "files": [
+    {
+      "source": "preparation.json",
+      "file": "preparation.json",
+      "sha256": "ea62b583ed44b9a0ed15247e2311e717928090dc3c12afa220edd7fae6c0f499",
+      "bytes": 2528
+    },
+    {
+      "source": "evidence/processes.json",
+      "file": "processes.json",
+      "sha256": "b0f4f6adc2079652fa916be58d9c5063495390e3556116312f3ba9ae82fbd90d",
+      "bytes": 4298
+    },
+    {
+      "source": "evidence/inspection.json",
+      "file": "inspection.json",
+      "sha256": "e4076d6b197a2da4127abd8af08d73504a8f6f26364ba8fe3e762014adb03bbb",
+      "bytes": 13066
+    },
+    {
+      "source": "evidence/fixture.jsonl",
+      "file": "fixture.jsonl",
+      "sha256": "768fb3b49d467c0ad528757450c5b5fd8d2457432d06da491dec59577db58de5",
+      "bytes": 20877
+    },
+    {
+      "source": "evidence/clients.jsonl",
+      "file": "clients.jsonl",
+      "sha256": "a5b2c90637da155f6ae0bda02678f9a8122aa3dd96b1668f7390897e5fcd9c81",
+      "bytes": 3905
+    },
+    {
+      "source": "evidence/server-boot1.log",
+      "file": "server-boot1.log",
+      "sha256": "e26aa884d19675b95665f115bdbf753acd9b2f5d3da45bce4a9bea00c09431b9",
+      "bytes": 24698
+    },
+    {
+      "source": "evidence/client-boot1.log",
+      "file": "client-boot1.log",
+      "sha256": "16fc4a7958912695b3f08229e6b0274dd6abfa53f41a5e156e8903d1d6ebb3c3",
+      "bytes": 3114
+    },
+    {
+      "source": "evidence/server-boot2.log",
+      "file": "server-boot2.log",
+      "sha256": "9ec220bcef79dbb2e3712343d449db56a3981519c993e9b739ecdfb6262e19f6",
+      "bytes": 16171
+    },
+    {
+      "source": "evidence/client-boot2.log",
+      "file": "client-boot2.log",
+      "sha256": "b375343e6396397184cbe187a909e8adbd15bc184df71a1385cf593ae459a31b",
+      "bytes": 817
+    }
+  ]
+}

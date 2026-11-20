@@ -1,6 +1,6 @@
 # 第一阶段交付与复验
 
-> 本文件保留此前已经冻结的交付检查点。当前国家议事开发构件及新增完整示例见[国家议事交付](NATIONAL-COUNCIL-DELIVERY.md)与[匹配指纹的测试报告](NATIONAL-COUNCIL-TEST-REPORT.md)，旧构件证据不覆盖新增功能。
+> 当前构建与逐项实服证据见[测试报告](TEST-REPORT.md)。下文同时保留先前冻结的版本目录和国家议事检查点；旧构件证据不覆盖新增功能。
 
 本仓库的第一阶段包含实际插件工程、完整剧情资源、API 文档、测试源代码、构建结果和真实服务器证据。完整目标尚未完成的工作单独记录在 [REMAINING-WORK.md](REMAINING-WORK.md)；候选补丁和旧构建证据均不替代当前产物验收。
 
@@ -32,13 +32,15 @@ ZIP 不包含 Git 元数据、运行世界、服务器数据库、缓存或第�
 
 `verify-delivery.py` 不解压或执行包内代码。它检查全部文件的清单覆盖和校验值、ZIP 路径与重复项、Wrapper 执行位，以及原始测试结果与清单计数。清单用于发现损坏；验证转交包的来源时，还应对照独立给出的整个 ZIP 的 SHA-256。
 
+打包前还会复核受支持的原始证据清单。`python tools/verify-evidence-archives.py --git-ref HEAD` 可同时检查工作区和 Git 内保存的字节；证据目录保留实际换行，不进行 Git 文本换行转换。
+
 ## 安装与现有数据
 
 正常停服后放置插件 JAR，再启动验证。默认 `require-starcore: true` 要求可用的真实 StarCore 服务；显式独立模式只提供本插件自己的规则、历史和展示能力。完整 StarCore/Folia 的限制见 [FOLIA-COMPATIBILITY.md](FOLIA-COMPATIBILITY.md)。
 
-升级已有服务器前，应在正常停服后备份整个 `plugins/StarChronicle/`。当前 schema 4 保留 V1/V2/V3 原事件、实例和回执，在既有选择日志与因果链基础上同事务归档真实有效定义，旧选择导入不伪造原投票时间。它不能补造旧版从未保存的触发定义或原生会话令牌，也不会自动补排新安装的后续。恢复旧备份时，应连同其对应插件版本恢复，不要把旧代码直接打开新 schema 作为回滚方法。参见 [连续叙事与迁移](CONTINUOUS-NARRATIVE.md)。
+升级已有服务器前，应在正常停服后备份整个 `plugins/StarChronicle/`。schema 5 保留 V1–V4 原事件、实例和回执，在既有选择日志与因果链基础上同事务归档真实有效定义，旧选择导入不伪造原投票时间。当前 schema 6 已包含在 Chronicle 800 项 clean verify 构建中，并保留前版数据；仍需对目标服备份执行实际迁移验收。任务完成闸门运行还需匹配的 StarCore 候选协议；StarCore 全量回归未通过，当前 retry27 已完成三次正常 Paper 启动的真实任务、GUI、离线证明与重放验收；候选补丁仍未生产部署。恢复旧备份时，应连同其对应插件版本恢复，不要把旧代码直接打开新 schema 作为回滚方法。参见 [连续叙事与迁移](CONTINUOUS-NARRATIVE.md) 与 [QUEST-GATES.md](QUEST-GATES.md)。
 
-真实服证据按 JAR SHA-256 对应。重新编译产生的新指纹，即使源码相同，也不会自动继承旧 JAR 的实服验收结论；本地构建测试与部署验收分别列在 [TEST-REPORT.md](TEST-REPORT.md)。
+真实服证据按 JAR SHA-256 对应。当前插件 `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca` 已通过 800 项 Maven 回归，包含五项新重连所有权测试；同一构建又完成 Paper 六项与 Folia 五项可执行探索验收，两平台均两次正常启动／退出、每平台九项证据回归通过。前一插件 `8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051` 已通过 795 项 Maven 回归，以及配置地区首访的 Paper 六项、Folia 五项可执行实服验收；两平台均完成两次启动、正常退出与独立证据复核。Folia 取消传送用例明确为 UNSUPPORTED。冻结任务构建 `8f6f83…` 的旧记录不覆盖它；retry21 虽三次正常退出及 dungeon 正常启动，仍有真实 fixture 诊断；retry23 boot2 则因 Node 原生内存 OOM 失败。当前构建与同一 StarCore 候选的 retry27 三次正常启动已通过严格和独立任务验收。原生候选的聚焦 44 项与 Paper 功能通过不覆盖其全量回归失败，也不代表生产部署。详见 [任务审查](QUEST-GATE-REVIEW.md) 与 [测试报告](TEST-REPORT.md)。
 
 上一检查点 `d765e0d1…943b` JAR 已完成 443 项 Maven 测试、[Paper + StarCore 31 项](verification/phase-two-paper-report.md)、[Folia standalone 56 项](verification/phase-two-folia-report.md)及[实际 V2 数据库迁移 11 项](verification/phase-two-v2-upgrade-report.md)。两套实服均实际完成三次启动及正常退出；Folia standalone 不代表 StarCore 全栈 Folia 兼容。原始失败、人工时序观察与复验边界随报告保留。
 

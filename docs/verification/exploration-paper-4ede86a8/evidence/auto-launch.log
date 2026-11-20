@@ -1,0 +1,63 @@
+OBSERVED boot=1 server Done and exact fixture READY
+SENT boot=1 sequence=1 clients start
+OBSERVED boot=1 clients start
+SENT boot=1 sequence=2 server exploreverify station
+OBSERVED boot=1 server exploreverify station
+SENT boot=1 sequence=3 server exploreverify start
+OBSERVED boot=1 server exploreverify start
+SENT boot=1 sequence=4 server exploreverify check zero
+OBSERVED boot=1 server exploreverify check zero
+SENT boot=1 sequence=5 client walk
+OBSERVED boot=1 client walk
+SENT boot=1 sequence=6 server exploreverify check walk
+OBSERVED boot=1 server exploreverify check walk
+SENT boot=1 sequence=7 client open walk
+OBSERVED boot=1 client open walk
+SENT boot=1 sequence=8 client choose
+OBSERVED boot=1 client choose
+SENT boot=1 sequence=9 server exploreverify check walk-ended
+OBSERVED boot=1 server exploreverify check walk-ended
+SENT boot=1 sequence=10 server exploreverify teleport outside
+OBSERVED boot=1 server exploreverify teleport outside
+SENT boot=1 sequence=11 server exploreverify teleport cancel
+OBSERVED boot=1 server exploreverify teleport cancel
+SENT boot=1 sequence=12 server exploreverify check cancelled
+OBSERVED boot=1 server exploreverify check cancelled
+SENT boot=1 sequence=13 server exploreverify teleport inside
+OBSERVED boot=1 server exploreverify teleport inside
+SENT boot=1 sequence=14 server exploreverify check both
+OBSERVED boot=1 server exploreverify check both
+SENT boot=1 sequence=15 client open teleport
+OBSERVED boot=1 client open teleport
+SENT boot=1 sequence=16 client choose
+OBSERVED boot=1 client choose
+SENT boot=1 sequence=17 server exploreverify check final
+OBSERVED boot=1 server exploreverify check final
+SENT boot=1 sequence=18 client quit
+OBSERVED boot=1 client quit
+OBSERVED boot=1 actual requested client END
+OBSERVED boot=1 actual client process exit 0
+SENT boot=1 sequence=19 server stop
+OBSERVED boot=1 normal owned server/session exit
+OBSERVED boot=2 server Done and exact fixture READY
+SENT boot=2 sequence=1 clients start
+OBSERVED boot=2 clients start
+SENT boot=2 sequence=2 server exploreverify station
+OBSERVED boot=2 server exploreverify station
+SENT boot=2 sequence=3 server exploreverify start
+OBSERVED boot=2 server exploreverify start
+SENT boot=2 sequence=4 server exploreverify check final
+OBSERVED boot=2 server exploreverify check final
+SENT boot=2 sequence=5 client walk
+OBSERVED boot=2 client walk
+SENT boot=2 sequence=6 server exploreverify teleport inside
+OBSERVED boot=2 server exploreverify teleport inside
+SENT boot=2 sequence=7 server exploreverify check final
+OBSERVED boot=2 server exploreverify check final
+SENT boot=2 sequence=8 client quit
+OBSERVED boot=2 client quit
+OBSERVED boot=2 actual requested client END
+OBSERVED boot=2 actual client process exit 0
+SENT boot=2 sequence=9 server stop
+OBSERVED boot=2 normal owned server/session exit
+PASS

@@ -1,0 +1,7 @@
+require-starcore: true
+install-default-stories: false
+install-native-example-quests: true
+admin-demo-enabled: false
+npc-hooks: false
+worker-queue-capacity: 2048
+poll-ticks: 40

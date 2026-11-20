@@ -1,12 +1,12 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-20T22:44:20+08:00（Asia/Shanghai）。
+生成时间：2026-11-20T22:48:11+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
 ## 构建结果
 
-- 执行命令：`.\mvnw.cmd -B -ntp clean verify`（Java 21）。
+- 执行命令：`mvn -o -Dtest.jvm.args="-Xms32m -Xmx256m -XX:MaxMetaspaceSize=192m -XX:+UseSerialGC -XX:ActiveProcessorCount=1 -XX:TieredStopAtLevel=1 -Dfile.encoding=UTF-8" clean verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
 - 单元／集成回归：826 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
@@ -139,6 +139,18 @@
 | [Actual definition upgrade: folia-v3-bfa80b9c](verification/definition-upgrade-folia-v3-bfa80b9c-report.md) | `bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154` | 否，不能覆盖当前构建 | PASS；19/19 |
 | [Actual definition upgrade: paper-v2-bfa80b9c](verification/definition-upgrade-paper-v2-bfa80b9c-report.md) | `bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154` | 否，不能覆盖当前构建 | PASS；20/20 |
 | [Actual definition upgrade: paper-v3-bfa80b9c](verification/definition-upgrade-paper-v3-bfa80b9c-report.md) | `bfa80b9ca62b1f28fdd37a2f1d7244b9b94cb8c34814273fda742ff8c6f28154` | 否，不能覆盖当前构建 | PASS；19/19 |
+| [Configured first visits: folia-4ede86a8](verification/exploration-folia-4ede86a8-report.md) | `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca` | 否，不能覆盖当前构建 | PASS；5/5；未执行／未支持：cancelled_teleport_no_discovery |
+| [Configured first visits: folia-8fdcf8d3](verification/exploration-folia-8fdcf8d3-report.md) | `8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051` | 否，不能覆盖当前构建 | PASS；5/5；未执行／未支持：cancelled_teleport_no_discovery |
+| [Configured first visits: paper-4ede86a8](verification/exploration-paper-4ede86a8-report.md) | `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca` | 否，不能覆盖当前构建 | PASS；6/6 |
+| [Configured first visits: paper-8fdcf8d3](verification/exploration-paper-8fdcf8d3-report.md) | `8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051` | 否，不能覆盖当前构建 | PASS；6/6 |
+| [Native quest evidence: paper-4ede86a8-retry27](verification/quest-evidence-paper-4ede86a8-retry27-report.md) | `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca` | 否，不能覆盖当前构建 | PASS；24/24；未执行／未支持：native_full_folia_multiplayer_acceptance, full_upstream_starcore_regression, production_deployment_or_external_rewards |
+
+## 原生任务候选的独立边界
+
+StarCore 候选 JAR SHA-256：`c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a`。
+聚焦测试：44 项，失败 0，错误 0，跳过 0；该次证据为六份实际 Surefire XML，未保留统一原始控制台日志。
+StarCore 完整回归：7968 项，失败 11，错误 123，跳过 21，`BUILD FAILURE`。不能用聚焦测试或 Paper 功能验收覆盖该失败。
+候选补丁尚未上游合并或生产部署。各次失败、不完整 attempt、UNKNOWN 对账与 Folia 限制见 [任务证据审查](QUEST-GATE-REVIEW.md) 和 [原生静态交接](../patches/quest-evidence/static-handoff-report.json)。
 
 ## 验证边界
 
