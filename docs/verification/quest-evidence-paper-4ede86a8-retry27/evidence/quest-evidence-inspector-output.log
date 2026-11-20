@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "product_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+  "starcore_sha256": "c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a",
+  "fixture_sha256": "0720a2194de2ad00b3d3145cf5cb8c675ab1df1fcf767309df2526c7b53c295e",
+  "history": {
+    "quest_completed": 3,
+    "endings": 3,
+    "consumed_keys": 3
+  }
+}

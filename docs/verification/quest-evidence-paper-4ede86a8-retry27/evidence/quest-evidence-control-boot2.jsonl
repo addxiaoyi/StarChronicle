@@ -1,0 +1,21 @@
+{"sequence": 1, "command": "clients start A,B,C"}
+{"sequence": 2, "command": "server qeverify seed"}
+{"sequence": 3, "command": "server qeverify check-native A player 3 restore"}
+{"sequence": 4, "command": "server qeverify check-native B nation 1 restore"}
+{"sequence": 5, "command": "server qeverify check-native C atlas 1 restore"}
+{"sequence": 6, "command": "server qeverify unregister-provider"}
+{"sequence": 7, "command": "client native-open A heir"}
+{"sequence": 8, "command": "client native-complete A"}
+{"sequence": 9, "command": "server qeverify check-receipt A player"}
+{"sequence": 10, "command": "client native-open B siege"}
+{"sequence": 11, "command": "client native-complete B"}
+{"sequence": 12, "command": "server qeverify check-receipt B nation"}
+{"sequence": 13, "command": "client native-open C atlas"}
+{"sequence": 14, "command": "client native-complete C"}
+{"sequence": 15, "command": "server qeverify check-receipt C atlas"}
+{"sequence": 16, "command": "server qeverify check-paused"}
+{"sequence": 17, "command": "client quit B"}
+{"sequence": 18, "command": "server qeverify check-receipt B nation"}
+{"sequence": 19, "command": "server qeverify flush"}
+{"sequence": 20, "command": "client quit all"}
+{"sequence": 21, "command": "server stop"}

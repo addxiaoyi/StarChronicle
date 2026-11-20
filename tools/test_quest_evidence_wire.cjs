@@ -32,15 +32,36 @@ test('one synchronization request confirms actual full packet and never clicks a
 });
 test('local predicted model cannot substitute for raw server slot data',async()=>{
     const f=fixture(),packet=syncPacket(f.window);f.window.slots[5]={type:123,count:1};respond(f,packet);
-    try{await assert.rejects(f.wire.synchronize(f.window,value=>value.slots[5]?.type===123,'compass',100),/Actual server window differs/);assert.equal(f.writes.length,1);}finally{f.wire.stop();}
+    try{await assert.rejects(f.wire.synchronize(f.window,value=>value.slots[5]?.type===123,'compass',10),/No matching actual full-window/);assert.equal(f.writes.length,1);assert.equal(f.logs.filter(row=>row.kind==='CRAFT_SYNC_PENDING_SNAPSHOT').length,1);}finally{f.wire.stop();}
 });
 test('missing packet times out with one sync and no original click retry',async()=>{
     const f=fixture();f.bot._syncWindow=async()=>{f.client.write('window_click',{slot:-999,mode:5,stateId:-1,mouseButton:2});};
-    try{await assert.rejects(f.wire.synchronize(f.window,()=>true,'missing',10),/No actual full-window/);assert.equal(f.writes.length,1);assert.equal(f.client.listenerCount('window_items'),1);}finally{f.wire.stop();}
+    try{await assert.rejects(f.wire.synchronize(f.window,()=>true,'missing',10),/No matching actual full-window/);assert.equal(f.writes.length,1);assert.equal(f.client.listenerCount('window_items'),1);}finally{f.wire.stop();}
 });
 test('unrelated window response cannot acknowledge requested window',async()=>{
     const f=fixture();respond(f,syncPacket(f.window,{windowId:8}));
-    try{await assert.rejects(f.wire.synchronize(f.window,()=>true,'unrelated',10),/No actual full-window/);}finally{f.wire.stop();}
+    try{await assert.rejects(f.wire.synchronize(f.window,()=>true,'unrelated',10),/No matching actual full-window/);}finally{f.wire.stop();}
+});
+test('an older full packet followed by the matching actual packet uses one request',async()=>{
+    const f=fixture(),old=syncPacket(f.window,{stateId:26}),actual=syncPacket(f.window,{stateId:28,carriedItem:{type:2,count:1}});
+    f.bot._syncWindow=async window=>{f.client.write('window_click',{windowId:window.id,stateId:-1,slot:-999,mouseButton:2,mode:5});queueMicrotask(()=>{f.client.emit('window_items',old);f.client.emit('window_items',actual);});};
+    try{const snapshot=await f.wire.synchronize(f.window,value=>value.cursor?.type===2,'pickup',100);
+        assert.equal(snapshot.stateId,28);assert.equal(f.writes.length,1);assert.equal(f.logs.filter(row=>row.kind==='CRAFT_SYNC_PENDING_SNAPSHOT').length,1);
+        assert.equal(f.logs.filter(row=>row.kind==='CRAFT_SERVER_WINDOW_CONFIRMED').length,1);
+    }finally{f.wire.stop();}
+});
+test('window zero state noise cannot confirm or reject the one crafting-window action',async()=>{
+    const f=fixture(),actual=syncPacket(f.window,{stateId:8,carriedItem:{type:2,count:1}});
+    f.bot._syncWindow=async window=>{f.client.write('window_click',{windowId:window.id,stateId:-1,slot:-999,mouseButton:2,mode:5});queueMicrotask(()=>{
+        f.client.emit('set_slot',{windowId:0,stateId:1000,slot:45,item:null});f.client.emit('window_items',syncPacket(f.window,{windowId:0,stateId:1001}));f.client.emit('window_items',actual);
+    });};
+    try{const snapshot=await f.wire.synchronize(f.window,value=>value.cursor?.type===2,'noise',100);assert.equal(snapshot.stateId,8);assert.equal(f.writes.length,1);}finally{f.wire.stop();}
+});
+test('multiple nonmatching real packets time out without resending request or action',async()=>{
+    const f=fixture();f.bot._syncWindow=async window=>{f.client.write('window_click',{windowId:window.id,stateId:-1,slot:-999,mouseButton:2,mode:5});queueMicrotask(()=>{
+        f.client.emit('window_items',syncPacket(f.window,{stateId:27}));f.client.emit('window_items',syncPacket(f.window,{stateId:28}));
+    });};
+    try{await assert.rejects(f.wire.synchronize(f.window,value=>value.cursor?.type===2,'no match',10),/lastSnapshot=.*stateId.*28/);assert.equal(f.writes.length,1);assert.equal(f.logs.filter(row=>row.kind==='CRAFT_SYNC_PENDING_SNAPSHOT').length,2);assert.equal(f.logs.filter(row=>row.kind==='CRAFT_SERVER_WINDOW_CONFIRMED').length,0);}finally{f.wire.stop();}
 });
 test('unsupported raw full packet cursor schema is rejected',async()=>{
     const f=fixture(),packet=syncPacket(f.window);delete packet.carriedItem;respond(f,packet);

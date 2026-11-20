@@ -1,0 +1,11 @@
+{
+  "launch_utc": "2026-11-20T14:21:28.2310851Z",
+  "owner_pid": 6920,
+  "observed_name": "python.exe",
+  "observed_parent_pid": 15252,
+  "observed_creation_utc": "2026-11-20T14:21:28.0907710Z",
+  "observed_command": "\"C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe\" -u C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\tools\\run-quest-evidence-acceptance.py --run-dir C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\paper-quest-evidence-4ede86a8-retry27 --attempt retry27 --expected-sha 4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca --expected-starcore-sha c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a --java-home C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2",
+  "stdout": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\paper-quest-evidence-4ede86a8-retry27\\evidence\\quest-evidence-owner-stdout.log",
+  "stderr": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\paper-quest-evidence-4ede86a8-retry27\\evidence\\quest-evidence-owner-stderr.log",
+  "window_style": "Hidden"
+}

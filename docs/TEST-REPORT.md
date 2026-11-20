@@ -1,6 +1,6 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-20T22:03:02+08:00（Asia/Shanghai）。
+生成时间：2026-11-20T22:42:27+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
@@ -139,6 +139,7 @@
 | [Configured first visits: folia-8fdcf8d3](verification/exploration-folia-8fdcf8d3-report.md) | `8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051` | 否，不能覆盖当前构建 | PASS；5/5；未执行／未支持：cancelled_teleport_no_discovery |
 | [Configured first visits: paper-4ede86a8](verification/exploration-paper-4ede86a8-report.md) | `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca` | 是 | PASS；6/6 |
 | [Configured first visits: paper-8fdcf8d3](verification/exploration-paper-8fdcf8d3-report.md) | `8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051` | 否，不能覆盖当前构建 | PASS；6/6 |
+| [Native quest evidence: paper-4ede86a8-retry27](verification/quest-evidence-paper-4ede86a8-retry27-report.md) | `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca` | 是 | PASS；24/24；未执行／未支持：native_full_folia_multiplayer_acceptance, full_upstream_starcore_regression, production_deployment_or_external_rewards |
 
 ## 原生任务候选的独立边界
 

@@ -20,22 +20,27 @@ function attachCraftWire(bot,player,log,view,decodeItem){
     return {
         async synchronize(window,predicate,description,timeoutMs=15000){
             if(typeof bot._syncWindow!=='function'||typeof decodeItem!=='function')throw new Error('Reviewed inventory synchronization API/slot decoder is unavailable');
-            let timer,listener;
+            let timer,listener,lastSnapshot=null;
             const response=new Promise((resolve,reject)=>{
                 listener=packet=>{if(packet.windowId!==window.id)return;try{
                     if(!Array.isArray(packet.items)||packet.items.length!==window.slots.length||!Object.hasOwn(packet,'carriedItem')||!Number.isInteger(packet.stateId))throw new Error('Actual full-window packet has an unsupported schema');
-                    resolve({windowId:packet.windowId,stateId:packet.stateId,slots:packet.items.map(decodeItem),cursor:decodeItem(packet.carriedItem),receiveSequence});
+                    const snapshot={windowId:packet.windowId,stateId:packet.stateId,slots:packet.items.map(decodeItem),cursor:decodeItem(packet.carriedItem),receiveSequence};
+                    lastSnapshot=snapshot;
+                    // A prior request's full-window response can still be in flight.
+                    // Observe subsequent real responses to this ONE synchronization;
+                    // never resend the request or the inventory action.
+                    if(!predicate(snapshot)){log('CRAFT_SYNC_PENDING_SNAPSHOT',{player,description,snapshot,note:'First/older actual full window does not yet satisfy this action. Passive observation continues; nothing is resent.'});return;}
+                    resolve(snapshot);
                 }catch(error){reject(error);}};
                 bot._client.on('window_items',listener);
             });
-            const deadline=new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(new Error('No actual full-window synchronization response for '+description)),timeoutMs);});
+            const deadline=new Promise((resolve,reject)=>{timer=setTimeout(()=>reject(new Error('No matching actual full-window synchronization response for '+description+'; lastSnapshot='+JSON.stringify(lastSnapshot))),timeoutMs);});
             try{
                 // This existing library API sends exactly one end-of-absent-drag
                 // synchronization request. It does not resend the inventory action.
                 log('CRAFT_SYNC_REQUEST',{player,description,windowId:window.id,receiveSequence,writeSequence});
                 const [snapshot]=await Promise.race([Promise.all([response,bot._syncWindow(window)]),deadline]);
                 if(bot.currentWindow!==window)throw new Error('Window identity changed during actual server synchronization');
-                if(!predicate(snapshot))throw new Error('Actual server window differs after '+description+': '+JSON.stringify(snapshot));
                 log('CRAFT_SERVER_WINDOW_CONFIRMED',{player,description,snapshot,note:'Raw received full-window packet confirmed; no craft or inventory action was repeated.'});
                 return snapshot;
             }finally{clearTimeout(timer);bot._client.removeListener('window_items',listener);}

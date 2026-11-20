@@ -21,9 +21,17 @@ def main():
     args = parser.parse_args()
     expected = {}
     inventories = 0
-    for manifest in sorted((ROOT / 'docs/verification').rglob('evidence-manifest.json')):
+    manifests = set((ROOT / 'docs/verification').rglob('evidence-manifest.json'))
+    manifests.update((ROOT / 'docs/verification').rglob('manifest.json'))
+    for manifest in sorted(manifests):
         raw = manifest.read_bytes()
-        rows = json.loads(raw).get('files')
+        data = json.loads(raw)
+        rows = data.get('files')
+        copied = data.get('copied_files')
+        if isinstance(copied, list) and all(isinstance(row, dict) and
+                {'relative', 'size', 'sha256'} <= row.keys() for row in copied):
+            rows = [{'file': row['relative'], 'bytes': row['size'], 'sha256': row['sha256']}
+                    for row in copied]
         if not isinstance(rows, list) or not all(isinstance(row, dict) and
                 {'file', 'bytes', 'sha256'} <= row.keys() for row in rows):
             continue
