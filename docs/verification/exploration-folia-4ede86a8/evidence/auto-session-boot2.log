@@ -1,0 +1,323 @@
+SERVER_STARTED 19936
+[server] Starting org.bukkit.craftbukkit.Main
+[server] [21:57:25 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.13.1+2-LTS; Microsoft Microsoft-16059585) on Windows Server 2022 10.0 (amd64)
+[server] [21:57:25 INFO]: [bootstrap] Loading Folia 1.21.11-14-ver/1.21.11@529aabc (2026-02-22T20:22:23Z) for Minecraft 1.21.11
+[server] [21:57:26 INFO]: [PluginInitializerManager] Initializing plugins...
+[server] [21:57:27 INFO]: [PluginInitializerManager] Initialized 2 plugins
+[server] [21:57:27 INFO]: [PluginInitializerManager] Bukkit plugins (2):
+[server]  - ExplorationPaperFixture (1), StarChronicle (0.1.0-SNAPSHOT)
+[server] [21:57:34 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[server] [21:57:37 INFO]: Loaded 1470 recipes
+[server] [21:57:37 INFO]: Loaded 1584 advancements
+[server] [21:57:37 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[server] [21:57:38 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 491.9ms
+[server] [21:57:38 INFO]: Starting minecraft server version 1.21.11
+[server] [33;1m[21:57:38 WARN]: To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+[server] [m[33;1m[21:57:38 WARN]: ****************************
+[server] [m[33;1m[21:57:38 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
+[server] [m[33;1m[21:57:38 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.
+[server] [m[33;1m[21:57:38 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/
+[server] [m[33;1m[21:57:38 WARN]: ****************************
+[server] [m[21:57:38 INFO]: Loading properties
+[server] [21:57:38 INFO]: This server is running Folia version 1.21.11-14-ver/1.21.11@529aabc (2026-02-22T20:22:23Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
+[server] [21:57:38 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[server] [21:57:38 INFO]: Server Ping Player Sample Count: 12
+[server] [21:57:38 INFO]: Using 4 threads for Netty based IO
+[server] [21:57:40 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
+[server] [21:57:40 INFO]: [io.papermc.paper.threadedregions.TickRegions] Initialised EDF Folia scheduler with initial 1 target thread(s)
+[server] [21:57:40 INFO]: Default game type: SURVIVAL
+[server] [21:57:40 INFO]: Generating keypair
+[server] >
+[server] 
+[server] [21:57:40 INFO]: Starting Minecraft server on 127.0.0.1:25636
+[server] >
+[server] 
+[server] [21:57:40 INFO]: Paper: Using Java compression from Velocity.
+[server] >
+[server] 
+[server] [21:57:40 INFO]: Paper: Using Java cipher from Velocity.
+[server] >
+[server] 
+[server] [21:57:40 INFO]: [StarChronicle] Loading server plugin StarChronicle v0.1.0-SNAPSHOT
+[server] >
+[server] 
+[server] [21:57:40 INFO]: [ExplorationPaperFixture] Loading server plugin ExplorationPaperFixture v1
+[server] >
+[server] 
+[server] [21:57:40 INFO]: Server permissions file permissions.yml is empty, ignoring it
+[server] >
+[server] 
+[server] [33;1m[21:57:40 WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[server] [m>
+[server] 
+[server] [33;1m[21:57:40 WARN]: The server will make no attempt to authenticate usernames. Beware.
+[server] [m>
+[server] 
+[server] [33;1m[21:57:40 WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[server] [m>
+[server] 
+[server] [33;1m[21:57:40 WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[server] [m>
+[server] 
+[server] [21:57:40 INFO]: Preparing level "world"
+[server] >
+[server] 
+[server] [21:57:41 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...
+[server] >
+[server] 
+[server] [21:57:41 INFO]: Preparing spawn area: 100%
+[server] >
+[server] 
+[server] [21:57:41 INFO]: Prepared spawn area in 1 ms
+[server] >
+[server] 
+[server] [21:57:41 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...
+[server] >
+[server] 
+[server] [21:57:41 INFO]: Preparing spawn area: 100%
+[server] >
+[server] 
+[server] [21:57:41 INFO]: Prepared spawn area in 1 ms
+[server] >
+[server] 
+[server] [21:57:41 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...
+[server] >
+[server] 
+[server] [21:57:41 INFO]: Prepared spawn area in 0 ms
+[server] >
+[server] 
+[server] [21:57:41 INFO]: Done preparing level "world" (0.507s)
+[server] >
+[server] 
+[server] [21:57:41 INFO]: [StarChronicle] Enabling StarChronicle v0.1.0-SNAPSHOT
+[server] >
+[server] 
+[server] [33;1m[21:57:41 WARN]: [StarChronicle] StarCore f769e627 NarrativeEngine uses Bukkit's main-thread scheduler; narrative.start is disabled on Folia. Chronicle state/history remain available.
+[server] [m>
+[server] 
+[server] [33;1m[21:57:41 WARN]: [StarChronicle] STANDALONE MODE: no authoritative StarCore identity, task, narrative or nation mutations are available
+[server] [m>
+[server] 
+[server] [21:57:42 INFO]: [StarChronicle] Native supplemental scene registration: {chronicle_last_heir=UNAVAILABLE, chronicle_siege_embers=UNAVAILABLE, chronicle_silk_road=UNAVAILABLE}; native quests: {}
+[server] >
+[server] 
+[server] [21:57:42 INFO]: [StarChronicle] Loaded 2 validated stories; durable history/outbox ready
+[server] >
+[server] 
+[server] [21:57:42 INFO]: [StarChronicle] Configured first-visit exploration regions: 2
+[server] >
+[server] 
+[server] [21:57:42 INFO]: [ExplorationPaperFixture] Enabling ExplorationPaperFixture v1
+[server] >
+[server] 
+[server] [21:57:43 INFO]: [ExplorationPaperFixture] EXPLORATION_READY {"noSyntheticSource":true,"player":"60a7e774-4887-37d4-92b1-3a14e5484028","product_sha256":"4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca","standalone":true,"world":"eb95eb64-c518-483c-97c4-a975425ffd3d"}
+[server] >
+[server] 
+[server] [21:57:43 INFO]: [ExplorationPaperFixture] EXPLORATION_CANCELLATION_UNSUPPORTED {"api":"Player.teleportAsync","available":false,"platform":"folia","reason":"Folia teleportAsync did not dispatch PlayerTeleportEvent in the preserved runtime probe; cancellable teleport coverage is unavailable."}
+[server] >
+[server] 
+[server] [21:57:43 INFO]: [spark] The spark plugin has been preferred but was not loaded. The bundled spark profiler will enabled instead.
+[server] >
+[server] 
+[server] [21:57:43 INFO]: [spark] The spark profiler will not be enabled because it is currently disabled in the configuration.
+[server] >
+[server] 
+[server] [21:57:43 INFO]: Done (19.379s)! For help, type "help"
+[client] 2026-11-20T13:57:44.344Z CLIENT_PROCESS {"boot":2,"pid":22908,"product_sha256":"4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca","source_sha256":"cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99"}
+[server] >
+[server] 
+[server] [21:57:44 INFO]: UUID of player ChronicleScout is 60a7e774-4887-37d4-92b1-3a14e5484028
+[server] >
+[server] 
+[server] [21:57:46 INFO]: [93mChronicleScout joined the game[0m
+[server] >
+[server] 
+[server] [21:57:46 INFO]: ChronicleScout[/127.0.0.1:52397] logged in with entity id 1 at ([world]1012.5, -60.0, 1.5)
+[client] 2026-11-20T13:57:46.818Z MESSAGE {"boot":2,"message":"ChronicleScout joined the game"}
+[client] 2026-11-20T13:57:46.854Z SPAWN {"boot":2,"uuid":"60a7e774-4887-37d4-92b1-3a14e5484028","position":{"x":1012.5,"y":-60,"z":1.5}}
+[server] > >
+[server] 
+[server] [21:57:47 INFO]: [ExplorationPaperFixture] EXPLORATION_STATION_READY {"fixtureOnly":true,"maxX":1020,"minX":996,"world":"eb95eb64-c518-483c-97c4-a975425ffd3d","y":-60}
+[server] > >
+[server] 
+[server] [21:57:47 INFO]: [ExplorationPaperFixture] EXPLORATION_TELEPORT_RESULT {"accepted":true,"kind":"outside","player":"60a7e774-4887-37d4-92b1-3a14e5484028","world":"eb95eb64-c518-483c-97c4-a975425ffd3d","x":1000.5,"y":-60.0,"z":1.5}
+[server] > >
+[server] 
+[server] [21:57:47 INFO]: [ExplorationPaperFixture] EXPLORATION_CHECK_PASS {"discoveries":[{"id":"exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:eee62b9f7e60ff409e0e7c12b8b34e3dd7e57f36af11938eada70490c4fef887","type":"EXPLORATION_DISCOVERY","occurredAt":"2026-11-20T13:57:14.255613Z","participants":["60a7e774-4887-37d4-92b1-3a14e5484028"],"nations":[],"facts":{"discovery.kind":"FIRST_VISIT","region.id":"fixture-teleport","region.scope":"eee62b9f7e60ff409e0e7c12b8b34e3dd7e57f36af11938eada70490c4fef887","region.world":"eb95eb64-c518-483c-97c4-a975425ffd3d","region.x":"1012","region.y":"-60","region.z":"1","time_basis":"OBSERVED"},"source":"StarChronicle.ConfiguredRegionFirstVisit","evidence":"Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-teleport; scope=eee62b9f7e60ff409e0e7c12b8b34e3dd7e57f36af11938eada70490c4fef887; world=eb95eb64-c518-483c-97c4-a975425ffd3d; block=1012,-60,1"},{"id":"exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:573f74ab48571478163897535270b7a4a15c3bf1d4281e4bd5373be5059d32c8","type":"EXPLORATION_DISCOVERY","occurredAt":"2026-11-20T13:57:08.507277200Z","participants":["60a7e774-4887-37d4-92b1-3a14e5484028"],"nations":[],"facts":{"discovery.kind":"FIRST_VISIT","region.id":"fixture-walk","region.scope":"573f74ab48571478163897535270b7a4a15c3bf1d4281e4bd5373be5059d32c8","region.world":"eb95eb64-c518-483c-97c4-a975425ffd3d","region.x":"1004","region.y":"-60","region.z":"1","time_basis":"OBSERVED"},"source":"StarChronicle.ConfiguredRegionFirstVisit","evidence":"Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-walk; scope=573f74ab48571478163897535270b7a4a15c3bf1d4281e4bd5373be5059d32c8; world=eb95eb64-c518-483c-97c4-a975425ffd3d; block=1004,-60,1"}],"fate":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"5","player.role":"unassigned"},"instances":[{"choices":{"arrival":"yes","arrival/60a7e774-4887-37d4-92b1-3a14e5484028":"yes"},"completed":true,"id":"d73f07bcb36cee1cf9598f728d0c5a11efd2f641c4100d407a10f7491fb86caa","story":"fixture-exploration-teleport"},{"choices":{"arrival":"yes","arrival/60a7e774-4887-37d4-92b1-3a14e5484028":"yes"},"completed":true,"id":"af7fcf8ecba9318a43218bbb102732401c1fa95696d849f4143f739e7ba52216","story":"fixture-exploration-walk"}],"phase":"final","player":"60a7e774-4887-37d4-92b1-3a14e5484028","world":"eb95eb64-c518-483c-97c4-a975425ffd3d"}
+[client] 2026-11-20T13:57:49.390Z WALK_ARRIVED {"boot":2,"before":{"x":1000.5,"y":-60,"z":1.5},"after":{"x":1005.4225040178642,"y":-60,"z":1.4999999999993412},"implementation":"real control-state movement packets"}
+[server] > >
+[server] 
+[server] [21:57:49 INFO]: [ExplorationPaperFixture] EXPLORATION_TELEPORT_RESULT {"accepted":true,"kind":"inside","player":"60a7e774-4887-37d4-92b1-3a14e5484028","world":"eb95eb64-c518-483c-97c4-a975425ffd3d","x":1012.5,"y":-60.0,"z":1.5}
+[server] > >
+[server] 
+[server] [21:57:52 INFO]: [ExplorationPaperFixture] EXPLORATION_CHECK_PASS {"discoveries":[{"id":"exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:eee62b9f7e60ff409e0e7c12b8b34e3dd7e57f36af11938eada70490c4fef887","type":"EXPLORATION_DISCOVERY","occurredAt":"2026-11-20T13:57:14.255613Z","participants":["60a7e774-4887-37d4-92b1-3a14e5484028"],"nations":[],"facts":{"discovery.kind":"FIRST_VISIT","region.id":"fixture-teleport","region.scope":"eee62b9f7e60ff409e0e7c12b8b34e3dd7e57f36af11938eada70490c4fef887","region.world":"eb95eb64-c518-483c-97c4-a975425ffd3d","region.x":"1012","region.y":"-60","region.z":"1","time_basis":"OBSERVED"},"source":"StarChronicle.ConfiguredRegionFirstVisit","evidence":"Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-teleport; scope=eee62b9f7e60ff409e0e7c12b8b34e3dd7e57f36af11938eada70490c4fef887; world=eb95eb64-c518-483c-97c4-a975425ffd3d; block=1012,-60,1"},{"id":"exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:573f74ab48571478163897535270b7a4a15c3bf1d4281e4bd5373be5059d32c8","type":"EXPLORATION_DISCOVERY","occurredAt":"2026-11-20T13:57:08.507277200Z","participants":["60a7e774-4887-37d4-92b1-3a14e5484028"],"nations":[],"facts":{"discovery.kind":"FIRST_VISIT","region.id":"fixture-walk","region.scope":"573f74ab48571478163897535270b7a4a15c3bf1d4281e4bd5373be5059d32c8","region.world":"eb95eb64-c518-483c-97c4-a975425ffd3d","region.x":"1004","region.y":"-60","region.z":"1","time_basis":"OBSERVED"},"source":"StarChronicle.ConfiguredRegionFirstVisit","evidence":"Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-walk; scope=573f74ab48571478163897535270b7a4a15c3bf1d4281e4bd5373be5059d32c8; world=eb95eb64-c518-483c-97c4-a975425ffd3d; block=1004,-60,1"}],"fate":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"5","player.role":"unassigned"},"instances":[{"choices":{"arrival":"yes","arrival/60a7e774-4887-37d4-92b1-3a14e5484028":"yes"},"completed":true,"id":"d73f07bcb36cee1cf9598f728d0c5a11efd2f641c4100d407a10f7491fb86caa","story":"fixture-exploration-teleport"},{"choices":{"arrival":"yes","arrival/60a7e774-4887-37d4-92b1-3a14e5484028":"yes"},"completed":true,"id":"af7fcf8ecba9318a43218bbb102732401c1fa95696d849f4143f739e7ba52216","story":"fixture-exploration-walk"}],"phase":"final","player":"60a7e774-4887-37d4-92b1-3a14e5484028","world":"eb95eb64-c518-483c-97c4-a975425ffd3d"}
+[client] 2026-11-20T13:57:53.155Z QUIT_REQUESTED {"boot":2}
+[client] 2026-11-20T13:57:53.159Z ENDED {"boot":2,"reason":"exploration acceptance normal quit","requestedQuit":true}
+CLIENT_EXIT 0
+[server] >
+[server] 
+[server] [21:57:53 INFO]: ChronicleScout lost connection: Disconnected
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [93mChronicleScout left the game[0m
+[server] > >
+[server] 
+[server] [21:57:53 INFO]: Stopping the server
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Awaiting scheduler termination for 60s...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Scheduler halted
+[server] >
+[server] 
+[server] [21:57:53 INFO]: Stopping server
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ExplorationPaperFixture] Disabling ExplorationPaperFixture v1
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ExplorationPaperFixture] EXPLORATION_CLOSED {"normalPluginDisable":true}
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [StarChronicle] Disabling StarChronicle v0.1.0-SNAPSHOT
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Halting chunk systems...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ChunkHolderManager] Halted chunk system for world 'world'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_nether'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ChunkHolderManager] Halted chunk system for world 'world_nether'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_the_end'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ChunkHolderManager] Halted chunk system for world 'world_the_end'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Halted chunk systems
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Finishing pending teleports...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Finished pending teleports
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving all worlds
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving world data for world 'world'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Closing player inventories...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Closed player inventories
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving chunks...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving chunks around region around chunk [63, 0] in world 'world'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ChunkHolderManager] Saved 132 block chunks, 132 entity chunks, 0 poi chunks in world 'world' in 0.21s
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'world'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'world'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved chunks
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving level data...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved level data
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved world data for world 'world'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving world data for world 'world_nether'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Closing player inventories...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Closed player inventories
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving chunks...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved chunks
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving level data...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved level data
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved world data for world 'world_nether'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving world data for world 'world_the_end'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Closing player inventories...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Closed player inventories
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving chunks...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved chunks
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving level data...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved level data
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved world data for world 'world_the_end'
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved all worlds
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saving all player data...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [RegionShutdownThread] Saved all player data
+[server] >
+[server] 
+[server] [21:57:53 INFO]: Waiting for all RegionFile I/O tasks to complete...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: All RegionFile I/O tasks to complete
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [MoonriseCommon] Awaiting termination of worker pool for up to 60s...
+[server] >
+[server] 
+[server] [21:57:53 INFO]: [MoonriseCommon] Awaiting termination of I/O pool for up to 60s...
+[server] >
+PROCESS_FINISHED {"boot": 2, "product_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca", "fixture_sha256": "7fd3194fcb35a0e27192e38ef927111785c1a2f5f17250d895abe313f2c62a5d", "client_sha256": "cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99", "controller_sha256": "eaa2f392ac68fdc08ed274921cb4ca3fb09cc3b46372a3c0564c5ee313762413", "started_utc": "2026-11-20T13:57:21.120018+00:00", "server_exit": 0, "client_exit": 0, "normal_stop": true, "normal_quit": true, "session_pid": 23884, "session_identity": "134396566407110243", "control_file": "evidence/control-boot2.jsonl", "controller_pid": 25080, "controller_identity": "134396565805659182", "control_helper_sha256": "7edc5c76c668b03c6580615f38f3b04080ce1540570083a6b6acfae94b722300", "server_pid": 19936, "server_identity": "134396566411250402", "server_command": ["C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2\\bin\\java.exe", "-Xms64M", "-Xmx512M", "-XX:MaxMetaspaceSize=192M", "-XX:ActiveProcessorCount=1", "-XX:+UseSerialGC", "-XX:CICompilerCount=1", "-XX:TieredStopAtLevel=1", "-Xss256k", "-XX:ReservedCodeCacheSize=64M", "-Dfile.encoding=UTF-8", "-jar", "folia.jar", "--nogui"], "client_pid": 22908, "client_identity": "134396566633687269", "client_command": ["C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe", "--max-old-space-size=192", "--max-semi-space-size=8", "--jitless", "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\tools\\exploration-clients.cjs", "--run-dir", "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-4ede86a8-folia-retry1", "--expected-sha", "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca", "--boot", "2"], "finished_utc": "2026-11-20T13:57:54.178501+00:00", "all_owned_exited": true, "checkpoint": {"path": "evidence/checkpoints/boot2/checkpoint.json", "sha256": "8015910734ad476a71394e51a6e348caa8d35a2db4e4ee8c3eec4d6add397424", "db_sha256": "143e904fe6912eba88f0abfcc3124b024eaa97d0f45462fdfa75e018a9c1d6bc"}}

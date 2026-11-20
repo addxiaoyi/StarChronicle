@@ -1,0 +1,52 @@
+{
+  "prepared_utc": "2026-11-20T12:51:29.066587+00:00",
+  "run": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-8fdcf8d3-paper-retry1",
+  "platform": "paper",
+  "product_sha256": "8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051",
+  "server_sha256": "5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba",
+  "fixture_source_sha256": "5c6d7575e03e8036bec42525da0c7a4ca89534ae68a13bc4f7da1e17ed79d3c3",
+  "world_uuid": "23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6",
+  "player_uuid": "60a7e774-4887-37d4-92b1-3a14e5484028",
+  "server_ip": "127.0.0.1",
+  "server_port": 25635,
+  "stories": {
+    "walk": {
+      "id": "fixture-exploration-walk",
+      "title": "Exploration evidence walk",
+      "honor": 2,
+      "region": "fixture-walk",
+      "ending": "FIXTURE_WALK_FINISHED"
+    },
+    "teleport": {
+      "id": "fixture-exploration-teleport",
+      "title": "Exploration evidence teleport",
+      "honor": 3,
+      "region": "fixture-teleport",
+      "ending": "FIXTURE_TELEPORT_FINISHED"
+    }
+  },
+  "story_hashes": {
+    "fixture-exploration-walk.json": "ba3e6111def498fc7c6163755e57833dc3f082e1fcd5da6679e749905a28a2f9",
+    "fixture-exploration-teleport.json": "cb3e06df7de2261a0b97a5899b4f517e573e875613209d6d640188e2f327dbeb"
+  },
+  "source_hashes": {
+    "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\smoke\\paper.jar": "5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\target\\starchronicle-0.1.0-SNAPSHOT.jar": "8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\tools\\ExplorationPaperFixture.java": "5c6d7575e03e8036bec42525da0c7a4ca89534ae68a13bc4f7da1e17ed79d3c3"
+  },
+  "source_world_copied": false,
+  "source_database_copied": false,
+  "compiled": true,
+  "compile": {
+    "command": [
+      "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2\\bin\\javac.exe",
+      "-J-Xmx128m",
+      "-J-XX:ActiveProcessorCount=1",
+      "-J-XX:+UseSerialGC",
+      "@C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-8fdcf8d3-paper-retry1\\fixture\\javac.args"
+    ],
+    "exit_code": 0,
+    "at_utc": "2026-11-20T12:51:36.729511+00:00"
+  },
+  "fixture_sha256": "1a2197e7be8e7a339115badd22ac10896d0342e5ffa8b1532990ab755578a97b"
+}

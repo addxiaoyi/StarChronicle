@@ -1,0 +1,93 @@
+{
+  "owner_pid": 19472,
+  "owner_identity": "134396564075925554",
+  "started_utc": "2026-11-20T13:53:27.796991+00:00",
+  "run": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-4ede86a8-paper-retry1",
+  "status": "PASS",
+  "boots": [
+    {
+      "boot": 1,
+      "pid": 9224,
+      "identity": "134396564078062283",
+      "command": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\tools\\exploration-acceptance.py",
+        "run",
+        "--sha",
+        "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+        "--platform",
+        "paper",
+        "--attempt",
+        "retry1",
+        "--boot",
+        "1",
+        "--java",
+        "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2",
+        "--node",
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+        "--control-file",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-4ede86a8-paper-retry1\\evidence\\control-boot1.jsonl",
+        "--controller-pid",
+        "19472",
+        "--controller-identity",
+        "134396564075925554"
+      ],
+      "started_utc": "2026-11-20T13:53:27.812029+00:00",
+      "status": "NORMAL_COMPLETED",
+      "exit_code": 0,
+      "finished_utc": "2026-11-20T13:54:28.375351+00:00",
+      "checkpoint": {
+        "path": "evidence/checkpoints/boot1/checkpoint.json",
+        "sha256": "3b7435bfe9e682f964035e44a8dcf4c7c2dd0364240aada21d76f0f3e91b71fc",
+        "db_sha256": "ccb6ce6b6d3390e65ab58e0d8144be4f735c91c4cdc83003e3841c15c148f097"
+      }
+    },
+    {
+      "boot": 2,
+      "pid": 14956,
+      "identity": "134396564683808934",
+      "command": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\tools\\exploration-acceptance.py",
+        "run",
+        "--sha",
+        "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+        "--platform",
+        "paper",
+        "--attempt",
+        "retry1",
+        "--boot",
+        "2",
+        "--java",
+        "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2",
+        "--node",
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+        "--control-file",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-4ede86a8-paper-retry1\\evidence\\control-boot2.jsonl",
+        "--controller-pid",
+        "19472",
+        "--controller-identity",
+        "134396564075925554"
+      ],
+      "started_utc": "2026-11-20T13:54:28.388261+00:00",
+      "status": "NORMAL_COMPLETED",
+      "exit_code": 0,
+      "finished_utc": "2026-11-20T13:55:02.877039+00:00",
+      "checkpoint": {
+        "path": "evidence/checkpoints/boot2/checkpoint.json",
+        "sha256": "b65f0c3301a89be90521a8474ca03d18bc28ab735629615a0b9e5af4cd5b4692",
+        "db_sha256": "f2f1661c802d45fd9dd31bf42996b03b86d24c138e3eabe754fab9bc949ca5f9"
+      }
+    }
+  ],
+  "source_sha256": {
+    "tools/run-exploration-acceptance.py": "8d45cc8047010d6dacb734d338cba7554b5e11badda7b8653b62010bb11eafb7",
+    "tools/exploration-acceptance.py": "eaa2f392ac68fdc08ed274921cb4ca3fb09cc3b46372a3c0564c5ee313762413",
+    "tools/quest_evidence_control.py": "7edc5c76c668b03c6580615f38f3b04080ce1540570083a6b6acfae94b722300",
+    "tools/exploration-clients.cjs": "cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99"
+  },
+  "phase": "boot2: BOOT_COMPLETED",
+  "updated_utc": "2026-11-20T13:55:02.877039+00:00",
+  "finished_utc": "2026-11-20T13:55:04.049038+00:00",
+  "inspection_exit": 0
+}

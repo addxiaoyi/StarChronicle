@@ -1,0 +1,27 @@
+id: evidence-records
+version: '1'
+title: 国史抄录
+scope: PLAYER
+triggers: [CHRONICLE_RECORDS_OPENED]
+start: copy
+cooldownSeconds: 0
+nodes:
+  copy:
+    text: 为国家档案制作三张纸。请在原生任务界面确认完成；仅制作物品或接取任务不会跳过此阶段。
+    effects:
+      - id: native-records
+        type: quest.await
+        target: chronicle_heir_records
+        value: PLAYER
+        permission: starchronicle.use
+    choices:
+      archive:
+        label: 提交已确认的抄录记录
+        next: archived
+        permission: starchronicle.use
+  archived:
+    text: 完成凭证已归档。你仍需亲自作出选择，原生任务不会代替你的剧情决定。
+    terminal: true
+    effects:
+      - {id: scribe-honor, type: honor, target: player, value: '3'}
+      - {id: scribe-history, type: history, target: CHRONICLE_RECORDS_ARCHIVED, value: '原生抄录任务及剧情提交已完成'}

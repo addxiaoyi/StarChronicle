@@ -1,0 +1,32 @@
+{
+  "require-starcore": false,
+  "install-default-stories": false,
+  "npc-hooks": false,
+  "poll-ticks": 20,
+  "worker-queue-capacity": 256,
+  "exploration": {
+    "enabled": true,
+    "regions": [
+      {
+        "id": "fixture-walk",
+        "world": "6a460da7-71ce-4624-a34d-fe784e607d70",
+        "min-x": 1004,
+        "max-x": 1006,
+        "min-y": -60,
+        "max-y": -58,
+        "min-z": 0,
+        "max-z": 3
+      },
+      {
+        "id": "fixture-teleport",
+        "world": "6a460da7-71ce-4624-a34d-fe784e607d70",
+        "min-x": 1011,
+        "max-x": 1013,
+        "min-y": -60,
+        "max-y": -58,
+        "min-z": 0,
+        "max-z": 3
+      }
+    ]
+  }
+}

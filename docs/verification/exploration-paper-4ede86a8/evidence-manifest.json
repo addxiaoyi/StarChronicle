@@ -1,0 +1,251 @@
+{
+  "source_run": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-4ede86a8-paper-retry1",
+  "plugin_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+  "files": [
+    {
+      "source": "evidence/auto-inspector-output.log",
+      "file": "evidence/auto-inspector-output.log",
+      "bytes": 369,
+      "sha256": "1dc1ad2598c0dab98822567de88c578bd83c96c9a1df1ce1c0db8e73d61e0bff"
+    },
+    {
+      "source": "evidence/auto-launch-error.log",
+      "file": "evidence/auto-launch-error.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "evidence/auto-launch.log",
+      "file": "evidence/auto-launch.log",
+      "bytes": 2888,
+      "sha256": "3aeb22b5a5c4e997d1a9bac70319a4f08eeb07e38dd0070dd8408dd4c8195246"
+    },
+    {
+      "source": "evidence/auto-owner.json",
+      "file": "evidence/auto-owner.json",
+      "bytes": 4070,
+      "sha256": "dd99d5934468d7b5f75f797cfc4bb6814ed9b1ada6e29106bbe7ef133bf1f155"
+    },
+    {
+      "source": "evidence/auto-owner.lock",
+      "file": "evidence/auto-owner.lock",
+      "bytes": 92,
+      "sha256": "267ce4e8ef324fa1e131b5e771afb0ab8b86f6ed4775ed91ee55c92d243c3174"
+    },
+    {
+      "source": "evidence/auto-session-boot1.log",
+      "file": "evidence/auto-session-boot1.log",
+      "bytes": 32871,
+      "sha256": "e58486b2ccc9dd81e0068d2cd77558f3eed672f69cccbe0be4761787c7fb0920"
+    },
+    {
+      "source": "evidence/auto-session-boot2.log",
+      "file": "evidence/auto-session-boot2.log",
+      "bytes": 21367,
+      "sha256": "792a88ef288e8b93ced67160e50de019778be189fe771b421d7d0e6ea3443c87"
+    },
+    {
+      "source": "evidence/auto-source-exploration-acceptance.py",
+      "file": "evidence/auto-source-exploration-acceptance.py",
+      "bytes": 46849,
+      "sha256": "eaa2f392ac68fdc08ed274921cb4ca3fb09cc3b46372a3c0564c5ee313762413"
+    },
+    {
+      "source": "evidence/auto-source-exploration-clients.cjs",
+      "file": "evidence/auto-source-exploration-clients.cjs",
+      "bytes": 8014,
+      "sha256": "cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99"
+    },
+    {
+      "source": "evidence/auto-source-quest_evidence_control.py",
+      "file": "evidence/auto-source-quest_evidence_control.py",
+      "bytes": 3452,
+      "sha256": "7edc5c76c668b03c6580615f38f3b04080ce1540570083a6b6acfae94b722300"
+    },
+    {
+      "source": "evidence/auto-source-run-exploration-acceptance.py",
+      "file": "evidence/auto-source-run-exploration-acceptance.py",
+      "bytes": 17467,
+      "sha256": "8d45cc8047010d6dacb734d338cba7554b5e11badda7b8653b62010bb11eafb7"
+    },
+    {
+      "source": "evidence/checkpoints/boot1/checkpoint.json",
+      "file": "evidence/checkpoints/boot1/checkpoint.json",
+      "bytes": 378,
+      "sha256": "3b7435bfe9e682f964035e44a8dcf4c7c2dd0364240aada21d76f0f3e91b71fc"
+    },
+    {
+      "source": "evidence/checkpoints/boot2/checkpoint.json",
+      "file": "evidence/checkpoints/boot2/checkpoint.json",
+      "bytes": 378,
+      "sha256": "b65f0c3301a89be90521a8474ca03d18bc28ab735629615a0b9e5af4cd5b4692"
+    },
+    {
+      "source": "evidence/client-boot1.log",
+      "file": "evidence/client-boot1.log",
+      "bytes": 3116,
+      "sha256": "62b2b9342c7354b0cb82827e9a88dca54de7827d5e83c00a496c21c5ae005895"
+    },
+    {
+      "source": "evidence/client-boot2.log",
+      "file": "evidence/client-boot2.log",
+      "bytes": 817,
+      "sha256": "2e6c4e1a3d7fd59d5864ca361169486673b6465af76907ee4e1751fa8bf50466"
+    },
+    {
+      "source": "evidence/client-used-boot1.cjs",
+      "file": "evidence/client-used-boot1.cjs",
+      "bytes": 8014,
+      "sha256": "cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99"
+    },
+    {
+      "source": "evidence/client-used-boot2.cjs",
+      "file": "evidence/client-used-boot2.cjs",
+      "bytes": 8014,
+      "sha256": "cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99"
+    },
+    {
+      "source": "evidence/clients.jsonl",
+      "file": "evidence/clients.jsonl",
+      "bytes": 3907,
+      "sha256": "dff8216c4be3b750d98fc46c0cf57da57aeb56b67ff2747fb26c7b52c8600493"
+    },
+    {
+      "source": "evidence/command-intents-boot1.jsonl",
+      "file": "evidence/command-intents-boot1.jsonl",
+      "bytes": 3898,
+      "sha256": "4abc35220607f259460358da1090cc61a791955c6b772763b7d9df9e8bc81de3"
+    },
+    {
+      "source": "evidence/command-intents-boot2.jsonl",
+      "file": "evidence/command-intents-boot2.jsonl",
+      "bytes": 1838,
+      "sha256": "34f55557058b134b2d3b3dce5d29f125f82a3c9fae182e8e02ccbe848cadd1a2"
+    },
+    {
+      "source": "evidence/control-boot1.jsonl",
+      "file": "evidence/control-boot1.jsonl",
+      "bytes": 1087,
+      "sha256": "e55afce19d11a9f8325c5103d259e69a28ac0da24e80430619a4d01cbaa19de1"
+    },
+    {
+      "source": "evidence/control-boot2.jsonl",
+      "file": "evidence/control-boot2.jsonl",
+      "bytes": 488,
+      "sha256": "6688d65ffa12839306c62bbc9f35d5a45e287a2d8b526740426185a8267f7742"
+    },
+    {
+      "source": "evidence/control-helper-used-boot1.py",
+      "file": "evidence/control-helper-used-boot1.py",
+      "bytes": 3452,
+      "sha256": "7edc5c76c668b03c6580615f38f3b04080ce1540570083a6b6acfae94b722300"
+    },
+    {
+      "source": "evidence/control-helper-used-boot2.py",
+      "file": "evidence/control-helper-used-boot2.py",
+      "bytes": 3452,
+      "sha256": "7edc5c76c668b03c6580615f38f3b04080ce1540570083a6b6acfae94b722300"
+    },
+    {
+      "source": "evidence/control-receipts-boot1.jsonl",
+      "file": "evidence/control-receipts-boot1.jsonl",
+      "bytes": 1923,
+      "sha256": "1dac80994f97836f4eeffc0f7ef7813a8309dd4b1beded81f9ee3fc69231a5d1"
+    },
+    {
+      "source": "evidence/control-receipts-boot2.jsonl",
+      "file": "evidence/control-receipts-boot2.jsonl",
+      "bytes": 884,
+      "sha256": "818228fd18c6f00a95fb5e3b8a1bcaa3f14bc340c90217f8c56b735f69e53d15"
+    },
+    {
+      "source": "evidence/controller-used-boot1.py",
+      "file": "evidence/controller-used-boot1.py",
+      "bytes": 46849,
+      "sha256": "eaa2f392ac68fdc08ed274921cb4ca3fb09cc3b46372a3c0564c5ee313762413"
+    },
+    {
+      "source": "evidence/controller-used-boot2.py",
+      "file": "evidence/controller-used-boot2.py",
+      "bytes": 46849,
+      "sha256": "eaa2f392ac68fdc08ed274921cb4ca3fb09cc3b46372a3c0564c5ee313762413"
+    },
+    {
+      "source": "evidence/fixture-compile.log",
+      "file": "evidence/fixture-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "evidence/fixture.jsonl",
+      "file": "evidence/fixture.jsonl",
+      "bytes": 20895,
+      "sha256": "4b7a8e04b7382381d1233ffabd0bef5d108de8ce18ce0efc490d59cc8e9b9526"
+    },
+    {
+      "source": "evidence/inspection.json",
+      "file": "evidence/inspection.json",
+      "bytes": 13078,
+      "sha256": "f99798e27ebe14d6cb9e56395413403f14861a04293ce9838d95fcf3d591db1e"
+    },
+    {
+      "source": "evidence/processes.json",
+      "file": "evidence/processes.json",
+      "bytes": 5240,
+      "sha256": "47a9ed11a0e27a9c24ea03131094f5cbd0e19723c0c35c0b3cc9f1650aa802f8"
+    },
+    {
+      "source": "evidence/server-boot1.log",
+      "file": "evidence/server-boot1.log",
+      "bytes": 24696,
+      "sha256": "47c22dbca992e688f9981e2fb1a504f584a96b870784b4fb04bdab0a01190b9b"
+    },
+    {
+      "source": "evidence/server-boot2.log",
+      "file": "evidence/server-boot2.log",
+      "bytes": 16123,
+      "sha256": "8b234521c652435baa89d0809f107f7cb5b2856f853a018f7802381da61029e3"
+    },
+    {
+      "source": "fixture/ExplorationPaperFixture.java",
+      "file": "fixture/ExplorationPaperFixture.java",
+      "bytes": 12117,
+      "sha256": "5c6d7575e03e8036bec42525da0c7a4ca89534ae68a13bc4f7da1e17ed79d3c3"
+    },
+    {
+      "source": "plugins/StarChronicle/config.yml",
+      "file": "plugins/StarChronicle/config.yml",
+      "bytes": 711,
+      "sha256": "1a4497018ad310304c817e622baa3a3d54058e67e4d21fa1917347506d820ec5"
+    },
+    {
+      "source": "plugins/StarChronicle/stories/fixture-exploration-teleport.json",
+      "file": "plugins/StarChronicle/stories/fixture-exploration-teleport.json",
+      "bytes": 1095,
+      "sha256": "cb3e06df7de2261a0b97a5899b4f517e573e875613209d6d640188e2f327dbeb"
+    },
+    {
+      "source": "plugins/StarChronicle/stories/fixture-exploration-walk.json",
+      "file": "plugins/StarChronicle/stories/fixture-exploration-walk.json",
+      "bytes": 1079,
+      "sha256": "ba3e6111def498fc7c6163755e57833dc3f082e1fcd5da6679e749905a28a2f9"
+    },
+    {
+      "source": "preparation.json",
+      "file": "preparation.json",
+      "bytes": 2528,
+      "sha256": "a8d714e0ed014776616a6ecedfc71127041b69427e6fe31f995300959ccdf95f"
+    },
+    {
+      "source": "server.properties",
+      "file": "server.properties",
+      "bytes": 1984,
+      "sha256": "8779676e11d71262f52f6a5f49ca73580e72d6927b83f23199b6cdb55398210f"
+    }
+  ],
+  "excludes": [
+    "runtime databases",
+    "third-party JARs",
+    "server worlds"
+  ]
+}

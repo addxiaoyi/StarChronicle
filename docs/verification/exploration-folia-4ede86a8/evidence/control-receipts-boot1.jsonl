@@ -1,0 +1,17 @@
+{"sequence": 1, "command": "clients start", "time": "2026-11-20T13:57:01.806250+00:00"}
+{"sequence": 2, "command": "server exploreverify station", "time": "2026-11-20T13:57:06.293309+00:00"}
+{"sequence": 3, "command": "server exploreverify start", "time": "2026-11-20T13:57:06.898052+00:00"}
+{"sequence": 4, "command": "server exploreverify check zero", "time": "2026-11-20T13:57:07.222695+00:00"}
+{"sequence": 5, "command": "client walk", "time": "2026-11-20T13:57:07.545423+00:00"}
+{"sequence": 6, "command": "server exploreverify check walk", "time": "2026-11-20T13:57:12.159541+00:00"}
+{"sequence": 7, "command": "client open walk", "time": "2026-11-20T13:57:12.462199+00:00"}
+{"sequence": 8, "command": "client choose", "time": "2026-11-20T13:57:12.864985+00:00"}
+{"sequence": 9, "command": "server exploreverify check walk-ended", "time": "2026-11-20T13:57:13.166346+00:00"}
+{"sequence": 10, "command": "server exploreverify teleport outside", "time": "2026-11-20T13:57:13.469376+00:00"}
+{"sequence": 11, "command": "server exploreverify teleport inside", "time": "2026-11-20T13:57:13.669931+00:00"}
+{"sequence": 12, "command": "server exploreverify check both", "time": "2026-11-20T13:57:16.894174+00:00"}
+{"sequence": 13, "command": "client open teleport", "time": "2026-11-20T13:57:17.298102+00:00"}
+{"sequence": 14, "command": "client choose", "time": "2026-11-20T13:57:18.104661+00:00"}
+{"sequence": 15, "command": "server exploreverify check final", "time": "2026-11-20T13:57:18.506919+00:00"}
+{"sequence": 16, "command": "client quit", "time": "2026-11-20T13:57:18.809896+00:00"}
+{"sequence": 17, "command": "server stop", "time": "2026-11-20T13:57:19.011135+00:00"}

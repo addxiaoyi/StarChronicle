@@ -1,0 +1,9 @@
+{"sequence": 1, "command": "clients start", "time": "2026-11-20T13:54:51.157668+00:00"}
+{"sequence": 2, "command": "server exploreverify station", "time": "2026-11-20T13:54:54.845570+00:00"}
+{"sequence": 3, "command": "server exploreverify start", "time": "2026-11-20T13:54:55.385236+00:00"}
+{"sequence": 4, "command": "server exploreverify check final", "time": "2026-11-20T13:54:55.711454+00:00"}
+{"sequence": 5, "command": "client walk", "time": "2026-11-20T13:54:56.025042+00:00"}
+{"sequence": 6, "command": "server exploreverify teleport inside", "time": "2026-11-20T13:54:57.441827+00:00"}
+{"sequence": 7, "command": "server exploreverify check final", "time": "2026-11-20T13:55:00.866517+00:00"}
+{"sequence": 8, "command": "client quit", "time": "2026-11-20T13:55:01.168846+00:00"}
+{"sequence": 9, "command": "server stop", "time": "2026-11-20T13:55:01.370638+00:00"}

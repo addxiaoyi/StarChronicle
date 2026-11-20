@@ -1,0 +1,6 @@
+2026-11-20T13:00:57.874Z CLIENT_PROCESS {"boot":2,"pid":28432,"product_sha256":"8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051","source_sha256":"cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99"}
+2026-11-20T13:01:00.295Z MESSAGE {"boot":2,"message":"ChronicleScout joined the game"}
+2026-11-20T13:01:00.350Z SPAWN {"boot":2,"uuid":"60a7e774-4887-37d4-92b1-3a14e5484028","position":{"x":1012.5,"y":-60,"z":1.5}}
+2026-11-20T13:01:05.591Z WALK_ARRIVED {"boot":2,"before":{"x":1000.5,"y":-60,"z":1.5},"after":{"x":1005.4225040178642,"y":-60,"z":1.4999999999993412},"implementation":"real control-state movement packets"}
+2026-11-20T13:01:08.811Z QUIT_REQUESTED {"boot":2}
+2026-11-20T13:01:08.816Z ENDED {"boot":2,"reason":"exploration acceptance normal quit","requestedQuit":true}

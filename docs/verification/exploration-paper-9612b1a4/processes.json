@@ -1,0 +1,101 @@
+{
+  "product_sha256": "9612b1a4fa8039e4115cd4f3da81d07e9a0782d5aa3f1b452a965f858d856e02",
+  "boots": [
+    {
+      "boot": 1,
+      "product_sha256": "9612b1a4fa8039e4115cd4f3da81d07e9a0782d5aa3f1b452a965f858d856e02",
+      "fixture_sha256": "bfa5c1434b20051b021ab3410b269f03a9278a3152a3b388ec82bffeb121c0d7",
+      "client_sha256": "cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99",
+      "controller_sha256": "eabc065ba2c64682a73ddb33b3b07f3246ae70134f87400c2f604e995b817ca3",
+      "started_utc": "2026-11-20T12:33:25.129439+00:00",
+      "server_exit": 0,
+      "client_exit": 0,
+      "normal_stop": true,
+      "normal_quit": true,
+      "server_pid": 15796,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2\\bin\\java.exe",
+        "-Xms64M",
+        "-Xmx512M",
+        "-XX:MaxMetaspaceSize=192M",
+        "-XX:ActiveProcessorCount=1",
+        "-XX:+UseSerialGC",
+        "-XX:CICompilerCount=1",
+        "-XX:TieredStopAtLevel=1",
+        "-Xss256k",
+        "-XX:ReservedCodeCacheSize=64M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "client_pid": 5260,
+      "client_command": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+        "--max-old-space-size=128",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\tools\\exploration-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-9612b1a4-paper-retry3",
+        "--expected-sha",
+        "9612b1a4fa8039e4115cd4f3da81d07e9a0782d5aa3f1b452a965f858d856e02",
+        "--boot",
+        "1"
+      ],
+      "finished_utc": "2026-11-20T12:35:56.159472+00:00",
+      "all_owned_exited": true,
+      "checkpoint": {
+        "path": "evidence/checkpoints/boot1/checkpoint.json",
+        "sha256": "0bd443efd52318e20b7ab79229da0607f13f9235da078ee91deebae3aff62764",
+        "db_sha256": "bd0f23e00e07e211c19f9a86ce7feb77beca6534c12a5841fc12091aacf3c1f7"
+      }
+    },
+    {
+      "boot": 2,
+      "product_sha256": "9612b1a4fa8039e4115cd4f3da81d07e9a0782d5aa3f1b452a965f858d856e02",
+      "fixture_sha256": "bfa5c1434b20051b021ab3410b269f03a9278a3152a3b388ec82bffeb121c0d7",
+      "client_sha256": "cc30c2801a4afd60a53e94cf3009c7fea6c7dbd56932a4e25709869d09118c99",
+      "controller_sha256": "73c5da0c09c6cfec641d8fe6e0eec858f5f7f60ea9009d2529d4567d6ad4c482",
+      "started_utc": "2026-11-20T12:36:19.891932+00:00",
+      "server_exit": 0,
+      "client_exit": 0,
+      "normal_stop": true,
+      "normal_quit": true,
+      "server_pid": 14884,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2\\bin\\java.exe",
+        "-Xms64M",
+        "-Xmx512M",
+        "-XX:MaxMetaspaceSize=192M",
+        "-XX:ActiveProcessorCount=1",
+        "-XX:+UseSerialGC",
+        "-XX:CICompilerCount=1",
+        "-XX:TieredStopAtLevel=1",
+        "-Xss256k",
+        "-XX:ReservedCodeCacheSize=64M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "client_pid": 13180,
+      "client_command": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+        "--max-old-space-size=128",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\tools\\exploration-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-9612b1a4-paper-retry3",
+        "--expected-sha",
+        "9612b1a4fa8039e4115cd4f3da81d07e9a0782d5aa3f1b452a965f858d856e02",
+        "--boot",
+        "2"
+      ],
+      "finished_utc": "2026-11-20T12:37:56.563157+00:00",
+      "all_owned_exited": true,
+      "checkpoint": {
+        "path": "evidence/checkpoints/boot2/checkpoint.json",
+        "sha256": "978ee28154021fc8b6129391f648024e59376b1fec21a551b0c61566f772b477",
+        "db_sha256": "4a0d8f8f0748bdc9ebbc4daeeb2d41ff64f216fddd865e00106dbf8dc6255eca"
+      }
+    }
+  ]
+}

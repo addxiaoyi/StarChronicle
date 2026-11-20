@@ -1,0 +1,21 @@
+{
+  "id": "evidence-atlas",
+  "version": "1",
+  "title": "商路调查准备",
+  "scope": "PLAYER",
+  "triggers": ["CHRONICLE_ATLAS_OPENED"],
+  "start": "prepare",
+  "cooldownSeconds": 0,
+  "nodes": {
+    "prepare": {
+      "text": "制作一张空地图并在原生任务界面确认完成。此任务只证明调查准备，不声称已经发现遗迹、完成贸易或交付资源。",
+      "effects": [{"id":"native-atlas","type":"quest.await","target":"chronicle_caravan_atlas","value":"PLAYER","permission":"starchronicle.use"}],
+      "choices": {"depart":{"label":"记录调查准备完成","next":"ready","permission":"starchronicle.use"}}
+    },
+    "ready": {
+      "text": "地图准备及原生完成凭证已记录。实际探索事件由可信探索来源另行提交。",
+      "terminal": true,
+      "effects": [{"id":"atlas-history","type":"history","target":"CHRONICLE_ATLAS_PREPARED","value":"原生地图任务和准备阶段均已完成"}]
+    }
+  }
+}

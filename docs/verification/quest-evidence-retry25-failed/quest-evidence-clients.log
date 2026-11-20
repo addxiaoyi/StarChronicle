@@ -1,0 +1,130 @@
+2026-11-20T13:49:03.610Z CONNECTING {"boot":1,"player":"A","username":"PhaseTwoA"}
+2026-11-20T13:49:03.615Z CONNECTING {"boot":1,"player":"B","username":"PhaseTwoB"}
+2026-11-20T13:49:03.619Z CONNECTING {"boot":1,"player":"C","username":"PhaseTwoC"}
+2026-11-20T13:49:03.620Z CLIENT_PROCESS {"boot":1,"pid":5764,"cohort":["A","B","C"],"plugin_sha256":"4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca","script_sha256":"fb1eba649e8ad4c286433d4a48ad500c785603d55d439dae6158cf032bafe0a9","note":"Only original offline players; no fabricated context, native completion command or synthetic objective events."}
+2026-11-20T13:49:07.790Z MESSAGE {"boot":1,"player":"B","message":"[四季系统] 当前季节: 春季"}
+2026-11-20T13:49:07.791Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-20T13:49:07.792Z MESSAGE {"boot":1,"player":"B","message":"=== Fatigue Status Title ==="}
+2026-11-20T13:49:07.792Z MESSAGE {"boot":1,"player":"B","message":"总体疲劳：0%%"}
+2026-11-20T13:49:07.793Z MESSAGE {"boot":1,"player":"B","message":"等级：精神饱满"}
+2026-11-20T13:49:07.793Z MESSAGE {"boot":1,"player":"B","message":"身体：0%%"}
+2026-11-20T13:49:07.794Z MESSAGE {"boot":1,"player":"B","message":"精神：0%%"}
+2026-11-20T13:49:07.794Z MESSAGE {"boot":1,"player":"B","message":"战斗：0%%"}
+2026-11-20T13:49:07.794Z MESSAGE {"boot":1,"player":"B","message":"行军：0%%"}
+2026-11-20T13:49:07.795Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-20T13:49:07.795Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-20T13:49:07.796Z MESSAGE {"boot":1,"player":"B","message":"╔══════════════════════════╗"}
+2026-11-20T13:49:07.796Z MESSAGE {"boot":1,"player":"B","message":"║    ★ 欢迎来到星核世界 ★    ║"}
+2026-11-20T13:49:07.797Z MESSAGE {"boot":1,"player":"B","message":"╚══════════════════════════╝"}
+2026-11-20T13:49:07.797Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-20T13:49:07.797Z MESSAGE {"boot":1,"player":"B","message":"在这里，你可以："}
+2026-11-20T13:49:07.798Z MESSAGE {"boot":1,"player":"B","message":"  • 采集资源，建立经济基础"}
+2026-11-20T13:49:07.798Z MESSAGE {"boot":1,"player":"B","message":"  • 训练军队，保卫领土扩张"}
+2026-11-20T13:49:07.799Z MESSAGE {"boot":1,"player":"B","message":"  • 开展外交，建立同盟关系"}
+2026-11-20T13:49:07.799Z MESSAGE {"boot":1,"player":"B","message":"  • 研究科技，推动国家进步"}
+2026-11-20T13:49:07.800Z MESSAGE {"boot":1,"player":"B","message":"  • 完成任务，解锁成就奖励"}
+2026-11-20T13:49:07.800Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-20T13:49:07.800Z MESSAGE {"boot":1,"player":"B","message":"输入 /starcore help 查看所有指令"}
+2026-11-20T13:49:07.801Z MESSAGE {"boot":1,"player":"B","message":"或点击屏幕上的菜单按钮开始探索"}
+2026-11-20T13:49:07.801Z MESSAGE {"boot":1,"player":"B","message":""}
+2026-11-20T13:49:07.805Z MESSAGE {"boot":1,"player":"B","message":"已收到 STARCORE 玩法指南，右键打开。"}
+2026-11-20T13:49:07.806Z MESSAGE {"boot":1,"player":"B","message":"PhaseTwoB joined the game"}
+2026-11-20T13:49:07.809Z MESSAGE {"boot":1,"player":"B","message":"PhaseTwoA joined the game"}
+2026-11-20T13:49:07.814Z MESSAGE {"boot":1,"player":"A","message":"[四季系统] 当前季节: 春季"}
+2026-11-20T13:49:07.820Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-20T13:49:07.820Z MESSAGE {"boot":1,"player":"A","message":"=== Fatigue Status Title ==="}
+2026-11-20T13:49:07.821Z MESSAGE {"boot":1,"player":"A","message":"总体疲劳：0%%"}
+2026-11-20T13:49:07.821Z MESSAGE {"boot":1,"player":"A","message":"等级：精神饱满"}
+2026-11-20T13:49:07.822Z MESSAGE {"boot":1,"player":"A","message":"身体：0%%"}
+2026-11-20T13:49:07.822Z MESSAGE {"boot":1,"player":"A","message":"精神：0%%"}
+2026-11-20T13:49:07.822Z MESSAGE {"boot":1,"player":"A","message":"战斗：0%%"}
+2026-11-20T13:49:07.823Z MESSAGE {"boot":1,"player":"A","message":"行军：0%%"}
+2026-11-20T13:49:07.823Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-20T13:49:07.824Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-20T13:49:07.824Z MESSAGE {"boot":1,"player":"A","message":"╔══════════════════════════╗"}
+2026-11-20T13:49:07.824Z MESSAGE {"boot":1,"player":"A","message":"║    ★ 欢迎来到星核世界 ★    ║"}
+2026-11-20T13:49:07.825Z MESSAGE {"boot":1,"player":"A","message":"╚══════════════════════════╝"}
+2026-11-20T13:49:07.825Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-20T13:49:07.826Z MESSAGE {"boot":1,"player":"A","message":"在这里，你可以："}
+2026-11-20T13:49:07.826Z MESSAGE {"boot":1,"player":"A","message":"  • 采集资源，建立经济基础"}
+2026-11-20T13:49:07.827Z MESSAGE {"boot":1,"player":"A","message":"  • 训练军队，保卫领土扩张"}
+2026-11-20T13:49:07.827Z MESSAGE {"boot":1,"player":"A","message":"  • 开展外交，建立同盟关系"}
+2026-11-20T13:49:07.827Z MESSAGE {"boot":1,"player":"A","message":"  • 研究科技，推动国家进步"}
+2026-11-20T13:49:07.828Z MESSAGE {"boot":1,"player":"A","message":"  • 完成任务，解锁成就奖励"}
+2026-11-20T13:49:07.828Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-20T13:49:07.829Z MESSAGE {"boot":1,"player":"A","message":"输入 /starcore help 查看所有指令"}
+2026-11-20T13:49:07.829Z MESSAGE {"boot":1,"player":"A","message":"或点击屏幕上的菜单按钮开始探索"}
+2026-11-20T13:49:07.829Z MESSAGE {"boot":1,"player":"A","message":""}
+2026-11-20T13:49:07.830Z MESSAGE {"boot":1,"player":"A","message":"已收到 STARCORE 玩法指南，右键打开。"}
+2026-11-20T13:49:07.831Z MESSAGE {"boot":1,"player":"A","message":"PhaseTwoA joined the game"}
+2026-11-20T13:49:07.833Z MESSAGE {"boot":1,"player":"A","message":"PhaseTwoC joined the game"}
+2026-11-20T13:49:07.834Z MESSAGE {"boot":1,"player":"B","message":"PhaseTwoC joined the game"}
+2026-11-20T13:49:07.838Z MESSAGE {"boot":1,"player":"C","message":"[四季系统] 当前季节: 春季"}
+2026-11-20T13:49:07.838Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-20T13:49:07.839Z MESSAGE {"boot":1,"player":"C","message":"=== Fatigue Status Title ==="}
+2026-11-20T13:49:07.839Z MESSAGE {"boot":1,"player":"C","message":"总体疲劳：0%%"}
+2026-11-20T13:49:07.840Z MESSAGE {"boot":1,"player":"C","message":"等级：精神饱满"}
+2026-11-20T13:49:07.840Z MESSAGE {"boot":1,"player":"C","message":"身体：0%%"}
+2026-11-20T13:49:07.840Z MESSAGE {"boot":1,"player":"C","message":"精神：0%%"}
+2026-11-20T13:49:07.841Z MESSAGE {"boot":1,"player":"C","message":"战斗：0%%"}
+2026-11-20T13:49:07.841Z MESSAGE {"boot":1,"player":"C","message":"行军：0%%"}
+2026-11-20T13:49:07.842Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-20T13:49:07.843Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-20T13:49:07.843Z MESSAGE {"boot":1,"player":"C","message":"╔══════════════════════════╗"}
+2026-11-20T13:49:07.844Z MESSAGE {"boot":1,"player":"C","message":"║    ★ 欢迎来到星核世界 ★    ║"}
+2026-11-20T13:49:07.844Z MESSAGE {"boot":1,"player":"C","message":"╚══════════════════════════╝"}
+2026-11-20T13:49:07.845Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-20T13:49:07.845Z MESSAGE {"boot":1,"player":"C","message":"在这里，你可以："}
+2026-11-20T13:49:07.846Z MESSAGE {"boot":1,"player":"C","message":"  • 采集资源，建立经济基础"}
+2026-11-20T13:49:07.846Z MESSAGE {"boot":1,"player":"C","message":"  • 训练军队，保卫领土扩张"}
+2026-11-20T13:49:07.847Z MESSAGE {"boot":1,"player":"C","message":"  • 开展外交，建立同盟关系"}
+2026-11-20T13:49:07.847Z MESSAGE {"boot":1,"player":"C","message":"  • 研究科技，推动国家进步"}
+2026-11-20T13:49:07.847Z MESSAGE {"boot":1,"player":"C","message":"  • 完成任务，解锁成就奖励"}
+2026-11-20T13:49:07.848Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-20T13:49:07.848Z MESSAGE {"boot":1,"player":"C","message":"输入 /starcore help 查看所有指令"}
+2026-11-20T13:49:07.849Z MESSAGE {"boot":1,"player":"C","message":"或点击屏幕上的菜单按钮开始探索"}
+2026-11-20T13:49:07.849Z MESSAGE {"boot":1,"player":"C","message":""}
+2026-11-20T13:49:07.850Z MESSAGE {"boot":1,"player":"C","message":"已收到 STARCORE 玩法指南，右键打开。"}
+2026-11-20T13:49:07.851Z MESSAGE {"boot":1,"player":"C","message":"PhaseTwoC joined the game"}
+2026-11-20T13:49:07.944Z MESSAGE {"boot":1,"player":"B","message":"✓ 解锁新称号: 新人"}
+2026-11-20T13:49:07.945Z MESSAGE {"boot":1,"player":"B","message":"✓ 解锁新徽章: 新手徽章"}
+2026-11-20T13:49:07.948Z SPAWN {"boot":1,"player":"B","username":"PhaseTwoB","uuid":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6"}
+2026-11-20T13:49:07.950Z SPAWN {"boot":1,"player":"C","username":"PhaseTwoC","uuid":"140669be-0a1a-3206-a8b1-20d23a596b3a"}
+2026-11-20T13:49:07.951Z MESSAGE {"boot":1,"player":"A","message":"✓ 解锁新称号: 新人"}
+2026-11-20T13:49:07.951Z MESSAGE {"boot":1,"player":"A","message":"✓ 解锁新徽章: 新手徽章"}
+2026-11-20T13:49:07.952Z SPAWN {"boot":1,"player":"A","username":"PhaseTwoA","uuid":"08ffd450-5001-3023-a480-057fef707037"}
+2026-11-20T13:49:08.000Z MESSAGE {"boot":1,"player":"C","message":"✓ 解锁新称号: 新人"}
+2026-11-20T13:49:08.001Z MESSAGE {"boot":1,"player":"C","message":"✓ 解锁新徽章: 新手徽章"}
+2026-11-20T13:49:10.120Z CRAFT_HAND_CLEARED {"boot":1,"player":"A","quickBarSlot":2,"heldItem":null}
+2026-11-20T13:49:10.122Z CRAFT_REQUESTED {"boot":1,"player":"A","item":"paper","attempt":1,"output":"paper","outputId":1028,"amount":3,"table":{"x":3,"y":-60,"z":0},"before":{"written_book":1,"sugar_cane":3},"recipe":{"result":{"id":1028,"metadata":null,"count":3},"delta":[{"id":256,"metadata":null,"count":-3},{"id":1028,"metadata":null,"count":3}]},"implementation":"mineflayer bot.craft over the real crafting table with an empty main hand"}
+2026-11-20T13:49:10.950Z WINDOW {"boot":1,"player":"A","id":1,"type":"minecraft:crafting","title":"","items":2}
+2026-11-20T13:49:11.136Z MESSAGE {"boot":1,"player":"A","message":"任务目标完成: 为旧都会议制作一份可核查的证据抄本。"}
+2026-11-20T13:49:11.137Z MESSAGE {"boot":1,"player":"A","message":"任务 [继承证据的抄录] 已完成！"}
+2026-11-20T13:49:11.150Z WINDOW_CLOSED {"boot":1,"player":"A","id":1}
+2026-11-20T13:49:11.159Z MESSAGE {"boot":1,"player":"B","message":"【能力声望】PhaseTwoA 因 制作: Paper 获得 1 点能力声望"}
+2026-11-20T13:49:11.160Z MESSAGE {"boot":1,"player":"A","message":"【能力声望】PhaseTwoA 因 制作: Paper 获得 1 点能力声望"}
+2026-11-20T13:49:11.161Z MESSAGE {"boot":1,"player":"C","message":"【能力声望】PhaseTwoA 因 制作: Paper 获得 1 点能力声望"}
+2026-11-20T13:49:11.400Z CRAFTED {"boot":1,"player":"A","item":"paper","attempt":1,"output":"paper","outputId":1028,"amount":3,"before":{"written_book":1,"sugar_cane":3},"after":{"paper":3,"written_book":1},"delta":{"sugar_cane":-3,"paper":3},"craftError":null,"note":"Real protocol craft; no synthetic CraftItemEvent or objective update was emitted."}
+2026-11-20T13:49:12.344Z CRAFT_HAND_CLEARED {"boot":1,"player":"B","quickBarSlot":3,"heldItem":null}
+2026-11-20T13:49:12.344Z CRAFT_REQUESTED {"boot":1,"player":"B","item":"book","attempt":1,"output":"book","outputId":1029,"amount":1,"table":{"x":3,"y":-60,"z":0},"before":{"written_book":1,"paper":3,"leather":1},"recipe":{"result":{"id":1029,"metadata":null,"count":1},"delta":[{"id":1028,"metadata":null,"count":-3},{"id":1017,"metadata":null,"count":-1},{"id":1029,"metadata":null,"count":1}]},"implementation":"mineflayer bot.craft over the real crafting table with an empty main hand"}
+2026-11-20T13:49:13.304Z WINDOW {"boot":1,"player":"B","id":1,"type":"minecraft:crafting","title":"","items":3}
+2026-11-20T13:49:13.316Z WINDOW_CLOSED {"boot":1,"player":"B","id":1}
+2026-11-20T13:49:13.318Z MESSAGE {"boot":1,"player":"B","message":"任务目标完成: 制作一本用于整理幸存者证词的空白书籍。"}
+2026-11-20T13:49:13.319Z MESSAGE {"boot":1,"player":"B","message":"任务 [幸存者的记录册] 已完成！"}
+2026-11-20T13:49:13.362Z MESSAGE {"boot":1,"player":"B","message":"【能力声望】PhaseTwoB 因 制作: Book 获得 1 点能力声望"}
+2026-11-20T13:49:13.363Z MESSAGE {"boot":1,"player":"C","message":"【能力声望】PhaseTwoB 因 制作: Book 获得 1 点能力声望"}
+2026-11-20T13:49:13.364Z MESSAGE {"boot":1,"player":"A","message":"【能力声望】PhaseTwoB 因 制作: Book 获得 1 点能力声望"}
+2026-11-20T13:49:13.567Z CRAFTED {"boot":1,"player":"B","item":"book","attempt":1,"output":"book","outputId":1029,"amount":1,"before":{"written_book":1,"paper":3,"leather":1},"after":{"written_book":1,"book":1},"delta":{"paper":-3,"leather":-1,"book":1},"craftError":null,"note":"Real protocol craft; no synthetic CraftItemEvent or objective update was emitted."}
+2026-11-20T13:49:14.465Z CRAFT_HAND_CLEARED {"boot":1,"player":"C","quickBarSlot":3,"heldItem":null}
+2026-11-20T13:49:15.431Z WINDOW {"boot":1,"player":"C","id":1,"type":"minecraft:crafting","title":"","items":3}
+2026-11-20T13:49:15.432Z CRAFT_REQUESTED {"boot":1,"player":"C","item":"map","attempt":1,"output":"map","outputId":1231,"amount":1,"table":{"x":3,"y":-60,"z":0},"before":{"written_book":1,"paper":8,"compass":1},"recipe":{"result":{"id":1231,"metadata":null,"count":1},"delta":[{"id":1028,"metadata":null,"count":-8},{"id":1034,"metadata":null,"count":-1},{"id":1231,"metadata":null,"count":1}]},"implementation":"real crafting-table grid clicks and actual server result-slot click"}
+2026-11-20T13:49:15.432Z CRAFT_GRID_REQUESTED {"boot":1,"player":"C","item":"map","windowId":1,"paperSlot":38,"compassSlot":39,"paperSlots":[1,2,3,4,6,7,8,9],"compassSlotInGrid":5,"resultSlot":0,"implementation":"real crafting-table inventory clicks"}
+2026-11-20T13:49:20.677Z ACTION_FAILED {"boot":1,"line":"craft C map","error":"Timed out observing map compass placement"}
+2026-11-20T13:49:20.767Z QUIT_ALL_REQUESTED {"boot":1,"reason":"quest evidence acceptance normal quit"}
+2026-11-20T13:49:20.768Z QUIT_REQUESTED {"boot":1,"player":"A","reason":"quest evidence acceptance normal quit"}
+2026-11-20T13:49:20.768Z QUIT_REQUESTED {"boot":1,"player":"B","reason":"quest evidence acceptance normal quit"}
+2026-11-20T13:49:20.769Z QUIT_REQUESTED {"boot":1,"player":"C","reason":"quest evidence acceptance normal quit"}
+2026-11-20T13:49:20.772Z ENDED {"boot":1,"player":"A","reason":"quest evidence acceptance normal quit","requestedQuit":true}
+2026-11-20T13:49:20.773Z ENDED {"boot":1,"player":"B","reason":"quest evidence acceptance normal quit","requestedQuit":true}
+2026-11-20T13:49:20.774Z ENDED {"boot":1,"player":"C","reason":"quest evidence acceptance normal quit","requestedQuit":true}
+2026-11-20T13:49:20.774Z ALL_SELECTED_CLIENTS_ENDED {"boot":1,"requested":true,"players":["A","B","C"]}

@@ -1,0 +1,17 @@
+{"sequence": 1, "command": "clients start"}
+{"sequence": 2, "command": "server exploreverify station"}
+{"sequence": 3, "command": "server exploreverify start"}
+{"sequence": 4, "command": "server exploreverify check zero"}
+{"sequence": 5, "command": "client walk"}
+{"sequence": 6, "command": "server exploreverify check walk"}
+{"sequence": 7, "command": "client open walk"}
+{"sequence": 8, "command": "client choose"}
+{"sequence": 9, "command": "server exploreverify check walk-ended"}
+{"sequence": 10, "command": "server exploreverify teleport outside"}
+{"sequence": 11, "command": "server exploreverify teleport inside"}
+{"sequence": 12, "command": "server exploreverify check both"}
+{"sequence": 13, "command": "client open teleport"}
+{"sequence": 14, "command": "client choose"}
+{"sequence": 15, "command": "server exploreverify check final"}
+{"sequence": 16, "command": "client quit"}
+{"sequence": 17, "command": "server stop"}

@@ -1,0 +1,45 @@
+{
+  "id": "fixture-exploration-walk",
+  "version": "1",
+  "title": "Exploration evidence walk",
+  "scope": "PLAYER",
+  "triggers": [
+    "EXPLORATION_DISCOVERY"
+  ],
+  "condition": {
+    "fact": "event.region.id",
+    "op": "eq",
+    "value": "fixture-walk"
+  },
+  "start": "arrival",
+  "cooldownSeconds": 0,
+  "nodes": {
+    "arrival": {
+      "text": "Actual physical arrival is recorded. Choose whether to archive it.",
+      "choices": {
+        "yes": {
+          "label": "Archive my real arrival",
+          "next": "done"
+        }
+      }
+    },
+    "done": {
+      "text": "The observed arrival and this choice are now recorded once.",
+      "terminal": true,
+      "effects": [
+        {
+          "id": "honor",
+          "type": "honor",
+          "target": "player",
+          "value": "2"
+        },
+        {
+          "id": "history",
+          "type": "history",
+          "target": "FIXTURE_WALK_FINISHED",
+          "value": "A real client archived a real configured-region arrival."
+        }
+      ]
+    }
+  }
+}

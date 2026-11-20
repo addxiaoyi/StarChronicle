@@ -1,0 +1,1509 @@
+Starting org.bukkit.craftbukkit.Main
+[21:16:51 INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.13.1+2-LTS; Microsoft Microsoft-16059585) on Windows Server 2022 10.0 (amd64)
+[21:16:51 INFO]: [bootstrap] Loading Paper 1.21.11-132-ver/1.21.11@c5eb079 (2026-05-11T11:43:09Z) for Minecraft 1.21.11
+[21:16:51 INFO]: [PluginInitializerManager] Initializing plugins...
+[21:16:53 INFO]: [PluginInitializerManager] Initialized 3 plugins
+[21:16:53 INFO]: [PluginInitializerManager] Bukkit plugins (3):
+ - QuestEvidencePaperFixture (1), StarChronicle (0.1.0-SNAPSHOT), StarCore (1.0.0)
+[21:17:00 INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[21:17:03 INFO]: Loaded 1470 recipes
+[21:17:03 INFO]: Loaded 1584 advancements
+[21:17:03 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[21:17:04 INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 680.4ms
+[21:17:04 INFO]: Starting minecraft server version 1.21.11
+[33;1m[21:17:04 WARN]: To start the server with more ram, launch it as "java -Xmx1024M -Xms1024M -jar minecraft_server.jar"
+[m[33;1m[21:17:04 WARN]: ****************************
+[m[33;1m[21:17:04 WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
+[m[33;1m[21:17:04 WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.
+[m[33;1m[21:17:04 WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/
+[m[33;1m[21:17:04 WARN]: ****************************
+[m[21:17:04 INFO]: Loading properties
+[21:17:04 INFO]: This server is running Paper version 1.21.11-132-ver/1.21.11@c5eb079 (2026-05-11T11:43:09Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
+[21:17:04 INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[21:17:04 INFO]: Server Ping Player Sample Count: 12
+[21:17:04 INFO]: Using 4 threads for Netty based IO
+[21:17:06 INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
+[21:17:06 INFO]: Default game type: SURVIVAL
+[21:17:06 INFO]: Generating keypair
+> 
+  
+[21:17:06 INFO]: Starting Minecraft server on 127.0.0.1:25632
+> 
+  
+[21:17:06 INFO]: Paper: Using Java compression from Velocity.
+> 
+  
+[21:17:06 INFO]: Paper: Using Java cipher from Velocity.
+> 
+  
+[21:17:07 INFO]: [StarCore] Loading server plugin StarCore v1.0.0
+> 
+  
+[21:17:07 INFO]: [StarChronicle] Loading server plugin StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[21:17:07 INFO]: [QuestEvidencePaperFixture] Loading server plugin QuestEvidencePaperFixture v1
+> 
+  
+[21:17:07 INFO]: Server permissions file permissions.yml is empty, ignoring it
+> 
+  
+[33;1m[21:17:07 WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[m> 
+  
+[33;1m[21:17:07 WARN]: The server will make no attempt to authenticate usernames. Beware.
+[m> 
+  
+[33;1m[21:17:07 WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[m> 
+  
+[33;1m[21:17:07 WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[m> 
+  
+[21:17:07 INFO]: Preparing level "world"
+> 
+  
+[21:17:07 INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...
+> 
+  
+[21:17:07 INFO]: Prepared spawn area in 2 ms
+> 
+  
+[21:17:07 INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...
+> 
+  
+[21:17:07 INFO]: Prepared spawn area in 1 ms
+> 
+  
+[21:17:07 INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...
+> 
+  
+[21:17:07 INFO]: Prepared spawn area in 1 ms
+> 
+  
+[21:17:07 INFO]: Done preparing level "world" (0.476s)
+> 
+  
+[21:17:07 INFO]: [StarCore] Enabling StarCore v1.0.0
+> 
+  
+[21:17:07 INFO]: [StarCore] DB query executor sizing: cores=1, initialMaxThreads=4; pool capacity will be applied after database startup
+> 
+  
+[21:17:08 INFO]: [com.zaxxer.hikari.HikariDataSource] STARCORE-SQLite - Starting...
+> 
+  
+[21:17:08 INFO]: [com.zaxxer.hikari.pool.HikariPool] STARCORE-SQLite - Added connection org.sqlite.jdbc4.JDBC4Connection@27d9f49c
+> 
+  
+[21:17:08 INFO]: [com.zaxxer.hikari.HikariDataSource] STARCORE-SQLite - Start completed.
+> 
+  
+[21:17:08 INFO]: [StarCore] STARCORE SQLite schema is managed by portable JDBC initializers.
+> 
+  
+[21:17:08 INFO]: [StarCore] DB query executor aligned with connection pool: maxThreads=8
+> 
+  
+[21:17:08 INFO]: [StarCore] STARCORE database ready: SQLite 运行中 (C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\paper-quest-evidence-8fdcf8d3-retry24\plugins\StarCore\starcore.db)
+> 
+  
+[21:17:08 INFO]: [StarCore] 已从存储加载 0 个领土
+> 
+  
+[21:17:08 INFO]: [StarCore] 已从存储加载 0 个子区域
+> 
+  
+[21:17:08 INFO]: [StarCore] 加载预设模板: 访客
+> 
+  
+[21:17:08 INFO]: [StarCore] 加载预设模板: 信任
+> 
+  
+[21:17:08 INFO]: [StarCore] 加载预设模板: 建筑者
+> 
+  
+[21:17:08 INFO]: [StarCore] 加载预设模板: 成员
+> 
+  
+[21:17:08 INFO]: [StarCore] 加载预设模板: 管理员
+> 
+  
+[21:17:08 INFO]: [StarCore] 加载预设模板: 商店
+> 
+  
+[21:17:08 INFO]: [StarCore] 加载预设模板: 农场
+> 
+  
+[21:17:08 INFO]: [StarCore] 加载预设模板: 竞技场
+> 
+  
+[21:17:08 INFO]: [StarCore] 临时权限服务已启动
+> 
+  
+[21:17:08 INFO]: [StarCore] 领土租赁服务已启动
+> 
+  
+[21:17:08 INFO]: [StarCore] 区域模块已启用 - 基于 Foundation Chunk 级别领土系统
+> 
+  
+[21:17:08 INFO]: [StarCore] Business economy provider selected: internal (configured=internal)
+> 
+  
+[21:17:08 INFO]: [StarCore] ✅ 审计日志系统已启动
+> 
+  
+[21:17:08 INFO]: [StarCore] Particle feedback service initialized.
+> 
+  
+[21:17:08 INFO]: [StarCore] STARCORE real time sync disabled.
+> 
+  
+[21:17:08 INFO]: [StarCore] Screen shake manager initialized.
+> 
+  
+[21:17:08 INFO]: [StarCore] Scene sound system initialized.
+> 
+  
+[21:17:08 INFO]: [StarCore] 四季系统已启用
+> 
+  
+[21:17:08 INFO]: [StarCore] Season system initialized.
+> 
+  
+[21:17:09 INFO]: [StarCore] 宗教数据库初始化完成
+> 
+  
+[21:17:09 INFO]: [StarCore] 宗教系统已启用
+> 
+  
+[21:17:09 INFO]: [StarCore] Religion system initialized.
+> 
+  
+[21:17:09 INFO]: [StarCore] [DeathMessage] 死亡消息配置已加载，支持 31 种类型
+> 
+  
+[21:17:09 INFO]: [StarCore] Death message system initialized.
+> 
+  
+[21:17:09 INFO]: [StarCore] GUI animation system initialized.
+> 
+  
+[21:17:09 INFO]: [StarCore] Optimized move dispatcher registered; modules should subscribe via ServiceRegistry.
+> 
+  
+[21:17:09 INFO]: [StarCore] ✅ 检测到 Paper 环境，使用传统调度器
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'mute' 执行器已注册: ModerationCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'unmute' 执行器已注册: ModerationCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'kick' 执行器已注册: ModerationCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'ban' 执行器已注册: ModerationCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'unban' 执行器已注册: ModerationCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'jail' 执行器已注册: ModerationCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'unjail' 执行器已注册: ModerationCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'vanish' 执行器已注册: ModerationCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'feedback' 执行器已注册: ParticleFeedbackCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] ✅ 检测到 Paper 环境，使用传统调度器
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'pay' 执行器已注册: EconomyCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'balance' 执行器已注册: EconomyCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'language' 执行器已注册: LanguageCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'stresstest' 执行器已注册: StressTestCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'guide' 执行器已注册: GuideCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'goal' 执行器已注册: GoalCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'season' 执行器已注册: SeasonCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'religion' 执行器已注册: ReligionCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'territory' 执行器已注册: TerritoryCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'operations' 执行器已注册: OperationsCommandHandler
+> 
+  
+[21:17:10 INFO]: [StarCore] 命令 'insurance' 执行器已注册: InsuranceCommand
+> 
+  
+[21:17:10 INFO]: [StarCore] 成就数据库表初始化完成
+> 
+  
+[21:17:10 INFO]: [StarCore] 成就模块已启用，共注册 32 个成就
+> 
+  
+[21:17:10 INFO]: [StarCore] Enabled STARCORE module: 成就系统 (achievement)
+> 
+  
+[21:17:10 INFO]: [StarCore] Loaded 0 blueprints
+> 
+  
+[21:17:10 INFO]: [StarCore] Blueprint command registered.
+> 
+  
+[21:17:10 INFO]: [StarCore] STARCORE Blueprint module enabled.
+> 
+  
+[21:17:10 INFO]: [StarCore] Enabled STARCORE module: 建筑蓝图 (blueprint)
+> 
+  
+[21:17:10 INFO]: [StarCore] STARCORE Economy module enabled (aggregation entry point).
+> 
+  
+[21:17:10 INFO]: [StarCore] Enabled STARCORE module: 经济业务聚合 (economy)
+> 
+  
+[21:17:10 INFO]: [StarCore] Loaded fatigue data for 3 players
+> 
+  
+[21:17:10 INFO]: [StarCore] Fatigue module enabled
+> 
+  
+[21:17:10 INFO]: [StarCore] Enabled STARCORE module: 疲劳度系统 (fatigue)
+> 
+  
+[21:17:10 INFO]: [StarCore] 邮件附件系统数据库表已初始化
+> 
+  
+[21:17:10 INFO]: [StarCore] 邮件模块已启用
+> 
+  
+[21:17:10 INFO]: [StarCore] Enabled STARCORE module: 邮件附件系统 (mail-attachment)
+> 
+  
+[21:17:10 INFO]: [StarCore] STARCORE nation lifecycle command registered.
+> 
+  
+[21:17:10 INFO]: [StarCore] STARCORE native territory protection registered.
+> 
+  
+[21:17:10 INFO]: [StarCore] STARCORE claim tool registered.
+> 
+  
+[21:17:10 INFO]: [StarCore] PacketEvents is not installed; anvil input menus are disabled.
+> 
+  
+[33;1m[21:17:10 WARN]: [StarCore] ProtocolLib is unavailable; falling back to another nation menu provider: ClassNotFoundException: com.comphenix.protocol.ProtocolLibrary
+[m> 
+  
+[21:17:10 INFO]: [StarCore] Using Triumph chest menu provider: TriumphGUI (Chest)
+> 
+  
+[21:17:10 INFO]: [StarCore] STARCORE Menu provider: TriumphGUI (Chest)
+> 
+  
+[21:17:10 INFO]: [StarCore] STARCORE Nation StatusBar initialized.
+> 
+  
+[21:17:11 INFO]: [StarCore] STARCORE nation resource districts registered.
+> 
+  
+[21:17:11 INFO]: [StarCore] STARCORE nation cache refresh task started (interval: 5 minutes).
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: 国家核心 (nation)
+> 
+  
+[21:17:11 INFO]: [StarCore] STARCORE Shop module enabled.
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: 商店系统 (shop)
+> 
+  
+[21:17:11 INFO]: [StarCore] Loaded 0 active tournaments
+> 
+  
+[21:17:11 INFO]: [StarCore] 锦标赛模块已启用 - 支持 6 种比赛类型
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: 锦标赛系统 (tournament)
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: 用户生成内容 (ugc)
+> 
+  
+[21:17:11 INFO]: [StarCore] 正在启用 Essentials 模块...
+> 
+  
+[21:17:11 INFO]: [StarCore] 正在加载 Essentials 数据...
+> 
+  
+[21:17:11 INFO]: [StarCore] 已加载 3 个玩家数据
+> 
+  
+[21:17:11 INFO]: [StarCore] 已加载财富排行榜数据
+> 
+  
+[21:17:11 INFO]: [StarCore] ✅ Essentials 数据加载完成
+> 
+  
+[21:17:11 INFO]: [StarCore] 已注册 Essentials 命令: home/sethome/delhome/homes, warp/setwarp/delwarp/warps, tpa/tpaccept/tpdeny/back/cooldown/spawn/setspawn, balance/baltop/pay/eco/economy, homegui/warpgui/baltopgui/teleporter
+> 
+  
+[21:17:11 INFO]: [StarCore] ✅ Essentials 模块已启用
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: Essentials Module (essentials)
+> 
+  
+[21:17:11 INFO]: [StarCore] STARCORE Interaction Visualizer enabled: 35 entry/entries enabled, scan radius 8, period 20 ticks
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: 交互可视化 (interaction_visualizer)
+> 
+  
+[21:17:11 INFO]: [StarCore] 邮件系统数据库表已初始化
+> 
+  
+[21:17:11 INFO]: [StarCore] 邮件系统使用数据库存储
+> 
+  
+[21:17:11 INFO]: [StarCore] 邮件附件系统数据库表已初始化
+> 
+  
+[21:17:11 INFO]: [StarCore] 邮件附件服务已初始化
+> 
+  
+[21:17:11 INFO]: [StarCore] 邮件附件命令已注册
+> 
+  
+[21:17:11 INFO]: [StarCore] 邮件模块已启用（发送/接收/附件/已读未读/过期清理/GUI）
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: 邮件系统 (mail)
+> 
+  
+[21:17:11 INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] NarrativeEngine enabled
+> 
+  
+[21:17:11 INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] NarrativeBossIntegration started with 0 bindings
+> 
+  
+[21:17:11 INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] Loaded 0 boss script bindings
+> 
+  
+[21:17:11 INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] Loaded 0 narrative scripts from plugins\StarCore\scripts
+> 
+  
+[21:17:11 INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] NarrativeModule enabled: 0 scripts loaded, 0 boss bindings registered
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: Narrative System (narrative)
+> 
+  
+[21:17:11 INFO]: [StarCore] Loaded pet data for 3 players
+> 
+  
+[21:17:11 INFO]: [StarCore] Pet module started - supports summon, ride, upgrade, and shop
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: Pet Module (pet)
+> 
+  
+[21:17:11 INFO]: [StarCore] 正在启用 PvP 模块...
+> 
+  
+[21:17:11 INFO]: [StarCore] No duel-arenas configuration found
+> 
+  
+[21:17:11 INFO]: [StarCore] [Matchmaking] 竞技场匹配系统已启用
+> 
+  
+[21:17:11 INFO]: [StarCore] PvP 模块已启用
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: PvP系统 (pvp)
+> 
+  
+[21:17:11 INFO]: [StarCore] 正在初始化任务模块...
+> 
+  
+[21:17:11 INFO]: [StarCore] 任务服务实例已创建
+> 
+  
+[21:17:11 INFO]: [DailyQuest] 加载了 0 个每日任务模板
+> 
+  
+[21:17:11 INFO]: [StarCore] [CommissionService] 定时任务已启动
+> 
+  
+[21:17:11 INFO]: [StarCore] 任务持久化已初始化
+> 
+  
+[21:17:11 INFO]: [StarCore] 任务进度监听器已注册
+> 
+  
+[21:17:11 INFO]: [StarCore] 委托完成监听器已注册
+> 
+  
+[21:17:11 INFO]: [StarCore] 任务GUI监听器已注册
+> 
+  
+[21:17:11 INFO]: [StarCore] 任务相关命令已注册
+> 
+  
+[21:17:11 INFO]: [StarCore] 定时任务已注册（每日刷新 + 自动保存）
+> 
+  
+[21:17:11 INFO]: [StarCore] 任务服务已注册到 ServiceRegistry
+> 
+  
+[21:17:11 INFO]: [StarCore] 任务模块已启用（任务/每日任务/委托）
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: 任务系统 (quest)
+> 
+  
+[21:17:11 INFO]: [StarCore] 社交系统 SQLite 兼容表已创建并完成旧列修复
+> 
+  
+[21:17:11 INFO]: [StarCore] 社交系统数据库存储已初始化
+> 
+  
+[21:17:11 INFO]: [StarCore] 已加载私聊数据
+> 
+  
+[21:17:11 INFO]: [StarCore] 已从数据库加载好友数据
+> 
+  
+[21:17:11 INFO]: [StarCore] 已从数据库加载 0 个公会
+> 
+  
+[21:17:11 INFO]: [StarCore] 已从数据库加载 0 个派对
+> 
+  
+[21:17:11 INFO]: [StarCore] 表情/动作系统已初始化 - 22 个动作
+> 
+  
+[21:17:11 INFO]: [StarCore] 聊天系统已初始化（气泡/高亮/多频道）
+> 
+  
+[21:17:11 INFO]: [StarCore] 活动推荐和排行榜系统已初始化
+> 
+  
+[21:17:11 INFO]: [StarCore] 社交服务已注册到服务注册表
+> 
+  
+[21:17:11 INFO]: [StarCore] 社交模块已启用（好友/公会/派对/活动/排行榜）- 数据库模式
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: 社交系统 (social)
+> 
+  
+[21:17:11 INFO]: [StarCore] Warehouse configuration loaded successfully
+> 
+  
+[21:17:11 INFO]: [StarCore] Remote access: true, Max distance: 1000.0
+> 
+  
+[21:17:11 INFO]: [StarCore] Personal max level: 10, Nation max level: 15
+> 
+  
+[21:17:11 INFO]: [StarCore] Logs: true, Retention: 30 days
+> 
+  
+[21:17:11 INFO]: [StarCore] Storage data loaded successfully (0 warehouses, 0 logs)
+> 
+  
+[21:17:11 INFO]: [StarCore] Loaded 0 warehouses and 0 logs from storage
+> 
+  
+[21:17:11 INFO]: [StarCore] StorageService started with 0 warehouses
+> 
+  
+[21:17:11 INFO]: [StarCore] Storage log cleanup task started (retention: 30 days)
+> 
+  
+[21:17:11 INFO]: [StarCore] WarehouseUpgradeService: restored 0 active upgrades
+> 
+  
+[21:17:11 INFO]: [StarCore] Storage module started
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: Storage Module (storage)
+> 
+  
+[21:17:11 INFO]: [StarCore] Loaded 0 anniversaries
+> 
+  
+[21:17:11 INFO]: [StarCore] Checking existing nations for founding anniversaries...
+> 
+  
+[21:17:11 INFO]: [StarCore] STARCORE Anniversary periodic check task started (hourly).
+> 
+  
+[21:17:11 INFO]: [StarCore] STARCORE Anniversary module enabled. 0 anniversary(ies), 0 nation(s)
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: 纪念日系统 (anniversary)
+> 
+  
+[21:17:11 INFO]: [StarCore] Loaded 0 banners from storage.
+> 
+  
+[21:17:11 INFO]: [StarCore] Banner module enabled with 0 banners.
+> 
+  
+[21:17:11 INFO]: [StarCore] Enabled STARCORE module: 国家旗帜 (banner)
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded 0 player transactions
+> 
+  
+[21:17:12 INFO]: [StarCore] STARCORE Business module enabled.
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 商业系统 (business)
+> 
+  
+[21:17:12 INFO]: [StarCore] Starting STARCORE module: dynasty
+> 
+  
+[21:17:12 INFO]: [StarCore] Started deferred STARCORE module: dynasty
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded 0 emergency states
+> 
+  
+[21:17:12 INFO]: [StarCore] Emergency command registered: /emergency
+> 
+  
+[21:17:12 INFO]: [StarCore] Emergency event listener registered.
+> 
+  
+[21:17:12 INFO]: [StarCore] Emergency module enabled: emergency state system ready.
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 紧急状态系统 (emergency)
+> 
+  
+[21:17:12 INFO]: [StarCore] Dynasty tables initialized
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded 2 dynasties from database
+> 
+  
+[21:17:12 INFO]: [StarCore] EventModule Bukkit and StarCore event listeners registered
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 事件核心 (event)
+> 
+  
+[21:17:12 INFO]: [StarCore] Faith module enabled - Territory Faith System initialized
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 领土信仰 (faith)
+> 
+  
+[21:17:12 INFO]: [dev.starcore.starcore.module.alliance.AllianceServiceImpl] Loaded 0 alliances, 0 members, 0 invites
+> 
+  
+[21:17:12 INFO]: [dev.starcore.starcore.module.alliance.AllianceServiceImpl] AllianceService initialized with 0 alliances
+> 
+  
+[21:17:12 INFO]: [dev.starcore.starcore.module.alliance.AllianceModule] Alliance command registered as /fed.
+> 
+  
+[21:17:12 INFO]: [dev.starcore.starcore.module.alliance.AllianceModule] Alliance command registered as /alliance2.
+> 
+  
+[21:17:12 INFO]: [dev.starcore.starcore.module.alliance.AllianceModule] Alliance GUI listeners registered.
+> 
+  
+[21:17:12 INFO]: [dev.starcore.starcore.module.alliance.AllianceModule] AllianceModule enabled successfully with 0 alliance(s).
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 联盟外交系统 (federation)
+> 
+  
+[21:17:12 INFO]: [StarCore] Parliament tables initialized
+> 
+  
+[21:17:12 INFO]: [StarCore] Party tables initialized
+> 
+  
+[21:17:12 INFO]: [StarCore] Court tables initialized
+> 
+  
+[21:17:12 INFO]: [StarCore] Court history table initialized
+> 
+  
+[21:17:12 INFO]: [StarCore] Government services initialized: Parliament, Party, Court with execution
+> 
+  
+[21:17:12 INFO]: [StarCore] Government commands registered: /parliament, /politicalparty, /court
+> 
+  
+[21:17:12 INFO]: [StarCore] Government listeners registered: CourtExecutionListener
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 政体核心 (government)
+> 
+  
+[21:17:12 INFO]: [StarCore] Lease contracts table initialized
+> 
+  
+[21:17:12 INFO]: [StarCore] Lease module enabled: Lease service managing 0 contracts
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 契约制度 (lease)
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 战略地图核心 (map)
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded 0 navies from persistence
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 海军系统 (navy)
+> 
+  
+[21:17:12 INFO]: [StarCore] STARCORE prosperity module enabled.
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 繁荣度系统 (prosperity)
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded 0 sieges and 0 walls
+> 
+  
+[21:17:12 INFO]: [StarCore] Siege module enabled: 攻城器械系统
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 攻城器械系统 (siege)
+> 
+  
+[21:17:12 INFO]: [StarCore] [SocialEventScheduler] 已加载 0 个活跃事件
+> 
+  
+[21:17:12 INFO]: [StarCore] [SocialEventScheduler] 数据库持久化已启用
+> 
+  
+[21:17:12 INFO]: [StarCore] 社会阶层数据已加载: 0 名玩家
+> 
+  
+[21:17:12 INFO]: [StarCore] [AlliancePersistence] 数据库表初始化完成
+> 
+  
+[21:17:12 INFO]: [StarCore] [AlliancePersistence] 已加载 0 个联盟
+> 
+  
+[21:17:12 INFO]: [StarCore] 八卦数据已加载: 0 条八卦, 0 名玩家历史
+> 
+  
+[21:17:12 INFO]: [StarCore] Activity rewards deferred until the title service is ready
+> 
+  
+[21:17:12 INFO]: [StarCore] 社会模拟服务已注册到服务注册表
+> 
+  
+[21:17:12 INFO]: [StarCore] 社会模拟模块已启用: 声望/关系/影响力/文化/新闻/阶层/联盟/八卦/活动
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 社会模拟 (social-simulation)
+> 
+  
+[21:17:12 INFO]: [StarCore] Sovereignty tables initialized successfully
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded 0 sovereignties from database
+> 
+  
+[21:17:12 INFO]: [StarCore] Sovereignty module enabled: 0 active sovereignty declaration(s), 0 total
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 主权声明 (sovereignty)
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded 0 upgrade paths
+> 
+  
+[21:17:12 INFO]: [StarCore] TerritoryUpgradeModule enabled.
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 领地升级系统 (territory_upgrade)
+> 
+  
+[21:17:12 INFO]: [StarCore] Tunnel Warfare module enabled successfully
+> 
+  
+[21:17:12 INFO]: [StarCore] Commands: /tunnel create, list, info, enter, exit, addentrance, discover, ambush, trap, collapse, destroy
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 地道战 (tunnel)
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded 0 cities from storage
+> 
+  
+[21:17:12 INFO]: [StarCore] CityMenuListener registered
+> 
+  
+[21:17:12 INFO]: [StarCore] PlaceholderAPI not found, city placeholders disabled
+> 
+  
+[21:17:12 INFO]: [StarCore] CityModule enabled: 0 cities loaded
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 城市系统 (city)
+> 
+  
+[21:17:12 INFO]: [StarCore] 正在初始化副本模块...
+> 
+  
+[21:17:12 INFO]: [StarCore] 副本 goblin_lair 未找到模板世界，改用内置生成场地: dungeon_templates/goblin_lair (resolved=C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\paper-quest-evidence-8fdcf8d3-retry24\dungeon_templates\goblin_lair, container=C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\paper-quest-evidence-8fdcf8d3-retry24)
+> 
+  
+[21:17:12 INFO]: [StarCore] 副本 undead_catacombs 未找到模板世界，改用内置生成场地: dungeon_templates/undead_catacombs (resolved=C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\paper-quest-evidence-8fdcf8d3-retry24\dungeon_templates\undead_catacombs, container=C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\paper-quest-evidence-8fdcf8d3-retry24)
+> 
+  
+[21:17:12 INFO]: [StarCore] 副本 dragon_lair 未找到模板世界，改用内置生成场地: dungeon_templates/dragon_lair (resolved=C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\paper-quest-evidence-8fdcf8d3-retry24\dungeon_templates\dragon_lair, container=C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\paper-quest-evidence-8fdcf8d3-retry24)
+> 
+  
+[21:17:12 INFO]: [StarCore] 副本 nightmare_abyss 未找到模板世界，改用内置生成场地: dungeon_templates/nightmare_abyss (resolved=C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\paper-quest-evidence-8fdcf8d3-retry24\dungeon_templates\nightmare_abyss, container=C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\paper-quest-evidence-8fdcf8d3-retry24)
+> 
+  
+[21:17:12 INFO]: [StarCore] 已加载副本: 哥布林巢穴
+> 
+  
+[21:17:12 INFO]: [StarCore] 已加载副本: 亡灵地牢
+> 
+  
+[21:17:12 INFO]: [StarCore] 已加载副本: Runtime Smoke
+> 
+  
+[21:17:12 INFO]: [StarCore] 已加载副本: 噩梦深渊
+> 
+  
+[21:17:12 INFO]: [StarCore] 已加载副本: 恶龙巢穴
+> 
+  
+[21:17:12 INFO]: [StarCore] 已加载 5 个副本配置
+> 
+  
+[21:17:12 INFO]: [StarCore] 已加载 0 条完成记录
+> 
+  
+[21:17:12 INFO]: [StarCore] 副本数据仓库已加载
+> 
+  
+[21:17:12 INFO]: [StarCore] 副本服务初始化完成!
+> 
+  
+[21:17:12 INFO]: [StarCore] 副本命令已注册: /dungeon (别名: /df, /副本)
+> 
+  
+[21:17:12 INFO]: [StarCore] 副本模块已启用!
+> 
+  
+[21:17:12 INFO]: [StarCore]   - 5 个副本配置
+> 
+  
+[21:17:12 INFO]: [StarCore]   - 最大并发实例: 10
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 副本系统 (dungeon)
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.marshal.icon=DIAMOND_SWORD
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.treasurer.display-name=太尉
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.general.slot=2
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.treasurer.slot=3
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.steward.slot=5
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.steward.icon=BOOK
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.steward.display-name=长史
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.diplomat.display-name=外交官
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.diplomat.icon=EMERALD
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.general.display-name=将军
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.marshal.display-name=元帅
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.treasurer.icon=GOLD_INGOT
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.diplomat.slot=4
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.marshal.slot=1
+> 
+  
+[21:17:12 INFO]: [StarCore] Loaded role config: roles.general.icon=GOLDEN_SWORD
+> 
+  
+[21:17:12 INFO]: [StarCore] 从配置加载了官员角色
+> 
+  
+[21:17:12 INFO]: [StarCore] 官员模块已启用，共 5 个可配置角色
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 官员核心 (officer)
+> 
+  
+[21:17:12 INFO]: [dev.starcore.starcore.module.resolution.ResolutionModule] Resolution GUI and chat listeners registered.
+> 
+  
+[21:17:12 INFO]: [dev.starcore.starcore.module.resolution.ResolutionModule] ResolutionModule enabled successfully with 0 resolution(s).
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 决议引擎 (resolution)
+> 
+  
+[21:17:12 INFO]: [StarCore] Diplomacy command registered.
+> 
+  
+[21:17:12 INFO]: [StarCore] Enabled STARCORE module: 外交核心 (diplomacy)
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 金库核心 (treasury)
+> 
+  
+[21:17:13 INFO]: [dev.starcore.starcore.module.diplomacy.alliance.AllianceModule] Alliance command registered.
+> 
+  
+[21:17:13 INFO]: [dev.starcore.starcore.module.diplomacy.alliance.AllianceModule] Alliance GUI listeners registered.
+> 
+  
+[21:17:13 INFO]: [StarCore] AllianceModule enabled successfully.
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 联盟外交系统 (alliance)
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 0 arbitration cases
+> 
+  
+[21:17:13 INFO]: [StarCore] Arbitration module enabled with config: filingFee=100, min=500, max=10000
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 领土仲裁 (arbitration)
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 0 armies from persistence
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 军队系统 (army)
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 预算管理系统 (budget)
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 0 donations from persistence
+> 
+  
+[21:17:13 INFO]: [StarCore] STARCORE donation module enabled
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 献金系统 (donation)
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 0 loan records
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 国债贷款系统 (loan)
+> 
+  
+[21:17:13 INFO]: [StarCore] Merge referendum module enabled: nation merge referendum system ready.
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 合并公投 (merge)
+> 
+  
+[21:17:13 INFO]: [StarCore] Resource command registered.
+> 
+  
+[21:17:13 INFO]: [StarCore] ResourceGUI command registered.
+> 
+  
+[21:17:13 INFO]: [StarCore] Trade command registered.
+> 
+  
+[21:17:13 INFO]: [StarCore] Resource listeners registered.
+> 
+  
+[21:17:13 INFO]: [StarCore] Resource scheduled tasks started.
+> 
+  
+[21:17:13 INFO]: [StarCore] Resource services registered to ServiceRegistry.
+> 
+  
+[21:17:13 INFO]: [StarCore] ResourceModule enabled successfully
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 资源核心 (resource)
+> 
+  
+[21:17:13 INFO]: [StarCore] Satellite command registered: /satellite
+> 
+  
+[21:17:13 INFO]: [StarCore] Satellite listener registered
+> 
+  
+[21:17:13 INFO]: [StarCore] Satellite module enabled: 0 relations loaded
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 卫星国 (satellite)
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded tax configs for 0 nations
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 税收系统 (taxation)
+> 
+  
+[21:17:13 INFO]: [StarCore] TerritoryRentModule database tables initialized.
+> 
+  
+[21:17:13 INFO]: [StarCore] TerritoryRentModule daily rent task started.
+> 
+  
+[21:17:13 INFO]: [StarCore] TerritoryRentModule enabled. Loaded 0 contracts.
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 领土租借系统 (territory_rent)
+> 
+  
+[21:17:13 INFO]: [StarCore] STARCORE Zone module enabled. Loaded 0 zones.
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 经济区系统 (zone)
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 破产管理系统 (bankruptcy)
+> 
+  
+[21:17:13 INFO]: [StarCore] CombatConfig loaded.
+> 
+  
+[21:17:13 INFO]: [StarCore] CombatStorage database tables initialized.
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 0 player PVP states.
+> 
+  
+[21:17:13 INFO]: [StarCore] CombatServiceImpl initialized.
+> 
+  
+[21:17:13 INFO]: [StarCore] Combat command registered: /combat
+> 
+  
+[21:17:13 INFO]: [StarCore] Battle command registered: /battle
+> 
+  
+[21:17:13 INFO]: [StarCore] Real-time combat system enabled with nation-vs-nation support.
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 实时战斗系统 (combat)
+> 
+  
+[21:17:13 INFO]: [StarCore] Commander module enabled
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 指挥官系统 (commander)
+> 
+  
+[21:17:13 INFO]: [StarCore] Doctrine module enabled: 军事学说
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 军事学说 (doctrine)
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 0 spies from persistence
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 0 operations, 0 active
+> 
+  
+[21:17:13 INFO]: [StarCore] Espionage module enabled successfully!
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 间谍系统 (espionage)
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 演习系统 (exercise)
+> 
+  
+[21:17:13 INFO]: [StarCore] Mercenary contracts table initialized
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 0 mercenary contracts
+> 
+  
+[21:17:13 INFO]: [StarCore] Mercenary commands registered: /mercenary, /merc
+> 
+  
+[21:17:13 INFO]: [StarCore] Mercenary listeners registered
+> 
+  
+[21:17:13 INFO]: [StarCore] Mercenary module enabled
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 雇佣兵系统 (mercenary)
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded policy definition: civil_industry
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded policy definition: mercantile_focus
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded policy definition: military_drill
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded policy definition: fortified_borders
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded policy definition: open_diplomacy
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 5 policy definitions from YAML config
+> 
+  
+[21:17:13 INFO]: [StarCore] Policy event listener registered
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 国策树核心 (policy)
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded raid data: 0 raids, 0 cooldowns
+> 
+  
+[21:17:13 INFO]: [StarCore] Night raid module enabled
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 夜间突袭 (raid)
+> 
+  
+[21:17:13 INFO]: [StarCore] SplitConfig loaded: enabled=true, minChunks=4
+> 
+  
+[21:17:13 INFO]: [StarCore] Split module enabled: nation splitting system ready.
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 国家分裂系统 (split)
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 26 technology definitions
+> 
+  
+[21:17:13 INFO]: [StarCore] Loaded 0 nations with active research and 0 research payment record(s)
+> 
+  
+[21:17:13 INFO]: [StarCore] Enabled STARCORE module: 科技核心 (technology)
+> 
+  
+[21:17:14 INFO]: [StarCore] WarConfig loaded: preparation=24h, maxDuration=30d
+> 
+  
+[21:17:14 INFO]: [StarCore] Loaded 0 wars from database
+> 
+  
+[21:17:14 INFO]: [StarCore] Loaded 0 wars from storage
+> 
+  
+[21:17:14 INFO]: [StarCore] War command registered: /war
+> 
+  
+[21:17:14 INFO]: [StarCore] War event-bus listener registered.
+> 
+  
+[21:17:14 INFO]: [StarCore] War-Territory integration listener registered.
+> 
+  
+[21:17:14 INFO]: [StarCore] War situation menu GUI registered.
+> 
+  
+[21:17:14 INFO]: [StarCore] War menu GUI registered.
+> 
+  
+[21:17:14 INFO]: [StarCore] Loaded 0 treaty data entries from storage
+> 
+  
+[21:17:14 INFO]: [StarCore] Enabled STARCORE module: 战争核心 (war)
+> 
+  
+[21:17:14 INFO]: [StarCore] Loaded 0 wounded records from persistence
+> 
+  
+[21:17:14 INFO]: [StarCore] Wounded module enabled: wounded limit=100
+> 
+  
+[21:17:14 INFO]: [StarCore] Enabled STARCORE module: 伤兵系统 (wounded)
+> 
+  
+[21:17:14 INFO]: [StarCore] [MilitaryModule] 军事指挥中心模块已启用
+> 
+  
+[21:17:14 INFO]: [StarCore] [MilitaryModule] 使用 /military 或 /battle 打开战况预览
+> 
+  
+[21:17:14 INFO]: [StarCore] Enabled STARCORE module: Military Command Center (military)
+> 
+  
+[21:17:14 INFO]: [dev.starcore.starcore.module.diplomacy.military.MilitaryAllianceModule] Military Alliance command registered.
+> 
+  
+[21:17:14 INFO]: [dev.starcore.starcore.module.diplomacy.military.MilitaryAllianceModule] Military Alliance alias command (/ma) registered.
+> 
+  
+[21:17:14 INFO]: [dev.starcore.starcore.module.diplomacy.military.MilitaryAllianceModule] Military Alliance GUI listeners registered.
+> 
+  
+[21:17:14 INFO]: [StarCore] MilitaryAllianceModule enabled successfully.
+> 
+  
+[21:17:14 INFO]: [StarCore] Enabled STARCORE module: 军事联盟系统 (military-alliance)
+> 
+  
+[21:17:14 INFO]: [StarCore] Loaded 0 prisoner records
+> 
+  
+[21:17:14 INFO]: [StarCore] 俘虏系统模块已启用
+> 
+  
+[21:17:14 INFO]: [StarCore] Enabled STARCORE module: 俘虏系统 (prisoner)
+> 
+  
+[21:17:14 INFO]: [StarCore] Loaded 0 reparations and 0 settlement record(s) from storage
+> 
+  
+[21:17:14 INFO]: [StarCore] Reparations module enabled: 0 reparations loaded
+> 
+  
+[21:17:14 INFO]: [StarCore] Enabled STARCORE module: 战争赔款 (reparations)
+> 
+  
+[21:17:14 INFO]: [StarCore] Weather state table initialized: weather_weather_state
+> 
+  
+[21:17:14 INFO]: [StarCore] Weather command registered: /weather
+> 
+  
+[21:17:14 INFO]: [StarCore] WeatherMenu command registered: /weathermenu
+> 
+  
+[21:17:14 INFO]: [StarCore] Weather listeners registered.
+> 
+  
+[21:17:14 INFO]: [StarCore] Weather scheduled tasks started.
+> 
+  
+[21:17:14 INFO]: [StarCore] Weather services registered to ServiceRegistry.
+> 
+  
+[21:17:14 INFO]: [StarCore] Weather forecast subscribed to policy activation and expiry events
+> 
+  
+[21:17:14 INFO]: [StarCore] WeatherModule enabled successfully
+> 
+  
+[21:17:14 INFO]: [StarCore] Enabled STARCORE module: 天气控制 (weather)
+> 
+  
+[21:17:14 INFO]: [StarCore] [GameplayLoop] 玩法闭环集成监听器已注册
+> 
+  
+[21:17:14 INFO]: [StarCore] [GameplayLoop] 玩法 GUI 导航已注册
+> 
+  
+[21:17:14 INFO]: [StarCore] [GameplayLoop] 玩法闭环模块已启用
+> 
+  
+[21:17:14 INFO]: [StarCore] Enabled STARCORE module: 玩法闭环 (gameplay)
+> 
+  
+[21:17:14 INFO]: [StarCore] Weather tactics tables initialized
+> 
+  
+[21:17:14 INFO]: [StarCore] Loaded weather tactics: 0 nations, 0 boosts
+> 
+  
+[21:17:14 INFO]: [StarCore] WeatherTactics command registered: /weathertactics
+> 
+  
+[21:17:14 INFO]: [StarCore] WeatherTactics short command registered: /wt
+> 
+  
+[21:17:14 INFO]: [StarCore] WeatherTactics listener registered
+> 
+  
+[21:17:14 INFO]: [StarCore] WeatherTactics scheduled tasks started
+> 
+  
+[21:17:14 INFO]: [StarCore] WeatherTacticsModule enabled successfully
+> 
+  
+[21:17:14 INFO]: [StarCore] Enabled STARCORE module: 天气战术 (army-weather-tactics)
+> 
+  
+[21:17:14 INFO]: [StarCore] 正在启用智能物品提示...
+> 
+  
+[21:17:14 INFO]: [StarCore] 快捷栏提示已启用
+> 
+  
+[21:17:14 INFO]: [StarCore] 智能物品提示系统已启用!
+> 
+  
+[21:17:14 INFO]: [StarCore] Modern HUD system initialized.
+> 
+  
+[21:17:14 INFO]: [StarCore] Random event subsystem disabled (modules.random-event=false).
+> 
+  
+[21:17:14 INFO]: [StarCore] Enabling Title System...
+> 
+  
+[21:17:14 INFO]: [StarCore] Loaded display configuration
+> 
+  
+[21:17:14 INFO]: [StarCore] Loaded 10 titles and 1 badges from titles.yml
+> 
+  
+[21:17:14 INFO]: [StarCore] Loaded 23 badges from badges.yml
+> 
+  
+[21:17:14 INFO]: [StarCore] No hologram plugin detected, hologram display disabled
+> 
+  
+[21:17:14 INFO]: [StarCore] Title system database initialized
+> 
+  
+[21:17:14 INFO]: [StarCore] Registered /title command
+> 
+  
+[21:17:14 INFO]: [StarCore] Title System enabled successfully
+> 
+  
+[21:17:14 INFO]: [StarCore] 活动参与数据已加载: 0 名玩家的连续记录
+> 
+  
+[21:17:14 INFO]: [StarCore] Activity reward service initialized
+> 
+  
+[21:17:14 INFO]: [StarCore] 命令 'nrank' 执行器已注册: NationRankCommand
+> 
+  
+[21:17:14 INFO]: [StarCore] 命令 'menu' 执行器已注册: StarCorePlugin$$Lambda/0x0000022c02517920
+> 
+  
+[21:17:14 INFO]: [StarCore] STARCORE menu command registered.
+> 
+  
+[21:17:14 INFO]: [StarCore] 命令 'hud' 执行器已注册: HudCommand
+> 
+  
+[21:17:14 INFO]: [StarCore] HUD menu command registered (/hud).
+> 
+  
+[21:17:14 INFO]: [StarCore] 命令 'achievements' 执行器已注册: AchievementCommand
+> 
+  
+[21:17:14 INFO]: [StarCore] Achievement command registered.
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: sc nation gui
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: sc government gui
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: diplomacy
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: tech gui
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: war gui
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: resourcegui
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: sc officer gui
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: army
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: sc treasury gui
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: sc city gui
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: socialgui
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: title list
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: guide
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: resolution
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: weathermenu
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: tournament
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation handler registered: achievements
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation GUI handlers registered successfully.
+> 
+  
+[21:17:14 INFO]: [StarCore] 命令 'clan' 执行器已注册: ClanCommand
+> 
+  
+[21:17:14 INFO]: [StarCore] Optimized move dispatcher already registered pre-modules.
+> 
+  
+[21:17:14 INFO]: [StarCore] 命令 'rank' 执行器已注册: RankingCommand
+> 
+  
+[21:17:14 INFO]: [StarCore] 命令 'leaderboard' 执行器已注册: RankingCommand
+> 
+  
+[21:17:14 INFO]: [StarCore] 命令 'top' 执行器已注册: RankingCommand
+> 
+  
+[21:17:14 INFO]: [StarCore] Ranking commands and navigation GUI registered without PlaceholderAPI.
+> 
+  
+[21:17:14 INFO]: [StarCore] 命令 'dbmigrate' 执行器已注册: MigrationCommand
+> 
+  
+[21:17:14 INFO]: [StarCore] Database migration command registered.
+> 
+  
+[21:17:14 INFO]: [StarCore] [Stats] 统计服务初始化完成
+> 
+  
+[21:17:14 INFO]: [StarCore] 命令 'stats' 执行器已注册: StatsCommand
+> 
+  
+[21:17:14 INFO]: [StarCore] Stats command system registered.
+> 
+  
+[21:17:14 INFO]: [StarCore] Navigation coverage: all hub entries are connected.
+> 
+  
+[21:17:14 INFO]: [StarCore] Registered STARCORE public API.
+> 
+  
+[21:17:14 INFO]: [StarCore] Platform adapter: Paper | validated on Paper/Minecraft 1.21.11 and 26.3 (API 1.21.11-R0.1-SNAPSHOT)
+> 
+  
+[21:17:14 INFO]: [StarCore] STARCORE 1.0.0 enabled.
+> 
+  
+[21:17:14 INFO]: [StarChronicle] Enabling StarChronicle v0.1.0-SNAPSHOT
+> 
+  
+[21:17:15 INFO]: [StarChronicle] Native supplemental scene registration: {chronicle_last_heir=INSTALLED, chronicle_siege_embers=INSTALLED, chronicle_silk_road=INSTALLED}; native quests: {chronicle_caravan_atlas=INSTALLED_OPT_IN, chronicle_siege_testimonies=INSTALLED_OPT_IN, chronicle_heir_records=INSTALLED_OPT_IN}
+> 
+  
+[21:17:16 INFO]: [StarChronicle] Loaded 3 validated stories; durable history/outbox ready
+> 
+  
+[21:17:16 INFO]: [QuestEvidencePaperFixture] Enabling QuestEvidencePaperFixture v1
+> 
+  
+[21:17:17 INFO]: [QuestEvidencePaperFixture] QUEST_EVIDENCE_TEMPLATES [{"autoComplete":false,"material":"PAPER","quest":"chronicle_heir_records","required":3},{"autoComplete":false,"material":"BOOK","quest":"chronicle_siege_testimonies","required":1},{"autoComplete":false,"material":"MAP","quest":"chronicle_caravan_atlas","required":1}]
+> 
+  
+[21:17:17 INFO]: [QuestEvidencePaperFixture] QUEST_EVIDENCE_READY {"guiPath":"/questgui progress -> active task -> slot 32 NETHER_STAR","native_seeded":true,"native_storage_domain":"f6f96ba6-7c2b-48c9-9a97-c9f43a0482f2","noDatabaseAccess":true,"noSyntheticCompletion":true,"product_sha256":"8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051","protocol":1,"starcore_sha256":"c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a"}
+> 
+  
+[21:17:17 INFO]: [spark] Starting background profiler...
+> 
+  
+[21:17:17 INFO]: [spark] The async-profiler engine is not supported for your os/arch (windowsserver2022/amd64), so the built-in Java engine will be used instead.
+> 
+  
+[21:17:17 INFO]: Running delayed init tasks
+> 
+  
+[21:17:17 INFO]: [StarCore] Enabled STARCORE module after deferred startup: dynasty
+> 
+  
+[21:17:17 INFO]: [StarCore] Dynasty module enabled: Dynasty System: 2 dynasties (2 with monarch, 0 in interregnum)
+> 
+  
+[21:17:17 INFO]: Done (27.340s)! For help, type "help"
+> 
+  
+[21:17:17 INFO]: [StarCore] 已加载 0 个圣地
+> 
+  
+[33;1m[21:17:19 WARN]: *************************************************************************************
+[m> 
+  
+[33;1m[21:17:19 WARN]: You are running the latest build for your Minecraft version (1.21.11)
+[m> 
+  
+[33;1m[21:17:19 WARN]: However, you are 6 release(s) behind the latest stable release (26.3)!
+[m> 
+  
+[33;1m[21:17:19 WARN]: It is recommended that you update as soon as possible
+[m> 
+  
+[33;1m[21:17:19 WARN]: https://papermc.io/downloads/paper
+[m> 
+  
+[33;1m[21:17:19 WARN]: *************************************************************************************

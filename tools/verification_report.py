@@ -35,7 +35,14 @@ with zipfile.ZipFile(artifact) as jar:
     required += [f"starcore-scenes/chronicle_{scene}.yml" for scene in ("last_heir", "siege_embers", "silk_road")]
     required += ["io/github/addxiaoyi/starchronicle/core/DefinitionCatalog.class",
                  "io/github/addxiaoyi/starchronicle/core/StoryRuntime.class",
-                 "io/github/addxiaoyi/starchronicle/api/HistoricalEvaluationReport.class"]
+                 "io/github/addxiaoyi/starchronicle/api/HistoricalEvaluationReport.class",
+                 "io/github/addxiaoyi/starchronicle/core/QuestGateLedger.class",
+                 "io/github/addxiaoyi/starchronicle/core/QuestGateDriver.class",
+                 "io/github/addxiaoyi/starchronicle/api/quest/QuestEvidenceProvider.class",
+                 "io/github/addxiaoyi/starchronicle/history/FirstVisitJournal.class",
+                 "io/github/addxiaoyi/starchronicle/history/FirstVisitBuffer.class",
+                 "io/github/addxiaoyi/starchronicle/paper/ExplorationDiscoveries.class",
+                 "io/github/addxiaoyi/starchronicle/paper/ExplorationRegion.class"]
     for name in required:
         if name not in names:
             raise SystemExit(f"Artifact missing {name}")
@@ -51,7 +58,7 @@ with zipfile.ZipFile(artifact) as jar:
             name=resource.relative_to(root / "src/main/resources").as_posix()
             if name not in names or jar.read(name)!=resource.read_bytes():
                 raise SystemExit("Resource changed after build: "+name)
-    for name in ("API.md","STORY-FORMAT.md","CONTINUOUS-NARRATIVE.md"):
+    for name in ("API.md","STORY-FORMAT.md","CONTINUOUS-NARRATIVE.md","QUEST-GATES.md"):
         if jar.read("META-INF/starchronicle/docs/"+name)!=(root/"docs"/name).read_bytes():
             raise SystemExit("Embedded documentation changed after build: "+name)
 with zipfile.ZipFile(sources) as jar:
@@ -61,7 +68,7 @@ with zipfile.ZipFile(sources) as jar:
             raise SystemExit("Main source changed after build: "+name)
 
 total = tuple(sum(s[i] for s in suites) for i in range(1, 5))
-verify_command = (".\\mvnw.cmd" if os.name == "nt" else "./mvnw") + " -B -ntp clean verify"
+verify_command = sys.argv[2] if len(sys.argv)>2 else (".\\mvnw.cmd" if os.name == "nt" else "./mvnw") + " -B -ntp clean verify"
 lines = [
     "# StarChronicle 构建与验证报告", "",
     f"生成时间：{datetime.now(timezone(timedelta(hours=8))).isoformat(timespec='seconds')}（Asia/Shanghai）。", "",
@@ -93,6 +100,13 @@ evidence_reports=[("paper-smoke","Paper + StarCore"),("folia-smoke","Folia stand
 for summary_path in sorted((root/"docs/verification").glob("definition-upgrade-*-summary.json")):
     prefix=summary_path.name.removesuffix("-summary.json")
     evidence_reports.append((prefix,"Actual definition upgrade: "+prefix.removeprefix("definition-upgrade-")))
+for summary_path in sorted((root/"docs/verification").glob("exploration-*-summary.json")):
+    if summary_path.name=="exploration-build-summary.json":continue
+    prefix=summary_path.name.removesuffix("-summary.json")
+    evidence_reports.append((prefix,"Configured first visits: "+prefix.removeprefix("exploration-")))
+for summary_path in sorted((root/"docs/verification").glob("quest-evidence-*-summary.json")):
+    prefix=summary_path.name.removesuffix("-summary.json")
+    evidence_reports.append((prefix,"Native quest evidence: "+prefix.removeprefix("quest-evidence-")))
 for prefix,title in evidence_reports:
     report=root/f"docs/verification/{prefix}-report.md"
     summary=root/f"docs/verification/{prefix}-summary.json"
@@ -107,7 +121,21 @@ for prefix,title in evidence_reports:
         status="PASS" if boolean_checks and all(boolean_checks) else "见独立报告"
     if boolean_checks:
         status+=f"；{sum(boolean_checks)}/{len(boolean_checks)}"
+    unsupported=[key for key,value in checks.items() if value is None] if isinstance(checks,dict) else []
+    if unsupported:
+        status+="；未执行／未支持："+", ".join(unsupported)
     lines.append(f"| [{title}](verification/{prefix}-report.md) | `{tested}` | {'是' if tested==current_hash else '否，不能覆盖当前构建'} | {status} |")
+handoff=root/"patches/quest-evidence/static-handoff-report.json"
+if handoff.is_file():
+    upstream=json.loads(handoff.read_text(encoding="utf-8-sig"))
+    focused=upstream.get("currentFocusedQuestEvidenceRun",{})
+    full=upstream.get("latestFullUpstreamRun",{})
+    candidate=upstream.get("currentNativePackage",{})
+    lines += ["", "## 原生任务候选的独立边界", "",
+              f"StarCore 候选 JAR SHA-256：`{candidate.get('sha256','未记录')}`。",
+              f"聚焦测试：{focused.get('tests','未记录')} 项，失败 {focused.get('failures','未记录')}，错误 {focused.get('errors','未记录')}，跳过 {focused.get('skipped','未记录')}；该次证据为六份实际 Surefire XML，未保留统一原始控制台日志。",
+              f"StarCore 完整回归：{full.get('tests','未记录')} 项，失败 {full.get('failures','未记录')}，错误 {full.get('errors','未记录')}，跳过 {full.get('skipped','未记录')}，`BUILD {full.get('build','未记录')}`。不能用聚焦测试或 Paper 功能验收覆盖该失败。",
+              "候选补丁尚未上游合并或生产部署。各次失败、不完整 attempt、UNKNOWN 对账与 Folia 限制见 [任务证据审查](QUEST-GATE-REVIEW.md) 和 [原生静态交接](../patches/quest-evidence/static-handoff-report.json)。"]
 lines += ["", "## 验证边界", "", "- 数据库与规则测试使用真实 SQLite JDBC，并包含多线程调用、重启重开、事件重放、稳定效果收据和错误回滚。", "- Bukkit/Paper API 的编译或 Mockito 调度测试不能替代实际 Paper/Folia 服务器多人联机验收。", "- 上游 StarCore 的 Folia 调度限制、未提供的提交后事件、国家权限和第三方 NPC 具体构建版本，以 `UPSTREAM-AUDIT.md`、`NPC-INTEGRATIONS.md` 与 `REQUIREMENTS.md` 的证据和边界为准。", "- 本报告不声称已运行真实国家战争、NPC 客户端数据包或外部奖励到账的端到端验收。", ""]
 destination = root / "docs/TEST-REPORT.md"
 destination.parent.mkdir(parents=True, exist_ok=True)

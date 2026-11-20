@@ -1,0 +1,218 @@
+{
+  "status": "PASS",
+  "platform": "paper",
+  "product_sha256": "8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051",
+  "fixture_sha256": "1a2197e7be8e7a339115badd22ac10896d0342e5ffa8b1532990ab755578a97b",
+  "cases": {
+    "real_walk": true,
+    "cancelled_teleport_no_discovery": true,
+    "real_teleport": true,
+    "actual_gui_choice": true,
+    "restart_canonical_identity": true,
+    "repeat_arrival_idempotent": true
+  },
+  "checkpoints": [
+    {
+      "discoveries": [
+        {
+          "id": "exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645",
+          "type": "EXPLORATION_DISCOVERY",
+          "occurredAt": "2026-11-20T12:53:38.743013300Z",
+          "participants": [
+            "60a7e774-4887-37d4-92b1-3a14e5484028"
+          ],
+          "nations": [],
+          "facts": {
+            "discovery.kind": "FIRST_VISIT",
+            "region.id": "fixture-teleport",
+            "region.scope": "4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645",
+            "region.world": "23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6",
+            "region.x": "1012",
+            "region.y": "-60",
+            "region.z": "1",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.ConfiguredRegionFirstVisit",
+          "evidence": "Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-teleport; scope=4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645; world=23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6; block=1012,-60,1"
+        },
+        {
+          "id": "exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855",
+          "type": "EXPLORATION_DISCOVERY",
+          "occurredAt": "2026-11-20T12:53:28.843081Z",
+          "participants": [
+            "60a7e774-4887-37d4-92b1-3a14e5484028"
+          ],
+          "nations": [],
+          "facts": {
+            "discovery.kind": "FIRST_VISIT",
+            "region.id": "fixture-walk",
+            "region.scope": "a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855",
+            "region.world": "23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6",
+            "region.x": "1004",
+            "region.y": "-60",
+            "region.z": "1",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.ConfiguredRegionFirstVisit",
+          "evidence": "Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-walk; scope=a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855; world=23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6; block=1004,-60,1"
+        }
+      ],
+      "claims": [
+        {
+          "event_id": "exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645",
+          "player_id": "60a7e774-4887-37d4-92b1-3a14e5484028",
+          "region_scope": "4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645",
+          "status": "ACKED",
+          "json": "{\"id\":\"exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645\",\"type\":\"EXPLORATION_DISCOVERY\",\"occurredAt\":\"2026-11-20T12:53:38.743013300Z\",\"participants\":[\"60a7e774-4887-37d4-92b1-3a14e5484028\"],\"nations\":[],\"facts\":{\"discovery.kind\":\"FIRST_VISIT\",\"region.id\":\"fixture-teleport\",\"region.scope\":\"4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645\",\"region.world\":\"23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6\",\"region.x\":\"1012\",\"region.y\":\"-60\",\"region.z\":\"1\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.ConfiguredRegionFirstVisit\",\"evidence\":\"Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-teleport; scope=4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645; world=23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6; block=1012,-60,1\"}"
+        },
+        {
+          "event_id": "exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855",
+          "player_id": "60a7e774-4887-37d4-92b1-3a14e5484028",
+          "region_scope": "a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855",
+          "status": "ACKED",
+          "json": "{\"id\":\"exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855\",\"type\":\"EXPLORATION_DISCOVERY\",\"occurredAt\":\"2026-11-20T12:53:28.843081Z\",\"participants\":[\"60a7e774-4887-37d4-92b1-3a14e5484028\"],\"nations\":[],\"facts\":{\"discovery.kind\":\"FIRST_VISIT\",\"region.id\":\"fixture-walk\",\"region.scope\":\"a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855\",\"region.world\":\"23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6\",\"region.x\":\"1004\",\"region.y\":\"-60\",\"region.z\":\"1\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.ConfiguredRegionFirstVisit\",\"evidence\":\"Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-walk; scope=a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855; world=23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6; block=1004,-60,1\"}"
+        }
+      ],
+      "endings": {
+        "FIXTURE_TELEPORT_FINISHED": 1,
+        "FIXTURE_WALK_FINISHED": 1
+      },
+      "honor": "5",
+      "instances": [
+        {
+          "id": "649f26829609a000e6c4b89c93ebaf4b7866634cd619d35ae2f8dc304215f6b3",
+          "story": "fixture-exploration-walk",
+          "completed": true,
+          "choices": {
+            "arrival": "yes",
+            "arrival/60a7e774-4887-37d4-92b1-3a14e5484028": "yes"
+          }
+        },
+        {
+          "id": "ac801ba50b4bd3b70a5a4e3b94ce673b755b45147b160eb369b68e98a09f1f52",
+          "story": "fixture-exploration-teleport",
+          "completed": true,
+          "choices": {
+            "arrival": "yes",
+            "arrival/60a7e774-4887-37d4-92b1-3a14e5484028": "yes"
+          }
+        }
+      ],
+      "outcomes": [
+        "2472f3f36f1021ce3c38989bf80ca16ff17e0aaccba989aeeac139d0ef21879a",
+        "3b740fa7d0d21afda6a8a400c9e08538e8f4d30719014e458eb50204ffd4eaf9",
+        "4c94e30c85b9c4285f923841071dd6fc5be863eada6182f7b12e23e016b10fd1",
+        "8df112496e80b9f498eb4115a0f3de0eca886c2eef9515bade9c9db5efd5dbeb"
+      ],
+      "db_sha256": "a69be9af2491b894a2b22cfe7cb7e297d9b5cfbf0b283b8678f6d64113b5fa86",
+      "boot": 1
+    },
+    {
+      "discoveries": [
+        {
+          "id": "exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645",
+          "type": "EXPLORATION_DISCOVERY",
+          "occurredAt": "2026-11-20T12:53:38.743013300Z",
+          "participants": [
+            "60a7e774-4887-37d4-92b1-3a14e5484028"
+          ],
+          "nations": [],
+          "facts": {
+            "discovery.kind": "FIRST_VISIT",
+            "region.id": "fixture-teleport",
+            "region.scope": "4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645",
+            "region.world": "23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6",
+            "region.x": "1012",
+            "region.y": "-60",
+            "region.z": "1",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.ConfiguredRegionFirstVisit",
+          "evidence": "Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-teleport; scope=4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645; world=23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6; block=1012,-60,1"
+        },
+        {
+          "id": "exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855",
+          "type": "EXPLORATION_DISCOVERY",
+          "occurredAt": "2026-11-20T12:53:28.843081Z",
+          "participants": [
+            "60a7e774-4887-37d4-92b1-3a14e5484028"
+          ],
+          "nations": [],
+          "facts": {
+            "discovery.kind": "FIRST_VISIT",
+            "region.id": "fixture-walk",
+            "region.scope": "a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855",
+            "region.world": "23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6",
+            "region.x": "1004",
+            "region.y": "-60",
+            "region.z": "1",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.ConfiguredRegionFirstVisit",
+          "evidence": "Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-walk; scope=a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855; world=23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6; block=1004,-60,1"
+        }
+      ],
+      "claims": [
+        {
+          "event_id": "exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645",
+          "player_id": "60a7e774-4887-37d4-92b1-3a14e5484028",
+          "region_scope": "4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645",
+          "status": "ACKED",
+          "json": "{\"id\":\"exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645\",\"type\":\"EXPLORATION_DISCOVERY\",\"occurredAt\":\"2026-11-20T12:53:38.743013300Z\",\"participants\":[\"60a7e774-4887-37d4-92b1-3a14e5484028\"],\"nations\":[],\"facts\":{\"discovery.kind\":\"FIRST_VISIT\",\"region.id\":\"fixture-teleport\",\"region.scope\":\"4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645\",\"region.world\":\"23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6\",\"region.x\":\"1012\",\"region.y\":\"-60\",\"region.z\":\"1\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.ConfiguredRegionFirstVisit\",\"evidence\":\"Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-teleport; scope=4a68ae6b1aebe23bae65d530f519aaa24b43fe29a993d6f1a47d0dc555b34645; world=23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6; block=1012,-60,1\"}"
+        },
+        {
+          "event_id": "exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855",
+          "player_id": "60a7e774-4887-37d4-92b1-3a14e5484028",
+          "region_scope": "a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855",
+          "status": "ACKED",
+          "json": "{\"id\":\"exploration:first-visit:60a7e774-4887-37d4-92b1-3a14e5484028:a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855\",\"type\":\"EXPLORATION_DISCOVERY\",\"occurredAt\":\"2026-11-20T12:53:28.843081Z\",\"participants\":[\"60a7e774-4887-37d4-92b1-3a14e5484028\"],\"nations\":[],\"facts\":{\"discovery.kind\":\"FIRST_VISIT\",\"region.id\":\"fixture-walk\",\"region.scope\":\"a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855\",\"region.world\":\"23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6\",\"region.x\":\"1004\",\"region.y\":\"-60\",\"region.z\":\"1\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.ConfiguredRegionFirstVisit\",\"evidence\":\"Configured cuboid first-entry observation; player=60a7e774-4887-37d4-92b1-3a14e5484028; region=fixture-walk; scope=a3005ed282abe3874f4ec1412e97911813433a5c38c3f6b19dd55b2c674ec855; world=23fcd5b6-d77f-4ac0-b1b1-31aac959a2f6; block=1004,-60,1\"}"
+        }
+      ],
+      "endings": {
+        "FIXTURE_TELEPORT_FINISHED": 1,
+        "FIXTURE_WALK_FINISHED": 1
+      },
+      "honor": "5",
+      "instances": [
+        {
+          "id": "649f26829609a000e6c4b89c93ebaf4b7866634cd619d35ae2f8dc304215f6b3",
+          "story": "fixture-exploration-walk",
+          "completed": true,
+          "choices": {
+            "arrival": "yes",
+            "arrival/60a7e774-4887-37d4-92b1-3a14e5484028": "yes"
+          }
+        },
+        {
+          "id": "ac801ba50b4bd3b70a5a4e3b94ce673b755b45147b160eb369b68e98a09f1f52",
+          "story": "fixture-exploration-teleport",
+          "completed": true,
+          "choices": {
+            "arrival": "yes",
+            "arrival/60a7e774-4887-37d4-92b1-3a14e5484028": "yes"
+          }
+        }
+      ],
+      "outcomes": [
+        "2472f3f36f1021ce3c38989bf80ca16ff17e0aaccba989aeeac139d0ef21879a",
+        "3b740fa7d0d21afda6a8a400c9e08538e8f4d30719014e458eb50204ffd4eaf9",
+        "4c94e30c85b9c4285f923841071dd6fc5be863eada6182f7b12e23e016b10fd1",
+        "8df112496e80b9f498eb4115a0f3de0eca886c2eef9515bade9c9db5efd5dbeb"
+      ],
+      "db_sha256": "7968a3de1990421f85c79ee6c0a3dfab7c0eb2fa496989cd721949c530c03ecf",
+      "boot": 2
+    }
+  ],
+  "source": "physical client / actual teleport / stopped SQLite cross-check",
+  "plugin_sha256": "8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051",
+  "checks": {
+    "real_walk": true,
+    "cancelled_teleport_no_discovery": true,
+    "real_teleport": true,
+    "actual_gui_choice": true,
+    "restart_canonical_identity": true,
+    "repeat_arrival_idempotent": true
+  },
+  "source_run": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\exploration-8fdcf8d3-paper-retry1",
+  "raw_evidence": "exploration-paper-8fdcf8d3/evidence-manifest.json"
+}

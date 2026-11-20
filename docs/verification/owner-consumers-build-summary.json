@@ -1,0 +1,18 @@
+{
+  "kind": "BUILD_ONLY",
+  "runtime_validation": false,
+  "log": "run/owner-consumers-clean-verify-r1.log",
+  "log_sha256": "8401fb93552cd0a2147eacb41df5b95895700cdc0ec37f875c8d7534feee4efd",
+  "tests": 800,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "plugin_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+  "sources_jar_sha256": "f44e0fbfdbef758e6818867b7da2b18a679d72e2fe1bd15f3475adca2648952c",
+  "scope": "Captured Player ownership through snapshot, presentation, native operation and StarCore delivery; full regression includes exploration and quest gates. Five added deterministic reconnect consumer tests.",
+  "limitations": [
+    "800 unit/integration cases do not prove the entire original objective.",
+    "Runtime acceptance must match this exact build; prior 8fdcf8d3 exploration results remain historical.",
+    "Native StarCore candidate full upstream regression still fails; production deployment is not certified."
+  ]
+}

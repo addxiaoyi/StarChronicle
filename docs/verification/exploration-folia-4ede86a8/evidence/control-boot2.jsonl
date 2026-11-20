@@ -1,0 +1,9 @@
+{"sequence": 1, "command": "clients start"}
+{"sequence": 2, "command": "server exploreverify station"}
+{"sequence": 3, "command": "server exploreverify start"}
+{"sequence": 4, "command": "server exploreverify check final"}
+{"sequence": 5, "command": "client walk"}
+{"sequence": 6, "command": "server exploreverify teleport inside"}
+{"sequence": 7, "command": "server exploreverify check final"}
+{"sequence": 8, "command": "client quit"}
+{"sequence": 9, "command": "server stop"}

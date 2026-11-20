@@ -1,0 +1,81 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< dev.starcore:starcore >------------------------
+[INFO] Building STARCORE 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (enforce-build-environment) @ starcore ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireMavenVersion passed
+[INFO] Rule 1: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] Rule 2: org.apache.maven.enforcer.rules.BanDuplicatePomDependencyVersions passed
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ starcore ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 115 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ starcore ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 2237 source files with javac [debug release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ starcore ---
+[INFO] Copying 3 resources from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ starcore ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1012 source files with javac [debug release 21] to target\test-classes
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\performance\ComprehensiveDirtyDataPerformanceTest.java:[231,12] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\performance\ComprehensiveDirtyDataPerformanceTest.java:[258,12] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\performance\ComprehensiveDirtyDataPerformanceTest.java:[272,18] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\performance\ComprehensiveDirtyDataPerformanceTest.java:[273,26] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\performance\ComprehensiveDirtyDataPerformanceTest.java:[275,20] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\performance\DirtyDataPersistenceBenchmarkTest.java:[114,12] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\performance\DirtyDataPersistenceBenchmarkTest.java:[140,18] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\performance\DirtyDataPersistenceBenchmarkTest.java:[141,26] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\performance\DirtyDataPersistenceBenchmarkTest.java:[143,20] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceDirtyDataTest.java:[22,12] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceDirtyDataTest.java:[46,18] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceDirtyDataTest.java:[47,26] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceDirtyDataTest.java:[49,20] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceLifecycleTest.java:[56,32] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceLifecycleTest.java:[58,12] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceLifecycleTest.java:[58,38] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceSentRequestTest.java:[20,32] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceSentRequestTest.java:[22,12] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceSentRequestTest.java:[22,38] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceSentRequestTest.java:[112,32] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceSentRequestTest.java:[114,12] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceSentRequestTest.java:[114,38] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceSpectatorConfigTest.java:[38,34] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceSpectatorConfigTest.java:[40,14] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\duel\DuelServiceSpectatorConfigTest.java:[40,40] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\matchmaking\ArenaMatchmakingQueueTest.java:[83,25] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\matchmaking\ArenaMatchmakingQueueTest.java:[84,26] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\matchmaking\ArenaMatchmakingQueueTest.java:[86,20] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\matchmaking\SeasonLifecycleTest.java:[93,25] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\matchmaking\SeasonLifecycleTest.java:[94,26] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[WARNING] C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\src\test\java\dev\starcore\starcore\pvp\matchmaking\SeasonLifecycleTest.java:[96,20] Unsafe���ڲ�ר�� API, ���ܻ���δ�����а���ɾ��
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ starcore ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jacoco:0.8.14:report (report) @ starcore ---
+[INFO] Skipping JaCoCo execution due to missing execution data file.
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ starcore ---
+[INFO] Building jar: C:\Users\Administrator\.codex\worktrees\quest-evidence\StarChronicle\run\upstream-starcore-quest-evidence\target\starcore-1.0.0.jar
+[INFO] 
+[INFO] --- shade:3.6.2:shade (minimize) @ starcore ---
+[INFO] Minimizing jar dev.starcore:starcore:jar:1.0.0
+[WARNING] Removing module-info from starcore-1.0.0.jar
+[INFO] Minimized 7867 -> 6571 (83%)
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] 
+[INFO] --- shade:3.6.2:shade (restore-reflective-runtime) @ starcore ---
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  03:09 min
+[INFO] Finished at: 2026-11-20T12:39:56+08:00
+[INFO] ------------------------------------------------------------------------

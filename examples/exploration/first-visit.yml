@@ -1,0 +1,30 @@
+id: configured-first-visit
+version: "1"
+title: "踏上旧商路"
+scope: PLAYER
+triggers: [EXPLORATION_DISCOVERY]
+condition:
+  all:
+    - {fact: event.region.id, op: eq, value: old-caravan-road}
+    - {fact: event.discovery.kind, op: eq, value: FIRST_VISIT}
+start: arrival
+cooldownSeconds: 0
+nodes:
+  arrival:
+    text: "你抵达旧商路遗址。这次真实到访已经记入你的个人传记；是否整理线索，仍由你决定。"
+    choices:
+      preserve:
+        label: "记录所见并保存遗址原貌"
+        next: recorded
+      leave:
+        label: "先记下位置，日后再来"
+        next: departed
+  recorded:
+    text: "你将这次到访和眼前线索记入调查档案。它没有改变土地、国家或外交状态。"
+    terminal: true
+    effects:
+      - {id: recorded-history, type: history, target: CONFIGURED_RUIN_SURVEYED, value: "一位来访者记录了旧商路遗址的实际到访与调查意愿。"}
+      - {id: recorded-honor, type: honor, target: player, value: "2"}
+  departed:
+    text: "位置已经保存在真实到访历史中。你暂时没有开展调查。"
+    terminal: true
