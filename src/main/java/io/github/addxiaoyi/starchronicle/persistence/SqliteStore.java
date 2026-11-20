@@ -7,12 +7,13 @@ import io.github.addxiaoyi.starchronicle.core.DefinitionCatalog;
 import io.github.addxiaoyi.starchronicle.core.NationalVoteLedger;
 import io.github.addxiaoyi.starchronicle.core.QuestGateLedger;
 import io.github.addxiaoyi.starchronicle.history.EventCausality;
+import io.github.addxiaoyi.starchronicle.memory.MemoryRecipeLedger;
 import java.nio.file.*;
 import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    public static final int SCHEMA_VERSION=6;
+    public static final int SCHEMA_VERSION=7;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;
@@ -50,6 +51,8 @@ public final class SqliteStore implements AutoCloseable {
                 NationalVoteLedger.createSchema(connection);
                 QuestGateLedger.createSchema(connection);
                 EventCausality.createSchema(connection);
+                if(oldVersion<7)EventCausality.migrateRecipePath(connection);
+                MemoryRecipeLedger.createSchema(connection);
                 DefinitionCatalog.createSchema(connection);
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);
                 if(oldVersion<4)DefinitionCatalog.migrateSnapshots(connection);

@@ -11,11 +11,14 @@ import java.util.*;
 public final class EventCausality {
     public static final int MAX_DEPTH=32;
     private EventCausality() {}
-    public record Trace(String parentId,String rootId,int depth,List<String> stories) {
+    public record Trace(String parentId,String rootId,int depth,List<String> stories,List<String> recipes) {
+        /** Source compatibility for released story-only causal evidence. */
+        public Trace(String parentId,String rootId,int depth,List<String> stories){this(parentId,rootId,depth,stories,List.of());}
         public Trace {
-            Objects.requireNonNull(rootId);stories=List.copyOf(stories);
-            if(rootId.isBlank()||depth<0||depth!=stories.size()||(depth==0)!=(parentId==null))throw new IllegalArgumentException("Invalid causal trace");
+            Objects.requireNonNull(rootId);stories=List.copyOf(stories);recipes=List.copyOf(recipes);
+            if(rootId.isBlank()||depth<0||depth!=stories.size()+recipes.size()||(depth==0)!=(parentId==null))throw new IllegalArgumentException("Invalid causal trace");
             if(stories.stream().anyMatch(id->id==null||!id.matches("[A-Za-z0-9_.-]{1,80}")))throw new IllegalArgumentException("Invalid causal story ID");
+            if(recipes.stream().anyMatch(id->id==null||!id.matches("[a-z0-9][a-z0-9_.-]{0,39}")))throw new IllegalArgumentException("Invalid causal recipe ID");
         }
     }
     public record Block(String eventId,String storyId,String version,String reason) {}
@@ -28,14 +31,20 @@ public final class EventCausality {
             s.execute("CREATE TABLE IF NOT EXISTS story_trigger_blocks(id TEXT PRIMARY KEY,event_id TEXT NOT NULL REFERENCES events(id),story TEXT NOT NULL,version TEXT NOT NULL,reason TEXT NOT NULL)");
         }
     }
+    /** Schema 7 adds only the recipe path. Released story paths and raw history are retained. */
+    public static void migrateRecipePath(Connection c)throws SQLException {
+        inTransaction(c);boolean exists=false;
+        try(var s=c.createStatement();var rows=s.executeQuery("PRAGMA table_info(event_causes)")){while(rows.next())if(rows.getString("name").equals("recipe_path"))exists=true;}
+        if(!exists)try(var s=c.createStatement()){s.execute("ALTER TABLE event_causes ADD COLUMN recipe_path TEXT NOT NULL DEFAULT '[]'");}
+    }
     public static Trace root(String eventId){return new Trace(null,eventId,0,List.of());}
 
     /** A V1/V2 source without a trace remains a legacy root; no unseen ancestry is invented. */
     public static Trace read(Connection c,String eventId)throws SQLException {
         inTransaction(c);
-        try(var s=c.prepareStatement("SELECT parent_id,root_id,depth,story_path FROM event_causes WHERE event_id=?")) {
+        try(var s=c.prepareStatement("SELECT parent_id,root_id,depth,story_path,recipe_path FROM event_causes WHERE event_id=?")) {
             s.setString(1,eventId);
-            try(var r=s.executeQuery()){if(r.next())return new Trace(r.getString(1),r.getString(2),r.getInt(3),Arrays.asList(SqliteStore.decode(r.getString(4),String[].class)));}
+            try(var r=s.executeQuery()){if(r.next())return new Trace(r.getString(1),r.getString(2),r.getInt(3),Arrays.asList(SqliteStore.decode(r.getString(4),String[].class)),Arrays.asList(SqliteStore.decode(r.getString(5),String[].class)));}
         }
         try(var s=c.prepareStatement("SELECT 1 FROM events WHERE id=?")) {
             s.setString(1,eventId);try(var r=s.executeQuery()){if(!r.next())throw new IllegalArgumentException("Missing causal source event: "+eventId);}
@@ -44,12 +53,20 @@ public final class EventCausality {
     }
     public static Trace derive(Connection c,String parentEvent,String storyId)throws SQLException {
         Trace parent=read(c,parentEvent);List<String> path=new ArrayList<>(parent.stories());path.add(storyId);
-        return new Trace(parentEvent,parent.rootId(),Math.addExact(parent.depth(),1),path);
+        return new Trace(parentEvent,parent.rootId(),Math.addExact(parent.depth(),1),path,parent.recipes());
+    }
+    public static Trace deriveRecipe(Connection c,String parentEvent,String recipeId)throws SQLException {
+        Trace parent=read(c,parentEvent);List<String> path=new ArrayList<>(parent.recipes());path.add(recipeId);
+        return new Trace(parentEvent,parent.rootId(),Math.addExact(parent.depth(),1),parent.stories(),path);
+    }
+    public static String blockedRecipeReason(Trace trace,String nextRecipe) {
+        if(trace.depth()>=MAX_DEPTH)return "MAX_CAUSAL_DEPTH";
+        return trace.recipes().contains(nextRecipe)?"REPEATED_RECIPE_IN_CAUSAL_CHAIN":null;
     }
     public static void record(Connection c,String eventId,Trace trace)throws SQLException {
         inTransaction(c);Objects.requireNonNull(trace);
-        try(var s=c.prepareStatement("INSERT OR IGNORE INTO event_causes VALUES(?,?,?,?,?)")) {
-            s.setString(1,eventId);s.setString(2,trace.parentId());s.setString(3,trace.rootId());s.setInt(4,trace.depth());s.setString(5,SqliteStore.json(trace.stories()));s.executeUpdate();
+        try(var s=c.prepareStatement("INSERT OR IGNORE INTO event_causes(event_id,parent_id,root_id,depth,story_path,recipe_path) VALUES(?,?,?,?,?,?)")) {
+            s.setString(1,eventId);s.setString(2,trace.parentId());s.setString(3,trace.rootId());s.setInt(4,trace.depth());s.setString(5,SqliteStore.json(trace.stories()));s.setString(6,SqliteStore.json(trace.recipes()));s.executeUpdate();
         }
         if(!trace.equals(read(c,eventId)))throw new IllegalArgumentException("Causal event ID collision: "+eventId);
     }

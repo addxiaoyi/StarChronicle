@@ -22,3 +22,7 @@ text-timeout-ms: 1500
 exploration:
   enabled: false
   regions: []
+
+# Local YAML/JSON memory catalog; loaded with stories by validate/reload.
+# The bundled catalog is empty. Changing this filename requires a normal restart.
+memory-recipes-file: memory-recipes.yml

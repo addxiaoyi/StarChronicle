@@ -242,3 +242,14 @@ schema 5 的版本目录迁移保留原始 JSON／SHA 与来源，新增格式 s
 正式代表权由 `NationalVoteAuthority` 提供，内置适配器在实际 StarCore NationModule 的同步边界内验证当前国家持有人。OP、职业、称号和自填facts不能提供代表资格。缺少服务时仍可查看已加入实例的只读票据；提交默认拒绝。已记录票数只代表最近成功核验的投影，下一次提交会重新核验所有计票国家。冻结决议不因后续灭国而重算。
 
 `past.nation.choice.STORY/VERSION/NODE` 读取当前真实国家在已完成国家剧情中的最新动作；撤回／失效产生缺失值，不回退更早支持。它不是代表个人的 `past.player.choice`，也不替代 WORLD／NATION实例各自的 `past.resolution.*`。完整格式、国家服务合同、配置示例与运维边界见 [国家议事协议](NATIONAL-COUNCIL.md)。
+
+
+## 自动世界记忆配方（schema 7）
+
+`ChronicleService.memoryEntries(String regionId, int page, int size)` 异步只读查询已登记条目，`regionId=null` 查询全部，页从 0 起，size 为 1–100。返回 `MemoryEntry` 的来源／信号 ID、配方版本和指纹、固定地区、纯文本、`sourceOccurredAt` 与 `recordedAt`。既有历史 API／GUI 可查询 `WORLD_MEMORY_RECORDED`；没有手动完成、补发奖励或远程施工能力。
+
+`RuleEngine` 新的六参构造及 `reload(stories, memoryRecipes)`、`validate(stories, memoryRecipes)` 把两套有效配置放在同一 SQL 验证／归档／发布过程。原构造默认空配方目录；原 `reload(stories)` 保留当前配方。纯 validate 不归档。更改同 ID／版本的配方内容会拒绝，启用开关不进入内容指纹；删除／停用不删条目或本地投影，新版本不自动重算旧来源。
+
+schema 7 仅在原因果表追加默认空的 `recipe_path` 并新增定义、条目与配方拦截表。`EventCausality.Trace(parent, root, depth, stories)` 仍兼容；五参形式增加真实 recipes 路径，depth 是两个路径长度之和。源事件 facts 无权设定此路径。故事／配方重复 ID（跨版本）与总深度 32 均拦截；每个顶层 SQL 操作最多生成 256 条配方信号，所有分支共享预算。拦截保留真实源历史与可查询原因，不自动在后续轮询补发。
+
+信号按来源事件的真实 actors／nations 和显式 GLOBAL 受众继承，不添加旁观国民。只有存在 recipe 因果路径的故事结果才可沿 canonical 来源复制已存在的 region.id／city.id，并附 region.source_event；旧无 recipe 的故事 payload 不变。完整配置、线程、时间、字段上限与生产边界见 [MEMORY-RECIPES.md](MEMORY-RECIPES.md)。这项本地叙事登记不代表已经部署上游国家权威能力或取得全栈 Folia 验收。

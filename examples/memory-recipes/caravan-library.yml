@@ -1,0 +1,33 @@
+id: caravan-library
+version: "1"
+title: 地方图书馆：旧商路证言
+scope: PLAYER
+triggers: [WORLD_MEMORY_RECORDED]
+condition:
+  all:
+    - {fact: event.memory.recipe, op: eq, value: caravan-archive}
+    - {fact: event.region.id, op: eq, value: old-caravan-road}
+    - {fact: region.old-caravan-road.memory.caravan-archive.version, op: eq, value: "1"}
+start: archive
+cooldownSeconds: 0
+nodes:
+  archive:
+    text: 图书馆收录了一次真实旧商路到访。你可以核对原事件，或保留一份私人阅读记录。
+    choices:
+      testify:
+        label: 核对原档案并留下证言
+        next: testimony
+      read:
+        label: 只阅读这份真实档案
+        next: reader
+  testimony:
+    text: 你的证言作为新的叙事结果保存；原首访的参与者、地点和观察时间保持不变。
+    terminal: true
+    effects:
+      - {id: testimony, type: history, target: CARAVAN_ARCHIVE_TESTIMONY, value: 一位读者核对旧商路档案并留下证言。}
+      - {id: local-honor, type: honor, target: player, value: "3"}
+  reader:
+    text: 你读过旧商路档案，未声称自己参与过原到访。
+    terminal: true
+    effects:
+      - {id: reading, type: history, target: CARAVAN_ARCHIVE_READ, value: 一位读者阅读旧商路档案。}

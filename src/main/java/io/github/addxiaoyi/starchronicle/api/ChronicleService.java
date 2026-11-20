@@ -33,6 +33,8 @@ public interface ChronicleService {
     CompletionStage<List<StoryInstance>> availableInstances(UUID playerId);
     CompletionStage<Map<String,StoryDefinition.Choice>> availableChoices(String instanceId, UUID playerId);
     CompletionStage<List<WorldEvent>> history(String nationId, UUID playerId, int page, int size);
+    /** Public read-only evidenced memory registrations, filtered by an optional exact logical region. */
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.memory.MemoryEntry>> memoryEntries(String regionId,int page,int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Automatic memory recipes unavailable"));}
     /** At most 256 explicit past.* or history references. Identity is freshly collected by
      * Chronicle; unknown subjects and choices are absent rather than fabricated. */
     default CompletionStage<Map<String,String>> recollections(UUID playerId,java.util.Collection<String> references){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Historical fact projection unavailable"));}

@@ -50,6 +50,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private SqliteStore store;
     private NpcLedger npcLedger;
     private MemoryLedger memoryLedger;
+    private Path memoryRecipesFile;
     private MemorySites memorySites;
     private ObservationJournal observations;
     private FirstVisitJournal firstVisits;
@@ -86,6 +87,11 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             if(getConfig().getBoolean("install-default-stories",true))for(String name:List.of("last-heir.yml","siege-embers.yml","silk-road-scholar.yml","heir-legacy.yml","integration-example.json.disabled","fate-soldier.yml","fate-general.yml","fate-merchant.yml","fate-scholar.yml","fate-explorer.yml","fate-diplomat.yml","fate-mayor.yml","fate-monarch.yml")) if(!Files.exists(stories.resolve(name)))saveResource("stories/"+name,false);
             if(!Files.exists(getDataFolder().toPath().resolve("npcs.yml")))saveResource("npcs.yml",false);
             NpcCatalog catalog=NpcCatalog.load(getDataFolder().toPath().resolve("npcs.yml"));
+            String memoryFile=getConfig().getString("memory-recipes-file","memory-recipes.yml");
+            if(memoryFile==null||!memoryFile.matches("[A-Za-z0-9][A-Za-z0-9_.-]{0,79}\\.(yml|yaml|json)"))throw new IllegalArgumentException("Memory recipes require a local YAML/JSON filename");
+            memoryRecipesFile=getDataFolder().toPath().resolve(memoryFile);
+            if(memoryFile.equals("memory-recipes.yml")&&!Files.exists(memoryRecipesFile))saveResource("memory-recipes.yml",false);
+            MemoryRecipeCatalog memoryRecipes=MemoryRecipeCatalog.load(memoryRecipesFile);
             store=new SqliteStore(getDataFolder().toPath().resolve("chronicle.db"));
             firstVisits=new FirstVisitJournal(store);
             explorationRegions=ExplorationRegion.load(getConfig());
@@ -101,7 +107,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                     return nationalVoteAuthority.withRepresentative(actor,nation,operation);
                 }
             };
-            engine=new RuleEngine(store,definitions,Clock.systemUTC(),npcLedger,nationalAuthorityProxy);
+            engine=new RuleEngine(store,definitions,Clock.systemUTC(),npcLedger,nationalAuthorityProxy,memoryRecipes);
             nativeJournal=new NativeSceneJournal(store,Clock.systemUTC());
             memoryLedger=new MemoryLedger(store);
             observations=new ObservationJournal(store,Clock.systemUTC());
@@ -393,6 +399,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<List<StoryInstance>> availableInstances(UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableInstances(context)));}
         @Override public CompletionStage<Map<String,StoryDefinition.Choice>> availableChoices(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableChoices(id,context)));}
         @Override public CompletionStage<List<WorldEvent>> history(String nation,UUID player,int page,int size){return query(()->engine.history(nation,player,page,size));}
+        @Override public CompletionStage<List<MemoryEntry>> memoryEntries(String region,int page,int size){return query(()->engine.memoryEntries(region,page,size));}
         @Override public CompletionStage<Map<String,String>> recollections(UUID player,Collection<String> references){List<String> refs=List.copyOf(references);return snapshot(player).thenCompose(context->query(()->engine.recollections(context,refs)));}
         @Override public CompletionStage<NpcView> npc(UUID player,String npc){return snapshot(player).thenCompose(context->query(()->npcLedger.view(player,npc,context,engine.worldFacts())));}
         @Override public CompletionStage<Map<String,String>> fate(UUID player){return snapshot(player).thenCompose(context->query(()->{Map<String,String> facts=new TreeMap<>(engine.facts(player));facts.putAll(npcLedger.facts(player));facts.put("player.role",context.facts().getOrDefault("player.role","unassigned"));return Map.copyOf(facts);}));}
@@ -464,14 +471,14 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         Consumer<String> reply=text->{if(player!=null)message(player,text);else tasks.global(()->sender.sendMessage(text));};
         switch(args[0].toLowerCase(Locale.ROOT)) {
             case "status"->reply.accept("StarCore="+gateway.available()+", stories="+definitions.size()+", workerQueue="+worker.getQueue().size());
-            case "validate"->query(()->{var valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));engine.validate(valid);return valid;}).whenComplete((valid,error)->reply.accept(error==null?"验证通过: "+valid.size()+" 条剧情（未更改运行中实例或版本目录）":"验证失败: "+root(error).getMessage()));
-            case "reload"->query(()->{List<StoryDefinition> valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));Set<String> nextPermissions=permissionNodes(withPendingDefinitions(valid),engine.activeInstances());engine.reload(valid);permissions=nextPermissions;definitions=valid;return valid.size();}).whenComplete((count,error)->reply.accept(error==null?"已重载 "+count+" 条剧情；已有实例保留原定义与权限需求。":"重载失败，原定义保留: "+root(error).getMessage()));
+            case "validate"->query(()->{var valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));engine.validate(valid,MemoryRecipeCatalog.load(memoryRecipesFile));return valid;}).whenComplete((valid,error)->reply.accept(error==null?"验证通过: "+valid.size()+" 条剧情及世界记忆配方（未更改运行配置或版本目录）":"验证失败: "+root(error).getMessage()));
+            case "reload"->query(()->{List<StoryDefinition> valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));Set<String> nextPermissions=permissionNodes(withPendingDefinitions(valid),engine.activeInstances());engine.reload(valid,MemoryRecipeCatalog.load(memoryRecipesFile));permissions=nextPermissions;definitions=valid;return valid.size();}).whenComplete((count,error)->reply.accept(error==null?"已重载 "+count+" 条剧情及世界记忆配方；已有实例保留原定义与权限需求。":"重载失败，原定义保留: "+root(error).getMessage()));
             case "evaluate"->{
                 if(args.length!=4){reply.accept("用法: /chronicle evaluate <已保存事件ID> <剧情ID> <精确版本>；仅登记，不立即执行");break;}
                 service.evaluateHistorical(args[1],args[2],args[3]).whenComplete((report,error)->reply.accept(error==null?report.status()+"；新增受众种子="+report.newSeeds()+"；既有同源实例="+report.matchingInstances()+"（已完成="+report.completedInstances()+"）；"+report.message():"历史评估未登记: "+root(error).getMessage()));
             }
             case "uncertain"->query(()->{List<String> lines=new ArrayList<>();var items=engine.uncertain();var scenes=nativeJournal.unknown(100);lines.add("UNKNOWN外部效果="+items.size()+"，原生场景="+scenes.size()+"；请先对账，不会自动重放。");items.stream().limit(20).forEach(d->lines.add(d.outcomeId()+" "+d.type()+" "+d.target()));scenes.stream().limit(20).forEach(e->lines.add("native "+e.request().outcomeId()+" player="+e.request().playerId()+" "+e.reason()));return lines;}).whenComplete((lines,error)->{if(error!=null)reply.accept(root(error).getMessage());else lines.forEach(reply);});
-            case "blocked"->query(()->engine.triggerBlocks(100)).whenComplete((items,error)->{if(error!=null)reply.accept(root(error).getMessage());else if(items.isEmpty())reply.accept("暂无因果循环或深度限制拦截。");else items.forEach(item->reply.accept("source="+item.eventId()+" story="+item.storyId()+"/"+item.version()+" reason="+item.reason()));});
+            case "blocked"->query(()->{List<String> lines=new ArrayList<>();engine.triggerBlocks(100).forEach(item->lines.add("source="+item.eventId()+" story="+item.storyId()+"/"+item.version()+" reason="+item.reason()));engine.memoryRecipeBlocks(100).forEach(item->lines.add("source="+item.eventId()+" recipe="+item.recipeId()+"/"+item.version()+" reason="+item.reason()));return lines;}).whenComplete((items,error)->{if(error!=null)reply.accept(root(error).getMessage());else if(items.isEmpty())reply.accept("暂无因果循环或深度限制拦截。");else items.forEach(reply);});
             case "native-ack"->{if(args.length!=3||!args[2].equals("CONFIRM_SCENE_COMPLETED")){reply.accept("独立确认原生场景已结束/放弃后: /chronicle native-ack <outcomeId> CONFIRM_SCENE_COMPLETED");break;}query(()->{boolean done=nativeJournal.acknowledgeCompleted(args[1]);if(done)confirmNativeStart(args[1]);return done;}).whenComplete((ok,error)->reply.accept(error==null?"原生隔离关闭结果: "+ok+"；未重放任何原生操作。":root(error).getMessage()));}
             case "ack"->{if(args.length!=3||!args[2].equals("CONFIRM_APPLIED")){reply.accept("对账确认已实际应用后: /chronicle ack <outcomeId> CONFIRM_APPLIED");break;}query(()->engine.acknowledgeUnknown(args[1])).whenComplete((ok,error)->reply.accept(error==null?"确认结果: "+ok:root(error).getMessage()));}
             case "demo"->{

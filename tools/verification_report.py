@@ -36,6 +36,10 @@ with zipfile.ZipFile(artifact) as jar:
     required += ["io/github/addxiaoyi/starchronicle/core/DefinitionCatalog.class",
                  "io/github/addxiaoyi/starchronicle/core/StoryRuntime.class",
                  "io/github/addxiaoyi/starchronicle/api/HistoricalEvaluationReport.class"]
+    required += ["memory-recipes.yml",
+                 "io/github/addxiaoyi/starchronicle/memory/MemoryRecipeCatalog.class",
+                 "io/github/addxiaoyi/starchronicle/memory/MemoryRecipeLedger.class",
+                 "io/github/addxiaoyi/starchronicle/memory/MemoryEntry.class"]
     for name in required:
         if name not in names:
             raise SystemExit(f"Artifact missing {name}")
