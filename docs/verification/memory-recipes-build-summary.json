@@ -1,0 +1,24 @@
+{
+  "kind": "BUILD_ONLY",
+  "runtime_validation": false,
+  "tests": 826,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "log": "run/memory-recipes-clean-verify-r2.log",
+  "log_sha256": "881bf396b9ec37619ef7f73e288fb20c262c4e3f09cd68bbccb7b6bead0527c7",
+  "plugin_sha256": "e9d30d665b706578376339f52822ecf146150632677c620f145dd9387d2f8c56",
+  "sources_jar_sha256": "136589193c8e6c109d0afc8b2a0e4c8f18110be556e6bca0bb6baa8f511c501d",
+  "scope": "Schema7 real schema6 migration; data-only evidenced regional memory recipes; atomic NPC/history/facts/signals/inbox; no online actor required; immutable definitions; per-operation fanout256 and mixed causal depth32; rollback, reentry, replay and complete library branches.",
+  "runtime_limitations": [
+    "Exact-build real-server memory recipes not yet executed.",
+    "Frozen schema6 4ede86a8 Paper/Folia/quest reports remain historical and do not cover this artifact."
+  ],
+  "first_attempt": {
+    "log": "run/memory-recipes-clean-verify-r1.log",
+    "tests": 826,
+    "failures": 0,
+    "errors": 1,
+    "reason": "Isolated source checkpoint did not include existing examples/quest-evidence directory; restored exact tracked examples before successful clean rerun."
+  }
+}
