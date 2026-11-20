@@ -4,7 +4,8 @@ import io.github.addxiaoyi.starchronicle.api.*;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.BiConsumer;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.*;
@@ -28,7 +29,7 @@ class StarCoreBridgeTest {
         when(player.getUniqueId()).thenReturn(playerId); when(player.getName()).thenReturn("Witness"); when(player.getWorld()).thenReturn(world); when(world.getName()).thenReturn("world");
         when(player.isOnline()).thenReturn(true); when(player.hasPermission("starchronicle.use")).thenReturn(true);
     }
-    StarCoreBridge bridge() { return new StarCoreBridge(plugin,(id,run)->run.run(),false); }
+    StarCoreBridge bridge() { return new StarCoreBridge(plugin,(id,operation,retired)->operation.accept(player),false); }
 
     @Test void missingCoreFailsClosedAndUnknownFactsAreAbsent() {
         StarCoreBridge bridge=bridge(); assertFalse(bridge.available()); assertFalse(bridge.hasScript("missing")); assertFalse(bridge.hasQuest("missing"));
@@ -54,31 +55,50 @@ class StarCoreBridgeTest {
     }
     @Test void commandEffectsAreRejectedAndNeverDispatched() {
         try(MockedStatic<Bukkit> bukkit=mockStatic(Bukkit.class)) {
-            bukkit.when(()->Bukkit.getPlayer(playerId)).thenReturn(player);
             Delivery delivery=new Delivery("outcome","instance","command","op","Witness",playerId,"","");
             assertEquals(CoreGateway.DeliveryResult.REJECTED,bridge().deliver(delivery).toCompletableFuture().join());
-            bukkit.verify(()->Bukkit.getPlayer(playerId)); bukkit.verifyNoMoreInteractions();
+            bukkit.verifyNoInteractions();
         }
     }
     @Test void unavailableAuthorityProviderRejectsBeforeAnyMutation() {
         try(MockedStatic<Bukkit> bukkit=mockStatic(Bukkit.class)) {
-            bukkit.when(()->Bukkit.getPlayer(playerId)).thenReturn(player);
             Delivery delivery=new Delivery("outcome","instance","authority.diplomacy","nation","ALLY",playerId,"","");
             assertEquals(CoreGateway.DeliveryResult.REJECTED,bridge().deliver(delivery).toCompletableFuture().join());
+            bukkit.verifyNoInteractions();
         }
     }
     @Test void deliveryRechecksLivePermissionInsteadOfCachedPermission() {
         try(MockedStatic<Bukkit> bukkit=mockStatic(Bukkit.class)) {
-            bukkit.when(()->Bukkit.getPlayer(playerId)).thenReturn(player);
             Delivery delivery=new Delivery("outcome","instance","authority.treasury","nation","100",playerId,"","treasury.withdraw");
             assertEquals(CoreGateway.DeliveryResult.REJECTED,bridge().deliver(delivery).toCompletableFuture().join());
             verify(services,never()).load(AuthorityProvider.class);
+            bukkit.verifyNoInteractions();
         }
     }
     @Test void schedulingFailureReturnsDeterministicRejection() {
-        StarCoreBridge bridge=new StarCoreBridge(plugin,(id,run)->{throw new RejectedExecutionException();},false);
+        StarCoreBridge bridge=new StarCoreBridge(plugin,(id,operation,retired)->{throw new RejectedExecutionException();},false);
         Delivery delivery=new Delivery("outcome","instance","quest.accept","quest","",playerId,"","");
         assertEquals(CoreGateway.DeliveryResult.REJECTED,bridge.deliver(delivery).toCompletableFuture().join());
+    }
+    @Test void deliveryKeepsTheCapturedEntityWhenTheUuidRegistryChangesAfterOwnerCheck() {
+        AtomicReference<Consumer<Player>> scheduled=new AtomicReference<>();
+        StarCoreBridge bridge=new StarCoreBridge(plugin,(id,operation,retired)->scheduled.set(operation),false);
+        Delivery delivery=new Delivery("outcome","instance","authority.treasury","nation","100",playerId,"","treasury.withdraw");
+        CompletableFuture<CoreGateway.DeliveryResult> pending=bridge.deliver(delivery).toCompletableFuture();
+        assertFalse(pending.isDone());Player replacement=mock(Player.class);
+        try(MockedStatic<Bukkit> bukkit=mockStatic(Bukkit.class)) {
+            bukkit.when(()->Bukkit.getPlayer(playerId)).thenReturn(replacement);
+            // The scheduler lease was checked before reconnect replaced Bukkit's UUID mapping.
+            scheduled.get().accept(player);
+            assertEquals(CoreGateway.DeliveryResult.REJECTED,pending.join());
+            verify(player).hasPermission("treasury.withdraw");verifyNoInteractions(replacement);bukkit.verifyNoInteractions();
+        }
+    }
+    @Test void retiredOwnerCompletesAsDefinitelyRejectedWithoutResolvingAnotherSession() {
+        StarCoreBridge bridge=new StarCoreBridge(plugin,(id,operation,retired)->retired.run(),false);
+        Delivery delivery=new Delivery("outcome","instance","quest.accept","quest","",playerId,"","");
+        assertEquals(CoreGateway.DeliveryResult.REJECTED,bridge.deliver(delivery).toCompletableFuture().join());
+        verify(player,never()).isOnline();verify(player,never()).hasPermission(anyString());
     }
     @Test void publicReflectionSelectsMatchingOverloadAndPropagatesFailure() throws Exception {
         assertEquals("uuid",StarCoreBridge.call(new PublicFixture(),"read",playerId));

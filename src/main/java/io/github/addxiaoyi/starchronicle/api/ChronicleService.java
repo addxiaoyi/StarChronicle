@@ -24,6 +24,9 @@ public interface ChronicleService {
     default CompletionStage<ProcessReport> nationalVote(String instanceId,UUID playerId,String expectedNode,long expectedRevision,String choiceId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("National ballots unavailable"));}
     default CompletionStage<ProcessReport> withdrawNationalVote(String instanceId,UUID playerId,String expectedNode,long expectedRevision){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("National ballots unavailable"));}
     default CompletionStage<NationalVoteState> nationalState(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("National ballots unavailable"));}
+    /** Read-only task gate summaries for the current pinned node. The service filters private
+     * and country visibility using freshly collected identity; this grants no completion or choice authority. */
+    default CompletionStage<io.github.addxiaoyi.starchronicle.api.quest.QuestGateState> questGateState(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Quest gates unavailable"));}
     CompletionStage<ProcessReport> join(String instanceId, UUID playerId);
     CompletionStage<List<StoryInstance>> instances(UUID playerId);
     CompletionStage<List<StoryInstance>> activeInstances();

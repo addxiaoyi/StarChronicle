@@ -1,6 +1,7 @@
 package io.github.addxiaoyi.starchronicle.core;
 
 import io.github.addxiaoyi.starchronicle.api.*;
+import io.github.addxiaoyi.starchronicle.api.quest.*;
 import io.github.addxiaoyi.starchronicle.config.*;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
 import io.github.addxiaoyi.starchronicle.npc.NpcLedger;
@@ -253,6 +254,7 @@ public final class RuleEngine implements AutoCloseable {
             if(expectedNode!=null&&!expectedNode.equals(i.node()))throw new IllegalStateException("剧情阶段已改变，请刷新界面");
             if(!i.contains(player)) throw new SecurityException("请先加入剧情");
             if(!i.members().get(player).equals(context.nationId())) throw new SecurityException("国籍已变化，请由管理员审核成员资格");
+            if(!QuestGateLedger.ready(c,i,context))throw new SecurityException("原生任务完成回执尚未满足，请查看任务闸门状态");
             var node=i.definition().nodes().get(i.node());var choice=node.choices().get(choiceId);
             if(choice==null) throw new IllegalArgumentException("不存在的剧情选项");
             if(!context.permitted(choice.permission())) throw new SecurityException("缺少选择权限");
@@ -284,6 +286,7 @@ public final class RuleEngine implements AutoCloseable {
         nationalRequest(player,expectedNode,expectedRevision,context);Objects.requireNonNull(choiceId);
         return authorized(context,view->store.transaction(c->{
             StoryInstance before=nationalActive(c,instanceId,expectedNode,context);
+            if(!QuestGateLedger.ready(c,before,context))throw new SecurityException("本国所需原生任务完成回执尚未满足");
             var node=before.definition().nodes().get(before.node());var choice=node.choices().get(choiceId);
             if(choice==null)throw new IllegalArgumentException("不存在的剧情选项");
             Map<String,String> state=facts(c,context,event(c,before.sourceEventId()),before);
@@ -413,6 +416,7 @@ public final class RuleEngine implements AutoCloseable {
     }
     private void enter(Connection c,StoryInstance i,PlayerContext actor)throws Exception {
         var node=i.definition().nodes().get(i.node());
+        if(node.effects().stream().anyMatch(effect->effect.type().equals("quest.await")))QuestGateLedger.open(c,i,clock.instant());
         applyEffects(c,i,"node/"+i.node(),node.effects(),actor);
         for(var member:i.members().entrySet()) {
             // Chronicle node IDs belong to the campaign graph, not to the native scene graph.
@@ -423,6 +427,9 @@ public final class RuleEngine implements AutoCloseable {
     }
     private void applyEffects(Connection c,StoryInstance i,String action,List<StoryDefinition.Effect> effects,PlayerContext actor)throws Exception {
         for(var e:effects) {
+            // A quest barrier is a local durable gate. Its provider driver owns tracked
+            // native admission outside this transaction; never send an untracked quest.
+            if(e.type().equals("quest.await"))continue;
             if(e.type().equals("authority")) {
                 if(actor.nationId().isBlank())throw new SecurityException("国家权威效果要求当前国家身份");
                 // One request per nation and outcome, carrying the actual committing actor.
@@ -518,6 +525,7 @@ public final class RuleEngine implements AutoCloseable {
     }
     private Map<String,StoryDefinition.Choice> visibleChoices(Connection c,StoryInstance instance,PlayerContext context,boolean national)throws Exception {
         if(instance.completed()||!instance.contains(context.playerId())||!instance.members().get(context.playerId()).equals(context.nationId()))return Map.of();
+        if(!QuestGateLedger.ready(c,instance,context))return Map.of();
         Map<String,String> state=facts(c,context,event(c,instance.sourceEventId()),instance);
         if(national&&(!test(instance.definition().condition(),state)||!permitted(instance.definition().nodes().get(instance.node()).effects(),context)))return Map.of();
         Map<String,StoryDefinition.Choice> visible=new LinkedHashMap<>();
@@ -526,6 +534,73 @@ public final class RuleEngine implements AutoCloseable {
             if(context.permitted(choice.permission())&&test(choice.condition(),state)&&(!national||permitted(choice.effects(),context)&&permitted(instance.definition().nodes().get(choice.next()).effects(),context)))visible.put(entry.getKey(),choice);
         }
         return Collections.unmodifiableMap(visible);
+    }
+    /** Internal worker API. No provider call is made while this storage transaction runs. */
+    public List<QuestGateLedger.Gate> pendingQuestGates(Set<UUID> onlineOwners,int limit) {
+        Objects.requireNonNull(onlineOwners);if(onlineOwners.size()>10000||limit<1||limit>100)throw new IllegalArgumentException("Invalid quest poll bound");
+        return store.transaction(c->QuestGateLedger.pending(c,onlineOwners,limit));
+    }
+    /** Fresh actor validation and durable provider pin precede native admission. This does
+     * not grant nation authority and never substitutes for the native provider's own checks. */
+    public QuestGateLedger.Gate prepareQuestGate(String gateId,String providerId,PlayerContext actor) {
+        Objects.requireNonNull(actor);
+        return store.transaction(c->{
+            var gate=QuestGateLedger.find(c,gateId);StoryInstance instance=require(c,gate.instanceId());
+            requireQuestMember(instance,actor);
+            if(!gate.active()||gate.completed()||!gate.playerId().equals(actor.playerId()))throw new SecurityException("任务闸门不属于当前活动成员");
+            var effect=instance.definition().nodes().get(instance.node()).effects().stream().filter(e->e.id().equals(gate.effectId())&&e.type().equals("quest.await")).findFirst().orElseThrow();
+            if(!actor.permitted(effect.permission())||!test(instance.definition().condition(),facts(c,actor,event(c,instance.sourceEventId()),instance)))throw new SecurityException("不满足原生任务接取权限或剧情条件");
+            return QuestGateLedger.pinProvider(c,gateId,providerId,clock.instant());
+        });
+    }
+    public QuestGateLedger.Gate questGate(String gateId){return store.transaction(c->QuestGateLedger.find(c,gateId));}
+    public QuestGateLedger.Mutation questUnavailable(String gateId,String message) {
+        return store.transaction(c->QuestGateLedger.unavailable(c,gateId,message,clock.instant()));
+    }
+    /** Canonical native receipt, consumption keys, history and causal inbox commit together.
+     * This operation does not advance a choice or invoke native completion/rewards. */
+    public QuestGateLedger.Mutation observeQuestGate(String gateId,String providerId,QuestObservation observation) {
+        Objects.requireNonNull(observation);
+        return store.transaction(c->{
+            var mutation=QuestGateLedger.observe(c,gateId,providerId,observation,clock.instant());
+            if(mutation.completionNewlyRecorded()) {
+                var gate=mutation.gate();var receipt=Objects.requireNonNull(gate.completion());
+                WorldEvent event=questCompletionEvent(gate,receipt);
+                recordAndQueue(c,event,List.of(),runtime.enabledDefinitions(),EventCausality.derive(c,gate.sourceEventId(),gate.storyId()));
+            }
+            return mutation;
+        });
+    }
+    public static String questCompletionEventId(String issuer,String completionId){return "chronicle:quest:"+stable(issuer,completionId);}
+    private static WorldEvent questCompletionEvent(QuestGateLedger.Gate gate,CommittedCompletion receipt) {
+        Map<String,String> facts=new LinkedHashMap<>();
+        facts.put("quest",receipt.questId());facts.put("quest.run",receipt.runId());facts.put("quest.completion",receipt.completionId());
+        facts.put("quest.definition",receipt.definitionFingerprint());facts.put("quest.started_at",receipt.startedAt().toString());
+        facts.put("quest.committed_at",receipt.committedAt().toString());facts.put("quest.gate",gate.id());facts.put("story",gate.storyId());
+        facts.put("quest.nation_state",receipt.completedNation().state().name());facts.put("time_basis","COMMITTED_SOURCE");
+        Set<String> nations=receipt.completedNation().state()==NationProof.State.KNOWN_NATION?Set.of(receipt.completedNation().nationId()):Set.of();
+        String proofHash=stable("quest-completion-proof",json(receipt));
+        return new WorldEvent(questCompletionEventId(receipt.issuer(),receipt.completionId()),"quest.completed",receipt.completedAt(),Set.of(receipt.playerId()),nations,facts,receipt.issuer(),
+            "gate="+gate.id()+"; binding="+receipt.bindingId()+"; run="+receipt.runId()+"; completion="+receipt.completionId()+"; receipt_sha256="+proofHash+"; ledger=quest_gate_completions");
+    }
+    /** Current member projection; task readiness never conveys a national seat. */
+    public QuestGateLedger.View questGateState(String instanceId,PlayerContext actor) {
+        Objects.requireNonNull(actor);return store.transaction(c->questGateView(c,require(c,instanceId),actor));
+    }
+    public QuestGateState questGateSnapshot(String instanceId,PlayerContext actor) {
+        Objects.requireNonNull(actor);return store.transaction(c->{StoryInstance instance=require(c,instanceId);
+            return QuestGateState.from(instance.id(),instance.node(),questGateView(c,instance,actor));
+        });
+    }
+    private QuestGateLedger.View questGateView(Connection c,StoryInstance instance,PlayerContext actor)throws Exception {
+        requireQuestMember(instance,actor);var view=QuestGateLedger.view(c,instance,actor);
+        var visible=view.gates().stream().filter(g->g.playerId().equals(actor.playerId())||g.mode()==QuestRequest.Mode.NATION&&!actor.nationId().isBlank()&&g.expectedNationId().equals(actor.nationId())).toList();
+        return new QuestGateLedger.View(view.ready(),visible,view.blockedEffectIds());
+    }
+    private static void requireQuestMember(StoryInstance instance,PlayerContext actor) {
+        if(!actor.permitted("starchronicle.use"))throw new SecurityException("缺少编年史使用权限");
+        if(!instance.contains(actor.playerId()))throw new SecurityException("请先加入剧情");
+        if(!Objects.equals(instance.members().get(actor.playerId()),actor.nationId()))throw new SecurityException("国籍已变化，请审核成员资格");
     }
     public Map<String,String> facts(UUID player){return store.transaction(c->Map.copyOf(readFacts(c,player.toString())));}
     public Map<String,String> worldFacts(){return store.transaction(c->Map.copyOf(readFacts(c,"WORLD")));}

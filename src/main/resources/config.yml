@@ -4,6 +4,10 @@ require-starcore: true
 # Install missing bundled examples on enable. Set false before removing/renaming examples;
 # existing story files are never overwritten or deleted by this setting.
 install-default-stories: true
+# Optional native task templates for examples/quest-evidence. Requires the audited durable
+# quest-evidence StarCore candidate on Paper; never silently falls back to untracked quests.
+# Does not rewrite the bundled stories or add an implicit quest.await to an old graph.
+install-native-example-quests: false
 # Explicitly opt in on a test server. Never accepts player-supplied nation/permission snapshots.
 admin-demo-enabled: false
 npc-hooks: true
@@ -12,3 +16,9 @@ worker-queue-capacity: 2048
 poll-ticks: 100
 # Optional TextProvider is text-only. Missing, failed or slow providers use deterministic templates.
 text-timeout-ms: 1500
+# Optional automatic first-visit events for explicitly configured cuboids.
+# IDs are stable logical names; scope fingerprints include world UUID and every bound.
+# Empty by default: this does not scan or claim arbitrary world exploration.
+exploration:
+  enabled: false
+  regions: []

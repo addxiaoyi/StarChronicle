@@ -71,7 +71,7 @@ class CanonicalDefinitionSchemaUpgradeTest {
         try(var c=open(path)){originalArchive=archiveRows(c);before=snapshot(c);originalSchema=schema(c);assertEquals("4",scalar(c,"PRAGMA user_version"));}
         Map<String,List<List<String>>> first;
         try(var store=new SqliteStore(path)) {
-            first=store.transaction(c->{assertEquals("5",scalar(c,"PRAGMA user_version"));assertEquals(originalArchive,archiveRows(c));assertEquals(recovered(before),snapshot(c));assertPayloadBytes(before,snapshot(c));for(var entry:originalSchema.entrySet())assertEquals(entry.getValue(),schema(c).get(entry.getKey()));
+            first=store.transaction(c->{assertEquals(Integer.toString(SqliteStore.SCHEMA_VERSION),scalar(c,"PRAGMA user_version"));assertEquals(originalArchive,archiveRows(c));assertEquals(recovered(before),snapshot(c));assertPayloadBytes(before,snapshot(c));for(var entry:originalSchema.entrySet())assertEquals(entry.getValue(),schema(c).get(entry.getKey()));
                 assertEquals("3",scalar(c,"SELECT COUNT(*) FROM story_definition_formats WHERE canonical_version=1"));assertEquals("3",scalar(c,"SELECT COUNT(*) FROM story_definition_upgrades WHERE from_canonical_version=1 AND to_canonical_version=2"));
                 for(var entry:DefinitionCatalog.read(c).evidenceEntries()){assertEquals(1,entry.canonicalVersion());assertEquals(DefinitionCanonicalCodec.fingerprintV2(entry.definition()),entry.semanticFingerprint());assertEquals(FIRST_SEEN,entry.firstSeen());assertNotEquals(entry.fingerprint(),entry.semanticFingerprint());}
                 var catalog=DefinitionCatalog.read(c);assertEquals(old().pending(),catalog.require("retired-pending","7"));assertThrows(IllegalArgumentException.class,()->catalog.require("retired-a","1"));assertTrue(rows(c,"PRAGMA foreign_key_check").isEmpty());assertEquals("ok",scalar(c,"PRAGMA integrity_check"));return canonicalState(c);});
@@ -82,7 +82,7 @@ class CanonicalDefinitionSchemaUpgradeTest {
     @ParameterizedTest @ValueSource(ints={2,3}) void directLegacyUpgradeHasTheSameIdentityAndLinksAsTheReleasedSchema4Step(int sourceVersion)throws Exception {
         Path direct=directory.resolve("direct-"+sourceVersion+".db"),staged=directory.resolve("staged-"+sourceVersion+".db");createLiteralSource(direct,sourceVersion);createLiteralSource(staged,sourceVersion);stageReleasedV4(staged,sourceVersion);
         Map<String,List<List<String>>> first;
-        try(var store=new SqliteStore(direct)){first=store.transaction(c->{assertEquals("5",scalar(c,"PRAGMA user_version"));return canonicalState(c);});}
+        try(var store=new SqliteStore(direct)){first=store.transaction(c->{assertEquals(Integer.toString(SqliteStore.SCHEMA_VERSION),scalar(c,"PRAGMA user_version"));return canonicalState(c);});}
         try(var store=new SqliteStore(staged)){store.transaction(c->{assertEquals(first,canonicalState(c),"Only original first_seen differs because the two real archive operations occur at different times");return null;});}
     }
 

@@ -1,6 +1,8 @@
 package io.github.addxiaoyi.starchronicle.paper;
 
 import io.github.addxiaoyi.starchronicle.api.*;
+import io.github.addxiaoyi.starchronicle.api.quest.*;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProvider;
 import io.github.addxiaoyi.starchronicle.config.*;
 import io.github.addxiaoyi.starchronicle.core.*;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreBridge;
@@ -11,6 +13,8 @@ import io.github.addxiaoyi.starchronicle.integration.CoreContentInstaller;
 import io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapter;
 import io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournal;
 import io.github.addxiaoyi.starchronicle.history.ObservationJournal;
+import io.github.addxiaoyi.starchronicle.history.FirstVisitJournal;
+import io.github.addxiaoyi.starchronicle.history.FirstVisitBuffer;
 import io.github.addxiaoyi.starchronicle.memory.*;
 import io.github.addxiaoyi.starchronicle.npc.*;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
@@ -48,12 +52,17 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private MemoryLedger memoryLedger;
     private MemorySites memorySites;
     private ObservationJournal observations;
+    private FirstVisitJournal firstVisits;
+    private List<ExplorationRegion> explorationRegions=List.of();
+    private final FirstVisitBuffer explorationIngress=new FirstVisitBuffer(2048);
+    private ExplorationDiscoveries exploration;
     private SnapshotCollector snapshotCollector;
     private TextService textService;
     private CoreContentInstaller coreContent;
     private NativeSceneJournal nativeJournal;
     private final NativeSceneFlights nativeFlights=new NativeSceneFlights();
     private ScheduledTask poll;
+    private QuestGateDriver questGates;
     private volatile Set<String> permissions=Set.of();
     private ChronicleService service;
     private volatile List<StoryDefinition> definitions=List.of();
@@ -64,16 +73,23 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             tasks=new RegionTasks(this);
             boolean folia;
             try {Class.forName("io.papermc.paper.threadedregions.RegionizedServer");folia=true;}catch(ClassNotFoundException ignored){folia=false;}
-            gateway=new StarCoreBridge(this,(id,action)->tasks.player(id,action),folia);
+            gateway=new StarCoreBridge(this,(id,action,retired)->tasks.playerOwned(id,action,retired),folia);
             if(getConfig().getBoolean("require-starcore",true) && !gateway.available()) throw new IllegalStateException("StarCore services unavailable; install the audited StarCore build, or explicitly set require-starcore:false for standalone rule/history mode");
             if(!gateway.available())getLogger().warning("STANDALONE MODE: no authoritative StarCore identity, task, narrative or nation mutations are available");
+            var builtinQuestEvidence=new StarCoreQuestEvidenceProvider(gateway,folia);
+            boolean nativeExamples=getConfig().getBoolean("install-native-example-quests",false);
+            if(nativeExamples&&!builtinQuestEvidence.available())throw new IllegalStateException("Native example quests require the durable StarCore quest-evidence protocol on Paper");
             coreContent=new CoreContentInstaller(gateway,getDataFolder().toPath());
-            var installed=coreContent.install();getLogger().info("Native supplemental scene registration: "+installed.scenes());
+            var installed=coreContent.install(nativeExamples);getLogger().info("Native supplemental scene registration: "+installed.scenes()+"; native quests: "+installed.quests());
+            if(nativeExamples&&installed.quests().values().stream().anyMatch(status->!status.startsWith("INSTALLED")))throw new IllegalStateException("Native example quest ownership/registration failed: "+installed.quests());
             Path stories=getDataFolder().toPath().resolve("stories");Files.createDirectories(stories);
             if(getConfig().getBoolean("install-default-stories",true))for(String name:List.of("last-heir.yml","siege-embers.yml","silk-road-scholar.yml","heir-legacy.yml","integration-example.json.disabled","fate-soldier.yml","fate-general.yml","fate-merchant.yml","fate-scholar.yml","fate-explorer.yml","fate-diplomat.yml","fate-mayor.yml","fate-monarch.yml")) if(!Files.exists(stories.resolve(name)))saveResource("stories/"+name,false);
             if(!Files.exists(getDataFolder().toPath().resolve("npcs.yml")))saveResource("npcs.yml",false);
             NpcCatalog catalog=NpcCatalog.load(getDataFolder().toPath().resolve("npcs.yml"));
             store=new SqliteStore(getDataFolder().toPath().resolve("chronicle.db"));
+            firstVisits=new FirstVisitJournal(store);
+            explorationRegions=ExplorationRegion.load(getConfig());
+            firstVisits.registerRegions(explorationRegions.stream().collect(java.util.stream.Collectors.toMap(ExplorationRegion::id,ExplorationRegion::scope)));
             definitions=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(stories,gateway::hasScript,gateway::hasQuest));
             npcLedger=new NpcLedger(store,catalog);
             NationalVoteAuthority builtinNationalAuthority=new StarCoreNationalVoteAuthority(gateway);
@@ -92,8 +108,11 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             snapshotCollector=new SnapshotCollector(gateway,()->getServer().getServicesManager().getRegistrations(SnapshotProvider.class).stream().map(r->r.getProvider()).toList());
             textService=new TextService(Duration.ofMillis(Math.max(1,Math.min(30000,getConfig().getLong("text-timeout-ms",1500)))));
             permissions=permissionNodes(withPendingDefinitions(definitions),engine.activeInstances());
-            worker=new StateWorker(getConfig().getInt("worker-queue-capacity",2048),()->engine.close());
+            worker=new StateWorker(getConfig().getInt("worker-queue-capacity",2048),()->{try{explorationIngress.drain(firstVisits::observe,Integer.MAX_VALUE);}catch(RuntimeException error){getLogger().severe("Uncommitted exploration arrivals could not be saved on shutdown: "+error.getMessage());}finally{engine.close();}});
             running.set(true);
+            questGates=new QuestGateDriver(engine,new QuestGateDriver.StateDispatcher(){
+                @Override public <T>CompletionStage<T> submit(Callable<T> operation){return query(operation);}
+            },this::snapshot,Clock.systemUTC(),Duration.ofSeconds(10),8,message->getLogger().warning(message));
             service=new Service();
             getServer().getServicesManager().register(ChronicleService.class,service,this,ServicePriority.Normal);
             var builtinAuthority=new StarCoreAuthorityProvider(gateway);
@@ -101,15 +120,20 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             menus=new Menus(this);getServer().getPluginManager().registerEvents(menus,this);getServer().getPluginManager().registerEvents(this,this);
             getServer().getServicesManager().register(NationalVoteAuthority.class,builtinNationalAuthority,this,ServicePriority.Lowest);
             refreshNationalVoteAuthority(null);
+            if(builtinQuestEvidence.available())getServer().getServicesManager().register(QuestEvidenceProvider.class,builtinQuestEvidence,this,ServicePriority.Lowest);
+            refreshQuestEvidenceProviders(null);
             PluginCommand command=Objects.requireNonNull(getCommand("chronicle"));command.setExecutor(this);command.setTabCompleter(this);
             gateway.start(event->service.submit(event).exceptionally(error->{getLogger().warning("Source event was not accepted: "+error.getMessage());return null;}));
             npcs=new NpcHooks(this,this::npcInteraction);if(getConfig().getBoolean("npc-hooks",true))npcs.start();
             memorySites=new MemorySites(this,(id,eventId)->query(()->memoryLedger.source(eventId)).whenComplete((event,error)->{if(error!=null)failure(id,error);else menus.event(id,event);}),this::npcInteraction);
             getServer().getPluginManager().registerEvents(memorySites,this);memorySites.refresh(memoryLedger.sites());
-            tasks.global(()->getServer().getOnlinePlayers().forEach(p->{tasks.track(p);tasks.player(p.getUniqueId(),()->gateway.refreshContext(p,permissions));}));
+            exploration=new ExplorationDiscoveries(explorationRegions,(id,action)->tasks.playerOwned(id,p->{if(running.get())action.accept(p);},()->{}),p->{gateway.refreshContext(p,permissions);return gateway.context(p.getUniqueId());},this::captureExploration,Clock.systemUTC());
+            getServer().getPluginManager().registerEvents(exploration,this);
+            tasks.global(()->getServer().getOnlinePlayers().forEach(p->{tasks.track(p);tasks.playerOwned(p.getUniqueId(),owned->gateway.refreshContext(owned,permissions),()->{});}));
             long ticks=Math.max(20,getConfig().getLong("poll-ticks",100));
             poll=getServer().getGlobalRegionScheduler().runAtFixedRate(this,ignored->pollSources(),20,ticks);
             getLogger().info("Loaded "+definitions.size()+" validated stories; durable history/outbox ready");
+            if(!explorationRegions.isEmpty())getLogger().info("Configured first-visit exploration regions: "+explorationRegions.size());
         } catch(Exception|LinkageError error) {
             getLogger().severe("StarChronicle startup failed: "+error.getMessage());error.printStackTrace();getServer().getPluginManager().disablePlugin(this);
         }
@@ -137,17 +161,42 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             if(running.get())refreshNationalVoteAuthority(event.getProvider());
         }
     }
+    /** Cache trusted service leases outside storage; unregister immediately invalidates replies. */
+    private void refreshQuestEvidenceProviders(RegisteredServiceProvider<?> excluded) {
+        if(questGates==null)return;
+        var providers=getServer().getServicesManager().getRegistrations(QuestEvidenceProvider.class).stream()
+            .filter(registration->excluded==null||registration.getProvider()!=excluded.getProvider())
+            .sorted(Comparator.<RegisteredServiceProvider<QuestEvidenceProvider>>comparingInt(r->r.getPriority().ordinal()).reversed()
+                .thenComparing(r->r.getPlugin().getName()))
+            .map(RegisteredServiceProvider::getProvider).toList();
+        questGates.providers(providers);
+    }
+    @EventHandler public void questEvidenceRegistered(ServiceRegisterEvent event){
+        if(running.get()&&event.getProvider().getService()==QuestEvidenceProvider.class)refreshQuestEvidenceProviders(null);
+    }
+    @EventHandler public void questEvidenceUnregistered(ServiceUnregisterEvent event){
+        if(event.getProvider().getService()==QuestEvidenceProvider.class&&questGates!=null){
+            questGates.providers(List.of());if(running.get())refreshQuestEvidenceProviders(event.getProvider());
+        }
+    }
     private void pollSources() {
         snapshots().thenCompose(contexts->query(()->{
             nativeJournal.isolateOrphans(nativeFlights.players());
             gateway.scanCommittedSources();
             for(var snapshot:snapshotCollector.collect())observations.observe(snapshot);
+            explorationIngress.drain(firstVisits::observe,100);
             for(WorldEvent event:observations.pending(100)) {
                 engine.accept(event,audience(event,contexts));
                 observations.acknowledge(event.id());
             }
+            for(WorldEvent event:firstVisits.pending(100)) {
+                engine.accept(event,audience(event,contexts));
+                firstVisits.acknowledge(event.id());
+            }
             engine.resumeTriggers(contexts);
-            deliverPending();for(PlayerContext context:contexts)resumeNativeOnWorker(context.playerId());return null;
+            deliverPending();for(PlayerContext context:contexts)resumeNativeOnWorker(context.playerId());
+            if(questGates!=null)questGates.poll(tasks.onlineIds()).exceptionally(error->{if(running.get())getLogger().warning("Quest evidence scan retained: "+root(error).getMessage());return null;});
+            return null;
         })).exceptionally(error->{if(running.get())getLogger().warning("History scan retained pending evidence: "+root(error).getMessage());return null;});
     }
     private static List<PlayerContext> audience(WorldEvent event,List<PlayerContext> contexts){return contexts.stream().filter(c->event.globalAudience()||event.participants().contains(c.playerId())||(!c.nationId().isBlank()&&event.nations().contains(c.nationId()))).toList();}
@@ -162,7 +211,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return Set.copyOf(nodes);
     }
     /** The consumer runs only on the entity scheduler, and receives no offline player. */
-    void present(UUID id,Consumer<Player> display) {if(!running.get())return;tasks.player(id,()->{Player p=tasks.current(id);if(running.get()&&p!=null&&p.isOnline()){gateway.refreshContext(p,permissions);display.accept(p);}});}
+    void present(UUID id,Consumer<Player> display) {if(!running.get())return;tasks.playerOwned(id,p->{if(running.get()&&p.isOnline()){gateway.refreshContext(p,permissions);display.accept(p);}},()->{});}
     void message(UUID id,String text){present(id,p->p.sendMessage(Component.text("[编年史] "+text)));}
     void failure(UUID id,Throwable error){getLogger().warning("Player operation failed: "+root(error).getMessage());message(id,"操作未完成："+Objects.toString(root(error).getMessage(),"内部错误"));}
     private static Throwable root(Throwable error){while(error.getCause()!=null&&(error instanceof CompletionException||error instanceof ExecutionException))error=error.getCause();return error;}
@@ -175,12 +224,11 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private CompletionStage<PlayerContext> snapshot(UUID id) {
         CompletableFuture<PlayerContext> result=new CompletableFuture<>();
         if(!running.get()){result.completeExceptionally(new IllegalStateException("Plugin is stopping"));return result;}
-        try{tasks.player(id,()->{
+        try{tasks.playerOwned(id,p->{
             if(result.isDone())return;
             if(!running.get()){result.completeExceptionally(new IllegalStateException("Plugin is stopping"));return;}
-            Player p=tasks.current(id);
-            if(p==null||!p.isOnline()){result.completeExceptionally(new IllegalStateException("Player is offline"));return;}
-            try{gateway.refreshContext(p,permissions);result.complete(gateway.context(id));}catch(Throwable error){result.completeExceptionally(error);}
+            if(!p.isOnline()){result.completeExceptionally(new IllegalStateException("Player is offline"));return;}
+            try{gateway.refreshContext(p,permissions);if(exploration!=null)exploration.observe(p);result.complete(gateway.context(id));}catch(Throwable error){result.completeExceptionally(error);}
         },()->result.completeExceptionally(new IllegalStateException("Player scheduler retired")));}catch(RuntimeException scheduling){result.completeExceptionally(scheduling);}
         return result.orTimeout(5,TimeUnit.SECONDS);
     }
@@ -199,11 +247,10 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private <T> CompletionStage<T> playerQuery(UUID id,PlayerWork<T> work,InvocationGate gate) {
         CompletableFuture<T> result=new CompletableFuture<>();
         if(!running.get())return CompletableFuture.failedFuture(new IllegalStateException("Plugin is stopping"));
-        try{tasks.player(id,()->{
+        try{tasks.playerOwned(id,player->{
             if(result.isDone())return;
             if(!running.get()){result.completeExceptionally(new IllegalStateException("Plugin is stopping"));return;}
-            Player player=tasks.current(id);
-            if(player==null||!player.isOnline()||!player.hasPermission("starchronicle.use")){result.completeExceptionally(new SecurityException("Player unavailable or unauthorized"));return;}
+            if(!player.isOnline()||!player.hasPermission("starchronicle.use")){result.completeExceptionally(new SecurityException("Player unavailable or unauthorized"));return;}
             if(!gate.enter())return;
             try{result.complete(work.run(player));}catch(Throwable error){result.completeExceptionally(error);}
         },()->result.completeExceptionally(new IllegalStateException("Player scheduler retired")));}catch(RuntimeException scheduling){result.completeExceptionally(scheduling);}
@@ -315,7 +362,14 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         WorldEvent arrival=new WorldEvent("chronicle:arrival:"+p.getUniqueId()+":"+day,"PLAYER_JOIN",Instant.now(),Set.of(p.getUniqueId()),Set.of(),Map.of("time_basis","OBSERVED","day",day),"StarChronicle.PlayerJoinEvent","First observed player arrival for UTC day="+day+"; player="+p.getUniqueId());
         query(()->{engine.accept(arrival,List.of(context));engine.resumeTriggers(List.of(context));deliverPending();resumeNativeOnWorker(context.playerId()).exceptionally(error->{getLogger().fine("Native scene recovery waiting: "+root(error).getMessage());return Optional.empty();});return null;}).exceptionally(error->{failure(p.getUniqueId(),error);return null;});
     }
-    @EventHandler public void quit(PlayerQuitEvent event) {tasks.untrack(event.getPlayer().getUniqueId());}
+    private boolean captureExploration(WorldEvent event) {
+        if(!running.get())return false;
+        FirstVisitBuffer.Admission admission=explorationIngress.offer(event);
+        if(admission==FirstVisitBuffer.Admission.FULL){getLogger().warning("Exploration capture buffer full; arrival was not admitted: "+event.id());return false;}
+        if(admission==FirstVisitBuffer.Admission.ADDED)query(()->explorationIngress.drain(firstVisits::observe,100)).exceptionally(error->{if(running.get())getLogger().warning("Exploration arrivals remain buffered pending persistence: "+root(error).getMessage());return 0;});
+        return true;
+    }
+    @EventHandler public void quit(PlayerQuitEvent event) {tasks.untrack(event.getPlayer());}
     private void npcInteraction(UUID player,String npcId) {
         String logical=npcLedger.catalog().profiles().containsKey(npcId)?npcId:npcLedger.catalog().resolveExternal(npcId).orElse(null);
         if(logical==null){menus.stories(player,0);return;}
@@ -326,11 +380,12 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     }
     private final class Service implements ChronicleService {
         @Override public CompletionStage<ProcessReport> submit(WorldEvent event){Objects.requireNonNull(event);return snapshots().thenCompose(contexts->query(()->{ProcessReport result=engine.accept(event,audience(event,contexts));deliverPending();return result;}));}
-        @Override public CompletionStage<HistoricalEvaluationReport> evaluateHistorical(String source,String story,String version){return query(()->engine.evaluateHistorical(source,story,version));}
+        @Override public CompletionStage<HistoricalEvaluationReport> evaluateHistorical(String source,String story,String version){return query(()->{var report=engine.evaluateHistorical(source,story,version);permissions=permissionNodes(withPendingDefinitions(definitions),engine.activeInstances());return report;});}
         @Override public CompletionStage<ProcessReport> choose(String id,UUID player,String choice){return snapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.choose(id,player,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> choose(String id,UUID player,String expected,String choice){return snapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.choose(id,player,expected,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> nationalVote(String id,UUID player,String expected,long revision,String choice){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.nationalVote(id,player,expected,revision,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> withdrawNationalVote(String id,UUID player,String expected,long revision){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.withdrawNationalVote(id,player,expected,revision,context);deliverPending();return result;}));}
+        @Override public CompletionStage<QuestGateState> questGateState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.questGateSnapshot(id,context)));}
         @Override public CompletionStage<NationalVoteState> nationalState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->{NationalVoteState result=engine.nationalState(id,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> join(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.join(id,context)));}
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player);}));}
@@ -438,9 +493,11 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return List.of();
     }
     @Override public void onDisable() {
+        explorationIngress.seal();
         nationalVoteAuthority=NationalVoteAuthority.denying();
+        if(questGates!=null)questGates.close();
         if(!running.getAndSet(false)){if(worker==null){if(engine!=null)engine.close();else if(store!=null)store.close();}if(textService!=null)textService.close();if(coreContent!=null)coreContent.close();if(gateway!=null)gateway.close();return;}
-        if(poll!=null)poll.cancel();if(npcs!=null)npcs.close();if(memorySites!=null)memorySites.close();if(textService!=null)textService.close();if(coreContent!=null)coreContent.close();if(gateway!=null)gateway.close();
+        if(poll!=null)poll.cancel();if(exploration!=null)exploration.close();if(npcs!=null)npcs.close();if(memorySites!=null)memorySites.close();if(textService!=null)textService.close();if(coreContent!=null)coreContent.close();if(gateway!=null)gateway.close();
         getServer().getServicesManager().unregisterAll(this);HandlerList.unregisterAll((Listener)this);if(menus!=null)HandlerList.unregisterAll(menus);
         // terminated() closes storage after every queued write, even when the bounded queue was full.
         if(worker!=null){worker.shutdown();try{if(!worker.awaitTermination(10,TimeUnit.SECONDS))getLogger().warning("State worker still draining; storage will close at termination; do not reload plugin");}catch(InterruptedException error){Thread.currentThread().interrupt();}}

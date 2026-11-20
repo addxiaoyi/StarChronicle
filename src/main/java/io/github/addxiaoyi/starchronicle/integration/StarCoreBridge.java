@@ -10,7 +10,6 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.*;
 import java.util.logging.Level;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.plugin.Plugin;
@@ -19,10 +18,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /** Public-accessor bridge for audited StarCore f769e627. No commands or direct model writes. */
 public final class StarCoreBridge implements CoreGateway, AutoCloseable {
+    /** Supplies the exact entity whose scheduler owns this callback; UUID lookup is not a lease. */
+    @FunctionalInterface public interface PlayerOwnerScheduler {
+        void execute(UUID id,Consumer<Player> operation,Runnable retired);
+    }
     private static final String BASE = "dev.starcore.starcore.";
     private static final List<String> ROLES = List.of("SOLDIER", "GENERAL", "MERCHANT", "SCHOLAR", "EXPLORER", "DIPLOMAT", "MAYOR", "MONARCH");
     private final JavaPlugin plugin;
-    private final BiConsumer<UUID,Runnable> playerScheduler;
+    private final PlayerOwnerScheduler playerScheduler;
     private final boolean folia;
     private final Map<UUID,PlayerContext> contexts = new ConcurrentHashMap<>();
     private final List<Runnable> unsubscribers = new CopyOnWriteArrayList<>();
@@ -37,7 +40,7 @@ public final class StarCoreBridge implements CoreGateway, AutoCloseable {
     private volatile Consumer<WorldEvent> receiver = event -> {};
     private volatile BiFunction<String,Map<String,String>,Map<String,String>> observer;
 
-    public StarCoreBridge(JavaPlugin plugin, BiConsumer<UUID,Runnable> playerScheduler, boolean folia) {
+    public StarCoreBridge(JavaPlugin plugin, PlayerOwnerScheduler playerScheduler, boolean folia) {
         this.plugin=Objects.requireNonNull(plugin); this.playerScheduler=Objects.requireNonNull(playerScheduler); this.folia=folia;
         this.core=plugin.getServer().getPluginManager().getPlugin("StarCore");
         this.nativeScenes=new NativeSceneAdapter(this::engine,id->safe(loader(),"load",id),(id,script)->installedScripts.get(id)==script,folia);
@@ -134,9 +137,8 @@ public final class StarCoreBridge implements CoreGateway, AutoCloseable {
     @Override public CompletionStage<DeliveryResult> deliver(Delivery delivery) {
         if(closed || delivery==null || delivery.playerId()==null) return CompletableFuture.completedFuture(DeliveryResult.REJECTED);
         CompletableFuture<DeliveryResult> result=new CompletableFuture<>();
-        try { playerScheduler.accept(delivery.playerId(),()-> {
-            Player player=Bukkit.getPlayer(delivery.playerId());
-            if(closed || player==null || !player.isOnline() || !player.hasPermission("starchronicle.use") || (delivery.permission()!=null && !delivery.permission().isBlank() && !player.hasPermission(delivery.permission()))) { result.complete(DeliveryResult.REJECTED); return; }
+        try { playerScheduler.execute(delivery.playerId(),player-> {
+            if(closed || player==null || !delivery.playerId().equals(player.getUniqueId()) || !player.isOnline() || !player.hasPermission("starchronicle.use") || (delivery.permission()!=null && !delivery.permission().isBlank() && !player.hasPermission(delivery.permission()))) { result.complete(DeliveryResult.REJECTED); return; }
             try {
                 Object nation=unwrap(safe(service("module.nation.NationService"),"nationOf",delivery.playerId()));
                 if(delivery.nationId()!=null && !delivery.nationId().isBlank() && !delivery.nationId().equals(string(safe(nation,"id")))) { result.complete(DeliveryResult.REJECTED); return; }
@@ -164,7 +166,7 @@ public final class StarCoreBridge implements CoreGateway, AutoCloseable {
                     }
                 }
             } catch(ReflectiveOperationException | RuntimeException ex) { plugin.getLogger().log(Level.WARNING,"StarCore delivery outcome uncertain: "+delivery.outcomeId(),ex); result.complete(DeliveryResult.UNKNOWN); }
-        }); } catch(RuntimeException ex) { result.complete(DeliveryResult.REJECTED); }
+        },()->result.complete(DeliveryResult.REJECTED)); } catch(RuntimeException ex) { result.complete(DeliveryResult.REJECTED); }
         return result;
     }
 

@@ -135,10 +135,10 @@ class ChoiceSchemaUpgradeTest {
         try(var c=open()){assertEquals("2",scalar(c,"PRAGMA user_version"));assertEquals("0",scalar(c,"SELECT COUNT(*) FROM sqlite_master WHERE name IN ('story_choice_log','event_causes','story_trigger_blocks')"));original=snapshot(c);originalSchema=schema(c);}
         List<List<String>> firstLog;
         try(var store=new SqliteStore(database())){
-            firstLog=store.transaction(c->{assertEquals("5",scalar(c,"PRAGMA user_version"));assertEquals(5,SqliteStore.SCHEMA_VERSION);var upgraded=snapshot(c);assertEquals(recoveredStatuses(original),upgraded);assertPayloadBytes(original,upgraded);var upgradedSchema=schema(c);originalSchema.forEach((name,sql)->assertEquals(sql,upgradedSchema.get(name),name));assertMigratedChoiceMeaning(c);assertForeignKeys(c);return rows(c,"SELECT * FROM story_choice_log ORDER BY seq");});
+            firstLog=store.transaction(c->{assertEquals(Integer.toString(SqliteStore.SCHEMA_VERSION),scalar(c,"PRAGMA user_version"));assertEquals(6,SqliteStore.SCHEMA_VERSION);var upgraded=snapshot(c);assertEquals(recoveredStatuses(original),upgraded);assertPayloadBytes(original,upgraded);var upgradedSchema=schema(c);originalSchema.forEach((name,sql)->assertEquals(sql,upgradedSchema.get(name),name));assertMigratedChoiceMeaning(c);assertForeignKeys(c);return rows(c,"SELECT * FROM story_choice_log ORDER BY seq");});
         }
         try(var store=new SqliteStore(database())){
-            store.transaction(c->{assertEquals("5",scalar(c,"PRAGMA user_version"));assertEquals(firstLog,rows(c,"SELECT * FROM story_choice_log ORDER BY seq"));assertEquals(recoveredStatuses(original),snapshot(c));assertPayloadBytes(original,snapshot(c));assertMigratedChoiceMeaning(c);assertForeignKeys(c);return null;});
+            store.transaction(c->{assertEquals(Integer.toString(SqliteStore.SCHEMA_VERSION),scalar(c,"PRAGMA user_version"));assertEquals(firstLog,rows(c,"SELECT * FROM story_choice_log ORDER BY seq"));assertEquals(recoveredStatuses(original),snapshot(c));assertPayloadBytes(original,snapshot(c));assertMigratedChoiceMeaning(c);assertForeignKeys(c);return null;});
         }
     }
 
@@ -161,7 +161,7 @@ class ChoiceSchemaUpgradeTest {
             try(var s=c.prepareStatement("UPDATE instances SET json=? WHERE id='legacy:completed'")){s.setString(1,pristineJson);assertEquals(1,s.executeUpdate());}
         }
         List<List<String>> migrated;
-        try(var store=new SqliteStore(database())){migrated=store.transaction(c->{assertEquals("5",scalar(c,"PRAGMA user_version"));assertEquals(pristineJson,scalar(c,"SELECT json FROM instances WHERE id='legacy:completed'"));assertMigratedChoiceMeaning(c);assertEquals("UNKNOWN",scalar(c,"SELECT status FROM outcomes WHERE id='legacy:running'"));assertForeignKeys(c);return rows(c,"SELECT * FROM story_choice_log ORDER BY seq");});}
+        try(var store=new SqliteStore(database())){migrated=store.transaction(c->{assertEquals(Integer.toString(SqliteStore.SCHEMA_VERSION),scalar(c,"PRAGMA user_version"));assertEquals(pristineJson,scalar(c,"SELECT json FROM instances WHERE id='legacy:completed'"));assertMigratedChoiceMeaning(c);assertEquals("UNKNOWN",scalar(c,"SELECT status FROM outcomes WHERE id='legacy:running'"));assertForeignKeys(c);return rows(c,"SELECT * FROM story_choice_log ORDER BY seq");});}
         try(var store=new SqliteStore(database())){store.transaction(c->{assertEquals(migrated,rows(c,"SELECT * FROM story_choice_log ORDER BY seq"));assertMigratedChoiceMeaning(c);assertForeignKeys(c);return null;});}
     }
 }

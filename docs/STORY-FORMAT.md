@@ -136,7 +136,7 @@ schema 3 保留 V1/V2 的历史、实例、投票、facts、触发与效果回�
 
 ## 复用 StarCore 脚本和任务
 
-节点可填写 `script` 与 `quest`，复用现有 NarrativeEngine 和任务接受流程。它们在进入节点时投递，**不表示此节点自动等待脚本或任务完成**。需要任务完成门槛时，让可信集成提供完成事实或提交新的已提交事件，再由规则选择或后续剧情承接。随包三个 `chronicle_` 场景经过真实ScriptLoader成功注册后才补入起始节点；不会覆盖用户自己填写的引用。自有原生任务默认不安装，因为审计版StarCore会在模板注册前恢复进度，见 [STARCORE-CONTENT.md](STARCORE-CONTENT.md)。
+节点可填写 `script` 与 `quest`，复用现有 NarrativeEngine 和任务接受流程。它们在进入节点时投递，**不表示此节点自动等待脚本或任务完成**。需要精确任务完成门槛时，使用节点效果 `quest.await` 并安装提供持久 run/completion 证明的匹配 StarCore 候选协议，详见 [QUEST-GATES.md](QUEST-GATES.md)；进度达标或曾经完成不能代替这份证明。随包三个 `chronicle_` 场景经过真实ScriptLoader成功注册后才补入起始节点；不会覆盖用户自己填写的引用。自有原生任务默认不安装，因为审计版StarCore会在模板注册前恢复进度，见 [STARCORE-CONTENT.md](STARCORE-CONTENT.md)。
 
 自动恢复仅适用于 `chronicle_last_heir`、`chronicle_siege_embers`、`chronicle_silk_road` 三个仍由本插件持有注册对象、指纹一致且只含各自自有前缀集合式效果的场景。允许的原生效果是对应前缀的 `flag/unflag/evidence/removeEvidence/markEnding`；不能加入累加奖励、外部状态修改或其他脚本前缀后仍声称可安全重入。其 Request 保存初始原生节点、权限和原国籍，checkpoint 只捕获自有状态及已确认回读节点；恢复实际执行仍交给 StarCore，不另解释原生效果。
 

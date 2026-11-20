@@ -29,8 +29,8 @@ class NationalServicesTest {
     private void field(String name,Object value)throws Exception{Field field=StarChroniclePlugin.class.getDeclaredField(name);field.setAccessible(true);field.set(plugin,value);}
     @BeforeEach void setup()throws Exception{
         field("running",new AtomicBoolean(true));field("tasks",tasks);field("gateway",gateway);field("engine",engine);field("worker",worker);field("permissions",Set.of("starchronicle.use","choice.real"));
-        when(tasks.current(actor)).thenReturn(player);when(tasks.onlineIds()).thenReturn(Set.of(actor));when(player.isOnline()).thenReturn(true);
-        doAnswer(invocation->{playerWork.add(invocation.getArgument(1,Runnable.class));return null;}).when(tasks).player(eq(actor),any(Runnable.class),any(Runnable.class));
+        when(tasks.onlineIds()).thenReturn(Set.of(actor));when(player.isOnline()).thenReturn(true);
+        doAnswer(invocation->{java.util.function.Consumer<Player> action=invocation.getArgument(1);playerWork.add(()->action.accept(player));return null;}).when(tasks).playerOwned(eq(actor),any(),any(Runnable.class));
         doAnswer(invocation->{stateWork.add(invocation.getArgument(0,Runnable.class));return null;}).when(worker).execute(any(Runnable.class));
         Class<?> type=Arrays.stream(StarChroniclePlugin.class.getDeclaredClasses()).filter(item->item.getSimpleName().equals("Service")).findFirst().orElseThrow();Constructor<?> constructor=type.getDeclaredConstructor(StarChroniclePlugin.class);constructor.setAccessible(true);service=(ChronicleService)constructor.newInstance(plugin);
     }

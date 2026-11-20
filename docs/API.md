@@ -16,7 +16,9 @@ if (chronicle != null) {
 }
 ```
 
-`ChronicleService` 暴露异步 `submit`、`join`、`choose`、`instances`、`activeInstances`、`availableInstances`、`availableChoices`、`history`、`npc(playerId,npcId)`、`fate(playerId)` 和 `describe(template,publicFacts)`。运行时会自己收集在线玩家的当前权威快照；集成方不能通过该 API 注入自填国籍或权限。`activeInstances()` 是可信服务器插件的管理查询，GUI 应使用 `availableInstances(playerId)` 避免泄露其他国家或个人实例。
+`ChronicleService` 暴露异步 `submit`、`join`、`choose`、`instances`、`activeInstances`、`availableInstances`、`availableChoices`、`history`、`questGateState(instanceId,playerId)`、`npc(playerId,npcId)`、`fate(playerId)` 和 `describe(template,publicFacts)`。运行时会自己收集在线玩家的当前权威快照；集成方不能通过该 API 注入自填国籍或权限。`activeInstances()` 是可信服务器插件的管理查询，GUI 应使用 `availableInstances(playerId)` 避免泄露其他国家或个人实例。
+
+`questGateState` 是只读投影，要求玩家已是该实例成员并仍保持实例记录的原国籍。个人模式只显示本人任务门槛；国家模式只向同一原国家成员显示。它不接受完成回执，不执行任务、不作出剧情选择，也不代表国家席位。配置使用 `quest.await` 前需有可信的 `QuestEvidenceProvider`，不能将 `quest.accept` 投递成功或目标达标解释为完成。完整 provider/run/completion 合同与 StarCore 部署边界见 [QUEST-GATES.md](QUEST-GATES.md)。
 
 对交互界面，应调用带阶段令牌的版本：
 
@@ -59,6 +61,8 @@ public interface ContextContributor {
 内置角色来源为国家创建者映射 `monarch`、可识别的国家成员 rank，以及管理员明确授予的 `starchronicle.identity.soldier/general/merchant/scholar/explorer/diplomat/mayor/monarch`。这些身份权限不是玩家可以自行选择的职业菜单，也不会因 AI 对话而授予。
 
 ## 核心输入：已提交世界事件
+
+内置的首访探索来源可通过 `exploration.enabled` 与显式 cuboid 区域配置启用。每个地区需配置稳定的小写 `id`、世界 UUID 和包含边界的整数方块坐标。插件只记录玩家真实移动或传送进入该区域的首次观察，写入玩家、当前可信国籍、方块坐标和 `time_basis=OBSERVED`。持久指纹将逻辑 ID 绑定到世界和边界，不能把原 ID 静默用于另一块区域。默认关闭；它覆盖已配置方块区域，不代表自动发现任意世界地形。
 
 ```java
 public record WorldEvent(
@@ -229,7 +233,7 @@ schema 3 的选择迁移在保留 V1/V2 原数据的基础上，同事务创建�
 
 `ChronicleService.evaluateHistorical(sourceEventId, storyId, expectedVersion)` 返回 `CompletionStage<HistoricalEvaluationReport>`。它仅为已保存canonical来源登记一个当前启用的精确剧情版本，不接收任意定义、玩家上下文或替换事件，也不立即执行效果。`QUEUED / ALREADY_REGISTERED / NO_SOURCE_AUDIENCE / BLOCKED_CAUSAL` 含义及原始历史保护见 [CONTINUOUS-NARRATIVE.md](CONTINUOUS-NARRATIVE.md)。命令 `/chronicle evaluate <事件ID> <剧情ID> <版本>` 要求管理权限；可信插件API保留现有服务端信任边界。
 
-当前schema为5；旧定义的原始JSON／SHA及来源原样保留，新增格式sidecar记录V1→V2语义关系，默认 `voteUnit: PLAYER` 不改变旧剧情计票。`DefinitionCatalog` 仅包含正式接受的有效定义或真实旧快照，以ID／版本／canonical指纹保存冲突变体；`require(id, version)` 精确解析，缺失／歧义抛异常。`ConfigLoader.load(..., catalog)`、`validateAll(definitions, catalog)`支持退休版本；两阶段加载先做单文件校验，再绑定原生内容，最后由RuleEngine事务校验和归档。纯validate不归档。已有原生执行、国家权限、UNKNOWN对账与Folia边界不变。
+schema 5 的版本目录迁移保留原始 JSON／SHA 与来源，新增格式 sidecar 记录 V1→V2 语义关系，默认 `voteUnit: PLAYER` 不改变旧剧情计票。schema 6 增加 `quest_gates` 与完成消费表，不重编码 V1–V5 数据；实际迁移与全量构建结果见 `TEST-REPORT.md`，目标服务器仍须基于停服备份复验。`DefinitionCatalog` 仅包含正式接受的有效定义或真实旧快照，以 ID／版本／canonical 指纹保存冲突变体；`require(id, version)` 精确解析，缺失／歧义抛异常。`ConfigLoader.load(..., catalog)`、`validateAll(definitions, catalog)`支持退休版本；两阶段加载先做单文件校验，再绑定原生内容，最后由 RuleEngine 事务校验和归档。纯 validate 不归档。已有原生执行、国家权限、UNKNOWN 对账与 Folia 边界不变。
 
 ## 国家席位与修订令牌
 

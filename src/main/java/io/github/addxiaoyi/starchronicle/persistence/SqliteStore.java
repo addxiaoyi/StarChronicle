@@ -5,13 +5,14 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.github.addxiaoyi.starchronicle.core.ChoiceLedger;
 import io.github.addxiaoyi.starchronicle.core.DefinitionCatalog;
 import io.github.addxiaoyi.starchronicle.core.NationalVoteLedger;
+import io.github.addxiaoyi.starchronicle.core.QuestGateLedger;
 import io.github.addxiaoyi.starchronicle.history.EventCausality;
 import java.nio.file.*;
 import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    public static final int SCHEMA_VERSION=5;
+    public static final int SCHEMA_VERSION=6;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;
@@ -47,6 +48,7 @@ public final class SqliteStore implements AutoCloseable {
                 s.execute("CREATE INDEX IF NOT EXISTS native_scene_player_status ON native_scene_journal(player,status,id)");
                 ChoiceLedger.createSchema(connection);
                 NationalVoteLedger.createSchema(connection);
+                QuestGateLedger.createSchema(connection);
                 EventCausality.createSchema(connection);
                 DefinitionCatalog.createSchema(connection);
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);
