@@ -32,6 +32,8 @@ ZIP 不包含 Git 元数据、运行世界、服务器数据库、缓存或第�
 
 `verify-delivery.py` 不解压或执行包内代码。它检查全部文件的清单覆盖和校验值、ZIP 路径与重复项、Wrapper 执行位，以及原始测试结果与清单计数。清单用于发现损坏；验证转交包的来源时，还应对照独立给出的整个 ZIP 的 SHA-256。
 
+打包前还会复核受支持的原始证据清单。`python tools/verify-evidence-archives.py --git-ref HEAD` 可同时检查工作区和 Git 内保存的字节；证据目录保留实际换行，不进行 Git 文本换行转换。
+
 ## 安装与现有数据
 
 正常停服后放置插件 JAR，再启动验证。默认 `require-starcore: true` 要求可用的真实 StarCore 服务；显式独立模式只提供本插件自己的规则、历史和展示能力。完整 StarCore/Folia 的限制见 [FOLIA-COMPATIBILITY.md](FOLIA-COMPATIBILITY.md)。
