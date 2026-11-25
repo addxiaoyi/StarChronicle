@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
+parser.add_argument('--scenario', choices=['production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 args = parser.parse_args()
 run = args.run.resolve()
@@ -104,11 +104,11 @@ def await_lines(cursor, predicate, seconds=45):
             condition.wait(min(1, deadline - time.monotonic()))
 
 
-def server_action(action):
+def server_action(action, seconds=45):
     cursor = len(observed)
     server.stdin.write('epicverify ' + action + '\n'); server.stdin.flush()
     name = action.split()[0]
-    await_lines(cursor, lambda lines: any('EPIC_ACTION_DONE ' in line and '"action":"' + name + '"' in line for _, line in lines))
+    await_lines(cursor, lambda lines: any('EPIC_ACTION_DONE ' in line and '"action":"' + name + '"' in line for _, line in lines), seconds)
 
 
 def client_action(action):
@@ -314,9 +314,58 @@ def sale_scenario(phase):
     else: raise ValueError(phase)
 
 
+def production_scenario(phase):
+    if not manifest.get('nation_production_acceptance'): raise RuntimeError('Require prepared production scenario')
+    server_action('stack-check');server_action('production-bind')
+    def command(who,cmd,contains):
+        request=json.dumps(dict(command=cmd,contains=contains),ensure_ascii=False).encode()
+        client_action('expect '+who+' '+base64.urlsafe_b64encode(request).decode().rstrip('='))
+    def identity(key):
+        records=[json.loads(line) for line in (run/'evidence/epic-fixture.jsonl').read_text().splitlines()]
+        return next(row['data']['run']['runId'] for row in reversed(records) if row['kind']=='PRODUCTION_RUN' and row['data']['key']==key)
+    def start(key,who,batches):
+        command(who,f'/nationproduction start industrial_refining {batches}','生产已开工')
+        server_action(f'production-capture {key} {who} {batches}')
+    def collect(key,who='A',response='生产批次已处理'):
+        command(who,'/nationproduction complete '+identity(key),response)
+    def ready(key,who='A'):server_action(f'production-ready {key} {who}',seconds=110)
+    if phase in ('production-first','production-offline-first'):
+        command('A','/nationproduction recipes','工业精炼')
+        command('D','/nationproduction start industrial_refining 1','请求被拒绝')
+        start('primary','A',1)
+        collect('primary',response='尚未到领取时间')
+        for who in 'DC':collect('primary',who,'请求被拒绝')
+        ready('primary');collect('primary');collect('primary',response='没有重复扣除或发放')
+        if phase=='production-offline-first':server_action('production-offline-buffered')
+        else:server_action('production-check 1')
+        start('pending','A',2);server_action('production-status pending A RUNNING')
+    elif phase=='production-offline-second':
+        collect('primary',response='没有重复扣除或发放');server_action('production-check 1')
+        command('A','/chronicle contributions','生产资源 industrial')
+    elif phase=='production-second':
+        server_action('production-check 1');server_action('production-status pending A RUNNING')
+        ready('pending');collect('pending');server_action('production-check 2')
+        start('cancelled','A',1)
+        command('A','/nationproduction cancel '+identity('cancelled'),'生产批次已处理')
+        collect('cancelled',response='请求被拒绝');server_action('production-status cancelled A CANCELLED')
+        start('old-founder','A',1);server_action('production-successor')
+        collect('old-founder',response='请求被拒绝')
+        start('successor','D',2);server_action('production-check 2')
+    elif phase=='production-third':
+        server_action('production-check 2');server_action('production-status old-founder D RUNNING')
+        collect('cancelled','D','请求被拒绝');collect('primary','A','没有重复扣除或发放')
+        ready('old-founder','D');collect('old-founder','D');server_action('production-check 3')
+        ready('successor','D');collect('successor','D');collect('successor','D','没有重复扣除或发放');server_action('production-check 4')
+        for who in 'AD':command(who,'/chronicle contributions','生产资源 industrial')
+        command('D','/chronicle contributions nation me','生产资源 industrial')
+    else:raise ValueError(phase)
+
+
 def scenario(phase):
     global clients
     await_lines(0, lambda lines: any('Done (' in line for _, line in lines) and any('EPIC_READY ' in line for _, line in lines), 180)
+    if phase == 'production-offline-second':
+        server_action('production-offline-consumed')
     if phase == 'sale-offline-second':
         server_action('sale-offline-consumed')
     if phase == 'memory-offline-second':
@@ -331,7 +380,9 @@ def scenario(phase):
     if manifest.get('battlefield_acceptance'):
         server_action('battle-bind')
         if phase != 'first': server_action('battle-check ended')
-    if phase.startswith('sale-'):
+    if phase.startswith('production-'):
+        production_scenario(phase)
+    elif phase.startswith('sale-'):
         sale_scenario(phase)
     elif phase == 'quest-first':
         server_action('open')
@@ -514,7 +565,7 @@ def scenario(phase):
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:
         raise RuntimeError('Acceptance processes must exit normally')
-    if manifest.get('memory_acceptance') or manifest.get('capital_acceptance') or manifest.get('production_campaign') or manifest.get('nation_trade_acceptance'): database_checkpoint()
+    if manifest.get('memory_acceptance') or manifest.get('capital_acceptance') or manifest.get('production_campaign') or manifest.get('nation_trade_acceptance') or manifest.get('nation_production_acceptance'): database_checkpoint()
     print('SCENARIO_COMPLETE ' + phase, flush=True)
 outcome = dict(boot=args.boot, scenario=args.scenario, contributions=args.contributions, status='INCOMPLETE')
 outcome['source_sha256'] = {

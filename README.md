@@ -1,6 +1,6 @@
 # StarChronicle
 
-2026-11-25 跨设备续接入口：[十阶段进度与交接](docs/HANDOFF-2026-11-25.md)。最新国家贸易增量完成国库／库存／报价／回执共同SQL提交及原操作者贡献；Chronicle962项、原生7,313项完整测试通过（原生21既有跳过）。同一双构件完成贸易三轮、空服两轮、DUNGEON／WAR各三轮，116项证据检查通过、4项历史场景检查跳过。精确范围见[国家贸易验收](docs/NATION-TRADE-TEST-REPORT.md)。十阶段继续，未合并或部署生产服。
+2026-11-25 跨设备续接入口：[十阶段进度与交接](docs/HANDOFF-2026-11-25.md)。最新国家生产增量完成开工扣料／批次、到期交付／回执、取消退款／终态共同SQL提交及原操作者文明贡献；Chronicle979项通过，原生7,354项零失败／错误、21项既有跳过。同一双构件完成生产三轮、空服两轮、贸易／DUNGEON／WAR各三轮，共14次正常启动，174项证据检查通过、8项场景检查跳过。见[生产验收](docs/NATION-PRODUCTION-TEST-REPORT.md)。旧加工资产接口已停用，调用方须迁移；十阶段继续，未合并或部署生产服。
 
 上一国家资源转移增量的六组双插件实服、118 项证据回归及对应构件独立保留在[资源报告](docs/RESOURCE-HISTORY.md)。资源回执没有个人操作者，不生成个人贡献。
 
@@ -143,6 +143,7 @@ Folia 的 UI 操作回到玩家实体线程，数据库编排放在工作线程�
 - [复用StarCore场景与任务恢复限制](docs/STARCORE-CONTENT.md)
 - [自有原生场景的持久化恢复协议](docs/NATIVE-SCENE-RECOVERY.md)
 - [可选文本提供者、限流与模板回退](docs/TEXT-PROVIDERS.md)
+- [国家生产批次与文明贡献合同](docs/NATION-PRODUCTION-CONTRACT.md)与[精确构件验收](docs/NATION-PRODUCTION-TEST-REPORT.md)
 - [国家贸易共同提交合同](docs/NATION-TRADE-CONTRACT.md)与[精确构件验收](docs/NATION-TRADE-TEST-REPORT.md)
 - [测试与构建报告](docs/TEST-REPORT.md)
 - [交付包、复验命令与安装数据](docs/DELIVERY.md)

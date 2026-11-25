@@ -1,8 +1,6 @@
 # StarChronicle 构建与验证报告
 
-当前冻结双构件的贸易／空服补录及DUNGEON／WAR共11次启动、116项证据检查通过（4项历史场景检查跳过），见[国家贸易验收](NATION-TRADE-TEST-REPORT.md)。本文件JUnit统计与实服结论分别保留；旧报告不覆盖当前JAR。
-
-生成时间：2026-11-26T03:13:25+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T03:44:00+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
@@ -10,7 +8,7 @@
 
 - 执行命令：`./mvnw -o -B -ntp verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
-- 单元／集成回归：962 项，失败 0，错误 0，跳过 0。
+- 单元／集成回归：979 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
 - 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。
 - 同时生成全部 Java 源码 JAR。
@@ -78,6 +76,7 @@
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest` | 21 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySourceTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProviderTest` | 6 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreNationProductionSourceTest` | 17 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSourceTest` | 15 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest` | 19 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest` | 25 | 0 | 0 | 0 |
@@ -126,25 +125,25 @@
 |---|---:|---:|
 | `io/github/addxiaoyi/starchronicle/api/aid` | 34/34 (100.0%) | 35/62 (56.5%) |
 | `io/github/addxiaoyi/starchronicle/api/quest` | 37/37 (100.0%) | 13/18 (72.2%) |
-| `io/github/addxiaoyi/starchronicle/paper` | 423/1328 (31.9%) | 477/1595 (29.9%) |
-| `io/github/addxiaoyi/starchronicle/integration` | 916/1371 (66.8%) | 949/1676 (56.6%) |
+| `io/github/addxiaoyi/starchronicle/paper` | 423/1333 (31.7%) | 477/1599 (29.8%) |
+| `io/github/addxiaoyi/starchronicle/integration` | 949/1406 (67.5%) | 974/1716 (56.8%) |
 | `io/github/addxiaoyi/starchronicle/persistence` | 59/59 (100.0%) | 15/18 (83.3%) |
 | `io/github/addxiaoyi/starchronicle/narrative` | 88/88 (100.0%) | 113/150 (75.3%) |
 | `io/github/addxiaoyi/starchronicle/api` | 27/67 (40.3%) | 25/42 (59.5%) |
 | `io/github/addxiaoyi/starchronicle/memory` | 136/136 (100.0%) | 136/188 (72.3%) |
 | `io/github/addxiaoyi/starchronicle/api/contribution` | 31/35 (88.6%) | 14/28 (50.0%) |
-| `io/github/addxiaoyi/starchronicle/history` | 323/328 (98.5%) | 296/383 (77.3%) |
+| `io/github/addxiaoyi/starchronicle/history` | 360/367 (98.1%) | 319/423 (75.4%) |
 | `io/github/addxiaoyi/starchronicle/config` | 264/272 (97.1%) | 358/444 (80.6%) |
 | `io/github/addxiaoyi/starchronicle/npc` | 228/231 (98.7%) | 213/288 (74.0%) |
-| `io/github/addxiaoyi/starchronicle/core` | 2311/2461 (93.9%) | 2252/3106 (72.5%) |
+| `io/github/addxiaoyi/starchronicle/core` | 2343/2496 (93.9%) | 2274/3138 (72.5%) |
 | `io/github/addxiaoyi/starchronicle/api/epic` | 234/261 (89.7%) | 151/274 (55.1%) |
 
 ## 产物校验
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18093425 | `9363071927b8293c9d39dc829001279fb769d4fcbc0e24ff721232a01cbe66e1` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 356443 | `62352dd8fd8f1c56474eb59de720c1900ac91f051165ee5793773588ef546c3d` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18106284 | `549f99d9e2fca919d42263fc184e3f790d101b7f65a1c91f067eb9716ce7fc5f` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 361781 | `02f6278dcb7a373dce7e695b843db2f2394236bd665a226c98dbb756266502a6` |
 
 ## 真实服务器证据与构建对应
 
