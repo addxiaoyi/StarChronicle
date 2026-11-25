@@ -16,6 +16,7 @@ p.add_argument('--runtime',type=Path,required=True)
 p.add_argument('--java-home',type=Path,required=True)
 p.add_argument('--artifacts-dir',type=Path,required=True)
 p.add_argument('--offline',action='store_true')
+p.add_argument('--prepare-only',action='store_true',help='Leave fixture uncompiled for a composed acceptance scenario')
 a=p.parse_args()
 subprocess.run(['python3',str(ROOT/'tools/prepare-production-paper.py'),'--prepare-only','--attempt',a.attempt,'--port',str(a.port),
     '--starcore',str(a.starcore),'--runtime',str(a.runtime),'--java-home',str(a.java_home),'--artifacts-dir',str(a.artifacts_dir)],check=True,cwd=ROOT)
@@ -36,5 +37,6 @@ manifest['limitations']=['Selected isolated Paper stack; no production deploymen
     'Paid production runs use national inventory, fixed recipe terms and original initiators. Legacy actorless factory writes are disabled; no migration invents old contributors.',
     'SQL rollback and lost commit acknowledgements are product tests; real boots validate normal persisted recovery.']
 (run/'preparation.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-subprocess.run(['python3',str(ROOT/'tools/prepare-epic-paper.py'),'compile','--run',str(run),'--java-home',str(a.java_home)],check=True,cwd=ROOT)
+if not a.prepare_only:
+    subprocess.run(['python3',str(ROOT/'tools/prepare-epic-paper.py'),'compile','--run',str(run),'--java-home',str(a.java_home)],check=True,cwd=ROOT)
 print(json.dumps({'run':str(run),'status':'PREPARED_NOT_ACCEPTED'}))

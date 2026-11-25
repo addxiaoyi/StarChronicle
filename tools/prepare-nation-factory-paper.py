@@ -6,7 +6,7 @@ p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--attempt',required=True);p.add_argument('--port',type=int,required=True)
 for name in ('starcore','runtime','java-home','artifacts-dir'):p.add_argument('--'+name,type=Path,required=True)
 a=p.parse_args()
-subprocess.run(['python3',str(ROOT/'tools/prepare-nation-production-paper.py'),'--attempt',a.attempt,'--port',str(a.port),'--starcore',str(a.starcore),'--runtime',str(a.runtime),'--java-home',str(a.java_home),'--artifacts-dir',str(a.artifacts_dir)],check=True,cwd=ROOT)
+subprocess.run(['python3',str(ROOT/'tools/prepare-nation-production-paper.py'),'--prepare-only','--attempt',a.attempt,'--port',str(a.port),'--starcore',str(a.starcore),'--runtime',str(a.runtime),'--java-home',str(a.java_home),'--artifacts-dir',str(a.artifacts_dir)],check=True,cwd=ROOT)
 sha=lambda path:hashlib.sha256(path.read_bytes()).hexdigest()
 run=ROOT/'run'/f'paper-epic-{sha(ROOT/"target/starchronicle-0.1.0-SNAPSHOT.jar")[:8]}-dungeon-{a.attempt}'
 m=json.loads((run/'preparation.json').read_text())

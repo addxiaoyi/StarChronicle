@@ -156,7 +156,8 @@ def inspect(run):
         state_f,state=native(cp/'starcore.db',seed,players,runs,ops,boot);ev,cs=P.chronicle(cp/'chronicle.db',state,n,bound_empty=boot==1)
         check(state_f['rows']==f['rows'][:len(state_f['rows'])] and state['entries']==final['entries'][:len(state['entries'])],'Factory/production prefix changed across restart')
         check(ev==events[:len(ev)] and cs==[v for v in views if v['request']['sourceEventId'] in {x['id'] for x in ev}],'Factory projections changed across restart')
-        stocks={resource:amount for (nation,resource),amount in state['stocks'].items() if nation==seed['A']}
+        stocks={resource:0 for resource in ('agricultural','chemical','energy','industrial','luxury','mineral','strategic')}
+        stocks.update({resource:amount for (nation,resource),amount in state['stocks'].items() if nation==seed['A']})
         check(checkpoints[-1]['stockpile']==stocks and live['stockpile']==stocks,'Live factory stockpile differs')
     succession=[r for r in fixture if r['kind']=='PRODUCTION_SUCCESSOR'];check(len(succession)==1 and succession[0]['boot']==2 and succession[0]['data']==dict(nation=seed['A'],previous=players['A'],current=players['D'],publicNativeOperation=True),'Missing factory succession')
     return dict(status='SELECTED_PAPER_NATION_FACTORIES_ACCEPTED',boots=3,normal_process_exits=6,actual_command_results=count,factory_changes=6,completions=3,cancellations=1,contributions=6,
