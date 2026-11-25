@@ -72,6 +72,14 @@ class ActualEpicEvidenceTest(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, 'restart/replay'):
             INSPECTOR.inspect(self.run)
 
+    def test_real_retained_uncertain_diplomacy_acceptance_is_rejected(self):
+        supplied = os.environ.get('STARCHRONICLE_DIPLOMACY_FAILURE_FIXTURE')
+        if not supplied or not Path(supplied).is_file():
+            self.skipTest('Requires retained real uncertain diplomacy acceptance fixture')
+        shutil.copy2(supplied, self.run / 'evidence/epic-fixture.jsonl')
+        with self.assertRaisesRegex(AssertionError, 'Fixture failure retained'):
+            INSPECTOR.inspect(self.run)
+
     def test_missing_actual_craft_is_rejected(self):
         path = self.run / 'evidence/boot1.clients.log'
         path.write_text('\n'.join(line for line in path.read_text().splitlines() if '"kind":"CRAFTED"' not in line))

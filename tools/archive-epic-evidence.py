@@ -21,7 +21,10 @@ NATIVE_TRADE_TESTS = {'SimpleTradeHistoryPagingTest', 'TradeRecordTest', 'TradeH
                       'PublicApiCompatibilityTest'}
 NATIVE_TECHNOLOGY_TESTS = {'TechnologyHistoryStorageTest', 'TechnologyModuleBoundaryTest',
                            'DatabaseAwareWeatherStateStorageTest', 'WeatherModuleDatabaseConflictIntegrationTest',
-                           'WeatherModuleLifecycleTest', 'PublicApiCompatibilityTest'}
+                           'WeatherModuleLifecycleTest', 'PublicApiCompatibilityTest',
+                           'SqlDiplomacyStateStorageContentionTest', 'DiplomacyStateConflictIntegrationTest',
+                           'DiplomacyPlayerJourneyRestartIntegrationTest', 'DiplomacyModuleLifecycleTest',
+                           'DiplomacyRelationCancellationContractTest', 'DiplomacyWarRecordSynchronizationTest'}
 
 
 def sha(path):
