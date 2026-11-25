@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second'])
+parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 args = parser.parse_args()
 run = args.run.resolve()
@@ -187,7 +187,7 @@ def memory_scenario(phase):
     else: raise ValueError('Unknown memory scenario')
 
 
-def memory_checkpoint():
+def database_checkpoint():
     directory = run/'evidence/checkpoints'/f'boot{args.boot}'; directory.mkdir(parents=True,exist_ok=False)
     hashes = {}
     for plugin, name in (('StarChronicle','chronicle.db'),('StarCore','starcore.db')):
@@ -198,6 +198,14 @@ def memory_checkpoint():
         before = hashlib.sha256(source.read_bytes()).hexdigest(); shutil.copy2(source,directory/name)
         if hashlib.sha256((directory/name).read_bytes()).hexdigest() != before: raise RuntimeError('Stopped database checkpoint drift')
         hashes[name] = before
+    if manifest.get('capital_acceptance'):
+        for source in sorted((run/'plugins/StarCore').rglob('capital-designations.log*')):
+            if not source.is_file() or source.suffix == '.lock': continue
+            relative = Path('StarCore')/source.relative_to(run/'plugins/StarCore')
+            target = directory/relative; target.parent.mkdir(parents=True, exist_ok=True)
+            before = hashlib.sha256(source.read_bytes()).hexdigest(); shutil.copy2(source,target)
+            if hashlib.sha256(target.read_bytes()).hexdigest() != before: raise RuntimeError('Capital checkpoint drift')
+            hashes[str(relative)] = before
     (directory/'checkpoint.json').write_text(json.dumps(dict(boot=args.boot,time=time.time(),sha256=hashes),indent=2)+'\n')
 
 
@@ -253,11 +261,27 @@ def scenario(phase):
     await_lines(0, lambda lines: any('Done (' in line for _, line in lines) and any('EPIC_READY ' in line for _, line in lines), 180)
     if phase == 'memory-offline-second':
         server_action('memory-check offline-recorded')
+    if phase == 'capital-offline-second':
+        server_action('capital-check 205')
     cursor = len(observed)
     clients = start([str(args.node), '--max-old-space-size=192', str(client_script), str(run)], 'clients')
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
-    if phase.startswith('memory-'):
+    if phase.startswith('capital-'):
+        server_action('stack-check')
+        if phase in ('capital-first', 'capital-offline-first'):
+            server_action('capital-check 0'); server_action('capital-bind'); server_action('capital-burst')
+            server_action('capital-reject A'); server_action('capital-repeat')
+            server_action('capital-buffered' if phase == 'capital-offline-first' else 'capital-check 205')
+        elif phase == 'capital-second':
+            server_action('capital-check 205'); server_action('capital-repeat'); server_action('capital-successor')
+            server_action('capital-reject D'); server_action('capital-check 206'); server_action('capital-delete'); server_action('capital-check 206')
+        elif phase == 'capital-third':
+            server_action('capital-check 206')
+        elif phase == 'capital-offline-second':
+            server_action('capital-repeat'); server_action('capital-check 205')
+        else: raise RuntimeError('Unknown capital scenario')
+    elif phase.startswith('memory-'):
         memory_scenario(phase)
     elif phase.startswith('stack-'):
         server_action('stack-check')
@@ -375,7 +399,7 @@ def scenario(phase):
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:
         raise RuntimeError('Acceptance processes must exit normally')
-    if manifest.get('memory_acceptance'): memory_checkpoint()
+    if manifest.get('memory_acceptance') or manifest.get('capital_acceptance'): database_checkpoint()
     print('SCENARIO_COMPLETE ' + phase, flush=True)
 outcome = dict(boot=args.boot, scenario=args.scenario, contributions=args.contributions, status='INCOMPLETE')
 outcome['source_sha256'] = {
