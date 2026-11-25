@@ -79,3 +79,5 @@ python3 tools/test_battlefield_acceptance.py
 ~~~
 
 DUNGEON 回归使用 `prepare-production-paper.py --campaign --route DUNGEON`，独立端口／目录同样执行三次启动，再用 `inspect-epic-production-paper.py` 与 `test_epic_production_acceptance.py`。下一项为 UNKNOWN 对账和失败／放弃后的安全新轮次；收费建国、贸易／生产共同提交、全栈 Folia、MySQL 与容量继续见[交接](HANDOFF-2026-11-25.md)及[剩余工作](REMAINING-WORK.md)。
+
+最终 [CI 45671933354](https://github.com/addxiaoyi/StarChronicle/actions/runs/45671933354) 在 `546d66d` 通过927项测试和完整1,397项交付检查。CI JAR SHA-256 为 `f75881b5d6024aa5f64bb9821a537f3522467a46d351ad9c2bdd036d7c16312c`，交付 ZIP 为 `b17372c044a786eb39c3e263a0e6dc51bcc39d445e47c3dcfc1324a5ab8808d3`；该 CI 重建构件未做实服测试，不替代上述冻结双 JAR。

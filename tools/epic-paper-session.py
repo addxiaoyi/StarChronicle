@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
+parser.add_argument('--scenario', choices=['quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 args = parser.parse_args()
 run = args.run.resolve()
@@ -198,6 +198,14 @@ def database_checkpoint():
         before = hashlib.sha256(source.read_bytes()).hexdigest(); shutil.copy2(source,directory/name)
         if hashlib.sha256((directory/name).read_bytes()).hexdigest() != before: raise RuntimeError('Stopped database checkpoint drift')
         hashes[name] = before
+    if manifest.get('quest_recovery_acceptance'):
+        for source in sorted((run/'plugins/StarCore/quest').rglob('*')):
+            if not source.is_file(): continue
+            relative=Path('StarCore/quest')/source.relative_to(run/'plugins/StarCore/quest')
+            target=directory/relative; target.parent.mkdir(parents=True,exist_ok=True)
+            before=hashlib.sha256(source.read_bytes()).hexdigest(); shutil.copy2(source,target)
+            if hashlib.sha256(target.read_bytes()).hexdigest()!=before: raise RuntimeError('Native quest checkpoint drift')
+            hashes[str(relative)]=before
     if manifest.get('capital_acceptance'):
         for source in sorted((run/'plugins/StarCore').rglob('capital-designations.log*')):
             if not source.is_file() or source.suffix == '.lock': continue
@@ -271,7 +279,24 @@ def scenario(phase):
     if manifest.get('battlefield_acceptance'):
         server_action('battle-bind')
         if phase != 'first': server_action('battle-check ended')
-    if phase.startswith('capital-'):
+    if phase == 'quest-first':
+        server_action('open')
+        for who in 'AB': server_action('task-ready ' + who)
+        server_action('quest-check A 0 ACTIVE')
+        server_action('quest-hold A')
+        client_action('quest-abandon A')
+        server_action('quest-check A 0 UNKNOWN')
+        client_action('quest-gate A reconcile UNKNOWN 0')
+        server_action('quest-unknown-retry')
+        server_action('quest-check A 0 UNKNOWN')
+        server_action('quest-release')
+        server_action('quest-check A 0 ABANDONED')
+        server_action('quest-reject foreign')
+        client_action('quest-gate A retry ABANDONED 0')
+        server_action('quest-check A 1 ACTIVE')
+        server_action('quest-reject stale')
+        server_action('quest-check B 0 ACTIVE')
+    elif phase.startswith('capital-'):
         server_action('stack-check')
         if phase in ('capital-first', 'capital-offline-first'):
             server_action('capital-check 0'); server_action('capital-bind'); server_action('capital-burst')
@@ -365,11 +390,16 @@ def scenario(phase):
     elif phase.startswith('members-'):
         member_scenario(phase)
     elif phase == 'first':
-        server_action('open')
+        if manifest.get('quest_recovery_acceptance'):
+            server_action('quest-check A 1 ACTIVE')
+            server_action('quest-check B 0 ACTIVE')
+            server_action('quest-reject stale')
+        else: server_action('open')
         for who in 'AB':
             server_action('task-ready ' + who)
             client_action('craft ' + who)
             server_action('task-complete ' + who)
+            if manifest.get('quest_recovery_acceptance'): server_action('quest-check '+who+' '+('1' if who=='A' else '0')+' COMMITTED')
         time.sleep(3)
         server_action('preparations')
         server_action('advance')
@@ -421,6 +451,7 @@ def scenario(phase):
         server_action('battle-view A')
         client_action('battle-try A 1 blocked')
         server_action('battle-check ended')
+    if manifest.get('quest_recovery_acceptance') and phase in ('second','third'): server_action('quest-reject completed')
     if args.contributions:
         server_action('contributions')
         client_action('contributions A')

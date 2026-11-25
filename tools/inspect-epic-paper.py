@@ -73,6 +73,9 @@ def verify_boots(run, manifest, scenarios=('first', 'second', 'third'), first_bo
             check(len(checkpoint) == 1 and checkpoint[0]['status'] == 'ROUTE_APPROVED', 'Missing pre-settlement restart checkpoint')
             native_kind = 'NATIVE_DUNGEON_COMPLETED' if manifest['route'] == 'DUNGEON' else 'NATIVE_WAR_ENDED'
             check(sum(row['kind'] == native_kind for row in rows) == (2 if manifest['route'] == 'DUNGEON' else 1), 'Missing native final activity')
+        elif scenario == 'quest-first':
+            check(bool(manifest.get('quest_recovery_acceptance')), 'Unprepared task recovery boot')
+            check(not any(row['kind'] in ('CRAFTED','ACCEPTANCE_PASS') for row in clients + rows), 'Task preparation boot unexpectedly completed work')
         else:
             kinds = [row['kind'] for row in rows]
             passes = [row['data'] for row in rows if row['kind'] == 'ACCEPTANCE_PASS']
@@ -90,13 +93,17 @@ def check(condition, message):
 
 
 def connect(path):
-    connection = sqlite3.connect(path.resolve().as_uri() + '?mode=ro', uri=True)
+    # A stopped, checkpointed database needs no shared-memory/WAL artifacts. Tests of
+    # corrupt copies may still have a committed WAL, which must remain visible.
+    journals = [Path(str(path) + suffix) for suffix in ('-wal', '-journal')]
+    checkpointed = not any(p.exists() and p.stat().st_size for p in journals)
+    connection = sqlite3.connect(path.resolve().as_uri() + '?mode=ro' + ('&immutable=1' if checkpointed else ''), uri=True)
     connection.row_factory = sqlite3.Row
     check(connection.execute('pragma integrity_check').fetchone()[0] == 'ok', 'Database integrity failed')
     return connection
 
 
-def inspect(run, *, scenarios=('first', 'second', 'third'), first_boot=1):
+def inspect(run, *, scenarios=('first', 'second', 'third'), first_boot=1, quest_binding=None):
     run = run.resolve()
     manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
     probe = socket.socket()
@@ -192,7 +199,8 @@ def inspect(run, *, scenarios=('first', 'second', 'third'), first_boot=1):
                 authority = QUEST.properties(root / 'evidence-authority.properties')['authority']
                 check(authority == receipt['authorityDomain'] and gate['provider_id'] == 'starcore.quest.evidence.v1:' + authority, 'Quest authority mismatch')
                 snapshots = [json.loads(QUEST.properties(p)['entry'])['snapshot'] for p in (root / 'tracked-evidence').glob('*.properties')]
-                matching = [s for s in snapshots if s['bindingId'] == gate['id']]
+                binding = gate['id'] if quest_binding is None else quest_binding(chronicle, gate)
+                matching = [s for s in snapshots if s['bindingId'] == binding]
                 check(len(matching) == 1, 'Native quest shard missing')
                 s = matching[0]
                 check(s['status'] == 'COMPLETED' and s['rewardStatus'] == 'INVOKED', 'Native quest completion is not committed')
