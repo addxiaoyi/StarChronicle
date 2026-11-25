@@ -9,7 +9,7 @@
 | StarChronicle | `01cbe53735fb8692b59ec552051956e80bd44b05`，分支 `codex/trade-settlement-20261125` | `9363071927b8293c9d39dc829001279fb769d4fcbc0e24ff721232a01cbe66e1` |
 | StarCore | `253added0228032fe7a687a84f5d5e0b02788ece`，分支 `codex/atomic-trade-settlement-20261125` | `b7cfd0a65d394785a2b03667d62edec2960b8c3bab3959b347ee0001f31231a0` |
 
-原生草稿[PR #11](https://github.com/addxiaoyi/starcore/pull/11)叠加任务恢复#10；Chronicle叠加#13。构建后冻结双JAR，工具和报告开发未重建产品。后续CI构件按自身指纹登记，不能继承本轮实服结论。
+原生草稿[PR #11](https://github.com/addxiaoyi/starcore/pull/11)叠加任务恢复#10；Chronicle草稿[PR #14](https://github.com/addxiaoyi/StarChronicle/pull/14)叠加#13。构建后冻结双JAR，工具和报告开发未重建产品。后续CI构件按自身指纹登记，不能继承本轮实服结论。原生工作流仅自动覆盖main，因此叠加草稿未触发远端CI；原生结论来自上方本地完整构建和实服。Chronicle最终CI结果与产物指纹在PR说明登记，避免为记录CI结果不断提交而触发新构建。
 
 环境由用户授权自行确定：Java21／Paper1.21.11、EssentialsX2.22.0／Vault1.7.3-b131、FancyNpcs2.10.1-java21+2、WorldEdit7.4.2／WorldGuard7.0.17，见[精确组合锁](verification/production-stack-candidate-20261125.json)。实际加载七插件，原生业务经济仍选用PlayerVaultEconomyService；本直售协议付款来源明确是国家国库。
 
