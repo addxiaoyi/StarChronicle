@@ -16,12 +16,12 @@ def table(db,name):
     return sorted((dict(row) for row in db.execute('SELECT * FROM '+name)),key=lambda row:json.dumps(row,sort_keys=True))
 
 
-def inspect(run):
+def inspect(run, *, expected_war_ending="native principal peace", expected_fixture="ProductionStackPaperFixture"):
     run=run.resolve();manifest=read(run/'preparation.json')
     check(manifest['production_campaign']['route']==manifest['route'],'Production campaign route differs')
-    check(manifest['production_campaign']['war_ending']=='native principal peace','Unverified battle-victory claim')
+    check(manifest['production_campaign']['war_ending']==expected_war_ending,'Unverified battle-victory claim')
     result=CONTRIBUTIONS.inspect(run)
-    check(manifest['fixture_main_class']=='ProductionStackPaperFixture','Missing production-aware fixture')
+    check(manifest['fixture_main_class']==expected_fixture,'Missing production-aware fixture')
     for name,digest in manifest['fixture_extra_sources_sha256'].items():check(sha(run/'fixture'/name)==digest,'Production fixture source changed')
     paper={value for name,value in manifest['source_artifacts'].items() if Path(name).name=='paper.jar'}
     check(len(paper)==1 and sha(run/'paper.jar') in paper,'Frozen Paper artifact changed')

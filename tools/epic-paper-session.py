@@ -268,6 +268,9 @@ def scenario(phase):
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
     if manifest.get('production_campaign'): server_action('stack-check')
+    if manifest.get('battlefield_acceptance'):
+        server_action('battle-bind')
+        if phase != 'first': server_action('battle-check ended')
     if phase.startswith('capital-'):
         server_action('stack-check')
         if phase in ('capital-first', 'capital-offline-first'):
@@ -377,7 +380,29 @@ def scenario(phase):
         else:
             server_action('found')
             server_action('declare')
-            server_action('end-war')
+            if manifest.get('battlefield_acceptance'):
+                server_action('battle-prepare')
+                client_action('battle-open A')
+                client_action('battle-try A 1 blocked')
+                server_action('battle-check 0')
+                server_action('battle-start')
+                client_action('battle-open A')
+                client_action('battle-try A 1 capture')
+                server_action('battle-check 50')
+                client_action('battle-try A 1 blocked')
+                server_action('battle-check 50')
+                client_action('battle-try A 2 capture')
+                server_action('battle-check 100')
+                server_action('battle-view C')
+                client_action('battle-try C 1 blocked')
+                server_action('battle-check 100')
+                client_action('battle-end A')
+                server_action('battle-finish')
+                server_action('battle-view A')
+                client_action('battle-try A 2 blocked')
+                server_action('battle-check ended')
+            else:
+                server_action('end-war')
         server_action('checkpoint')
     elif phase == 'second':
         server_action('final-evidence')
@@ -392,6 +417,10 @@ def scenario(phase):
         server_action('check')
     else:
         raise ValueError('first|second|third')
+    if manifest.get('battlefield_acceptance') and phase != 'first':
+        server_action('battle-view A')
+        client_action('battle-try A 1 blocked')
+        server_action('battle-check ended')
     if args.contributions:
         server_action('contributions')
         client_action('contributions A')

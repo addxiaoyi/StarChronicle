@@ -71,3 +71,5 @@ python3 tools/test_epic_production_acceptance.py
 ~~~
 
 本增量关闭“所选第三方组合完整 DUNGEON／WAR 史诗链及重启结算”的验收缺口。后续推进真实战场胜利、UNKNOWN 对账和失败／放弃后的安全新轮次；其余工作见[交接报告](HANDOFF-2026-11-25.md)与[剩余工作](REMAINING-WORK.md)。
+
+最终 [CI 45668006968](https://github.com/addxiaoyi/StarChronicle/actions/runs/45668006968) 在 a88b12d 通过927项测试及1,389项交付检查。CI JAR SHA-256为 ebc2b4f6cc1cfb5cee3e7ff211243baf480c3fb9bdbdf1c6d47983ee53ca2972，交付ZIP为95cb369b03eb2f59840e678a941d1de4a95cb90d0022c331b6f8f7ec81ba4a3d；CI构件未做实服测试，不替代本文冻结双JAR。
