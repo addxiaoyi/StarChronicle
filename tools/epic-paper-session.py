@@ -17,6 +17,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
+parser.add_argument('--scenario', choices=['first', 'second', 'third'])
 args = parser.parse_args()
 run = args.run.resolve()
 if run.parent != (ROOT / 'run').resolve() or not run.name.startswith('paper-epic-'):
@@ -26,6 +27,7 @@ for name, key in [('StarChronicle', 'plugin_sha256'), ('StarCore', 'starcore_sha
     if hashlib.sha256((run / f'plugins/{name}.jar').read_bytes()).hexdigest() != manifest[key]:
         raise SystemExit('Frozen artifact drift: ' + name)
 probe = socket.socket()
+probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 probe.bind(('127.0.0.1', manifest['server_port']))
 probe.close()
 flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
@@ -35,6 +37,8 @@ if prefix.with_suffix('.server.log').exists():
 shutil.copy2(__file__, Path(str(prefix) + '.controller.py'))
 shutil.copy2(ROOT / 'tools/epic-paper-clients.cjs', Path(str(prefix) + '.clients.cjs'))
 handles = []
+readers = []
+process_records = []
 observed = []
 condition = threading.Condition()
 
@@ -44,6 +48,8 @@ def start(command, name):
                                stderr=subprocess.STDOUT, text=True, encoding='utf-8', errors='replace',
                                creationflags=flags, bufsize=1)
     handles.append(process)
+    record = dict(name=name, pid=process.pid, command=command, started_at=time.time())
+    process_records.append(record)
     def read():
         with Path(str(prefix) + f'.{name}.log').open('x', encoding='utf-8') as log:
             for line in process.stdout:
@@ -52,14 +58,18 @@ def start(command, name):
                 with condition:
                     observed.append((name, line))
                     condition.notify_all()
-                if name == 'clients' or any(word in line for word in ('EPIC_', 'Done (', 'ERROR', 'Exception', 'Stopping server')):
+                if (name == 'clients' and '"kind":"MESSAGE"' not in line) or any(word in line for word in ('EPIC_', 'Done (', 'ERROR', 'Exception', 'Stopping server')):
                     print(name + ': ' + (line.rstrip()[:700] + (' [full record retained in log]' if len(line)>700 else '')), flush=True)
-        print(f'{name}: EXIT {process.wait()}', flush=True)
-    threading.Thread(target=read, daemon=True).start()
+        record.update(exit_code=process.wait(), exited_at=time.time())
+        print(f'{name}: EXIT {record["exit_code"]}', flush=True)
+    reader = threading.Thread(target=read, daemon=True)
+    readers.append(reader)
+    reader.start()
     return process
 
 
-server = start([str(args.java_home / 'bin/java.exe'), '-Xms64m', '-Xmx384m', '-Xss512k',
+java = args.java_home / 'bin' / ('java.exe' if os.name == 'nt' else 'java')
+server = start([str(java), '-Xms64m', '-Xmx384m', '-Xss512k',
                 '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1', '-XX:TieredStopAtLevel=1',
                 '-XX:ReservedCodeCacheSize=64m', '-XX:CompressedClassSpaceSize=64m', '-Dfile.encoding=UTF-8',
                 '-Dterminal.jline=false', '-Dterminal.ansi=false', '-jar', 'paper.jar', 'nogui'], 'server')
@@ -77,6 +87,8 @@ def await_lines(cursor, predicate, seconds=45):
                 raise RuntimeError('Observed failure: ' + failures[-1])
             if predicate(fresh):
                 return
+            if server.poll() is not None or (clients is not None and clients.poll() is not None):
+                raise RuntimeError('Acceptance process exited before the expected observation')
             if time.monotonic() >= deadline:
                 raise TimeoutError('No matching live observation within deadline')
             condition.wait(min(1, deadline - time.monotonic()))
@@ -106,6 +118,7 @@ def scenario(phase):
     if phase == 'first':
         server_action('open')
         for who in 'AB':
+            server_action('task-ready ' + who)
             client_action('craft ' + who)
             server_action('task-complete ' + who)
         time.sleep(3)
@@ -135,12 +148,18 @@ def scenario(phase):
         raise ValueError('first|second|third')
     clients.stdin.write('quit\n'); clients.stdin.flush(); clients.wait(timeout=15)
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
+    if clients.returncode != 0 or server.returncode != 0:
+        raise RuntimeError('Acceptance processes must exit normally')
     print('SCENARIO_COMPLETE ' + phase, flush=True)
+outcome = dict(boot=args.boot, scenario=args.scenario, status='INCOMPLETE')
 try:
-    for raw in sys.stdin:
+    commands = ['scenario ' + args.scenario] if args.scenario else sys.stdin
+    for raw in commands:
         line = raw.strip()
         if line.startswith('scenario '):
+            outcome['scenario'] = line.split()[1]
             scenario(line.split()[1])
+            outcome['status'] = 'COMPLETE'
             break
         elif line == 'clients start':
             if clients is not None:
@@ -159,7 +178,10 @@ try:
                 server.wait(timeout=60)
                 break
         else:
-            print('Expected clients start | client ACTION | server COMMAND', flush=True)
+            print('Expected scenario first|second|third | clients start | client ACTION | server COMMAND', flush=True)
+except BaseException as error:
+    outcome.update(status='FAILED', error=str(error))
+    raise
 finally:
     if clients is not None and clients.poll() is None:
         clients.stdin.write('quit\n'); clients.stdin.flush()
@@ -170,3 +192,9 @@ finally:
         try: server.wait(timeout=60)
         except subprocess.TimeoutExpired:
             print('Server did not stop normally; investigate retained PID ' + str(server.pid), flush=True)
+    for reader in readers:
+        reader.join(timeout=5)
+    outcome['processes'] = process_records
+    with Path(str(prefix) + '.session.json').open('x', encoding='utf-8') as log:
+        json.dump(outcome, log, indent=2)
+        log.write('\n')

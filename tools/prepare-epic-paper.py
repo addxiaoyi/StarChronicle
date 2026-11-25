@@ -146,7 +146,8 @@ def compile_fixture(args):
     write(argfile, '--release 21\n-proc:none\n-encoding UTF-8\n-cp\n"' + os.pathsep.join(str(path) for path in jars).replace('\\', '/') +
           '"\n-d\n"' + str(classes).replace('\\', '/') + '"\n"' + str(source).replace('\\', '/') + '"\n')
     with (run / 'evidence/fixture-compile.log').open('w', encoding='utf-8') as log:
-        result = subprocess.run([str(args.java_home / 'bin/javac.exe'), '-J-Xmx128m', '-J-XX:+UseSerialGC', '@' + str(argfile)], stdout=log, stderr=subprocess.STDOUT)
+        javac = args.java_home / 'bin' / ('javac.exe' if os.name == 'nt' else 'javac')
+        result = subprocess.run([str(javac), '-J-Xmx128m', '-J-XX:+UseSerialGC', '@' + str(argfile)], stdout=log, stderr=subprocess.STDOUT)
     if result.returncode:
         print((run / 'evidence/fixture-compile.log').read_text(encoding='utf-8', errors='replace'))
         raise SystemExit(result.returncode)
@@ -165,6 +166,7 @@ def revise_fixture(args):
         raise SystemExit('Not an isolated epic run')
     manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
     probe = socket.socket()
+    probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     probe.bind(('127.0.0.1', manifest['server_port']))
     probe.close()
     if not args.reason:

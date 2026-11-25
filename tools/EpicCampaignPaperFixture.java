@@ -131,6 +131,25 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
                     permissions.get(uuid("A")).setPermission("starchronicle.admin",false);player("A").recalculatePermissions();
                     log("OPENED",s);return s;}));
     }
+    private CompletionStage<?> taskReady(String who) {
+        CompletableFuture<Void> result=new CompletableFuture<>();
+        long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(30);
+        new org.bukkit.scheduler.BukkitRunnable() {
+            @Override public void run() {
+                try {
+                    var quest=service(QuestService.class).getPlayerQuest(player(who).getUniqueId()).getActiveQuest(QUEST);
+                    if(quest!=null) {
+                        require(!quest.isAllObjectivesCompleted(),"Task must be accepted before actual crafting");
+                        log("NATIVE_TASK_READY",Map.of("player",who,"quest",QUEST,"progressEdited",false));
+                        cancel();result.complete(null);
+                    } else if(System.nanoTime()>=deadline) {
+                        throw new IllegalStateException("Native task admission did not complete for "+who);
+                    }
+                } catch(Throwable error) {cancel();result.completeExceptionally(error);}
+            }
+        }.runTaskTimer(this,1L,2L);
+        return result;
+    }
     private CompletionStage<?> taskComplete(String who) {return main(()->{
         QuestService quests=service(QuestService.class);Player p=player(who);
         var quest=quests.getPlayerQuest(p.getUniqueId()).getActiveQuest(QUEST);
@@ -202,8 +221,25 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
     private CompletionStage<?> endWar() {return main(()->{
         WarService wars=service(WarService.class);NationId restored=NationId.fromString(getConfig().getString("restored"));
         require(wars.endWar(country("B"),restored,country("B")),"Native principal peace rejected");
-        var receipt=wars.warCompletion(UUID.fromString(getConfig().getString("warId"))).orElseThrow();
-        log("NATIVE_WAR_ENDED",Map.of("warId",receipt.warId(),"endedAt",receipt.endedAt(),"domain",receipt.authorityDomainId(),"ending","native principal peace; no victory claim"));return null;
+        return wars;
+    }).thenCompose(wars->{
+        CompletableFuture<Void> result=new CompletableFuture<>();
+        long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(30);
+        new org.bukkit.scheduler.BukkitRunnable() {
+            @Override public void run() {
+                try {
+                    var committed=wars.warCompletion(UUID.fromString(getConfig().getString("warId")));
+                    if(committed.isPresent()) {
+                        var receipt=committed.orElseThrow();
+                        log("NATIVE_WAR_ENDED",Map.of("warId",receipt.warId(),"endedAt",receipt.endedAt(),"domain",receipt.authorityDomainId(),"ending","native principal peace; no victory claim"));
+                        cancel();result.complete(null);
+                    } else if(System.nanoTime()>=deadline) {
+                        throw new IllegalStateException("Native peace has no durable completion receipt");
+                    }
+                } catch(Throwable error) {cancel();result.completeExceptionally(error);}
+            }
+        }.runTaskTimer(this,1L,2L);
+        return result;
     });}
     private CompletionStage<?> captureFinal() {return main(()->{
         if(route.equals("DUNGEON"))for(String who:List.of("A","B")) {
@@ -248,7 +284,7 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
         String action=args[0];if(!busy.compareAndSet(false,true)){fail(action,new IllegalStateException("Previous action is still pending"));return true;}
         try {
             CompletionStage<?> work=switch(action) {
-                case "seed"->seed();case "open"->open();case "task-complete"->taskComplete(args[1]);
+                case "seed"->seed();case "open"->open();case "task-ready"->taskReady(args[1]);case "task-complete"->taskComplete(args[1]);
                 case "preparations"->preparations();case "advance"->advanceStory();case "dungeon"->dungeonEnter(args[1]);
                 case "found"->founding();case "declare"->declareWar();case "end-war"->endWar();
                 case "checkpoint"->captureFinal();case "final-evidence"->finalEvidence();case "settle"->settle();
