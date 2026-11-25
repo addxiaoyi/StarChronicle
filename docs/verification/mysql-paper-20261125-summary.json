@@ -1,0 +1,627 @@
+{
+  "status": "MYSQL_PAPER_PRODUCTION_OFFLINE_TRADE_DUNGEON_WAR_ACCEPTED",
+  "captured_utc": "2026-11-25T20:31:02.184527+00:00",
+  "chronicle_head": "ecff8876605e5162d9a3ec0014b700b8b0fb8b9f",
+  "native_head": "362a02861f90de394f5bef0565208fa84862b0a9",
+  "product_sources": {
+    "chronicle": "2f800988fbdd99447974e891a0623b39d7ed028a",
+    "native": "59ed52abbed5521eff6383df004985b1e13e1bbe"
+  },
+  "product_unchanged": true,
+  "native_storage": "MySQL 8.4.13 / InnoDB",
+  "chronicle_storage": "SQLite",
+  "audit_projection": "Every native starcore.db in this evidence is an explicit derived SQLite audit projection, compared column by column to raw MySQL exports; it was not native server storage.",
+  "instance": {
+    "container": "starcore-paper-mysql-20261125",
+    "id": "cb80c0d885893c3e6fb98c097eb043f4fbff0e661286c8922d6014e0895a0f70",
+    "image": "public.ecr.aws/docker/library/mysql@sha256:8c233bad33d520a7aae1c1e619c3a9775f4a1ba2d463d692fada04ec7f40be00",
+    "host": "127.0.0.1",
+    "port": 33317,
+    "user": "starcore_paper",
+    "databases": [
+      "starcore_paper_production",
+      "starcore_paper_offline",
+      "starcore_paper_trade",
+      "starcore_paper_dungeon",
+      "starcore_paper_war",
+      "starcore_paper_production_retry2"
+    ],
+    "password_env": "STARCORE_DB_PASSWORD",
+    "local_only": true
+  },
+  "normal_shutdown": {
+    "container": "starcore-paper-mysql-20261125",
+    "container_id": "cb80c0d885893c3e6fb98c097eb043f4fbff0e661286c8922d6014e0895a0f70",
+    "before": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 3316775,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-11-25T20:30:01.119153435Z",
+      "FinishedAt": "2026-11-25T20:30:00.889638089Z"
+    },
+    "state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-11-25T20:30:01.119153435Z",
+      "FinishedAt": "2026-11-25T20:30:53.293425513Z"
+    },
+    "started_at": 1795638651.7572658,
+    "finished_at": 1795638653.5372279
+  },
+  "runs": [
+    {
+      "directory": "paper-epic-549f99d9-dungeon-mysql-production-main-2",
+      "status": "MYSQL_PAPER_SELECTED_STACK_ACCEPTED",
+      "storage": {
+        "native_storage": "MySQL 8.4.13 / InnoDB",
+        "chronicle_storage": "SQLite",
+        "audit_projection": "Read-only inspection of losslessly compared MySQL rows; not native SQLite storage",
+        "database": "starcore_paper_production_retry2",
+        "server_uuid": "0e803617-e90c-11f1-abbf-5e6f9aa2b704",
+        "normal_database_restarts": 2,
+        "snapshots": [
+          {
+            "boot": 1,
+            "tables": 211,
+            "views": 1,
+            "rows": 254,
+            "raw_sha256": "eff9b667ad875673c01af5cd358fe1d8929ee6ef949853ace7e50990084ed1d3",
+            "projection_sha256": "a7e06b9fd3a963f8670acfc93fb02a3d04ac6ee9dd0e877cc48fac636983a053"
+          },
+          {
+            "boot": 2,
+            "tables": 211,
+            "views": 1,
+            "rows": 273,
+            "raw_sha256": "593b99437f133c6e62245a9d70be741412cebb8307fc8181f1553fb8abaea2cf",
+            "projection_sha256": "0b81a6b24ef40ebd582ed203adc7bc9886c5350762e92a6a827d19524b69aa88"
+          },
+          {
+            "boot": 3,
+            "tables": 211,
+            "views": 1,
+            "rows": 283,
+            "raw_sha256": "c303dd801eb0ae5025a121a74278784901e6b7ae0d06cd72e60f200f1c0c9854",
+            "projection_sha256": "c54ae078c1d9e52bd29154d91a55478880fe6a7745bbefc0010521d7ffbbab9c"
+          }
+        ]
+      },
+      "business": {
+        "status": "SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED",
+        "mode": "main",
+        "chronicle_sha256": "549f99d9e2fca919d42263fc184e3f790d101b7f65a1c91f067eb9716ce7fc5f",
+        "starcore_sha256": "26e6fb895d0ee6422c8347b63dc442763b475ef5eb91f8c92c94702fb2ebb886",
+        "boots": 3,
+        "normal_process_exits": 6,
+        "actual_command_results": 24,
+        "completions": 4,
+        "contributions": 8,
+        "industrial_output": 12,
+        "authority_domain": "74b1ef36-c698-473f-95b5-e812aac55cd0",
+        "plugins": {
+          "Essentials": "2.22.0",
+          "FancyNpcs": "2.10.1-java21+2",
+          "StarChronicle": "0.1.0-SNAPSHOT",
+          "StarCore": "1.0.0",
+          "Vault": "1.7.3-b131",
+          "WorldEdit": "7.4.2+7450-eb8e82c",
+          "WorldGuard": "7.0.17+2370-e42d8bc"
+        },
+        "vendor_telemetry": [
+          {
+            "boot": 1,
+            "message": "[20:15:28 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+          }
+        ],
+        "limitations": [
+          "Selected isolated Paper stack; no production deployment or full Folia acceptance.",
+          "Test nations and initial national resources are explicitly seeded through public native APIs; nation creation is free in this fixture.",
+          "Production start, collection, cancellation and replays are actual non-OP player commands. Succession uses the real native authorization service.",
+          "Paid production runs use national inventory, fixed recipe terms and original initiators. Legacy actorless factory writes are disabled; no migration invents old contributors.",
+          "SQL rollback and lost commit acknowledgements are product tests; real boots validate normal persisted recovery.",
+          "Native storage is isolated MySQL8.4/InnoDB over encrypted loopback without production TLS identity verification; starcore.db checkpoints are explicit lossless audit projections of raw MySQL rows."
+        ]
+      }
+    },
+    {
+      "directory": "paper-epic-549f99d9-dungeon-mysql-production-offline-1",
+      "status": "MYSQL_PAPER_SELECTED_STACK_ACCEPTED",
+      "storage": {
+        "native_storage": "MySQL 8.4.13 / InnoDB",
+        "chronicle_storage": "SQLite",
+        "audit_projection": "Read-only inspection of losslessly compared MySQL rows; not native SQLite storage",
+        "database": "starcore_paper_offline",
+        "server_uuid": "0e803617-e90c-11f1-abbf-5e6f9aa2b704",
+        "normal_database_restarts": 1,
+        "snapshots": [
+          {
+            "boot": 1,
+            "tables": 211,
+            "views": 1,
+            "rows": 254,
+            "raw_sha256": "d0faabc0905dd45b44578151601320ed923d11822624472a69d8a680be4557cd",
+            "projection_sha256": "4cca13297a28842cbd04b0dfa971ac18fd8d11d3a7f18f96664938d664ec1757"
+          },
+          {
+            "boot": 2,
+            "tables": 211,
+            "views": 1,
+            "rows": 268,
+            "raw_sha256": "4e2eac9b82411649f2c10ac00b5e147bed8542064828f0dc36962f7bc259c74c",
+            "projection_sha256": "9166cebd743ced3890d73b8a1f091a051e5e662eb49623273aed425eae5e2028"
+          }
+        ]
+      },
+      "business": {
+        "status": "SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED",
+        "mode": "offline",
+        "chronicle_sha256": "549f99d9e2fca919d42263fc184e3f790d101b7f65a1c91f067eb9716ce7fc5f",
+        "starcore_sha256": "26e6fb895d0ee6422c8347b63dc442763b475ef5eb91f8c92c94702fb2ebb886",
+        "boots": 2,
+        "normal_process_exits": 4,
+        "actual_command_results": 11,
+        "completions": 1,
+        "contributions": 2,
+        "industrial_output": 2,
+        "authority_domain": "89421fde-fed5-4a3b-93fb-c6df14720159",
+        "plugins": {
+          "Essentials": "2.22.0",
+          "FancyNpcs": "2.10.1-java21+2",
+          "StarChronicle": "0.1.0-SNAPSHOT",
+          "StarCore": "1.0.0",
+          "Vault": "1.7.3-b131",
+          "WorldEdit": "7.4.2+7450-eb8e82c",
+          "WorldGuard": "7.0.17+2370-e42d8bc"
+        },
+        "vendor_telemetry": [
+          {
+            "boot": 1,
+            "message": "[20:19:43 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+          }
+        ],
+        "limitations": [
+          "Selected isolated Paper stack; no production deployment or full Folia acceptance.",
+          "Test nations and initial national resources are explicitly seeded through public native APIs; nation creation is free in this fixture.",
+          "Production start, collection, cancellation and replays are actual non-OP player commands. Succession uses the real native authorization service.",
+          "Paid production runs use national inventory, fixed recipe terms and original initiators. Legacy actorless factory writes are disabled; no migration invents old contributors.",
+          "SQL rollback and lost commit acknowledgements are product tests; real boots validate normal persisted recovery.",
+          "Native storage is isolated MySQL8.4/InnoDB over encrypted loopback without production TLS identity verification; starcore.db checkpoints are explicit lossless audit projections of raw MySQL rows."
+        ]
+      }
+    },
+    {
+      "directory": "paper-epic-549f99d9-dungeon-mysql-trade-1",
+      "status": "MYSQL_PAPER_SELECTED_STACK_ACCEPTED",
+      "storage": {
+        "native_storage": "MySQL 8.4.13 / InnoDB",
+        "chronicle_storage": "SQLite",
+        "audit_projection": "Read-only inspection of losslessly compared MySQL rows; not native SQLite storage",
+        "database": "starcore_paper_trade",
+        "server_uuid": "0e803617-e90c-11f1-abbf-5e6f9aa2b704",
+        "normal_database_restarts": 2,
+        "snapshots": [
+          {
+            "boot": 1,
+            "tables": 211,
+            "views": 1,
+            "rows": 246,
+            "raw_sha256": "4df982ccfa3e617bd8683d8e2395a027172648386a338132e49e8d602cc0df23",
+            "projection_sha256": "0ae51e7ee77fe8e526cbff8f87e9b0bb68c15e7e5d6f0992a8f47c2f07e3f6c7"
+          },
+          {
+            "boot": 2,
+            "tables": 211,
+            "views": 1,
+            "rows": 272,
+            "raw_sha256": "eef0c0e61ebe6b46bb002cc1f9081fe015516afaacde31b0d15e1501d0ab6f03",
+            "projection_sha256": "a9861a26f152cc5e1375998ee54fb9143cda3bfbcbfa510d9a527e4818eeba90"
+          },
+          {
+            "boot": 3,
+            "tables": 211,
+            "views": 1,
+            "rows": 289,
+            "raw_sha256": "f3ceb7acda372ed0629411a84a927e37b076ccb2c8aad986a025164b7b9ba9b8",
+            "projection_sha256": "bf8d9b9ee5d96daddd48f87f922c64ca89b8dff52086ae8d897c587722e4ef21"
+          }
+        ]
+      },
+      "business": {
+        "status": "SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED",
+        "chronicle_sha256": "549f99d9e2fca919d42263fc184e3f790d101b7f65a1c91f067eb9716ce7fc5f",
+        "starcore_sha256": "26e6fb895d0ee6422c8347b63dc442763b475ef5eb91f8c92c94702fb2ebb886",
+        "boots": 3,
+        "normal_process_exits": 6,
+        "actual_command_results": 24,
+        "settlements": 3,
+        "resource_receipts": 3,
+        "treasury_receipts": 3,
+        "contributions": 12,
+        "assets": {
+          "quantity": 29,
+          "value": "75.00",
+          "sellerResources": 71,
+          "buyerResources": 129,
+          "sellerTreasury": "1000075.00",
+          "buyerTreasury": "999925.00"
+        },
+        "authority_domain": "978d263c-fb5c-418b-addc-b6151607056b",
+        "plugins": {
+          "Essentials": "2.22.0",
+          "FancyNpcs": "2.10.1-java21+2",
+          "StarChronicle": "0.1.0-SNAPSHOT",
+          "StarCore": "1.0.0",
+          "Vault": "1.7.3-b131",
+          "WorldEdit": "7.4.2+7450-eb8e82c",
+          "WorldGuard": "7.0.17+2370-e42d8bc"
+        },
+        "vendor_telemetry": [
+          {
+            "boot": 1,
+            "message": "[20:22:21 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+          }
+        ],
+        "limitations": [
+          "Selected isolated Paper stack; no production deployment or full Folia acceptance.",
+          "Test nations, treasury funds and inventory are explicitly seeded through public native APIs; nation creation is free in this fixture.",
+          "Offers, acceptance, cancellation and replays are actual non-OP player commands. Founder handover uses the real native authorization service.",
+          "This protocol pays from national treasuries and delivers national inventory. It makes no claim for Vault wallets, player inventory, legacy market orders or taxes.",
+          "SQL rollback and lost commit acknowledgements are product tests; these real boots validate normal persisted recovery.",
+          "Native storage is isolated MySQL8.4/InnoDB over encrypted loopback without production TLS identity verification; starcore.db checkpoints are explicit lossless audit projections of raw MySQL rows."
+        ]
+      }
+    },
+    {
+      "directory": "paper-epic-549f99d9-dungeon-mysql-dungeon-1",
+      "status": "MYSQL_PAPER_SELECTED_STACK_ACCEPTED",
+      "storage": {
+        "native_storage": "MySQL 8.4.13 / InnoDB",
+        "chronicle_storage": "SQLite",
+        "audit_projection": "Read-only inspection of losslessly compared MySQL rows; not native SQLite storage",
+        "database": "starcore_paper_dungeon",
+        "server_uuid": "0e803617-e90c-11f1-abbf-5e6f9aa2b704",
+        "normal_database_restarts": 2,
+        "snapshots": [
+          {
+            "boot": 1,
+            "tables": 211,
+            "views": 1,
+            "rows": 322,
+            "raw_sha256": "2a2b80db2da0fa30b04eeab6d2989f46f4cffc52b7cd411f260cc45b7cc659d1",
+            "projection_sha256": "970da2013ef4e026c0a73ef700f039c0343151aa01ab35ab568aac480b3bef09"
+          },
+          {
+            "boot": 2,
+            "tables": 211,
+            "views": 1,
+            "rows": 336,
+            "raw_sha256": "58289fdfc7bfe0d03cea5006ea3ed2cfbdc8c60ab4036761b618e58846e3bf8f",
+            "projection_sha256": "00c84a35427478cdb61536aec4c18509909180a2cfadbec37c903c554901eec3"
+          },
+          {
+            "boot": 3,
+            "tables": 211,
+            "views": 1,
+            "rows": 344,
+            "raw_sha256": "826f1773903ad3200aa1eac68f88d9bd10e689e72aa5a1ee3e92ac7bc3ffccb7",
+            "projection_sha256": "d4d79b3f348a77cdfdea52416d8d63ac33142e64cea5c17ce5865825d654163e"
+          }
+        ]
+      },
+      "business": {
+        "status": "SELECTED_PAPER_STACK_EPIC_ACCEPTED",
+        "route": "DUNGEON",
+        "instance": "23b6f8f4050311136e8db6f77b490e72ab6be2addee8cf07eb16e0b95163ba99",
+        "chronicle_sha256": "549f99d9e2fca919d42263fc184e3f790d101b7f65a1c91f067eb9716ce7fc5f",
+        "starcore_sha256": "26e6fb895d0ee6422c8347b63dc442763b475ef5eb91f8c92c94702fb2ebb886",
+        "committed_operations": 12,
+        "treasury_transfers": 2,
+        "resource_transfers": 2,
+        "settlement_events": 1,
+        "verified_boots": 3,
+        "aftermath_instances": 3,
+        "verification": "Normal server/client exits, required live scenario evidence and independent native/Chronicle receipt cross-check; server port unbound.",
+        "contribution_entries": 8,
+        "aid_source_events": 4,
+        "contribution_query_boots": [
+          1,
+          2,
+          3
+        ],
+        "subjects": [
+          "player:35e02d6d-1111-3ff6-bd41-91cad584563c",
+          "player:5a2a1989-08f3-3f65-a906-299ff19592c8"
+        ],
+        "plugins": {
+          "Essentials": "2.22.0",
+          "FancyNpcs": "2.10.1-java21+2",
+          "StarChronicle": "0.1.0-SNAPSHOT",
+          "StarCore": "1.0.0",
+          "Vault": "1.7.3-b131",
+          "WorldEdit": "7.4.2+7450-eb8e82c",
+          "WorldGuard": "7.0.17+2370-e42d8bc"
+        },
+        "business_economy": "dev.starcore.starcore.foundation.economy.PlayerVaultEconomyService",
+        "database_checkpoint_boots": [
+          1,
+          2,
+          3
+        ],
+        "vendor_telemetry": [
+          {
+            "boot": 1,
+            "message": "[20:25:07 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+          }
+        ],
+        "limitation": "War completion is native principal peace; this does not demonstrate battlefield victory, paid founding, Folia or production deployment."
+      }
+    },
+    {
+      "directory": "paper-epic-549f99d9-war-mysql-war-1",
+      "status": "MYSQL_PAPER_SELECTED_STACK_ACCEPTED",
+      "storage": {
+        "native_storage": "MySQL 8.4.13 / InnoDB",
+        "chronicle_storage": "SQLite",
+        "audit_projection": "Read-only inspection of losslessly compared MySQL rows; not native SQLite storage",
+        "database": "starcore_paper_war",
+        "server_uuid": "0e803617-e90c-11f1-abbf-5e6f9aa2b704",
+        "normal_database_restarts": 2,
+        "snapshots": [
+          {
+            "boot": 1,
+            "tables": 211,
+            "views": 1,
+            "rows": 416,
+            "raw_sha256": "395285f1bab3e0c45d5acf978fe70e5dffeb7ff9be41d13f265bab2f2ee69449",
+            "projection_sha256": "5e40946b783fd7edfca282e89782bef596fda9bb4eebeec923812e246094c125"
+          },
+          {
+            "boot": 2,
+            "tables": 211,
+            "views": 1,
+            "rows": 432,
+            "raw_sha256": "d8c3bcb29c7395bc9221ff06709daeef1e130a86507c2941f1e87e2097ffc4b8",
+            "projection_sha256": "d760b2dae72ad5d299b711faab1d153e30b2f6c3f6f13a9fb4e9c51a727b5071"
+          },
+          {
+            "boot": 3,
+            "tables": 211,
+            "views": 1,
+            "rows": 440,
+            "raw_sha256": "86a17c6b32be3b8fc043ce19cc1998e2ef7bb93527245634175a0d61f5e0df77",
+            "projection_sha256": "10ccca8dc996d7f1e154ded8db84578e2037bd406a5ea466f6e3c01d9c8e9d9a"
+          }
+        ]
+      },
+      "business": {
+        "status": "NATIVE_STRONGHOLD_VICTORY_ACCEPTED",
+        "route": "WAR",
+        "instance": "fd71aaf475d4f32a3cb8ee84f5c03b29787cbb38114ffdb08d7dbf4739a47943",
+        "chronicle_sha256": "549f99d9e2fca919d42263fc184e3f790d101b7f65a1c91f067eb9716ce7fc5f",
+        "starcore_sha256": "26e6fb895d0ee6422c8347b63dc442763b475ef5eb91f8c92c94702fb2ebb886",
+        "committed_operations": 13,
+        "treasury_transfers": 2,
+        "resource_transfers": 2,
+        "settlement_events": 1,
+        "verified_boots": 3,
+        "aftermath_instances": 3,
+        "verification": "Normal server/client exits, required live scenario evidence and independent native/Chronicle receipt cross-check; server port unbound.",
+        "contribution_entries": 8,
+        "aid_source_events": 4,
+        "contribution_query_boots": [
+          1,
+          2,
+          3
+        ],
+        "subjects": [
+          "player:35e02d6d-1111-3ff6-bd41-91cad584563c",
+          "player:5a2a1989-08f3-3f65-a906-299ff19592c8"
+        ],
+        "plugins": {
+          "Essentials": "2.22.0",
+          "FancyNpcs": "2.10.1-java21+2",
+          "StarChronicle": "0.1.0-SNAPSHOT",
+          "StarCore": "1.0.0",
+          "Vault": "1.7.3-b131",
+          "WorldEdit": "7.4.2+7450-eb8e82c",
+          "WorldGuard": "7.0.17+2370-e42d8bc"
+        },
+        "business_economy": "dev.starcore.starcore.foundation.economy.PlayerVaultEconomyService",
+        "database_checkpoint_boots": [
+          1,
+          2,
+          3
+        ],
+        "vendor_telemetry": [
+          {
+            "boot": 1,
+            "message": "[20:28:12 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+          }
+        ],
+        "limitation": "Native GUI stronghold capture with explicit fixture objects and native start service; no PvP, siege movement, army simulation, territory transfer, occupation-duration or production deployment claim.",
+        "war_id": "ac130b2c-cf1c-31c3-8cae-09ed3e86eabb",
+        "strongholds": 2,
+        "aggressor_score": 100,
+        "defender_score": 0,
+        "native_end_reason": "VICTORY_DETERMINED",
+        "native_winner": "AGGRESSOR",
+        "capture_clicks": 2,
+        "blocked_attempts": 6
+      }
+    }
+  ],
+  "regressions": [
+    {
+      "log": "/tmp/mysql-paper-production2-storage-tests.log",
+      "tests": 31,
+      "passed": 31,
+      "skipped": 0,
+      "sha256": "b6f0a5ff5cb52e475029bebb004df721d9c0faa2be05f4363fff7128cd51e0e7"
+    },
+    {
+      "log": "/tmp/mysql-paper-production2-business-tests.log",
+      "tests": 37,
+      "passed": 33,
+      "skipped": 4,
+      "sha256": "39749dc6a27d92bf2833a00d780a53e3c032ea2bb700eb509980380f79a80b5e"
+    },
+    {
+      "log": "/home/add/starchronicle-mysql-paper/target/mysql-paper-mysql-production-offline-1/storage-tests.log",
+      "tests": 31,
+      "passed": 31,
+      "skipped": 0,
+      "sha256": "865b27ca5b7e2fc8a02f7c48324e8134b3788b515ce3cc7806a24697e17e1083"
+    },
+    {
+      "log": "/home/add/starchronicle-mysql-paper/target/mysql-paper-mysql-production-offline-1/business-tests.log",
+      "tests": 37,
+      "passed": 37,
+      "skipped": 0,
+      "sha256": "4c15830caed72c37d29b138369a037e5ac2cc739a9eb56fa1ca19fffa22360bb"
+    },
+    {
+      "log": "/home/add/starchronicle-mysql-paper/target/mysql-paper-mysql-trade-1/storage-tests.log",
+      "tests": 31,
+      "passed": 31,
+      "skipped": 0,
+      "sha256": "9c83d0c028265cec1d349728abe6f9dc6afe3be623ab469574d8db619705b54c"
+    },
+    {
+      "log": "/home/add/starchronicle-mysql-paper/target/mysql-paper-mysql-trade-1/business-tests.log",
+      "tests": 38,
+      "passed": 38,
+      "skipped": 0,
+      "sha256": "90a32f488077a16ed496f7aa7970b6545ea7d92de4f13fb867e5b769009ad793"
+    },
+    {
+      "log": "/home/add/starchronicle-mysql-paper/target/mysql-paper-mysql-dungeon-1/storage-tests.log",
+      "tests": 31,
+      "passed": 31,
+      "skipped": 0,
+      "sha256": "b1230466bc4976bda3a65e7ec8ff2e72389f89a28f4bdca8713490cd1853677a"
+    },
+    {
+      "log": "/home/add/starchronicle-mysql-paper/target/mysql-paper-mysql-dungeon-1/business-tests.log",
+      "tests": 29,
+      "passed": 27,
+      "skipped": 2,
+      "sha256": "bf2111b7e371b33dd674ffff6e6f73f4b6342d5fae8ce761afee0ca736120d06"
+    },
+    {
+      "log": "/home/add/starchronicle-mysql-paper/target/mysql-paper-mysql-war-1/storage-tests.log",
+      "tests": 31,
+      "passed": 31,
+      "skipped": 0,
+      "sha256": "c0209135e75c2bdc1c406bb0a9e7ce59591834d07547f45152e78c567a4f3117"
+    },
+    {
+      "log": "/home/add/starchronicle-mysql-paper/target/mysql-paper-mysql-war-1/business-tests.log",
+      "tests": 41,
+      "passed": 39,
+      "skipped": 2,
+      "sha256": "95552506a756e8776ddafcdbc69420097fe6392426fde42b3ece7d6c0e3cdf27"
+    }
+  ],
+  "failed_runs": [
+    {
+      "directory": "paper-epic-549f99d9-dungeon-mysql-production-main-1",
+      "sessions": [
+        {
+          "boot": 1,
+          "scenario": "production-first",
+          "contributions": false,
+          "status": "FAILED",
+          "source_sha256": {
+            "controller": "9d9ab8f50252e88757352fa18c8ee5aac852c639101dc9134bb177f741f3daed",
+            "clients": "5c0017ffaab040ed9c873650bd35db192c6a2974c1d0a5b759b3dccf5c02c69d"
+          },
+          "error": "",
+          "processes": [
+            {
+              "name": "server",
+              "pid": 3237130,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795637495.6331854,
+              "exit_code": 0,
+              "exited_at": 1795637615.7795935
+            },
+            {
+              "name": "clients",
+              "pid": 3240993,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-mysql-paper/run/paper-epic-549f99d9-dungeon-mysql-production-main-1/evidence/boot1.clients.cjs",
+                "/home/add/starchronicle-mysql-paper/run/paper-epic-549f99d9-dungeon-mysql-production-main-1"
+              ],
+              "started_at": 1795637571.5996246,
+              "exit_code": 0,
+              "exited_at": 1795637609.9448009
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "inherited_builds": {
+    "chronicle_tests": 979,
+    "native_tests": 7354,
+    "native_skipped": 21,
+    "source": "nation-production-paper-20261125-summary.json",
+    "live_artifacts_rebuilt": false
+  },
+  "limitations": [
+    "Normal database and game restarts only; no power loss, live database outage, backup restore, replication or long-term load claim.",
+    "Dedicated loopback MySQL uses encrypted TLS without remote host identity verification.",
+    "Selected Java21/Paper1.21.11 and frozen third-party plugins only; no full Folia or production deployment.",
+    "Fixture seeds initial nations/assets, disables founding charges and creates a three-second survival dungeon and two strongholds; battlefield result is menu-based 100:0 score victory, not PvP/siege/territory transfer.",
+    "Base-table data and column metadata plus view definitions are audited; the SQLite projection does not preserve native indexes, constraints, collations or executable views.",
+    "Legacy factory/wallet/market recovery and remaining ten-stage work remain open."
+  ],
+  "redacted_files": [
+    "runs/paper-epic-549f99d9-dungeon-mysql-dungeon-1/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-production-main-1/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-production-main-2/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-production-offline-1/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-trade-1/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-war-mysql-war-1/plugins/StarCore/config.yml"
+  ],
+  "archive": {
+    "sha256": "08670c71b91c4eb3038cf9f5659623ed4dfd0d15174df282544a74ea99982e82",
+    "bytes": 4709820,
+    "members": 994
+  },
+  "source_archives": {
+    "starchronicle-source.tar.gz": "ec5fe0bceaee42c189dc192513381e6358681d6ec83f3bc91dacfd65e2ab17d5",
+    "starcore-source.tar.gz": "b9ba4004830218a1c0829f866b2c4e699f7fb20ee4c7df8c48935a4304ec5d52"
+  }
+}

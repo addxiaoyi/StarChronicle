@@ -1,6 +1,8 @@
 # StarChronicle
 
-2026-11-25 最新数据库增量：真实MySQL8.4.13／InnoDB上的国家生产与贸易31项专项测试全部通过；产品源码和冻结双JAR未改。覆盖共同事务回滚、确认丢失、并发去重、旧快照和完整删尾拒绝。见[MySQL验收](docs/MYSQL-SETTLEMENT-TEST-REPORT.md)与[最新交接](docs/HANDOFF-2026-11-25.md)。Paper切换MySQL后的联机和联合重启仍待验收。
+2026-11-25 最新实服增量：冻结双JAR在所选Paper＋真实MySQL8.4.13组合完成生产、空服补录、国家直售、副本与据点国战，共14次游戏服启动、9次数据库重启；329次证据检查通过、8次场景跳过。原生MySQL原始数据与显式审计投影逐列比对，Chronicle仍使用SQLite。见[实服报告](docs/MYSQL-PAPER-TEST-REPORT.md)、[草稿PR #17](https://github.com/addxiaoyi/StarChronicle/pull/17)与[十阶段交接](docs/HANDOFF-2026-11-25.md)。产品源码未变，未合并或生产部署。
+
+2026-11-25 最新数据库增量：真实MySQL8.4.13／InnoDB上的国家生产与贸易31项专项测试全部通过；产品源码和冻结双JAR未改。覆盖共同事务回滚、确认丢失、并发去重、旧快照和完整删尾拒绝。见[MySQL验收](docs/MYSQL-SETTLEMENT-TEST-REPORT.md)与[最新交接](docs/HANDOFF-2026-11-25.md)。该专项之后的Paper联机和正常联合重启已由上述实服增量完成。
 
 2026-11-25 跨设备续接入口：[十阶段进度与交接](docs/HANDOFF-2026-11-25.md)。最新国家生产增量完成开工扣料／批次、到期交付／回执、取消退款／终态共同SQL提交及原操作者文明贡献；Chronicle979项通过，原生7,354项零失败／错误、21项既有跳过。同一双构件完成生产三轮、空服两轮、贸易／DUNGEON／WAR各三轮，共14次正常启动，174项证据检查通过、8项场景检查跳过。见[生产验收](docs/NATION-PRODUCTION-TEST-REPORT.md)。旧加工资产接口已停用，调用方须迁移；十阶段继续，未合并或部署生产服。
 
