@@ -61,6 +61,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private ObservationJournal observations;
     private CommittedHistoryJournal committedHistory;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource tradeHistorySource;
+    private io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSource nationTradeSource;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistorySource technologyHistorySource;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistorySource resourceHistorySource;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySource capitalHistorySource;
@@ -158,6 +159,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             observations=new ObservationJournal(store,Clock.systemUTC());
             committedHistory=new CommittedHistoryJournal(store);
             tradeHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource(gateway);
+            nationTradeSource=new io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSource(gateway);
             technologyHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistorySource(gateway);
             resourceHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistorySource(gateway);
             capitalHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySource(gateway);
@@ -312,6 +314,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             gateway.scanCommittedSources();
             engine.reconcileEpicContributions(25);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource.SOURCE,()->tradeHistorySource.poll(committedHistory),contexts);
+            pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSource.SOURCE,()->nationTradeSource.poll(committedHistory),contexts);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistorySource.SOURCE,()->technologyHistorySource.poll(committedHistory),contexts);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistorySource.SOURCE,()->resourceHistorySource.poll(committedHistory),contexts);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySource.SOURCE,()->capitalHistorySource.poll(committedHistory),contexts);
@@ -344,7 +347,9 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     }
     private void drainCommittedHistory(String source,List<PlayerContext> contexts){
         for(WorldEvent event:committedHistory.pending(source,100)){
-            engine.accept(event,audience(event,contexts));
+            if(source.equals(io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSource.SOURCE))
+                engine.commitNationalTrade(event,audience(event,contexts));
+            else engine.accept(event,audience(event,contexts));
             committedHistory.acknowledge(event.id());
         }
     }
@@ -1037,7 +1042,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             String rows=entries.stream().map(entry->{
                 var request=entry.request();
                 String type=switch(request.type()){case RESOURCE_AID->"援助";case TRADE->"贸易";case CIVILIZATION->"文明建设";};
-                String unit=request.unit().equals("treasury")?"国库货币":request.unit().replaceFirst("^resource\\.","资源 ");
+                String unit=request.unit().equals("trade.treasury")?"国库支付":request.unit().startsWith("trade.resource:")?"成交资源 "+request.unit().substring("trade.resource:".length()):
+                        request.unit().equals("treasury")?"国库货币":request.unit().replaceFirst("^resource\\.","资源 ");
                 return type+" · "+request.amount().toPlainString()+" "+unit+" · "+request.committedAt();
             }).collect(java.util.stream.Collectors.joining("\n"));
             message(actor,"已核验贡献 · 第 "+(page+1)+" 页\n"+rows);

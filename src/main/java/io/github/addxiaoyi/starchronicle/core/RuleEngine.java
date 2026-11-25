@@ -120,6 +120,24 @@ public final class RuleEngine implements AutoCloseable {
         });
     }
 
+    /** Commit exact native national-sale history and both parties' contribution views together. */
+    public ProcessReport commitNationalTrade(WorldEvent event,Collection<PlayerContext> contexts) {
+        Objects.requireNonNull(event);Objects.requireNonNull(contexts);
+        Map<UUID,PlayerContext> unique=new LinkedHashMap<>();
+        for(var ctx:contexts){
+            if(!audience(event,ctx))throw new IllegalArgumentException("Invalid national trade audience");
+            if(unique.put(ctx.playerId(),ctx)!=null)throw new IllegalArgumentException("Duplicate trade audience");
+        }
+        if(unique.size()>10000)throw new IllegalArgumentException("Too many trade recipients");
+        return transaction(c->{
+            var proof=NationTradeContributionProjection.requireSource(c,event);
+            boolean fresh=recordAndQueue(c,event,unique.values(),runtime.enabledDefinitions(),EventCausality.root(event.id()));
+            Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
+            NationTradeContributionProjection.record(c,proof,clock.instant());
+            return new ProcessReport(!fresh,List.copyOf(changed),fresh?"国家贸易与贡献已记录":"国家贸易已记录，重复投递未增加贡献");
+        });
+    }
+
     /** Commit a verified native national-aid receipt together with its canonical
      * history event, derived effects and durable story inbox.  The provider call
      * has already completed before entering this transaction; this method only
