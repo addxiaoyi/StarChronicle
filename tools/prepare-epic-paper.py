@@ -27,6 +27,10 @@ def write(path, text):
 
 def prepare(args):
     product, native = args.product.resolve(), args.starcore.resolve()
+    runtime = args.runtime.resolve()
+    server_jar = args.server_jar.resolve() if args.server_jar else runtime / 'paper.jar'
+    if not server_jar.is_file() or any(not (runtime / folder).is_dir() for folder in ('libraries', 'cache')):
+        raise SystemExit('Require a Paper server JAR and initialized runtime libraries/cache before preparing a run')
     product_sha, native_sha = sha(product), sha(native)
     run = ROOT / 'run' / f'paper-epic-{product_sha[:8]}-{args.route.lower()}-{args.attempt}'
     if run.exists():
@@ -69,9 +73,8 @@ def prepare(args):
 '''
     for folder in ('evidence', 'fixture', 'plugins/StarCore', 'plugins/StarChronicle', f'plugins/{FIXTURE}'):
         (run / folder).mkdir(parents=True)
-    runtime = args.runtime.resolve()
     retained = {}
-    for original, destination in ((runtime / 'paper.jar', run / 'paper.jar'), (product, run / 'plugins/StarChronicle.jar'), (native, run / 'plugins/StarCore.jar')):
+    for original, destination in ((server_jar, run / 'paper.jar'), (product, run / 'plugins/StarChronicle.jar'), (native, run / 'plugins/StarCore.jar')):
         if original.is_symlink():
             raise SystemExit('Refusing a symlink input')
         retained[str(original)] = sha(original)
@@ -94,6 +97,23 @@ worker-queue-capacity: 2048
 poll-ticks: 40
 ''')
     write(run / f'plugins/{FIXTURE}/config.yml', f'expected-sha: "{product_sha}"\nexpected-starcore-sha: "{native_sha}"\nroute: {args.route}\n')
+    if args.extended:
+        write(run / 'plugins/StarChronicle/stories/membership-acceptance.yml', '''id: membership-acceptance
+version: '1'
+title: 成员复核验收
+scope: WORLD
+triggers: [MEMBERSHIP_ACCEPTANCE]
+start: vote
+nodes:
+  vote:
+    text: 隔离测试的共同剧情
+    quorum: 2
+    choices:
+      yes: {label: 确认, next: done}
+  done:
+    text: 验收完成
+    terminal: true
+''')
     write(run / 'eula.txt', 'eula=true\n')
     write(run / 'ops.json', '[]\n')
     write(run / 'server.properties', f'''server-ip=127.0.0.1
@@ -112,7 +132,7 @@ generate-structures=false
 spawn-monsters=false
 motd=Isolated epic receipt acceptance
 ''')
-    manifest = dict(plugin_sha256=product_sha, starcore_sha256=native_sha, route=args.route,
+    manifest = dict(plugin_sha256=product_sha, starcore_sha256=native_sha, route=args.route, extended=args.extended,
                     server_port=args.port, server_ip='127.0.0.1', fixture_source_sha256=sha(run / 'fixture' / f'{FIXTURE}.java'),
                     players={who: str(uuid.UUID(bytes=hashlib.md5(('OfflinePlayer:Epic' + who).encode()).digest(), version=3)) for who in 'ABCD'},
                     source_artifacts=retained, fixture_compiled=False,
@@ -193,11 +213,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=['prepare', 'compile', 'revise-fixture'])
     parser.add_argument('--route', choices=['WAR', 'DUNGEON'])
+    parser.add_argument('--extended', action='store_true', help='Also verify public membership and contribution flows')
     parser.add_argument('--attempt', default='1', type=lambda value: value if re.fullmatch(r'[a-z0-9-]{1,32}', value) else parser.error('Invalid attempt'))
     parser.add_argument('--port', type=int, default=25631)
     parser.add_argument('--product', type=Path, default=ROOT / 'target/starchronicle-0.1.0-SNAPSHOT.jar')
     parser.add_argument('--starcore', type=Path)
     parser.add_argument('--runtime', type=Path, default=ROOT / 'run/smoke')
+    parser.add_argument('--server-jar', type=Path, help='Paper JAR when the initialized runtime uses another filename')
     parser.add_argument('--run', type=Path)
     parser.add_argument('--java-home', type=Path)
     parser.add_argument('--reason')

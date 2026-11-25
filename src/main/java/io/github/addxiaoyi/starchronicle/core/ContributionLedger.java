@@ -71,7 +71,43 @@ public final class ContributionLedger {
                     "request_json TEXT NOT NULL,recorded_at TEXT NOT NULL,UNIQUE(operation_id,type,subject_id))");
             s.execute("CREATE INDEX IF NOT EXISTS contributions_subject ON contributions(subject_id,type,unit,committed_at,id)");
             s.execute("CREATE INDEX IF NOT EXISTS contributions_source ON contributions(source_event_id,id)");
+            s.execute("CREATE TABLE IF NOT EXISTS contribution_receipts(receipt_key TEXT PRIMARY KEY," +
+                    "contribution_id TEXT NOT NULL UNIQUE REFERENCES contributions(id))");
         }
+    }
+
+    /** Share one native receipt across adapters without rewriting the first committed evidence row. */
+    public static Result recordNative(Connection c, String domain, String nativeReceiptId,
+                                      ContributionRequest request, String legacyOperationId, Instant recordedAt) throws SQLException {
+        Objects.requireNonNull(domain); Objects.requireNonNull(nativeReceiptId);
+        String key = RuleEngine.stable("contribution-receipt", domain, nativeReceiptId,
+                request.type().name(), request.unit(), request.subjectId());
+        try (var s = c.prepareStatement("SELECT c.id,c.request_json,c.recorded_at FROM contribution_receipts r JOIN contributions c ON c.id=r.contribution_id WHERE r.receipt_key=?")) {
+            s.setString(1,key);
+            try (var r=s.executeQuery()) {
+                if(r.next()) {
+                    var old=new ContributionEntry(r.getString(1),decode(r.getString(2),ContributionRequest.class),Instant.parse(r.getString(3)));
+                    requireSameNativeValue(old.request(),request);
+                    return new Result(false,old);
+                }
+            }
+        }
+        var legacy=legacyOperationId==null?Optional.<ContributionEntry>empty():find(c,legacyOperationId,request.type(),request.subjectId());
+        Result result;
+        if(legacy.isPresent()) {requireSameNativeValue(legacy.get().request(),request);result=new Result(false,legacy.get());}
+        else result=record(c,request,recordedAt);
+        try(var s=c.prepareStatement("INSERT INTO contribution_receipts(receipt_key,contribution_id) VALUES(?,?)")) {
+            s.setString(1,key);s.setString(2,result.entry().id());s.executeUpdate();
+        }
+        return result;
+    }
+
+    private static void requireSameNativeValue(ContributionRequest old,ContributionRequest current) {
+        if(old.type()!=current.type() || !old.subjectId().equals(current.subjectId())
+                || !old.actorId().equals(current.actorId()) || !Objects.equals(old.nationId(),current.nationId())
+                || old.amount().compareTo(current.amount())!=0 || !old.unit().equals(current.unit())
+                || !old.committedAt().equals(current.committedAt()))
+            throw new IllegalStateException("Native contribution receipt conflicts with its recorded subject or value");
     }
 
     /** Must be called inside the same transaction as the source event commit. */
@@ -100,18 +136,18 @@ public final class ContributionLedger {
 
     public static Optional<ContributionEntry> find(Connection c, String operationId, ContributionType type, String subjectId) throws SQLException {
         inTransaction(c);
-        try (var s = c.prepareStatement("SELECT id,request_json,recorded_at FROM contributions WHERE operation_id=? AND type=? AND subject_id=?")) {
+        try (var s = c.prepareStatement("SELECT c.id,c.request_json,c.recorded_at,COALESCE(s.status,'COMMITTED') FROM contributions c LEFT JOIN native_trade_contributions t ON t.contribution_id=c.id LEFT JOIN native_trade_states s ON s.source=t.source AND s.domain=t.domain AND s.record_id=t.record_id WHERE c.operation_id=? AND c.type=? AND c.subject_id=?")) {
             s.setString(1, operationId); s.setString(2, type.name()); s.setString(3, subjectId);
             try (var r = s.executeQuery()) {
                 if (!r.next()) return Optional.empty();
-                return Optional.of(new ContributionEntry(r.getString(1), decode(r.getString(2), ContributionRequest.class), Instant.parse(r.getString(3))));
+                return Optional.of(new ContributionEntry(r.getString(1), decode(r.getString(2), ContributionRequest.class), Instant.parse(r.getString(3)),r.getString(4)));
             }
         }
     }
 
     public static BigDecimal total(Connection c, String subjectId, ContributionType type, String unit) throws SQLException {
         inTransaction(c);
-        try (var s = c.prepareStatement("SELECT amount FROM contributions WHERE subject_id=? AND type=? AND unit=? ORDER BY id")) {
+        try (var s = c.prepareStatement("SELECT c.amount FROM contributions c LEFT JOIN native_trade_contributions t ON t.contribution_id=c.id LEFT JOIN native_trade_states s ON s.source=t.source AND s.domain=t.domain AND s.record_id=t.record_id WHERE c.subject_id=? AND c.type=? AND c.unit=? AND (t.contribution_id IS NULL OR s.status='COMPLETED') ORDER BY c.id")) {
             s.setString(1, subjectId); s.setString(2, type.name()); s.setString(3, unit);
             BigDecimal total = BigDecimal.ZERO;
             try (var r = s.executeQuery()) { while (r.next()) total = total.add(new BigDecimal(r.getString(1))); }
@@ -121,19 +157,19 @@ public final class ContributionLedger {
 
     public static List<ContributionEntry> list(Connection c, String subjectId, ContributionType type, int page, int size) throws SQLException {
         inTransaction(c);
-        StringBuilder sql = new StringBuilder("SELECT id,request_json,recorded_at FROM contributions");
+        StringBuilder sql = new StringBuilder("SELECT c.id,c.request_json,c.recorded_at,COALESCE(s.status,'COMMITTED') FROM contributions c LEFT JOIN native_trade_contributions t ON t.contribution_id=c.id LEFT JOIN native_trade_states s ON s.source=t.source AND s.domain=t.domain AND s.record_id=t.record_id");
         List<Object> args = new ArrayList<>();
         if (subjectId != null || type != null) {
             sql.append(" WHERE ");
-            if (subjectId != null) { sql.append("subject_id=?"); args.add(subjectId); }
+            if (subjectId != null) { sql.append("c.subject_id=?"); args.add(subjectId); }
             if (subjectId != null && type != null) sql.append(" AND ");
-            if (type != null) { sql.append("type=?"); args.add(type.name()); }
+            if (type != null) { sql.append("c.type=?"); args.add(type.name()); }
         }
-        sql.append(" ORDER BY recorded_at DESC,id LIMIT ? OFFSET ?"); args.add(size); args.add(Math.multiplyExact(page, size));
+        sql.append(" ORDER BY c.recorded_at DESC,c.id LIMIT ? OFFSET ?"); args.add(size); args.add(Math.multiplyExact(page, size));
         try (var s = c.prepareStatement(sql.toString())) {
             for (int i = 0; i < args.size(); i++) s.setObject(i + 1, args.get(i));
             List<ContributionEntry> result = new ArrayList<>();
-            try (var r = s.executeQuery()) { while (r.next()) result.add(new ContributionEntry(r.getString(1), decode(r.getString(2), ContributionRequest.class), Instant.parse(r.getString(3)))); }
+            try (var r = s.executeQuery()) { while (r.next()) result.add(new ContributionEntry(r.getString(1), decode(r.getString(2), ContributionRequest.class), Instant.parse(r.getString(3)),r.getString(4))); }
             return List.copyOf(result);
         }
     }

@@ -22,6 +22,10 @@ import java.util.concurrent.CompletionStage;
  * Player snapshots are collected by StarChronicle, never accepted from commands or text providers. */
 public interface ChronicleService {
     CompletionStage<ProcessReport> submit(WorldEvent event);
+    /** Trusted committed production/trade sources only. Amounts must match the exact event actors and time. */
+    default CompletionStage<ProcessReport> submitContributions(WorldEvent event,List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionRequest> entries){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contribution sources unavailable"));}
+    /** Public, read-only evidenced contributions; page starts at zero, size is at most 100. */
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry>> contributions(String subjectId,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contributions unavailable"));}
     default CompletionStage<List<EpicCampaignPlan>> epicCampaignPlans(){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic campaigns unavailable"));}
     default CompletionStage<EpicSignup> openEpicSignup(String planId,String sessionId,String reliefNationId,UUID actorId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic signup unavailable"));}
     default CompletionStage<EpicSignup> epicSignup(String sessionId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic signup unavailable"));}

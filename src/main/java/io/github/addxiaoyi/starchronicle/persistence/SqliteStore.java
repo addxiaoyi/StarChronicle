@@ -60,6 +60,8 @@ public final class SqliteStore implements AutoCloseable {
                 AidLedger.createSchema(connection);
                 MemberReviewLedger.createSchema(connection);
                 ContributionLedger.createSchema(connection);
+                io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.createSchema(connection);
+                io.github.addxiaoyi.starchronicle.core.TradeContributionLedger.createSchema(connection);
                 EpicCampaignLedger.createSchema(connection);
                 DefinitionCatalog.createSchema(connection);
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);

@@ -47,6 +47,7 @@ class EpicServicesTest {
             assertEquals(EpicOperationState.Status.UNKNOWN,ledger.operation(op.operationId()).status(),"Attempt must be durable before dispatch");return nativeReply;
         });
         field("running",new AtomicBoolean(true));field("tasks",tasks);field("gateway",bridge);field("worker",worker);
+        field("engine",new RuleEngine(store,List.of(),java.time.Clock.systemUTC()));
         field("permissions",Set.of("starchronicle.use","starcore.resource"));field("epicCampaigns",ledger);field("epicOperationProviders",List.of(provider));
         field("nationalVoteAuthority",new NationalVoteAuthority(){
             public <T>T withRepresentative(UUID actor,String nation,Authorized<T> action)throws Exception {

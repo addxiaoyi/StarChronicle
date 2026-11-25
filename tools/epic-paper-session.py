@@ -116,6 +116,8 @@ def scenario(phase):
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
     if phase == 'first':
+        if manifest.get('extended'):
+            server_action('membership-first')
         server_action('open')
         for who in 'AB':
             server_action('task-ready ' + who)
@@ -123,6 +125,8 @@ def scenario(phase):
             server_action('task-complete ' + who)
         time.sleep(3)
         server_action('preparations')
+        if manifest.get('extended'):
+            server_action('contributions-check')
         server_action('advance')
         if manifest['route'] == 'DUNGEON':
             for who in 'AB':
@@ -134,6 +138,11 @@ def scenario(phase):
             server_action('end-war')
         server_action('checkpoint')
     elif phase == 'second':
+        if manifest.get('extended'):
+            server_action('membership-second')
+            client_action('membership D')
+            server_action('membership-finish')
+            server_action('contributions-check')
         server_action('final-evidence')
         server_action('settle')
         time.sleep(3)
@@ -141,6 +150,9 @@ def scenario(phase):
         server_action('replay')
         server_action('check')
     elif phase == 'third':
+        if manifest.get('extended'):
+            server_action('membership-check')
+            server_action('contributions-check')
         server_action('check')
         server_action('replay')
         server_action('check')

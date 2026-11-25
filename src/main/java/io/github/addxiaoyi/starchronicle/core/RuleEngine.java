@@ -149,16 +149,94 @@ public final class RuleEngine implements AutoCloseable {
             ContributionRequest nationContribution = new ContributionRequest(request.outcomeId(), ContributionType.RESOURCE_AID,
                     "nation:"+request.payerId(), event.id(), request.actorId(), request.payerId(), request.amount(),
                     "treasury", receipt.appliedAt(), "StarCore receipt issuer="+issuer+" domain="+authorityDomain+" transaction="+receipt.transactionId());
-            ContributionLedger.record(c, nationContribution, recordedAt);
+            ContributionLedger.recordNative(c,authorityDomain,receipt.transactionId(),nationContribution,request.outcomeId(),recordedAt);
             ContributionRequest playerContribution = new ContributionRequest(request.outcomeId(), ContributionType.RESOURCE_AID,
                     "player:"+request.actorId(), event.id(), request.actorId(), request.payerId(), request.amount(),
                     "treasury", receipt.appliedAt(), "StarCore receipt issuer="+issuer+" domain="+authorityDomain+" transaction="+receipt.transactionId());
-            ContributionLedger.record(c, playerContribution, recordedAt);
+            ContributionLedger.recordNative(c,authorityDomain,receipt.transactionId(),playerContribution,request.outcomeId(),recordedAt);
             return new ProcessReport(!fresh,List.copyOf(changed),fresh?"国库援助已记入世界历史并提交剧情收件箱":changed.isEmpty()?"国库援助历史已存在":"国库援助历史已存在，已恢复剧情触发");
         });
     }
 
     public static String aidEventId(String issuer,String transactionId){return "chronicle:aid:"+stable(issuer,transactionId);}
+
+    /** Provider-verified campaign receipt, history, contribution rows and phase advancement commit together. */
+    public EpicOperationState observeEpicOperation(EpicOperation operation,EpicObservation observation,String provider,String domain) {
+        return transaction(c->{
+            var state=epicCampaigns.observe(c,operation,observation,provider,domain,clock.instant());
+            if(state.status()!=EpicOperationState.Status.COMMITTED
+                    || operation.type()!=EpicOperation.Type.TREASURY_AID && operation.type()!=EpicOperation.Type.RESOURCE_AID)return state;
+            var receipt=state.receipt();
+            String eventId="chronicle:epic-aid:"+stable(domain,operation.type().name(),receipt.nativeReceiptId());
+            WorldEvent event=new WorldEvent(eventId,"NATIONAL_AID_COMMITTED",receipt.appliedAt(),Set.of(operation.actorId()),
+                    Set.of(operation.nationId(),operation.target()),Map.of("time_basis","COMMITTED_SOURCE","aid.authority_domain",domain,
+                    "aid.transaction",receipt.nativeReceiptId(),"aid.payer",operation.nationId(),"aid.receiver",operation.target(),
+                    "aid.kind",operation.type().name(),"aid.quantities",operation.nativeReference(),"epic.instance",operation.instanceId()),provider,receipt.evidence());
+            recordAndQueue(c,event,List.of(),runtime.enabledDefinitions(),EventCausality.root(eventId));
+            Instant recordedAt=clock.instant().isBefore(receipt.appliedAt())?receipt.appliedAt():clock.instant();
+            for(var value:EpicContributions.quantities(operation).entrySet())for(String subject:List.of("nation:"+operation.nationId(),"player:"+operation.actorId())) {
+                String key="chronicle:native-contribution:"+stable(domain,receipt.nativeReceiptId(),value.getKey());
+                var request=new ContributionRequest(key,ContributionType.RESOURCE_AID,subject,eventId,operation.actorId(),operation.nationId(),
+                        value.getValue(),value.getKey(),receipt.appliedAt(),"authority_domain="+domain+"; native_receipt="+receipt.nativeReceiptId());
+                ContributionLedger.recordNative(c,domain,receipt.nativeReceiptId(),request,
+                        operation.type()==EpicOperation.Type.TREASURY_AID?receipt.nativeReceiptId():null,recordedAt);
+            }
+            return state;
+        });
+    }
+
+    /** Trusted post-commit producers supply evidenced amounts; player commands cannot write this ledger. */
+    public ProcessReport acceptContributions(WorldEvent event,List<ContributionRequest> contributions,Collection<PlayerContext> contexts) {
+        Objects.requireNonNull(event);contributions=List.copyOf(contributions);contexts=List.copyOf(contexts);
+        if(contributions.isEmpty()||contributions.size()>100)throw new IllegalArgumentException("Require 1..100 contribution entries");
+        if(event.facts().keySet().stream().anyMatch(EpicCampaignLedger.STORY_FACTS::contains))throw new SecurityException("Reserved epic facts");
+        validateContributionSource(event,contributions);
+        if(contexts.size()>10000||contexts.stream().anyMatch(context->!audience(event,context)))throw new IllegalArgumentException("Invalid contribution audience");
+        final var entries=contributions;final var audience=contexts;
+        return transaction(c->{
+            boolean fresh=recordAndQueue(c,event,audience,runtime.enabledDefinitions(),EventCausality.root(event.id()));
+            Instant at=clock.instant().isBefore(event.occurredAt())?event.occurredAt():clock.instant();
+            for(var request:entries)ContributionLedger.record(c,request,at);
+            var changed=drainTriggers(c,List.copyOf(audience),event.id());
+            return new ProcessReport(!fresh,List.copyOf(changed),"已核验来源的贡献已入账");
+        });
+    }
+    private static void validateContributionSource(WorldEvent event,List<ContributionRequest> contributions) {
+        for(var request:contributions) {
+            if(!event.id().equals(request.sourceEventId())||!event.occurredAt().equals(request.committedAt())
+                    ||!event.participants().contains(request.actorId())
+                    ||request.nationId()!=null&&!request.nationId().isBlank()&&!event.nations().contains(request.nationId())
+                    ||!request.subjectId().equals("player:"+request.actorId())&&!request.subjectId().equals("nation:"+request.nationId()))
+                throw new IllegalArgumentException("Contribution is not bound to the source's exact participant, nation, time and subject");
+        }
+    }
+
+    public Optional<io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.Cursor> committedSourceCursor(String source) {
+        return transaction(c->io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.cursor(c,source));
+    }
+    /** One receipt, cursor advance, history and contribution/status effects share the same commit. */
+    public int acceptCommittedSource(io.github.addxiaoyi.starchronicle.history.CommittedSourcePage page,Collection<PlayerContext> contexts) {
+        Objects.requireNonNull(page);var online=List.copyOf(contexts);
+        if(online.size()>10000)throw new IllegalArgumentException("Unbounded source audience");
+        for(var entry:page.entries()) {
+            if(entry.event().facts().keySet().stream().anyMatch(EpicCampaignLedger.STORY_FACTS::contains))throw new SecurityException("Reserved epic facts");
+            if(entry.trade()!=null)validateContributionSource(entry.event(),entry.trade().contributions());
+        }
+        return transaction(c->{
+            long head=io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.begin(c,page);int accepted=0;
+            for(var entry:page.entries()) {
+                if(!io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.record(c,page,entry,head))continue;
+                head=entry.sequence();accepted++;
+                var event=entry.event();
+                var witnesses=online.stream().filter(ctx->audience(event,ctx)).toList();
+                if(!entry.baseline())recordAndQueue(c,event,witnesses,runtime.enabledDefinitions(),EventCausality.root(event.id()));
+                Instant at=clock.instant().isBefore(event.occurredAt())?event.occurredAt():clock.instant();
+                TradeContributionLedger.apply(c,page,entry,at);
+                if(!entry.baseline())drainTriggers(c,witnesses,event.id());
+            }
+            return accepted;
+        });
+    }
     private static WorldEvent aidEvent(io.github.addxiaoyi.starchronicle.api.aid.AidRequest request,
                                        io.github.addxiaoyi.starchronicle.api.aid.AidReceipt receipt,
                                        String issuer,String authorityDomain) {
@@ -575,7 +653,8 @@ public final class RuleEngine implements AutoCloseable {
         boolean open=!instance.completed()&&!definition.terminal()&&snapshot.resolution().isEmpty()&&instance.node().equals(node);
         WorldEvent source=event(c,instance.sourceEventId());
         boolean electorate=!source.nations().isEmpty()?source.nations().contains(context.nationId()):source.globalAudience();
-        boolean eligible=representative&&open&&!context.nationId().isBlank()&&Objects.equals(instance.members().get(context.playerId()),context.nationId())&&electorate
+        boolean reviewed=MemberReviewLedger.find(c,id,context.playerId()).map(r->r.status()==MemberReviewLedger.Status.APPROVED).orElse(true);
+        boolean eligible=representative&&open&&reviewed&&!context.nationId().isBlank()&&Objects.equals(instance.members().get(context.playerId()),context.nationId())&&electorate
             &&(instance.definition().scope()!=StoryDefinition.Scope.NATION||instance.scopeKey().equals("nation:"+context.nationId()));
         boolean canVote=eligible&&!visibleChoices(c,instance,context,true).isEmpty();
         boolean canWithdraw=eligible&&own.map(v->v.status().equals("ACTIVE")).orElse(false);

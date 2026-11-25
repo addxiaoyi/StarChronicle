@@ -36,6 +36,17 @@ readline.createInterface({input:process.stdin}).on('line',line=>{chain=chain.the
   const [action,who,...rest]=line.trim().split(' ');
   if(action==='quit'){quitting=true;for(const bot of bots.values())bot.quit('Epic acceptance complete');return;}
   if(action==='craft')await craft(who);
+  else if(action==='membership') {
+    const records=fs.readFileSync(path.join(run,'evidence/epic-fixture.jsonl'),'utf8').trim().split('\n').map(line=>JSON.parse(line));
+    const id=records.filter(r=>r.kind==='MEMBER_INSTANCE').at(-1)?.data.id;if(!id)throw Error('No evidenced membership instance');
+    const bot=bots.get(who);if(bot.currentWindow)bot.closeWindow(bot.currentWindow);
+    const window=await new Promise((resolve,reject)=>{
+      const timeout=setTimeout(()=>{bot.removeListener('windowOpen',open);reject(Error('Membership menu timeout'));},12000);
+      function open(value){clearTimeout(timeout);resolve(value);}bot.once('windowOpen',open);bot.chat('/chronicle membership '+id);
+    });
+    if(window.slots[20]?.name!=='emerald'||window.slots[24]?.name!=='barrier')throw Error('Missing membership review/exit controls');
+    log('MEMBERSHIP_GUI',{who,instance:id,title:window.title,review:window.slots[20].name,exit:window.slots[24].name});bot.closeWindow(window);
+  }
   else if(action==='chat')bots.get(who).chat(rest.join(' '));
   else if(action==='close'&&bots.get(who).currentWindow)bots.get(who).closeWindow(bots.get(who).currentWindow);
   else if(action==='inventory')log('INVENTORY',{who,items:bots.get(who).inventory.items().map(i=>({name:i.name,count:i.count}))});

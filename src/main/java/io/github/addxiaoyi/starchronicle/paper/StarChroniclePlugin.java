@@ -8,6 +8,7 @@ import io.github.addxiaoyi.starchronicle.config.*;
 import io.github.addxiaoyi.starchronicle.core.*;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreBridge;
 import io.github.addxiaoyi.starchronicle.integration.SnapshotCollector;
+import io.github.addxiaoyi.starchronicle.integration.CommittedSourceCollector;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryAidProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProvider;
@@ -78,6 +79,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private NationalAidService nationalAid;
     private EpicCampaignPlanCatalog epicPlanCatalog=EpicCampaignPlanCatalog.empty();
     private EpicCampaignLedger epicCampaigns;
+    private ContributionLedger contributions;
     private volatile List<EpicOperationProvider> epicOperationProviders=List.of();
     @Override public void onEnable() {
         try {
@@ -115,6 +117,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             MemoryRecipeCatalog memoryRecipes=MemoryRecipeCatalog.load(memoryRecipesFile);
             store=new SqliteStore(getDataFolder().toPath().resolve("chronicle.db"));
             epicCampaigns=new EpicCampaignLedger(store);
+            contributions=new ContributionLedger(store,Clock.systemUTC());
             firstVisits=new FirstVisitJournal(store);
             explorationRegions=ExplorationRegion.load(getConfig());
             firstVisits.registerRegions(explorationRegions.stream().collect(java.util.stream.Collectors.toMap(ExplorationRegion::id,ExplorationRegion::scope)));
@@ -296,6 +299,13 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         snapshots().thenCompose(contexts->query(()->{
             nativeJournal.isolateOrphans(nativeFlights.players());
             gateway.scanCommittedSources();
+            var committed=new CommittedSourceCollector(gateway);
+            for(var source:CommittedSourceCollector.Source.values())try {
+                var page=committed.collect(source,engine.committedSourceCursor(source.id));
+                if(page.isPresent())engine.acceptCommittedSource(page.get(),contexts);
+            } catch(ReflectiveOperationException|RuntimeException failure) {
+                getLogger().warning("Committed history cursor retained for "+source.id+": "+root(failure).getMessage());
+            }
             for(var snapshot:snapshotCollector.collect()) {
                 observations.observe(snapshot);
                 if(snapshot.namespace().equals("starcore.nations") && snapshot.complete()
@@ -457,8 +467,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                     EpicObservation.unknown("Epic provider returned no reliable observation: "+(error==null?"empty response":root(error).getMessage())))
                     .thenCompose(observation->query(()->{
                         requireEpicLease(call);
-                        return epicCampaigns.observe(call.operation(),observation,
-                            call.pin().providerId(),call.pin().authorityDomain(),Instant.now());
+                        return engine.observeEpicOperation(call.operation(),observation,
+                            call.pin().providerId(),call.pin().authorityDomain());
                     }));
         });
     }
@@ -623,6 +633,11 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     }
     private final class Service implements ChronicleService {
         @Override public CompletionStage<ProcessReport> submit(WorldEvent event){Objects.requireNonNull(event);return snapshots().thenCompose(contexts->query(()->{ProcessReport result=engine.accept(event,audience(event,contexts));deliverPending();return result;}));}
+        @Override public CompletionStage<ProcessReport> submitContributions(WorldEvent event,List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionRequest> entries){
+            Objects.requireNonNull(event);var frozen=List.copyOf(entries);
+            return snapshots().thenCompose(contexts->query(()->{var report=engine.acceptContributions(event,frozen,audience(event,contexts));deliverPending();return report;}));
+        }
+        @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry>> contributions(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return query(()->contributions.list(subject,type,page,size));}
         @Override public CompletionStage<List<EpicCampaignPlan>> epicCampaignPlans(){return query(()->epicPlanCatalog.plans());}
         @Override public CompletionStage<EpicSignup> openEpicSignup(String planId,String sessionId,String reliefNationId,UUID actorId){
             return snapshot(actorId).thenCompose(context->query(()->{
@@ -695,6 +710,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                         epicStory.sourceEventId(),campaign.phaseId(),type,actorId,context.nationId(),target,nativeReference,
                         DefinitionCanonicalCodec.fingerprintV2(epicStory.definition()),
                         permission,requested);
+                EpicContributions.quantities(operation);
                 if(!provider.supports(operation))throw new IllegalArgumentException("Epic provider does not support this operation or its native capability is unavailable");
                 return withEpicRepresentative(context,()->epicCampaigns.prepare(operation,provider.providerId(),provider.authorityDomain()));
             }));
@@ -777,6 +793,15 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 case "scene"->menus.scene(id);
                 case "npc"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle npc <逻辑NPC ID>");menus.npc(id,args[1]);}
                 case "fate"->menus.fate(id);
+                case "contributions"->{
+                    if(args.length>3||args.length>1&&!Set.of("player","nation").contains(args[1].toLowerCase(Locale.ROOT)))throw new IllegalArgumentException("用法: /chronicle contributions [player|nation] [页]");
+                    int page=args.length==3?Integer.parseInt(args[2])-1:0;if(page<0)throw new IllegalArgumentException("页码从 1 开始");
+                    boolean nation=args.length>1&&args[1].equalsIgnoreCase("nation");
+                    nationalSnapshot(id).thenCompose(context->{
+                        if(nation&&context.nationId().isBlank())throw new IllegalArgumentException("当前没有国家");
+                        return service.contributions(nation?"nation:"+context.nationId():"player:"+id,null,page,10);
+                    }).whenComplete((entries,error)->{if(error!=null)failure(id,error);else message(id,entries.isEmpty()?"此页暂无已核验贡献。":entries.stream().map(e->e.request().type()+" · "+e.request().amount().toPlainString()+" "+e.request().unit()+" · "+e.sourceStatus()+" · "+e.request().committedAt()+" · 来源 "+e.request().sourceEventId()).collect(java.util.stream.Collectors.joining("\n")));});
+                }
                 case "past"->{
                     if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle past <剧情ID/版本/节点ID>");
                     service.recollections(id,List.of("past.player.choice."+args[1],"past.resolution.world."+args[1],"past.resolution.nation."+args[1],"past.nation.choice."+args[1])).whenComplete((facts,error)->{
@@ -958,13 +983,14 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return true;
     }
     @Override public List<String> onTabComplete(CommandSender sender,Command command,String alias,String[] args) {
-        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","membership","reviews","revalidate","leave","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","membership","reviews","revalidate","leave","contributions","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
         if(args.length==2&&args[0].equalsIgnoreCase("epic"))return List.of("plans","providers","open","signup","enroll","withdraw-signup","seal","status","route","prepare","apply","reconcile","founding-reference").stream().filter(s->s.startsWith(args[1].toLowerCase(Locale.ROOT))).toList();
         if(args.length==4&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("prepare"))return Arrays.stream(EpicOperation.Type.values()).map(Enum::name).filter(s->s.startsWith(args[3].toUpperCase(Locale.ROOT))).toList();
         if(args.length==5&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("route"))return List.of("WAR","DUNGEON").stream().filter(s->s.startsWith(args[4].toUpperCase(Locale.ROOT))).toList();
         if(args.length==7&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("prepare"))return epicOperationProviders.stream().map(EpicOperationProvider::providerId).distinct().filter(s->s.startsWith(args[6])).sorted().toList();
         if(args.length==2&&args[0].equalsIgnoreCase("npc"))return npcLedger.catalog().profiles().keySet().stream().sorted().toList();
         if(args.length==2&&args[0].equalsIgnoreCase("history"))return List.of("nation","player");
+        if(args.length==2&&args[0].equalsIgnoreCase("contributions"))return List.of("player","nation").stream().filter(s->s.startsWith(args[1].toLowerCase(Locale.ROOT))).toList();
         if(args.length==2&&args[0].equalsIgnoreCase("demo")&&sender.hasPermission("starchronicle.admin"))return definitions.stream().map(StoryDefinition::id).filter(s->s.startsWith(args[1])).toList();
         return List.of();
     }
