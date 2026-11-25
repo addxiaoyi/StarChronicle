@@ -9,6 +9,8 @@
 | StarChronicle | `daa123548d66b5da6c8bd3c759767256d1bc0e6f7a66edfe5eb9c79d1fe70bf7` | `9b0e846`，`codex/capital-history-ingress-20261125`，叠加记忆阶段 |
 | StarCore | `3199771bfe9d194443d1d106546ea5ac783a98452b8240e9a67e0b6f09fec135` | `54587227`，`codex/capital-history-authority-20261125`，叠加生产组合阶段 |
 
+审阅入口为 [Chronicle PR #10](https://github.com/addxiaoyi/StarChronicle/pull/10)／[StarCore PR #8](https://github.com/addxiaoyi/starcore/pull/8)，均为草稿、未合并。
+
 实际运行 Java 21、Paper 1.21.11、EssentialsX 2.22.0、Vault 1.7.3-b131、FancyNpcs 2.10.1-java21+2、WorldEdit 7.4.2、WorldGuard 7.0.17；[组合锁](verification/production-stack-candidate-20261125.json)保存来源和指纹。实服期间没有重建或替换双插件。后续 CI 构件须单独记录，不承接这些实服通过结论。
 
 ## 实际行为与恢复
