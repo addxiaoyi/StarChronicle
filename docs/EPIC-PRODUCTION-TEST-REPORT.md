@@ -4,6 +4,8 @@
 
 WAR 使用原生主战国和谈结束；DUNGEON 使用三秒原生生存房间。本报告覆盖完整史诗业务链在所选组合上的集成和恢复，真实战场胜利、收费建国、Folia、MySQL、容量与生产部署仍未验收，十阶段继续推进。
 
+本增量草稿 [Chronicle PR #11](https://github.com/addxiaoyi/StarChronicle/pull/11) 叠加首都 #10，原生继续使用 [StarCore PR #8](https://github.com/addxiaoyi/starcore/pull/8)，均未合并。
+
 ## 冻结构件与构建来源
 
 | 项目 | 精确 SHA-256 | 来源 |
@@ -50,13 +52,22 @@ boot1 留下 ROUTE_APPROVED，未结算即正常停服；boot2 从持久原生�
 新设备重建必须登记新 JAR 哈希、新运行目录，不能继承旧构件的实服通过结论。按实际本机路径替换以下占位项，DUNGEON／WAR 各使用独立目录和端口：
 
 ~~~bash
-python3 tools/prepare-production-paper.py   --campaign --route DUNGEON --attempt epic-new-device-1 --port 29727   --starcore /path/to/StarCore.jar --runtime /path/to/paper-runtime   --artifacts-dir /path/to/locked-third-party-jars --java-home /path/to/java21
+python3 tools/prepare-production-paper.py \
+  --campaign --route DUNGEON --attempt epic-new-device-1 --port 29727 \
+  --starcore /path/to/StarCore.jar --runtime /path/to/paper-runtime \
+  --artifacts-dir /path/to/locked-third-party-jars --java-home /path/to/java21
 
 # 同一新目录依次执行 boot 1/2/3，scenario 为 first/second/third
-EPIC_MINEFLAYER_MODULE=/path/to/node_modules/mineflayer python3 tools/epic-paper-session.py --run run/NEW_RUN   --java-home /path/to/java21 --node /path/to/node   --boot 1 --scenario first --contributions
+EPIC_MINEFLAYER_MODULE=/path/to/node_modules/mineflayer \
+python3 tools/epic-paper-session.py --run run/NEW_RUN \
+  --java-home /path/to/java21 --node /path/to/node \
+  --boot 1 --scenario first --contributions
 python3 tools/inspect-epic-production-paper.py run/NEW_RUN
 
-STARCHRONICLE_EPIC_RUN=run/NEW_RUN STARCHRONICLE_EPIC_FAILURE_LOG=/path/to/retained-policy-failure.log STARCHRONICLE_DIPLOMACY_FAILURE_FIXTURE=/path/to/retained-diplomacy-failure.jsonl python3 tools/test_epic_production_acceptance.py
+STARCHRONICLE_EPIC_RUN=run/NEW_RUN \
+STARCHRONICLE_EPIC_FAILURE_LOG=/path/to/retained-policy-failure.log \
+STARCHRONICLE_DIPLOMACY_FAILURE_FIXTURE=/path/to/retained-diplomacy-failure.jsonl \
+python3 tools/test_epic_production_acceptance.py
 ~~~
 
 本增量关闭“所选第三方组合完整 DUNGEON／WAR 史诗链及重启结算”的验收缺口。后续推进真实战场胜利、UNKNOWN 对账和失败／放弃后的安全新轮次；其余工作见[交接报告](HANDOFF-2026-11-25.md)与[剩余工作](REMAINING-WORK.md)。
