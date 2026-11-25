@@ -62,6 +62,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private CommittedHistoryJournal committedHistory;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource tradeHistorySource;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSource nationTradeSource;
+    private io.github.addxiaoyi.starchronicle.integration.StarCoreNationProductionSource nationProductionSource;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistorySource technologyHistorySource;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistorySource resourceHistorySource;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySource capitalHistorySource;
@@ -160,6 +161,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             committedHistory=new CommittedHistoryJournal(store);
             tradeHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource(gateway);
             nationTradeSource=new io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSource(gateway);
+            nationProductionSource=new io.github.addxiaoyi.starchronicle.integration.StarCoreNationProductionSource(gateway);
             technologyHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistorySource(gateway);
             resourceHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistorySource(gateway);
             capitalHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySource(gateway);
@@ -315,6 +317,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             engine.reconcileEpicContributions(25);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource.SOURCE,()->tradeHistorySource.poll(committedHistory),contexts);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSource.SOURCE,()->nationTradeSource.poll(committedHistory),contexts);
+            pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreNationProductionSource.SOURCE,()->nationProductionSource.poll(committedHistory),contexts);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistorySource.SOURCE,()->technologyHistorySource.poll(committedHistory),contexts);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistorySource.SOURCE,()->resourceHistorySource.poll(committedHistory),contexts);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySource.SOURCE,()->capitalHistorySource.poll(committedHistory),contexts);
@@ -349,6 +352,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         for(WorldEvent event:committedHistory.pending(source,100)){
             if(source.equals(io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSource.SOURCE))
                 engine.commitNationalTrade(event,audience(event,contexts));
+            else if(source.equals(io.github.addxiaoyi.starchronicle.integration.StarCoreNationProductionSource.SOURCE))
+                engine.commitNationalProduction(event,audience(event,contexts));
             else engine.accept(event,audience(event,contexts));
             committedHistory.acknowledge(event.id());
         }
@@ -1043,6 +1048,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 var request=entry.request();
                 String type=switch(request.type()){case RESOURCE_AID->"援助";case TRADE->"贸易";case CIVILIZATION->"文明建设";};
                 String unit=request.unit().equals("trade.treasury")?"国库支付":request.unit().startsWith("trade.resource:")?"成交资源 "+request.unit().substring("trade.resource:".length()):
+                        request.unit().startsWith("production.resource:")?"生产资源 "+request.unit().substring("production.resource:".length()):
                         request.unit().equals("treasury")?"国库货币":request.unit().replaceFirst("^resource\\.","资源 ");
                 return type+" · "+request.amount().toPlainString()+" "+unit+" · "+request.committedAt();
             }).collect(java.util.stream.Collectors.joining("\n"));

@@ -138,6 +138,24 @@ public final class RuleEngine implements AutoCloseable {
         });
     }
 
+    /** Commit exact native production history and its civilization contribution views together. */
+    public ProcessReport commitNationalProduction(WorldEvent event,Collection<PlayerContext> contexts) {
+        Objects.requireNonNull(event);Objects.requireNonNull(contexts);
+        Map<UUID,PlayerContext> unique=new LinkedHashMap<>();
+        for(var ctx:contexts){
+            if(!audience(event,ctx))throw new IllegalArgumentException("Invalid national production audience");
+            if(unique.put(ctx.playerId(),ctx)!=null)throw new IllegalArgumentException("Duplicate production audience");
+        }
+        if(unique.size()>10000)throw new IllegalArgumentException("Too many production recipients");
+        return transaction(c->{
+            var proof=NationProductionContributionProjection.requireSource(c,event);
+            boolean fresh=recordAndQueue(c,event,unique.values(),runtime.enabledDefinitions(),EventCausality.root(event.id()));
+            Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
+            NationProductionContributionProjection.record(c,proof,clock.instant());
+            return new ProcessReport(!fresh,List.copyOf(changed),fresh?"国家生产与贡献已记录":"国家生产已记录，重复投递未增加贡献");
+        });
+    }
+
     /** Commit a verified native national-aid receipt together with its canonical
      * history event, derived effects and durable story inbox.  The provider call
      * has already completed before entering this transaction; this method only
