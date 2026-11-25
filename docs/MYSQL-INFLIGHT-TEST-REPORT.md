@@ -9,7 +9,7 @@
 | 项目 | 精确检查点 |
 | --- | --- |
 | 原生实现 | `codex/mysql-inflight-20261125`，提交 `ebdfacaea2132f86bc3cbaedd6cd6f438d2de0b5`，草稿[PR #14](https://github.com/addxiaoyi/starcore/pull/14)，叠加#13 |
-| Chronicle交接 | `codex/mysql-inflight-20261125`，叠加恢复分支#18；本增量只包含归档、报告与打包工具 |
+| Chronicle交接 | `codex/mysql-inflight-20261125`，草稿[PR #19](https://github.com/addxiaoyi/StarChronicle/pull/19)，叠加恢复分支#18；本增量只包含归档、报告与打包工具 |
 | 产品源码 | Chronicle `2f800988fbdd99447974e891a0623b39d7ed028a`；原生 `59ed52abbed5521eff6383df004985b1e13e1bbe`；`src/main`、`pom.xml`均未改 |
 | 冻结Chronicle JAR | `549f99d9e2fca919d42263fc184e3f790d101b7f65a1c91f067eb9716ce7fc5f` |
 | 冻结原生JAR | `26e6fb895d0ee6422c8347b63dc442763b475ef5eb91f8c92c94702fb2ebb886` |
