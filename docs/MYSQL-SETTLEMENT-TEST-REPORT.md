@@ -7,7 +7,7 @@
 | 项目 | 精确值 |
 | --- | --- |
 | 原生分支／提交 | `codex/mysql-settlement-20261125`／`362a02861f90de394f5bef0565208fa84862b0a9`，草稿[PR #13](https://github.com/addxiaoyi/starcore/pull/13)，叠加生产#12 |
-| Chronicle分支 | `codex/mysql-settlement-20261125`，叠加生产草稿#15 |
+| Chronicle分支 | `codex/mysql-settlement-20261125`，草稿[PR #16](https://github.com/addxiaoyi/StarChronicle/pull/16)，叠加生产#15 |
 | 产品源码基线 | Chronicle `2f800988fbdd99447974e891a0623b39d7ed028a`；StarCore `59ed52abbed5521eff6383df004985b1e13e1bbe` |
 | MySQL | Community Server8.4.13，服务器镜像更新号8.4.13.1；非MariaDB |
 | 镜像digest | `public.ecr.aws/docker/library/mysql@sha256:8c233bad33d520a7aae1c1e619c3a9775f4a1ba2d463d692fada04ec7f40be00` |
