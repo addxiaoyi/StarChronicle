@@ -2,6 +2,8 @@
 
 Chronicle 接入 StarCore 已持久化的科技解锁／撤销回执。一次轮询前发生的多次变化分别入史，重复解锁不追加回执，重启后继续使用同一来源域与游标。回执只证明国家科技状态变化，**不记录研究者，也不证明定时研究完成或个人文明贡献**。
 
+审阅入口：[Chronicle 草稿 PR #6](https://github.com/addxiaoyi/StarChronicle/pull/6) 与 [StarCore 草稿 PR #5](https://github.com/addxiaoyi/starcore/pull/5)。
+
 ## 配套源码与保证
 
 Chronicle 分支 `codex/technology-history-ingress-20261125`，源码与工具提交 `8ead43c`，基于贸易检查点 `07d1157`。StarCore 分支 `codex/technology-history-acceptance-20261125`，天气锁修复源码 `7cc74160`、外交锁修复 `3a2f3cff`，基于贸易日志检查点 `b2a21106`。本轮未修改另一个 `/home/add/starcore` 工作区。
