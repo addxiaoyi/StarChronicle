@@ -64,7 +64,8 @@ def main():
             assert native.execute('PRAGMA integrity_check').fetchone() == ('ok',)
             assert chronicle.execute('PRAGMA integrity_check').fetchone() == ('ok',)
             state = dict(native.execute('SELECT property_key,property_value FROM starcore_resource_state'))
-            assert state['resource.factory-runs.version'] == '1'
+            version = state['resource.factory-runs.version']
+            assert version in ('1', '2')
             assert state['resource.factory-runs.count'] == '2'
             assert state['resource.production.sequence'] == '2'
             assert 'factory.0.recipe' not in state
@@ -73,7 +74,9 @@ def main():
             rows = native.execute('SELECT sequence,operation_id,nation_id,actor_id,recipe_id,batches,inputs,outputs,committed_at FROM starcore_resource_production_receipts ORDER BY sequence').fetchall()
             assert len(rows) == 2
             for index, (seq, operation, nation, actor, recipe, batches, inputs, outputs, committed_at) in enumerate(rows):
-                key = f'resource.factory-runs.row.{index}.'
+                run_id = operation.removeprefix('factory:')
+                row = str(index) if version == '1' else hashlib.sha256(run_id.encode('utf-8')).hexdigest()
+                key = f'resource.factory-runs.row.{row}.'
                 assert operation == 'factory:' + state[key+'id']
                 assert state[key+'inputs'] == inputs and state[key+'outputs'] == outputs
                 assert state[key+'sequence'] == str(seq)

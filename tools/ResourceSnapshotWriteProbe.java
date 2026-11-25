@@ -23,9 +23,10 @@ public final class ResourceSnapshotWriteProbe {
         try {
             var module=new ResourceModule(storage);require(!module.authorityDomainId().isBlank(),"Authoritative restored module");
             require(module.amount(FactoryRecoveryProbe.NATION,"industrial")==runs*2L,"Initial inventory");
-            INSERTS.set(0);DELETES.set(0);List<Long> times=new ArrayList<>();
+            INSERTS.set(0);DELETES.set(0);List<Long> times=new ArrayList<>();long firstInserted=0,firstDeleted=0;
             for(int i=0;i<operations;i++) {
                 long start=System.nanoTime();require(module.grant(FactoryRecoveryProbe.NATION,"industrial",1),"Committed grant");times.add((System.nanoTime()-start)/1000);
+                if(i==0){firstInserted=INSERTS.get();firstDeleted=DELETES.get();}
             }
             long inserted=INSERTS.get(),deleted=DELETES.get();Collections.sort(times);
             var restarted=new ResourceModule(storage);require(restarted.amount(FactoryRecoveryProbe.NATION,"industrial")==runs*2L+operations,"Durable inventory");
@@ -36,7 +37,7 @@ public final class ResourceSnapshotWriteProbe {
             require(FactoryRecoveryProbe.run(runs).equals(restored.get("batch-"+runs)),"Active evidence");
             require(storage.latestProductionSequence()==runs,"No fabricated production");
             String result="{\"status\":\"PASS\",\"grants\":"+operations+",\"completed_runs\":"+runs+",\"state_rows_inserted\":"+inserted+",\"state_rows_deleted\":"+deleted+
-                ",\"p50_micros\":"+times.get(times.size()/2)+",\"p95_micros\":"+times.get((int)(times.size()*.95))+",\"max_micros\":"+times.getLast()+",\"max_heap_bytes\":"+Runtime.getRuntime().maxMemory()+"}";
+                ",\"first_grant_inserted\":"+firstInserted+",\"first_grant_deleted\":"+firstDeleted+",\"format\":\""+p.getProperty(FactoryRunStore.PREFIX+"version")+"\",\"p50_micros\":"+times.get(times.size()/2)+",\"p95_micros\":"+times.get((int)(times.size()*.95))+",\"max_micros\":"+times.getLast()+",\"max_heap_bytes\":"+Runtime.getRuntime().maxMemory()+"}";
             Files.writeString(Path.of(args[3]),result+"\n");System.out.println(result);
         } finally {AbstractModuleStateStorage.shutdownNamespace("test");}
     }

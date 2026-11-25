@@ -20,6 +20,8 @@ def main():
     if args.runs<257 or args.grants<10:parser.error('Use at least 257 runs and 10 grants')
     spec=importlib.util.spec_from_file_location('capacity',Path(__file__).with_name('run-capacity-contract.py'))
     capacity=importlib.util.module_from_spec(spec);spec.loader.exec_module(capacity)
+    stable_spec=importlib.util.spec_from_file_location('stable',Path(__file__).with_name('run-factory-stable-capacity.py'))
+    stable=importlib.util.module_from_spec(stable_spec);stable_spec.loader.exec_module(stable)
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     frozen=output/'artifacts';frozen.mkdir();classes=output/'classes';classes.mkdir()
     sources=[Path(__file__).with_name(name) for name in ('FactoryRecoveryProbe.java','ResourceSnapshotWriteProbe.java')]
@@ -58,9 +60,17 @@ def main():
                 assert db.execute('PRAGMA integrity_check').fetchone()[0]=='ok'
                 state_after=dict(db.execute('SELECT property_key,property_value FROM starcore_resource_state'))
             expected=dict(state_before);expected['stockpile.0.amount']=str(args.runs*2+args.grants)
-            assert state_after==expected,('Unexpected state change',version)
+            assert stable.logical(state_after)==stable.logical(expected),('Unexpected logical state change',version)
             report=json.loads((output/(version+'.json')).read_text(encoding='utf-8'))
-            if version=='current':assert report['state_rows_inserted']==report['state_rows_deleted']==args.grants
+            if version=='current':
+                # The first grant may also convert every V1 key to V2, atomically. Subsequent
+                # grants must each replace exactly the one changed inventory property.
+                inserted=sum(state_before.get(key)!=value for key,value in state_after.items())
+                deleted=sum(state_after.get(key)!=value for key,value in state_before.items())
+                assert report['state_rows_inserted']==inserted+args.grants-1
+                assert report['state_rows_deleted']==deleted+args.grants-1
+                assert report['state_rows_inserted']-report['first_grant_inserted']==args.grants-1
+                assert report['state_rows_deleted']-report['first_grant_deleted']==args.grants-1
             manifest['phases'][version]['independent_validation']='PASS'
             manifest['phases'][version]['only_expected_inventory_changed']=True
         manifest['status']='PASS'
