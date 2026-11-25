@@ -55,9 +55,16 @@ public final class CommittedHistoryJournal {
         });
     }
     public List<WorldEvent> pending(int limit){
+        return readPending(null,limit);
+    }
+    /** A retained failure in one authority must not starve unrelated committed sources. */
+    public List<WorldEvent> pending(String source,int limit){
+        requireSource(source);return readPending(source,limit);
+    }
+    private List<WorldEvent> readPending(String source,int limit){
         if(limit<1||limit>100)throw new IllegalArgumentException("Pending page must be 1..100");
-        return store.transaction(c->{List<WorldEvent> result=new ArrayList<>();try(var s=c.prepareStatement("SELECT json FROM committed_history_ingress WHERE status='PENDING' ORDER BY source,sequence LIMIT ?")){
-            s.setInt(1,limit);try(var r=s.executeQuery()){while(r.next())result.add(decode(r.getString(1),WorldEvent.class));}
+        return store.transaction(c->{List<WorldEvent> result=new ArrayList<>();try(var s=c.prepareStatement("SELECT json FROM committed_history_ingress WHERE status='PENDING'"+(source==null?"":" AND source=?")+" ORDER BY source,sequence LIMIT ?")){
+            if(source!=null)s.setString(1,source);s.setInt(source==null?1:2,limit);try(var r=s.executeQuery()){while(r.next())result.add(decode(r.getString(1),WorldEvent.class));}
         }return List.copyOf(result);});
     }
     /** Invoke only after RuleEngine.accept durably committed (a verified duplicate also counts). */

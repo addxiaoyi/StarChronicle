@@ -19,6 +19,9 @@ NATIVE_POLICY_TESTS = {'SqlPolicyStateStorageTest', 'PolicyModuleDatabaseConflic
                        'PolicyModuleLifecycleTest', 'PolicyModuleStateTest'}
 NATIVE_TRADE_TESTS = {'SimpleTradeHistoryPagingTest', 'TradeRecordTest', 'TradeHistoryJournalTest',
                       'PublicApiCompatibilityTest'}
+NATIVE_TECHNOLOGY_TESTS = {'TechnologyHistoryStorageTest', 'TechnologyModuleBoundaryTest',
+                           'DatabaseAwareWeatherStateStorageTest', 'WeatherModuleDatabaseConflictIntegrationTest',
+                           'WeatherModuleLifecycleTest', 'PublicApiCompatibilityTest'}
 
 
 def sha(path):
@@ -51,7 +54,7 @@ def main():
     parser.add_argument('--run', type=Path, action='append', default=[])
     parser.add_argument('--label', default='checkpoint')
     parser.add_argument('--native-reports', type=Path)
-    parser.add_argument('--native-suite', choices=['epic', 'trade'], default='epic')
+    parser.add_argument('--native-suite', choices=['epic', 'trade', 'technology'], default='epic')
     parser.add_argument('--native-log', type=Path, action='append', default=[])
     parser.add_argument('--verification-log', type=Path, action='append', default=[])
     parser.add_argument('--starcore-jar', type=Path, help='Frozen accepted artifact, if verify has since repackaged target')
@@ -68,9 +71,10 @@ def main():
         raise SystemExit('Invalid archive label')
     destination = ROOT / ('target/national-epic-' + args.label)
     destination.mkdir(parents=True, exist_ok=False)
-    if args.native_suite == 'trade' and args.include_policy_tests:
-        raise SystemExit('Trade and policy selections must be reported separately')
-    selected = NATIVE_TRADE_TESTS if args.native_suite == 'trade' else NATIVE_TESTS | (NATIVE_POLICY_TESTS if args.include_policy_tests else set())
+    if args.native_suite != 'epic' and args.include_policy_tests:
+        raise SystemExit('Non-epic and policy selections must be reported separately')
+    selected = {'trade': NATIVE_TRADE_TESTS, 'technology': NATIVE_TECHNOLOGY_TESTS,
+                'epic': NATIVE_TESTS | (NATIVE_POLICY_TESTS if args.include_policy_tests else set())}[args.native_suite]
     summary = dict(captured_utc=datetime.now(timezone.utc).isoformat(),
                    chronicle=dict(head=git(ROOT, 'rev-parse', 'HEAD'), tests=results(ROOT)),
                    starcore=dict(head=git(native, 'rev-parse', 'HEAD'), selected_suite=args.native_suite, tests=results(native, selected, args.native_reports)),
@@ -149,6 +153,7 @@ def main():
                                                             if (run / 'evidence' / name).is_file()},
                                        member_check=json.loads((run / 'evidence/member-check.json').read_text()) if (run / 'evidence/member-check.json').is_file() else None,
                                        trade_check=json.loads((run / 'evidence/trade-check.json').read_text()) if (run / 'evidence/trade-check.json').is_file() else None,
+                                       technology_check=json.loads((run / 'evidence/technology-check.json').read_text()) if (run / 'evidence/technology-check.json').is_file() else None,
                                        passing_checks=[e for e in events if e['kind']=='ACCEPTANCE_PASS'],
                                        failures=[e for e in events if e['kind']=='FAILED'],
                                        fatal_jvm_logs=[path.name for path in run.glob('hs_err_*.log')]))
@@ -159,7 +164,7 @@ def main():
             files += list((run / 'plugins/StarChronicle/stories').glob('*')) + list((run / 'plugins/StarChronicle/epic-campaigns').glob('*'))
             # Only stopped, local fixture data. Exclude generated plugin config secrets.
             files += [run / 'plugins/StarChronicle/chronicle.db', run / 'plugins/StarCore/starcore.db']
-            for folder in ('dungeon', 'quest', 'wars', 'war'):
+            for folder in ('dungeon', 'quest', 'wars', 'war', 'technology'):
                 files += list((run / 'plugins/StarCore' / folder).rglob('*'))
             for path in sorted(set(files)):
                 if not path.is_file() or path.is_symlink(): continue
@@ -171,7 +176,7 @@ def main():
         for name in ('EpicCampaignPaperFixture.java','prepare-epic-paper.py','epic-paper-clients.cjs','epic-paper-session.py','inspect-epic-paper.py','inspect-quest-evidence-paper.py','test_epic_acceptance.py','archive-epic-evidence.py',
                      'prepare-contribution-upgrade.py','inspect-contribution-paper.py','inspect-contribution-upgrade.py','test_contribution_acceptance.py','test_contribution_upgrade.py',
                      'prepare-member-paper.py','inspect-member-paper.py','test_member_acceptance.py',
-                     'inspect-trade-paper.py','test_trade_acceptance.py'):
+                     'inspect-trade-paper.py','test_trade_acceptance.py','inspect-technology-paper.py','test_technology_acceptance.py'):
             archive.write(ROOT / 'tools' / name, 'tools/' + name)
         inventory = {entry.filename: hashlib.sha256(archive.read(entry.filename)).hexdigest() for entry in archive.infolist()}
         archive.writestr('evidence-manifest.json', json.dumps(inventory, indent=2) + '\n')

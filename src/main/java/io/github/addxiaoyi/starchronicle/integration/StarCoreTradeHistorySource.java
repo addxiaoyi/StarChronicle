@@ -19,7 +19,7 @@ public final class StarCoreTradeHistorySource {
 
     /** Called on the persistence worker. Pending evidence is drained before any further source page. */
     public boolean poll(CommittedHistoryJournal journal){
-        if(!journal.pending(1).isEmpty())return false;
+        if(!journal.pending(SOURCE,1).isEmpty())return false;
         Object nativeService=service.get();if(nativeService==null)return false;
         try {
             nativeService.getClass().getMethod("historyAuthorityDomain");
