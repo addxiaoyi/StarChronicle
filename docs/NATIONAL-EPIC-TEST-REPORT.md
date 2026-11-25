@@ -1,5 +1,7 @@
 # 国家史诗候选版测试报告
 
+后续据点增量（2026-11-25）：新原生国家SQLite修复构件 `3dcc34b0…36f6` 配对Chronicle `daa12354…0bf7`，真实菜单占领两座要塞并获得原生100∶0胜利；WAR与DUNGEON各三次启动、唯一结算与重放及70项证据回归通过。原生新构建7,274项（21跳过），Chronicle继承927项。见[据点胜利报告](BATTLEFIELD-TEST-REPORT.md)；以下报告的旧构件与有限范围继续独立保留。
+
 最新完整组合验收（2026-11-25）：首都冻结构件已在 Paper／EssentialsX／Vault／FancyNpcs／WorldGuard 组合完成 DUNGEON／WAR 各三次启动、唯一结算、贡献查询与重放，58项证据回归通过。WAR仍为原生和谈。见[新报告](EPIC-PRODUCTION-TEST-REPORT.md)；以下旧构件验收范围独立保留。
 
 最新成员复核增量已通过 896 项与 47 项实服证据回归，见[成员报告](MEMBER-REVIEW.md)。后续贡献增量已通过 878 项测试、双路线各三次启动与真实旧库升级两次启动，见 [贡献接线报告](CONTRIBUTIONS.md)。下文继续保留 `57345b09`／866 项检查点的独立证据与失败记录。
