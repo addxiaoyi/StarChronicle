@@ -821,7 +821,7 @@ public final class RuleEngine implements AutoCloseable {
         if(npcs!=null)facts.putAll(npcs.facts(c,context.playerId()));
         facts.keySet().removeIf(k->k.startsWith("history.")||k.startsWith("chronicle.history.")||k.startsWith("past."));
         Condition[] required=conditions(definition);
-        facts.putAll(HistoricalFacts.read(c,context.playerId(),context.nationId(),HistoricalFacts.requested(required)));
+        facts.putAll(HistoricalFacts.readRequested(c,context.playerId(),context.nationId(),HistoricalFacts.requested(required)));
         facts.putAll(ChoiceLedger.read(c,context.playerId(),context.nationId(),ChoiceLedger.requested(required)));
         if(instance!=null) {
             // Collective resolution and personal choices are distinct. Two passes make actor

@@ -132,6 +132,89 @@ class HistoricalFactsTest {
         }
     }
 
+    @Test void selectiveProjectionAgreesWithCompleteViewForEveryRequestedScopeAndAlias() {
+        try(var store=new SqliteStore(temp.resolve("selective.db"))) {
+            seed(store);
+            Set<String> keys=Set.of("history.WAR","history.MISSING","history.player.WAR","chronicle.history.world.WAR",
+                    "chronicle.history.world.MISSING","chronicle.history.nation.WAR","chronicle.history.nation.TECH",
+                    "chronicle.history.player.WAR","chronicle.history.player.TECH","past.player.choice.chapter/1/vote","ordinary");
+            for(UUID player:Arrays.asList(A,B,C,null))for(String nation:Arrays.asList("north","south","missing",null," ")) {
+                var expected=new HashMap<>(store.transaction(c->HistoricalFacts.read(c,player,nation,keys)));
+                expected.keySet().retainAll(keys);
+                var selected=store.transaction(c->HistoricalFacts.readRequested(c,player,nation,keys));
+                assertEquals(expected,selected,"player="+player+", nation="+nation);
+                assertThrows(UnsupportedOperationException.class,()->selected.put("history.WAR","999"));
+            }
+        }
+    }
+
+    @Test void unrelatedOrUnknownScopeReferencesNeverReadTheHistoryTables() throws Exception {
+        Connection neverRead=(Connection)Proxy.newProxyInstance(Connection.class.getClassLoader(),new Class<?>[]{Connection.class},
+                (proxy,method,args)->{throw new AssertionError("Unnecessary SQL: "+method.getName());});
+        assertTrue(HistoricalFacts.readRequested(neverRead,A,"north",Set.of("player.role","past.player.choice.chapter/1/vote")).isEmpty());
+        assertTrue(HistoricalFacts.readRequested(neverRead,A,"north",null).isEmpty());
+        assertTrue(HistoricalFacts.readRequested(neverRead,null," ",Set.of("chronicle.history.player.WAR","chronicle.history.nation.WAR")).isEmpty());
+        assertThrows(IllegalArgumentException.class,()->HistoricalFacts.readRequested(neverRead,null,null,Set.of("chronicle.history.typo.WAR")));
+    }
+
+    @Test void selectiveTypesRemainLiteralAndLegacyDotsNeverBecomeAScope() {
+        try(var store=new SqliteStore(temp.resolve("selective-literals.db"))) {
+            String type="旧都' OR 1=1 --.player.WAR";
+            store.transaction(c->{insert(c,"one",type,Set.of(A),Set.of("north' OR 1=1 --"));insert(c,"two","player.WAR",Set.of(B),Set.of("south"));return null;});
+            Set<String> wanted=Set.of("history."+type,"chronicle.history.world."+type,"chronicle.history.player."+type,
+                    "chronicle.history.nation."+type,"history.player.WAR","chronicle.history.player.WAR");
+            var facts=store.transaction(c->HistoricalFacts.readRequested(c,A,"north' OR 1=1 --",wanted));
+            assertEquals("1",facts.get("history."+type));assertEquals("1",facts.get("chronicle.history.world."+type));
+            assertEquals("1",facts.get("chronicle.history.player."+type));assertEquals("1",facts.get("chronicle.history.nation."+type));
+            assertEquals("1",facts.get("history.player.WAR"));assertEquals("0",facts.get("chronicle.history.player.WAR"));
+        }
+    }
+
+    @Test void selectiveCountsReadUncommittedEventsAndRollbackWithoutStaleCaching() {
+        Path file=temp.resolve("selective-transaction.db");Set<String> keys=Set.of("history.WAR","chronicle.history.world.WAR","chronicle.history.player.WAR");
+        try(var store=new SqliteStore(file)) {
+            assertThrows(IllegalStateException.class,()->store.transaction(c->{
+                insert(c,"rolled-back","WAR",Set.of(A),Set.of("north"));
+                assertEquals("1",HistoricalFacts.readRequested(c,A,"north",keys).get("chronicle.history.player.WAR"));
+                assertFalse(c.getAutoCommit());throw new IllegalStateException("rollback");
+            }));
+            var absent=store.transaction(c->HistoricalFacts.readRequested(c,A,"north",keys));
+            assertFalse(absent.containsKey("history.WAR"));assertEquals("0",absent.get("chronicle.history.player.WAR"));
+            store.transaction(c->{insert(c,"committed","WAR",Set.of(A),Set.of("north"));return null;});
+        }
+        try(var store=new SqliteStore(file)) {
+            assertEquals("1",store.transaction(c->HistoricalFacts.readRequested(c,A,"north",keys)).get("chronicle.history.player.WAR"));
+        }
+    }
+
+    @Test void manyRequestedTypesUseBoundedParametersAndDoNotOmitAnyBoundaryType() {
+        try(var store=new SqliteStore(temp.resolve("many-types.db"))) {
+            store.transaction(c->{for(int i=0;i<300;i++)insert(c,"type-"+i,"T"+i,Set.of(A),Set.of("north"));return null;});
+            Set<String> wanted=new HashSet<>();
+            for(int i=0;i<301;i++)for(String prefix:List.of("history.","chronicle.history.world.","chronicle.history.player.","chronicle.history.nation."))wanted.add(prefix+"T"+i);
+            var expected=new HashMap<>(store.transaction(c->HistoricalFacts.read(c,A,"north",wanted)));expected.keySet().retainAll(wanted);
+            assertEquals(expected,store.transaction(c->HistoricalFacts.readRequested(c,A,"north",wanted)));
+            assertEquals(1203,expected.size());
+        }
+    }
+
+    @Test void worldTypeFilterUsesTheCoveringIndexAndRecreatesItOnReopen() {
+        Path file=temp.resolve("indexed.db");
+        try(var store=new SqliteStore(file)) {
+            seed(store);
+            store.transaction(c->{try(var s=c.createStatement()){s.execute("DROP INDEX history_type");}return null;});
+        }
+        try(var store=new SqliteStore(file)) {
+            store.transaction(c->{try(var s=c.prepareStatement("EXPLAIN QUERY PLAN SELECT type,COUNT(*) FROM events WHERE type IN (?,?) GROUP BY type")) {
+                s.setString(1,"WAR");s.setString(2,"TECH");List<String> plan=new ArrayList<>();
+                try(var r=s.executeQuery()){while(r.next())plan.add(r.getString(4));}
+                assertTrue(plan.stream().anyMatch(p->p.contains("history_type")&&p.contains("SEARCH")),plan.toString());
+                assertFalse(plan.stream().anyMatch(p->p.contains("TEMP B-TREE")),plan.toString());
+            }return null;});
+            assertEquals(Map.of("history.WAR","2"),store.transaction(c->HistoricalFacts.readRequested(c,null,null,Set.of("history.WAR"))));
+        }
+    }
+
     private static Condition atom(String fact){return new Condition(null,null,null,fact,"gte","1");}
     private static void seed(SqliteStore store){store.transaction(c->{
         insert(c,"one","WAR",Set.of(A,B),Set.of("north","south"));

@@ -12,6 +12,49 @@ import java.util.*;
 public final class HistoricalFacts {
     private HistoricalFacts() {}
 
+    /** Condition projection: only requested keys, with no history query for unrelated conditions.
+     * The complete read method remains available to callers that need a full compatibility view. */
+    public static Map<String,String> readRequested(Connection connection,UUID playerId,String nationId,
+                                                   Collection<String> requestedFacts)throws SQLException {
+        Objects.requireNonNull(connection,"connection");
+        Map<String,Map<String,Set<String>>> requested=new LinkedHashMap<>();
+        for(String scope:List.of("world","nation","player"))requested.put(scope,new TreeMap<>());
+        if(requestedFacts!=null)for(String key:requestedFacts) {
+            if(!accepts(key))continue;
+            String scope="world",type;
+            if(key.startsWith("history."))type=key.substring("history.".length());
+            else {String rest=key.substring("chronicle.history.".length());int dot=rest.indexOf('.');scope=rest.substring(0,dot);type=rest.substring(dot+1);}
+            requested.get(scope).computeIfAbsent(type,ignored->new LinkedHashSet<>()).add(key);
+        }
+        Map<String,String> facts=new LinkedHashMap<>();
+        for(var group:requested.entrySet()) {
+            String scope=group.getKey();
+            String subject=switch(scope){case "nation"->nationId==null||nationId.isBlank()?null:nationId;case "player"->playerId==null?null:playerId.toString();default->"world";};
+            if(subject==null||group.getValue().isEmpty())continue;
+            List<String> types=new ArrayList<>(group.getValue().keySet());
+            // Keep parameter count bounded even for a catalog with many different event types.
+            for(int offset=0;offset<types.size();offset+=256) {
+                List<String> batch=types.subList(offset,Math.min(types.size(),offset+256));
+                String marks=String.join(",",Collections.nCopies(batch.size(),"?"));
+                String sql=switch(scope) {
+                    case "nation"->"SELECT e.type,COUNT(*) FROM event_nations n JOIN events e ON e.id=n.event_id WHERE n.nation=? AND e.type IN ("+marks+") GROUP BY e.type";
+                    case "player"->"SELECT e.type,COUNT(*) FROM event_players p JOIN events e ON e.id=p.event_id WHERE p.player=? AND e.type IN ("+marks+") GROUP BY e.type";
+                    default->"SELECT type,COUNT(*) FROM events WHERE type IN ("+marks+") GROUP BY type";
+                };
+                try(var query=connection.prepareStatement(sql)) {
+                    int parameter=1;if(!scope.equals("world"))query.setString(parameter++,subject);
+                    for(String type:batch)query.setString(parameter++,type);
+                    try(var rows=query.executeQuery()) {
+                        while(rows.next())for(String key:group.getValue().get(rows.getString(1)))facts.put(key,Long.toString(rows.getLong(2)));
+                    }
+                }
+            }
+            for(var aliases:group.getValue().values())for(String key:aliases)
+                if(key.startsWith("chronicle.history."))facts.putIfAbsent(key,"0");
+        }
+        return Map.copyOf(facts);
+    }
+
     /**
      * Return existing legacy world counts and scoped counts. Explicit scoped requests receive
      * zero for an absent type only when the scope's subject is known. A null player or null/blank

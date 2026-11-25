@@ -105,7 +105,8 @@ public final class NpcLedger {
         Map<String,String> facts=new HashMap<>(context.facts());
         worldFacts.forEach((key,value)->{if(key.startsWith("region.")||key.startsWith("choice.")||key.startsWith("story.choice."))facts.put(key,value);});
         facts.putAll(read(connection,"WORLD"));facts.putAll(npcFacts(connection,player));
-        history(connection,facts,player,context.nationId(),references(npcId));
+        // NpcView exposes the complete projection and may render history placeholders without a predicate.
+        history(connection,facts,player,context.nationId(),references(npcId),true);
         facts.put("player.id",player.toString());
         if(context.nationId().isBlank())facts.remove("nation.id");else facts.put("nation.id",context.nationId());
         metadata(facts,npcId);return facts;
@@ -118,7 +119,7 @@ public final class NpcLedger {
         else defaults(connection,facts,npcId,null);
         // Event actors provide UUID evidence, not their current authoritative nationality.
         // Never choose an arbitrary event nation to manufacture a current national subject.
-        history(connection,facts,player,null,requested);metadata(facts,npcId);return facts;
+        history(connection,facts,player,null,requested,false);metadata(facts,npcId);return facts;
     }
     private Map<String,String> npcFacts(Connection connection,UUID player) throws SQLException {
         Map<String,String> facts=new HashMap<>();
@@ -143,10 +144,10 @@ public final class NpcLedger {
         facts.put("npc.position",facts.getOrDefault(prefix+"position",profile.initialPosition()));
         for(String key:List.of("growth","reputation","trust","hostility"))facts.put("npc."+key,facts.getOrDefault(prefix+key,"0"));
     }
-    private static void history(Connection connection,Map<String,String> facts,UUID player,String nation,Collection<String> requested) throws SQLException {
+    private static void history(Connection connection,Map<String,String> facts,UUID player,String nation,Collection<String> requested,boolean complete) throws SQLException {
         // Caller-supplied contexts cannot fabricate historical counts for dialogue or reaction predicates.
         facts.keySet().removeIf(key->key.startsWith("history.")||key.startsWith("chronicle.history.")||key.startsWith("past."));
-        facts.putAll(HistoricalFacts.read(connection,player,nation,requested));
+        facts.putAll(complete?HistoricalFacts.read(connection,player,nation,requested):HistoricalFacts.readRequested(connection,player,nation,requested));
         facts.putAll(ChoiceLedger.read(connection,player,nation,requested));
     }
     private Set<String> references(String npcId) {
