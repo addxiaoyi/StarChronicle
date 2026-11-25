@@ -9,7 +9,7 @@
 | StarChronicle | `2f800988fbdd99447974e891a0623b39d7ed028a`，分支 `codex/production-settlement-20261125` | `549f99d9e2fca919d42263fc184e3f790d101b7f65a1c91f067eb9716ce7fc5f` |
 | StarCore | `59ed52abbed5521eff6383df004985b1e13e1bbe`，分支 `codex/atomic-production-20261125` | `26e6fb895d0ee6422c8347b63dc442763b475ef5eb91f8c92c94702fb2ebb886` |
 
-原生草稿[PR #12](https://github.com/addxiaoyi/starcore/pull/12)叠加贸易#11；Chronicle本轮叠加贸易#14。工具与报告修改未重建产品。原生工作流仅自动覆盖main，候选分支未触发远端CI；其结论来自本地完整构建和实服。Chronicle最终CI结果及CI构件指纹登记在本轮PR说明，新构件不能继承以上JAR的实服结论。
+原生草稿[PR #12](https://github.com/addxiaoyi/starcore/pull/12)叠加贸易#11；Chronicle草稿[PR #15](https://github.com/addxiaoyi/StarChronicle/pull/15)叠加贸易#14。工具与报告修改未重建产品。原生工作流仅自动覆盖main，候选分支未触发远端CI；其结论来自本地完整构建和实服。Chronicle最终CI结果及CI构件指纹登记在本轮PR说明，新构件不能继承以上JAR的实服结论。
 
 用户授权自行确定组合：Java21／Paper1.21.11、EssentialsX2.22.0／Vault1.7.3-b131、FancyNpcs2.10.1-java21+2、WorldEdit7.4.2／WorldGuard7.0.17，见[组合锁](verification/production-stack-candidate-20261125.json)。七插件在每轮启动实际加载，原生业务经济仍为PlayerVaultEconomyService；本生产协议明确只使用国家库存。
 
@@ -83,7 +83,7 @@ STARCHRONICLE_NATION_PRODUCTION_RUN=run/NEW python3 -m unittest discover -s tool
 
 空服准备加`--offline`，依次执行`production-offline-first`、正常停服后的`prepare-nation-production-resume.py --run run/NEW`和`production-offline-second`。两种生产现场共用上述检查器、测试及环境变量。副本与国战沿用`prepare-production-paper.py --campaign --route DUNGEON`和`prepare-battlefield-paper.py`准备；真实命令参数应以工具`--help`为准，运行目录必须唯一且保留新构件指纹。
 
-`archive-nation-production-evidence.py`核验五个成功目录、一个失败目录、双JAR、两库产品源码与完整构建／失败XML后生成[证据ZIP](verification/nation-production-paper-20261125-evidence.zip)和[机器清单](verification/nation-production-paper-20261125-summary.json)。本机`target/nation-production-paper-20261125/`另含两库源码tar、双JAR和完整清单；逐成员SHA-256验证、配置测试密钥脱敏。最终字节数、成员数和归档指纹以机器清单为准。新设备重建产生的新JAR须重新验收。
+`archive-nation-production-evidence.py`核验五个成功目录、一个失败目录、双JAR、两库产品源码与完整构建／失败XML后生成[证据ZIP](verification/nation-production-paper-20261125-evidence.zip)和[机器清单](verification/nation-production-paper-20261125-summary.json)。本机`target/nation-production-paper-20261125/`另含两库源码tar、双JAR和完整清单；逐成员SHA-256验证、配置测试密钥脱敏。本轮归档：17,686,836字节、3,903个有哈希成员全部核验，ZIP SHA-256 `0b84276aabe9b306184d8ba8c48291a2cd2416763b1c5dab4d46d233c6d00733`；18个配置密钥字段脱敏。工具／报告源码归档提交为`d119851b5e1bffecc0425737710b00b3e179ada0`，原生为`7ff849643b0b1541dacd83f8fe3962b9c2a0fdae`，产品源码与实服指纹见上表。新设备重建产生的新JAR须重新验收。
 
 上一贸易#14最终HEAD `75aae16677cf8adc4c31a9d83fe601cccb1e781c`的push CI45683835034、PR CI45683848621均成功：962项及1,423项交付校验。CI JAR分别为`ae108bf68e40ac851713af606542802d9fd47ccf4efc3a6217ef58e5312ba3e2`与`be333c6f715283e6abad87bb71576f789c2a8d54450bb9c3857e2824ac25daef`；交付ZIP分别为`bfcbc659f39f634cc55301fec3d0e535e9144abd31c2d417ba7881dbced0c7f2`与`13d0e141dc0fdea5b6eb4bf584b9e8e8ec7a0691854b759d68f10b68ea4bb3b1`。原日志与机器清单纳入本轮归档，旧分支没有再提交。
 
