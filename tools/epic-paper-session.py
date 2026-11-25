@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['treasury-first','treasury-second','treasury-third','factory-first','factory-second','factory-third','production-catalog-first','production-catalog-second','production-catalog-third','production-recovery','production-offline-recovery','sale-recovery','production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
+parser.add_argument('--scenario', choices=['legacy-seed','legacy-first','legacy-second','legacy-third','treasury-first','treasury-second','treasury-third','factory-first','factory-second','factory-third','production-catalog-first','production-catalog-second','production-catalog-third','production-recovery','production-offline-recovery','sale-recovery','production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 parser.add_argument('--interrupt-after-replay', action='store_true', help='SIGKILL the owned restored JVM, then MySQL, after completed replay; not a hardware power-loss test')
 args = parser.parse_args()
@@ -345,6 +345,70 @@ def sale_scenario(phase):
     else: raise ValueError(phase)
 
 
+def legacy_factory_scenario(phase):
+    spec=manifest['legacy_factory_acceptance'];factory=spec['factories']['valid'];ops=spec['operations']
+    server_action('stack-check');server_action('production-bind');server_action('legacy-bind')
+    if phase=='legacy-seed':
+        server_action('production-check 0');return
+    staged=json.loads((run/'evidence/legacy-staging.json').read_text());digest=staged['fingerprint']
+    def command(cmd,response,who='A'):
+        time.sleep(1.25)
+        request=json.dumps(dict(command=cmd,contains=response),ensure_ascii=False).encode()
+        client_action('expect '+who+' '+base64.urlsafe_b64encode(request).decode().rstrip('='))
+    def identity(key):
+        rows=[json.loads(line) for line in (run/'evidence/epic-fixture.jsonl').read_text().splitlines()]
+        return next(r['data']['run']['runId'] for r in reversed(rows) if r['kind']=='PRODUCTION_RUN' and r['data']['key']==key)
+    def start(key,batches,who='A'):
+        command(f'/nationproduction startat {factory} legacy_refining {batches}','生产已开工',who)
+        server_action(f'production-capture {key} {who} {batches}')
+    def collect(key,who='A',response='生产批次已处理'):
+        command('/nationproduction complete '+identity(key),response,who)
+    register=f'/nationfactory registerlegacy {factory} {digest} {ops["register"]}'
+    if phase=='legacy-first':
+        console_expect('nationfactory audit','旧工厂原始记录 7')
+        command('/nationfactory legacy','登记会新收取1至当前等级累计材料')
+        command('/nationfactory audit','没有全服旧工厂审计权限')
+        command(register,'请求被拒绝','D')
+        command(f'/nationfactory registerlegacy {factory} {"0"*64}','旧记录摘要／ID占用已变化')
+        for key in ('processing','malformed','duplicate','unknown','foreign'):
+            command(f'/nationfactory registerlegacy {spec["factories"][key]} {digest}','请求被拒绝')
+        command(register,'工厂请求已提交');command(register,'没有重复扣除材料')
+        command(f'/nationfactory registerlegacy {factory} {digest}','旧记录摘要／ID占用已变化')
+        command('/nationfactory show '+factory,'没有可查看的这个工厂','B')
+        command('/nationfactory show '+factory,'旧工厂付费登记')
+        command(f'/nationproduction startat {factory} legacy_refining 1','工厂不可用')
+        command(f'/nationfactory enable {factory} 1 {ops["enable"]}','工厂请求已提交')
+        command(f'/nationfactory enable {factory} 1 {ops["enable"]}','没有重复扣除材料')
+        start('legacy_old',1);start('legacy_cancel',2)
+        server_action('legacy-check A 3 2 true 2');server_action('production-check 0')
+    elif phase=='legacy-second':
+        server_action('legacy-check A 3 2 true 2')
+        server_action('production-ready legacy_old A',seconds=110);collect('legacy_old');collect('legacy_old',response='没有重复扣除或发放')
+        command('/nationproduction cancel '+identity('legacy_cancel'),'生产批次已处理')
+        command('/nationproduction cancel '+identity('legacy_cancel'),'没有重复扣除或发放')
+        server_action('production-successor')
+        command(f'/nationfactory upgrade {factory} 2','请求被拒绝')
+        command(f'/nationfactory upgrade {factory} 2 {ops["upgrade"]}','工厂请求已提交','D')
+        start('legacy_successor',1,'D')
+        command(f'/nationfactory disable {factory} 3 {ops["disable"]}','工厂请求已提交','D')
+        command(register,'没有重复扣除材料');command(register,'请求被拒绝','D')
+        command('/nationfactory operation '+ops['register'],'旧建造人未证明')
+        server_action('legacy-check D 4 4 false 1');server_action('production-check 1')
+    elif phase=='legacy-third':
+        server_action('legacy-check D 4 4 false 1')
+        server_action('production-ready legacy_successor D',seconds=110);collect('legacy_successor','D');collect('legacy_successor','D','没有重复扣除或发放')
+        collect('legacy_old',response='没有重复扣除或发放')
+        command(register,'没有重复扣除材料')
+        command(f'/nationfactory upgrade {factory} 2 {ops["upgrade"]}','没有重复扣除材料','D')
+        command(f'/nationfactory disable {factory} 3 {ops["disable"]}','没有重复扣除材料','D')
+        command('/nationfactory legacy','ALREADY_REGISTERED_OR_ID_COLLISION','D')
+        server_action('legacy-check D 4 4 false 0');server_action('production-check 2')
+        command('/chronicle contributions','生产资源 industrial')
+        command('/chronicle contributions','生产资源 industrial','D')
+        command('/chronicle contributions nation me','生产资源 industrial','D')
+    else:raise ValueError(phase)
+
+
 def factory_scenario(phase):
     spec=manifest.get('nation_factory_acceptance')
     if not spec:raise RuntimeError('Require prepared factory scenario')
@@ -565,7 +629,9 @@ def scenario(phase):
     if manifest.get('battlefield_acceptance'):
         server_action('battle-bind')
         if phase != 'first': server_action('battle-check ended')
-    if phase.startswith('treasury-'):
+    if phase.startswith('legacy-'):
+        legacy_factory_scenario(phase)
+    elif phase.startswith('treasury-'):
         if not manifest.get('treasury_writer_acceptance'): raise RuntimeError('Treasury writer fixture required')
         server_action('stack-check')
         if phase == 'treasury-first':

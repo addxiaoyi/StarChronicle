@@ -142,6 +142,11 @@ for summary in sorted((root/"docs/verification").glob("treasury-writer-*-summary
     for run in data.get("runs",[]):
         tested=run["chronicle_sha256"]
         lines.append(f"| [国库写锁及同构件回归：{run['kind']}](TREASURY-WRITER-TEST-REPORT.md) | `{tested}` | {'是' if tested==current_hash else '否，不能覆盖当前构建'} | {run['status']}；配套原生 `{run['starcore_sha256']}` |")
+for summary in sorted((root/"docs/verification").glob("legacy-factory-*-summary.json")):
+    data=json.loads(summary.read_text(encoding="utf-8"))
+    for run in data.get("runs",[]):
+        tested=run["chronicle_sha256"]
+        lines.append(f"| [旧工厂登记及同构件回归：{run['kind']}](LEGACY-FACTORY-TEST-REPORT.md) | `{tested}` | {'是' if tested==current_hash else '否，不能覆盖当前构建'} | {run['status']}；配套原生 `{run['starcore_sha256']}` |")
 handoff=root/"patches/quest-evidence/static-handoff-report.json"
 if handoff.is_file():
     upstream=json.loads(handoff.read_text(encoding="utf-8-sig"))
