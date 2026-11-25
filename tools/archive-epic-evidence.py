@@ -53,6 +53,8 @@ def main():
     parser.add_argument('--native-artifact-commit', help='Commit used to build the frozen accepted native JAR')
     parser.add_argument('--include-policy-tests', action='store_true')
     parser.add_argument('--full-regression-log', type=Path)
+    parser.add_argument('--chronicle-build-log', type=Path)
+    parser.add_argument('--chronicle-prior-log', type=Path, action='append', default=[])
     parser.add_argument('--prior-native-regression', type=Path, action='append', default=[],
                         help='Preserved directory containing test.log and surefire-reports/')
     args = parser.parse_args()
@@ -71,6 +73,8 @@ def main():
     for key, root in [('chronicle', ROOT), ('starcore', native)]:
         summary[key]['worktree_status'] = git(root, 'status', '--porcelain')
         summary[key]['source_files'] = {p: sha(root / p) for p in git(root, 'ls-files', '--', 'src', 'pom.xml').splitlines() if (root / p).is_file()}
+    if args.chronicle_build_log:
+        summary['chronicle']['build_log_sha256'] = sha(args.chronicle_build_log)
     if args.full_regression_log:
         summary['starcore']['full_regression'] = dict(tests=results(native), log_sha256=sha(args.full_regression_log))
     summary['starcore']['prior_regressions'] = [dict(label=path.name, tests=results(native, reports=path / 'surefire-reports'),
@@ -96,6 +100,10 @@ def main():
     summary['starcore']['source_archive'] = dict(path=str(native_zip), sha256=sha(native_zip))
     evidence_zip = destination / 'verification-evidence.zip'
     with zipfile.ZipFile(evidence_zip, 'w', zipfile.ZIP_DEFLATED) as archive:
+        if args.chronicle_build_log:
+            archive.write(args.chronicle_build_log, 'chronicle/build.log')
+        for prior in args.chronicle_prior_log:
+            archive.write(prior, 'chronicle/prior-attempts/' + prior.name)
         for prior, prior_summary in zip(args.prior_native_regression, summary['starcore']['prior_regressions']):
             archive.write(prior / 'test.log', 'starcore/prior-regressions/' + prior.name + '/test.log')
             for suite in prior_summary['tests']['suites']:
@@ -123,6 +131,9 @@ def main():
             events = [json.loads(line) for line in (run / 'evidence/epic-fixture.jsonl').read_text(encoding='utf-8').splitlines()] if (run / 'evidence/epic-fixture.jsonl').exists() else []
             summary['runs'].append(dict(path=str(run), preparation=preparation,
                                        independent_check=json.loads((run / 'evidence/independent-check.json').read_text()) if (run / 'evidence/independent-check.json').is_file() else None,
+                                       contribution_checks={name: json.loads((run / 'evidence' / name).read_text())
+                                                            for name in ('contribution-check.json', 'contribution-upgrade-check.json')
+                                                            if (run / 'evidence' / name).is_file()},
                                        passing_checks=[e for e in events if e['kind']=='ACCEPTANCE_PASS'],
                                        failures=[e for e in events if e['kind']=='FAILED'],
                                        fatal_jvm_logs=[path.name for path in run.glob('hs_err_*.log')]))
@@ -142,7 +153,8 @@ def main():
                     redacted = re.sub(r'(?m)^(\s*access-secret:)\s*.*$', r'\1 "REDACTED_TEST_SECRET"', path.read_text(encoding='utf-8'))
                     archive.writestr(name, redacted)
                 else: archive.write(path, name)
-        for name in ('EpicCampaignPaperFixture.java','prepare-epic-paper.py','epic-paper-clients.cjs','epic-paper-session.py','inspect-epic-paper.py','inspect-quest-evidence-paper.py','test_epic_acceptance.py','archive-epic-evidence.py'):
+        for name in ('EpicCampaignPaperFixture.java','prepare-epic-paper.py','epic-paper-clients.cjs','epic-paper-session.py','inspect-epic-paper.py','inspect-quest-evidence-paper.py','test_epic_acceptance.py','archive-epic-evidence.py',
+                     'prepare-contribution-upgrade.py','inspect-contribution-paper.py','inspect-contribution-upgrade.py','test_contribution_acceptance.py','test_contribution_upgrade.py'):
             archive.write(ROOT / 'tools' / name, 'tools/' + name)
         inventory = {entry.filename: hashlib.sha256(archive.read(entry.filename)).hexdigest() for entry in archive.infolist()}
         archive.writestr('evidence-manifest.json', json.dumps(inventory, indent=2) + '\n')

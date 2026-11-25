@@ -57,7 +57,8 @@ class ActualEpicEvidenceTest(unittest.TestCase):
             INSPECTOR.inspect(self.run)
 
     def test_real_retained_shutdown_failure_is_rejected(self):
-        failed = self.source.parent / 'paper-epic-57345b09-war-linux-2/evidence/boot1.server.log'
+        failed = Path(os.environ.get('STARCHRONICLE_EPIC_FAILURE_LOG',
+                      self.source.parent / 'paper-epic-57345b09-war-linux-2/evidence/boot1.server.log'))
         if not failed.exists():
             self.skipTest('Requires retained policy conflict run')
         shutil.copy2(failed, self.run / 'evidence/boot1.server.log')

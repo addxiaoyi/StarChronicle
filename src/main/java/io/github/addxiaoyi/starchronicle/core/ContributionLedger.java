@@ -50,7 +50,7 @@ public final class ContributionLedger {
 
     public BigDecimal total(String subjectId, ContributionType type, String unit) {
         ContributionRequest.token(subjectId, "subjectId", 256);
-        ContributionRequest.token(unit, "unit", 32);
+        ContributionRequest.token(unit, "unit", 320);
         Objects.requireNonNull(type, "type");
         return store.transaction(c -> total(c, subjectId, type, unit));
     }

@@ -58,6 +58,7 @@ public final class EpicCampaignLedger {
                     "instance_id TEXT NOT NULL,nation_id TEXT NOT NULL,choice TEXT NOT NULL,revision INTEGER NOT NULL,"+
                     "cast_at TEXT NOT NULL,PRIMARY KEY(instance_id,nation_id))");
         }
+        EpicContributionProjection.createSchema(c);
     }
 
     public EpicSignup open(EpicCampaignPlan plan, String sessionId, String reliefNationId, Instant now) {
@@ -228,27 +229,32 @@ public final class EpicCampaignLedger {
 
     /** Store a provider observation. Only a matching committed receipt satisfies a phase. */
     public EpicOperationState observe(EpicOperation operation, EpicObservation observation, String providerId, String authorityDomain, Instant now) {
+        return store.transaction(c -> observe(c, operation, observation, providerId, authorityDomain, now));
+    }
+
+    /** Shares the caller's transaction with history and contribution projections. */
+    static EpicOperationState observe(Connection c, EpicOperation operation, EpicObservation observation,
+                                      String providerId, String authorityDomain, Instant now) throws SQLException {
+        if (c.getAutoCommit()) throw new IllegalStateException("Epic observation requires a transaction");
         Objects.requireNonNull(operation); Objects.requireNonNull(observation); Objects.requireNonNull(providerId); Objects.requireNonNull(authorityDomain); Objects.requireNonNull(now);
-        return store.transaction(c -> {
-            EpicOperationState existing = findOperation(c, operation.operationId());
-            if (existing == null) throw new IllegalStateException("Operation must be prepared before observation");
-            if (!json(existing.operation()).equals(json(operation))) throw new IllegalStateException("Observed operation differs from prepared request");
-            ProviderPin pin = findProviderPin(c, operation.operationId());
-            if (pin != null && (!pin.providerId().equals(providerId) || !pin.authorityDomain().equals(authorityDomain)))
-                throw new SecurityException("Epic observation came from a provider outside the pinned authority");
-            if (existing.status() == EpicOperationState.Status.COMMITTED) return existing;
-            EpicOperationState.Status status; EpicReceipt receipt = null; String detail = observation.detail();
-            if (observation.status() == EpicObservation.Status.COMMITTED) { receipt = EpicContract.requireCommitted(operation, observation, providerId, authorityDomain); status = EpicOperationState.Status.COMMITTED; }
-            else if (observation.status() == EpicObservation.Status.REJECTED) status = EpicOperationState.Status.REJECTED;
-            else status = EpicOperationState.Status.UNKNOWN;
-            long revision = Math.addExact(existing.revision(), 1);
-            try (var s = c.prepareStatement("UPDATE epic_operations SET status=?,receipt_json=?,detail=?,revision=?,updated_at=? WHERE operation_id=? AND revision=?")) {
-                s.setString(1, status.name()); s.setString(2, receipt == null ? null : json(receipt)); s.setString(3, detail == null ? "" : detail); s.setLong(4, revision); s.setString(5, now.toString()); s.setString(6, operation.operationId()); s.setLong(7, existing.revision());
-                if (s.executeUpdate() != 1) throw new IllegalStateException("Operation changed before observation");
-            }
-            if(status==EpicOperationState.Status.COMMITTED)advanceCampaign(c,operation.instanceId(),now);
-            return findOperation(c, operation.operationId());
-        });
+        EpicOperationState existing = findOperation(c, operation.operationId());
+        if (existing == null) throw new IllegalStateException("Operation must be prepared before observation");
+        if (!json(existing.operation()).equals(json(operation))) throw new IllegalStateException("Observed operation differs from prepared request");
+        ProviderPin pin = findProviderPin(c, operation.operationId());
+        if (pin != null && (!pin.providerId().equals(providerId) || !pin.authorityDomain().equals(authorityDomain)))
+            throw new SecurityException("Epic observation came from a provider outside the pinned authority");
+        if (existing.status() == EpicOperationState.Status.COMMITTED) return existing;
+        EpicOperationState.Status status; EpicReceipt receipt = null; String detail = observation.detail();
+        if (observation.status() == EpicObservation.Status.COMMITTED) { receipt = EpicContract.requireCommitted(operation, observation, providerId, authorityDomain); status = EpicOperationState.Status.COMMITTED; }
+        else if (observation.status() == EpicObservation.Status.REJECTED) status = EpicOperationState.Status.REJECTED;
+        else status = EpicOperationState.Status.UNKNOWN;
+        long revision = Math.addExact(existing.revision(), 1);
+        try (var s = c.prepareStatement("UPDATE epic_operations SET status=?,receipt_json=?,detail=?,revision=?,updated_at=? WHERE operation_id=? AND revision=?")) {
+            s.setString(1, status.name()); s.setString(2, receipt == null ? null : json(receipt)); s.setString(3, detail == null ? "" : detail); s.setLong(4, revision); s.setString(5, now.toString()); s.setString(6, operation.operationId()); s.setLong(7, existing.revision());
+            if (s.executeUpdate() != 1) throw new IllegalStateException("Operation changed before observation");
+        }
+        if(status==EpicOperationState.Status.COMMITTED)advanceCampaign(c,operation.instanceId(),now);
+        return findOperation(c, operation.operationId());
     }
     public EpicOperationState commitOperation(EpicOperation operation, EpicObservation observation, String providerId, String authorityDomain, Instant now) { return observe(operation, observation, providerId, authorityDomain, now); }
 

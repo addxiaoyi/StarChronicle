@@ -31,11 +31,27 @@ async function craft(who) {
   }
   throw Error('Unconfirmed craft; no automatic retry: '+craftError);
 }
+async function contributions(who) {
+  const bot=bots.get(who);
+  await new Promise((resolve,reject)=>{
+    let received='';
+    const timer=setTimeout(()=>{bot.removeListener('messagestr',onMessage);reject(Error('No verified contribution query response'));},10000);
+    function onMessage(message) {
+      received+='\n'+message;
+      if(received.includes('已核验贡献')&&received.includes('10 国库货币')&&received.includes('10 资源 agricultural')) {
+        clearTimeout(timer);bot.removeListener('messagestr',onMessage);
+        log('CONTRIBUTIONS_QUERY',{who,command:'/chronicle contributions',response:received});resolve();
+      }
+    }
+    bot.on('messagestr',onMessage);bot.chat('/chronicle contributions');
+  });
+}
 let chain=Promise.resolve();
 readline.createInterface({input:process.stdin}).on('line',line=>{chain=chain.then(async()=>{
   const [action,who,...rest]=line.trim().split(' ');
   if(action==='quit'){quitting=true;for(const bot of bots.values())bot.quit('Epic acceptance complete');return;}
   if(action==='craft')await craft(who);
+  else if(action==='contributions')await contributions(who);
   else if(action==='chat')bots.get(who).chat(rest.join(' '));
   else if(action==='close'&&bots.get(who).currentWindow)bots.get(who).closeWindow(bots.get(who).currentWindow);
   else if(action==='inventory')log('INVENTORY',{who,items:bots.get(who).inventory.items().map(i=>({name:i.name,count:i.count}))});

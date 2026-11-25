@@ -377,16 +377,7 @@ public final class StarCoreEpicOperationProvider implements EpicOperationProvide
     }
 
     private static Map<String, Long> resources(String value) {
-        String raw = value.startsWith("resource=") ? value.substring("resource=".length()) : value;
-        Map<String, Long> result = new TreeMap<>();
-        for (String item : raw.split(",")) {
-            String[] parts = item.split(":", 2);
-            if (parts.length != 2 || parts[0].isBlank()) throw new IllegalArgumentException("nativeReference must be resource:amount");
-            long amount = Long.parseLong(parts[1]);
-            if (amount <= 0) throw new IllegalArgumentException("resource amount must be positive");
-            if (result.put(parts[0].trim().toLowerCase(Locale.ROOT), amount) != null) throw new IllegalArgumentException("duplicate resource");
-        }
-        return Map.copyOf(result);
+        return EpicContract.resourceAmounts(value);
     }
 
     private static void requireField(Object raw, String field, Object expected) throws ReflectiveOperationException {

@@ -292,6 +292,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         snapshots().thenCompose(contexts->query(()->{
             nativeJournal.isolateOrphans(nativeFlights.players());
             gateway.scanCommittedSources();
+            engine.reconcileEpicContributions(25);
             for(var snapshot:snapshotCollector.collect())observations.observe(snapshot);
             explorationIngress.drain(firstVisits::observe,100);
             for(WorldEvent event:observations.pending(100)) {
@@ -448,8 +449,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                     EpicObservation.unknown("Epic provider returned no reliable observation: "+(error==null?"empty response":root(error).getMessage())))
                     .thenCompose(observation->query(()->{
                         requireEpicLease(call);
-                        return epicCampaigns.observe(call.operation(),observation,
-                            call.pin().providerId(),call.pin().authorityDomain(),Instant.now());
+                        return engine.observeEpicOperation(call.operation(),observation,
+                            call.pin().providerId(),call.pin().authorityDomain());
                     }));
         });
     }
@@ -732,6 +733,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<List<StoryInstance>> availableInstances(UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableInstances(context)));}
         @Override public CompletionStage<Map<String,StoryDefinition.Choice>> availableChoices(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableChoices(id,context)));}
         @Override public CompletionStage<List<WorldEvent>> history(String nation,UUID player,int page,int size){return query(()->engine.history(nation,player,page,size));}
+        @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry>> contributions(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return query(()->engine.contributions(subject,type,page,size));}
         @Override public CompletionStage<List<MemoryEntry>> memoryEntries(String region,int page,int size){return query(()->engine.memoryEntries(region,page,size));}
         @Override public CompletionStage<Map<String,String>> recollections(UUID player,Collection<String> references){List<String> refs=List.copyOf(references);return snapshot(player).thenCompose(context->query(()->engine.recollections(context,refs)));}
         @Override public CompletionStage<NpcView> npc(UUID player,String npc){return snapshot(player).thenCompose(context->query(()->npcLedger.view(player,npc,context,engine.worldFacts())));}
@@ -757,6 +759,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 case "scene"->menus.scene(id);
                 case "npc"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle npc <逻辑NPC ID>");menus.npc(id,args[1]);}
                 case "fate"->menus.fate(id);
+                case "contributions"->contributions(id,args);
                 case "past"->{
                     if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle past <剧情ID/版本/节点ID>");
                     service.recollections(id,List.of("past.player.choice."+args[1],"past.resolution.world."+args[1],"past.resolution.nation."+args[1],"past.nation.choice."+args[1])).whenComplete((facts,error)->{
@@ -931,8 +934,40 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         }
         return true;
     }
+    private void contributions(UUID actor,String[] args) {
+        String usage="用法: /chronicle contributions [页] 或 contributions nation|player <ID或me> [页]";
+        int page;
+        CompletionStage<String> subject;
+        if(args.length<=2) {
+            page=args.length==2?Integer.parseInt(args[1])-1:0;
+            subject=CompletableFuture.completedFuture("player:"+actor);
+        } else {
+            if(args.length>4||!Set.of("nation","player").contains(args[1]))throw new IllegalArgumentException(usage);
+            page=args.length==4?Integer.parseInt(args[3])-1:0;
+            if(args[2].equalsIgnoreCase("me")&&args[1].equals("nation"))
+                subject=snapshot(actor).thenApply(context->{
+                    if(context.nationId().isBlank())throw new IllegalStateException("当前没有所属国家。");
+                    return "nation:"+context.nationId();
+                });
+            else subject=CompletableFuture.completedFuture(args[1]+":"+(args[2].equalsIgnoreCase("me")?actor:UUID.fromString(args[2])));
+        }
+        if(page<0)throw new IllegalArgumentException("页码从1开始");
+        subject.thenCompose(owner->service.contributions(owner,null,page,10)).whenComplete((entries,error)->{
+            if(error!=null){failure(actor,error);return;}
+            if(entries.isEmpty()){message(actor,"本页暂无已核验贡献。");return;}
+            String rows=entries.stream().map(entry->{
+                var request=entry.request();
+                String type=switch(request.type()){case RESOURCE_AID->"援助";case TRADE->"贸易";case CIVILIZATION->"文明建设";};
+                String unit=request.unit().equals("treasury")?"国库货币":request.unit().replaceFirst("^resource\\.","资源 ");
+                return type+" · "+request.amount().toPlainString()+" "+unit+" · "+request.committedAt();
+            }).collect(java.util.stream.Collectors.joining("\n"));
+            message(actor,"已核验贡献 · 第 "+(page+1)+" 页\n"+rows);
+        });
+    }
     @Override public List<String> onTabComplete(CommandSender sender,Command command,String alias,String[] args) {
-        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","contributions","memory","join","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==2&&args[0].equalsIgnoreCase("contributions"))return List.of("nation","player").stream().filter(s->s.startsWith(args[1])).toList();
+        if(args.length==3&&args[0].equalsIgnoreCase("contributions"))return List.of("me");
         if(args.length==2&&args[0].equalsIgnoreCase("epic"))return List.of("plans","providers","open","signup","enroll","withdraw-signup","seal","status","route","prepare","apply","reconcile","founding-reference").stream().filter(s->s.startsWith(args[1].toLowerCase(Locale.ROOT))).toList();
         if(args.length==4&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("prepare"))return Arrays.stream(EpicOperation.Type.values()).map(Enum::name).filter(s->s.startsWith(args[3].toUpperCase(Locale.ROOT))).toList();
         if(args.length==5&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("route"))return List.of("WAR","DUNGEON").stream().filter(s->s.startsWith(args[4].toUpperCase(Locale.ROOT))).toList();

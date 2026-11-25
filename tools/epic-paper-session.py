@@ -18,6 +18,7 @@ parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
 parser.add_argument('--scenario', choices=['first', 'second', 'third'])
+parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 args = parser.parse_args()
 run = args.run.resolve()
 if run.parent != (ROOT / 'run').resolve() or not run.name.startswith('paper-epic-'):
@@ -36,6 +37,7 @@ if prefix.with_suffix('.server.log').exists():
     raise SystemExit('Refusing to overwrite a prior boot log')
 shutil.copy2(__file__, Path(str(prefix) + '.controller.py'))
 shutil.copy2(ROOT / 'tools/epic-paper-clients.cjs', Path(str(prefix) + '.clients.cjs'))
+client_script = Path(str(prefix) + '.clients.cjs')
 handles = []
 readers = []
 process_records = []
@@ -112,7 +114,7 @@ def scenario(phase):
     global clients
     await_lines(0, lambda lines: any('Done (' in line for _, line in lines) and any('EPIC_READY ' in line for _, line in lines), 180)
     cursor = len(observed)
-    clients = start([str(args.node), '--max-old-space-size=192', str(ROOT / 'tools/epic-paper-clients.cjs'), str(run)], 'clients')
+    clients = start([str(args.node), '--max-old-space-size=192', str(client_script), str(run)], 'clients')
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
     if phase == 'first':
@@ -146,12 +148,16 @@ def scenario(phase):
         server_action('check')
     else:
         raise ValueError('first|second|third')
+    if args.contributions:
+        server_action('contributions')
+        client_action('contributions A')
+        client_action('contributions B')
     clients.stdin.write('quit\n'); clients.stdin.flush(); clients.wait(timeout=15)
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:
         raise RuntimeError('Acceptance processes must exit normally')
     print('SCENARIO_COMPLETE ' + phase, flush=True)
-outcome = dict(boot=args.boot, scenario=args.scenario, status='INCOMPLETE')
+outcome = dict(boot=args.boot, scenario=args.scenario, contributions=args.contributions, status='INCOMPLETE')
 try:
     commands = ['scenario ' + args.scenario] if args.scenario else sys.stdin
     for raw in commands:
@@ -164,7 +170,7 @@ try:
         elif line == 'clients start':
             if clients is not None:
                 raise RuntimeError('Clients already started')
-            clients = start([str(args.node), '--max-old-space-size=192', str(ROOT / 'tools/epic-paper-clients.cjs'), str(run)], 'clients')
+            clients = start([str(args.node), '--max-old-space-size=192', str(client_script), str(run)], 'clients')
         elif line.startswith('client '):
             if clients is None:
                 raise RuntimeError('Clients are not started')

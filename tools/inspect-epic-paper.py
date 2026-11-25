@@ -24,15 +24,16 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def verify_boots(run, manifest):
-    """Require the actual three-boot exercise, not just an eventually complete database."""
+def verify_boots(run, manifest, scenarios=('first', 'second', 'third'), first_boot=1):
+    """Require every actual boot exercise, not just an eventually complete database."""
     evidence = run / 'evidence'
     fixture = [json.loads(line) for line in (evidence / 'epic-fixture.jsonl').read_text(encoding='utf-8').splitlines()]
     check(not any(row['kind'] == 'FAILED' for row in fixture), 'Fixture failure retained in run')
-    check({row['boot'] for row in fixture} == {1, 2, 3}, 'Exactly three fixture boots required')
-    check(len(list(evidence.glob('boot*.session.json'))) == 3, 'Exactly three completed controller sessions required')
+    count = 'three' if len(scenarios) == 3 else str(len(scenarios))
+    check({row['boot'] for row in fixture} == set(range(first_boot, first_boot + len(scenarios))), 'Exactly ' + count + ' fixture boots required')
+    check(len(list(evidence.glob('boot*.session.json'))) == len(scenarios), 'Exactly ' + count + ' completed controller sessions required')
     settlements = []
-    for boot, scenario in enumerate(('first', 'second', 'third'), 1):
+    for boot, scenario in enumerate(scenarios, first_boot):
         session = read(evidence / f'boot{boot}.session.json')
         check(session['boot'] == boot and session['scenario'] == scenario and session['status'] == 'COMPLETE', 'Incomplete controller scenario')
         processes = session['processes']
@@ -52,7 +53,7 @@ def verify_boots(run, manifest):
         check(not any(row['kind'] == 'FAILED' for row in clients), 'Protocol client failure')
         check({row['data']['who'] for row in clients if row['kind'] == 'SPAWN'} == set('ABCD'), 'Missing real clients')
         check(all(row['data']['uuid'] == manifest['players'][row['data']['who']] for row in clients if row['kind'] == 'SPAWN'), 'Protocol client identity mismatch')
-        if boot == 1:
+        if scenario == 'first':
             for who in 'AB':
                 crafted = [row for row in clients if row['kind'] == 'CRAFTED' and row['data']['who'] == who]
                 check(len(crafted) == 1, 'Exactly one real craft per actor required')
@@ -87,7 +88,7 @@ def connect(path):
     return connection
 
 
-def inspect(run):
+def inspect(run, *, scenarios=('first', 'second', 'third'), first_boot=1):
     run = run.resolve()
     manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
     probe = socket.socket()
@@ -97,7 +98,7 @@ def inspect(run):
     for name, key in [('StarCore', 'starcore_sha256'), ('StarChronicle', 'plugin_sha256'), ('EpicCampaignPaperFixture', 'fixture_sha256')]:
         check(hashlib.sha256((run / f'plugins/{name}.jar').read_bytes()).hexdigest() == manifest[key], 'Frozen JAR changed')
     check(digest(run / 'fixture/EpicCampaignPaperFixture.java') == manifest['fixture_source_sha256'], 'Frozen fixture source changed')
-    settlement_id = verify_boots(run, manifest)
+    settlement_id = verify_boots(run, manifest, scenarios, first_boot)
     with ExitStack() as connections:
         chronicle = connect(run / 'plugins/StarChronicle/chronicle.db')
         connections.callback(chronicle.close)
@@ -208,8 +209,8 @@ def inspect(run):
         result = dict(status='PASS', route=campaign['route'], instance=campaign['instance_id'],
                       chronicle_sha256=manifest['plugin_sha256'], starcore_sha256=manifest['starcore_sha256'],
                       committed_operations=len(rows), treasury_transfers=2, resource_transfers=2, settlement_events=1,
-                      verified_boots=3, aftermath_instances=len(aftermath),
-                      verification='Three normal server/client exits, live craft/restart/replay evidence and independent native/Chronicle receipt cross-check; server port unbound.')
+                      verified_boots=len(scenarios), aftermath_instances=len(aftermath),
+                      verification='Normal server/client exits, required live scenario evidence and independent native/Chronicle receipt cross-check; server port unbound.')
         return result
 
 
