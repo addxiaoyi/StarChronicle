@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 import argparse, hashlib, importlib.util, json, os, re, shlex, shutil, subprocess
 import xml.etree.ElementTree as ET
 import zipfile
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 PRODUCT = dict(chronicle='fc08038d5e9016ad04280552a3a641193c0971c4', native='5c7eb07d9aab43b80eaf83aaee3d5c5b69615b3e')
@@ -115,10 +116,10 @@ def main():
             require(path.is_file() and not path.is_symlink() and name not in archive.namelist(), 'Unsafe/duplicate evidence: '+name)
             raw=path.read_bytes()
             if path.suffix in ('.yml','.yaml'):
-                pattern=r'(?m)^(\s*(?:access-secret|password|api-key|mineskin_api_key):)\s*([^\n]*)$'
+                pattern=r'(?m)^([ \t]*(?:access-secret|password|api-key|mineskin_api_key):)[ \t]*([^\n]*)$'
                 for match in re.finditer(pattern,raw.decode()):
-                    value=match[2].strip().strip('\"\'')
-                    if len(value)>=16 and value!='REDACTED_TEST_SECRET':secrets.add(value.encode())
+                    value=yaml.safe_load(match[2])
+                    if isinstance(value,str) and len(value)>=16 and value!='REDACTED_TEST_SECRET':secrets.add(value.encode())
                 text,count=re.subn(pattern,r'\1 "REDACTED_TEST_SECRET"',raw.decode());raw=text.encode()
                 if count:redactions.append(dict(path=name,fields=count))
             archive.writestr(name,raw)
