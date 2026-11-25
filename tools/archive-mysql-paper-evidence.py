@@ -44,7 +44,7 @@ def main():
     kinds = [('production-' + m['nation_production_acceptance']['mode']) if 'nation_production_acceptance' in m else
              'trade' if 'nation_trade_acceptance' in m else m['route'] for m in manifests]
     assert set(kinds) == {'production-main', 'production-offline', 'trade', 'DUNGEON', 'WAR'}
-    assert sum(result['business']['boots'] for result in accepted) == 14
+    assert sum(len(result['storage']['snapshots']) for result in accepted) == 14
     assert sum(result['storage']['normal_database_restarts'] for result in accepted) == 9
     assert all(m[key] == manifests[0][key] for m in manifests for key in ('plugin_sha256', 'starcore_sha256'))
     fixture = I.read(args.instance)
@@ -71,7 +71,7 @@ def main():
                    product_unchanged=True, native_storage='MySQL 8.4.13 / InnoDB', chronicle_storage='SQLite',
                    audit_projection='Every native starcore.db in this evidence is an explicit derived SQLite audit projection, compared column by column to raw MySQL exports; it was not native server storage.',
                    instance=fixture, normal_shutdown=shutdown, runs=[dict(directory=r.name, **a) for r, a in zip(runs, accepted)], regressions=regressions, failed_runs=failures,
-                   inherited_builds=dict(chronicle_tests=979, native_tests=7354, native_skipped=21, source='nation-production-paper-20261125-summary.json', rerun_in_this_increment=False),
+                   inherited_builds=dict(chronicle_tests=979, native_tests=7354, native_skipped=21, source='nation-production-paper-20261125-summary.json', live_artifacts_rebuilt=False),
                    limitations=['Normal database and game restarts only; no power loss, live database outage, backup restore, replication or long-term load claim.',
                                 'Dedicated loopback MySQL uses encrypted TLS without remote host identity verification.',
                                 'Selected Java21/Paper1.21.11 and frozen third-party plugins only; no full Folia or production deployment.',
