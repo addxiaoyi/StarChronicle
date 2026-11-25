@@ -46,6 +46,14 @@ if prefix.with_suffix('.server.log').exists():
 shutil.copy2(__file__, Path(str(prefix) + '.controller.py'))
 shutil.copy2(ROOT / 'tools/epic-paper-clients.cjs', Path(str(prefix) + '.clients.cjs'))
 client_script = Path(str(prefix) + '.clients.cjs')
+mysql_snapshot = None
+if manifest.get('mysql_acceptance'):
+    import importlib.util
+    frozen_mysql_tool = Path(str(prefix) + '.mysql-snapshot.py')
+    shutil.copy2(ROOT / 'tools/mysql_paper_snapshot.py', frozen_mysql_tool)
+    spec = importlib.util.spec_from_file_location('captured_mysql_snapshot', frozen_mysql_tool)
+    mysql_snapshot = importlib.util.module_from_spec(spec); spec.loader.exec_module(mysql_snapshot)
+    mysql_snapshot.config(run, manifest)
 handles = []
 readers = []
 process_records = []
@@ -189,6 +197,7 @@ def memory_scenario(phase):
 
 def database_checkpoint():
     directory = run/'evidence/checkpoints'/f'boot{args.boot}'; directory.mkdir(parents=True,exist_ok=False)
+    mysql_evidence = mysql_snapshot.capture(run, manifest, args.boot) if mysql_snapshot else None
     hashes = {}
     for plugin, name in (('StarChronicle','chronicle.db'),('StarCore','starcore.db')):
         source = run/'plugins'/plugin/name
@@ -214,7 +223,7 @@ def database_checkpoint():
             before = hashlib.sha256(source.read_bytes()).hexdigest(); shutil.copy2(source,target)
             if hashlib.sha256(target.read_bytes()).hexdigest() != before: raise RuntimeError('Capital checkpoint drift')
             hashes[str(relative)] = before
-    (directory/'checkpoint.json').write_text(json.dumps(dict(boot=args.boot,time=time.time(),sha256=hashes),indent=2)+'\n')
+    (directory/'checkpoint.json').write_text(json.dumps(dict(boot=args.boot,time=time.time(),sha256=hashes,**({'mysql':mysql_evidence} if mysql_evidence else {})),indent=2)+'\n')
 
 
 def member_scenario(phase):
@@ -572,6 +581,8 @@ outcome['source_sha256'] = {
     'controller': hashlib.sha256(Path(str(prefix) + '.controller.py').read_bytes()).hexdigest(),
     'clients': hashlib.sha256(client_script.read_bytes()).hexdigest(),
 }
+if mysql_snapshot:
+    outcome['source_sha256']['mysql_snapshot'] = mysql_snapshot.sha(frozen_mysql_tool)
 try:
     commands = ['scenario ' + args.scenario] if args.scenario else sys.stdin
     for raw in commands:
