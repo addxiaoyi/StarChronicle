@@ -1,0 +1,39 @@
+# Optional companion to council.yml. Copy and validate both files together.
+# This personal reading task follows the viewer's CURRENT authoritative nation.
+# It never converts that nation's ballot into a personal support/opposition ballot.
+id: national-relief-citizen-record
+version: "1"
+title: "议会之后：阅读本国留下的记录"
+scope: PLAYER
+voteUnit: PLAYER
+triggers: [NATIONAL_RELIEF_COUNCIL_CLOSED]
+cooldownSeconds: 604800
+condition:
+  all:
+    - {fact: past.nation.choice.national-relief-council/1/mandate, op: exists}
+    - {fact: past.nation.choice.national-relief-council/1/charter, op: exists}
+start: records
+nodes:
+  records:
+    text: "你阅读的是当前所属国家在已完成议事中的实际留存票。国家的立场、共同决议和你的个人看法是三件事；阅读档案不会把你补写为赞成者。没有有效票记录的国家不会被补写为支持任何方案。"
+    choices:
+      read-public:
+        label: "阅读本国曾主张公开清册的记录"
+        condition: {fact: past.nation.choice.national-relief-council/1/charter, op: eq, value: public-ledger}
+        permission: starchronicle.use
+        next: public-note
+      read-regional:
+        label: "阅读本国曾主张地区记录的档案"
+        condition: {fact: past.nation.choice.national-relief-council/1/charter, op: eq, value: regional-records}
+        permission: starchronicle.use
+        next: regional-note
+  public-note:
+    text: "你核对了本国的公开清册立场。这份阅读记录不表示你的个人意见，也不保证该国家的方案最终获胜。"
+    terminal: true
+    effects:
+      - {id: public-reading-history, type: history, target: NATIONAL_RELIEF_CITIZEN_NOTE, value: "一位参与者阅读了本国留存的公开清册立场；未推定其个人赞成。"}
+  regional-note:
+    text: "你核对了本国的地区记录立场。这份阅读记录不表示你的个人意见，也不保证该国家的方案最终获胜。"
+    terminal: true
+    effects:
+      - {id: regional-reading-history, type: history, target: NATIONAL_RELIEF_CITIZEN_NOTE, value: "一位参与者阅读了本国留存的地区记录立场；未推定其个人赞成。"}

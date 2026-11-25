@@ -1,15 +1,25 @@
 package io.github.addxiaoyi.starchronicle.paper;
 
 import io.github.addxiaoyi.starchronicle.api.*;
+import io.github.addxiaoyi.starchronicle.api.epic.*;
+import io.github.addxiaoyi.starchronicle.api.quest.*;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProvider;
 import io.github.addxiaoyi.starchronicle.config.*;
 import io.github.addxiaoyi.starchronicle.core.*;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreBridge;
 import io.github.addxiaoyi.starchronicle.integration.SnapshotCollector;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProvider;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryAidProvider;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProvider;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryEpicProvider;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreQuestGateEpicProvider;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthority;
 import io.github.addxiaoyi.starchronicle.integration.CoreContentInstaller;
 import io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapter;
 import io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournal;
 import io.github.addxiaoyi.starchronicle.history.ObservationJournal;
+import io.github.addxiaoyi.starchronicle.history.FirstVisitJournal;
+import io.github.addxiaoyi.starchronicle.history.FirstVisitBuffer;
 import io.github.addxiaoyi.starchronicle.memory.*;
 import io.github.addxiaoyi.starchronicle.npc.*;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
@@ -27,6 +37,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.ServiceRegisterEvent;
+import org.bukkit.event.server.ServiceUnregisterEvent;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,81 +55,264 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private SqliteStore store;
     private NpcLedger npcLedger;
     private MemoryLedger memoryLedger;
+    private Path memoryRecipesFile;
     private MemorySites memorySites;
     private ObservationJournal observations;
+    private FirstVisitJournal firstVisits;
+    private List<ExplorationRegion> explorationRegions=List.of();
+    private final FirstVisitBuffer explorationIngress=new FirstVisitBuffer(2048);
+    private ExplorationDiscoveries exploration;
     private SnapshotCollector snapshotCollector;
     private TextService textService;
     private CoreContentInstaller coreContent;
     private NativeSceneJournal nativeJournal;
     private final NativeSceneFlights nativeFlights=new NativeSceneFlights();
     private ScheduledTask poll;
+    private QuestGateDriver questGates;
     private volatile Set<String> permissions=Set.of();
     private ChronicleService service;
     private volatile List<StoryDefinition> definitions=List.of();
+    private volatile NationalVoteAuthority nationalVoteAuthority=NationalVoteAuthority.denying();
+    private NationalAidService nationalAid;
+    private EpicCampaignPlanCatalog epicPlanCatalog=EpicCampaignPlanCatalog.empty();
+    private EpicCampaignLedger epicCampaigns;
+    private volatile List<EpicOperationProvider> epicOperationProviders=List.of();
     @Override public void onEnable() {
         try {
             saveDefaultConfig();
             tasks=new RegionTasks(this);
             boolean folia;
             try {Class.forName("io.papermc.paper.threadedregions.RegionizedServer");folia=true;}catch(ClassNotFoundException ignored){folia=false;}
-            gateway=new StarCoreBridge(this,(id,action)->tasks.player(id,action),folia);
+            gateway=new StarCoreBridge(this,(id,action,retired)->tasks.playerOwned(id,action,retired),folia);
             if(getConfig().getBoolean("require-starcore",true) && !gateway.available()) throw new IllegalStateException("StarCore services unavailable; install the audited StarCore build, or explicitly set require-starcore:false for standalone rule/history mode");
             if(!gateway.available())getLogger().warning("STANDALONE MODE: no authoritative StarCore identity, task, narrative or nation mutations are available");
+            var builtinQuestEvidence=new StarCoreQuestEvidenceProvider(gateway,folia);
+            boolean nativeExamples=getConfig().getBoolean("install-native-example-quests",false);
+            if(nativeExamples&&!builtinQuestEvidence.available())throw new IllegalStateException("Native example quests require the durable StarCore quest-evidence protocol on Paper");
             coreContent=new CoreContentInstaller(gateway,getDataFolder().toPath());
-            var installed=coreContent.install();getLogger().info("Native supplemental scene registration: "+installed.scenes());
+            var installed=coreContent.install(nativeExamples);getLogger().info("Native supplemental scene registration: "+installed.scenes()+"; native quests: "+installed.quests());
+            if(nativeExamples&&installed.quests().values().stream().anyMatch(status->!status.startsWith("INSTALLED")))throw new IllegalStateException("Native example quest ownership/registration failed: "+installed.quests());
             Path stories=getDataFolder().toPath().resolve("stories");Files.createDirectories(stories);
             if(getConfig().getBoolean("install-default-stories",true))for(String name:List.of("last-heir.yml","siege-embers.yml","silk-road-scholar.yml","heir-legacy.yml","integration-example.json.disabled","fate-soldier.yml","fate-general.yml","fate-merchant.yml","fate-scholar.yml","fate-explorer.yml","fate-diplomat.yml","fate-mayor.yml","fate-monarch.yml")) if(!Files.exists(stories.resolve(name)))saveResource("stories/"+name,false);
+            boolean epicExample=getConfig().getBoolean("install-epic-strategy-example",false);
+            if(epicExample) {
+                if(!gateway.hasQuest("chronicle_heir_records"))throw new IllegalStateException("Epic strategy example requires chronicle_heir_records; enable install-native-example-quests on the audited Paper candidate first");
+                for(String name:List.of("last-heir-strategy.yml","last-heir-strategy-aftermath.yml"))
+                    if(!Files.exists(stories.resolve(name)))saveResource("stories/"+name,false);
+            }
             if(!Files.exists(getDataFolder().toPath().resolve("npcs.yml")))saveResource("npcs.yml",false);
             NpcCatalog catalog=NpcCatalog.load(getDataFolder().toPath().resolve("npcs.yml"));
+            Path epicCampaignDirectory=getDataFolder().toPath().resolve("epic-campaigns");Files.createDirectories(epicCampaignDirectory);
+            Path bundledEpicPlan=epicCampaignDirectory.resolve("heir-strategy.yml");
+            if(epicExample&&!Files.exists(bundledEpicPlan))saveResource("epic-campaigns/heir-strategy.yml",false);
+            epicPlanCatalog=EpicCampaignPlanCatalog.load(epicCampaignDirectory);
+            String memoryFile=getConfig().getString("memory-recipes-file","memory-recipes.yml");
+            if(memoryFile==null||!memoryFile.matches("[A-Za-z0-9][A-Za-z0-9_.-]{0,79}\\.(yml|yaml|json)"))throw new IllegalArgumentException("Memory recipes require a local YAML/JSON filename");
+            memoryRecipesFile=getDataFolder().toPath().resolve(memoryFile);
+            if(memoryFile.equals("memory-recipes.yml")&&!Files.exists(memoryRecipesFile))saveResource("memory-recipes.yml",false);
+            MemoryRecipeCatalog memoryRecipes=MemoryRecipeCatalog.load(memoryRecipesFile);
             store=new SqliteStore(getDataFolder().toPath().resolve("chronicle.db"));
+            epicCampaigns=new EpicCampaignLedger(store);
+            firstVisits=new FirstVisitJournal(store);
+            explorationRegions=ExplorationRegion.load(getConfig());
+            firstVisits.registerRegions(explorationRegions.stream().collect(java.util.stream.Collectors.toMap(ExplorationRegion::id,ExplorationRegion::scope)));
             definitions=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(stories,gateway::hasScript,gateway::hasQuest));
+            validateEpicPlans(definitions,epicPlanCatalog);
             npcLedger=new NpcLedger(store,catalog);
-            engine=new RuleEngine(store,definitions,Clock.systemUTC(),npcLedger);
+            NationalVoteAuthority builtinNationalAuthority=new StarCoreNationalVoteAuthority(gateway);
+            nationalVoteAuthority=builtinNationalAuthority;
+            // The stable proxy reads only a volatile trusted provider. Registry/Bukkit
+            // access stays outside the provider's native authority monitor and SQL lock.
+            NationalVoteAuthority nationalAuthorityProxy=new NationalVoteAuthority(){
+                @Override public <T>T withRepresentative(UUID actor,String nation,Authorized<T> operation)throws Exception {
+                    return nationalVoteAuthority.withRepresentative(actor,nation,operation);
+                }
+            };
+            engine=new RuleEngine(store,definitions,Clock.systemUTC(),npcLedger,nationalAuthorityProxy,memoryRecipes,epicCampaigns);
+            try {
+                nationalAid=new NationalAidService(store,engine,new StarCoreTreasuryAidProvider(gateway),Clock.systemUTC(),command->{
+                    ThreadPoolExecutor state=worker;
+                    if(!running.get()||state==null)throw new RejectedExecutionException("Chronicle state worker is unavailable");
+                    state.execute(command);
+                });
+                getLogger().info("Native StarCore treasury aid is enabled");
+            } catch (RuntimeException unavailable) {
+                nationalAid=null;
+                getLogger().warning("Native StarCore treasury aid is disabled: "+unavailable.getMessage());
+            }
             nativeJournal=new NativeSceneJournal(store,Clock.systemUTC());
             memoryLedger=new MemoryLedger(store);
             observations=new ObservationJournal(store,Clock.systemUTC());
             snapshotCollector=new SnapshotCollector(gateway,()->getServer().getServicesManager().getRegistrations(SnapshotProvider.class).stream().map(r->r.getProvider()).toList());
             textService=new TextService(Duration.ofMillis(Math.max(1,Math.min(30000,getConfig().getLong("text-timeout-ms",1500)))));
             permissions=permissionNodes(withPendingDefinitions(definitions),engine.activeInstances());
-            worker=new StateWorker(getConfig().getInt("worker-queue-capacity",2048),()->engine.close());
+            worker=new StateWorker(getConfig().getInt("worker-queue-capacity",2048),()->{try{explorationIngress.drain(firstVisits::observe,Integer.MAX_VALUE);}catch(RuntimeException error){getLogger().severe("Uncommitted exploration arrivals could not be saved on shutdown: "+error.getMessage());}finally{engine.close();}});
             running.set(true);
+            questGates=new QuestGateDriver(engine,new QuestGateDriver.StateDispatcher(){
+                @Override public <T>CompletionStage<T> submit(Callable<T> operation){return query(operation);}
+            },this::snapshot,Clock.systemUTC(),Duration.ofSeconds(10),8,message->getLogger().warning(message));
             service=new Service();
             getServer().getServicesManager().register(ChronicleService.class,service,this,ServicePriority.Normal);
             var builtinAuthority=new StarCoreAuthorityProvider(gateway);
             if(builtinAuthority.available())getServer().getServicesManager().register(AuthorityProvider.class,builtinAuthority,this,ServicePriority.Lowest);
             menus=new Menus(this);getServer().getPluginManager().registerEvents(menus,this);getServer().getPluginManager().registerEvents(this,this);
+            getServer().getServicesManager().register(NationalVoteAuthority.class,builtinNationalAuthority,this,ServicePriority.Lowest);
+            refreshNationalVoteAuthority(null);
+            if(builtinQuestEvidence.available())getServer().getServicesManager().register(QuestEvidenceProvider.class,builtinQuestEvidence,this,ServicePriority.Lowest);
+            refreshQuestEvidenceProviders(null);
+            registerBuiltinEpicProviders(builtinQuestEvidence,folia);
             PluginCommand command=Objects.requireNonNull(getCommand("chronicle"));command.setExecutor(this);command.setTabCompleter(this);
             gateway.start(event->service.submit(event).exceptionally(error->{getLogger().warning("Source event was not accepted: "+error.getMessage());return null;}));
             npcs=new NpcHooks(this,this::npcInteraction);if(getConfig().getBoolean("npc-hooks",true))npcs.start();
             memorySites=new MemorySites(this,(id,eventId)->query(()->memoryLedger.source(eventId)).whenComplete((event,error)->{if(error!=null)failure(id,error);else menus.event(id,event);}),this::npcInteraction);
             getServer().getPluginManager().registerEvents(memorySites,this);memorySites.refresh(memoryLedger.sites());
-            tasks.global(()->getServer().getOnlinePlayers().forEach(p->{tasks.track(p);tasks.player(p.getUniqueId(),()->gateway.refreshContext(p,permissions));}));
+            exploration=new ExplorationDiscoveries(explorationRegions,(id,action)->tasks.playerOwned(id,p->{if(running.get())action.accept(p);},()->{}),p->{gateway.refreshContext(p,permissions);return gateway.context(p.getUniqueId());},this::captureExploration,Clock.systemUTC());
+            getServer().getPluginManager().registerEvents(exploration,this);
+            tasks.global(()->getServer().getOnlinePlayers().forEach(p->{tasks.track(p);tasks.playerOwned(p.getUniqueId(),owned->gateway.refreshContext(owned,permissions),()->{});}));
             long ticks=Math.max(20,getConfig().getLong("poll-ticks",100));
             poll=getServer().getGlobalRegionScheduler().runAtFixedRate(this,ignored->pollSources(),20,ticks);
             getLogger().info("Loaded "+definitions.size()+" validated stories; durable history/outbox ready");
+            if(!explorationRegions.isEmpty())getLogger().info("Configured first-visit exploration regions: "+explorationRegions.size());
         } catch(Exception|LinkageError error) {
             getLogger().severe("StarChronicle startup failed: "+error.getMessage());error.printStackTrace();getServer().getPluginManager().disablePlugin(this);
         }
     }
     public ChronicleService service(){return service;}
     public CoreGateway gateway(){return gateway;}
+    /** Service lifecycle events select trusted plugin providers outside native authority
+     * callbacks. An unregistered provider is removed immediately, including when the host
+     * fires its event before removing the registration from the registry collection. */
+    private void refreshNationalVoteAuthority(RegisteredServiceProvider<?> excluded) {
+        nationalVoteAuthority=getServer().getServicesManager().getRegistrations(NationalVoteAuthority.class).stream()
+                .filter(registration->excluded==null||registration.getProvider()!=excluded.getProvider())
+                .max(Comparator.<RegisteredServiceProvider<NationalVoteAuthority>>comparingInt(registration->registration.getPriority().ordinal())
+                        .thenComparingInt(registration->registration.getPlugin()==this?0:1))
+                .map(RegisteredServiceProvider::getProvider).orElseGet(NationalVoteAuthority::denying);
+    }
+    @EventHandler public void nationalAuthorityRegistered(ServiceRegisterEvent event) {
+        if(running.get()&&event.getProvider().getService()==NationalVoteAuthority.class)refreshNationalVoteAuthority(null);
+    }
+    @EventHandler public void nationalAuthorityUnregistered(ServiceUnregisterEvent event) {
+        if(event.getProvider().getService()==NationalVoteAuthority.class){
+            // Fail closed before any registry lookup; a removed extension is never kept
+            // as the delegate while another provider is being selected.
+            nationalVoteAuthority=NationalVoteAuthority.denying();
+            if(running.get())refreshNationalVoteAuthority(event.getProvider());
+        }
+    }
+    /** Cache trusted service leases outside storage; unregister immediately invalidates replies. */
+    private void refreshQuestEvidenceProviders(RegisteredServiceProvider<?> excluded) {
+        if(questGates==null)return;
+        var providers=getServer().getServicesManager().getRegistrations(QuestEvidenceProvider.class).stream()
+            .filter(registration->excluded==null||registration.getProvider()!=excluded.getProvider())
+            .sorted(Comparator.<RegisteredServiceProvider<QuestEvidenceProvider>>comparingInt(r->r.getPriority().ordinal()).reversed()
+                .thenComparing(r->r.getPlugin().getName()))
+            .map(RegisteredServiceProvider::getProvider).toList();
+        questGates.providers(providers);
+    }
+    @EventHandler public void questEvidenceRegistered(ServiceRegisterEvent event){
+        if(running.get()&&event.getProvider().getService()==QuestEvidenceProvider.class)refreshQuestEvidenceProviders(null);
+    }
+    @EventHandler public void questEvidenceUnregistered(ServiceUnregisterEvent event){
+        if(event.getProvider().getService()==QuestEvidenceProvider.class&&questGates!=null){
+            questGates.providers(List.of());if(running.get())refreshQuestEvidenceProviders(event.getProvider());
+        }
+    }
+    private void refreshEpicOperationProviders(RegisteredServiceProvider<?> excluded) {
+        Map<String,List<EpicOperationProvider>> grouped=new TreeMap<>();
+        for(var registration:getServer().getServicesManager().getRegistrations(EpicOperationProvider.class)) {
+            EpicOperationProvider provider=registration.getProvider();
+            if(excluded!=null&&provider==excluded.getProvider())continue;
+            try {
+                String id=provider.providerId(),domain=provider.authorityDomain();
+                if(id==null||!id.matches("[A-Za-z0-9_.:/-]{1,256}")||domain==null||!UUID.fromString(domain).toString().equals(domain))continue;
+                grouped.computeIfAbsent(id,k->new ArrayList<>()).add(provider);
+            } catch(RuntimeException invalid) { getLogger().warning("Epic provider excluded: "+invalid.getMessage()); }
+        }
+        List<EpicOperationProvider> accepted=new ArrayList<>();
+        for(var entry:grouped.entrySet()) {
+            if(entry.getValue().size()!=1) { getLogger().warning("Duplicate epic provider ID quarantined: "+entry.getKey());continue; }
+            accepted.add(entry.getValue().getFirst());
+        }
+        epicOperationProviders=List.copyOf(accepted);
+    }
+    @EventHandler public void epicProviderRegistered(ServiceRegisterEvent event) {
+        if(running.get()&&event.getProvider().getService()==EpicOperationProvider.class)refreshEpicOperationProviders(null);
+    }
+    @EventHandler public void epicProviderUnregistered(ServiceUnregisterEvent event) {
+        if(event.getProvider().getService()==EpicOperationProvider.class)refreshEpicOperationProviders(event.getProvider());
+    }
+    private void registerBuiltinEpicProviders(StarCoreQuestEvidenceProvider builtinQuestEvidence,boolean folia) {
+        if(!folia) {
+            for(var type:List.of(EpicOperation.Type.RESOURCE_AID,EpicOperation.Type.DIPLOMACY_INVITE,
+                    EpicOperation.Type.NATION_FOUNDING,EpicOperation.Type.WAR_COMMIT,EpicOperation.Type.DUNGEON_COMPLETION))try {
+                var nativeProvider=new StarCoreEpicOperationProvider(gateway,type);
+                if(nativeProvider.available())getServer().getServicesManager().register(EpicOperationProvider.class,nativeProvider,this,ServicePriority.Lowest);
+            } catch(RuntimeException unavailable) { getLogger().warning("Native strategic operations are disabled: "+unavailable.getMessage()); }
+            try {
+                var treasuryProvider=new StarCoreTreasuryEpicProvider(new StarCoreTreasuryAidProvider(gateway));
+                getServer().getServicesManager().register(EpicOperationProvider.class,treasuryProvider,this,ServicePriority.Lowest);
+            } catch(RuntimeException unavailable) { getLogger().warning("Treasury epic operations are disabled: "+unavailable.getMessage()); }
+        }
+        if(builtinQuestEvidence.available())try {
+            var questProvider=new StarCoreQuestGateEpicProvider(builtinQuestEvidence.providerId(),
+                    operation->query(()->engine.epicQuestEvidence(operation,builtinQuestEvidence.providerId(),
+                            epicAuthorityDomain(builtinQuestEvidence.providerId()))));
+            getServer().getServicesManager().register(EpicOperationProvider.class,questProvider,this,ServicePriority.Lowest);
+        } catch(RuntimeException unavailable) { getLogger().warning("Quest epic evidence is disabled: "+unavailable.getMessage()); }
+        refreshEpicOperationProviders(null);
+    }
+    private static String epicAuthorityDomain(String providerId) {
+        int separator=providerId.lastIndexOf(':');
+        if(separator<0)throw new IllegalArgumentException("Epic provider ID has no authority domain");
+        String domain=providerId.substring(separator+1);
+        if(!UUID.fromString(domain).toString().equals(domain))throw new IllegalArgumentException("Epic provider domain is not canonical");
+        return domain;
+    }
+    private EpicOperationProvider epicProvider(String providerId,String domain) {
+        return epicOperationProviders.stream().filter(provider->provider.providerId().equals(providerId)
+                        &&provider.authorityDomain().equals(domain)).findFirst()
+                .orElseThrow(()->new IllegalStateException("Pinned epic provider is unavailable: "+providerId+"/"+domain));
+    }
+    private EpicOperationProvider epicProvider(String providerId) {
+        return epicOperationProviders.stream().filter(provider->provider.providerId().equals(providerId)).findFirst()
+                .orElseThrow(()->new IllegalArgumentException("Unknown epic provider: "+providerId));
+    }
+    private static void validateEpicPlans(List<StoryDefinition> definitions,EpicCampaignPlanCatalog catalog) {
+        for(EpicCampaignPlan plan:catalog.plans()) {
+            StoryDefinition story=definitions.stream().filter(candidate->candidate.id().equals(plan.storyId())
+                    &&candidate.version().equals(plan.storyVersion())).findFirst()
+                    .orElseThrow(()->new IllegalArgumentException("Epic plan has no matching story version: "+plan.campaignId()));
+            if(!story.triggers().contains(plan.signupSource())||story.scope()!=StoryDefinition.Scope.WORLD
+                    ||story.voteUnit()!=StoryDefinition.VoteUnit.NATION)
+                throw new IllegalArgumentException("Epic signup story must be WORLD scope with a national ballot: "+plan.storyId());
+        }
+    }
     private void pollSources() {
         snapshots().thenCompose(contexts->query(()->{
             nativeJournal.isolateOrphans(nativeFlights.players());
             gateway.scanCommittedSources();
             for(var snapshot:snapshotCollector.collect())observations.observe(snapshot);
+            explorationIngress.drain(firstVisits::observe,100);
             for(WorldEvent event:observations.pending(100)) {
                 engine.accept(event,audience(event,contexts));
                 observations.acknowledge(event.id());
             }
+            for(WorldEvent event:firstVisits.pending(100)) {
+                engine.accept(event,audience(event,contexts));
+                firstVisits.acknowledge(event.id());
+            }
             engine.resumeTriggers(contexts);
-            deliverPending();for(PlayerContext context:contexts)resumeNativeOnWorker(context.playerId());return null;
+            deliverPending();for(PlayerContext context:contexts)resumeNativeOnWorker(context.playerId());
+            if(questGates!=null)questGates.poll(tasks.onlineIds()).exceptionally(error->{if(running.get())getLogger().warning("Quest evidence scan retained: "+root(error).getMessage());return null;});
+            return null;
         })).exceptionally(error->{if(running.get())getLogger().warning("History scan retained pending evidence: "+root(error).getMessage());return null;});
     }
     private static List<PlayerContext> audience(WorldEvent event,List<PlayerContext> contexts){return contexts.stream().filter(c->event.globalAudience()||event.participants().contains(c.playerId())||(!c.nationId().isBlank()&&event.nations().contains(c.nationId()))).toList();}
     private List<StoryDefinition> withPendingDefinitions(List<StoryDefinition> configured){List<StoryDefinition> all=new ArrayList<>(configured);all.addAll(engine.pendingDefinitions());return all;}
     private static Set<String> permissionNodes(List<StoryDefinition> configured,List<StoryInstance> pinned) {
-        Set<String> nodes=new HashSet<>(Set.of("starchronicle.use","starchronicle.admin"));
+        Set<String> nodes=new HashSet<>(Set.of("starchronicle.use","starchronicle.admin",io.github.addxiaoyi.starchronicle.api.aid.AidRequest.PERMISSION,
+                "starcore.resource","starcore.nation.ally.add","starcore.nation.create","starcore.nation.war.declare"));
         List<StoryDefinition> all=new ArrayList<>(configured);pinned.forEach(i->all.add(i.definition()));
         for(StoryDefinition d:all)for(StoryDefinition.Node n:d.nodes().values()) {
             for(StoryDefinition.Effect e:n.effects())if(e.permission()!=null&&!e.permission().isBlank())nodes.add(e.permission());
@@ -125,7 +321,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return Set.copyOf(nodes);
     }
     /** The consumer runs only on the entity scheduler, and receives no offline player. */
-    void present(UUID id,Consumer<Player> display) {if(!running.get())return;tasks.player(id,()->{Player p=tasks.current(id);if(running.get()&&p!=null&&p.isOnline()){gateway.refreshContext(p,permissions);display.accept(p);}});}
+    void present(UUID id,Consumer<Player> display) {if(!running.get())return;tasks.playerOwned(id,p->{if(running.get()&&p.isOnline()){gateway.refreshContext(p,permissions);display.accept(p);}},()->{});}
     void message(UUID id,String text){present(id,p->p.sendMessage(Component.text("[编年史] "+text)));}
     void failure(UUID id,Throwable error){getLogger().warning("Player operation failed: "+root(error).getMessage());message(id,"操作未完成："+Objects.toString(root(error).getMessage(),"内部错误"));}
     private static Throwable root(Throwable error){while(error.getCause()!=null&&(error instanceof CompletionException||error instanceof ExecutionException))error=error.getCause();return error;}
@@ -138,18 +334,145 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private CompletionStage<PlayerContext> snapshot(UUID id) {
         CompletableFuture<PlayerContext> result=new CompletableFuture<>();
         if(!running.get()){result.completeExceptionally(new IllegalStateException("Plugin is stopping"));return result;}
-        try{tasks.player(id,()->{
+        try{tasks.playerOwned(id,p->{
             if(result.isDone())return;
             if(!running.get()){result.completeExceptionally(new IllegalStateException("Plugin is stopping"));return;}
-            Player p=tasks.current(id);
-            if(p==null||!p.isOnline()){result.completeExceptionally(new IllegalStateException("Player is offline"));return;}
-            try{gateway.refreshContext(p,permissions);result.complete(gateway.context(id));}catch(Throwable error){result.completeExceptionally(error);}
+            if(!p.isOnline()){result.completeExceptionally(new IllegalStateException("Player is offline"));return;}
+            try{gateway.refreshContext(p,permissions);if(exploration!=null)exploration.observe(p);result.complete(gateway.context(id));}catch(Throwable error){result.completeExceptionally(error);}
         },()->result.completeExceptionally(new IllegalStateException("Player scheduler retired")));}catch(RuntimeException scheduling){result.completeExceptionally(scheduling);}
         return result.orTimeout(5,TimeUnit.SECONDS);
     }
     private CompletionStage<List<PlayerContext>> snapshots() {
         List<CompletableFuture<PlayerContext>> all=tasks.onlineIds().stream().map(id->snapshot(id).exceptionally(error->null).toCompletableFuture()).toList();
         return CompletableFuture.allOf(all.toArray(CompletableFuture[]::new)).thenApply(ignored->all.stream().map(CompletableFuture::join).filter(Objects::nonNull).toList());
+    }
+    private CompletionStage<PlayerContext> nationalSnapshot(UUID player){return snapshot(player).thenApply(context->{
+        if(!context.permitted("starchronicle.use"))throw new SecurityException("缺少编年史使用权限");
+        return context;
+    });}
+    private <T>T withEpicRepresentative(PlayerContext context,Callable<T> operation)throws Exception {
+        return withEpicAuthority(context,view->operation.call());
+    }
+    private <T>T withEpicAuthority(PlayerContext context,NationalVoteAuthority.Authorized<T> operation)throws Exception {
+        if(!context.permitted("starchronicle.use"))throw new SecurityException("缺少编年史使用权限");
+        Thread owner=Thread.currentThread();AtomicBoolean active=new AtomicBoolean(true),invoked=new AtomicBoolean();
+        Object[] result={null};Throwable[] failure={null};
+        try {
+            nationalVoteAuthority.withRepresentative(context.playerId(),context.nationId(),view->{
+                if(!active.get()||Thread.currentThread()!=owner||!invoked.compareAndSet(false,true))
+                    throw new SecurityException("National authority callback must be synchronous and single-use");
+                try {
+                    if(!context.playerId().equals(view.actorId())||!context.nationId().equals(view.nationId()))
+                        throw new SecurityException("Native national authority identity changed");
+                    T value=operation.run(view);result[0]=value;return value;
+                } catch(Exception|Error error) { failure[0]=error;throw error; }
+            });
+            if(failure[0]!=null)throw new IllegalStateException("National authority suppressed a failed callback",failure[0]);
+            if(!invoked.get())throw new SecurityException("National authority did not invoke the authorization callback");
+            @SuppressWarnings("unchecked") T value=(T)result[0];return value;
+        } finally { active.set(false); }
+    }
+    private static String epicPermission(EpicOperation.Type type) {
+        return switch(type) {
+            case TREASURY_AID -> io.github.addxiaoyi.starchronicle.api.aid.AidRequest.PERMISSION;
+            case RESOURCE_AID -> "starcore.resource";
+            case DIPLOMACY_INVITE,DIPLOMACY_ACCEPT -> "starcore.nation.ally.add";
+            case NATION_FOUNDING -> "starcore.nation.create";
+            case WAR_COMMIT -> "starcore.nation.war.declare";
+            case FINAL_BATTLE -> "starchronicle.use";
+            case QUEST_GATE,DUNGEON_COMPLETION -> "starchronicle.use";
+        };
+    }
+    private boolean epicMember(EpicSignup signup,PlayerContext actor,boolean allowRelief) {
+        if(signup.seats().values().stream().anyMatch(seat->seat.status()==EpicSignup.SeatStatus.ACTIVE
+                &&seat.nationId().equals(actor.nationId())))return true;
+        return allowRelief&&signup.reliefNationId().equals(actor.nationId());
+    }
+    private CompletionStage<EpicCampaignState> launchEpicCampaign(EpicSignup signup) {
+        Set<UUID> participants=new TreeSet<>();Set<String> nations=new TreeSet<>();
+        signup.activeSeats().forEach(seat->{participants.add(seat.representativeId());nations.add(seat.nationId());});
+        Map<String,String> facts=Map.of(signup.plan().signupFact(),signup.plan().signupValue(),
+                signup.plan().reliefNationFact(),signup.reliefNationId(),"epic.signup_session",signup.sessionId());
+        WorldEvent event=new WorldEvent(signup.sealedEventId(),signup.plan().signupSource(),signup.updatedAt(),
+                participants,nations,facts,"StarChronicle.EpicSignup","sealed session="+signup.sessionId()+"; nations="+nations.size());
+        return service.submit(event).thenCompose(report->query(()->{
+            Set<String> proposed=new HashSet<>(report.instanceIds());
+            StoryInstance instance=engine.activeInstances().stream()
+                    .filter(candidate->candidate.sourceEventId().equals(event.id())
+                            &&candidate.definition().id().equals(signup.plan().storyId())
+                            &&candidate.definition().version().equals(signup.plan().storyVersion())
+                            &&(proposed.isEmpty()||proposed.contains(candidate.id())))
+                    .findFirst().orElseGet(()->engine.activeInstances().stream()
+                            .filter(candidate->candidate.sourceEventId().equals(event.id())
+                                    &&candidate.definition().id().equals(signup.plan().storyId())
+                                    &&candidate.definition().version().equals(signup.plan().storyVersion()))
+                            .findFirst().orElseThrow(()->new IllegalStateException("Epic signup event created no matching story instance")));
+            return epicCampaigns.start(instance.id(),signup.sessionId(),event.id(),signup.updatedAt());
+        }));
+    }
+    private CompletionStage<EpicOperationState> runEpicOperation(String operationId,UUID actorId,long expectedRevision,boolean reconcile) {
+        return nationalSnapshot(actorId).thenCompose(context->query(()->{
+            EpicOperationState state=epicCampaigns.operation(operationId);
+            if(state==null)throw new IllegalArgumentException("Unknown epic operation: "+operationId);
+            if(state.revision()!=expectedRevision)throw new IllegalStateException("Epic operation revision changed; refresh status");
+            boolean founding=state.operation().type()==EpicOperation.Type.NATION_FOUNDING;
+            boolean foundingIdentity=founding&&(context.nationId().isBlank()
+                    ||reconcile&&state.operation().target().equals(context.nationId()));
+            if(!state.operation().actorId().equals(actorId)||!foundingIdentity&&!state.operation().nationId().equals(context.nationId()))
+                throw new SecurityException("Epic operation belongs to another current actor or nation");
+            if(!context.permitted(state.operation().permission()))throw new SecurityException("Missing native operation permission: "+state.operation().permission());
+            if(!reconcile&&state.status()!=EpicOperationState.Status.PREPARED)
+                throw new IllegalStateException("Only a prepared epic operation may be applied; UNKNOWN requires reconcile");
+            if(reconcile&&state.status()!=EpicOperationState.Status.UNKNOWN&&state.status()!=EpicOperationState.Status.PREPARED)
+                throw new IllegalStateException("Only PREPARED or UNKNOWN epic operations may be reconciled");
+            EpicCampaignLedger.ProviderPin pin=epicCampaigns.providerPin(operationId);
+            if(pin==null)throw new IllegalStateException("Epic operation has no durable provider pin");
+            EpicOperationProvider provider=epicProvider(pin.providerId(),pin.authorityDomain());
+            Callable<Void> reserve=()->{
+                if(!reconcile)epicCampaigns.claimAttempt(operationId,expectedRevision,Instant.now());
+                return null;
+            };
+            try { if(foundingIdentity)reserve.call();else withEpicRepresentative(context,reserve); }
+            catch(Exception unavailable) { throw new SecurityException("Current national authority is unavailable",unavailable); }
+            return new EpicProviderCall(state.operation(),pin,provider,epicOperationProviders);
+        })).thenCompose(call->{
+            CompletionStage<EpicObservation> nativeCall;
+            try {
+                requireEpicLease(call);
+                nativeCall=reconcile?call.provider().lookup(call.operation()):call.provider().apply(call.operation(),()->epicLeaseCurrent(call));
+                if(nativeCall==null)throw new IllegalStateException("Epic provider returned no completion stage");
+            }
+            catch(Throwable failure) { nativeCall=CompletableFuture.completedFuture(EpicObservation.unknown("Epic provider call failed: "+root(failure).getMessage())); }
+            return nativeCall.toCompletableFuture().orTimeout(30,TimeUnit.SECONDS)
+                    .handle((observation,error)->error==null&&observation!=null?observation:
+                    EpicObservation.unknown("Epic provider returned no reliable observation: "+(error==null?"empty response":root(error).getMessage())))
+                    .thenCompose(observation->query(()->{
+                        requireEpicLease(call);
+                        return epicCampaigns.observe(call.operation(),observation,
+                            call.pin().providerId(),call.pin().authorityDomain(),Instant.now());
+                    }));
+        });
+    }
+    private record EpicProviderCall(EpicOperation operation,EpicCampaignLedger.ProviderPin pin,EpicOperationProvider provider,
+                                    List<EpicOperationProvider> registry) {}
+    private void requireEpicLease(EpicProviderCall call) {
+        if(!epicLeaseCurrent(call))
+            throw new IllegalStateException("Epic provider lease expired; the operation requires reconciliation");
+    }
+    private boolean epicLeaseCurrent(EpicProviderCall call) {
+        try { return running.get()&&epicOperationProviders==call.registry()
+                &&epicProvider(call.pin().providerId(),call.pin().authorityDomain())==call.provider(); }
+        catch(RuntimeException unavailable) { return false; }
+    }
+    private static boolean epicOperationMember(EpicSignup signup,EpicCampaignState campaign,PlayerContext context,
+                                               EpicOperation.Type type) {
+        if(signup.activeSeats().stream().anyMatch(seat->seat.nationId().equals(context.nationId())))return true;
+        if(type==EpicOperation.Type.DIPLOMACY_ACCEPT&&signup.reliefNationId().equals(context.nationId()))return true;
+        return (type==EpicOperation.Type.WAR_COMMIT||type==EpicOperation.Type.FINAL_BATTLE)
+                &&campaign.operations().values().stream().anyMatch(state->state.status()==EpicOperationState.Status.COMMITTED
+                &&state.operation().type()==EpicOperation.Type.NATION_FOUNDING
+                &&state.operation().target().equals(context.nationId())
+                &&state.operation().actorId().equals(context.playerId()));
     }
     @FunctionalInterface private interface PlayerWork<T>{T run(Player player)throws Exception;}
     private <T> CompletionStage<T> playerQuery(UUID id,PlayerWork<T> work) {
@@ -158,11 +481,10 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private <T> CompletionStage<T> playerQuery(UUID id,PlayerWork<T> work,InvocationGate gate) {
         CompletableFuture<T> result=new CompletableFuture<>();
         if(!running.get())return CompletableFuture.failedFuture(new IllegalStateException("Plugin is stopping"));
-        try{tasks.player(id,()->{
+        try{tasks.playerOwned(id,player->{
             if(result.isDone())return;
             if(!running.get()){result.completeExceptionally(new IllegalStateException("Plugin is stopping"));return;}
-            Player player=tasks.current(id);
-            if(player==null||!player.isOnline()||!player.hasPermission("starchronicle.use")){result.completeExceptionally(new SecurityException("Player unavailable or unauthorized"));return;}
+            if(!player.isOnline()||!player.hasPermission("starchronicle.use")){result.completeExceptionally(new SecurityException("Player unavailable or unauthorized"));return;}
             if(!gate.enter())return;
             try{result.complete(work.run(player));}catch(Throwable error){result.completeExceptionally(error);}
         },()->result.completeExceptionally(new IllegalStateException("Player scheduler retired")));}catch(RuntimeException scheduling){result.completeExceptionally(scheduling);}
@@ -274,7 +596,14 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         WorldEvent arrival=new WorldEvent("chronicle:arrival:"+p.getUniqueId()+":"+day,"PLAYER_JOIN",Instant.now(),Set.of(p.getUniqueId()),Set.of(),Map.of("time_basis","OBSERVED","day",day),"StarChronicle.PlayerJoinEvent","First observed player arrival for UTC day="+day+"; player="+p.getUniqueId());
         query(()->{engine.accept(arrival,List.of(context));engine.resumeTriggers(List.of(context));deliverPending();resumeNativeOnWorker(context.playerId()).exceptionally(error->{getLogger().fine("Native scene recovery waiting: "+root(error).getMessage());return Optional.empty();});return null;}).exceptionally(error->{failure(p.getUniqueId(),error);return null;});
     }
-    @EventHandler public void quit(PlayerQuitEvent event) {tasks.untrack(event.getPlayer().getUniqueId());}
+    private boolean captureExploration(WorldEvent event) {
+        if(!running.get())return false;
+        FirstVisitBuffer.Admission admission=explorationIngress.offer(event);
+        if(admission==FirstVisitBuffer.Admission.FULL){getLogger().warning("Exploration capture buffer full; arrival was not admitted: "+event.id());return false;}
+        if(admission==FirstVisitBuffer.Admission.ADDED)query(()->explorationIngress.drain(firstVisits::observe,100)).exceptionally(error->{if(running.get())getLogger().warning("Exploration arrivals remain buffered pending persistence: "+root(error).getMessage());return 0;});
+        return true;
+    }
+    @EventHandler public void quit(PlayerQuitEvent event) {tasks.untrack(event.getPlayer());}
     private void npcInteraction(UUID player,String npcId) {
         String logical=npcLedger.catalog().profiles().containsKey(npcId)?npcId:npcLedger.catalog().resolveExternal(npcId).orElse(null);
         if(logical==null){menus.stories(player,0);return;}
@@ -285,15 +614,125 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     }
     private final class Service implements ChronicleService {
         @Override public CompletionStage<ProcessReport> submit(WorldEvent event){Objects.requireNonNull(event);return snapshots().thenCompose(contexts->query(()->{ProcessReport result=engine.accept(event,audience(event,contexts));deliverPending();return result;}));}
-        @Override public CompletionStage<HistoricalEvaluationReport> evaluateHistorical(String source,String story,String version){return query(()->engine.evaluateHistorical(source,story,version));}
+        @Override public CompletionStage<List<EpicCampaignPlan>> epicCampaignPlans(){return query(()->epicPlanCatalog.plans());}
+        @Override public CompletionStage<EpicSignup> openEpicSignup(String planId,String sessionId,String reliefNationId,UUID actorId){
+            return snapshot(actorId).thenCompose(context->query(()->{
+                if(!context.permitted("starchronicle.admin"))throw new SecurityException("Opening an epic signup requires administrator permission");
+                EpicCampaignPlan plan=epicPlanCatalog.plan(planId);
+                return epicCampaigns.open(plan,sessionId,reliefNationId,Instant.now());
+            }));
+        }
+        @Override public CompletionStage<EpicSignup> epicSignup(String sessionId){return query(()->{
+            EpicSignup signup=epicCampaigns.signup(sessionId);if(signup==null)throw new IllegalArgumentException("Unknown epic signup: "+sessionId);return signup;
+        });}
+        @Override public CompletionStage<EpicSignup> enrollEpicSignup(String sessionId,UUID actorId,long expectedRevision){
+            return nationalSnapshot(actorId).thenCompose(context->query(()->withEpicRepresentative(context,()->
+                    epicCampaigns.enroll(sessionId,context.nationId(),actorId,expectedRevision,Instant.now()))));
+        }
+        @Override public CompletionStage<EpicSignup> withdrawEpicSignup(String sessionId,UUID actorId,long expectedSeatRevision,long expectedSignupRevision){
+            return nationalSnapshot(actorId).thenCompose(context->query(()->withEpicRepresentative(context,()->
+                    epicCampaigns.withdraw(sessionId,context.nationId(),actorId,expectedSeatRevision,expectedSignupRevision,Instant.now()))));
+        }
+        @Override public CompletionStage<EpicCampaignState> sealEpicSignup(String sessionId,UUID actorId,long expectedRevision){
+            return nationalSnapshot(actorId).thenCompose(context->query(()->withEpicAuthority(context,view->{
+                    EpicSignup signup=epicCampaigns.signup(sessionId);
+                    if(signup==null||!epicMember(signup,context,false))throw new SecurityException("Only an enrolled nation may seal the roster");
+                    if(!view.nationExists(signup.reliefNationId()))throw new IllegalStateException("Relief nation no longer exists");
+                    for(var seat:signup.activeSeats())if(!view.nationExists(seat.nationId()))
+                        throw new IllegalStateException("Enrolled nation no longer exists: "+seat.nationId());
+                    return epicCampaigns.seal(sessionId,expectedRevision,actorId,Instant.now());
+                })))
+                    .thenCompose(StarChroniclePlugin.this::launchEpicCampaign);
+        }
+        @Override public CompletionStage<EpicCampaignState> epicCampaign(String instanceId,UUID actorId){
+            return snapshot(actorId).thenCompose(context->query(()->{
+                EpicCampaignState campaign=epicCampaigns.state(instanceId);
+                EpicSignup signup=epicCampaigns.signup(campaign.sessionId());
+                if(!epicMember(signup,context,true)&&!campaign.operations().values().stream().anyMatch(state->
+                        state.operation().actorId().equals(actorId)))throw new SecurityException("Campaign status is limited to its frozen participants");
+                return campaign;
+            }));
+        }
+        @Override public CompletionStage<EpicCampaignState> voteEpicRoute(String instanceId,UUID actorId,long expectedRevision,String route){
+            return nationalSnapshot(actorId).thenCompose(context->query(()->{
+                EpicCampaignState campaign=epicCampaigns.state(instanceId);
+                EpicSignup signup=epicCampaigns.signup(campaign.sessionId());
+                if(!epicMember(signup,context,false))throw new SecurityException("Only a frozen participating nation may vote on the epic route");
+                return withEpicRepresentative(context,()->epicCampaigns.castRouteVote(instanceId,context.nationId(),expectedRevision,route,Instant.now()));
+            }));
+        }
+        @Override public CompletionStage<EpicOperationState> prepareEpicOperation(String instanceId,UUID actorId,
+                    EpicOperation.Type type,String target,String nativeReference,String providerId){
+            Objects.requireNonNull(type);Objects.requireNonNull(target);Objects.requireNonNull(nativeReference);Objects.requireNonNull(providerId);
+            return nationalSnapshot(actorId).thenCompose(context->query(()->{
+                EpicCampaignState campaign=epicCampaigns.state(instanceId);
+                EpicSignup signup=epicCampaigns.signup(campaign.sessionId());
+                if(!epicOperationMember(signup,campaign,context,type))throw new SecurityException("Current nation is outside the frozen campaign roles");
+                String permission=epicPermission(type);
+                if(!context.permitted(permission))throw new SecurityException("Missing native operation permission: "+permission);
+                EpicOperationProvider provider=epicProvider(providerId);
+                Instant requested=Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS);
+                if(type==EpicOperation.Type.FINAL_BATTLE||type==EpicOperation.Type.DUNGEON_COMPLETION)
+                    requested=campaign.updatedAt(); // Final evidence must postdate the frozen route approval.
+                if(type==EpicOperation.Type.QUEST_GATE)requested=engine.epicQuestGateOpenedAt(instanceId,nativeReference,actorId,context.nationId(),target)
+                        .orElseThrow(()->new IllegalStateException("The matching tracked national task gate has not opened"));
+                String action=type.name()+":"+target+":"+nativeReference;
+                String operationId=EpicContract.operationId(campaign.plan().campaignId(),instanceId,campaign.phaseId(),action,context.nationId());
+                EpicOperationState existing=epicCampaigns.operation(operationId);
+                if(existing!=null)requested=existing.operation().requestedAt();
+                StoryInstance epicStory=engine.activeInstances().stream().filter(candidate->candidate.id().equals(instanceId))
+                        .findFirst().orElseThrow(()->new IllegalArgumentException("Epic story instance is not active"));
+                EpicOperation operation=new EpicOperation(operationId,campaign.plan().campaignId(),instanceId,
+                        epicStory.sourceEventId(),campaign.phaseId(),type,actorId,context.nationId(),target,nativeReference,
+                        DefinitionCanonicalCodec.fingerprintV2(epicStory.definition()),
+                        permission,requested);
+                if(!provider.supports(operation))throw new IllegalArgumentException("Epic provider does not support this operation or its native capability is unavailable");
+                return withEpicRepresentative(context,()->epicCampaigns.prepare(operation,provider.providerId(),provider.authorityDomain()));
+            }));
+        }
+        @Override public CompletionStage<EpicOperationState> epicOperation(String operationId,UUID actorId){
+            return snapshot(actorId).thenCompose(context->query(()->{
+                EpicOperationState state=epicCampaigns.operation(operationId);
+                if(state==null)throw new IllegalArgumentException("Unknown epic operation: "+operationId);
+                EpicCampaignState campaign=epicCampaigns.state(state.operation().instanceId());
+                EpicSignup signup=epicCampaigns.signup(campaign.sessionId());
+                if(!epicMember(signup,context,true)&&!state.operation().actorId().equals(actorId))
+                    throw new SecurityException("Operation status is limited to its campaign participants");
+                return state;
+            }));
+        }
+        @Override public CompletionStage<EpicOperationState> applyEpicOperation(String operationId,UUID actorId,long expectedRevision){
+            return runEpicOperation(operationId,actorId,expectedRevision,false);
+        }
+        @Override public CompletionStage<EpicOperationState> reconcileEpicOperation(String operationId,UUID actorId,long expectedRevision){
+            return runEpicOperation(operationId,actorId,expectedRevision,true);
+        }
+        @Override public CompletionStage<List<String>> epicProviders(){return query(()->epicOperationProviders.stream()
+                .map(EpicOperationProvider::providerId).distinct().sorted().toList());}
+        @Override public CompletionStage<NationalAidService.Result> submitAid(io.github.addxiaoyi.starchronicle.api.aid.AidRequest request){
+            if(request==null)return CompletableFuture.failedFuture(new NullPointerException("request"));
+            NationalAidService aid=nationalAid;if(aid==null)return CompletableFuture.failedFuture(new IllegalStateException("National aid is disabled"));
+            return snapshot(request.actorId()).thenCombine(snapshots(),(actor,contexts)->aid.submit(request,actor,contexts)).thenCompose(Function.identity());
+        }
+        @Override public CompletionStage<NationalAidService.Result> reconcileAid(io.github.addxiaoyi.starchronicle.api.aid.AidRequest request){
+            if(request==null)return CompletableFuture.failedFuture(new NullPointerException("request"));
+            NationalAidService aid=nationalAid;if(aid==null)return CompletableFuture.failedFuture(new IllegalStateException("National aid is disabled"));
+            return snapshot(request.actorId()).thenCombine(snapshots(),(actor,contexts)->aid.reconcile(request,actor,contexts)).thenCompose(Function.identity());
+        }
+        @Override public CompletionStage<HistoricalEvaluationReport> evaluateHistorical(String source,String story,String version){return query(()->{var report=engine.evaluateHistorical(source,story,version);permissions=permissionNodes(withPendingDefinitions(definitions),engine.activeInstances());return report;});}
         @Override public CompletionStage<ProcessReport> choose(String id,UUID player,String choice){return snapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.choose(id,player,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> choose(String id,UUID player,String expected,String choice){return snapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.choose(id,player,expected,choice,context);deliverPending();return result;}));}
+        @Override public CompletionStage<ProcessReport> nationalVote(String id,UUID player,String expected,long revision,String choice){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.nationalVote(id,player,expected,revision,choice,context);deliverPending();return result;}));}
+        @Override public CompletionStage<ProcessReport> withdrawNationalVote(String id,UUID player,String expected,long revision){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.withdrawNationalVote(id,player,expected,revision,context);deliverPending();return result;}));}
+        @Override public CompletionStage<QuestGateState> questGateState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.questGateSnapshot(id,context)));}
+        @Override public CompletionStage<NationalVoteState> nationalState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->{NationalVoteState result=engine.nationalState(id,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> join(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.join(id,context)));}
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player);}));}
         @Override public CompletionStage<List<StoryInstance>> activeInstances(){return query(engine::activeInstances);}
         @Override public CompletionStage<List<StoryInstance>> availableInstances(UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableInstances(context)));}
         @Override public CompletionStage<Map<String,StoryDefinition.Choice>> availableChoices(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableChoices(id,context)));}
         @Override public CompletionStage<List<WorldEvent>> history(String nation,UUID player,int page,int size){return query(()->engine.history(nation,player,page,size));}
+        @Override public CompletionStage<List<MemoryEntry>> memoryEntries(String region,int page,int size){return query(()->engine.memoryEntries(region,page,size));}
         @Override public CompletionStage<Map<String,String>> recollections(UUID player,Collection<String> references){List<String> refs=List.copyOf(references);return snapshot(player).thenCompose(context->query(()->engine.recollections(context,refs)));}
         @Override public CompletionStage<NpcView> npc(UUID player,String npc){return snapshot(player).thenCompose(context->query(()->npcLedger.view(player,npc,context,engine.worldFacts())));}
         @Override public CompletionStage<Map<String,String>> fate(UUID player){return snapshot(player).thenCompose(context->query(()->{Map<String,String> facts=new TreeMap<>(engine.facts(player));facts.putAll(npcLedger.facts(player));facts.put("player.role",context.facts().getOrDefault("player.role","unassigned"));return Map.copyOf(facts);}));}
@@ -304,8 +743,12 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!sender.hasPermission("starchronicle.use")){sender.sendMessage("没有权限。");return true;}
         if(args.length>0 && args[0].equalsIgnoreCase("memory"))return memory(sender,args);
+        if(args.length>0 && args[0].equalsIgnoreCase("epic")) {
+            if(!(sender instanceof Player player)){sender.sendMessage("国家史诗操作需要在线国家代表；管理员也可在游戏内开设报名。");return true;}
+            tasks.track(player);gateway.refreshContext(player,permissions);epic(player.getUniqueId(),args);return true;
+        }
         if(args.length>0 && Set.of("validate","reload","status","uncertain","ack","native-ack","blocked","evaluate","demo").contains(args[0].toLowerCase(Locale.ROOT)))return admin(sender,args);
-        if(!(sender instanceof Player p)){sender.sendMessage("玩家命令: /chronicle [history|stories|join|choose]；控制台: /chronicle status|validate|uncertain");return true;}
+        if(!(sender instanceof Player p)){sender.sendMessage("玩家命令: /chronicle [history|stories|join|choose|national|vote|withdraw|epic]；控制台: /chronicle status|validate|uncertain");return true;}
         UUID id=p.getUniqueId();tasks.track(p);gateway.refreshContext(p,permissions);
         try {
             String action=args.length==0?"stories":args[0].toLowerCase(Locale.ROOT);
@@ -316,7 +759,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 case "fate"->menus.fate(id);
                 case "past"->{
                     if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle past <剧情ID/版本/节点ID>");
-                    service.recollections(id,List.of("past.player.choice."+args[1],"past.resolution.world."+args[1],"past.resolution.nation."+args[1])).whenComplete((facts,error)->{
+                    service.recollections(id,List.of("past.player.choice."+args[1],"past.resolution.world."+args[1],"past.resolution.nation."+args[1],"past.nation.choice."+args[1])).whenComplete((facts,error)->{
                         if(error!=null)failure(id,error);else message(id,facts.isEmpty()?"暂无已完成剧情中的可核验抉择。":new TreeMap<>(facts).entrySet().stream().map(e->e.getKey()+" = "+e.getValue()).collect(java.util.stream.Collectors.joining("\n")));
                     });
                 }
@@ -329,11 +772,121 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 }
                 case "join"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle join <实例ID>");service.join(args[1],id).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id,0);}});}
                 case "choose"->{if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle choose <实例ID> <当前节点ID> <选项ID>");service.choose(args[1],id,args[2],args[3]).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id,0);}});}
-                default->message(id,"/chronicle stories | history [nation 国家ID|player UUID/me] [页] | join 实例ID | choose 实例ID 节点ID 选项ID");
+                case "national"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle national <实例ID>");menus.national(id,args[1]);}
+                case "vote"->{if(args.length!=5)throw new IllegalArgumentException("用法: /chronicle vote <实例ID> <当前节点ID> <国家票修订号> <选项ID>");long revision=nationalRevision(args[3]);nationalResponse(id,args[1],service.nationalVote(args[1],id,args[2],revision,args[4]));}
+                case "withdraw"->{if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle withdraw <实例ID> <当前节点ID> <国家票修订号>");long revision=nationalRevision(args[3]);nationalResponse(id,args[1],service.withdrawNationalVote(args[1],id,args[2],revision));}
+                default->message(id,"/chronicle stories | history [nation 国家ID|player UUID/me] [页] | join 实例ID | choose 实例ID 节点ID 选项ID | national 实例ID | vote 实例ID 节点ID 修订号 选项ID | withdraw 实例ID 节点ID 修订号 | epic");
             }
         } catch(IllegalArgumentException error){message(id,error.getMessage());}
         return true;
     }
+    private static long nationalRevision(String value){long revision=Long.parseLong(value);if(revision<0)throw new IllegalArgumentException("国家票修订号不能为负数；请刷新国家投票界面。");return revision;}
+    private void epic(UUID actor,String[] args) {
+        if(args.length<2){message(actor,epicUsage());return;}
+        try {
+            switch(args[1].toLowerCase(Locale.ROOT)) {
+                case "founding-reference" -> {
+                    if(args.length<3)throw new IllegalArgumentException("用法: /chronicle epic founding-reference <新国名>");
+                    message(actor,EpicContract.foundingReference(String.join(" ",Arrays.copyOfRange(args,2,args.length))));
+                }
+                case "plans" -> service.epicCampaignPlans().whenComplete((plans,error)->{
+                    if(error!=null)failure(actor,error);else message(actor,plans.isEmpty()?"没有已加载的国家史诗计划。":plans.stream()
+                            .map(plan->plan.campaignId()+" -> "+plan.storyId()+"/"+plan.storyVersion()).collect(java.util.stream.Collectors.joining("\n")));
+                });
+                case "providers" -> service.epicProviders().whenComplete((providers,error)->{
+                    if(error!=null)failure(actor,error);else message(actor,providers.isEmpty()?"没有可用的原生史诗 provider。":String.join("\n",providers));
+                });
+                case "open" -> {
+                    if(args.length!=5)throw new IllegalArgumentException("用法: /chronicle epic open <会期ID> <计划ID> <救济国UUID>");
+                    service.openEpicSignup(args[3],args[2],args[4],actor).whenComplete((signup,error)->epicSignupResponse(actor,signup,error));
+                }
+                case "signup" -> {
+                    if(args.length!=3)throw new IllegalArgumentException("用法: /chronicle epic signup <会期ID>");
+                    service.epicSignup(args[2]).whenComplete((signup,error)->{
+                        if(error!=null)failure(actor,error);else message(actor,epicSignupSummary(signup));
+                    });
+                }
+                case "enroll" -> {
+                    if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle epic enroll <会期ID> <会期修订号>");
+                    service.enrollEpicSignup(args[2],actor,epicRevision(args[3])).whenComplete((signup,error)->epicSignupResponse(actor,signup,error));
+                }
+                case "withdraw-signup" -> {
+                    if(args.length!=5)throw new IllegalArgumentException("用法: /chronicle epic withdraw-signup <会期ID> <席位修订号> <会期修订号>");
+                    service.withdrawEpicSignup(args[2],actor,epicRevision(args[3]),epicRevision(args[4])).whenComplete((signup,error)->epicSignupResponse(actor,signup,error));
+                }
+                case "seal" -> {
+                    if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle epic seal <会期ID> <会期修订号>");
+                    service.sealEpicSignup(args[2],actor,epicRevision(args[3])).whenComplete((campaign,error)->{
+                        if(error!=null)failure(actor,error);else message(actor,epicCampaignSummary(campaign));
+                    });
+                }
+                case "status" -> {
+                    if(args.length!=3)throw new IllegalArgumentException("用法: /chronicle epic status <实例ID>");
+                    service.epicCampaign(args[2],actor).whenComplete((campaign,error)->{
+                        if(error!=null)failure(actor,error);else message(actor,epicCampaignSummary(campaign));
+                    });
+                }
+                case "route" -> {
+                    if(args.length!=5)throw new IllegalArgumentException("用法: /chronicle epic route <实例ID> <战役修订号> <WAR|DUNGEON>");
+                    service.voteEpicRoute(args[2],actor,epicRevision(args[3]),args[4].toUpperCase(Locale.ROOT)).whenComplete((campaign,error)->{
+                        if(error!=null)failure(actor,error);else message(actor,epicCampaignSummary(campaign));
+                    });
+                }
+                case "prepare" -> {
+                    if(args.length!=7)throw new IllegalArgumentException("用法: /chronicle epic prepare <实例ID> <类型> <目标> <原生参数> <providerID>");
+                    EpicOperation.Type type=EpicOperation.Type.valueOf(args[3].toUpperCase(Locale.ROOT));
+                    service.prepareEpicOperation(args[2],actor,type,args[4],args[5],args[6]).whenComplete((state,error)->{
+                        if(error!=null)failure(actor,error);else message(actor,epicOperationSummary(state)+"；按修订号执行 apply 或只读 reconcile。");
+                    });
+                }
+                case "apply","reconcile" -> {
+                    if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle epic apply|reconcile <操作ID> <操作修订号>");
+                    long revision=epicRevision(args[3]);
+                    CompletionStage<EpicOperationState> result=args[1].equalsIgnoreCase("apply")
+                            ?service.applyEpicOperation(args[2],actor,revision)
+                            :service.reconcileEpicOperation(args[2],actor,revision);
+                    result.whenComplete((state,error)->{
+                        if(error!=null)failure(actor,error);else message(actor,epicOperationSummary(state));
+                    });
+                }
+                default -> message(actor,epicUsage());
+            }
+        } catch(IllegalArgumentException error) { message(actor,error.getMessage()); }
+    }
+    private static long epicRevision(String value) {
+        long revision=Long.parseLong(value);if(revision<0)throw new IllegalArgumentException("史诗修订号不能为负数；请刷新状态后重试。");return revision;
+    }
+    private static String epicUsage() {
+        return "/chronicle epic plans|providers|open <会期> <计划> <救济国UUID>|signup <会期>|enroll <会期> <修订号>|withdraw-signup <会期> <席位修订号> <会期修订号>|seal <会期> <修订号>|status <实例>|route <实例> <战役修订号> <WAR|DUNGEON>|prepare <实例> <类型> <目标> <原生参数> <providerID>|apply|reconcile <操作ID> <修订号>|founding-reference <新国名>";
+    }
+    private void epicSignupResponse(UUID actor,EpicSignup signup,Throwable error) {
+        if(error!=null)failure(actor,error);else message(actor,epicSignupSummary(signup));
+    }
+    private static String epicSignupSummary(EpicSignup signup) {
+        String seats=signup.seats().values().stream().map(seat->seat.nationId()+"="+seat.status()+"/seat-rev:"+seat.revision())
+                .collect(java.util.stream.Collectors.joining(", "));
+        return "会期="+signup.sessionId()+" plan="+signup.plan().campaignId()+" relief="+signup.reliefNationId()
+                +" status="+signup.status()+" revision="+signup.revision()+" seats=["+seats+"]"
+                +(signup.sealedEventId()==null?"":" source="+signup.sealedEventId());
+    }
+    private static String epicCampaignSummary(EpicCampaignState campaign) {
+        String operations=campaign.operations().values().stream().map(StarChroniclePlugin::epicOperationSummary)
+                .collect(java.util.stream.Collectors.joining("\n"));
+        return "战役="+campaign.instanceId()+" status="+campaign.status()+" phase="+campaign.phaseId()
+                +" route="+Objects.toString(campaign.route(),"-")+" revision="+campaign.revision()
+                +" routeVotes="+campaign.routeVotes().values().stream().map(vote->vote.nationId()+"="+vote.choice()).collect(java.util.stream.Collectors.joining(","))
+                +(operations.isBlank()?"":"\n"+operations);
+    }
+    private static String epicOperationSummary(EpicOperationState state) {
+        String receipt=state.receipt()==null?"":" nativeReceipt="+state.receipt().nativeReceiptId()+" at="+state.receipt().appliedAt();
+        return "operation="+state.operation().operationId()+" type="+state.operation().type()+" nation="
+                +state.operation().nationId()+" status="+state.status()+" revision="+state.revision()+receipt
+                +(state.detail().isBlank()?"":" detail="+state.detail());
+    }
+    private void nationalResponse(UUID viewer,String instance,CompletionStage<ProcessReport> operation){operation.whenComplete((report,error)->{
+        if(error!=null)failure(viewer,error);else message(viewer,report.message());
+        menus.national(viewer,instance); // a rejected stale token must obtain a fresh page
+    });}
     private boolean memory(CommandSender sender,String[] args) {
         if(!sender.hasPermission("starchronicle.admin")){sender.sendMessage("没有管理权限。");return true;}
         if(!(sender instanceof Player player)){sender.sendMessage("请在拟设置纪念点的位置执行玩家命令。");return true;}
@@ -357,14 +910,14 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         Consumer<String> reply=text->{if(player!=null)message(player,text);else tasks.global(()->sender.sendMessage(text));};
         switch(args[0].toLowerCase(Locale.ROOT)) {
             case "status"->reply.accept("StarCore="+gateway.available()+", stories="+definitions.size()+", workerQueue="+worker.getQueue().size());
-            case "validate"->query(()->{var valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));engine.validate(valid);return valid;}).whenComplete((valid,error)->reply.accept(error==null?"验证通过: "+valid.size()+" 条剧情（未更改运行中实例或版本目录）":"验证失败: "+root(error).getMessage()));
-            case "reload"->query(()->{List<StoryDefinition> valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));Set<String> nextPermissions=permissionNodes(withPendingDefinitions(valid),engine.activeInstances());engine.reload(valid);permissions=nextPermissions;definitions=valid;return valid.size();}).whenComplete((count,error)->reply.accept(error==null?"已重载 "+count+" 条剧情；已有实例保留原定义与权限需求。":"重载失败，原定义保留: "+root(error).getMessage()));
+            case "validate"->query(()->{var valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));var plans=EpicCampaignPlanCatalog.load(getDataFolder().toPath().resolve("epic-campaigns"));validateEpicPlans(valid,plans);engine.validate(valid,MemoryRecipeCatalog.load(memoryRecipesFile));return valid;}).whenComplete((valid,error)->reply.accept(error==null?"验证通过: "+valid.size()+" 条剧情、世界记忆配方及史诗计划（未更改运行配置或版本目录）":"验证失败: "+root(error).getMessage()));
+            case "reload"->query(()->{List<StoryDefinition> valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));var plans=EpicCampaignPlanCatalog.load(getDataFolder().toPath().resolve("epic-campaigns"));validateEpicPlans(valid,plans);Set<String> nextPermissions=permissionNodes(withPendingDefinitions(valid),engine.activeInstances());engine.reload(valid,MemoryRecipeCatalog.load(memoryRecipesFile));epicPlanCatalog=plans;permissions=nextPermissions;definitions=valid;return valid.size();}).whenComplete((count,error)->reply.accept(error==null?"已重载 "+count+" 条剧情、世界记忆配方及史诗计划；已有会期保留原计划，已有实例保留原定义与权限需求。":"重载失败，原定义保留: "+root(error).getMessage()));
             case "evaluate"->{
                 if(args.length!=4){reply.accept("用法: /chronicle evaluate <已保存事件ID> <剧情ID> <精确版本>；仅登记，不立即执行");break;}
                 service.evaluateHistorical(args[1],args[2],args[3]).whenComplete((report,error)->reply.accept(error==null?report.status()+"；新增受众种子="+report.newSeeds()+"；既有同源实例="+report.matchingInstances()+"（已完成="+report.completedInstances()+"）；"+report.message():"历史评估未登记: "+root(error).getMessage()));
             }
             case "uncertain"->query(()->{List<String> lines=new ArrayList<>();var items=engine.uncertain();var scenes=nativeJournal.unknown(100);lines.add("UNKNOWN外部效果="+items.size()+"，原生场景="+scenes.size()+"；请先对账，不会自动重放。");items.stream().limit(20).forEach(d->lines.add(d.outcomeId()+" "+d.type()+" "+d.target()));scenes.stream().limit(20).forEach(e->lines.add("native "+e.request().outcomeId()+" player="+e.request().playerId()+" "+e.reason()));return lines;}).whenComplete((lines,error)->{if(error!=null)reply.accept(root(error).getMessage());else lines.forEach(reply);});
-            case "blocked"->query(()->engine.triggerBlocks(100)).whenComplete((items,error)->{if(error!=null)reply.accept(root(error).getMessage());else if(items.isEmpty())reply.accept("暂无因果循环或深度限制拦截。");else items.forEach(item->reply.accept("source="+item.eventId()+" story="+item.storyId()+"/"+item.version()+" reason="+item.reason()));});
+            case "blocked"->query(()->{List<String> lines=new ArrayList<>();engine.triggerBlocks(100).forEach(item->lines.add("source="+item.eventId()+" story="+item.storyId()+"/"+item.version()+" reason="+item.reason()));engine.memoryRecipeBlocks(100).forEach(item->lines.add("source="+item.eventId()+" recipe="+item.recipeId()+"/"+item.version()+" reason="+item.reason()));return lines;}).whenComplete((items,error)->{if(error!=null)reply.accept(root(error).getMessage());else if(items.isEmpty())reply.accept("暂无因果循环或深度限制拦截。");else items.forEach(reply);});
             case "native-ack"->{if(args.length!=3||!args[2].equals("CONFIRM_SCENE_COMPLETED")){reply.accept("独立确认原生场景已结束/放弃后: /chronicle native-ack <outcomeId> CONFIRM_SCENE_COMPLETED");break;}query(()->{boolean done=nativeJournal.acknowledgeCompleted(args[1]);if(done)confirmNativeStart(args[1]);return done;}).whenComplete((ok,error)->reply.accept(error==null?"原生隔离关闭结果: "+ok+"；未重放任何原生操作。":root(error).getMessage()));}
             case "ack"->{if(args.length!=3||!args[2].equals("CONFIRM_APPLIED")){reply.accept("对账确认已实际应用后: /chronicle ack <outcomeId> CONFIRM_APPLIED");break;}query(()->engine.acknowledgeUnknown(args[1])).whenComplete((ok,error)->reply.accept(error==null?"确认结果: "+ok:root(error).getMessage()));}
             case "demo"->{
@@ -379,15 +932,23 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return true;
     }
     @Override public List<String> onTabComplete(CommandSender sender,Command command,String alias,String[] args) {
-        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","choose","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==2&&args[0].equalsIgnoreCase("epic"))return List.of("plans","providers","open","signup","enroll","withdraw-signup","seal","status","route","prepare","apply","reconcile","founding-reference").stream().filter(s->s.startsWith(args[1].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==4&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("prepare"))return Arrays.stream(EpicOperation.Type.values()).map(Enum::name).filter(s->s.startsWith(args[3].toUpperCase(Locale.ROOT))).toList();
+        if(args.length==5&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("route"))return List.of("WAR","DUNGEON").stream().filter(s->s.startsWith(args[4].toUpperCase(Locale.ROOT))).toList();
+        if(args.length==7&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("prepare"))return epicOperationProviders.stream().map(EpicOperationProvider::providerId).distinct().filter(s->s.startsWith(args[6])).sorted().toList();
         if(args.length==2&&args[0].equalsIgnoreCase("npc"))return npcLedger.catalog().profiles().keySet().stream().sorted().toList();
         if(args.length==2&&args[0].equalsIgnoreCase("history"))return List.of("nation","player");
         if(args.length==2&&args[0].equalsIgnoreCase("demo")&&sender.hasPermission("starchronicle.admin"))return definitions.stream().map(StoryDefinition::id).filter(s->s.startsWith(args[1])).toList();
         return List.of();
     }
     @Override public void onDisable() {
+        explorationIngress.seal();
+        nationalVoteAuthority=NationalVoteAuthority.denying();
+        epicOperationProviders=List.of();
+        if(questGates!=null)questGates.close();
         if(!running.getAndSet(false)){if(worker==null){if(engine!=null)engine.close();else if(store!=null)store.close();}if(textService!=null)textService.close();if(coreContent!=null)coreContent.close();if(gateway!=null)gateway.close();return;}
-        if(poll!=null)poll.cancel();if(npcs!=null)npcs.close();if(memorySites!=null)memorySites.close();if(textService!=null)textService.close();if(coreContent!=null)coreContent.close();if(gateway!=null)gateway.close();
+        if(poll!=null)poll.cancel();if(exploration!=null)exploration.close();if(npcs!=null)npcs.close();if(memorySites!=null)memorySites.close();if(textService!=null)textService.close();if(coreContent!=null)coreContent.close();if(gateway!=null)gateway.close();
         getServer().getServicesManager().unregisterAll(this);HandlerList.unregisterAll((Listener)this);if(menus!=null)HandlerList.unregisterAll(menus);
         // terminated() closes storage after every queued write, even when the bounded queue was full.
         if(worker!=null){worker.shutdown();try{if(!worker.awaitTermination(10,TimeUnit.SECONDS))getLogger().warning("State worker still draining; storage will close at termination; do not reload plugin");}catch(InterruptedException error){Thread.currentThread().interrupt();}}

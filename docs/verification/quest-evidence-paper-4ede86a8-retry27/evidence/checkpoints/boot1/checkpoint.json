@@ -1,0 +1,70 @@
+{
+  "boot": 1,
+  "captured_utc": "2026-11-20T14:22:54.778504+00:00",
+  "source_paths": {
+    "chronicle": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\paper-quest-evidence-4ede86a8-retry27\\plugins\\StarChronicle\\chronicle.db",
+    "native_quest": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\paper-quest-evidence-4ede86a8-retry27\\plugins\\StarCore\\quest"
+  },
+  "copied_files": [
+    {
+      "relative": "chronicle.db",
+      "sha256": "2d0b598c01393095f02efe064ca915b419db3a7fe10c7cd83b67b387210cb120",
+      "size": 364544
+    },
+    {
+      "relative": "native-quest/commissions.properties",
+      "sha256": "c8b216e8642a33faf8e9ba6f099cd79123f144cf473c6e553833aed238414501",
+      "size": 54
+    },
+    {
+      "relative": "native-quest/commissions.properties.bak",
+      "sha256": "c8b216e8642a33faf8e9ba6f099cd79123f144cf473c6e553833aed238414501",
+      "size": 54
+    },
+    {
+      "relative": "native-quest/daily_quests.properties",
+      "sha256": "c8b216e8642a33faf8e9ba6f099cd79123f144cf473c6e553833aed238414501",
+      "size": 54
+    },
+    {
+      "relative": "native-quest/daily_quests.properties.bak",
+      "sha256": "c8b216e8642a33faf8e9ba6f099cd79123f144cf473c6e553833aed238414501",
+      "size": 54
+    },
+    {
+      "relative": "native-quest/evidence-authority.properties",
+      "sha256": "2ac77c1ea0b6741ba2e84f42c0afa82f70fd28b2e10909443252be10e8446d7f",
+      "size": 145
+    },
+    {
+      "relative": "native-quest/quests.properties",
+      "sha256": "eb7714bd592bfab75adaf08aa966d8677b9a082745a53067ae447495333185dc",
+      "size": 2323
+    },
+    {
+      "relative": "native-quest/quests.properties.bak",
+      "sha256": "525a20f94a9f8f8d96309b2ed5721a0b0914e77fcecf62d1af59a8bc7cfaea05",
+      "size": 2323
+    },
+    {
+      "relative": "native-quest/tracked-evidence.properties",
+      "sha256": "34f131e84a0f179a1325eb71646ae494b4f38bb58b3a483277103a6ff0ef8ed6",
+      "size": 7395
+    },
+    {
+      "relative": "native-quest/tracked-evidence.properties.bak",
+      "sha256": "3809075881e0800c08a9770cba9c388d21be3cab48b09f62d7d907e5082695ff",
+      "size": 6912
+    }
+  ],
+  "plugin_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+  "starcore_sha256": "c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a",
+  "fixture_sha256": "0720a2194de2ad00b3d3145cf5cb8c675ab1df1fcf767309df2526c7b53c295e",
+  "server_pid": 8288,
+  "client_pid": 9420,
+  "server_exit": 0,
+  "client_exit": 0,
+  "normal_server_stop_requested": true,
+  "clients_quit_all_requested": true,
+  "all_owned_children_exited": true
+}

@@ -85,7 +85,7 @@ class DefinitionSchemaUpgradeTest {
         List<List<String>> result=new ArrayList<>();try(var s=connection.createStatement();var r=s.executeQuery(query)){int width=r.getMetaData().getColumnCount();while(r.next()){List<String> row=new ArrayList<>();for(int i=1;i<=width;i++)row.add(r.getString(i));result.add(row);}}return result;
     }
     static String scalar(Connection connection,String query)throws SQLException {try(var s=connection.createStatement();var r=s.executeQuery(query)){return r.next()?r.getString(1):null;}}
-    static Map<String,List<List<String>>> snapshot(Connection connection)throws SQLException {Map<String,List<List<String>>> result=new TreeMap<>();for(var order:ORDER.entrySet())result.put(order.getKey(),rows(connection,"SELECT * FROM "+order.getKey()+" ORDER BY "+order.getValue()));return result;}
+    static Map<String,List<List<String>>> snapshot(Connection connection)throws SQLException {Map<String,List<List<String>>> result=new TreeMap<>();for(var order:ORDER.entrySet())result.put(order.getKey(),rows(connection,"SELECT "+(order.getKey().equals("event_causes")?"event_id,parent_id,root_id,depth,story_path":"*")+" FROM "+order.getKey()+" ORDER BY "+order.getValue()));return result;}
     static Map<String,String> schema(Connection connection)throws SQLException {Map<String,String> result=new TreeMap<>();for(var row:rows(connection,"SELECT name,sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' ORDER BY name"))result.put(row.get(0),row.get(1));return result;}
     static Map<String,List<List<String>>> recovered(Map<String,List<List<String>>> source) {
         Map<String,List<List<String>>> result=new TreeMap<>();source.forEach((table,oldRows)->{List<List<String>> copy=new ArrayList<>();for(var old:oldRows){List<String> row=new ArrayList<>(old);if(table.equals("outcomes")&&row.get(1).equals("RUNNING"))row.set(1,"UNKNOWN");copy.add(row);}result.put(table,copy);});return result;
@@ -101,7 +101,7 @@ class DefinitionSchemaUpgradeTest {
         List<List<String>> firstArchive;
         try(var store=new SqliteStore(database())) {
             firstArchive=store.transaction(connection->{
-                assertEquals("4",scalar(connection,"PRAGMA user_version"));assertEquals(4,SqliteStore.SCHEMA_VERSION);assertEquals(recovered(old),snapshot(connection));assertPayloadBytes(old,snapshot(connection));oldSchema.forEach((name,ddl)->{try{assertEquals(ddl,schema(connection).get(name),name);}catch(SQLException error){throw new IllegalStateException(error);}});
+                assertEquals(Integer.toString(SqliteStore.SCHEMA_VERSION),scalar(connection,"PRAGMA user_version"));assertEquals(7,SqliteStore.SCHEMA_VERSION);assertEquals(recovered(old),snapshot(connection));assertPayloadBytes(old,snapshot(connection));oldSchema.forEach((name,ddl)->{try{if(!name.equals("event_causes"))assertEquals(ddl,schema(connection).get(name),name);}catch(SQLException error){throw new IllegalStateException(error);}});
                 var catalog=DefinitionCatalog.read(connection);assertEquals(2,catalog.keys().size());assertEquals(3,Integer.parseInt(scalar(connection,"SELECT COUNT(*) FROM story_definitions")));
                 assertThrows(IllegalArgumentException.class,()->catalog.require("retired-a","1"));assertEquals(pending(),catalog.require("retired-pending","7"));
                 assertEquals(Set.of("LEGACY_INSTANCE old:active","LEGACY_INSTANCE old:completed","PENDING_TRIGGER old:pending"),new HashSet<>(rows(connection,"SELECT provenance FROM story_definitions").stream().map(row->row.getFirst()).toList()));
@@ -140,7 +140,7 @@ class DefinitionSchemaUpgradeTest {
             try(var update=connection.prepareStatement("UPDATE story_triggers SET story_json=? WHERE id='old:pending'")){update.setString(1,original);update.executeUpdate();}
         }
         List<List<String>> archive;
-        try(var store=new SqliteStore(database())) {archive=store.transaction(connection->{assertEquals("4",scalar(connection,"PRAGMA user_version"));assertEquals(original,scalar(connection,"SELECT story_json FROM story_triggers WHERE id='old:pending'"));return rows(connection,"SELECT * FROM story_definitions ORDER BY story,version,fingerprint");});}
+        try(var store=new SqliteStore(database())) {archive=store.transaction(connection->{assertEquals(Integer.toString(SqliteStore.SCHEMA_VERSION),scalar(connection,"PRAGMA user_version"));assertEquals(original,scalar(connection,"SELECT story_json FROM story_triggers WHERE id='old:pending'"));return rows(connection,"SELECT * FROM story_definitions ORDER BY story,version,fingerprint");});}
         try(var store=new SqliteStore(database())) {store.transaction(connection->{assertEquals(archive,rows(connection,"SELECT * FROM story_definitions ORDER BY story,version,fingerprint"));assertEquals(3,archive.size());return null;});}
     }
 }

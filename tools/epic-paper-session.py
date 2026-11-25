@@ -1,0 +1,172 @@
+"""Run one isolated Paper boot and its clients with complete append-only evidence."""
+from pathlib import Path
+import argparse
+import hashlib
+import json
+import os
+import socket
+import subprocess
+import sys
+import threading
+import time
+import shutil
+
+ROOT = Path(__file__).resolve().parents[1]
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--run', type=Path, required=True)
+parser.add_argument('--java-home', type=Path, required=True)
+parser.add_argument('--node', type=Path, required=True)
+parser.add_argument('--boot', type=int, required=True)
+args = parser.parse_args()
+run = args.run.resolve()
+if run.parent != (ROOT / 'run').resolve() or not run.name.startswith('paper-epic-'):
+    raise SystemExit('Require an isolated epic run')
+manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
+for name, key in [('StarChronicle', 'plugin_sha256'), ('StarCore', 'starcore_sha256'), ('EpicCampaignPaperFixture', 'fixture_sha256')]:
+    if hashlib.sha256((run / f'plugins/{name}.jar').read_bytes()).hexdigest() != manifest[key]:
+        raise SystemExit('Frozen artifact drift: ' + name)
+probe = socket.socket()
+probe.bind(('127.0.0.1', manifest['server_port']))
+probe.close()
+flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
+prefix = run / f'evidence/boot{args.boot}'
+if prefix.with_suffix('.server.log').exists():
+    raise SystemExit('Refusing to overwrite a prior boot log')
+shutil.copy2(__file__, Path(str(prefix) + '.controller.py'))
+shutil.copy2(ROOT / 'tools/epic-paper-clients.cjs', Path(str(prefix) + '.clients.cjs'))
+handles = []
+observed = []
+condition = threading.Condition()
+
+
+def start(command, name):
+    process = subprocess.Popen(command, cwd=run, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT, text=True, encoding='utf-8', errors='replace',
+                               creationflags=flags, bufsize=1)
+    handles.append(process)
+    def read():
+        with Path(str(prefix) + f'.{name}.log').open('x', encoding='utf-8') as log:
+            for line in process.stdout:
+                log.write(line)
+                log.flush()
+                with condition:
+                    observed.append((name, line))
+                    condition.notify_all()
+                if name == 'clients' or any(word in line for word in ('EPIC_', 'Done (', 'ERROR', 'Exception', 'Stopping server')):
+                    print(name + ': ' + (line.rstrip()[:700] + (' [full record retained in log]' if len(line)>700 else '')), flush=True)
+        print(f'{name}: EXIT {process.wait()}', flush=True)
+    threading.Thread(target=read, daemon=True).start()
+    return process
+
+
+server = start([str(args.java_home / 'bin/java.exe'), '-Xms64m', '-Xmx384m', '-Xss512k',
+                '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1', '-XX:TieredStopAtLevel=1',
+                '-XX:ReservedCodeCacheSize=64m', '-XX:CompressedClassSpaceSize=64m', '-Dfile.encoding=UTF-8',
+                '-Dterminal.jline=false', '-Dterminal.ansi=false', '-jar', 'paper.jar', 'nogui'], 'server')
+clients = None
+print(json.dumps(dict(server_pid=server.pid, run=str(run), boot=args.boot)), flush=True)
+
+
+def await_lines(cursor, predicate, seconds=45):
+    deadline = time.monotonic() + seconds
+    with condition:
+        while True:
+            fresh = observed[cursor:]
+            failures = [line for name, line in fresh if 'EPIC_FAILED ' in line or '"kind":"FAILED"' in line]
+            if failures:
+                raise RuntimeError('Observed failure: ' + failures[-1])
+            if predicate(fresh):
+                return
+            if time.monotonic() >= deadline:
+                raise TimeoutError('No matching live observation within deadline')
+            condition.wait(min(1, deadline - time.monotonic()))
+
+
+def server_action(action):
+    cursor = len(observed)
+    server.stdin.write('epicverify ' + action + '\n'); server.stdin.flush()
+    name = action.split()[0]
+    await_lines(cursor, lambda lines: any('EPIC_ACTION_DONE ' in line and '"action":"' + name + '"' in line for _, line in lines))
+
+
+def client_action(action):
+    cursor = len(observed)
+    clients.stdin.write(action + '\n'); clients.stdin.flush()
+    name = action.split()[0]
+    await_lines(cursor, lambda lines: any('"kind":"ACTION_DONE"' in line and '"action":"' + name + '"' in line for _, line in lines))
+
+
+def scenario(phase):
+    global clients
+    await_lines(0, lambda lines: any('Done (' in line for _, line in lines) and any('EPIC_READY ' in line for _, line in lines), 180)
+    cursor = len(observed)
+    clients = start([str(args.node), '--max-old-space-size=192', str(ROOT / 'tools/epic-paper-clients.cjs'), str(run)], 'clients')
+    await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
+    server_action('seed')
+    if phase == 'first':
+        server_action('open')
+        for who in 'AB':
+            client_action('craft ' + who)
+            server_action('task-complete ' + who)
+        time.sleep(3)
+        server_action('preparations')
+        server_action('advance')
+        if manifest['route'] == 'DUNGEON':
+            for who in 'AB':
+                server_action('dungeon ' + who)
+                time.sleep(6)
+        else:
+            server_action('found')
+            server_action('declare')
+            server_action('end-war')
+        server_action('checkpoint')
+    elif phase == 'second':
+        server_action('final-evidence')
+        server_action('settle')
+        time.sleep(3)
+        server_action('check')
+        server_action('replay')
+        server_action('check')
+    elif phase == 'third':
+        server_action('check')
+        server_action('replay')
+        server_action('check')
+    else:
+        raise ValueError('first|second|third')
+    clients.stdin.write('quit\n'); clients.stdin.flush(); clients.wait(timeout=15)
+    server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
+    print('SCENARIO_COMPLETE ' + phase, flush=True)
+try:
+    for raw in sys.stdin:
+        line = raw.strip()
+        if line.startswith('scenario '):
+            scenario(line.split()[1])
+            break
+        elif line == 'clients start':
+            if clients is not None:
+                raise RuntimeError('Clients already started')
+            clients = start([str(args.node), '--max-old-space-size=192', str(ROOT / 'tools/epic-paper-clients.cjs'), str(run)], 'clients')
+        elif line.startswith('client '):
+            if clients is None:
+                raise RuntimeError('Clients are not started')
+            clients.stdin.write(line[7:] + '\n'); clients.stdin.flush()
+        elif line.startswith('server '):
+            if server.poll() is not None:
+                print('Server already exited: ' + str(server.returncode), flush=True)
+                break
+            server.stdin.write(line[7:] + '\n'); server.stdin.flush()
+            if line == 'server stop':
+                server.wait(timeout=60)
+                break
+        else:
+            print('Expected clients start | client ACTION | server COMMAND', flush=True)
+finally:
+    if clients is not None and clients.poll() is None:
+        clients.stdin.write('quit\n'); clients.stdin.flush()
+        try: clients.wait(timeout=15)
+        except subprocess.TimeoutExpired: clients.terminate()
+    if server.poll() is None:
+        server.stdin.write('stop\n'); server.stdin.flush()
+        try: server.wait(timeout=60)
+        except subprocess.TimeoutExpired:
+            print('Server did not stop normally; investigate retained PID ' + str(server.pid), flush=True)

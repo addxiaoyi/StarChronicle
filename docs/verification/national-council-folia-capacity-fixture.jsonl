@@ -1,0 +1,2 @@
+{"kind":"READY","time":"2026-11-19T23:13:03.090438200Z","value":{"authorityProviders":["io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthority"],"installedPlugins":["NationalCouncilFoliaFixture","StarChronicle"],"noDatabaseAccess":true,"noFabricatedNation":true,"plugin_sha256":"792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694","server_port":25604}}
+{"kind":"FAILED","time":"2026-11-19T23:14:15.221481200Z","value":{"error":"java.lang.IllegalStateException: Actual client is not online: PhaseTwoA","operation":"command"}}

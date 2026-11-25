@@ -1,0 +1,21 @@
+# Documentation only; keep this outside the loadable epic-campaigns directory.
+# Every operation uses EpicContract.operationId(campaign, instance, phase,
+# action, nation); UNKNOWN can only be reconciled by lookup, never resubmitted.
+campaignId: heir-strategy
+finalRoutePhaseId: heir-strategy-route
+routes:
+  WAR:
+    requirements:
+      - {type: NATION_FOUNDING, target: NEW_NATION_UUID, nativeReference: "NATION_FOUNDING_V1:<base64url-utf8-name>"}
+      - {type: WAR_COMMIT, target: DEFENDER_UUID, nativeReference: WAR_DECLARATION_V1}
+      - {type: FINAL_BATTLE, target: DEFENDER_UUID, nativeReference: "<committed-war-id>"}
+  DUNGEON:
+    requirements:
+      - {type: DUNGEON_COMPLETION, target: COOPERATIVE_RELIC, nativeReference: DUNGEON_RUN_V1}
+receiptRules:
+  requireMatchingOperationId: true
+  requireMatchingCampaignInstance: true
+  requireMatchingAuthorityDomain: true
+  requireAppliedAtAtOrAfterRequestedAt: true
+  unknownPolicy: keep-pending
+  retryPolicy: explicit-reconciliation-only

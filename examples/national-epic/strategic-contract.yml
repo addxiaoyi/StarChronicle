@@ -1,0 +1,34 @@
+# Optional integration contract for last-heir. This file is documentation for
+# a trusted integration and is not a standalone story definition.
+campaign: last-heir
+operationTypes:
+  relief:
+    type: TREASURY_AID
+    provider: starcore.treasury
+    permission: starcore.nation.bank.withdraw
+    completion: native-transfer-receipt
+  ruins:
+    type: QUEST_GATE
+    provider: starcore.quest.evidence.v1
+    quest: chronicle_heir_ruins
+    completion: committed-quest-receipt
+  treaty:
+    type: DIPLOMACY_INVITE
+    provider: starcore.diplomacy
+    permission: starcore.nation.ally.add
+    completion: native-invitation-receipt
+  final-battle:
+    type: FINAL_BATTLE
+    provider: starcore.war
+    completion: committed-war-outcome
+
+# Every operationId is derived from campaign, instance, phase, action and
+# payer nation. A provider must return a durable receipt before the integration
+# submits a follow-up NATIONAL_AID_COMMITTED, quest completion, diplomacy or
+# battle event. The story must remain pending on UNKNOWN or missing evidence.
+receiptRules:
+  requireMatchingOperationId: true
+  requireMatchingAuthorityDomain: true
+  requireAppliedAtAtOrAfterRequestedAt: true
+  unknownPolicy: keep-pending
+  retryPolicy: explicit-reconciliation-only

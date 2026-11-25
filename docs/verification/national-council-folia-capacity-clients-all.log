@@ -1,0 +1,12 @@
+2026-11-19T23:14:02.981Z CONNECTING {"boot":1,"player":"A","username":"PhaseTwoA"}
+2026-11-19T23:14:02.986Z CONNECTING {"boot":1,"player":"B","username":"PhaseTwoB"}
+2026-11-19T23:14:02.989Z CONNECTING {"boot":1,"player":"C","username":"PhaseTwoC"}
+2026-11-19T23:14:02.991Z CONNECTING {"boot":1,"player":"D","username":"PhaseTwoD"}
+2026-11-19T23:14:04.734Z KICKED {"boot":1,"player":"A","reason":{"type":"compound","value":{"translate":{"type":"string","value":"multiplayer.disconnect.server_full"}}}}
+2026-11-19T23:14:04.735Z ENDED {"boot":1,"player":"A","reason":"socketClosed"}
+2026-11-19T23:14:04.740Z KICKED {"boot":1,"player":"B","reason":{"type":"compound","value":{"translate":{"type":"string","value":"multiplayer.disconnect.server_full"}}}}
+2026-11-19T23:14:04.741Z KICKED {"boot":1,"player":"C","reason":{"type":"compound","value":{"translate":{"type":"string","value":"multiplayer.disconnect.server_full"}}}}
+2026-11-19T23:14:04.741Z KICKED {"boot":1,"player":"D","reason":{"type":"compound","value":{"translate":{"type":"string","value":"multiplayer.disconnect.server_full"}}}}
+2026-11-19T23:14:04.742Z ENDED {"boot":1,"player":"B","reason":"socketClosed"}
+2026-11-19T23:14:04.742Z ENDED {"boot":1,"player":"C","reason":"socketClosed"}
+2026-11-19T23:14:04.743Z ENDED {"boot":1,"player":"D","reason":"socketClosed"}

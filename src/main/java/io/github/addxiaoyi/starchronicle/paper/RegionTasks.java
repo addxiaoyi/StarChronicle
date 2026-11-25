@@ -4,6 +4,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +17,7 @@ public final class RegionTasks {
     public RegionTasks(JavaPlugin plugin) { this.plugin = plugin; }
     public void track(Player player) { players.put(player.getUniqueId(), player); }
     public void untrack(UUID id) { players.remove(id); }
+    public void untrack(Player player) { players.remove(player.getUniqueId(),player); }
     public boolean online(UUID id) { return players.containsKey(id); }
     public java.util.Set<UUID> onlineIds() { return java.util.Set.copyOf(players.keySet()); }
     public void global(Runnable action) {
@@ -23,12 +25,16 @@ public final class RegionTasks {
     }
     public void player(UUID id, Runnable action) { player(id, action, () -> {}); }
     public void player(UUID id, Runnable action, Runnable retired) {
+        playerOwned(id,ignored->action.run(),retired);
+    }
+    /** The callback receives the exact entity whose scheduler owns it, never a reconnect replacement. */
+    public void playerOwned(UUID id,Consumer<Player> action,Runnable retired) {
         if (stopped.get()) { retired.run(); return; }
         Player player = players.get(id);
         if (player == null) { retired.run(); return; }
         java.util.concurrent.atomic.AtomicBoolean invoked=new java.util.concurrent.atomic.AtomicBoolean();
         Runnable once=()->{if(invoked.compareAndSet(false,true))retired.run();};
-        if (!player.getScheduler().execute(plugin, ()->{if(stopped.get())once.run();else action.run();}, once, 1L)) once.run();
+        if (!player.getScheduler().execute(plugin, ()->{if(stopped.get()||players.get(id)!=player)once.run();else action.accept(player);}, once, 1L)) once.run();
     }
     /** Only call inside the matching player scheduler. */
     public Player current(UUID id) { return players.get(id); }

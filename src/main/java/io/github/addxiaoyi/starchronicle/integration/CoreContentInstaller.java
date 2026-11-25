@@ -15,9 +15,10 @@ import static io.github.addxiaoyi.starchronicle.integration.StarCoreBridge.call;
  * same-ID content or existing user file is overwritten. Native scenes are supplemental to the
  * Chronicle campaign GUI: upstream's base NarrativeEngine render hook is a no-op.
  *
- * <p>Custom native quests are explicit opt-in only: audited QuestModule restores player progress
- * before dependents can register templates, so their restart restoration is blocked upstream.
- * This installer never reinitializes the global QuestService or edits its persistence data.</p> */
+ * <p>Custom native quests remain explicit opt-in only. The plugin entry point requires the
+ * durable quest-evidence capability before enabling them; the original audited upstream lacks
+ * correct late-template restoration. This installer never reinitializes the global QuestService
+ * or edits its persistence data.</p> */
 public final class CoreContentInstaller implements AutoCloseable {
     private static final List<Bundle> BUNDLES=List.of(
             new Bundle("last-heir","chronicle_last_heir","chronicle_heir_records","继承证据的抄录","为旧都会议制作一份可核查的证据抄本。","PAPER",3),
@@ -102,7 +103,7 @@ public final class CoreContentInstaller implements AutoCloseable {
             if(optInNativeQuests&&blank(quest)&&quests.containsKey(bundle.quest())&&bridge.hasQuest(bundle.quest()))quest=bundle.quest();
             if(Objects.equals(script,first.script())&&Objects.equals(quest,first.quest())){result.add(story);continue;}
             Map<String,Node> nodes=new LinkedHashMap<>(story.nodes());nodes.put(story.start(),new Node(first.text(),script,quest,first.quorum(),first.choices(),first.effects(),first.terminal()));
-            result.add(new StoryDefinition(story.id(),story.version(),story.title(),story.scope(),story.triggers(),story.condition(),story.start(),story.cooldownSeconds(),nodes));
+            result.add(new StoryDefinition(story.id(),story.version(),story.title(),story.scope(),story.triggers(),story.condition(),story.start(),story.cooldownSeconds(),nodes,story.voteUnit()));
         }
         return List.copyOf(result);
     }
@@ -116,7 +117,7 @@ public final class CoreContentInstaller implements AutoCloseable {
                 if(existing!=null)return previous!=null&&previous.service()==service&&previous.quest()==existing?"INSTALLED":"FOREIGN_ID_PRESERVED";
                 Object quest=buildQuest(service.getClass().getClassLoader(),bundle);call(service,"registerQuest",quest);
                 if(call(service,"getQuest",bundle.quest())!=quest)return "REGISTRATION_UNCONFIRMED";
-                quests.put(bundle.quest(),new OwnedQuest(service,quest));return "INSTALLED_OPT_IN_RESTART_LIMITATION";
+                quests.put(bundle.quest(),new OwnedQuest(service,quest));return "INSTALLED_OPT_IN";
             }
         }catch(ReflectiveOperationException | RuntimeException ex){return "REJECTED:"+ex.getClass().getSimpleName();}
     }

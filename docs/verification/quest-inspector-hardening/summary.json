@@ -1,0 +1,18 @@
+{
+  "kind": "OFFLINE_INSPECTOR_REGRESSION",
+  "tests": 13,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "log_sha256": "8a4f7cb190feda0450b2336b7572cc8aeb4610d7666c1c766949d486a26ebb90",
+  "sources": {
+    "tools\\inspect-quest-evidence-paper.py": "a37e5d932b21e125d9eb5cd5b67244a96cea2c8d9c607c267055cee6ab29bddd",
+    "tools\\test_quest_evidence_contract.py": "39e472824908e026843eb87d7d4f370c4368ea2226d1bfc75ce063586b54287c"
+  },
+  "positive_scope": "Narrow canonical projection from unchanged real retry21 checkpoints; does not accept that failed full run.",
+  "rejections": {
+    "retry21": "Actual fixture FAILED record retained",
+    "retry24": "Boot 3 did not exit normally"
+  },
+  "runtime_started": false
+}

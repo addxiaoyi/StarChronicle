@@ -1,0 +1,9 @@
+{
+  "boot": 2,
+  "db_sha256": "143e904fe6912eba88f0abfcc3124b024eaa97d0f45462fdfa75e018a9c1d6bc",
+  "captured_utc": "2026-11-20T13:57:54.187323+00:00",
+  "product_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+  "fixture_sha256": "7fd3194fcb35a0e27192e38ef927111785c1a2f5f17250d895abe313f2c62a5d",
+  "server_exit": 0,
+  "client_exit": 0
+}

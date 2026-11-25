@@ -1,0 +1,2219 @@
+{
+  "source_sha256": "457590dded2f933d8e71976c5976ea65f54d60592ccbe10657a61e9036510d07",
+  "events": [
+    {
+      "kind": "READY",
+      "time": "2026-11-19T22:50:10.056721200Z",
+      "value": {
+        "noDatabaseAccess": true,
+        "product_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694",
+        "seeded": false
+      }
+    },
+    {
+      "kind": "READY",
+      "time": "2026-11-19T22:51:50.817157500Z",
+      "value": {
+        "noDatabaseAccess": true,
+        "product_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694",
+        "seeded": false
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T22:52:23.242131100Z",
+      "value": {
+        "admin": false,
+        "holder": true,
+        "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+        "op": false,
+        "player": "A",
+        "use": true,
+        "uuid": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T22:52:23.243738600Z",
+      "value": {
+        "admin": false,
+        "holder": true,
+        "nation": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+        "op": false,
+        "player": "B",
+        "use": true,
+        "uuid": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T22:52:23.243738600Z",
+      "value": {
+        "admin": false,
+        "holder": true,
+        "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+        "op": false,
+        "player": "C",
+        "use": true,
+        "uuid": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T22:52:23.244762500Z",
+      "value": {
+        "admin": false,
+        "holder": false,
+        "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+        "op": false,
+        "player": "D",
+        "use": true,
+        "uuid": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+      }
+    },
+    {
+      "kind": "SEEDED",
+      "time": "2026-11-19T22:52:23.244762500Z",
+      "value": {
+        "actualPlayers": 4,
+        "capturedCountries": {
+          "A": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "B": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "C": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+        },
+        "createdThisBoot": true
+      }
+    },
+    {
+      "kind": "SOURCE",
+      "time": "2026-11-19T22:52:37.951471700Z",
+      "value": {
+        "id": "national-paper:primary:1",
+        "type": "NATIONAL_PRIMARY_TEST",
+        "occurredAt": "2026-11-19T22:52:37.948855600Z",
+        "participants": [
+          "08ffd450-5001-3023-a480-057fef707037",
+          "140669be-0a1a-3206-a8b1-20d23a596b3a",
+          "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+          "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+        ],
+        "nations": [
+          "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+        ],
+        "facts": {
+          "fixture-only": "true"
+        },
+        "source": "NationalCouncilPaperFixture",
+        "evidence": "Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=primary"
+      }
+    },
+    {
+      "kind": "SUBMITTED",
+      "time": "2026-11-19T22:52:38.025744600Z",
+      "value": {
+        "duplicate": false,
+        "instances": [
+          "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d"
+        ],
+        "source": "national-paper:primary:1",
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "STATE",
+      "time": "2026-11-19T22:52:46.190295100Z",
+      "value": {
+        "player": "A",
+        "state": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": null,
+          "completed": false,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 0,
+          "representative": true,
+          "canVote": true,
+          "canWithdraw": false,
+          "message": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订",
+          "counts": {},
+          "ballots": []
+        },
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "EXPECTED_REJECTION",
+      "time": "2026-11-19T22:53:10.545250600Z",
+      "value": {
+        "action": "VOTE",
+        "choice": "yes",
+        "error": "java.util.concurrent.CompletionException: java.lang.SecurityException: Only the nation's current authoritative holder may cast its ballot",
+        "player": "D",
+        "revision": 1,
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "STATE",
+      "time": "2026-11-19T22:53:10.550447200Z",
+      "value": {
+        "player": "A",
+        "state": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": null,
+          "completed": false,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 1,
+          "representative": true,
+          "canVote": true,
+          "canWithdraw": true,
+          "message": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订",
+          "counts": {
+            "yes": 1
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 1,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "08ffd450-5001-3023-a480-057fef707037",
+              "checkedAt": "2026-11-19T22:52:56.598307900Z",
+              "authorityEvidence": "{\"actor\":\"08ffd450-5001-3023-a480-057fef707037\",\"checkedAt\":\"2026-11-19T22:52:56.598307900Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=08ffd450-5001-3023-a480-057fef707037; checkedAt=2026-11-19T22:52:56.598307900Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            }
+          ]
+        },
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "EXPECTED_REJECTION",
+      "time": "2026-11-19T22:53:10.554106500Z",
+      "value": {
+        "action": "VOTE",
+        "choice": "no",
+        "error": "java.util.concurrent.CompletionException: java.lang.IllegalStateException: National ballot revision changed; refresh before submitting",
+        "player": "A",
+        "revision": 0,
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "VOTE",
+      "time": "2026-11-19T22:53:21.953768400Z",
+      "value": {
+        "choice": "no",
+        "player": "B",
+        "report": {
+          "duplicate": false,
+          "instanceIds": [
+            "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d"
+          ],
+          "message": "国家立场已记录，一国一席 1/2"
+        },
+        "revision": 0,
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "NATIVE_TRANSFER",
+      "time": "2026-11-19T22:53:40.553963700Z",
+      "value": {
+        "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+        "new": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+        "old": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T22:53:40.555023Z",
+      "value": {
+        "admin": false,
+        "holder": false,
+        "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+        "op": false,
+        "player": "A",
+        "use": true,
+        "uuid": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T22:53:40.556035200Z",
+      "value": {
+        "admin": false,
+        "holder": true,
+        "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+        "op": false,
+        "player": "D",
+        "use": true,
+        "uuid": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+      }
+    },
+    {
+      "kind": "EXPECTED_REJECTION",
+      "time": "2026-11-19T22:53:49.598516100Z",
+      "value": {
+        "action": "VOTE",
+        "choice": "yes",
+        "error": "java.util.concurrent.CompletionException: java.lang.SecurityException: Only the nation's current authoritative holder may cast its ballot",
+        "player": "A",
+        "revision": 1,
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "WITHDRAW",
+      "time": "2026-11-19T22:53:49.607086Z",
+      "value": {
+        "choice": "",
+        "player": "B",
+        "report": {
+          "duplicate": false,
+          "instanceIds": [
+            "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d"
+          ],
+          "message": "已撤回本国立场并保存修订证据"
+        },
+        "revision": 1,
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "VOTE",
+      "time": "2026-11-19T22:53:59.103851100Z",
+      "value": {
+        "choice": "no",
+        "player": "D",
+        "report": {
+          "duplicate": false,
+          "instanceIds": [
+            "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d"
+          ],
+          "message": "国家立场已记录，一国一席 1/2"
+        },
+        "revision": 1,
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "WITHDRAW",
+      "time": "2026-11-19T22:54:06.901715200Z",
+      "value": {
+        "choice": "",
+        "player": "D",
+        "report": {
+          "duplicate": false,
+          "instanceIds": [
+            "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d"
+          ],
+          "message": "已撤回本国立场并保存修订证据"
+        },
+        "revision": 2,
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "VOTE",
+      "time": "2026-11-19T22:54:14.404031400Z",
+      "value": {
+        "choice": "yes",
+        "player": "D",
+        "report": {
+          "duplicate": false,
+          "instanceIds": [
+            "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d"
+          ],
+          "message": "国家立场已记录，一国一席 1/2"
+        },
+        "revision": 3,
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "FAILED",
+      "time": "2026-11-19T22:54:28.164921900Z",
+      "value": {
+        "error": "java.lang.IllegalStateException: Actual client must be connected: PhaseTwoD",
+        "operation": "check-pending"
+      }
+    },
+    {
+      "kind": "FAILED",
+      "time": "2026-11-19T22:54:28.165969400Z",
+      "value": {
+        "error": "java.lang.IllegalStateException: Actual client must be connected: PhaseTwoB",
+        "operation": "state"
+      }
+    },
+    {
+      "kind": "STATE",
+      "time": "2026-11-19T22:55:20.200391100Z",
+      "value": {
+        "player": "B",
+        "state": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": null,
+          "completed": false,
+          "viewerNationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "viewerRevision": 2,
+          "representative": true,
+          "canVote": true,
+          "canWithdraw": false,
+          "message": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订",
+          "counts": {
+            "yes": 1
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 2,
+              "choiceId": null,
+              "status": "WITHDRAWN",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:53:49.599287500Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:53:49.599287500Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:53:49.599287500Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        },
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "PENDING_CHECK_PASS",
+      "time": "2026-11-19T22:55:20.297983800Z",
+      "value": {
+        "A": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": null,
+          "completed": false,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 4,
+          "representative": false,
+          "canVote": false,
+          "canWithdraw": false,
+          "message": "只读记录；国家代表资格须由原生权威服务核验",
+          "counts": {
+            "yes": 1
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 2,
+              "choiceId": null,
+              "status": "WITHDRAWN",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:53:49.599287500Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:53:49.599287500Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:53:49.599287500Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        },
+        "B": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": null,
+          "completed": false,
+          "viewerNationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "viewerRevision": 2,
+          "representative": true,
+          "canVote": true,
+          "canWithdraw": false,
+          "message": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订",
+          "counts": {
+            "yes": 1
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 2,
+              "choiceId": null,
+              "status": "WITHDRAWN",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:53:49.599287500Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:53:49.599287500Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:53:49.599287500Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        },
+        "D": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": null,
+          "completed": false,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 4,
+          "representative": true,
+          "canVote": true,
+          "canWithdraw": true,
+          "message": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订",
+          "counts": {
+            "yes": 1
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 2,
+              "choiceId": null,
+              "status": "WITHDRAWN",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:53:49.599287500Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:53:49.599287500Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:53:49.599287500Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "READY",
+      "time": "2026-11-19T22:57:10.308418700Z",
+      "value": {
+        "noDatabaseAccess": true,
+        "product_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694",
+        "seeded": true
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T22:57:43.656850700Z",
+      "value": {
+        "admin": false,
+        "holder": false,
+        "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+        "op": false,
+        "player": "A",
+        "use": true,
+        "uuid": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T22:57:43.658923600Z",
+      "value": {
+        "admin": false,
+        "holder": true,
+        "nation": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+        "op": false,
+        "player": "B",
+        "use": true,
+        "uuid": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T22:57:43.659961900Z",
+      "value": {
+        "admin": false,
+        "holder": true,
+        "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+        "op": false,
+        "player": "C",
+        "use": true,
+        "uuid": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T22:57:43.659961900Z",
+      "value": {
+        "admin": false,
+        "holder": true,
+        "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+        "op": false,
+        "player": "D",
+        "use": true,
+        "uuid": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+      }
+    },
+    {
+      "kind": "SEEDED",
+      "time": "2026-11-19T22:57:43.661005600Z",
+      "value": {
+        "actualPlayers": 4,
+        "capturedCountries": {
+          "A": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "B": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "C": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+        },
+        "createdThisBoot": false
+      }
+    },
+    {
+      "kind": "PENDING_CHECK_PASS",
+      "time": "2026-11-19T22:57:52.396076700Z",
+      "value": {
+        "A": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": null,
+          "completed": false,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 4,
+          "representative": false,
+          "canVote": false,
+          "canWithdraw": false,
+          "message": "只读记录；国家代表资格须由原生权威服务核验",
+          "counts": {
+            "yes": 1
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 2,
+              "choiceId": null,
+              "status": "WITHDRAWN",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:53:49.599287500Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:53:49.599287500Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:53:49.599287500Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        },
+        "B": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": null,
+          "completed": false,
+          "viewerNationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "viewerRevision": 2,
+          "representative": true,
+          "canVote": true,
+          "canWithdraw": false,
+          "message": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订",
+          "counts": {
+            "yes": 1
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 2,
+              "choiceId": null,
+              "status": "WITHDRAWN",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:53:49.599287500Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:53:49.599287500Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:53:49.599287500Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        },
+        "D": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": null,
+          "completed": false,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 4,
+          "representative": true,
+          "canVote": true,
+          "canWithdraw": true,
+          "message": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订",
+          "counts": {
+            "yes": 1
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 2,
+              "choiceId": null,
+              "status": "WITHDRAWN",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:53:49.599287500Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:53:49.599287500Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:53:49.599287500Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "VOTE",
+      "time": "2026-11-19T22:58:02.274260200Z",
+      "value": {
+        "choice": "no",
+        "player": "B",
+        "report": {
+          "duplicate": false,
+          "instanceIds": [
+            "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d"
+          ],
+          "message": "国家立场已记录，一国一席 1/2"
+        },
+        "revision": 2,
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "HISTORY",
+      "time": "2026-11-19T22:58:34.749187600Z",
+      "value": [
+        {
+          "id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+          "type": "NATIONAL_COUNCIL_SMOKE_FINISHED",
+          "occurredAt": "2026-11-19T22:58:25.976174Z",
+          "participants": [
+            "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "08ffd450-5001-3023-a480-057fef707037",
+            "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          ],
+          "nations": [
+            "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          ],
+          "facts": {
+            "outcome": "The country council made its actual recorded decision.",
+            "story": "national-smoke-primary"
+          },
+          "source": "StarChronicle",
+          "evidence": "instance=5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d; action=node/done; effect=actual-national-ending; source=national-paper:primary:1"
+        },
+        {
+          "id": "national-paper:primary:1",
+          "type": "NATIONAL_PRIMARY_TEST",
+          "occurredAt": "2026-11-19T22:52:37.948855600Z",
+          "participants": [
+            "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "08ffd450-5001-3023-a480-057fef707037",
+            "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          ],
+          "nations": [
+            "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          ],
+          "facts": {
+            "fixture-only": "true"
+          },
+          "source": "NationalCouncilPaperFixture",
+          "evidence": "Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=primary"
+        },
+        {
+          "id": "starcore:nation-founded:6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+          "type": "NATION_FOUNDED",
+          "occurredAt": "2026-11-19T22:52:23.226Z",
+          "participants": [],
+          "nations": [
+            "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          ],
+          "facts": {
+            "nation.id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "title": "国家建立"
+          },
+          "source": "StarCore",
+          "evidence": "NationService.nations authoritative entity id=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; persisted foundedAt=2026-11-19T22:52:23.226Z; original founder not exposed; historical import may predate Chronicle installation"
+        },
+        {
+          "id": "starcore:nation-founded:75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "type": "NATION_FOUNDED",
+          "occurredAt": "2026-11-19T22:52:23.223Z",
+          "participants": [],
+          "nations": [
+            "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          ],
+          "facts": {
+            "nation.id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "title": "国家建立"
+          },
+          "source": "StarCore",
+          "evidence": "NationService.nations authoritative entity id=75cab410-280c-4e0e-b854-94c0f57f9dec; persisted foundedAt=2026-11-19T22:52:23.223Z; original founder not exposed; historical import may predate Chronicle installation"
+        },
+        {
+          "id": "starcore:nation-founded:421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "type": "NATION_FOUNDED",
+          "occurredAt": "2026-11-19T22:52:23.213Z",
+          "participants": [],
+          "nations": [
+            "421acafc-185a-4e1d-a20b-d6143a03ee22"
+          ],
+          "facts": {
+            "nation.id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "title": "国家建立"
+          },
+          "source": "StarCore",
+          "evidence": "NationService.nations authoritative entity id=421acafc-185a-4e1d-a20b-d6143a03ee22; persisted foundedAt=2026-11-19T22:52:23.213Z; original founder not exposed; historical import may predate Chronicle installation"
+        },
+        {
+          "id": "chronicle:arrival:28a86e57-337f-3ee8-8593-6eed0ce4d3d6:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:07.327964300Z",
+          "participants": [
+            "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+        },
+        {
+          "id": "chronicle:arrival:63e2bb34-acdd-360c-a4b5-57c748f2ef53:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:07.301939500Z",
+          "participants": [
+            "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+        },
+        {
+          "id": "chronicle:arrival:140669be-0a1a-3206-a8b1-20d23a596b3a:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:07.104307300Z",
+          "participants": [
+            "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=140669be-0a1a-3206-a8b1-20d23a596b3a"
+        },
+        {
+          "id": "chronicle:arrival:08ffd450-5001-3023-a480-057fef707037:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:06.969631200Z",
+          "participants": [
+            "08ffd450-5001-3023-a480-057fef707037"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=08ffd450-5001-3023-a480-057fef707037"
+        }
+      ]
+    },
+    {
+      "kind": "HISTORY",
+      "time": "2026-11-19T22:58:34.752850200Z",
+      "value": [
+        {
+          "id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+          "type": "NATIONAL_COUNCIL_SMOKE_FINISHED",
+          "occurredAt": "2026-11-19T22:58:25.976174Z",
+          "participants": [
+            "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "08ffd450-5001-3023-a480-057fef707037",
+            "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          ],
+          "nations": [
+            "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          ],
+          "facts": {
+            "outcome": "The country council made its actual recorded decision.",
+            "story": "national-smoke-primary"
+          },
+          "source": "StarChronicle",
+          "evidence": "instance=5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d; action=node/done; effect=actual-national-ending; source=national-paper:primary:1"
+        },
+        {
+          "id": "national-paper:primary:1",
+          "type": "NATIONAL_PRIMARY_TEST",
+          "occurredAt": "2026-11-19T22:52:37.948855600Z",
+          "participants": [
+            "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "08ffd450-5001-3023-a480-057fef707037",
+            "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          ],
+          "nations": [
+            "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          ],
+          "facts": {
+            "fixture-only": "true"
+          },
+          "source": "NationalCouncilPaperFixture",
+          "evidence": "Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=primary"
+        },
+        {
+          "id": "starcore:nation-founded:6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+          "type": "NATION_FOUNDED",
+          "occurredAt": "2026-11-19T22:52:23.226Z",
+          "participants": [],
+          "nations": [
+            "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          ],
+          "facts": {
+            "nation.id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "title": "国家建立"
+          },
+          "source": "StarCore",
+          "evidence": "NationService.nations authoritative entity id=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; persisted foundedAt=2026-11-19T22:52:23.226Z; original founder not exposed; historical import may predate Chronicle installation"
+        },
+        {
+          "id": "starcore:nation-founded:75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "type": "NATION_FOUNDED",
+          "occurredAt": "2026-11-19T22:52:23.223Z",
+          "participants": [],
+          "nations": [
+            "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          ],
+          "facts": {
+            "nation.id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "title": "国家建立"
+          },
+          "source": "StarCore",
+          "evidence": "NationService.nations authoritative entity id=75cab410-280c-4e0e-b854-94c0f57f9dec; persisted foundedAt=2026-11-19T22:52:23.223Z; original founder not exposed; historical import may predate Chronicle installation"
+        },
+        {
+          "id": "starcore:nation-founded:421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "type": "NATION_FOUNDED",
+          "occurredAt": "2026-11-19T22:52:23.213Z",
+          "participants": [],
+          "nations": [
+            "421acafc-185a-4e1d-a20b-d6143a03ee22"
+          ],
+          "facts": {
+            "nation.id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "title": "国家建立"
+          },
+          "source": "StarCore",
+          "evidence": "NationService.nations authoritative entity id=421acafc-185a-4e1d-a20b-d6143a03ee22; persisted foundedAt=2026-11-19T22:52:23.213Z; original founder not exposed; historical import may predate Chronicle installation"
+        },
+        {
+          "id": "chronicle:arrival:28a86e57-337f-3ee8-8593-6eed0ce4d3d6:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:07.327964300Z",
+          "participants": [
+            "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+        },
+        {
+          "id": "chronicle:arrival:63e2bb34-acdd-360c-a4b5-57c748f2ef53:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:07.301939500Z",
+          "participants": [
+            "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+        },
+        {
+          "id": "chronicle:arrival:140669be-0a1a-3206-a8b1-20d23a596b3a:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:07.104307300Z",
+          "participants": [
+            "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=140669be-0a1a-3206-a8b1-20d23a596b3a"
+        },
+        {
+          "id": "chronicle:arrival:08ffd450-5001-3023-a480-057fef707037:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:06.969631200Z",
+          "participants": [
+            "08ffd450-5001-3023-a480-057fef707037"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=08ffd450-5001-3023-a480-057fef707037"
+        }
+      ]
+    },
+    {
+      "kind": "FACTS",
+      "time": "2026-11-19T22:58:34.798019400Z",
+      "value": {
+        "facts": {
+          "past.nation.choice.national-smoke-primary/1/council": "yes",
+          "past.resolution.world.national-smoke-primary/1/council": "yes"
+        },
+        "player": "D"
+      }
+    },
+    {
+      "kind": "FATE",
+      "time": "2026-11-19T22:58:34.799601800Z",
+      "value": {
+        "facts": {
+          "npc.ancient-heir.growth": "0",
+          "npc.ancient-heir.hostility": "0",
+          "npc.ancient-heir.position": "claimant",
+          "npc.ancient-heir.reputation": "0",
+          "npc.ancient-heir.trust": "0",
+          "npc.caravan-archivist.growth": "0",
+          "npc.caravan-archivist.hostility": "0",
+          "npc.caravan-archivist.position": "archivist",
+          "npc.caravan-archivist.reputation": "0",
+          "npc.caravan-archivist.trust": "0",
+          "npc.siege-veteran.growth": "0",
+          "npc.siege-veteran.hostility": "0",
+          "npc.siege-veteran.position": "veteran",
+          "npc.siege-veteran.reputation": "0",
+          "npc.siege-veteran.trust": "0",
+          "player.honor": "7",
+          "player.role": "monarch"
+        },
+        "player": "D"
+      }
+    },
+    {
+      "kind": "FACTS",
+      "time": "2026-11-19T22:58:34.801685800Z",
+      "value": {
+        "facts": {
+          "past.nation.choice.national-smoke-primary/1/council": "no",
+          "past.resolution.world.national-smoke-primary/1/council": "yes"
+        },
+        "player": "B"
+      }
+    },
+    {
+      "kind": "FATE",
+      "time": "2026-11-19T22:58:34.802727300Z",
+      "value": {
+        "facts": {
+          "npc.ancient-heir.growth": "0",
+          "npc.ancient-heir.hostility": "0",
+          "npc.ancient-heir.position": "claimant",
+          "npc.ancient-heir.reputation": "0",
+          "npc.ancient-heir.trust": "0",
+          "npc.caravan-archivist.growth": "0",
+          "npc.caravan-archivist.hostility": "0",
+          "npc.caravan-archivist.position": "archivist",
+          "npc.caravan-archivist.reputation": "0",
+          "npc.caravan-archivist.trust": "0",
+          "npc.siege-veteran.growth": "0",
+          "npc.siege-veteran.hostility": "0",
+          "npc.siege-veteran.position": "veteran",
+          "npc.siege-veteran.reputation": "0",
+          "npc.siege-veteran.trust": "0",
+          "player.honor": "7",
+          "player.role": "monarch"
+        },
+        "player": "B"
+      }
+    },
+    {
+      "kind": "FROZEN_CHECK_PASS",
+      "time": "2026-11-19T22:58:34.940609700Z",
+      "value": {
+        "facts": {
+          "past.nation.choice.national-smoke-primary/1/council": "yes",
+          "past.resolution.world.national-smoke-primary/1/council": "yes"
+        },
+        "fate": {
+          "npc.ancient-heir.growth": "0",
+          "npc.ancient-heir.hostility": "0",
+          "npc.ancient-heir.position": "claimant",
+          "npc.ancient-heir.reputation": "0",
+          "npc.ancient-heir.trust": "0",
+          "npc.caravan-archivist.growth": "0",
+          "npc.caravan-archivist.hostility": "0",
+          "npc.caravan-archivist.position": "archivist",
+          "npc.caravan-archivist.reputation": "0",
+          "npc.caravan-archivist.trust": "0",
+          "npc.siege-veteran.growth": "0",
+          "npc.siege-veteran.hostility": "0",
+          "npc.siege-veteran.position": "veteran",
+          "npc.siege-veteran.reputation": "0",
+          "npc.siege-veteran.trust": "0",
+          "player.honor": "7",
+          "player.role": "monarch"
+        },
+        "state": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": "yes",
+          "completed": true,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 4,
+          "representative": true,
+          "canVote": false,
+          "canWithdraw": false,
+          "message": "决议为已冻结历史；国家后续变动不会重算历史",
+          "counts": {
+            "no": 1,
+            "yes": 2
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+              "revision": 1,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+              "checkedAt": "2026-11-19T22:58:25.940764700Z",
+              "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 3,
+              "choiceId": "no",
+              "status": "ACTIVE",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:58:02.243982800Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "CANONICAL_REPLAY_SOURCE",
+      "time": "2026-11-19T22:58:44.996377900Z",
+      "value": {
+        "id": "national-paper:primary:1",
+        "type": "NATIONAL_PRIMARY_TEST",
+        "occurredAt": "2026-11-19T22:52:37.948855600Z",
+        "participants": [
+          "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+          "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+          "08ffd450-5001-3023-a480-057fef707037",
+          "140669be-0a1a-3206-a8b1-20d23a596b3a"
+        ],
+        "nations": [
+          "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+        ],
+        "facts": {
+          "fixture-only": "true"
+        },
+        "source": "NationalCouncilPaperFixture",
+        "evidence": "Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=primary"
+      }
+    },
+    {
+      "kind": "REPLAY_DUPLICATE",
+      "time": "2026-11-19T22:58:45.042354800Z",
+      "value": {
+        "report": {
+          "duplicate": true,
+          "instanceIds": [],
+          "message": "事件已处理"
+        },
+        "source": "national-paper:primary:1"
+      }
+    },
+    {
+      "kind": "SOURCE",
+      "time": "2026-11-19T22:58:52.297432200Z",
+      "value": {
+        "id": "national-paper:invalidation:1",
+        "type": "NATIONAL_INVALIDATION_TEST",
+        "occurredAt": "2026-11-19T22:58:52.295387300Z",
+        "participants": [
+          "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+          "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+          "08ffd450-5001-3023-a480-057fef707037",
+          "140669be-0a1a-3206-a8b1-20d23a596b3a"
+        ],
+        "nations": [
+          "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+        ],
+        "facts": {
+          "fixture-only": "true"
+        },
+        "source": "NationalCouncilPaperFixture",
+        "evidence": "Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=invalidation"
+      }
+    },
+    {
+      "kind": "SUBMITTED",
+      "time": "2026-11-19T22:58:52.351871500Z",
+      "value": {
+        "duplicate": false,
+        "instances": [
+          "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868"
+        ],
+        "source": "national-paper:invalidation:1",
+        "story": "national-smoke-invalidation"
+      }
+    },
+    {
+      "kind": "FROZEN_CHECK_PASS",
+      "time": "2026-11-19T22:58:52.490877800Z",
+      "value": {
+        "facts": {
+          "past.nation.choice.national-smoke-primary/1/council": "yes",
+          "past.resolution.world.national-smoke-primary/1/council": "yes"
+        },
+        "fate": {
+          "npc.ancient-heir.growth": "0",
+          "npc.ancient-heir.hostility": "0",
+          "npc.ancient-heir.position": "claimant",
+          "npc.ancient-heir.reputation": "0",
+          "npc.ancient-heir.trust": "0",
+          "npc.caravan-archivist.growth": "0",
+          "npc.caravan-archivist.hostility": "0",
+          "npc.caravan-archivist.position": "archivist",
+          "npc.caravan-archivist.reputation": "0",
+          "npc.caravan-archivist.trust": "0",
+          "npc.siege-veteran.growth": "0",
+          "npc.siege-veteran.hostility": "0",
+          "npc.siege-veteran.position": "veteran",
+          "npc.siege-veteran.reputation": "0",
+          "npc.siege-veteran.trust": "0",
+          "player.honor": "7",
+          "player.role": "monarch"
+        },
+        "state": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": "yes",
+          "completed": true,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 4,
+          "representative": true,
+          "canVote": false,
+          "canWithdraw": false,
+          "message": "决议为已冻结历史；国家后续变动不会重算历史",
+          "counts": {
+            "no": 1,
+            "yes": 2
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+              "revision": 1,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+              "checkedAt": "2026-11-19T22:58:25.940764700Z",
+              "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 3,
+              "choiceId": "no",
+              "status": "ACTIVE",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:58:02.243982800Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "VOTE",
+      "time": "2026-11-19T22:59:04.247830100Z",
+      "value": {
+        "choice": "yes",
+        "player": "D",
+        "report": {
+          "duplicate": false,
+          "instanceIds": [
+            "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868"
+          ],
+          "message": "国家立场已记录，一国一席 1/3"
+        },
+        "revision": 0,
+        "story": "national-smoke-invalidation"
+      }
+    },
+    {
+      "kind": "VOTE",
+      "time": "2026-11-19T22:59:04.255585200Z",
+      "value": {
+        "choice": "yes",
+        "player": "B",
+        "report": {
+          "duplicate": false,
+          "instanceIds": [
+            "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868"
+          ],
+          "message": "国家立场已记录，一国一席 2/3"
+        },
+        "revision": 0,
+        "story": "national-smoke-invalidation"
+      }
+    },
+    {
+      "kind": "VOTE",
+      "time": "2026-11-19T22:59:04.263366900Z",
+      "value": {
+        "choice": "no",
+        "player": "C",
+        "report": {
+          "duplicate": false,
+          "instanceIds": [
+            "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868"
+          ],
+          "message": "国家立场已记录，一国一席 1/3"
+        },
+        "revision": 0,
+        "story": "national-smoke-invalidation"
+      }
+    },
+    {
+      "kind": "NATIVE_DISBAND",
+      "time": "2026-11-19T22:59:13.436629Z",
+      "value": {
+        "actualActor": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+        "nation": "75cab410-280c-4e0e-b854-94c0f57f9dec"
+      }
+    },
+    {
+      "kind": "VOTE",
+      "time": "2026-11-19T22:59:24.249586900Z",
+      "value": {
+        "choice": "yes",
+        "player": "D",
+        "report": {
+          "duplicate": false,
+          "instanceIds": [
+            "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868"
+          ],
+          "message": "国家立场已记录，一国一席 1/3"
+        },
+        "revision": 1,
+        "story": "national-smoke-invalidation"
+      }
+    },
+    {
+      "kind": "INVALIDATION_CHECK_PASS",
+      "time": "2026-11-19T22:59:32.744669100Z",
+      "value": {
+        "instanceId": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+        "nodeId": "council",
+        "quorum": 3,
+        "resolution": null,
+        "completed": false,
+        "viewerNationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+        "viewerRevision": 1,
+        "representative": true,
+        "canVote": true,
+        "canWithdraw": true,
+        "message": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订",
+        "counts": {
+          "no": 1,
+          "yes": 1
+        },
+        "ballots": [
+          {
+            "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "revision": 1,
+            "choiceId": "yes",
+            "status": "ACTIVE",
+            "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "checkedAt": "2026-11-19T22:59:04.241117200Z",
+            "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          },
+          {
+            "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "revision": 1,
+            "choiceId": "no",
+            "status": "ACTIVE",
+            "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "checkedAt": "2026-11-19T22:59:04.256620200Z",
+            "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+          },
+          {
+            "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "revision": 2,
+            "choiceId": null,
+            "status": "INVALIDATED",
+            "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "checkedAt": "2026-11-19T22:59:24.241756200Z",
+            "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "READY",
+      "time": "2026-11-19T23:01:03.581832800Z",
+      "value": {
+        "noDatabaseAccess": true,
+        "product_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694",
+        "seeded": true
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T23:02:02.591004300Z",
+      "value": {
+        "admin": false,
+        "holder": false,
+        "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+        "op": false,
+        "player": "A",
+        "use": true,
+        "uuid": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T23:02:02.592577Z",
+      "value": {
+        "admin": false,
+        "holder": false,
+        "nation": "",
+        "op": false,
+        "player": "B",
+        "use": true,
+        "uuid": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T23:02:02.593614200Z",
+      "value": {
+        "admin": false,
+        "holder": true,
+        "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+        "op": false,
+        "player": "C",
+        "use": true,
+        "uuid": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T23:02:02.593614200Z",
+      "value": {
+        "admin": false,
+        "holder": true,
+        "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+        "op": false,
+        "player": "D",
+        "use": true,
+        "uuid": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+      }
+    },
+    {
+      "kind": "SEEDED",
+      "time": "2026-11-19T23:02:02.594651200Z",
+      "value": {
+        "actualPlayers": 4,
+        "capturedCountries": {
+          "A": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "B": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "C": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+        },
+        "createdThisBoot": false
+      }
+    },
+    {
+      "kind": "INVALIDATION_CHECK_PASS",
+      "time": "2026-11-19T23:02:12.918159500Z",
+      "value": {
+        "instanceId": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+        "nodeId": "council",
+        "quorum": 3,
+        "resolution": null,
+        "completed": false,
+        "viewerNationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+        "viewerRevision": 1,
+        "representative": true,
+        "canVote": true,
+        "canWithdraw": true,
+        "message": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订",
+        "counts": {
+          "no": 1,
+          "yes": 1
+        },
+        "ballots": [
+          {
+            "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "revision": 1,
+            "choiceId": "yes",
+            "status": "ACTIVE",
+            "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "checkedAt": "2026-11-19T22:59:04.241117200Z",
+            "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          },
+          {
+            "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "revision": 1,
+            "choiceId": "no",
+            "status": "ACTIVE",
+            "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "checkedAt": "2026-11-19T22:59:04.256620200Z",
+            "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+          },
+          {
+            "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "revision": 2,
+            "choiceId": null,
+            "status": "INVALIDATED",
+            "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "checkedAt": "2026-11-19T22:59:24.241756200Z",
+            "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "FROZEN_CHECK_PASS",
+      "time": "2026-11-19T23:02:12.976639500Z",
+      "value": {
+        "facts": {
+          "past.nation.choice.national-smoke-primary/1/council": "yes",
+          "past.resolution.world.national-smoke-primary/1/council": "yes"
+        },
+        "fate": {
+          "npc.ancient-heir.growth": "0",
+          "npc.ancient-heir.hostility": "0",
+          "npc.ancient-heir.position": "claimant",
+          "npc.ancient-heir.reputation": "0",
+          "npc.ancient-heir.trust": "0",
+          "npc.caravan-archivist.growth": "0",
+          "npc.caravan-archivist.hostility": "0",
+          "npc.caravan-archivist.position": "archivist",
+          "npc.caravan-archivist.reputation": "0",
+          "npc.caravan-archivist.trust": "0",
+          "npc.siege-veteran.growth": "0",
+          "npc.siege-veteran.hostility": "0",
+          "npc.siege-veteran.position": "veteran",
+          "npc.siege-veteran.reputation": "0",
+          "npc.siege-veteran.trust": "0",
+          "player.honor": "7",
+          "player.role": "monarch"
+        },
+        "state": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": "yes",
+          "completed": true,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 4,
+          "representative": true,
+          "canVote": false,
+          "canWithdraw": false,
+          "message": "决议为已冻结历史；国家后续变动不会重算历史",
+          "counts": {
+            "no": 1,
+            "yes": 2
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+              "revision": 1,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+              "checkedAt": "2026-11-19T22:58:25.940764700Z",
+              "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 3,
+              "choiceId": "no",
+              "status": "ACTIVE",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:58:02.243982800Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "CANONICAL_REPLAY_SOURCE",
+      "time": "2026-11-19T23:02:28.333124300Z",
+      "value": {
+        "id": "national-paper:primary:1",
+        "type": "NATIONAL_PRIMARY_TEST",
+        "occurredAt": "2026-11-19T22:52:37.948855600Z",
+        "participants": [
+          "140669be-0a1a-3206-a8b1-20d23a596b3a",
+          "08ffd450-5001-3023-a480-057fef707037",
+          "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+          "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+        ],
+        "nations": [
+          "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+          "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "75cab410-280c-4e0e-b854-94c0f57f9dec"
+        ],
+        "facts": {
+          "fixture-only": "true"
+        },
+        "source": "NationalCouncilPaperFixture",
+        "evidence": "Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=primary"
+      }
+    },
+    {
+      "kind": "REPLAY_DUPLICATE",
+      "time": "2026-11-19T23:02:28.377215300Z",
+      "value": {
+        "report": {
+          "duplicate": true,
+          "instanceIds": [],
+          "message": "事件已处理"
+        },
+        "source": "national-paper:primary:1"
+      }
+    },
+    {
+      "kind": "EXPECTED_REJECTION",
+      "time": "2026-11-19T23:02:39.733284600Z",
+      "value": {
+        "action": "VOTE",
+        "choice": "yes",
+        "error": "java.util.concurrent.CompletionException: java.lang.IllegalStateException: 国家议事阶段已经结束",
+        "player": "D",
+        "revision": 4,
+        "story": "national-smoke-primary"
+      }
+    },
+    {
+      "kind": "FROZEN_CHECK_PASS",
+      "time": "2026-11-19T23:02:39.825046900Z",
+      "value": {
+        "facts": {
+          "past.nation.choice.national-smoke-primary/1/council": "yes",
+          "past.resolution.world.national-smoke-primary/1/council": "yes"
+        },
+        "fate": {
+          "npc.ancient-heir.growth": "0",
+          "npc.ancient-heir.hostility": "0",
+          "npc.ancient-heir.position": "claimant",
+          "npc.ancient-heir.reputation": "0",
+          "npc.ancient-heir.trust": "0",
+          "npc.caravan-archivist.growth": "0",
+          "npc.caravan-archivist.hostility": "0",
+          "npc.caravan-archivist.position": "archivist",
+          "npc.caravan-archivist.reputation": "0",
+          "npc.caravan-archivist.trust": "0",
+          "npc.siege-veteran.growth": "0",
+          "npc.siege-veteran.hostility": "0",
+          "npc.siege-veteran.position": "veteran",
+          "npc.siege-veteran.reputation": "0",
+          "npc.siege-veteran.trust": "0",
+          "player.honor": "7",
+          "player.role": "monarch"
+        },
+        "state": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": "yes",
+          "completed": true,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 4,
+          "representative": true,
+          "canVote": false,
+          "canWithdraw": false,
+          "message": "决议为已冻结历史；国家后续变动不会重算历史",
+          "counts": {
+            "no": 1,
+            "yes": 2
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+              "revision": 1,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+              "checkedAt": "2026-11-19T22:58:25.940764700Z",
+              "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 3,
+              "choiceId": "no",
+              "status": "ACTIVE",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:58:02.243982800Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "kind": "NATIVE_MOVE",
+      "time": "2026-11-19T23:03:05.746388500Z",
+      "value": {
+        "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+        "player": "A"
+      }
+    },
+    {
+      "kind": "NATIVE_TRANSFER",
+      "time": "2026-11-19T23:03:16.184107800Z",
+      "value": {
+        "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+        "new": "08ffd450-5001-3023-a480-057fef707037",
+        "old": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T23:03:16.185163800Z",
+      "value": {
+        "admin": false,
+        "holder": false,
+        "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+        "op": false,
+        "player": "C",
+        "use": true,
+        "uuid": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+      }
+    },
+    {
+      "kind": "IDENTITY",
+      "time": "2026-11-19T23:03:16.186238600Z",
+      "value": {
+        "admin": false,
+        "holder": true,
+        "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+        "op": false,
+        "player": "A",
+        "use": true,
+        "uuid": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "kind": "HISTORY",
+      "time": "2026-11-19T23:03:27.330918300Z",
+      "value": [
+        {
+          "id": "observation:04f1789382047d52:2:cc3e1e607476a989bd1e27374d54727b0040ce3d25b6e430795683dffa59d847",
+          "type": "NATION_DESTROYED",
+          "occurredAt": "2026-11-19T22:59:14.792Z",
+          "participants": [],
+          "nations": [
+            "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          ],
+          "facts": {
+            "after": "<absent>",
+            "before": "PRESENT",
+            "nation.id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "observation.key": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "observation.namespace": "starcore.nations",
+            "observation.sequence": "2",
+            "time_basis": "OBSERVED",
+            "title": "国家消失（权威快照观察）"
+          },
+          "source": "StarCore.NationModule.nations",
+          "evidence": "source=StarCore.NationModule.nations; complete authority snapshot; namespace=starcore.nations; sequence=2; key=75cab410-280c-4e0e-b854-94c0f57f9dec; before=PRESENT; after=<absent>; observationInterval=[2026-11-19T22:52:25.065Z,2026-11-19T22:59:14.792Z]; exact mutation time and actor unknown; Native NationModule.nations() list copied under its mutation monitor; absence means no longer present, not a known destruction cause"
+        },
+        {
+          "id": "national-paper:invalidation:1",
+          "type": "NATIONAL_INVALIDATION_TEST",
+          "occurredAt": "2026-11-19T22:58:52.295387300Z",
+          "participants": [
+            "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "08ffd450-5001-3023-a480-057fef707037",
+            "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+          ],
+          "nations": [
+            "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          ],
+          "facts": {
+            "fixture-only": "true"
+          },
+          "source": "NationalCouncilPaperFixture",
+          "evidence": "Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=invalidation"
+        },
+        {
+          "id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+          "type": "NATIONAL_COUNCIL_SMOKE_FINISHED",
+          "occurredAt": "2026-11-19T22:58:25.976174Z",
+          "participants": [
+            "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "08ffd450-5001-3023-a480-057fef707037",
+            "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+          ],
+          "nations": [
+            "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          ],
+          "facts": {
+            "outcome": "The country council made its actual recorded decision.",
+            "story": "national-smoke-primary"
+          },
+          "source": "StarChronicle",
+          "evidence": "instance=5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d; action=node/done; effect=actual-national-ending; source=national-paper:primary:1"
+        },
+        {
+          "id": "national-paper:primary:1",
+          "type": "NATIONAL_PRIMARY_TEST",
+          "occurredAt": "2026-11-19T22:52:37.948855600Z",
+          "participants": [
+            "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "08ffd450-5001-3023-a480-057fef707037",
+            "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+          ],
+          "nations": [
+            "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          ],
+          "facts": {
+            "fixture-only": "true"
+          },
+          "source": "NationalCouncilPaperFixture",
+          "evidence": "Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=primary"
+        },
+        {
+          "id": "starcore:nation-founded:6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+          "type": "NATION_FOUNDED",
+          "occurredAt": "2026-11-19T22:52:23.226Z",
+          "participants": [],
+          "nations": [
+            "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          ],
+          "facts": {
+            "nation.id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "title": "国家建立"
+          },
+          "source": "StarCore",
+          "evidence": "NationService.nations authoritative entity id=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; persisted foundedAt=2026-11-19T22:52:23.226Z; original founder not exposed; historical import may predate Chronicle installation"
+        },
+        {
+          "id": "starcore:nation-founded:75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "type": "NATION_FOUNDED",
+          "occurredAt": "2026-11-19T22:52:23.223Z",
+          "participants": [],
+          "nations": [
+            "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          ],
+          "facts": {
+            "nation.id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "title": "国家建立"
+          },
+          "source": "StarCore",
+          "evidence": "NationService.nations authoritative entity id=75cab410-280c-4e0e-b854-94c0f57f9dec; persisted foundedAt=2026-11-19T22:52:23.223Z; original founder not exposed; historical import may predate Chronicle installation"
+        },
+        {
+          "id": "starcore:nation-founded:421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "type": "NATION_FOUNDED",
+          "occurredAt": "2026-11-19T22:52:23.213Z",
+          "participants": [],
+          "nations": [
+            "421acafc-185a-4e1d-a20b-d6143a03ee22"
+          ],
+          "facts": {
+            "nation.id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "title": "国家建立"
+          },
+          "source": "StarCore",
+          "evidence": "NationService.nations authoritative entity id=421acafc-185a-4e1d-a20b-d6143a03ee22; persisted foundedAt=2026-11-19T22:52:23.213Z; original founder not exposed; historical import may predate Chronicle installation"
+        },
+        {
+          "id": "chronicle:arrival:28a86e57-337f-3ee8-8593-6eed0ce4d3d6:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:07.327964300Z",
+          "participants": [
+            "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+        },
+        {
+          "id": "chronicle:arrival:63e2bb34-acdd-360c-a4b5-57c748f2ef53:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:07.301939500Z",
+          "participants": [
+            "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+        },
+        {
+          "id": "chronicle:arrival:140669be-0a1a-3206-a8b1-20d23a596b3a:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:07.104307300Z",
+          "participants": [
+            "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=140669be-0a1a-3206-a8b1-20d23a596b3a"
+        },
+        {
+          "id": "chronicle:arrival:08ffd450-5001-3023-a480-057fef707037:2026-11-19",
+          "type": "PLAYER_JOIN",
+          "occurredAt": "2026-11-19T22:52:06.969631200Z",
+          "participants": [
+            "08ffd450-5001-3023-a480-057fef707037"
+          ],
+          "nations": [],
+          "facts": {
+            "day": "2026-11-19",
+            "time_basis": "OBSERVED"
+          },
+          "source": "StarChronicle.PlayerJoinEvent",
+          "evidence": "First observed player arrival for UTC day=2026-11-19; player=08ffd450-5001-3023-a480-057fef707037"
+        }
+      ]
+    },
+    {
+      "kind": "FACTS",
+      "time": "2026-11-19T23:03:27.381639Z",
+      "value": {
+        "facts": {
+          "past.nation.choice.national-smoke-primary/1/council": "yes",
+          "past.resolution.world.national-smoke-primary/1/council": "yes"
+        },
+        "player": "D"
+      }
+    },
+    {
+      "kind": "FATE",
+      "time": "2026-11-19T23:03:27.382674600Z",
+      "value": {
+        "facts": {
+          "npc.ancient-heir.growth": "0",
+          "npc.ancient-heir.hostility": "0",
+          "npc.ancient-heir.position": "claimant",
+          "npc.ancient-heir.reputation": "0",
+          "npc.ancient-heir.trust": "0",
+          "npc.caravan-archivist.growth": "0",
+          "npc.caravan-archivist.hostility": "0",
+          "npc.caravan-archivist.position": "archivist",
+          "npc.caravan-archivist.reputation": "0",
+          "npc.caravan-archivist.trust": "0",
+          "npc.siege-veteran.growth": "0",
+          "npc.siege-veteran.hostility": "0",
+          "npc.siege-veteran.position": "veteran",
+          "npc.siege-veteran.reputation": "0",
+          "npc.siege-veteran.trust": "0",
+          "player.honor": "7",
+          "player.role": "monarch"
+        },
+        "player": "D"
+      }
+    },
+    {
+      "kind": "EXPECTED_REJECTION",
+      "time": "2026-11-19T23:03:27.427474Z",
+      "value": {
+        "action": "VOTE",
+        "choice": "yes",
+        "error": "java.util.concurrent.CompletionException: java.lang.SecurityException: 国籍已变化，请由管理员审核成员资格",
+        "player": "A",
+        "revision": 1,
+        "story": "national-smoke-invalidation"
+      }
+    },
+    {
+      "kind": "STATE",
+      "time": "2026-11-19T23:03:27.430585100Z",
+      "value": {
+        "player": "A",
+        "state": {
+          "instanceId": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+          "nodeId": "council",
+          "quorum": 3,
+          "resolution": null,
+          "completed": false,
+          "viewerNationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+          "viewerRevision": 1,
+          "representative": true,
+          "canVote": false,
+          "canWithdraw": false,
+          "message": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订",
+          "counts": {
+            "no": 1,
+            "yes": 1
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 1,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:59:04.241117200Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+              "revision": 1,
+              "choiceId": "no",
+              "status": "ACTIVE",
+              "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+              "checkedAt": "2026-11-19T22:59:04.256620200Z",
+              "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 2,
+              "choiceId": null,
+              "status": "INVALIDATED",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:59:24.241756200Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            }
+          ]
+        },
+        "story": "national-smoke-invalidation"
+      }
+    },
+    {
+      "kind": "INVALIDATION_CHECK_PASS",
+      "time": "2026-11-19T23:03:27.433189900Z",
+      "value": {
+        "instanceId": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+        "nodeId": "council",
+        "quorum": 3,
+        "resolution": null,
+        "completed": false,
+        "viewerNationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+        "viewerRevision": 1,
+        "representative": false,
+        "canVote": false,
+        "canWithdraw": false,
+        "message": "只读记录；国家代表资格须由原生权威服务核验",
+        "counts": {
+          "no": 1,
+          "yes": 1
+        },
+        "ballots": [
+          {
+            "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "revision": 1,
+            "choiceId": "yes",
+            "status": "ACTIVE",
+            "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "checkedAt": "2026-11-19T22:59:04.241117200Z",
+            "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          },
+          {
+            "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "revision": 1,
+            "choiceId": "no",
+            "status": "ACTIVE",
+            "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "checkedAt": "2026-11-19T22:59:04.256620200Z",
+            "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+          },
+          {
+            "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "revision": 2,
+            "choiceId": null,
+            "status": "INVALIDATED",
+            "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "checkedAt": "2026-11-19T22:59:24.241756200Z",
+            "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "STATE",
+      "time": "2026-11-19T23:03:27.437338200Z",
+      "value": {
+        "player": "D",
+        "state": {
+          "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+          "nodeId": "council",
+          "quorum": 2,
+          "resolution": "yes",
+          "completed": true,
+          "viewerNationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "viewerRevision": 4,
+          "representative": true,
+          "canVote": false,
+          "canWithdraw": false,
+          "message": "决议为已冻结历史；国家后续变动不会重算历史",
+          "counts": {
+            "no": 1,
+            "yes": 2
+          },
+          "ballots": [
+            {
+              "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "revision": 4,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+              "checkedAt": "2026-11-19T22:54:14.395244Z",
+              "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+            },
+            {
+              "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+              "revision": 1,
+              "choiceId": "yes",
+              "status": "ACTIVE",
+              "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+              "checkedAt": "2026-11-19T22:58:25.940764700Z",
+              "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+            },
+            {
+              "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "revision": 3,
+              "choiceId": "no",
+              "status": "ACTIVE",
+              "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+              "checkedAt": "2026-11-19T22:58:02.243982800Z",
+              "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+            }
+          ]
+        },
+        "story": "national-smoke-primary"
+      }
+    }
+  ]
+}

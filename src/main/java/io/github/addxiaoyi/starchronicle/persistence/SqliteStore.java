@@ -3,14 +3,21 @@ package io.github.addxiaoyi.starchronicle.persistence;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.github.addxiaoyi.starchronicle.core.ChoiceLedger;
+import io.github.addxiaoyi.starchronicle.core.AidLedger;
+import io.github.addxiaoyi.starchronicle.core.MemberReviewLedger;
+import io.github.addxiaoyi.starchronicle.core.ContributionLedger;
 import io.github.addxiaoyi.starchronicle.core.DefinitionCatalog;
+import io.github.addxiaoyi.starchronicle.core.NationalVoteLedger;
+import io.github.addxiaoyi.starchronicle.core.QuestGateLedger;
+import io.github.addxiaoyi.starchronicle.core.EpicCampaignLedger;
 import io.github.addxiaoyi.starchronicle.history.EventCausality;
+import io.github.addxiaoyi.starchronicle.memory.MemoryRecipeLedger;
 import java.nio.file.*;
 import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    public static final int SCHEMA_VERSION=4;
+    public static final int SCHEMA_VERSION=7;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;
@@ -45,13 +52,23 @@ public final class SqliteStore implements AutoCloseable {
                 s.execute("CREATE TABLE IF NOT EXISTS native_scene_journal(id TEXT PRIMARY KEY,player TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('READY','RUNNING','UNKNOWN','COMPLETED')),revision INTEGER NOT NULL,json TEXT NOT NULL)");
                 s.execute("CREATE INDEX IF NOT EXISTS native_scene_player_status ON native_scene_journal(player,status,id)");
                 ChoiceLedger.createSchema(connection);
+                NationalVoteLedger.createSchema(connection);
+                QuestGateLedger.createSchema(connection);
                 EventCausality.createSchema(connection);
+                if(oldVersion<7)EventCausality.migrateRecipePath(connection);
+                MemoryRecipeLedger.createSchema(connection);
+                AidLedger.createSchema(connection);
+                MemberReviewLedger.createSchema(connection);
+                ContributionLedger.createSchema(connection);
+                EpicCampaignLedger.createSchema(connection);
                 DefinitionCatalog.createSchema(connection);
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);
                 if(oldVersion<4)DefinitionCatalog.migrateSnapshots(connection);
+                if(oldVersion<5)DefinitionCatalog.migrateCanonicalV2(connection);
                 s.execute("PRAGMA user_version="+SCHEMA_VERSION);
                 // A process may have died after a non-idempotent external call. Never replay it blindly.
                 s.execute("UPDATE outcomes SET status='UNKNOWN' WHERE status='RUNNING'");
+                s.execute("UPDATE aid_attempts SET status='UNKNOWN',detail='Process restarted after native aid admission; receipt reconciliation required' WHERE status='ADMITTED'");
                 connection.commit();
             }
             connection.setAutoCommit(true);

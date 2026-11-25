@@ -1,0 +1,85 @@
+id: last-heir-strategy
+version: "1"
+title: "帝国最后的继承人：国家战略链"
+scope: WORLD
+voteUnit: NATION
+triggers: [EPIC_SIGNUP_COMMITTED]
+condition: {fact: event.epic.signup_campaign, op: eq, value: heir-strategy}
+cooldownSeconds: 0
+start: investigation
+nodes:
+  investigation:
+    text: "冻结名单中的各国代表先复核继承档案。每个国家必须由原生任务服务发出一次已提交的证据抄录回执；接取任务、制作物品或管理员确认都不能替代完成凭证。援助、资源、外交和路线操作会分别记录在本战役账本中。"
+    quorum: 2
+    effects:
+      - {id: records-evidence, type: quest.await, target: chronicle_heir_records, value: NATION, permission: starchronicle.use}
+    choices:
+      submit-records:
+        label: "提交本国已完成的继承档案抄录回执"
+        permission: starchronicle.use
+        next: council
+  council:
+    text: "各国现在记录政治立场。支持继承主张与保留现有主权都可以形成国家议决，但只有账本中所有准备阶段的原生回执齐全后，最终路线才开放。"
+    quorum: 2
+    choices:
+      support:
+        label: "支持继承主张，并要求公开援助账目"
+        permission: starchronicle.use
+        next: preparations
+        effects:
+          - {id: strategy-support, type: history, target: HEIR_STRATEGY_SUPPORT_RECORDED, value: "国家议会支持继续审查继承主张，并要求所有援助与外交操作保留原生凭证。"}
+      sovereignty:
+        label: "保留现有主权立场，继续共同救济"
+        permission: starchronicle.use
+        next: preparations
+        effects:
+          - {id: strategy-sovereignty, type: history, target: HEIR_STRATEGY_SOVEREIGNTY_RECORDED, value: "国家议会保留现有主权立场，同意继续核验援助、外交和任务凭证。"}
+  preparations:
+    text: "国家战略账本正在等待每一项真实准备：证据抄录任务、10.00 国库援助、10 单位 agricultural 资源转移，以及外交邀请和对方接受。账本中的 UNKNOWN 状态必须先对账，不能重发或由投票跳过。"
+    quorum: 2
+    choices:
+      ready:
+        label: "确认本国已查阅准备阶段账本"
+        permission: starchronicle.use
+        condition: {fact: epic.preparations.ready, op: eq, value: "true"}
+        next: route
+  route:
+    text: "只有冻结名单中的国家全部完成准备，且每国一票的路线决议达到严格多数，才可选择国战或合作副本。路线批准只产生政治决议；真实建国、宣战、战斗或副本完成仍须通过原生服务。"
+    quorum: 2
+    choices:
+      WAR:
+        label: "批准复国与国战路线"
+        permission: starchronicle.use
+        condition: {fact: epic.route.war.open, op: eq, value: "true"}
+        next: war-await
+        effects:
+          - {id: war-route, type: history, target: HEIR_STRATEGY_WAR_ROUTE_APPROVED, value: "冻结报名国以严格多数批准国战路线；建国、宣战和最终战斗等待真实回执。"}
+      DUNGEON:
+        label: "批准合作遗迹副本路线"
+        permission: starchronicle.use
+        condition: {fact: epic.route.dungeon.open, op: eq, value: "true"}
+        next: dungeon-await
+        effects:
+          - {id: dungeon-route, type: history, target: HEIR_STRATEGY_DUNGEON_ROUTE_APPROVED, value: "冻结报名国以严格多数批准合作副本路线；最终结算等待真实完成记录。"}
+  war-await:
+    text: "国战路线已获批准。请由可信集成依次登记同一 campaign 的建国、宣战和最终战斗回执。只有提交了 canonical 战争结果后，旧都结算档案才会开放。"
+    choices:
+      settle:
+        label: "登记已提交的国战结算回执"
+        permission: starchronicle.use
+        condition: {fact: epic.final.war_committed, op: eq, value: "true"}
+        next: settled
+  dungeon-await:
+    text: "合作路线已获批准。请在实际配置的副本中完成遗迹行动，并登记持久成功完成记录；副本 ID、玩家、国家和完成时间都必须匹配冻结合同。"
+    choices:
+      settle:
+        label: "登记已提交的副本完成回执"
+        permission: starchronicle.use
+        condition: {fact: epic.final.dungeon_committed, op: eq, value: "true"}
+        next: settled
+  settled:
+    text: "战役的原生结算回执已经进入历史。结算记录只描述实际收到的 authority 凭证；它不会把路线投票、援助承诺或任务提案改写成未经提交的国家状态。"
+    terminal: true
+    effects:
+      - {id: strategy-settled, type: history, target: HEIR_STRATEGY_SETTLED, value: "《帝国最后的继承人》国家战略链已依据 canonical 原生结算回执完成。"}
+      - {id: strategy-memory, type: memory, target: old-imperial-capital.strategy, value: settled-by-native-receipts}

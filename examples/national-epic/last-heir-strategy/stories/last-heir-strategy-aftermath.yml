@@ -1,0 +1,27 @@
+id: last-heir-strategy-aftermath
+version: "1"
+title: "旧都结算档案：每一份回执"
+scope: PLAYER
+triggers: [HEIR_STRATEGY_SETTLED]
+condition:
+  all:
+    - any:
+        - {fact: past.resolution.world.last-heir-strategy/1/war-await, op: eq, value: settle}
+        - {fact: past.resolution.world.last-heir-strategy/1/dungeon-await, op: eq, value: settle}
+    - {fact: event.epic.final.canonical, op: eq, value: "true"}
+cooldownSeconds: 0
+start: archive
+nodes:
+  archive:
+    text: "你阅读的是已完成国家战略的公开结算。档案分别保留任务、援助、外交、建国、战争或副本的原生回执，不把个人投票或承诺当作国家事实。"
+    choices:
+      witness:
+        label: "保存我的结算见证"
+        permission: starchronicle.use
+        next: witnessed
+  witnessed:
+    text: "你的见证已写入旧都档案。任何缺少 authority 回执的步骤仍保持待核验状态。"
+    terminal: true
+    effects:
+      - {id: aftermath-witness, type: history, target: HEIR_STRATEGY_AFTERMATH_READ, value: "一位参与者核对了国家战略链的 canonical 结算档案。"}
+      - {id: aftermath-title, type: title, target: strategy-archive-witness, value: "战略档案见证者"}

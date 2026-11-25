@@ -1,5 +1,11 @@
 # StarChronicle 扩展 API
 
+## 国家史诗
+
+`ChronicleService` 提供 `epicCampaignPlans`、`openEpicSignup`、`epicSignup`、`enrollEpicSignup`、`withdrawEpicSignup`、`sealEpicSignup`、`epicCampaign`、`voteEpicRoute`、`prepareEpicOperation`、`epicOperation`、`applyEpicOperation`、`reconcileEpicOperation` 和 `epicProviders`。身份由插件重新采集，修订号来自状态查询。
+
+`EpicOperationProvider.supports` 在准备前检查能力。apply 之前先持久占位；不确定结果只查原生回执。provider ID 和 authority domain 固定在操作中，服务注销后旧响应失效。`verifyEpicReceipt` 仅检查 DTO 匹配，不能证明外部传入凭证的真实性。详见 [国家史诗契约](NATIONAL-EPIC-CONTRACT.md)。
+
 包名前缀：`io.github.addxiaoyi.starchronicle`。源码 API 为第一阶段 `0.1.0-SNAPSHOT`，未承诺二进制稳定；跨插件部署应固定构建版本。StarChronicle 负责长期编排、共同阶段与历史，StarCore 继续拥有 NarrativeEngine、原任务执行和国家权威状态。
 
 ## Bukkit 跨插件服务入口
@@ -16,7 +22,9 @@ if (chronicle != null) {
 }
 ```
 
-`ChronicleService` 暴露异步 `submit`、`join`、`choose`、`instances`、`activeInstances`、`availableInstances`、`availableChoices`、`history`、`npc(playerId,npcId)`、`fate(playerId)` 和 `describe(template,publicFacts)`。运行时会自己收集在线玩家的当前权威快照；集成方不能通过该 API 注入自填国籍或权限。`activeInstances()` 是可信服务器插件的管理查询，GUI 应使用 `availableInstances(playerId)` 避免泄露其他国家或个人实例。
+`ChronicleService` 暴露异步 `submit`、`join`、`choose`、`instances`、`activeInstances`、`availableInstances`、`availableChoices`、`history`、`questGateState(instanceId,playerId)`、`npc(playerId,npcId)`、`fate(playerId)` 和 `describe(template,publicFacts)`。运行时会自己收集在线玩家的当前权威快照；集成方不能通过该 API 注入自填国籍或权限。`activeInstances()` 是可信服务器插件的管理查询，GUI 应使用 `availableInstances(playerId)` 避免泄露其他国家或个人实例。
+
+`questGateState` 是只读投影，要求玩家已是该实例成员并仍保持实例记录的原国籍。个人模式只显示本人任务门槛；国家模式只向同一原国家成员显示。它不接受完成回执，不执行任务、不作出剧情选择，也不代表国家席位。配置使用 `quest.await` 前需有可信的 `QuestEvidenceProvider`，不能将 `quest.accept` 投递成功或目标达标解释为完成。完整 provider/run/completion 合同与 StarCore 部署边界见 [QUEST-GATES.md](QUEST-GATES.md)。
 
 对交互界面，应调用带阶段令牌的版本：
 
@@ -59,6 +67,8 @@ public interface ContextContributor {
 内置角色来源为国家创建者映射 `monarch`、可识别的国家成员 rank，以及管理员明确授予的 `starchronicle.identity.soldier/general/merchant/scholar/explorer/diplomat/mayor/monarch`。这些身份权限不是玩家可以自行选择的职业菜单，也不会因 AI 对话而授予。
 
 ## 核心输入：已提交世界事件
+
+内置的首访探索来源可通过 `exploration.enabled` 与显式 cuboid 区域配置启用。每个地区需配置稳定的小写 `id`、世界 UUID 和包含边界的整数方块坐标。插件只记录玩家真实移动或传送进入该区域的首次观察，写入玩家、当前可信国籍、方块坐标和 `time_basis=OBSERVED`。持久指纹将逻辑 ID 绑定到世界和边界，不能把原 ID 静默用于另一块区域。默认关闭；它覆盖已配置方块区域，不代表自动发现任意世界地形。
 
 ```java
 public record WorldEvent(
@@ -229,4 +239,29 @@ schema 3 的选择迁移在保留 V1/V2 原数据的基础上，同事务创建�
 
 `ChronicleService.evaluateHistorical(sourceEventId, storyId, expectedVersion)` 返回 `CompletionStage<HistoricalEvaluationReport>`。它仅为已保存canonical来源登记一个当前启用的精确剧情版本，不接收任意定义、玩家上下文或替换事件，也不立即执行效果。`QUEUED / ALREADY_REGISTERED / NO_SOURCE_AUDIENCE / BLOCKED_CAUSAL` 含义及原始历史保护见 [CONTINUOUS-NARRATIVE.md](CONTINUOUS-NARRATIVE.md)。命令 `/chronicle evaluate <事件ID> <剧情ID> <版本>` 要求管理权限；可信插件API保留现有服务端信任边界。
 
-当前schema为4。`DefinitionCatalog` 仅包含正式接受的有效定义或真实旧快照，以ID／版本／canonical指纹保存冲突变体；`require(id, version)` 精确解析，缺失／歧义抛异常。`ConfigLoader.load(..., catalog)`、`validateAll(definitions, catalog)`支持退休版本；两阶段加载先做单文件校验，再绑定原生内容，最后由RuleEngine事务校验和归档。纯validate不归档。已有原生执行、国家权限、UNKNOWN对账与Folia边界不变。
+schema 5 的版本目录迁移保留原始 JSON／SHA 与来源，新增格式 sidecar 记录 V1→V2 语义关系，默认 `voteUnit: PLAYER` 不改变旧剧情计票。schema 6 增加 `quest_gates` 与完成消费表，不重编码 V1–V5 数据；实际迁移与全量构建结果见 `TEST-REPORT.md`，目标服务器仍须基于停服备份复验。`DefinitionCatalog` 仅包含正式接受的有效定义或真实旧快照，以 ID／版本／canonical 指纹保存冲突变体；`require(id, version)` 精确解析，缺失／歧义抛异常。`ConfigLoader.load(..., catalog)`、`validateAll(definitions, catalog)`支持退休版本；两阶段加载先做单文件校验，再绑定原生内容，最后由 RuleEngine 事务校验和归档。纯 validate 不归档。已有原生执行、国家权限、UNKNOWN 对账与 Folia 边界不变。
+
+## 国家席位与修订令牌
+
+`voteUnit: NATION` 使用独立的国家动作账本，一国在一个实例节点只有一席。界面先读取 `nationalState(instanceId, playerId)`，再将该页面的 `nodeId`、`viewerRevision` 原样传给 `nationalVote(instanceId, playerId, expectedNode, expectedRevision, choiceId)` 或 `withdrawNationalVote(instanceId, playerId, expectedNode, expectedRevision)`。旧 `choose` 两个重载拒绝国家表决，不能通过省略令牌绕过CAS。API仅接受玩家UUID，当前国籍和权限由服务收集。
+
+正式代表权由 `NationalVoteAuthority` 提供，内置适配器在实际 StarCore NationModule 的同步边界内验证当前国家持有人。OP、职业、称号和自填facts不能提供代表资格。缺少服务时仍可查看已加入实例的只读票据；提交默认拒绝。已记录票数只代表最近成功核验的投影，下一次提交会重新核验所有计票国家。冻结决议不因后续灭国而重算。
+
+`past.nation.choice.STORY/VERSION/NODE` 读取当前真实国家在已完成国家剧情中的最新动作；撤回／失效产生缺失值，不回退更早支持。它不是代表个人的 `past.player.choice`，也不替代 WORLD／NATION实例各自的 `past.resolution.*`。完整格式、国家服务合同、配置示例与运维边界见 [国家议事协议](NATIONAL-COUNCIL.md)。
+
+## 国家援助与国库回执
+
+`ChronicleService.submitAid(AidRequest)` 只允许通过内置 StarCore treasury `AidProvider` 执行一次国家间转账；`reconcileAid(AidRequest)` 是显式的只读回执对账入口。服务会固定 provider/domain、验证当前 actor 和国家提款权限，并以 `(issuer, outcomeId)` 作为幂等键。原生回执未严格匹配前不会写入历史、贡献或剧情结果。
+
+台账会持久化 `READY`、`ADMITTED`、`UNKNOWN`、`COMMITTED` 和 `REJECTED`。重启后的 `ADMITTED` 进入 `UNKNOWN`，不会自动重试；原生拒绝只有在查询明确返回 `ABSENT` 后才会落为 `REJECTED`。StarCore 缺少可信 `authorityDomainId` 时援助服务保持停用。接口字段、回执匹配规则和配置示例见 [国家援助与国库对账](NATIONAL-AID.md)。
+
+
+## 自动世界记忆配方（schema 7）
+
+`ChronicleService.memoryEntries(String regionId, int page, int size)` 异步只读查询已登记条目，`regionId=null` 查询全部，页从 0 起，size 为 1–100。返回 `MemoryEntry` 的来源／信号 ID、配方版本和指纹、固定地区、纯文本、`sourceOccurredAt` 与 `recordedAt`。既有历史 API／GUI 可查询 `WORLD_MEMORY_RECORDED`；没有手动完成、补发奖励或远程施工能力。
+
+`RuleEngine` 新的六参构造及 `reload(stories, memoryRecipes)`、`validate(stories, memoryRecipes)` 把两套有效配置放在同一 SQL 验证／归档／发布过程。原构造默认空配方目录；原 `reload(stories)` 保留当前配方。纯 validate 不归档。更改同 ID／版本的配方内容会拒绝，启用开关不进入内容指纹；删除／停用不删条目或本地投影，新版本不自动重算旧来源。
+
+schema 7 仅在原因果表追加默认空的 `recipe_path` 并新增定义、条目与配方拦截表。`EventCausality.Trace(parent, root, depth, stories)` 仍兼容；五参形式增加真实 recipes 路径，depth 是两个路径长度之和。源事件 facts 无权设定此路径。故事／配方重复 ID（跨版本）与总深度 32 均拦截；每个顶层 SQL 操作最多生成 256 条配方信号，所有分支共享预算。拦截保留真实源历史与可查询原因，不自动在后续轮询补发。
+
+信号按来源事件的真实 actors／nations 和显式 GLOBAL 受众继承，不添加旁观国民。只有存在 recipe 因果路径的故事结果才可沿 canonical 来源复制已存在的 region.id／city.id，并附 region.source_event；旧无 recipe 的故事 payload 不变。完整配置、线程、时间、字段上限与生产边界见 [MEMORY-RECIPES.md](MEMORY-RECIPES.md)。这项本地叙事登记不代表已经部署上游国家权威能力或取得全栈 Folia 验收。

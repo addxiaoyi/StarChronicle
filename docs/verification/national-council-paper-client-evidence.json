@@ -1,0 +1,4370 @@
+{
+  "source_sha256": "52998805c1839efeeeeec47bc9dcba4283e24f5259ca39ce8024817728413b5b",
+  "events": [
+    {
+      "line": 1,
+      "time": "2026-11-19T22:52:04.341Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "username": "PhaseTwoA"
+      }
+    },
+    {
+      "line": 2,
+      "time": "2026-11-19T22:52:04.361Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 1,
+        "player": "B",
+        "username": "PhaseTwoB"
+      }
+    },
+    {
+      "line": 3,
+      "time": "2026-11-19T22:52:04.364Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 1,
+        "player": "C",
+        "username": "PhaseTwoC"
+      }
+    },
+    {
+      "line": 4,
+      "time": "2026-11-19T22:52:04.366Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "username": "PhaseTwoD"
+      }
+    },
+    {
+      "line": 62,
+      "time": "2026-11-19T22:52:07.245Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 1,
+        "player": "C",
+        "username": "PhaseTwoC",
+        "uuid": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+      }
+    },
+    {
+      "line": 65,
+      "time": "2026-11-19T22:52:07.247Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "username": "PhaseTwoA",
+        "uuid": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "line": 125,
+      "time": "2026-11-19T22:52:07.544Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 1,
+        "player": "B",
+        "username": "PhaseTwoB",
+        "uuid": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+      }
+    },
+    {
+      "line": 127,
+      "time": "2026-11-19T22:52:07.721Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "username": "PhaseTwoD",
+        "uuid": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+      }
+    },
+    {
+      "line": 131,
+      "time": "2026-11-19T22:52:46.002Z",
+      "kind": "SENT",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "message": "/chronicle stories"
+      }
+    },
+    {
+      "line": 132,
+      "time": "2026-11-19T22:52:46.107Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "id": 1,
+        "title": {
+          "type": "string",
+          "value": "共同书写历史 · 1"
+        },
+        "items": 4
+      }
+    },
+    {
+      "line": 133,
+      "time": "2026-11-19T22:52:46.110Z",
+      "kind": "CLICKED",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "slot": 0,
+        "windowTitle": {
+          "type": "string",
+          "value": "共同书写历史 · 1"
+        },
+        "matchedName": "National smoke primary"
+      }
+    },
+    {
+      "line": 134,
+      "time": "2026-11-19T22:52:46.409Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "id": 2,
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "items": 11
+      }
+    },
+    {
+      "line": 135,
+      "time": "2026-11-19T22:52:56.588Z",
+      "kind": "CLIENT_VIEW",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "window": {
+          "id": 2,
+          "title": {
+            "type": "string",
+            "value": "国家议会 · National smoke primary"
+          },
+          "slots": [
+            {
+              "slot": 0,
+              "name": "paper",
+              "label": "剧情文本",
+              "lore": [
+                "A formal country seat requires the cur",
+                "rent native holder. Ordinary witnesses",
+                " have no national vote."
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "剧情文本"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "A formal country seat requires the cur"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "rent native holder. Ordinary witnesses"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": " have no national vote."
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 1,
+              "name": "white_banner",
+              "label": "国家票规则",
+              "lore": [
+                "国家票不等于代表本人或全体国民的个人意愿。",
+                "计数仅为已记录投影；最终落定会重新核验国家存续。",
+                "已冻结或已完成的票不能更改。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "国家票规则"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票不等于代表本人或全体国民的个人意愿。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "计数仅为已记录投影；最终落定会重新核验国家存续。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "已冻结或已完成的票不能更改。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 2,
+              "name": "player_head",
+              "label": "你的国家代表资格",
+              "lore": [
+                "当前核验国家: 421acafc-185a-4e1d-a20b-d6143a",
+                "03ee22",
+                "国家票修订号: 0",
+                "当前真实国家持有人资格已核验。",
+                "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "你的国家代表资格"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前核验国家: 421acafc-185a-4e1d-a20b-d6143a"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "03ee22"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票修订号: 0"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前真实国家持有人资格已核验。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 4,
+              "name": "written_book",
+              "label": "National smoke primary",
+              "lore": [
+                "实例: 5a1c500e7f07558e6cd888e909caf2e0f8",
+                "e2548a256e07603b704ee0b872f68d",
+                "当前阶段: council",
+                "国家票节点: council",
+                "一国一席；法定国家席数: 2"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "National smoke primary"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "实例: 5a1c500e7f07558e6cd888e909caf2e0f8"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "e2548a256e07603b704ee0b872f68d"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前阶段: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票节点: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "一国一席；法定国家席数: 2"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "written_book_content",
+                  "data": {
+                    "rawTitle": "",
+                    "author": "",
+                    "generation": 0,
+                    "pages": [],
+                    "resolved": false
+                  }
+                }
+              ]
+            },
+            {
+              "slot": 6,
+              "name": "clock",
+              "label": "已记录票投影",
+              "lore": [
+                "暂无已记录的有效国家票。",
+                "落定结果: 尚未落定"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "已记录票投影"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "暂无已记录的有效国家票。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "落定结果: 尚未落定"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 9,
+              "name": "lime_dye",
+              "label": "Oppose as a country",
+              "lore": [
+                "国家选项: no",
+                "节点: council",
+                "修订号: 0",
+                "提交时重新核验真实持有人和国家存续。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "Oppose as a country"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家选项: no"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "节点: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "修订号: 0"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "提交时重新核验真实持有人和国家存续。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 10,
+              "name": "lime_dye",
+              "label": "Support as a country",
+              "lore": [
+                "国家选项: yes",
+                "节点: council",
+                "修订号: 0",
+                "提交时重新核验真实持有人和国家存续。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "Support as a country"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家选项: yes"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "节点: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "修订号: 0"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "提交时重新核验真实持有人和国家存续。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 47,
+              "name": "book",
+              "label": "各国已记录票",
+              "lore": [
+                "查看每国修订号、状态和提交者。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "各国已记录票"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "查看每国修订号、状态和提交者。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 48,
+              "name": "compass",
+              "label": "刷新资格与票数",
+              "lore": [
+                "刷新不会自动代替旧修订号提交。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "刷新资格与票数"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "刷新不会自动代替旧修订号提交。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 49,
+              "name": "arrow",
+              "label": "返回剧情列表",
+              "lore": [],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "返回剧情列表"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "line": 136,
+      "time": "2026-11-19T22:52:56.589Z",
+      "kind": "CHOICES_VERIFIED",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "choices": [
+          "no",
+          "yes"
+        ]
+      }
+    },
+    {
+      "line": 137,
+      "time": "2026-11-19T22:52:56.590Z",
+      "kind": "CLICKED",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "slot": 10,
+        "windowTitle": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "choice": "yes",
+        "matchedName": "Support as a country"
+      }
+    },
+    {
+      "line": 139,
+      "time": "2026-11-19T22:52:56.852Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "id": 3,
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "items": 12
+      }
+    },
+    {
+      "line": 140,
+      "time": "2026-11-19T22:53:10.421Z",
+      "kind": "SENT",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "message": "/chronicle stories"
+      }
+    },
+    {
+      "line": 141,
+      "time": "2026-11-19T22:53:10.502Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "id": 1,
+        "title": {
+          "type": "string",
+          "value": "共同书写历史 · 1"
+        },
+        "items": 4
+      }
+    },
+    {
+      "line": 142,
+      "time": "2026-11-19T22:53:10.503Z",
+      "kind": "CLICKED",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "slot": 0,
+        "windowTitle": {
+          "type": "string",
+          "value": "共同书写历史 · 1"
+        },
+        "matchedName": "National smoke primary"
+      }
+    },
+    {
+      "line": 143,
+      "time": "2026-11-19T22:53:10.702Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "id": 2,
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "items": 10
+      }
+    },
+    {
+      "line": 144,
+      "time": "2026-11-19T22:53:21.803Z",
+      "kind": "CHOICES_VERIFIED",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "choices": []
+      }
+    },
+    {
+      "line": 145,
+      "time": "2026-11-19T22:53:21.803Z",
+      "kind": "CLIENT_VIEW",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "window": {
+          "id": 2,
+          "title": {
+            "type": "string",
+            "value": "国家议会 · National smoke primary"
+          },
+          "slots": [
+            {
+              "slot": 0,
+              "name": "paper",
+              "label": "剧情文本",
+              "lore": [
+                "A formal country seat requires the cur",
+                "rent native holder. Ordinary witnesses",
+                " have no national vote."
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "剧情文本"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "A formal country seat requires the cur"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "rent native holder. Ordinary witnesses"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": " have no national vote."
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 1,
+              "name": "white_banner",
+              "label": "国家票规则",
+              "lore": [
+                "国家票不等于代表本人或全体国民的个人意愿。",
+                "计数仅为已记录投影；最终落定会重新核验国家存续。",
+                "已冻结或已完成的票不能更改。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "国家票规则"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票不等于代表本人或全体国民的个人意愿。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "计数仅为已记录投影；最终落定会重新核验国家存续。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "已冻结或已完成的票不能更改。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 2,
+              "name": "player_head",
+              "label": "你的国家代表资格",
+              "lore": [
+                "当前核验国家: 421acafc-185a-4e1d-a20b-d6143a",
+                "03ee22",
+                "国家票修订号: 1",
+                "当前没有已核验的国家代表资格，可旁观已记录票。",
+                "只读记录；国家代表资格须由原生权威服务核验"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "你的国家代表资格"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前核验国家: 421acafc-185a-4e1d-a20b-d6143a"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "03ee22"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票修订号: 1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前没有已核验的国家代表资格，可旁观已记录票。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "只读记录；国家代表资格须由原生权威服务核验"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 4,
+              "name": "written_book",
+              "label": "National smoke primary",
+              "lore": [
+                "实例: 5a1c500e7f07558e6cd888e909caf2e0f8",
+                "e2548a256e07603b704ee0b872f68d",
+                "当前阶段: council",
+                "国家票节点: council",
+                "一国一席；法定国家席数: 2"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "National smoke primary"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "实例: 5a1c500e7f07558e6cd888e909caf2e0f8"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "e2548a256e07603b704ee0b872f68d"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前阶段: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票节点: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "一国一席；法定国家席数: 2"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "written_book_content",
+                  "data": {
+                    "rawTitle": "",
+                    "author": "",
+                    "generation": 0,
+                    "pages": [],
+                    "resolved": false
+                  }
+                }
+              ]
+            },
+            {
+              "slot": 6,
+              "name": "clock",
+              "label": "已记录票投影",
+              "lore": [
+                "yes: 1",
+                "落定结果: 尚未落定"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "已记录票投影"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "yes: 1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "落定结果: 尚未落定"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 31,
+              "name": "paper",
+              "label": "当前仅可旁观",
+              "lore": [
+                "只读记录；国家代表资格须由原生权威服务核验"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "当前仅可旁观"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "只读记录；国家代表资格须由原生权威服务核验"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 47,
+              "name": "book",
+              "label": "各国已记录票",
+              "lore": [
+                "查看每国修订号、状态和提交者。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "各国已记录票"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "查看每国修订号、状态和提交者。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 48,
+              "name": "compass",
+              "label": "刷新资格与票数",
+              "lore": [
+                "刷新不会自动代替旧修订号提交。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "刷新资格与票数"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "刷新不会自动代替旧修订号提交。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 49,
+              "name": "arrow",
+              "label": "返回剧情列表",
+              "lore": [],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "返回剧情列表"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "line": 146,
+      "time": "2026-11-19T22:53:49.491Z",
+      "kind": "CLICKED",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "slot": 9,
+        "windowTitle": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "choice": "no",
+        "matchedName": "Oppose as a country"
+      }
+    },
+    {
+      "line": 148,
+      "time": "2026-11-19T22:53:49.700Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "id": 4,
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "items": 10
+      }
+    },
+    {
+      "line": 149,
+      "time": "2026-11-19T22:54:27.964Z",
+      "kind": "CHOICES_VERIFIED",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "choices": []
+      }
+    },
+    {
+      "line": 150,
+      "time": "2026-11-19T22:54:27.969Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 151,
+      "time": "2026-11-19T22:54:27.970Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 1,
+        "player": "B",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 152,
+      "time": "2026-11-19T22:54:27.971Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 1,
+        "player": "C",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 153,
+      "time": "2026-11-19T22:54:27.971Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 154,
+      "time": "2026-11-19T22:55:01.502Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "username": "PhaseTwoA"
+      }
+    },
+    {
+      "line": 155,
+      "time": "2026-11-19T22:55:01.507Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 1,
+        "player": "B",
+        "username": "PhaseTwoB"
+      }
+    },
+    {
+      "line": 156,
+      "time": "2026-11-19T22:55:01.510Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 1,
+        "player": "C",
+        "username": "PhaseTwoC"
+      }
+    },
+    {
+      "line": 157,
+      "time": "2026-11-19T22:55:01.512Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "username": "PhaseTwoD"
+      }
+    },
+    {
+      "line": 185,
+      "time": "2026-11-19T22:55:02.172Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "username": "PhaseTwoA",
+        "uuid": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "line": 273,
+      "time": "2026-11-19T22:55:02.260Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 1,
+        "player": "B",
+        "username": "PhaseTwoB",
+        "uuid": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+      }
+    },
+    {
+      "line": 274,
+      "time": "2026-11-19T22:55:02.261Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "username": "PhaseTwoD",
+        "uuid": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+      }
+    },
+    {
+      "line": 275,
+      "time": "2026-11-19T22:55:02.262Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 1,
+        "player": "C",
+        "username": "PhaseTwoC",
+        "uuid": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+      }
+    },
+    {
+      "line": 276,
+      "time": "2026-11-19T22:55:38.157Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 1,
+        "player": "A",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 277,
+      "time": "2026-11-19T22:55:38.159Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 1,
+        "player": "B",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 278,
+      "time": "2026-11-19T22:55:38.159Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 1,
+        "player": "C",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 279,
+      "time": "2026-11-19T22:55:38.160Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 1,
+        "player": "D",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 280,
+      "time": "2026-11-19T22:57:29.016Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 2,
+        "player": "A",
+        "username": "PhaseTwoA"
+      }
+    },
+    {
+      "line": 281,
+      "time": "2026-11-19T22:57:29.020Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 2,
+        "player": "B",
+        "username": "PhaseTwoB"
+      }
+    },
+    {
+      "line": 282,
+      "time": "2026-11-19T22:57:29.023Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 2,
+        "player": "C",
+        "username": "PhaseTwoC"
+      }
+    },
+    {
+      "line": 283,
+      "time": "2026-11-19T22:57:29.025Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 2,
+        "player": "D",
+        "username": "PhaseTwoD"
+      }
+    },
+    {
+      "line": 398,
+      "time": "2026-11-19T22:57:31.534Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 2,
+        "player": "D",
+        "username": "PhaseTwoD",
+        "uuid": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+      }
+    },
+    {
+      "line": 399,
+      "time": "2026-11-19T22:57:31.537Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 2,
+        "player": "C",
+        "username": "PhaseTwoC",
+        "uuid": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+      }
+    },
+    {
+      "line": 400,
+      "time": "2026-11-19T22:57:31.538Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 2,
+        "player": "B",
+        "username": "PhaseTwoB",
+        "uuid": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+      }
+    },
+    {
+      "line": 401,
+      "time": "2026-11-19T22:57:31.539Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 2,
+        "player": "A",
+        "username": "PhaseTwoA",
+        "uuid": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "line": 402,
+      "time": "2026-11-19T22:58:13.492Z",
+      "kind": "SENT",
+      "value": {
+        "boot": 2,
+        "player": "C",
+        "message": "/chronicle stories"
+      }
+    },
+    {
+      "line": 403,
+      "time": "2026-11-19T22:58:13.606Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 2,
+        "player": "C",
+        "id": 1,
+        "title": {
+          "type": "string",
+          "value": "共同书写历史 · 1"
+        },
+        "items": 4
+      }
+    },
+    {
+      "line": 404,
+      "time": "2026-11-19T22:58:13.609Z",
+      "kind": "CLICKED",
+      "value": {
+        "boot": 2,
+        "player": "C",
+        "slot": 0,
+        "windowTitle": {
+          "type": "string",
+          "value": "共同书写历史 · 1"
+        },
+        "matchedName": "National smoke primary"
+      }
+    },
+    {
+      "line": 405,
+      "time": "2026-11-19T22:58:13.854Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 2,
+        "player": "C",
+        "id": 2,
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "items": 11
+      }
+    },
+    {
+      "line": 406,
+      "time": "2026-11-19T22:58:25.894Z",
+      "kind": "CLIENT_VIEW",
+      "value": {
+        "boot": 2,
+        "player": "C",
+        "window": {
+          "id": 2,
+          "title": {
+            "type": "string",
+            "value": "国家议会 · National smoke primary"
+          },
+          "slots": [
+            {
+              "slot": 0,
+              "name": "paper",
+              "label": "剧情文本",
+              "lore": [
+                "A formal country seat requires the cur",
+                "rent native holder. Ordinary witnesses",
+                " have no national vote."
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "剧情文本"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "A formal country seat requires the cur"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "rent native holder. Ordinary witnesses"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": " have no national vote."
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 1,
+              "name": "white_banner",
+              "label": "国家票规则",
+              "lore": [
+                "国家票不等于代表本人或全体国民的个人意愿。",
+                "计数仅为已记录投影；最终落定会重新核验国家存续。",
+                "已冻结或已完成的票不能更改。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "国家票规则"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票不等于代表本人或全体国民的个人意愿。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "计数仅为已记录投影；最终落定会重新核验国家存续。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "已冻结或已完成的票不能更改。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 2,
+              "name": "player_head",
+              "label": "你的国家代表资格",
+              "lore": [
+                "当前核验国家: 6030ce13-0f3c-4ff0-9efc-c26336",
+                "47d7f7",
+                "国家票修订号: 0",
+                "当前真实国家持有人资格已核验。",
+                "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "你的国家代表资格"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前核验国家: 6030ce13-0f3c-4ff0-9efc-c26336"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "47d7f7"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票修订号: 0"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前真实国家持有人资格已核验。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 4,
+              "name": "written_book",
+              "label": "National smoke primary",
+              "lore": [
+                "实例: 5a1c500e7f07558e6cd888e909caf2e0f8",
+                "e2548a256e07603b704ee0b872f68d",
+                "当前阶段: council",
+                "国家票节点: council",
+                "一国一席；法定国家席数: 2"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "National smoke primary"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "实例: 5a1c500e7f07558e6cd888e909caf2e0f8"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "e2548a256e07603b704ee0b872f68d"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前阶段: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票节点: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "一国一席；法定国家席数: 2"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "written_book_content",
+                  "data": {
+                    "rawTitle": "",
+                    "author": "",
+                    "generation": 0,
+                    "pages": [],
+                    "resolved": false
+                  }
+                }
+              ]
+            },
+            {
+              "slot": 6,
+              "name": "clock",
+              "label": "已记录票投影",
+              "lore": [
+                "no: 1",
+                "yes: 1",
+                "落定结果: 尚未落定"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "已记录票投影"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "no: 1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "yes: 1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "落定结果: 尚未落定"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 9,
+              "name": "lime_dye",
+              "label": "Oppose as a country",
+              "lore": [
+                "国家选项: no",
+                "节点: council",
+                "修订号: 0",
+                "提交时重新核验真实持有人和国家存续。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "Oppose as a country"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家选项: no"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "节点: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "修订号: 0"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "提交时重新核验真实持有人和国家存续。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 10,
+              "name": "lime_dye",
+              "label": "Support as a country",
+              "lore": [
+                "国家选项: yes",
+                "节点: council",
+                "修订号: 0",
+                "提交时重新核验真实持有人和国家存续。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "Support as a country"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家选项: yes"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "节点: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "修订号: 0"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "提交时重新核验真实持有人和国家存续。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 47,
+              "name": "book",
+              "label": "各国已记录票",
+              "lore": [
+                "查看每国修订号、状态和提交者。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "各国已记录票"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "查看每国修订号、状态和提交者。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 48,
+              "name": "compass",
+              "label": "刷新资格与票数",
+              "lore": [
+                "刷新不会自动代替旧修订号提交。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "刷新资格与票数"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "刷新不会自动代替旧修订号提交。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 49,
+              "name": "arrow",
+              "label": "返回剧情列表",
+              "lore": [],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "返回剧情列表"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "line": 407,
+      "time": "2026-11-19T22:58:25.896Z",
+      "kind": "CLICKED",
+      "value": {
+        "boot": 2,
+        "player": "C",
+        "slot": 10,
+        "windowTitle": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "choice": "yes",
+        "matchedName": "Support as a country"
+      }
+    },
+    {
+      "line": 409,
+      "time": "2026-11-19T22:58:26.146Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 2,
+        "player": "C",
+        "id": 3,
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "items": 10
+      }
+    },
+    {
+      "line": 410,
+      "time": "2026-11-19T22:59:40.913Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 2,
+        "player": "A",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 411,
+      "time": "2026-11-19T22:59:40.914Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 2,
+        "player": "C",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 412,
+      "time": "2026-11-19T22:59:40.915Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 2,
+        "player": "D",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 413,
+      "time": "2026-11-19T22:59:40.915Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 2,
+        "player": "B",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 414,
+      "time": "2026-11-19T23:01:45.215Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 3,
+        "player": "A",
+        "username": "PhaseTwoA"
+      }
+    },
+    {
+      "line": 415,
+      "time": "2026-11-19T23:01:45.219Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 3,
+        "player": "B",
+        "username": "PhaseTwoB"
+      }
+    },
+    {
+      "line": 416,
+      "time": "2026-11-19T23:01:45.222Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 3,
+        "player": "C",
+        "username": "PhaseTwoC"
+      }
+    },
+    {
+      "line": 417,
+      "time": "2026-11-19T23:01:45.225Z",
+      "kind": "CONNECTING",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "username": "PhaseTwoD"
+      }
+    },
+    {
+      "line": 501,
+      "time": "2026-11-19T23:01:47.942Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "username": "PhaseTwoD",
+        "uuid": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+      }
+    },
+    {
+      "line": 503,
+      "time": "2026-11-19T23:01:47.971Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 3,
+        "player": "B",
+        "username": "PhaseTwoB",
+        "uuid": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+      }
+    },
+    {
+      "line": 506,
+      "time": "2026-11-19T23:01:48.018Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 3,
+        "player": "C",
+        "username": "PhaseTwoC",
+        "uuid": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+      }
+    },
+    {
+      "line": 534,
+      "time": "2026-11-19T23:01:48.065Z",
+      "kind": "SPAWN",
+      "value": {
+        "boot": 3,
+        "player": "A",
+        "username": "PhaseTwoA",
+        "uuid": "08ffd450-5001-3023-a480-057fef707037"
+      }
+    },
+    {
+      "line": 535,
+      "time": "2026-11-19T23:03:55.014Z",
+      "kind": "SENT",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "message": "/chronicle national 5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d"
+      }
+    },
+    {
+      "line": 536,
+      "time": "2026-11-19T23:03:55.193Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "id": 1,
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "items": 10
+      }
+    },
+    {
+      "line": 537,
+      "time": "2026-11-19T23:03:55.194Z",
+      "kind": "WINDOW_VERIFIED",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        }
+      }
+    },
+    {
+      "line": 538,
+      "time": "2026-11-19T23:03:55.195Z",
+      "kind": "CLIENT_VIEW",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "window": {
+          "id": 1,
+          "title": {
+            "type": "string",
+            "value": "国家议会 · National smoke primary"
+          },
+          "slots": [
+            {
+              "slot": 0,
+              "name": "paper",
+              "label": "剧情文本",
+              "lore": [
+                "The actual country decision and its st",
+                "able receipts are retained."
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "剧情文本"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "The actual country decision and its st"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "able receipts are retained."
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 1,
+              "name": "white_banner",
+              "label": "国家票规则",
+              "lore": [
+                "国家票不等于代表本人或全体国民的个人意愿。",
+                "计数仅为已记录投影；最终落定会重新核验国家存续。",
+                "已冻结或已完成的票不能更改。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "国家票规则"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票不等于代表本人或全体国民的个人意愿。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "计数仅为已记录投影；最终落定会重新核验国家存续。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "已冻结或已完成的票不能更改。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 2,
+              "name": "player_head",
+              "label": "你的国家代表资格",
+              "lore": [
+                "当前核验国家: 421acafc-185a-4e1d-a20b-d6143a",
+                "03ee22",
+                "国家票修订号: 4",
+                "当前真实国家持有人资格已核验。",
+                "决议为已冻结历史；国家后续变动不会重算历史"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "你的国家代表资格"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前核验国家: 421acafc-185a-4e1d-a20b-d6143a"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "03ee22"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票修订号: 4"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前真实国家持有人资格已核验。"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "决议为已冻结历史；国家后续变动不会重算历史"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 4,
+              "name": "written_book",
+              "label": "National smoke primary",
+              "lore": [
+                "实例: 5a1c500e7f07558e6cd888e909caf2e0f8",
+                "e2548a256e07603b704ee0b872f68d",
+                "当前阶段: done",
+                "国家票节点: council",
+                "一国一席；法定国家席数: 2"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "National smoke primary"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "实例: 5a1c500e7f07558e6cd888e909caf2e0f8"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "e2548a256e07603b704ee0b872f68d"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "当前阶段: done"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "国家票节点: council"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "一国一席；法定国家席数: 2"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "written_book_content",
+                  "data": {
+                    "rawTitle": "",
+                    "author": "",
+                    "generation": 0,
+                    "pages": [],
+                    "resolved": false
+                  }
+                }
+              ]
+            },
+            {
+              "slot": 6,
+              "name": "clock",
+              "label": "已记录票投影",
+              "lore": [
+                "no: 1",
+                "yes: 2",
+                "落定结果: yes"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "已记录票投影"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "no: 1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "yes: 2"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "落定结果: yes"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 31,
+              "name": "paper",
+              "label": "此篇国家决议已落定",
+              "lore": [
+                "决议为已冻结历史；国家后续变动不会重算历史"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "此篇国家决议已落定"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "决议为已冻结历史；国家后续变动不会重算历史"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 47,
+              "name": "book",
+              "label": "各国已记录票",
+              "lore": [
+                "查看每国修订号、状态和提交者。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "各国已记录票"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "查看每国修订号、状态和提交者。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 48,
+              "name": "compass",
+              "label": "刷新资格与票数",
+              "lore": [
+                "刷新不会自动代替旧修订号提交。"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "刷新资格与票数"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "刷新不会自动代替旧修订号提交。"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 49,
+              "name": "arrow",
+              "label": "返回剧情列表",
+              "lore": [],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "返回剧情列表"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "line": 539,
+      "time": "2026-11-19T23:04:11.729Z",
+      "kind": "CHOICES_VERIFIED",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "title": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "choices": []
+      }
+    },
+    {
+      "line": 540,
+      "time": "2026-11-19T23:04:11.732Z",
+      "kind": "CLICKED",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "slot": 47,
+        "windowTitle": {
+          "type": "string",
+          "value": "国家议会 · National smoke primary"
+        },
+        "matchedName": "各国已记录票"
+      }
+    },
+    {
+      "line": 541,
+      "time": "2026-11-19T23:04:11.936Z",
+      "kind": "WINDOW",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "id": 2,
+        "title": {
+          "type": "string",
+          "value": "已记录国家票 · 1"
+        },
+        "items": 6
+      }
+    },
+    {
+      "line": 542,
+      "time": "2026-11-19T23:04:11.937Z",
+      "kind": "CLIENT_VIEW",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "window": {
+          "id": 2,
+          "title": {
+            "type": "string",
+            "value": "已记录国家票 · 1"
+          },
+          "slots": [
+            {
+              "slot": 0,
+              "name": "white_banner",
+              "label": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+              "lore": [
+                "修订号: 4",
+                "状态: ACTIVE",
+                "选项: yes",
+                "提交者: 63e2bb34-acdd-360c-a4b5-57c748f2e",
+                "f53",
+                "核验时间: 2026-11-19 22:54:14 UTC",
+                "权威来源: {\"actor\":\"63e2bb34-acdd-360c-a4b",
+                "5-57c748f2ef53\",\"checkedAt\":\"2026-11-1",
+                "9T22:54:14.395244Z\",\"evidence\":\"nation",
+                "Of=421acafc-185a-4e1d-a20b-d6143a03ee2",
+                "2; nationById=present; isFounder(curre",
+                "ntHolder)=true; actor=63e2bb34-acdd-36",
+                "0c-a4b5-57c748f2ef53; checkedAt=2026-1",
+                "1-19T22:54:14.395244Z\",\"issuer\":\"StarC",
+                "ore.NationModule.current-holder\",\"nati",
+                "on\":\"421acafc-185a-4e1d-a20b-d6143a03e",
+                "e22\"}"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "421acafc-185a-4e1d-a20b-d6143a03ee22"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "修订号: 4"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "状态: ACTIVE"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "选项: yes"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "提交者: 63e2bb34-acdd-360c-a4b5-57c748f2e"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "f53"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "核验时间: 2026-11-19 22:54:14 UTC"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "权威来源: {\"actor\":\"63e2bb34-acdd-360c-a4b"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "5-57c748f2ef53\",\"checkedAt\":\"2026-11-1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "9T22:54:14.395244Z\",\"evidence\":\"nation"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "Of=421acafc-185a-4e1d-a20b-d6143a03ee2"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "2; nationById=present; isFounder(curre"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "ntHolder)=true; actor=63e2bb34-acdd-36"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "0c-a4b5-57c748f2ef53; checkedAt=2026-1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "1-19T22:54:14.395244Z\",\"issuer\":\"StarC"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "ore.NationModule.current-holder\",\"nati"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "on\":\"421acafc-185a-4e1d-a20b-d6143a03e"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "e22\"}"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 1,
+              "name": "white_banner",
+              "label": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+              "lore": [
+                "修订号: 1",
+                "状态: ACTIVE",
+                "选项: yes",
+                "提交者: 140669be-0a1a-3206-a8b1-20d23a596",
+                "b3a",
+                "核验时间: 2026-11-19 22:58:25 UTC",
+                "权威来源: {\"actor\":\"140669be-0a1a-3206-a8b",
+                "1-20d23a596b3a\",\"checkedAt\":\"2026-11-1",
+                "9T22:58:25.940764700Z\",\"evidence\":\"nat",
+                "ionOf=6030ce13-0f3c-4ff0-9efc-c2633647",
+                "d7f7; nationById=present; isFounder(cu",
+                "rrentHolder)=true; actor=140669be-0a1a",
+                "-3206-a8b1-20d23a596b3a; checkedAt=202",
+                "6-11-19T22:58:25.940764700Z\",\"issuer\":",
+                "\"StarCore.NationModule.current-holder\"",
+                ",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c26",
+                "33647d7f7\"}"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "修订号: 1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "状态: ACTIVE"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "选项: yes"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "提交者: 140669be-0a1a-3206-a8b1-20d23a596"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "b3a"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "核验时间: 2026-11-19 22:58:25 UTC"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "权威来源: {\"actor\":\"140669be-0a1a-3206-a8b"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "1-20d23a596b3a\",\"checkedAt\":\"2026-11-1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "9T22:58:25.940764700Z\",\"evidence\":\"nat"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "ionOf=6030ce13-0f3c-4ff0-9efc-c2633647"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "d7f7; nationById=present; isFounder(cu"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "rrentHolder)=true; actor=140669be-0a1a"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "-3206-a8b1-20d23a596b3a; checkedAt=202"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "6-11-19T22:58:25.940764700Z\",\"issuer\":"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "\"StarCore.NationModule.current-holder\""
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": ",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c26"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "33647d7f7\"}"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 2,
+              "name": "white_banner",
+              "label": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+              "lore": [
+                "修订号: 3",
+                "状态: ACTIVE",
+                "选项: no",
+                "提交者: 28a86e57-337f-3ee8-8593-6eed0ce4d",
+                "3d6",
+                "核验时间: 2026-11-19 22:58:02 UTC",
+                "权威来源: {\"actor\":\"28a86e57-337f-3ee8-859",
+                "3-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-1",
+                "9T22:58:02.243982800Z\",\"evidence\":\"nat",
+                "ionOf=75cab410-280c-4e0e-b854-94c0f57f",
+                "9dec; nationById=present; isFounder(cu",
+                "rrentHolder)=true; actor=28a86e57-337f",
+                "-3ee8-8593-6eed0ce4d3d6; checkedAt=202",
+                "6-11-19T22:58:02.243982800Z\",\"issuer\":",
+                "\"StarCore.NationModule.current-holder\"",
+                ",\"nation\":\"75cab410-280c-4e0e-b854-94c",
+                "0f57f9dec\"}"
+              ],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "75cab410-280c-4e0e-b854-94c0f57f9dec"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "lore",
+                  "data": [
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "修订号: 3"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "状态: ACTIVE"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "选项: no"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "提交者: 28a86e57-337f-3ee8-8593-6eed0ce4d"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "3d6"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "核验时间: 2026-11-19 22:58:02 UTC"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "权威来源: {\"actor\":\"28a86e57-337f-3ee8-859"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "3-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-1"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "9T22:58:02.243982800Z\",\"evidence\":\"nat"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "ionOf=75cab410-280c-4e0e-b854-94c0f57f"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "9dec; nationById=present; isFounder(cu"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "rrentHolder)=true; actor=28a86e57-337f"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "-3ee8-8593-6eed0ce4d3d6; checkedAt=202"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "6-11-19T22:58:02.243982800Z\",\"issuer\":"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "\"StarCore.NationModule.current-holder\""
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": ",\"nation\":\"75cab410-280c-4e0e-b854-94c"
+                        }
+                      }
+                    },
+                    {
+                      "type": "compound",
+                      "value": {
+                        "color": {
+                          "type": "string",
+                          "value": "gray"
+                        },
+                        "text": {
+                          "type": "string",
+                          "value": "0f57f9dec\"}"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "slot": 48,
+              "name": "compass",
+              "label": "返回国家议会",
+              "lore": [],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "返回国家议会"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "slot": 49,
+              "name": "arrow",
+              "label": "返回剧情列表",
+              "lore": [],
+              "components": [
+                {
+                  "type": "custom_name",
+                  "data": {
+                    "type": "compound",
+                    "value": {
+                      "color": {
+                        "type": "string",
+                        "value": "gold"
+                      },
+                      "text": {
+                        "type": "string",
+                        "value": "返回剧情列表"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "line": 543,
+      "time": "2026-11-19T23:04:25.214Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 3,
+        "player": "A",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 544,
+      "time": "2026-11-19T23:04:25.216Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 3,
+        "player": "B",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 545,
+      "time": "2026-11-19T23:04:25.217Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 3,
+        "player": "C",
+        "reason": "national council acceptance complete"
+      }
+    },
+    {
+      "line": 546,
+      "time": "2026-11-19T23:04:25.217Z",
+      "kind": "ENDED",
+      "value": {
+        "boot": 3,
+        "player": "D",
+        "reason": "national council acceptance complete"
+      }
+    }
+  ]
+}

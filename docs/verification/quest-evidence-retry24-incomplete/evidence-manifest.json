@@ -1,0 +1,23 @@
+{
+  "status": "INCOMPLETE",
+  "source_run": "run/paper-quest-evidence-8fdcf8d3-retry24",
+  "product_sha256": "8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051",
+  "files": [
+    {
+      "file": "boot3-missing-process-observation.json",
+      "bytes": 2777,
+      "sha256": "6cb08c29b51afb65ad1bcf6b87973ada0e71f8f149a1a05321b1cbe4dd9138d2"
+    },
+    {
+      "file": "quest-evidence-processes.json",
+      "bytes": 9637,
+      "sha256": "e565e690996a4aba9988f15ac52268f40f245cdcb0297b77d1e88839ad80ab6d"
+    },
+    {
+      "file": "quest-evidence-boot3.log",
+      "bytes": 46135,
+      "sha256": "c922afee8fb618055e80dbbd7717c7cff5baa8bc5d4fed428db12876554ba51d"
+    }
+  ],
+  "note": "Original terminal evidence is absent. Observation adds no exit code or checkpoint; do not continue this attempt."
+}

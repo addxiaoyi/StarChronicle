@@ -1,0 +1,30 @@
+# Copy into plugins/StarChronicle/memory-recipes.yml and explicitly enable selected recipes.
+# Match real configured exploration.id; do not submit a fabricated discovery to test production.
+recipes:
+  - id: caravan-archive
+    version: "1"
+    enabled: false
+    sources: [StarChronicle.ConfiguredRegionFirstVisit]
+    eventTypes: [EXPLORATION_DISCOVERY]
+    requiredFacts:
+      region.id: old-caravan-road
+      discovery.kind: FIRST_VISIT
+      time_basis: OBSERVED
+    regionId: old-caravan-road
+    title: 旧商路的真实到访档案
+    text: 此地的一次真实首访已收入服务器历史。图书馆保留原事件与其观察时间。
+  - id: siege-archive
+    version: "1"
+    enabled: false
+    # This is a server-specific post-commit publisher, NOT an existing StarCore capability.
+    # Install a real source carrying these exact city/region facts before enabling.
+    sources: [ServerCityWarJournal]
+    eventTypes: [BATTLE_ENDED]
+    requiredFacts:
+      region.id: old-capital
+      city.id: capital-city-7
+      battle.kind: SIEGE
+      battle.committed: "true"
+    regionId: old-capital
+    title: 旧都围城档案
+    text: 此城市已提交的围城记录进入地方档案。此登记不代表建造纪念碑或授予国家权限。

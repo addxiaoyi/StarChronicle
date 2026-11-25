@@ -1,0 +1,96 @@
+{
+  "plugin_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+  "starcore_sha256": "c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a",
+  "fixture_sha256": "663995098f79fb469969f8e4d532a734c67b9157cf2410e29616430c57b69343",
+  "boots": [
+    {
+      "boot": 1,
+      "plugin_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+      "starcore_sha256": "c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a",
+      "fixture_sha256": "663995098f79fb469969f8e4d532a734c67b9157cf2410e29616430c57b69343",
+      "controller_sha256": "b1cc9d48185b1feea6719ef579b86a5016717c1af4698b9120b66a1bb8167e2c",
+      "client_script_sha256": "103c8b4e29243689271a85df1f56279a96b321c0a06a2e270b700d6708b258d8",
+      "session_sha256": "b1cc9d48185b1feea6719ef579b86a5016717c1af4698b9120b66a1bb8167e2c",
+      "client_sha256": "103c8b4e29243689271a85df1f56279a96b321c0a06a2e270b700d6708b258d8",
+      "control_transport_sha256": "7edc5c76c668b03c6580615f38f3b04080ce1540570083a6b6acfae94b722300",
+      "client_wire_sha256": "61858e6cf11641f1660a12705f8b27594517e43fa37b013776199e01fcea5867",
+      "server_log": "evidence/quest-evidence-boot1.log",
+      "client_log": "evidence/quest-evidence-client-boot1.log",
+      "requested_utc": "2026-11-20T14:09:58.332935+00:00",
+      "server_exit": 0,
+      "client_exit": 1,
+      "normal_server_stop_requested": false,
+      "clients_quit_all_requested": false,
+      "cleanup_errors": [],
+      "control_file": "evidence/quest-evidence-control-boot1.jsonl",
+      "controller_pid": 8144,
+      "controller_identity": "134396573976334777",
+      "server_pid": 14896,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\starworld-tools\\jdk-21.0.13.1+2\\bin\\java.exe",
+        "-Xms64M",
+        "-Xmx512M",
+        "-XX:MaxMetaspaceSize=192M",
+        "-XX:ActiveProcessorCount=1",
+        "-XX:+UseSerialGC",
+        "-XX:CICompilerCount=1",
+        "-XX:TieredStopAtLevel=1",
+        "-Xss256k",
+        "-XX:ReservedCodeCacheSize=64M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "paper.jar",
+        "--nogui"
+      ],
+      "server_started_utc": "2026-11-20T14:09:58.339161+00:00",
+      "fixture_ready_observed_utc": "2026-11-20T14:10:48.554507+00:00",
+      "paper_done_observed_utc": "2026-11-20T14:10:49.196690+00:00",
+      "client_start_ack_utc": "2026-11-20T14:10:49.382813+00:00",
+      "client_cohort": [
+        "A",
+        "B",
+        "C"
+      ],
+      "client_command": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+        "--max-old-space-size=192",
+        "--max-semi-space-size=8",
+        "--jitless",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\tools\\quest-evidence-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\paper-quest-evidence-4ede86a8-retry26",
+        "--expected-sha",
+        "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+        "--attempt",
+        "retry26",
+        "--boot",
+        "1",
+        "--players",
+        "A,B,C"
+      ],
+      "client_pid": 28968,
+      "client_started_utc": "2026-11-20T14:10:49.389007+00:00",
+      "launcher_error": "RuntimeError: Coordinator explicitly aborted this incomplete acceptance boot: coordinator encountered a failed or ambiguous acceptance step",
+      "cleanup_client_quit_requested_utc": "2026-11-20T14:11:02.860200+00:00",
+      "client_ended_utc": "2026-11-20T14:11:22.651825+00:00",
+      "cleanup_server_stop_requested_utc": "2026-11-20T14:11:22.651825+00:00",
+      "server_ended_utc": "2026-11-20T14:11:24.000063+00:00",
+      "all_owned_children_exited": true,
+      "finished_utc": "2026-11-20T14:11:24.000063+00:00",
+      "artifacts_after": {
+        "plugin_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+        "starcore_sha256": "c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a",
+        "paper_sha256": "5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba",
+        "fixture_sha256": "663995098f79fb469969f8e4d532a734c67b9157cf2410e29616430c57b69343"
+      }
+    }
+  ],
+  "server_exit_codes": [
+    0
+  ],
+  "client_exit_codes": [
+    1
+  ],
+  "all_owned_children_exited": true,
+  "three_normal_boots_completed": false
+}

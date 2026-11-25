@@ -1,0 +1,32 @@
+campaignId: heir-strategy
+storyId: last-heir-strategy
+storyVersion: "1"
+signupSource: EPIC_SIGNUP_COMMITTED
+signupFact: epic.signup_campaign
+signupValue: heir-strategy
+reliefNationFact: epic.relief_nation
+phases:
+  - phaseId: heir-records
+    kind: PREPARATION
+    requirements:
+      - {type: QUEST_GATE, target: chronicle_heir_records, nativeReference: investigation/records-evidence}
+  - phaseId: heir-supplies
+    kind: PREPARATION
+    requirements:
+      - {type: TREASURY_AID, target: RELIEF, nativeReference: "10.00"}
+      - {type: RESOURCE_AID, target: RELIEF, nativeReference: agricultural:10}
+  - phaseId: heir-treaty
+    kind: PREPARATION
+    requirements:
+      - {type: DIPLOMACY_INVITE, target: RELIEF, nativeReference: ALLIANCE_INVITE_V1}
+      - {type: DIPLOMACY_ACCEPT, target: ANY, nativeReference: ALLIANCE_ACCEPT_V1}
+  - phaseId: heir-strategy-route
+    kind: FINAL_ROUTE
+    requirements: []
+routeRequirements:
+  WAR:
+    - {type: NATION_FOUNDING, target: ANY, nativeReference: NATION_FOUNDING_V1}
+    - {type: WAR_COMMIT, target: ANY, nativeReference: WAR_DECLARATION_V1}
+    - {type: FINAL_BATTLE, target: ANY, nativeReference: WAR_OUTCOME_V1}
+  DUNGEON:
+    - {type: DUNGEON_COMPLETION, target: COOPERATIVE_RELIC, nativeReference: DUNGEON_RUN_V1}

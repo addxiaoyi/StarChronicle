@@ -1,0 +1,299 @@
+diff --git a/src/main/java/dev/starcore/starcore/module/treasury/TreasuryModule.java b/src/main/java/dev/starcore/starcore/module/treasury/TreasuryModule.java
+index 72771bc..5a3cdcc 100644
+--- a/src/main/java/dev/starcore/starcore/module/treasury/TreasuryModule.java
++++ b/src/main/java/dev/starcore/starcore/module/treasury/TreasuryModule.java
+@@ -99,6 +99,7 @@ public final class TreasuryModule
+   private final ConcurrentMap<String, SpendingReceipt> spendingReceipts = new ConcurrentHashMap<>();
+   private final ConcurrentMap<String, CreditReceipt> creditReceipts = new ConcurrentHashMap<>();
+   private final ConcurrentMap<String, TransferReceipt> transferReceipts = new ConcurrentHashMap<>();
++  private volatile String authorityDomainId;
+   private final AtomicLong txSeq = new AtomicLong();
+   private final AtomicLong stateGeneration = new AtomicLong();
+   private final AtomicBoolean stateRefreshInProgress = new AtomicBoolean();
+@@ -718,6 +719,12 @@ public final class TreasuryModule
+     return Optional.ofNullable(creditReceipts.get(transactionId));
+   }
+ 
++  /** Returns the immutable identity of the persisted treasury data domain, when established. */
++  @Override
++  public String authorityDomainId() {
++    return authorityDomainId;
++  }
++
+   /**
+    * Uses the canonical receipt-backed transfer path instead of withdraw-then-compensate. This keeps
+    * both balances and the idempotency receipt under one persistence boundary.
+@@ -1079,7 +1086,14 @@ public final class TreasuryModule
+       long observedGeneration,
+       TreasuryStateRefresh refresh,
+       TreasuryStateCodec.TreasuryState snapshot) {
+-    if (stateGeneration.get() != observedGeneration || !stateStorage.acceptRefresh(refresh)) {
++    if (stateGeneration.get() != observedGeneration) {
++      return false;
++    }
++    if (authorityDomainId != null
++        && !authorityDomainId.equals(snapshot.authorityDomainId())) {
++      return false;
++    }
++    if (!stateStorage.acceptRefresh(refresh)) {
+       return false;
+     }
+     applyStateSnapshot(snapshot);
+@@ -1088,6 +1102,13 @@ public final class TreasuryModule
+   }
+ 
+   private void applyStateSnapshot(TreasuryStateCodec.TreasuryState state) {
++    if (authorityDomainId != null
++        && !authorityDomainId.equals(state.authorityDomainId())) {
++      throw new IllegalStateException("Treasury authority domain changed during state load");
++    }
++    if (state.authorityDomainId() != null) {
++      authorityDomainId = state.authorityDomainId();
++    }
+     balances.clear();
+     balances.putAll(state.balances());
+     spendingReceipts.clear();
+@@ -1165,17 +1186,35 @@ public final class TreasuryModule
+ 
+   private TreasuryStateCodec.TreasuryState snapshotState() {
+     return new TreasuryStateCodec.TreasuryState(
+-        balances, spendingReceipts, creditReceipts, transferReceipts);
++        authorityDomainId, balances, spendingReceipts, creditReceipts, transferReceipts);
+   }
+ 
+   private synchronized void loadState() {
++    java.util.Properties rawState =
++        stateStorage == null ? new java.util.Properties() : stateStorage.load();
++    if (rawState == null) {
++      rawState = new java.util.Properties();
++    }
+     TreasuryStateCodec.TreasuryState state =
+-        TreasuryStateCodec.stateFromProperties(
+-            stateStorage == null ? new java.util.Properties() : stateStorage.load());
++        TreasuryStateCodec.stateFromProperties(rawState);
+     applyStateSnapshot(state);
++    if (authorityDomainId == null && stateIsEmpty(state) && stateStorage != null) {
++      if (rawState.containsKey("authorityDomainId")) {
++        throw new IllegalStateException("Invalid treasury authority domain marker");
++      }
++      authorityDomainId = java.util.UUID.randomUUID().toString();
++      saveStateSyncOrThrow();
++    }
+     stateGeneration.incrementAndGet();
+   }
+ 
++  private static boolean stateIsEmpty(TreasuryStateCodec.TreasuryState state) {
++    return state.balances().isEmpty()
++        && state.spendingReceipts().isEmpty()
++        && state.creditReceipts().isEmpty()
++        && state.transferReceipts().isEmpty();
++  }
++
+   private void startDailyIncomeTask(StarCoreContext context) {
+     stopDailyIncomeTask();
+     if (!context.configuration().nationDailyIncomeAutoEnabled()) {
+diff --git a/src/main/java/dev/starcore/starcore/module/treasury/TreasuryService.java b/src/main/java/dev/starcore/starcore/module/treasury/TreasuryService.java
+index d5989f4..cd5d7c7 100644
+--- a/src/main/java/dev/starcore/starcore/module/treasury/TreasuryService.java
++++ b/src/main/java/dev/starcore/starcore/module/treasury/TreasuryService.java
+@@ -11,6 +11,17 @@ import java.util.UUID;
+ /** 财政服务接口 整合国库、税收、贷款、破产、预算的统一财政管理系统 */
+ public interface TreasuryService {
+ 
++  /**
++   * Stable identity of this persisted treasury data domain.
++   *
++   * <p>A missing value means that the backing state predates the authority-domain marker or could
++   * not be loaded safely. Integrations that attribute durable receipts must fail closed when this
++   * method returns {@code null}.
++   */
++  default String authorityDomainId() {
++    return null;
++  }
++
+   // ==================== 基础操作 (原 TreasuryModule) ====================
+ 
+   /** 获取国家国库余额 */
+diff --git a/src/main/java/dev/starcore/starcore/module/treasury/TreasuryStateCodec.java b/src/main/java/dev/starcore/starcore/module/treasury/TreasuryStateCodec.java
+index 62432d1..30767a2 100644
+--- a/src/main/java/dev/starcore/starcore/module/treasury/TreasuryStateCodec.java
++++ b/src/main/java/dev/starcore/starcore/module/treasury/TreasuryStateCodec.java
+@@ -19,11 +19,21 @@ final class TreasuryStateCodec {
+   private TreasuryStateCodec() {}
+ 
+   record TreasuryState(
++      String authorityDomainId,
+       Map<NationId, BigDecimal> balances,
+       Map<String, NationSpendingService.SpendingReceipt> spendingReceipts,
+       Map<String, NationCreditService.CreditReceipt> creditReceipts,
+       Map<String, NationTransferService.TransferReceipt> transferReceipts) {
++    TreasuryState(
++        Map<NationId, BigDecimal> balances,
++        Map<String, NationSpendingService.SpendingReceipt> spendingReceipts,
++        Map<String, NationCreditService.CreditReceipt> creditReceipts,
++        Map<String, NationTransferService.TransferReceipt> transferReceipts) {
++      this(null, balances, spendingReceipts, creditReceipts, transferReceipts);
++    }
++
+     TreasuryState {
++      authorityDomainId = parseAuthorityDomain(authorityDomainId);
+       balances = Map.copyOf(balances);
+       spendingReceipts = Map.copyOf(spendingReceipts);
+       creditReceipts = Map.copyOf(creditReceipts);
+@@ -31,16 +41,19 @@ final class TreasuryStateCodec {
+     }
+ 
+     static TreasuryState empty() {
+-      return new TreasuryState(Map.of(), Map.of(), Map.of(), Map.of());
++      return new TreasuryState(null, Map.of(), Map.of(), Map.of(), Map.of());
+     }
+   }
+ 
+   static Properties toProperties(Map<NationId, BigDecimal> balances) {
+-    return toProperties(new TreasuryState(balances, Map.of(), Map.of(), Map.of()));
++    return toProperties(new TreasuryState(null, balances, Map.of(), Map.of(), Map.of()));
+   }
+ 
+   static Properties toProperties(TreasuryState state) {
+     Properties properties = new Properties();
++    if (state.authorityDomainId() != null) {
++      properties.setProperty("authorityDomainId", state.authorityDomainId());
++    }
+     writeBalances(properties, state.balances());
+     writeSpendingReceipts(properties, state.spendingReceipts());
+     writeCreditReceipts(properties, state.creditReceipts());
+@@ -57,12 +70,22 @@ final class TreasuryStateCodec {
+       return TreasuryState.empty();
+     }
+     return new TreasuryState(
++        parseAuthorityDomain(properties.getProperty("authorityDomainId")),
+         readBalances(properties),
+         readSpendingReceipts(properties),
+         readCreditReceipts(properties),
+         readTransferReceipts(properties));
+   }
+ 
++  private static String parseAuthorityDomain(String value) {
++    if (value == null || value.isBlank()) return null;
++    try {
++      return UUID.fromString(value).toString().equals(value) ? value : null;
++    } catch (IllegalArgumentException exception) {
++      return null;
++    }
++  }
++
+   private static void writeBalances(Properties properties, Map<NationId, BigDecimal> balances) {
+     List<Map.Entry<NationId, BigDecimal>> snapshot =
+         balances.entrySet().stream()
+diff --git a/src/test/java/dev/starcore/starcore/module/treasury/TreasuryAuthorityDomainTest.java b/src/test/java/dev/starcore/starcore/module/treasury/TreasuryAuthorityDomainTest.java
+new file mode 100644
+index 0000000..d7dcd33
+--- /dev/null
++++ b/src/test/java/dev/starcore/starcore/module/treasury/TreasuryAuthorityDomainTest.java
+@@ -0,0 +1,106 @@
++package dev.starcore.starcore.module.treasury;
++
++import static org.junit.jupiter.api.Assertions.assertEquals;
++import static org.junit.jupiter.api.Assertions.assertFalse;
++import static org.junit.jupiter.api.Assertions.assertNotNull;
++import static org.junit.jupiter.api.Assertions.assertNull;
++import static org.junit.jupiter.api.Assertions.assertThrows;
++
++import dev.starcore.starcore.module.nation.model.NationId;
++import java.lang.reflect.Field;
++import java.lang.reflect.Method;
++import java.util.Properties;
++import java.util.UUID;
++import org.junit.jupiter.api.Test;
++
++class TreasuryAuthorityDomainTest {
++
++  @Test
++  void cleanStateMintsOneDomainAndRestartKeepsIt() throws Exception {
++    MemoryStorage storage = new MemoryStorage();
++    TreasuryModule first = loaded(storage);
++
++    String authority = first.authorityDomainId();
++    assertNotNull(authority);
++    assertEquals(authority, UUID.fromString(authority).toString());
++    assertEquals(authority, storage.properties.getProperty("authorityDomainId"));
++
++    TreasuryModule restarted = loaded(storage);
++    assertEquals(authority, restarted.authorityDomainId());
++    assertEquals(authority, storage.properties.getProperty("authorityDomainId"));
++  }
++
++  @Test
++  void legacyStateWithDataDoesNotSilentlyMintAnotherDomain() throws Exception {
++    MemoryStorage storage = new MemoryStorage();
++    NationId nation = NationId.random();
++    storage.properties.setProperty("count", "1");
++    storage.properties.setProperty("treasury.0.nationId", nation.toString());
++    storage.properties.setProperty("treasury.0.balance", "10.00");
++
++    TreasuryModule module = loaded(storage);
++
++    assertNull(module.authorityDomainId());
++    assertFalse(storage.properties.containsKey("authorityDomainId"));
++  }
++
++  @Test
++  void malformedDomainMarkerIsIgnoredAndDoesNotBecomeAuthority() {
++    Properties properties = new Properties();
++    properties.setProperty("authorityDomainId", "not-a-uuid");
++
++    TreasuryStateCodec.TreasuryState state = TreasuryStateCodec.stateFromProperties(properties);
++
++    assertNull(state.authorityDomainId());
++  }
++
++  @Test
++  void malformedDomainMarkerDoesNotRotateACleanStore() {
++    MemoryStorage storage = new MemoryStorage();
++    storage.properties.setProperty("authorityDomainId", "not-a-uuid");
++
++    assertThrows(Exception.class, () -> loaded(storage));
++    assertEquals("not-a-uuid", storage.properties.getProperty("authorityDomainId"));
++  }
++
++  @Test
++  void codecRoundTripPreservesCanonicalDomainMarker() {
++    String authority = UUID.randomUUID().toString();
++    Properties properties = new Properties();
++    properties.setProperty("authorityDomainId", authority);
++
++    TreasuryStateCodec.TreasuryState state = TreasuryStateCodec.stateFromProperties(properties);
++    Properties encoded = TreasuryStateCodec.toProperties(state);
++
++    assertEquals(authority, state.authorityDomainId());
++    assertEquals(authority, encoded.getProperty("authorityDomainId"));
++  }
++
++  private static TreasuryModule loaded(MemoryStorage storage) throws Exception {
++    TreasuryModule module = new TreasuryModule();
++    Field field = TreasuryModule.class.getDeclaredField("stateStorage");
++    field.setAccessible(true);
++    field.set(module, storage);
++    Method load = TreasuryModule.class.getDeclaredMethod("loadState");
++    load.setAccessible(true);
++    load.invoke(module);
++    return module;
++  }
++
++  private static final class MemoryStorage implements TreasuryStateStorage {
++    private Properties properties = new Properties();
++
++    @Override
++    public Properties load() {
++      Properties copy = new Properties();
++      copy.putAll(properties);
++      return copy;
++    }
++
++    @Override
++    public void save(Properties next) {
++      properties = new Properties();
++      properties.putAll(next);
++    }
++  }
++}

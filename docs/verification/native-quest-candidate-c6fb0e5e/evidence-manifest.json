@@ -1,0 +1,67 @@
+{
+  "candidate_sha256": "c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a",
+  "source_patch_sha256": "2b2c941e82c1182436e4dff0b1f3f7d8d3431864a9537a5bb557cf6f82f2d69c",
+  "baseline": "f769e62799e769a18fe51305b545869a17f80cd1",
+  "focused_tests": 44,
+  "focused_raw_console_log": null,
+  "full_regression": {
+    "tests": 7968,
+    "failures": 11,
+    "errors": 123,
+    "skipped": 21,
+    "build": "FAILURE",
+    "rawLog": "run/native-quest-full-regression-r6.log",
+    "note": "Full upstream suite did not pass; failures/errors span non-quest suites and are not asserted to be baseline-only."
+  },
+  "files": [
+    {
+      "file": "surefire/TEST-dev.starcore.starcore.quest.QuestEvidenceServiceTest.xml",
+      "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.QuestEvidenceServiceTest.xml",
+      "bytes": 36894,
+      "sha256": "91db62f94f29fdef4664aaf06e6a8435cceda08089da20d0230201fd4f566faa"
+    },
+    {
+      "file": "surefire/TEST-dev.starcore.starcore.quest.QuestTrackedRunPersistenceTest.xml",
+      "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.QuestTrackedRunPersistenceTest.xml",
+      "bytes": 36458,
+      "sha256": "38d837793ba8a779c1e6118ea47c10aa458caf294ae1920ef87123ecaca1f810"
+    },
+    {
+      "file": "surefire/TEST-dev.starcore.starcore.quest.evidence.QuestCompletionJournalTest.xml",
+      "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestCompletionJournalTest.xml",
+      "bytes": 35477,
+      "sha256": "e9bded883592b913538f985a7de48f22eac4a65178010976584564a7faf6b0eb"
+    },
+    {
+      "file": "surefire/TEST-dev.starcore.starcore.quest.evidence.QuestEvidenceAuthorityTest.xml",
+      "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestEvidenceAuthorityTest.xml",
+      "bytes": 36571,
+      "sha256": "6f2f2c4ce35ae793266d64a160b98d4cb178180e3f9546e5fc84774828847cd5"
+    },
+    {
+      "file": "surefire/TEST-dev.starcore.starcore.quest.evidence.QuestEvidenceNativeMenuTest.xml",
+      "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.quest.evidence.QuestEvidenceNativeMenuTest.xml",
+      "bytes": 35366,
+      "sha256": "a6cc122ef249937f41b7def2d4b0faeb2be61cc20966e438d3af63a999d5a336"
+    },
+    {
+      "file": "surefire/TEST-dev.starcore.starcore.module.dungeon.DungeonFileDurabilityTest.xml",
+      "source": "run/upstream-starcore-quest-evidence/target/surefire-reports/TEST-dev.starcore.starcore.module.dungeon.DungeonFileDurabilityTest.xml",
+      "bytes": 36118,
+      "sha256": "96317ac21f94cc0358f16d2fdebcffd51f8a4c3866ea0e58596c9f4e80e8a959"
+    },
+    {
+      "file": "native-quest-full-regression-r6.log",
+      "source": "run/native-quest-full-regression-r6.log",
+      "bytes": 3081867,
+      "sha256": "9dfe51d9108860b2e26ea0a3514b316bed4a2420821c8ee364b366ad83303b94"
+    },
+    {
+      "file": "native-quest-package-r6.log",
+      "source": "run/native-quest-package-r6.log",
+      "bytes": 11879,
+      "sha256": "696ac6ac08e52e0c90c5926b461ded9e61e1ea0b00f6cb32a698ce96099a184a"
+    }
+  ],
+  "scope": "Raw upstream reports, not Chronicle Maven reports or proof of production deployment."
+}

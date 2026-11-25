@@ -4,6 +4,13 @@ require-starcore: true
 # Install missing bundled examples on enable. Set false before removing/renaming examples;
 # existing story files are never overwritten or deleted by this setting.
 install-default-stories: true
+# Optional native task templates for examples/quest-evidence. Requires the audited durable
+# quest-evidence StarCore candidate on Paper; never silently falls back to untracked quests.
+# Does not rewrite the bundled stories or add an implicit quest.await to an old graph.
+install-native-example-quests: false
+# Optional national epic strategy graph and plan; requires chronicle_heir_records.
+# Enable native example quests above on the audited Paper candidate, or install that quest first.
+install-epic-strategy-example: false
 # Explicitly opt in on a test server. Never accepts player-supplied nation/permission snapshots.
 admin-demo-enabled: false
 npc-hooks: true
@@ -12,3 +19,13 @@ worker-queue-capacity: 2048
 poll-ticks: 100
 # Optional TextProvider is text-only. Missing, failed or slow providers use deterministic templates.
 text-timeout-ms: 1500
+# Optional automatic first-visit events for explicitly configured cuboids.
+# IDs are stable logical names; scope fingerprints include world UUID and every bound.
+# Empty by default: this does not scan or claim arbitrary world exploration.
+exploration:
+  enabled: false
+  regions: []
+
+# Local YAML/JSON memory catalog; loaded with stories by validate/reload.
+# The bundled catalog is empty. Changing this filename requires a normal restart.
+memory-recipes-file: memory-recipes.yml

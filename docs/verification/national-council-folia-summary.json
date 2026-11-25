@@ -1,0 +1,315 @@
+{
+  "status": "PASS",
+  "generated_utc": "2026-11-19T23:33:52.587309+00:00",
+  "plugin_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694",
+  "fixture_sha256": "f2c728663934d344b9d0b017ecb238d0c79dd048074d6cc39ac83d507cf5d86d",
+  "server_sha256": "f52c408490a0225611e67907a3ca19f7e6da2c6bc899e715d5f46844e7103c39",
+  "run_name": "folia-national-792a84e3",
+  "source_database_sha256": "6219ecb9cfbcf6d5e6d83db75563ef6b5bfbc539c00bac934e03949b2055874b",
+  "checks": {
+    "exact_frozen_product_folia_and_fixture": true,
+    "original_paper_checkpoint3_and_all_retained_source_files_unchanged": true,
+    "same_two_story_file_bytes_and_no_native_plugin": true,
+    "all_readonly_stages_keep_exact_schema5_national_history_reward_tables": true,
+    "final_actual_database_still_matches_stopped_snapshot_and_original_protected_payloads": true,
+    "source_primary_frozen_and_invalidation_remains_unresolved": true,
+    "real_folia_ready_has_only_product_and_verifier_with_unavailable_builtin_authority": true,
+    "four_actual_original_clients_spawn_in_the_successful_boot": true,
+    "actual_entity_owned_basic_permissions_never_grant_op_admin_or_nation": true,
+    "both_actual_joined_national_instances_remain_available_to_all_four_viewers": true,
+    "repeated_fresh_blank_nation_states_preserve_all_original_counts_revisions_and_evidence": true,
+    "all_four_have_no_available_national_choices_in_both_stories": true,
+    "all_four_vote_and_withdraw_api_requests_hit_actual_default_authority_denial": true,
+    "actual_player_command_vote_and_withdraw_denials_are_retained": true,
+    "all_actual_primary_and_active_country_guis_are_readonly_and_show_source_counts": true,
+    "actual_recorded_ballot_gui_preserves_each_original_revision_actor_status_and_authority": true,
+    "fixture_gui_inspection_executes_on_actual_viewer_entity_owner": true,
+    "actual_history_and_evidence_inventory_packets_are_retained": true,
+    "world_history_survives_without_personal_or_current_country_fact_fabrication": true,
+    "all_four_honor_values_remain_the_original_seven": true,
+    "successful_route_contains_no_hidden_fixture_or_client_failure": true,
+    "actual_successful_client_and_server_exits_and_session_cleanup_are_normal": true,
+    "all_four_successful_clients_normally_disconnect": true,
+    "actual_utf8_server_log_contains_normal_product_disable": true,
+    "failed_capacity_preflight_is_separate_with_actual_nonzero_client_exit": true,
+    "all_four_original_preflight_admission_failures_and_seed_failure_remain_visible": true,
+    "failed_node_cleanup_verified_exact_pid_command_before_bounded_force": true,
+    "capacity_headroom_repair_does_not_erase_the_stopped_preflight": true
+  },
+  "python_ledger_parser_checks": {
+    "primary_actual_wrapped_fields_match_exactly": true,
+    "primary_corrupt_actor_is_rejected": true,
+    "primary_corrupt_actor_continuation_is_rejected": true,
+    "primary_corrupt_authority_is_rejected": true,
+    "primary_corrupt_authority_continuation_is_rejected": true,
+    "primary_corrupt_revision_is_rejected": true,
+    "primary_corrupt_status_is_rejected": true,
+    "primary_corrupt_choice_is_rejected": true,
+    "invalidation_actual_wrapped_fields_match_exactly": true,
+    "invalidation_corrupt_actor_is_rejected": true,
+    "invalidation_corrupt_actor_continuation_is_rejected": true,
+    "invalidation_corrupt_authority_is_rejected": true,
+    "invalidation_corrupt_authority_continuation_is_rejected": true,
+    "invalidation_corrupt_revision_is_rejected": true,
+    "invalidation_corrupt_status_is_rejected": true,
+    "invalidation_corrupt_choice_is_rejected": true
+  },
+  "reporter_wrap_repair": {
+    "archived_original_script_sha256": "961488c0420f8a1c48dde43f8d84f999cf08bf53fb552ecf394c7f7db5c5493a",
+    "prior_pure_function_checks": {
+      "primary_archived_single_line_predicate_rejects_actual_wrapped_gui": true,
+      "invalidation_archived_single_line_predicate_rejects_actual_wrapped_gui": true
+    },
+    "original_cli_stdout_saved_as_file": false,
+    "original_failed_summary_retained": false,
+    "execution_observation_is_transcribed": true,
+    "observation": {
+      "classification": "REPORTER_PARSER_FAILURE_NOT_PRODUCT_FAILURE",
+      "observation": "The first actual CLI run exited 1 with one check false and emitted no public PASS. Its local summary filename was reused by the later corrected report, so this JSON is an explicitly transcribed execution observation, not the original raw command output or original failed summary.",
+      "command": [
+        "python",
+        "tools/report-national-council-folia.py",
+        "--expected-sha",
+        "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+      ],
+      "observed_exit_code": 1,
+      "observed_message": "Actual Folia checks failed; no public PASS emitted: actual_recorded_ballot_gui_preserves_each_original_revision_actor_status_and_authority",
+      "cause": "Original pure ledger_gui expected complete actor UUID and authority JSON within single lore lines, while the actual menu wraps those exact values over multiple lines.",
+      "original_reporter_file": "national-council-folia-reporter-before-wrap-fix.py",
+      "original_reporter_sha256": "961488c0420f8a1c48dde43f8d84f999cf08bf53fb552ecf394c7f7db5c5493a",
+      "data_or_server_changed_to_fix": false
+    }
+  },
+  "compiler_log": {
+    "raw_sha256": "e6a73367425a64c0a1d37ea9ec4704cc80d0f5aa932da34951ad8eda5ee49060",
+    "raw_encoding": "cp936",
+    "utf8_derivative": "national-council-folia-fixture-compile-attempt1-decoded-utf8.log"
+  },
+  "archive_encoding_repair_observation": {
+    "classification": "REPORTER_ARCHIVE_ENCODING_FAILURE_NOT_PRODUCT_FAILURE",
+    "noted_at_utc": "2026-11-19T23:33:20.485060+00:00",
+    "execution_observation_is_transcribed": true,
+    "observed_exit_code": 1,
+    "observed_error": "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd3 in position 145: invalid continuation byte",
+    "source_log": "fixture-compile-attempt1.log",
+    "source_log_raw_sha256": "e6a73367425a64c0a1d37ea9ec4704cc80d0f5aa932da34951ad8eda5ee49060",
+    "source_encoding_verified_by_strict_decode": "cp936",
+    "cause": "The added raw javac log uses its Windows locale encoding; the archive loop incorrectly treated every .log as UTF-8. Product checks had already passed but public archive creation stopped before inventory refresh.",
+    "original_raw_stdout_saved": false,
+    "product_or_server_or_database_or_raw_gui_changed_to_fix": false,
+    "repair": "Preserve compiler log bytes exactly and produce a separately labelled strict cp936-to-UTF8 readable derivative; rebuild and verify the complete archive."
+  },
+  "successful_harness_source_sha256": {
+    "national-council-folia-session-used.py": "5d384aae9d4d138b8001ee3d546667c60c309f7d2ae88b034e350ea6b248f9d5",
+    "national-council-folia-clients-used.cjs": "638d987650869f75f8100a0e65e20581ce5f7925172d3d845c2f737c8265869f"
+  },
+  "server_exit_codes": [
+    0
+  ],
+  "client_exit_codes": [
+    0
+  ],
+  "preflight_attempts": [
+    {
+      "boot": 1,
+      "server_pid": 15924,
+      "server_command": [
+        "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+        "-Xms256M",
+        "-Xmx768M",
+        "-XX:MaxMetaspaceSize=256M",
+        "-Dfile.encoding=UTF-8",
+        "-jar",
+        "folia.jar",
+        "--nogui"
+      ],
+      "started_at": 1795129952.5474374,
+      "server_exit": 0,
+      "client_exit": 1,
+      "client_pid": 4420,
+      "client_command": [
+        "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\tools\\national-council-folia-clients.cjs",
+        "--run-dir",
+        "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\folia-national-792a84e3",
+        "--boot",
+        "1",
+        "--expected-sha",
+        "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+      ],
+      "finished_at": 1795130162.115879,
+      "cleanup_errors": [],
+      "classification": "FAILED_CAPACITY_PREFLIGHT_NOT_MULTIPLAYER_PASS",
+      "reason": "Four simultaneous non-OP clients were all refused as server_full at max-players=4. All client sockets ended. Old controller quit did not close readline after prior disconnects; exact node PID/name/command was verified before force cleanup. Folia itself stopped normally. No world/history/reward/database reset.",
+      "verified_client_process": {
+        "ProcessId": 4420,
+        "Name": "node.exe",
+        "CommandLine": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\tools\\national-council-folia-clients.cjs --run-dir C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\folia-national-792a84e3 --boot 1 --expected-sha 792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+      },
+      "client_cleanup_attempts": [
+        {
+          "command": [
+            "taskkill.exe",
+            "/PID",
+            "4420"
+          ],
+          "exit_code": 1,
+          "reason": "Process requires force (observed tool output)"
+        },
+        {
+          "command": [
+            "taskkill.exe",
+            "/F",
+            "/PID",
+            "4420"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "server_capacity_before": 4,
+      "server_capacity_after": 12
+    }
+  ],
+  "capacity_preflight": {
+    "boot": 1,
+    "server_pid": 15924,
+    "server_command": [
+      "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+      "-Xms256M",
+      "-Xmx768M",
+      "-XX:MaxMetaspaceSize=256M",
+      "-Dfile.encoding=UTF-8",
+      "-jar",
+      "folia.jar",
+      "--nogui"
+    ],
+    "started_at": 1795129952.5474374,
+    "server_exit": 0,
+    "client_exit": 1,
+    "client_pid": 4420,
+    "client_command": [
+      "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+      "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\tools\\national-council-folia-clients.cjs",
+      "--run-dir",
+      "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\folia-national-792a84e3",
+      "--boot",
+      "1",
+      "--expected-sha",
+      "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+    ],
+    "finished_at": 1795130162.115879,
+    "cleanup_errors": [],
+    "classification": "FAILED_CAPACITY_PREFLIGHT_NOT_MULTIPLAYER_PASS",
+    "reason": "Four simultaneous non-OP clients were all refused as server_full at max-players=4. All client sockets ended. Old controller quit did not close readline after prior disconnects; exact node PID/name/command was verified before force cleanup. Folia itself stopped normally. No world/history/reward/database reset.",
+    "verified_client_process": {
+      "ProcessId": 4420,
+      "Name": "node.exe",
+      "CommandLine": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\tools\\national-council-folia-clients.cjs --run-dir C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\folia-national-792a84e3 --boot 1 --expected-sha 792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+    },
+    "client_cleanup_attempts": [
+      {
+        "command": [
+          "taskkill.exe",
+          "/PID",
+          "4420"
+        ],
+        "exit_code": 1,
+        "reason": "Process requires force (observed tool output)"
+      },
+      {
+        "command": [
+          "taskkill.exe",
+          "/F",
+          "/PID",
+          "4420"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "server_capacity_before": 4,
+    "server_capacity_after": 12
+  },
+  "expected_states": {
+    "primary": {
+      "instanceId": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+      "nodeId": "council",
+      "completed": true,
+      "resolution": "yes",
+      "quorum": 2,
+      "counts": {
+        "yes": 2,
+        "no": 1
+      },
+      "ballots": [
+        {
+          "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "revision": 4,
+          "choiceId": "yes",
+          "status": "ACTIVE",
+          "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+          "checkedAt": "2026-11-19T22:54:14.395244Z",
+          "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+        },
+        {
+          "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+          "revision": 1,
+          "choiceId": "yes",
+          "status": "ACTIVE",
+          "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+          "checkedAt": "2026-11-19T22:58:25.940764700Z",
+          "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+        },
+        {
+          "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "revision": 3,
+          "choiceId": "no",
+          "status": "ACTIVE",
+          "actorId": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+          "checkedAt": "2026-11-19T22:58:02.243982800Z",
+          "authorityEvidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+        }
+      ]
+    },
+    "invalidation": {
+      "instanceId": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+      "nodeId": "council",
+      "completed": false,
+      "resolution": null,
+      "quorum": 3,
+      "counts": {
+        "yes": 1,
+        "no": 1
+      },
+      "ballots": [
+        {
+          "nationId": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+          "revision": 1,
+          "choiceId": "yes",
+          "status": "ACTIVE",
+          "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+          "checkedAt": "2026-11-19T22:59:04.241117200Z",
+          "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+        },
+        {
+          "nationId": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+          "revision": 1,
+          "choiceId": "no",
+          "status": "ACTIVE",
+          "actorId": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+          "checkedAt": "2026-11-19T22:59:04.256620200Z",
+          "authorityEvidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+        },
+        {
+          "nationId": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+          "revision": 2,
+          "choiceId": null,
+          "status": "INVALIDATED",
+          "actorId": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+          "checkedAt": "2026-11-19T22:59:24.241756200Z",
+          "authorityEvidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+        }
+      ]
+    }
+  },
+  "scope": "Actual standalone Folia degradation over real stopped Paper national history. Failed admission preflight remains separate. No StarCore/full native authority or full-stack Folia compatibility claim."
+}

@@ -1,0 +1,2098 @@
+{
+  "captured_utc": "2026-11-19T23:11:08.691100+00:00",
+  "label": "prepared-baseline",
+  "plugin_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694",
+  "fixture_sha256": null,
+  "source_files_unchanged": true,
+  "invariant_tables_unchanged": {
+    "events": true,
+    "event_players": true,
+    "event_nations": true,
+    "event_causes": true,
+    "instances": true,
+    "outcomes": true,
+    "facts": true,
+    "story_choice_log": true,
+    "story_nation_votes": true,
+    "story_nation_vote_log": true,
+    "story_nation_actor_bindings": true,
+    "story_nation_resolutions": true,
+    "story_definitions": true,
+    "story_definition_formats": true,
+    "story_definition_upgrades": true
+  },
+  "database_invariants_status": "PASS",
+  "acceptance_status": "NOT_ASSESSED_BY_READ_ONLY_INSPECT",
+  "chronicle": {
+    "schema_version": 5,
+    "integrity": [
+      "ok"
+    ],
+    "foreign_key_violations": [],
+    "tables": {
+      "event_causes": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "event_id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "parent_id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "root_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "depth",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "story_path",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "event_id": "chronicle:arrival:08ffd450-5001-3023-a480-057fef707037:2026-11-19",
+            "parent_id": null,
+            "root_id": "chronicle:arrival:08ffd450-5001-3023-a480-057fef707037:2026-11-19",
+            "depth": 0,
+            "story_path": "[]"
+          },
+          {
+            "event_id": "chronicle:arrival:140669be-0a1a-3206-a8b1-20d23a596b3a:2026-11-19",
+            "parent_id": null,
+            "root_id": "chronicle:arrival:140669be-0a1a-3206-a8b1-20d23a596b3a:2026-11-19",
+            "depth": 0,
+            "story_path": "[]"
+          },
+          {
+            "event_id": "chronicle:arrival:28a86e57-337f-3ee8-8593-6eed0ce4d3d6:2026-11-19",
+            "parent_id": null,
+            "root_id": "chronicle:arrival:28a86e57-337f-3ee8-8593-6eed0ce4d3d6:2026-11-19",
+            "depth": 0,
+            "story_path": "[]"
+          },
+          {
+            "event_id": "chronicle:arrival:63e2bb34-acdd-360c-a4b5-57c748f2ef53:2026-11-19",
+            "parent_id": null,
+            "root_id": "chronicle:arrival:63e2bb34-acdd-360c-a4b5-57c748f2ef53:2026-11-19",
+            "depth": 0,
+            "story_path": "[]"
+          },
+          {
+            "event_id": "national-paper:invalidation:1",
+            "parent_id": null,
+            "root_id": "national-paper:invalidation:1",
+            "depth": 0,
+            "story_path": "[]"
+          },
+          {
+            "event_id": "national-paper:primary:1",
+            "parent_id": null,
+            "root_id": "national-paper:primary:1",
+            "depth": 0,
+            "story_path": "[]"
+          },
+          {
+            "event_id": "observation:04f1789382047d52:2:cc3e1e607476a989bd1e27374d54727b0040ce3d25b6e430795683dffa59d847",
+            "parent_id": null,
+            "root_id": "observation:04f1789382047d52:2:cc3e1e607476a989bd1e27374d54727b0040ce3d25b6e430795683dffa59d847",
+            "depth": 0,
+            "story_path": "[]"
+          },
+          {
+            "event_id": "starcore:nation-founded:421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "parent_id": null,
+            "root_id": "starcore:nation-founded:421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "depth": 0,
+            "story_path": "[]"
+          },
+          {
+            "event_id": "starcore:nation-founded:6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "parent_id": null,
+            "root_id": "starcore:nation-founded:6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "depth": 0,
+            "story_path": "[]"
+          },
+          {
+            "event_id": "starcore:nation-founded:75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "parent_id": null,
+            "root_id": "starcore:nation-founded:75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "depth": 0,
+            "story_path": "[]"
+          },
+          {
+            "event_id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+            "parent_id": "national-paper:primary:1",
+            "root_id": "national-paper:primary:1",
+            "depth": 1,
+            "story_path": "[\"national-smoke-primary\"]"
+          }
+        ],
+        "row_count": 11,
+        "content_sha256": "07d8f2f94d2cbd920073e452454c3ebbcbc49bd28731b827a9bd8b4154b63505"
+      },
+      "event_nations": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "event_id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "nation",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 2
+          }
+        ],
+        "rows": [
+          {
+            "event_id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+            "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22"
+          },
+          {
+            "event_id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+            "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          },
+          {
+            "event_id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+            "nation": "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          },
+          {
+            "event_id": "national-paper:invalidation:1",
+            "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22"
+          },
+          {
+            "event_id": "national-paper:invalidation:1",
+            "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          },
+          {
+            "event_id": "national-paper:invalidation:1",
+            "nation": "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          },
+          {
+            "event_id": "national-paper:primary:1",
+            "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22"
+          },
+          {
+            "event_id": "national-paper:primary:1",
+            "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          },
+          {
+            "event_id": "national-paper:primary:1",
+            "nation": "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          },
+          {
+            "event_id": "observation:04f1789382047d52:2:cc3e1e607476a989bd1e27374d54727b0040ce3d25b6e430795683dffa59d847",
+            "nation": "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          },
+          {
+            "event_id": "starcore:nation-founded:421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "nation": "421acafc-185a-4e1d-a20b-d6143a03ee22"
+          },
+          {
+            "event_id": "starcore:nation-founded:6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "nation": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7"
+          },
+          {
+            "event_id": "starcore:nation-founded:75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "nation": "75cab410-280c-4e0e-b854-94c0f57f9dec"
+          }
+        ],
+        "row_count": 13,
+        "content_sha256": "6b5f74a724ba56315e422bbb2aee28c7ac1292733b65453360a2c153003ebd2b"
+      },
+      "event_players": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "event_id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "player",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 2
+          }
+        ],
+        "rows": [
+          {
+            "event_id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+            "player": "08ffd450-5001-3023-a480-057fef707037"
+          },
+          {
+            "event_id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+            "player": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          },
+          {
+            "event_id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+            "player": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+          },
+          {
+            "event_id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+            "player": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+          },
+          {
+            "event_id": "chronicle:arrival:08ffd450-5001-3023-a480-057fef707037:2026-11-19",
+            "player": "08ffd450-5001-3023-a480-057fef707037"
+          },
+          {
+            "event_id": "chronicle:arrival:140669be-0a1a-3206-a8b1-20d23a596b3a:2026-11-19",
+            "player": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          },
+          {
+            "event_id": "chronicle:arrival:28a86e57-337f-3ee8-8593-6eed0ce4d3d6:2026-11-19",
+            "player": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+          },
+          {
+            "event_id": "chronicle:arrival:63e2bb34-acdd-360c-a4b5-57c748f2ef53:2026-11-19",
+            "player": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+          },
+          {
+            "event_id": "national-paper:invalidation:1",
+            "player": "08ffd450-5001-3023-a480-057fef707037"
+          },
+          {
+            "event_id": "national-paper:invalidation:1",
+            "player": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          },
+          {
+            "event_id": "national-paper:invalidation:1",
+            "player": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+          },
+          {
+            "event_id": "national-paper:invalidation:1",
+            "player": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+          },
+          {
+            "event_id": "national-paper:primary:1",
+            "player": "08ffd450-5001-3023-a480-057fef707037"
+          },
+          {
+            "event_id": "national-paper:primary:1",
+            "player": "140669be-0a1a-3206-a8b1-20d23a596b3a"
+          },
+          {
+            "event_id": "national-paper:primary:1",
+            "player": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6"
+          },
+          {
+            "event_id": "national-paper:primary:1",
+            "player": "63e2bb34-acdd-360c-a4b5-57c748f2ef53"
+          }
+        ],
+        "row_count": 16,
+        "content_sha256": "c5e41d5df2dfdfae1cf1ecb4fee7aef1f5e2e027f95b789628af80481a36e7ef"
+      },
+      "events": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "type",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "time",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "hash",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "id": "chronicle:arrival:08ffd450-5001-3023-a480-057fef707037:2026-11-19",
+            "type": "PLAYER_JOIN",
+            "time": "2026-11-19T22:52:06.969631200Z",
+            "hash": "04e0f1465654fbf2f0540a0312270e2ee87532c2d79389cb599d1e2f51cd2285",
+            "json": "{\"id\":\"chronicle:arrival:08ffd450-5001-3023-a480-057fef707037:2026-11-19\",\"type\":\"PLAYER_JOIN\",\"occurredAt\":\"2026-11-19T22:52:06.969631200Z\",\"participants\":[\"08ffd450-5001-3023-a480-057fef707037\"],\"nations\":[],\"facts\":{\"day\":\"2026-11-19\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.PlayerJoinEvent\",\"evidence\":\"First observed player arrival for UTC day=2026-11-19; player=08ffd450-5001-3023-a480-057fef707037\"}"
+          },
+          {
+            "id": "observation:04f1789382047d52:2:cc3e1e607476a989bd1e27374d54727b0040ce3d25b6e430795683dffa59d847",
+            "type": "NATION_DESTROYED",
+            "time": "2026-11-19T22:59:14.792000000Z",
+            "hash": "2186f535a130427667b813840ab2e237dd5a37dfd4c4963e431db8a209a0a2c2",
+            "json": "{\"id\":\"observation:04f1789382047d52:2:cc3e1e607476a989bd1e27374d54727b0040ce3d25b6e430795683dffa59d847\",\"type\":\"NATION_DESTROYED\",\"occurredAt\":\"2026-11-19T22:59:14.792Z\",\"participants\":[],\"nations\":[\"75cab410-280c-4e0e-b854-94c0f57f9dec\"],\"facts\":{\"after\":\"<absent>\",\"before\":\"PRESENT\",\"nation.id\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\",\"observation.key\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\",\"observation.namespace\":\"starcore.nations\",\"observation.sequence\":\"2\",\"time_basis\":\"OBSERVED\",\"title\":\"国家消失（权威快照观察）\"},\"source\":\"StarCore.NationModule.nations\",\"evidence\":\"source=StarCore.NationModule.nations; complete authority snapshot; namespace=starcore.nations; sequence=2; key=75cab410-280c-4e0e-b854-94c0f57f9dec; before=PRESENT; after=<absent>; observationInterval=[2026-11-19T22:52:25.065Z,2026-11-19T22:59:14.792Z]; exact mutation time and actor unknown; Native NationModule.nations() list copied under its mutation monitor; absence means no longer present, not a known destruction cause\"}"
+          },
+          {
+            "id": "chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+            "type": "NATIONAL_COUNCIL_SMOKE_FINISHED",
+            "time": "2026-11-19T22:58:25.976174000Z",
+            "hash": "33a1638c52ba982ad09c046077b7913076b6066d164fe47d91a6f216daceb80e",
+            "json": "{\"id\":\"chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e\",\"type\":\"NATIONAL_COUNCIL_SMOKE_FINISHED\",\"occurredAt\":\"2026-11-19T22:58:25.976174Z\",\"participants\":[\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"08ffd450-5001-3023-a480-057fef707037\",\"140669be-0a1a-3206-a8b1-20d23a596b3a\"],\"nations\":[\"75cab410-280c-4e0e-b854-94c0f57f9dec\",\"421acafc-185a-4e1d-a20b-d6143a03ee22\",\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"],\"facts\":{\"outcome\":\"The country council made its actual recorded decision.\",\"story\":\"national-smoke-primary\"},\"source\":\"StarChronicle\",\"evidence\":\"instance=5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d; action=node/done; effect=actual-national-ending; source=national-paper:primary:1\"}"
+          },
+          {
+            "id": "starcore:nation-founded:421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "type": "NATION_FOUNDED",
+            "time": "2026-11-19T22:52:23.213000000Z",
+            "hash": "5b4bc67f4670bb20685b3ca02283f90b9096aa36d86db641f9e55bb4c7087980",
+            "json": "{\"id\":\"starcore:nation-founded:421acafc-185a-4e1d-a20b-d6143a03ee22\",\"type\":\"NATION_FOUNDED\",\"occurredAt\":\"2026-11-19T22:52:23.213Z\",\"participants\":[],\"nations\":[\"421acafc-185a-4e1d-a20b-d6143a03ee22\"],\"facts\":{\"nation.id\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\",\"title\":\"国家建立\"},\"source\":\"StarCore\",\"evidence\":\"NationService.nations authoritative entity id=421acafc-185a-4e1d-a20b-d6143a03ee22; persisted foundedAt=2026-11-19T22:52:23.213Z; original founder not exposed; historical import may predate Chronicle installation\"}"
+          },
+          {
+            "id": "chronicle:arrival:140669be-0a1a-3206-a8b1-20d23a596b3a:2026-11-19",
+            "type": "PLAYER_JOIN",
+            "time": "2026-11-19T22:52:07.104307300Z",
+            "hash": "9d5f129a0a6a804c1707c16bf90d819bbae9a7b3a8aaa594ed031d9cf0b48435",
+            "json": "{\"id\":\"chronicle:arrival:140669be-0a1a-3206-a8b1-20d23a596b3a:2026-11-19\",\"type\":\"PLAYER_JOIN\",\"occurredAt\":\"2026-11-19T22:52:07.104307300Z\",\"participants\":[\"140669be-0a1a-3206-a8b1-20d23a596b3a\"],\"nations\":[],\"facts\":{\"day\":\"2026-11-19\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.PlayerJoinEvent\",\"evidence\":\"First observed player arrival for UTC day=2026-11-19; player=140669be-0a1a-3206-a8b1-20d23a596b3a\"}"
+          },
+          {
+            "id": "starcore:nation-founded:6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "type": "NATION_FOUNDED",
+            "time": "2026-11-19T22:52:23.226000000Z",
+            "hash": "b999b9e52249e161564175d11e76a827ef5cfe75f9d7526f0ffbc033ab397155",
+            "json": "{\"id\":\"starcore:nation-founded:6030ce13-0f3c-4ff0-9efc-c2633647d7f7\",\"type\":\"NATION_FOUNDED\",\"occurredAt\":\"2026-11-19T22:52:23.226Z\",\"participants\":[],\"nations\":[\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"],\"facts\":{\"nation.id\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\",\"title\":\"国家建立\"},\"source\":\"StarCore\",\"evidence\":\"NationService.nations authoritative entity id=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; persisted foundedAt=2026-11-19T22:52:23.226Z; original founder not exposed; historical import may predate Chronicle installation\"}"
+          },
+          {
+            "id": "chronicle:arrival:28a86e57-337f-3ee8-8593-6eed0ce4d3d6:2026-11-19",
+            "type": "PLAYER_JOIN",
+            "time": "2026-11-19T22:52:07.327964300Z",
+            "hash": "ba5dec25b3a22ce6c41a51ad536b3a32b07651704bc5596a049b6a936c867ffb",
+            "json": "{\"id\":\"chronicle:arrival:28a86e57-337f-3ee8-8593-6eed0ce4d3d6:2026-11-19\",\"type\":\"PLAYER_JOIN\",\"occurredAt\":\"2026-11-19T22:52:07.327964300Z\",\"participants\":[\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\"],\"nations\":[],\"facts\":{\"day\":\"2026-11-19\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.PlayerJoinEvent\",\"evidence\":\"First observed player arrival for UTC day=2026-11-19; player=28a86e57-337f-3ee8-8593-6eed0ce4d3d6\"}"
+          },
+          {
+            "id": "chronicle:arrival:63e2bb34-acdd-360c-a4b5-57c748f2ef53:2026-11-19",
+            "type": "PLAYER_JOIN",
+            "time": "2026-11-19T22:52:07.301939500Z",
+            "hash": "bbead5bb635f1e56d3539159891113bf56870c7e5ebc447222fe31744d5461d4",
+            "json": "{\"id\":\"chronicle:arrival:63e2bb34-acdd-360c-a4b5-57c748f2ef53:2026-11-19\",\"type\":\"PLAYER_JOIN\",\"occurredAt\":\"2026-11-19T22:52:07.301939500Z\",\"participants\":[\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\"],\"nations\":[],\"facts\":{\"day\":\"2026-11-19\",\"time_basis\":\"OBSERVED\"},\"source\":\"StarChronicle.PlayerJoinEvent\",\"evidence\":\"First observed player arrival for UTC day=2026-11-19; player=63e2bb34-acdd-360c-a4b5-57c748f2ef53\"}"
+          },
+          {
+            "id": "national-paper:invalidation:1",
+            "type": "NATIONAL_INVALIDATION_TEST",
+            "time": "2026-11-19T22:58:52.295387300Z",
+            "hash": "c70d8b6d2756460b44c160dc6c4e3beeeaf8267547518560dd15d5b4dcba42ea",
+            "json": "{\"id\":\"national-paper:invalidation:1\",\"type\":\"NATIONAL_INVALIDATION_TEST\",\"occurredAt\":\"2026-11-19T22:58:52.295387300Z\",\"participants\":[\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"08ffd450-5001-3023-a480-057fef707037\",\"140669be-0a1a-3206-a8b1-20d23a596b3a\"],\"nations\":[\"75cab410-280c-4e0e-b854-94c0f57f9dec\",\"421acafc-185a-4e1d-a20b-d6143a03ee22\",\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"],\"facts\":{\"fixture-only\":\"true\"},\"source\":\"NationalCouncilPaperFixture\",\"evidence\":\"Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=invalidation\"}"
+          },
+          {
+            "id": "starcore:nation-founded:75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "type": "NATION_FOUNDED",
+            "time": "2026-11-19T22:52:23.223000000Z",
+            "hash": "cdc04be3836c0e8c0d941dada2e675d3e4af770a8eb2f37f6e2db8849341c0be",
+            "json": "{\"id\":\"starcore:nation-founded:75cab410-280c-4e0e-b854-94c0f57f9dec\",\"type\":\"NATION_FOUNDED\",\"occurredAt\":\"2026-11-19T22:52:23.223Z\",\"participants\":[],\"nations\":[\"75cab410-280c-4e0e-b854-94c0f57f9dec\"],\"facts\":{\"nation.id\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\",\"title\":\"国家建立\"},\"source\":\"StarCore\",\"evidence\":\"NationService.nations authoritative entity id=75cab410-280c-4e0e-b854-94c0f57f9dec; persisted foundedAt=2026-11-19T22:52:23.223Z; original founder not exposed; historical import may predate Chronicle installation\"}"
+          },
+          {
+            "id": "national-paper:primary:1",
+            "type": "NATIONAL_PRIMARY_TEST",
+            "time": "2026-11-19T22:52:37.948855600Z",
+            "hash": "e6f664b2ceac1e38f1825da2a9e806ef90c9defe7ca67d559980da905d9cb7c9",
+            "json": "{\"id\":\"national-paper:primary:1\",\"type\":\"NATIONAL_PRIMARY_TEST\",\"occurredAt\":\"2026-11-19T22:52:37.948855600Z\",\"participants\":[\"08ffd450-5001-3023-a480-057fef707037\",\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\"],\"nations\":[\"75cab410-280c-4e0e-b854-94c0f57f9dec\",\"421acafc-185a-4e1d-a20b-d6143a03ee22\",\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"],\"facts\":{\"fixture-only\":\"true\"},\"source\":\"NationalCouncilPaperFixture\",\"evidence\":\"Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=primary\"}"
+          }
+        ],
+        "row_count": 11,
+        "content_sha256": "5c93b9e68f527f9b0a891896cc83def0e61c0d408857fa8f1985d761df322955"
+      },
+      "facts": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "owner",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "key",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 2
+          },
+          {
+            "cid": 2,
+            "name": "value",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "owner": "08ffd450-5001-3023-a480-057fef707037",
+            "key": "player.honor",
+            "value": "7"
+          },
+          {
+            "owner": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "key": "player.honor",
+            "value": "7"
+          },
+          {
+            "owner": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "key": "player.honor",
+            "value": "7"
+          },
+          {
+            "owner": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "key": "player.honor",
+            "value": "7"
+          }
+        ],
+        "row_count": 4,
+        "content_sha256": "50f456af185377c39cdbdf3a1e8b14aeaf7889d0e55a41690886ba88fe8aa963"
+      },
+      "instances": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "story",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "scope",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "completed",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "updated",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 5,
+            "name": "json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "story": "national-smoke-invalidation",
+            "scope": "world",
+            "completed": 0,
+            "updated": "2026-11-19T22:59:24.242800900Z",
+            "json": "{\"id\":\"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868\",\"definition\":{\"id\":\"national-smoke-invalidation\",\"version\":\"1\",\"title\":\"National smoke invalidation\",\"scope\":\"WORLD\",\"triggers\":[\"NATIONAL_INVALIDATION_TEST\"],\"condition\":null,\"start\":\"council\",\"cooldownSeconds\":0,\"nodes\":{\"council\":{\"text\":\"A formal country seat requires the current native holder. Ordinary witnesses have no national vote.\",\"script\":null,\"quest\":null,\"quorum\":3,\"choices\":{\"no\":{\"label\":\"Oppose as a country\",\"next\":\"done\",\"condition\":null,\"permission\":null,\"effects\":[]},\"yes\":{\"label\":\"Support as a country\",\"next\":\"done\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"done\":{\"text\":\"The actual country decision and its stable receipts are retained.\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[],\"terminal\":true}},\"voteUnit\":\"NATION\"},\"scopeKey\":\"world\",\"sourceEventId\":\"national-paper:invalidation:1\",\"node\":\"council\",\"members\":{\"08ffd450-5001-3023-a480-057fef707037\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\",\"140669be-0a1a-3206-a8b1-20d23a596b3a\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\",\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\",\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"},\"votes\":{},\"choices\":{},\"startedAt\":\"2026-11-19T22:58:52.348214Z\",\"updatedAt\":\"2026-11-19T22:59:24.242800900Z\",\"completed\":false}"
+          },
+          {
+            "id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "story": "national-smoke-primary",
+            "scope": "world",
+            "completed": 1,
+            "updated": "2026-11-19T22:58:25.941775400Z",
+            "json": "{\"id\":\"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d\",\"definition\":{\"id\":\"national-smoke-primary\",\"version\":\"1\",\"title\":\"National smoke primary\",\"scope\":\"WORLD\",\"triggers\":[\"NATIONAL_PRIMARY_TEST\"],\"condition\":null,\"start\":\"council\",\"cooldownSeconds\":0,\"nodes\":{\"council\":{\"text\":\"A formal country seat requires the current native holder. Ordinary witnesses have no national vote.\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"no\":{\"label\":\"Oppose as a country\",\"next\":\"done\",\"condition\":null,\"permission\":null,\"effects\":[]},\"yes\":{\"label\":\"Support as a country\",\"next\":\"done\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"done\":{\"text\":\"The actual country decision and its stable receipts are retained.\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"one-honor-receipt\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"actual-national-ending\",\"type\":\"history\",\"target\":\"NATIONAL_COUNCIL_SMOKE_FINISHED\",\"value\":\"The country council made its actual recorded decision.\",\"permission\":null}],\"terminal\":true}},\"voteUnit\":\"NATION\"},\"scopeKey\":\"world\",\"sourceEventId\":\"national-paper:primary:1\",\"node\":\"done\",\"members\":{\"08ffd450-5001-3023-a480-057fef707037\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\",\"140669be-0a1a-3206-a8b1-20d23a596b3a\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\",\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\",\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"},\"votes\":{},\"choices\":{\"council\":\"yes\"},\"startedAt\":\"2026-11-19T22:52:38.020075600Z\",\"updatedAt\":\"2026-11-19T22:58:25.941775400Z\",\"completed\":true}"
+          }
+        ],
+        "row_count": 2,
+        "content_sha256": "9f95816a22476a5b9dfefe6c0bda2ee108343cbdc4b60bc590041136ea6d1f03"
+      },
+      "memory_sites": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "event_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [],
+        "row_count": 0,
+        "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "native_scene_journal": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "player",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "status",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "revision",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [],
+        "row_count": 0,
+        "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "observation_baselines": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "namespace",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "kind",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "source",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "sequence",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "observed_at",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 5,
+            "name": "json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "namespace": "starcore.nations",
+            "kind": "NATIONS",
+            "source": "StarCore.NationModule.nations",
+            "sequence": 2,
+            "observed_at": "2026-11-19T22:59:14.792Z",
+            "json": "{\"namespace\":\"starcore.nations\",\"source\":\"StarCore.NationModule.nations\",\"kind\":\"NATIONS\",\"complete\":true,\"allowEmpty\":true,\"entries\":{\"421acafc-185a-4e1d-a20b-d6143a03ee22\":{\"nationId\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\",\"value\":\"PRESENT\",\"facts\":{}},\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\":{\"nationId\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\",\"value\":\"PRESENT\",\"facts\":{}}},\"evidence\":\"Native NationModule.nations() list copied under its mutation monitor; absence means no longer present, not a known destruction cause\"}"
+          },
+          {
+            "namespace": "starcore.technologies",
+            "kind": "TECHNOLOGIES",
+            "source": "StarCore.TechnologyModule.unlockedTechnologies",
+            "sequence": 0,
+            "observed_at": "2026-11-19T22:50:11.609Z",
+            "json": "{\"namespace\":\"starcore.technologies\",\"source\":\"StarCore.TechnologyModule.unlockedTechnologies\",\"kind\":\"TECHNOLOGIES\",\"complete\":true,\"allowEmpty\":true,\"entries\":{},\"evidence\":\"Native TechnologyModule unlockedTechnologies() copied under the same monitor as synchronized unlock/revoke and synchronous persistence; a newly observed unlock need not be a research completion\"}"
+          }
+        ],
+        "row_count": 2,
+        "content_sha256": "8be920dc401db3889159a2f965a1f61351f6c4290b86e867c50c261af3096c35"
+      },
+      "observation_ingress": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "namespace",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "sequence",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "status",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "id": "observation:04f1789382047d52:2:cc3e1e607476a989bd1e27374d54727b0040ce3d25b6e430795683dffa59d847",
+            "namespace": "starcore.nations",
+            "sequence": 2,
+            "status": "ACKED",
+            "json": "{\"id\":\"observation:04f1789382047d52:2:cc3e1e607476a989bd1e27374d54727b0040ce3d25b6e430795683dffa59d847\",\"type\":\"NATION_DESTROYED\",\"occurredAt\":\"2026-11-19T22:59:14.792Z\",\"participants\":[],\"nations\":[\"75cab410-280c-4e0e-b854-94c0f57f9dec\"],\"facts\":{\"after\":\"<absent>\",\"before\":\"PRESENT\",\"nation.id\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\",\"observation.key\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\",\"observation.namespace\":\"starcore.nations\",\"observation.sequence\":\"2\",\"time_basis\":\"OBSERVED\",\"title\":\"国家消失（权威快照观察）\"},\"source\":\"StarCore.NationModule.nations\",\"evidence\":\"source=StarCore.NationModule.nations; complete authority snapshot; namespace=starcore.nations; sequence=2; key=75cab410-280c-4e0e-b854-94c0f57f9dec; before=PRESENT; after=<absent>; observationInterval=[2026-11-19T22:52:25.065Z,2026-11-19T22:59:14.792Z]; exact mutation time and actor unknown; Native NationModule.nations() list copied under its mutation monitor; absence means no longer present, not a known destruction cause\"}"
+          }
+        ],
+        "row_count": 1,
+        "content_sha256": "55c29b676fee8c2da6db3036d555be0adb12a7ec7abd9fd45e6906e44910388a"
+      },
+      "outcomes": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "status",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "id": "1a785538940ad1b89486d8b5360cb6b8559ede9060efadece878b72f7abd85a2",
+            "status": "DONE",
+            "json": "{}"
+          },
+          {
+            "id": "48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e",
+            "status": "DONE",
+            "json": "{}"
+          },
+          {
+            "id": "6bcdd940c103b7fc61821e26ac79311c33201cfd43d5847ffee6d139d8bc5661",
+            "status": "DONE",
+            "json": "{}"
+          },
+          {
+            "id": "7b8568f264ad020ff7bea3ead48a4fb3fda8918300f189f33577d9aa33a8021a",
+            "status": "DONE",
+            "json": "{}"
+          },
+          {
+            "id": "c5054b0cced45aff281cf6c45f15a8be7cb1e0a817458fe4defd594d17585f3f",
+            "status": "DONE",
+            "json": "{}"
+          }
+        ],
+        "row_count": 5,
+        "content_sha256": "4d85d35eb72b423a191b4cb5b88d201b2ff4a08edf4581ffed8812d87c91c9b0"
+      },
+      "story_choice_log": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "seq",
+            "type": "INTEGER",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "instance_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "source_event_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "story_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 5,
+            "name": "story_version",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 6,
+            "name": "node_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 7,
+            "name": "kind",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 8,
+            "name": "actor_key",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 9,
+            "name": "player_id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 10,
+            "name": "nation_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 11,
+            "name": "scope_key",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 12,
+            "name": "revision",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 13,
+            "name": "choice_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 14,
+            "name": "chosen_at",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 15,
+            "name": "committed_by",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 16,
+            "name": "provenance",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "seq": 1,
+            "id": "99f433618e22e3a7800c2906f42c11a13a3231bef973e845fc3a773929afdb76",
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "source_event_id": "national-paper:primary:1",
+            "story_id": "national-smoke-primary",
+            "story_version": "1",
+            "node_id": "council",
+            "kind": "RESOLUTION",
+            "actor_key": "world",
+            "player_id": null,
+            "nation_id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "scope_key": "world",
+            "revision": 1,
+            "choice_id": "yes",
+            "chosen_at": "2026-11-19T22:58:25.941775400Z",
+            "committed_by": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "provenance": "LIVE"
+          }
+        ],
+        "row_count": 1,
+        "content_sha256": "f3e0c9445ab3aff22b52a1e88e25d677d768da4f772ae1f4c100dbdc59256eca"
+      },
+      "story_definition_formats": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "story",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "version",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 2
+          },
+          {
+            "cid": 2,
+            "name": "fingerprint",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 3
+          },
+          {
+            "cid": 3,
+            "name": "canonical_version",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "story": "national-smoke-invalidation",
+            "version": "1",
+            "fingerprint": "146c1de9641fac31dc7e4398d44b78ebb7ca239307223369bb1d661c786aa578",
+            "canonical_version": 2
+          },
+          {
+            "story": "national-smoke-primary",
+            "version": "1",
+            "fingerprint": "99f92eeaabc73985ed364c38d646b3771bcac5535f49237a222b51218c7b268c",
+            "canonical_version": 2
+          }
+        ],
+        "row_count": 2,
+        "content_sha256": "1fc4851f8f127dca3f1adff2e981f491782fd3488cda4941a081dbde797d6782"
+      },
+      "story_definition_upgrades": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "story",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "version",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 2
+          },
+          {
+            "cid": 2,
+            "name": "from_fingerprint",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 3
+          },
+          {
+            "cid": 3,
+            "name": "from_canonical_version",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "to_canonical_version",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 5,
+            "name": "to_fingerprint",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 6,
+            "name": "json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 7,
+            "name": "algorithm",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [],
+        "row_count": 0,
+        "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "story_definitions": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "story",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "version",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 2
+          },
+          {
+            "cid": 2,
+            "name": "fingerprint",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 3
+          },
+          {
+            "cid": 3,
+            "name": "json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "provenance",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 5,
+            "name": "first_seen",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": "strftime('%Y-%m-%dT%H:%M:%fZ','now')",
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "story": "national-smoke-invalidation",
+            "version": "1",
+            "fingerprint": "146c1de9641fac31dc7e4398d44b78ebb7ca239307223369bb1d661c786aa578",
+            "json": "{\"id\":\"national-smoke-invalidation\",\"version\":\"1\",\"title\":\"National smoke invalidation\",\"scope\":\"WORLD\",\"triggers\":[\"NATIONAL_INVALIDATION_TEST\"],\"condition\":null,\"start\":\"council\",\"cooldownSeconds\":0,\"nodes\":{\"council\":{\"text\":\"A formal country seat requires the current native holder. Ordinary witnesses have no national vote.\",\"script\":null,\"quest\":null,\"quorum\":3,\"choices\":{\"no\":{\"label\":\"Oppose as a country\",\"next\":\"done\",\"condition\":null,\"permission\":null,\"effects\":[]},\"yes\":{\"label\":\"Support as a country\",\"next\":\"done\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"done\":{\"text\":\"The actual country decision and its stable receipts are retained.\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[],\"terminal\":true}},\"voteUnit\":\"NATION\"}",
+            "provenance": "ACCEPTED_CONFIGURATION",
+            "first_seen": "2026-11-19T22:50:09.877Z"
+          },
+          {
+            "story": "national-smoke-primary",
+            "version": "1",
+            "fingerprint": "99f92eeaabc73985ed364c38d646b3771bcac5535f49237a222b51218c7b268c",
+            "json": "{\"id\":\"national-smoke-primary\",\"version\":\"1\",\"title\":\"National smoke primary\",\"scope\":\"WORLD\",\"triggers\":[\"NATIONAL_PRIMARY_TEST\"],\"condition\":null,\"start\":\"council\",\"cooldownSeconds\":0,\"nodes\":{\"council\":{\"text\":\"A formal country seat requires the current native holder. Ordinary witnesses have no national vote.\",\"script\":null,\"quest\":null,\"quorum\":2,\"choices\":{\"no\":{\"label\":\"Oppose as a country\",\"next\":\"done\",\"condition\":null,\"permission\":null,\"effects\":[]},\"yes\":{\"label\":\"Support as a country\",\"next\":\"done\",\"condition\":null,\"permission\":null,\"effects\":[]}},\"effects\":[],\"terminal\":false},\"done\":{\"text\":\"The actual country decision and its stable receipts are retained.\",\"script\":null,\"quest\":null,\"quorum\":1,\"choices\":{},\"effects\":[{\"id\":\"one-honor-receipt\",\"type\":\"honor\",\"target\":\"player\",\"value\":\"7\",\"permission\":null},{\"id\":\"actual-national-ending\",\"type\":\"history\",\"target\":\"NATIONAL_COUNCIL_SMOKE_FINISHED\",\"value\":\"The country council made its actual recorded decision.\",\"permission\":null}],\"terminal\":true}},\"voteUnit\":\"NATION\"}",
+            "provenance": "ACCEPTED_CONFIGURATION",
+            "first_seen": "2026-11-19T22:50:09.883Z"
+          }
+        ],
+        "row_count": 2,
+        "content_sha256": "415e8a303864b0498a079d5b53e2bac9f9c0b7c97920d0f53d0193a6d32dcaef"
+      },
+      "story_nation_actor_bindings": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "instance_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "node_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 2
+          },
+          {
+            "cid": 2,
+            "name": "actor_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 3
+          },
+          {
+            "cid": 3,
+            "name": "nation_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "bound_at",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 5,
+            "name": "authority_evidence",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "node_id": "council",
+            "actor_id": "08ffd450-5001-3023-a480-057fef707037",
+            "nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "bound_at": "2026-11-19T22:52:56.600385800Z",
+            "authority_evidence": "{\"actor\":\"08ffd450-5001-3023-a480-057fef707037\",\"checkedAt\":\"2026-11-19T22:52:56.598307900Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=08ffd450-5001-3023-a480-057fef707037; checkedAt=2026-11-19T22:52:56.598307900Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          },
+          {
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "node_id": "council",
+            "actor_id": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "nation_id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "bound_at": "2026-11-19T22:58:25.941775400Z",
+            "authority_evidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+          },
+          {
+            "instance_id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "node_id": "council",
+            "actor_id": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "nation_id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "bound_at": "2026-11-19T22:59:04.257643700Z",
+            "authority_evidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+          },
+          {
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "node_id": "council",
+            "actor_id": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "bound_at": "2026-11-19T22:53:21.946555200Z",
+            "authority_evidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:53:21.944960500Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:53:21.944960500Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+          },
+          {
+            "instance_id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "node_id": "council",
+            "actor_id": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "bound_at": "2026-11-19T22:59:04.249884Z",
+            "authority_evidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:59:04.248843900Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:59:04.248843900Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+          },
+          {
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "node_id": "council",
+            "actor_id": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "bound_at": "2026-11-19T22:53:59.096032900Z",
+            "authority_evidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:53:59.094990600Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:53:59.094990600Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          },
+          {
+            "instance_id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "node_id": "council",
+            "actor_id": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "bound_at": "2026-11-19T22:59:04.242128600Z",
+            "authority_evidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          }
+        ],
+        "row_count": 7,
+        "content_sha256": "e8c76e70cc156bb504dff2fa8076326d3dafaaab9ec7816b39daeacd12f12da2"
+      },
+      "story_nation_resolutions": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "instance_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "source_event_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "story_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "story_version",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 5,
+            "name": "node_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 6,
+            "name": "scope_key",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 7,
+            "name": "choice_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 8,
+            "name": "quorum",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 9,
+            "name": "actor_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 10,
+            "name": "checked_at",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 11,
+            "name": "authority_evidence",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 12,
+            "name": "json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "id": "99f433618e22e3a7800c2906f42c11a13a3231bef973e845fc3a773929afdb76",
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "source_event_id": "national-paper:primary:1",
+            "story_id": "national-smoke-primary",
+            "story_version": "1",
+            "node_id": "council",
+            "scope_key": "world",
+            "choice_id": "yes",
+            "quorum": 2,
+            "actor_id": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "checked_at": "2026-11-19T22:58:25.940764700Z",
+            "authority_evidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}",
+            "json": "{\"id\":\"99f433618e22e3a7800c2906f42c11a13a3231bef973e845fc3a773929afdb76\",\"instanceId\":\"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d\",\"nodeId\":\"council\",\"choiceId\":\"yes\",\"quorum\":2,\"actorId\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"counted\":[{\"nationId\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\",\"revision\":4,\"choiceId\":\"yes\",\"actorId\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\"},{\"nationId\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\",\"revision\":1,\"choiceId\":\"yes\",\"actorId\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\"}],\"authorityEvidence\":\"{\\\"actor\\\":\\\"140669be-0a1a-3206-a8b1-20d23a596b3a\\\",\\\"checkedAt\\\":\\\"2026-11-19T22:58:25.940764700Z\\\",\\\"evidence\\\":\\\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\\\",\\\"issuer\\\":\\\"StarCore.NationModule.current-holder\\\",\\\"nation\\\":\\\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\\\"}\"}"
+          }
+        ],
+        "row_count": 1,
+        "content_sha256": "7d701d38d9bcf54693de0ae461be9c3476398d33dcb356762e9a0dbcb999a6e0"
+      },
+      "story_nation_vote_log": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "seq",
+            "type": "INTEGER",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "instance_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "source_event_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "story_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 5,
+            "name": "story_version",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 6,
+            "name": "node_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 7,
+            "name": "nation_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 8,
+            "name": "revision",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 9,
+            "name": "action",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 10,
+            "name": "status",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 11,
+            "name": "choice_id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 12,
+            "name": "actor_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 13,
+            "name": "actor_nation_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 14,
+            "name": "changed_at",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 15,
+            "name": "checked_at",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 16,
+            "name": "authority_evidence",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "seq": 1,
+            "id": "a84918ee5fac9c8d28d8bbb1e2fa12b502d50f275aa56465fb376c0a60c6899f",
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "source_event_id": "national-paper:primary:1",
+            "story_id": "national-smoke-primary",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "revision": 1,
+            "action": "CAST",
+            "status": "ACTIVE",
+            "choice_id": "yes",
+            "actor_id": "08ffd450-5001-3023-a480-057fef707037",
+            "actor_nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "changed_at": "2026-11-19T22:52:56.600385800Z",
+            "checked_at": "2026-11-19T22:52:56.598307900Z",
+            "authority_evidence": "{\"actor\":\"08ffd450-5001-3023-a480-057fef707037\",\"checkedAt\":\"2026-11-19T22:52:56.598307900Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=08ffd450-5001-3023-a480-057fef707037; checkedAt=2026-11-19T22:52:56.598307900Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          },
+          {
+            "seq": 8,
+            "id": "715c6ec475a3f56600fa802d25acbb652fcbf5fe36964f7dbd9d48ce237c74cc",
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "source_event_id": "national-paper:primary:1",
+            "story_id": "national-smoke-primary",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "revision": 1,
+            "action": "CAST",
+            "status": "ACTIVE",
+            "choice_id": "yes",
+            "actor_id": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "actor_nation_id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "changed_at": "2026-11-19T22:58:25.941775400Z",
+            "checked_at": "2026-11-19T22:58:25.940764700Z",
+            "authority_evidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+          },
+          {
+            "seq": 11,
+            "id": "0cc6b6e64726cf88c5a69e8bebf0a0011944606a5ed5454fcee25b6e1329655b",
+            "instance_id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "source_event_id": "national-paper:invalidation:1",
+            "story_id": "national-smoke-invalidation",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "revision": 1,
+            "action": "CAST",
+            "status": "ACTIVE",
+            "choice_id": "no",
+            "actor_id": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "actor_nation_id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "changed_at": "2026-11-19T22:59:04.257643700Z",
+            "checked_at": "2026-11-19T22:59:04.256620200Z",
+            "authority_evidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"
+          },
+          {
+            "seq": 2,
+            "id": "e012a586971b5ae8f3a629a9644aa621d88f9138b5983c73ea534b5c51cef939",
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "source_event_id": "national-paper:primary:1",
+            "story_id": "national-smoke-primary",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "revision": 1,
+            "action": "CAST",
+            "status": "ACTIVE",
+            "choice_id": "no",
+            "actor_id": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "actor_nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "changed_at": "2026-11-19T22:53:21.946555200Z",
+            "checked_at": "2026-11-19T22:53:21.944960500Z",
+            "authority_evidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:53:21.944960500Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:53:21.944960500Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+          },
+          {
+            "seq": 7,
+            "id": "e9d72c199f7df035a772339a426365020e6b0ccf3d4b1df6a26e5a52bfaa1bf2",
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "source_event_id": "national-paper:primary:1",
+            "story_id": "national-smoke-primary",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "revision": 3,
+            "action": "CAST",
+            "status": "ACTIVE",
+            "choice_id": "no",
+            "actor_id": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "actor_nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "changed_at": "2026-11-19T22:58:02.246058100Z",
+            "checked_at": "2026-11-19T22:58:02.243982800Z",
+            "authority_evidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+          },
+          {
+            "seq": 10,
+            "id": "8320c4461046b9a8993aa88635cefe278700adba459fae49af99bcf2e3e604b1",
+            "instance_id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "source_event_id": "national-paper:invalidation:1",
+            "story_id": "national-smoke-invalidation",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "revision": 1,
+            "action": "CAST",
+            "status": "ACTIVE",
+            "choice_id": "yes",
+            "actor_id": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "actor_nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "changed_at": "2026-11-19T22:59:04.249884Z",
+            "checked_at": "2026-11-19T22:59:04.248843900Z",
+            "authority_evidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:59:04.248843900Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:59:04.248843900Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+          },
+          {
+            "seq": 6,
+            "id": "74a4bc93215985036f925ac23a396897fe0d1b6ac51249ef9452f12053d95b8a",
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "source_event_id": "national-paper:primary:1",
+            "story_id": "national-smoke-primary",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "revision": 4,
+            "action": "CAST",
+            "status": "ACTIVE",
+            "choice_id": "yes",
+            "actor_id": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "actor_nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "changed_at": "2026-11-19T22:54:14.396290600Z",
+            "checked_at": "2026-11-19T22:54:14.395244Z",
+            "authority_evidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          },
+          {
+            "seq": 9,
+            "id": "ab491dd61b9fb33ab0e8f1c634452cbcf92ff08fa44330437a5ee4c798c4d054",
+            "instance_id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "source_event_id": "national-paper:invalidation:1",
+            "story_id": "national-smoke-invalidation",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "revision": 1,
+            "action": "CAST",
+            "status": "ACTIVE",
+            "choice_id": "yes",
+            "actor_id": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "actor_nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "changed_at": "2026-11-19T22:59:04.242128600Z",
+            "checked_at": "2026-11-19T22:59:04.241117200Z",
+            "authority_evidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          },
+          {
+            "seq": 4,
+            "id": "acf330a07427b2f15f1b309cce3477a4547493d83f7f85a289546c9c571a32de",
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "source_event_id": "national-paper:primary:1",
+            "story_id": "national-smoke-primary",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "revision": 2,
+            "action": "CHANGE",
+            "status": "ACTIVE",
+            "choice_id": "no",
+            "actor_id": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "actor_nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "changed_at": "2026-11-19T22:53:59.096032900Z",
+            "checked_at": "2026-11-19T22:53:59.094990600Z",
+            "authority_evidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:53:59.094990600Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:53:59.094990600Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          },
+          {
+            "seq": 12,
+            "id": "d86d2cd13f362cf3f492306035a874da5397c19040f4c2dc2910c387b14b51aa",
+            "instance_id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "source_event_id": "national-paper:invalidation:1",
+            "story_id": "national-smoke-invalidation",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "revision": 2,
+            "action": "INVALIDATE",
+            "status": "INVALIDATED",
+            "choice_id": null,
+            "actor_id": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "actor_nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "changed_at": "2026-11-19T22:59:24.242800900Z",
+            "checked_at": "2026-11-19T22:59:24.241756200Z",
+            "authority_evidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          },
+          {
+            "seq": 3,
+            "id": "fa2ac9ae46ff5ca4cca22fa59b60304e0953ea651df577d8dad31c1f576949d3",
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "source_event_id": "national-paper:primary:1",
+            "story_id": "national-smoke-primary",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "revision": 2,
+            "action": "WITHDRAW",
+            "status": "WITHDRAWN",
+            "choice_id": null,
+            "actor_id": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "actor_nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "changed_at": "2026-11-19T22:53:49.600370100Z",
+            "checked_at": "2026-11-19T22:53:49.599287500Z",
+            "authority_evidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:53:49.599287500Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:53:49.599287500Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"
+          },
+          {
+            "seq": 5,
+            "id": "5c4675f4c5c844cefcf300ec00dd5c0de0f7c160c47b8836c2177a5d16a76487",
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "source_event_id": "national-paper:primary:1",
+            "story_id": "national-smoke-primary",
+            "story_version": "1",
+            "node_id": "council",
+            "nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "revision": 3,
+            "action": "WITHDRAW",
+            "status": "WITHDRAWN",
+            "choice_id": null,
+            "actor_id": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "actor_nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "changed_at": "2026-11-19T22:54:06.894942400Z",
+            "checked_at": "2026-11-19T22:54:06.894942400Z",
+            "authority_evidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:06.894942400Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:06.894942400Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"
+          }
+        ],
+        "row_count": 12,
+        "content_sha256": "ce76dc0be204147885f58e4ab6f6681cd7def4eb289a4c3cc907dc1369c00487"
+      },
+      "story_nation_votes": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "instance_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "node_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 2
+          },
+          {
+            "cid": 2,
+            "name": "nation_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 3
+          },
+          {
+            "cid": 3,
+            "name": "revision",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "status",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 5,
+            "name": "choice_id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 6,
+            "name": "actor_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 7,
+            "name": "checked_at",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 8,
+            "name": "authority_evidence",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 9,
+            "name": "log_seq",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [
+          {
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "node_id": "council",
+            "nation_id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "revision": 1,
+            "status": "ACTIVE",
+            "choice_id": "yes",
+            "actor_id": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "checked_at": "2026-11-19T22:58:25.940764700Z",
+            "authority_evidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}",
+            "log_seq": 8
+          },
+          {
+            "instance_id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "node_id": "council",
+            "nation_id": "6030ce13-0f3c-4ff0-9efc-c2633647d7f7",
+            "revision": 1,
+            "status": "ACTIVE",
+            "choice_id": "no",
+            "actor_id": "140669be-0a1a-3206-a8b1-20d23a596b3a",
+            "checked_at": "2026-11-19T22:59:04.256620200Z",
+            "authority_evidence": "{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}",
+            "log_seq": 11
+          },
+          {
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "node_id": "council",
+            "nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "revision": 3,
+            "status": "ACTIVE",
+            "choice_id": "no",
+            "actor_id": "28a86e57-337f-3ee8-8593-6eed0ce4d3d6",
+            "checked_at": "2026-11-19T22:58:02.243982800Z",
+            "authority_evidence": "{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}",
+            "log_seq": 7
+          },
+          {
+            "instance_id": "5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d",
+            "node_id": "council",
+            "nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "revision": 4,
+            "status": "ACTIVE",
+            "choice_id": "yes",
+            "actor_id": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "checked_at": "2026-11-19T22:54:14.395244Z",
+            "authority_evidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}",
+            "log_seq": 6
+          },
+          {
+            "instance_id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "node_id": "council",
+            "nation_id": "421acafc-185a-4e1d-a20b-d6143a03ee22",
+            "revision": 1,
+            "status": "ACTIVE",
+            "choice_id": "yes",
+            "actor_id": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "checked_at": "2026-11-19T22:59:04.241117200Z",
+            "authority_evidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}",
+            "log_seq": 9
+          },
+          {
+            "instance_id": "122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868",
+            "node_id": "council",
+            "nation_id": "75cab410-280c-4e0e-b854-94c0f57f9dec",
+            "revision": 2,
+            "status": "INVALIDATED",
+            "choice_id": null,
+            "actor_id": "63e2bb34-acdd-360c-a4b5-57c748f2ef53",
+            "checked_at": "2026-11-19T22:59:24.241756200Z",
+            "authority_evidence": "{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}",
+            "log_seq": 12
+          }
+        ],
+        "row_count": 6,
+        "content_sha256": "6f1a02622babe538fee23a19a174508b1a93fc34cb89c2b6f74d3ad15a30934d"
+      },
+      "story_trigger_blocks": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "event_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "story",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "version",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "reason",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          }
+        ],
+        "rows": [],
+        "row_count": 0,
+        "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "story_trigger_receipts": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "trigger_key",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "scope",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 2
+          }
+        ],
+        "rows": [
+          {
+            "trigger_key": "739c24919fe7df431c5466475f3fdda85061763ccf0ab70ae04453416218285a",
+            "scope": "world"
+          },
+          {
+            "trigger_key": "ef3080b6cda126631bfd02d5c1656c9ac7ff369a8fc0b202f6979cd9499bae86",
+            "scope": "world"
+          }
+        ],
+        "row_count": 2,
+        "content_sha256": "ceb7f4100291780da1118c5eda6940d0530cb4d08fc2ac7f8f4738e57ffaa431"
+      },
+      "story_triggers": {
+        "columns": [
+          {
+            "cid": 0,
+            "name": "id",
+            "type": "TEXT",
+            "notnull": 0,
+            "dflt_value": null,
+            "pk": 1
+          },
+          {
+            "cid": 1,
+            "name": "trigger_key",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 2,
+            "name": "event_id",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 3,
+            "name": "scope",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 4,
+            "name": "story_json",
+            "type": "TEXT",
+            "notnull": 1,
+            "dflt_value": null,
+            "pk": 0
+          },
+          {
+            "cid": 5,
+            "name": "checked",
+            "type": "INTEGER",
+            "notnull": 1,
+            "dflt_value": "0",
+            "pk": 0
+          }
+        ],
+        "rows": [],
+        "row_count": 0,
+        "content_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    }
+  }
+}

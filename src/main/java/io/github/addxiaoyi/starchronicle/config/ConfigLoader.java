@@ -53,6 +53,7 @@ public final class ConfigLoader {
         if(s==null) fail("Null story");
         id(s.id()); id(s.version()); text(s.title());if(s.title().length()>128)fail("Story title too long");
         if(s.scope()==null||s.triggers()==null||s.triggers().isEmpty()||s.cooldownSeconds()<0) fail("Invalid scope, triggers or cooldown: "+s.id());
+        if(s.voteUnit()==StoryDefinition.VoteUnit.NATION&&s.scope()==StoryDefinition.Scope.PLAYER)fail("National voting cannot use PLAYER scope: "+s.id());
         s.triggers().forEach(ConfigLoader::text);
         if(s.nodes()==null||s.nodes().isEmpty()||s.nodes().size()>256||!s.nodes().containsKey(s.start())) fail("Invalid start/nodes: "+s.id());
         condition(s.condition(),0);
@@ -60,15 +61,23 @@ public final class ConfigLoader {
             id(entry.getKey()); var n=entry.getValue();
             if(n==null) fail("Null node"); text(n.text());
             if(n.quorum()>10000) fail("Quorum too large");
+            if(s.voteUnit()==StoryDefinition.VoteUnit.NATION&&s.scope()==StoryDefinition.Scope.NATION&&n.quorum()>1)fail("One NATION instance has only one national seat: "+s.id()+"/"+entry.getKey());
             if(n.terminal()&&!n.choices().isEmpty() || !n.terminal()&&n.choices().isEmpty()) fail("Terminal/choices mismatch: "+entry.getKey());
             if(n.choices().size()>36) fail("GUI supports at most 36 choices");
             if(present(n.script())&&!scripts.test(n.script())) fail("Missing StarCore script: "+n.script());
             if(present(n.quest())&&!quests.test(n.quest())) fail("Missing StarCore quest: "+n.quest());
             effects(n.effects(),scripts,quests);
+            for(var effect:n.effects())if(effect.type().equals("quest.await")) {
+                if(n.terminal())fail("A terminal node cannot wait for a native quest: "+entry.getKey());
+                if(effect.value().equals("NATION")&&s.scope()==StoryDefinition.Scope.PLAYER)fail("A personal story cannot use a national quest barrier: "+entry.getKey());
+                if(Objects.equals(n.quest(),effect.target())||n.effects().stream().anyMatch(other->other.type().equals("quest.accept")&&other.target().equals(effect.target())))
+                    fail("Do not assign the same native quest through both tracked await and untracked accept: "+effect.target());
+            }
             for(var c:n.choices().entrySet()) {
                 id(c.getKey()); if(c.getValue()==null) fail("Null choice"); var v=c.getValue(); text(v.label());
                 if(!s.nodes().containsKey(v.next())) fail("Unknown destination: "+v.next());
                 condition(v.condition(),0); effects(v.effects(),scripts,quests);
+                if(v.effects().stream().anyMatch(effect->effect.type().equals("quest.await")))fail("Quest barriers belong to the entered node, not an already resolved choice: "+entry.getKey()+"/"+c.getKey());
             }
         }
         Set<String> visiting=new HashSet<>(),visited=new HashSet<>(); visit(s.start(),s,visiting,visited);
@@ -93,6 +102,11 @@ public final class ConfigLoader {
                 case "history" -> {if(e.target().length()>128)fail("History event type exceeds 128 characters");}
                 case "narrative.start" -> {if(!scripts.test(e.target())) fail("Missing StarCore script: "+e.target());}
                 case "quest.accept" -> {if(!quests.test(e.target())) fail("Missing StarCore quest: "+e.target());}
+                case "quest.await" -> {
+                    if(!Set.of("PLAYER","NATION").contains(e.value()))fail("Quest barrier mode must be PLAYER or NATION");
+                    if(e.target().length()>256||e.target().chars().anyMatch(Character::isISOControl))fail("Invalid native quest reference");
+                    if(!quests.test(e.target()))fail("Missing StarCore quest: "+e.target());
+                }
                 case "authority" -> {if(!present(e.permission())||e.permission().contains("*")) fail("Authority effect requires explicit permission");}
                 default -> fail("Invalid/unsafe effect: "+e.type());
             }

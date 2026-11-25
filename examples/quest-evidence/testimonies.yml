@@ -1,0 +1,37 @@
+id: evidence-testimonies
+version: '1'
+title: 围城证词国会
+scope: WORLD
+voteUnit: NATION
+triggers: [CHRONICLE_TESTIMONIES_OPENED]
+start: collect
+cooldownSeconds: 0
+nodes:
+  collect:
+    text: 每国任一原成员制作记录册并在原生任务界面确认完成后，本国才可表决。普通成员的贡献不会授予国家席位。
+    quorum: 2
+    effects:
+      - id: native-testimony
+        type: quest.await
+        target: chronicle_siege_testimonies
+        value: NATION
+        permission: starchronicle.use
+    choices:
+      memorial:
+        label: 支持保存战争证词
+        next: memorial
+        permission: starchronicle.use
+      library:
+        label: 支持建立公共史料馆
+        next: library
+        permission: starchronicle.use
+  memorial:
+    text: 各国选择已冻结。后续纪念设施须另经地区保护与国家权威授权。
+    terminal: true
+    effects:
+      - {id: memorial-record, type: history, target: CHRONICLE_TESTIMONIES_DECIDED, value: '国家议事选择纪念方案'}
+  library:
+    text: 各国选择已冻结。史料馆的实体施工须另经保护授权。
+    terminal: true
+    effects:
+      - {id: library-record, type: history, target: CHRONICLE_TESTIMONIES_DECIDED, value: '国家议事选择史料馆方案'}

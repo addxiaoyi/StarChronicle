@@ -1,0 +1,1322 @@
+{
+  "generated_at": "2026-11-20T06:47:20.046314+08:00",
+  "status": "PASS",
+  "command": ".\\mvnw.cmd -B -ntp clean verify",
+  "plugin_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694",
+  "sources_sha256": "a0a0c5ed3913a760bb59f098146c812741bed8c321ccbbdfe286d7f10f56c642",
+  "source_fingerprint": "8abeb2989e5e201900db6b63091f79fb3cebef9c507fd39e2ab9435b870a5f02",
+  "class_major": 65,
+  "totals": {
+    "tests": 674,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": [
+    {
+      "name": "io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest",
+      "tests": "14",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.config.ConditionLogicTest",
+      "tests": "13",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest",
+      "tests": "12",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest",
+      "tests": "19",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest",
+      "tests": "50",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest",
+      "tests": "13",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest",
+      "tests": "9",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest",
+      "tests": "8",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest",
+      "tests": "17",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest",
+      "tests": "12",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest",
+      "tests": "14",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.FateStoriesTest",
+      "tests": "18",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest",
+      "tests": "18",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.InvocationGateTest",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest",
+      "tests": "12",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.NationalRuleEngineAuthorityBoundaryTest",
+      "tests": "9",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.NationalRuleEngineTest",
+      "tests": "14",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.NationalVoteLedgerTest",
+      "tests": "21",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.NationalVotePreparationTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.NativeDispatchTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest",
+      "tests": "10",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.RecollectionsTest",
+      "tests": "11",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.RuleEngineTest",
+      "tests": "23",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest",
+      "tests": "22",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.core.TextServiceTest",
+      "tests": "8",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.history.EventCausalityTest",
+      "tests": "10",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest",
+      "tests": "9",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.history.ObservationJournalTest",
+      "tests": "14",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest",
+      "tests": "11",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest",
+      "tests": "12",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest",
+      "tests": "9",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest",
+      "tests": "21",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest",
+      "tests": "16",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest",
+      "tests": "19",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest",
+      "tests": "17",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest",
+      "tests": "25",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest",
+      "tests": "9",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.npc.NpcSystemTest",
+      "tests": "12",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.paper.MemorySitesTest",
+      "tests": "16",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.paper.MenusTest",
+      "tests": "8",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest",
+      "tests": "9",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.paper.NationalMenusTest",
+      "tests": "11",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.paper.NationalServicesTest",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.paper.RegionTasksTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.paper.StateWorkerTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest",
+      "tests": "11",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.persistence.ChoiceSchemaUpgradeTest",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "docs/API.md",
+      "sha256": "5473b596ddd5f2cf0c0f546c717b06d06ad1d13b7f55680fc398aeaa11a87353"
+    },
+    {
+      "path": "docs/CONTINUOUS-NARRATIVE.md",
+      "sha256": "40b584eec65fdcb3649bbc4f22b0f09ef56ba1826bc2e8812f6a06fb6cbb4e5f"
+    },
+    {
+      "path": "docs/NATIONAL-COUNCIL.md",
+      "sha256": "75acdc4477c94c817e579c953da34098d440b2b60866d26fabc5740dca64ec21"
+    },
+    {
+      "path": "examples/national-council/aftermath.yml",
+      "sha256": "582b51c03c8a1928f96d46a5066b2366efb0d90af2501e4b2b2da8b3e872cd28"
+    },
+    {
+      "path": "examples/national-council/council.yml",
+      "sha256": "dd58b408e4ad012bb8fd4f33cf6524500bfeb8b55d1c5cddd933943ec525eca2"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "8eaccf6fbb48ba2061859b3a2040873fc9e0258a026be3ae6526dbcdfb6c1fe6"
+    },
+    {
+      "path": "pom.xml",
+      "sha256": "c0aea49f5c77fa294a36d5b54cd1bceca1180ef2524e16186de285e0d3306f5a"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/AuthorityProvider.java",
+      "sha256": "50d3c6e83b43a7b50c2537fdd4e9d2227dd7a2b2815abfb480fc4a38071bc298"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/ChronicleService.java",
+      "sha256": "7a385136281931f020f6f6973ec0af853904353e72a99d5c03807bb110c7c56e"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/ContextContributor.java",
+      "sha256": "70c30c905fa1a3d03070d5c285a4b5f2ff10903169bbebd873590bd28004e5cf"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/CoreGateway.java",
+      "sha256": "4338e21bedd1b1c8b6cbf4eb70108884dd391928358293075523ef34bfd569d4"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/Delivery.java",
+      "sha256": "bc42cdb31b3baad007ccc8e602112e163beff7c749ce81bc7658415f6524e19d"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/HistoricalEvaluationReport.java",
+      "sha256": "3213ec6972fa63cdd31d813e2bb989a699ed93b75ac539c5f3f263d474af8527"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/NationalVoteAuthority.java",
+      "sha256": "a22afe4ddb4ff8c5877bc3cbb553ed1052f9ca7e0edb331fc1956f8f61758a83"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/NationalVoteState.java",
+      "sha256": "0797b0eacd5ce8273022b208ec2c1b221fa8fafab52eb3334717daedff9c0886"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/NativeScene.java",
+      "sha256": "d249c11f63f639a34e4b25727d24e4979353a7e6656a29907374576c490ceabe"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/NpcProvider.java",
+      "sha256": "5f8319894ea25b997f46b5a097e578a768b1450f9cb88aac03398eca378d52e6"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/PlayerContext.java",
+      "sha256": "4f14e05b3e06df677443619f625227a8cfae5e3864cbe8090733669e733c5959"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/SnapshotProvider.java",
+      "sha256": "b820b5b4b55fc1eee00b17eed58afe98543d3168a726e551bb5a7e4e6bbc30af"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/TextProvider.java",
+      "sha256": "eca054aa5659dd5ab66b33459e51c71cb8e5169edb1079e594df7f9235a4f50a"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/api/WorldEvent.java",
+      "sha256": "ccf2f33cdeff5476065c407e4449e0adfcae669980029fab92586a2e275e6314"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/config/Condition.java",
+      "sha256": "6ace783192e7e063cdc22de6a5c127552ea3a8201b7f700144e31ca8670bf586"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/config/ConfigLoader.java",
+      "sha256": "f449ab91a03f022789f6278b4fa1eaadfecb5c272cf87df3598e75b53b25d515"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/config/StoryDefinition.java",
+      "sha256": "3f4caf721057a09aea22888714e6b19943c0effa3a8d2dcef139aa1e5c47e19f"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/config/StoryDependencies.java",
+      "sha256": "e1c74fedfab1d257715b0c2fd7997f025784d78735d95427b511ebab68ee26a5"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/ChoiceLedger.java",
+      "sha256": "b2fb0d16066d01d1041e4db20fc9f0aada2b32b312c51fc16105c65e86d6468d"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/DefinitionCanonicalCodec.java",
+      "sha256": "0e4893bd7a4ecd6b589fef7ffd808141da2a91517579d44646992f29ad757ce5"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/DefinitionCatalog.java",
+      "sha256": "8f2c664a7cd5083c202c5aabd37fffca53057097b1a8cb00f889e753dc16cef8"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/InvocationGate.java",
+      "sha256": "d1dc84f2d503a09e5ba9afcf36c4a7dad09e0a3261175843939f15941dbc56ac"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/NationalVoteLedger.java",
+      "sha256": "e0c1366d99c6831563bced38d0cda73f3fbfb8d6cf1044479c4789f4480eac50"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/NativeSceneFlights.java",
+      "sha256": "64a3842f41801f1f7819951439dc286958af01e346330d77871fb3e816117ccc"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/ProcessReport.java",
+      "sha256": "35a6abf9d1aee52a199ceb94f7675465b2161d4290ecd7bdd4267a6aba11a31d"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/RuleEngine.java",
+      "sha256": "788cd64a1751283c9d248d19d0bbeb8da51f6665c8ddc966dc4737a0390c5587"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/StoryInstance.java",
+      "sha256": "8dd389d0407c91245560250402912aa7387ef1414d3d53f8f5582171bc7529dd"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/StoryRuntime.java",
+      "sha256": "a04953bcc93eb6c2acae7d8b602498163e5bbde9314529f30cdffe836789cd1f"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/core/TextService.java",
+      "sha256": "2d3de77999a1ccb7cb3b2240af5025fad4af56cbb73f3e877f978e912d9e99c3"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/history/EventCausality.java",
+      "sha256": "89cf2670abf9b158aded3b857141d3e528781203eebb4f68b06c5f9d40c9ee50"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/history/HistoricalFacts.java",
+      "sha256": "172b594a1464f6fc7989266df257c418838b35fae4c62771e16e61b356819619"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/history/ObservationJournal.java",
+      "sha256": "6f77c54cc856b9db6cbb36186ada0b21f3ec3bafb69511ababbac9fdba61c4ae"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/history/ObservationSnapshot.java",
+      "sha256": "f71f15f22429ea1c35ae5160afe17cf707ee51f066e299bd9c65cdb616efad7a"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/integration/CoreContentInstaller.java",
+      "sha256": "1e05c1ceb28ff9dc8994f64529baecbf97f676665cd3841c739fb1e73a0340c3"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/integration/NativeSceneAdapter.java",
+      "sha256": "bc38c9579f0656c40f208a959806a0aea66d20b8209130110a886edb6774138c"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/integration/NativeSceneRecoveryAdapter.java",
+      "sha256": "209532fd378820e5f88e275854cfbcc65271cdc796e2222324d49d7729d40dfc"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/integration/SnapshotCollector.java",
+      "sha256": "33d36f393906151e7c815298700e2b5177d4cf7fac94da80ae5139dde49d3766"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreAuthorityProvider.java",
+      "sha256": "774721a6703ae63259f95abf226f0ccd42273e660ce71e47d8c0dff14248dea2"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreBridge.java",
+      "sha256": "124778ebe3d93b83e6bb8fc17466556a6bf2fd596086e4a15290944604edb547"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthority.java",
+      "sha256": "1a0c0c4f12a7063543b2507faba3f26910d7ffa7dcb26e133c058d7cb6ca2402"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/integration/TechnologyFacts.java",
+      "sha256": "480e2f59ab7816275cbe195a20084ef728ad988f2704c5eb49b6042d1eed5841"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/memory/HistoryBook.java",
+      "sha256": "2c8cc02bede2d121f4f428dbb2fcac9ea77dd446fa5433e8387a729de3097561"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/memory/MemoryLedger.java",
+      "sha256": "d07ad1bc409a051657a655f33cf96762b1c51ee34937920d393d4cac88c90115"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/memory/MemorySite.java",
+      "sha256": "aeb969f8527cc615839fb21f981f3288f55324715e555f94770cee9df0ba5960"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/narrative/NativeSceneJournal.java",
+      "sha256": "782d7f86a98705f871490fcd8b6b897068b6e5feab0072d085bb3a2905f3af66"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/npc/NpcCatalog.java",
+      "sha256": "40aee996afa41396fa0c349fb43e3f47d55936b983247e34346cfd2b29f36a54"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/npc/NpcLedger.java",
+      "sha256": "207646d74616d1f6dbfe41914d1b90504c9ce9041e0128459e151f34b65bd006"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/npc/NpcView.java",
+      "sha256": "e796a1fee5ffd4693a77e962b2defaabd5a89323d9c07c74fcc00a5057fa22de"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/paper/MemorySites.java",
+      "sha256": "a88425a34f7c006d4ddf837f3dd6df2325ba69a2c77b2252a3eaaf743c7f6add"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/paper/Menus.java",
+      "sha256": "84dc19c33b41d5242ef2b1f9bb814e8c68c73e74ca416a65652bfa75b16d98d5"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/paper/NpcHooks.java",
+      "sha256": "d7a0ac24c5bdcad5600d6e2b1e478df638c94ee7c027df8becb50d4caa2da2e0"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/paper/RegionTasks.java",
+      "sha256": "05efe6bea6991303158600fac1a7170c71ffe7676a30737c8f4f5ebbe27b5a53"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin.java",
+      "sha256": "c7cc6da5707b033a55a42c08b9e76a67a5549e56dfde92cf98615056449babdd"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/paper/StateWorker.java",
+      "sha256": "788ee9261bfbe807bdacae3c1469fa907d28e0941dda32a9e129726911345230"
+    },
+    {
+      "path": "src/main/java/io/github/addxiaoyi/starchronicle/persistence/SqliteStore.java",
+      "sha256": "7f22f29f0c459f02f9023a7f4ca04af0bea724971dd710a9c4e1ff0a7c6f0655"
+    },
+    {
+      "path": "src/main/resources/config.yml",
+      "sha256": "417ca04134d287c57c7bde77c792b1e7aeb869e166ee1b608f2861f2c63d82a4"
+    },
+    {
+      "path": "src/main/resources/npcs.yml",
+      "sha256": "694cdfc38a1e1ff16a92503b7435f7eea45d4dcb4816e7a3f27770ba195d097b"
+    },
+    {
+      "path": "src/main/resources/plugin.yml",
+      "sha256": "edca323bedb02c3850438942c42d997fa7254638ce68e8d357f839b0dab78871"
+    },
+    {
+      "path": "src/main/resources/starcore-scenes/chronicle_last_heir.yml",
+      "sha256": "8235107f6200baed9555638376827bb8af2e27c1cafd7fa26d811e796a57f161"
+    },
+    {
+      "path": "src/main/resources/starcore-scenes/chronicle_siege_embers.yml",
+      "sha256": "9cab7f873e890a70c3ea6161a86a6384491e06f861395267d11c4baa9e5be851"
+    },
+    {
+      "path": "src/main/resources/starcore-scenes/chronicle_silk_road.yml",
+      "sha256": "4bc21dc2bd8a1fe847bb1ae86dac58b84e30d396e6e0847d028a92ddb1eb07b0"
+    },
+    {
+      "path": "src/main/resources/stories/fate-diplomat.yml",
+      "sha256": "cdccb1ff306366f60f4bf33768e244f866aa20ef50175b9ca0acd5f7ea2f9bdc"
+    },
+    {
+      "path": "src/main/resources/stories/fate-explorer.yml",
+      "sha256": "9fc0c27a29261491e0b0c55a14c221a9b873bf5e0f5cd2eede763fa8daa1a099"
+    },
+    {
+      "path": "src/main/resources/stories/fate-general.yml",
+      "sha256": "f47e877905b62784aa0298e37893abf7ccb0a9849e2ac54593b470cb260c0a5d"
+    },
+    {
+      "path": "src/main/resources/stories/fate-mayor.yml",
+      "sha256": "a5080206e727597f539f68db08e8c980cb83ddf06c179c6390b3185d74499397"
+    },
+    {
+      "path": "src/main/resources/stories/fate-merchant.yml",
+      "sha256": "4a0a8667bc1596c7b7c015f6840497cc46ea242cc400dfa29431b21d07dc5e83"
+    },
+    {
+      "path": "src/main/resources/stories/fate-monarch.yml",
+      "sha256": "10aa1e265023d6411a21761e1aad619e38e9f6ec7e0d8a248364bc4fd526411f"
+    },
+    {
+      "path": "src/main/resources/stories/fate-scholar.yml",
+      "sha256": "9534cc3785ba64b21c552dd0ac9097a5e75a6681c7c9d74b907b313ca548c8a6"
+    },
+    {
+      "path": "src/main/resources/stories/fate-soldier.yml",
+      "sha256": "fc31becc543fa8795b174d263740841f754d232cdb23ced54a6e85882a072dd8"
+    },
+    {
+      "path": "src/main/resources/stories/heir-legacy.yml",
+      "sha256": "6d4060374728b03fff1b735f191191e9f6cbf73829b920bf89f3ed27e95e084c"
+    },
+    {
+      "path": "src/main/resources/stories/integration-example.json.disabled",
+      "sha256": "9dc2792da309fb0445d27493a6f1268deda2efae8294036c15adf753a262afe0"
+    },
+    {
+      "path": "src/main/resources/stories/last-heir.yml",
+      "sha256": "a1135bd6a60ec53293026c8e0d7a91147820aa049315a21ad94b4a445fc086d6"
+    },
+    {
+      "path": "src/main/resources/stories/siege-embers.yml",
+      "sha256": "7c5442d73427cb19e901b00321d9b3ffdeb5ed5ffac64be75682cb2eca2acfe4"
+    },
+    {
+      "path": "src/main/resources/stories/silk-road-scholar.yml",
+      "sha256": "d9d01943917a868b308131d3f635dbf1ecd1aadfcad6ec7d9f1207267f160bdc"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/config/ArchivedStoryDependenciesTest.java",
+      "sha256": "e2ab78f57cee4a7bcbc135c26a56ffafc2b51986996bf71f61378f94e9fabb31"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/config/ConditionLogicTest.java",
+      "sha256": "44a7a08c5619e53f5193cfc2f54e362e00a4895bcaca63c0eb982607a06b50cb"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/config/ConfigLoaderTest.java",
+      "sha256": "0d041cfe7e92d10e6863b96c19c4914a22b48f89a7653432a4edae2a9e6e04d1"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/config/NationalChoiceDependenciesTest.java",
+      "sha256": "7a390b9013e16e925a88f4c9d6dbd920f79eadce642fd34114d664b0b475199d"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/config/NationalCouncilExampleTest.java",
+      "sha256": "25d995ddc231f72d6736132430b5b26ffde6453c13257c15b112a2402ff97019"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/config/SampleStoryContractTest.java",
+      "sha256": "da1be3255d83d126e9b8b6958c8676e87919e09334751b9da7843f1f6a67f128"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/config/StoryDependenciesTest.java",
+      "sha256": "3297080c9dd28b8517048dfb4a23251335ba9f3d48aadc071c32fba94361b984"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/ChoiceLedgerTest.java",
+      "sha256": "25992af9d2ce9eee56737780f2bc82dfcc69cb1ca8800bccc15deceeaaa42aee"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/CompletedInstanceSafetyTest.java",
+      "sha256": "68faab91f6b2e76a5b31bc08e12aa6a6da94b5170f7264da6d1b7cd27b57e981"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/CrossStoryEngineTest.java",
+      "sha256": "0ac62567e4747a0816844b337d10747d6a1601e5d52bfc6f64a3d8cb36b3c3bc"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/DeferredTriggerTest.java",
+      "sha256": "508dad2bf6d09679e4ed0133e7d4e1a2267adce3853cc25fb9060a2e1bd3f060"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/DefinitionCanonicalCodecTest.java",
+      "sha256": "1e23a9c7945ad77054856581621389dfc52837626ec08a190c465f3e89a4a387"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/DefinitionCatalogTest.java",
+      "sha256": "c628c2044e28ff51a5029eeb63bb36e54ee41aa9a0817b7f82a5e9124fcee44b"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/DerivedCausalityTest.java",
+      "sha256": "7716659b7c63ce9d5f629e921d3e3e52476c9864c48a17ac5d35193977334186"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/FateStoriesTest.java",
+      "sha256": "fa05429db0994b2641a42b8f2140439b92811749d19f510b072ee2437a6e9ee0"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/HeirLegacyPlaythroughTest.java",
+      "sha256": "5ccca3f9e396aaadfbcd6013ca210a9e54dab31efb7104756676ac4a349eb496"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/HistoricalCodexExampleTest.java",
+      "sha256": "62ad49629bff16a3bc0a5acb729eb8d6ff24262cff64b095f92308de800c93fd"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/HistoricalEvaluationTest.java",
+      "sha256": "5f502bf58eed719d22956a3176710210233102b34ed54fd2cbd78db03b3b437e"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/InvocationGateTest.java",
+      "sha256": "e57a53e97b794c8d20f8db9ad60af53a5e1c40aa50985809616c3855cfeb60c5"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalChoiceLedgerTest.java",
+      "sha256": "6789d3d2191fe7b3cad943f0657c98e005d837a64bf827d30f38c157a797d4e8"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalRuleEngineAuthorityBoundaryTest.java",
+      "sha256": "c0096fae79d7caa163f6e096a07a861ccb626a1962368bc4e3517ccd4ac10fe2"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalRuleEngineTest.java",
+      "sha256": "8b5a79e413e9064c14ddb41ee756f6deff0b5dd265d9fc71b099a9c07f61ea39"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalVoteLedgerTest.java",
+      "sha256": "586e078339afa18d4e9ec9f0549e0dab09690e697fde1443e80f5a45ce2d838b"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalVotePreparationTest.java",
+      "sha256": "8e3424deeceaba4447d9527c8ab591317e34f189c7866eac3ad85481e858727d"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/NativeDispatchTest.java",
+      "sha256": "133af1439ed181f3a2ae009ed0b433658d64c443db4556ac8f9b6c89b85024b1"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/NativeSceneDeliveryTest.java",
+      "sha256": "bf17b36fa0bfa426f82bdeb1a6790299aa5a1846c4e4515c38ed16a944b2112f"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/NativeSceneFlightsTest.java",
+      "sha256": "2b7551bfa4a65a0322569add715233882aea89763ea2b788dc82ed6fa60e38cf"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/OrchestrationRegressionTest.java",
+      "sha256": "57a830c4d4ebb9cba9d11a75205cf375644b99e05cb709cb825277d2b97325d0"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/RecollectionsTest.java",
+      "sha256": "8199684fa4b27efc2c7150b21c6da7d70224c0b692130a6fc50c7b761038f7c3"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/RetiredStoryRuntimeTest.java",
+      "sha256": "f7a79655847e0bc960c4121e8f43e451c46588b49627e5057eb9f8300da88453"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/RuleEngineTest.java",
+      "sha256": "30013955ed70837e2338684cc84dcb30f970b8097a9f494750aa1df2d4833db2"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/RuntimePublicationTest.java",
+      "sha256": "89babc618027e4a589a5532a66799d30eeca1a5f8a0d0013bad3685f91b5456c"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/SampleStoryPlaythroughTest.java",
+      "sha256": "c0114349d2e56bdb561aa19b0db6fee240c03168c588e4b897ebef1788f22fc2"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/core/TextServiceTest.java",
+      "sha256": "7e055de1487e288931ece788f8aeba00478c693ecc165d82e800284b2f1c6f77"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/history/EventCausalityTest.java",
+      "sha256": "cf98ab04b8fe945037b4934d806dbbeffee77871e97679b4a878469bf88f5546"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/history/HistoricalFactsTest.java",
+      "sha256": "0b496ba9b660036cffe377cb953b0ab3681b3534f1ae6bb596454aa2538e6f79"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/history/ObservationJournalTest.java",
+      "sha256": "49c5ae5893f22a18ffa58e40055d36b6939fabacc1f5ff277dfc2fd0973c41f0"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/integration/CoreContentInstallerTest.java",
+      "sha256": "c03029fe9ea672940cff7543c85c97b2073c1dfa25694d4c0c62ddf81e2acd06"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/integration/NativeRecoverySafetyTest.java",
+      "sha256": "f1da330ee1252011c042987e57314f5315cc8553ef841b84934a8b3987fccb4c"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/integration/NativeSceneAdapterTest.java",
+      "sha256": "7f42fd37b847192abc90456dd0985ae207378137ad406baceb04dddc8a7788aa"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/integration/NativeSceneRecoveryAdapterTest.java",
+      "sha256": "9cf3cb2d20a39146239ef3d1d2949bb41755739b1b9193401ed1254558e6c94e"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/integration/SnapshotCollectorTest.java",
+      "sha256": "5694479af473ce91f9dd4a0709eb8a692704e6a779abf680e3e887feb7af7a7b"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreAuthorityProviderTest.java",
+      "sha256": "d40d43383f87efc2dc997fc7845f5ef91303142ba6414ef196c3f5e24175fc5f"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreBridgeTest.java",
+      "sha256": "9809a97f3c758b072652f41f6cdaff78491d3dd294a18155793099c44b21998b"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthorityTest.java",
+      "sha256": "2f0e6123b859527381dfb50f257fa3f2a120c2f1a70b0e667305181df2dee711"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/integration/TechnologyFactsTest.java",
+      "sha256": "d09ce16327c2245bce39027a94406e5e008c622b50441dec376dc8dc5cdab4f3"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/memory/MemoryLedgerTest.java",
+      "sha256": "1d9a2b047c44fd5a28cf096d3a0965ea297cc299814b9d5cbae313bbf787657b"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/narrative/NativeSceneJournalTest.java",
+      "sha256": "9fc581789fbc121e0ffa2ea993d0a056799bb4ac09912fe80ef170cc6bd2e030"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/npc/NpcEngineTransactionTest.java",
+      "sha256": "7de5f00b69ee534ae643910b37a65327c006e34e16fbde1c34d3ad1914aeabd0"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/npc/NpcScopedHistoryTest.java",
+      "sha256": "fb603cf315be3340df0b7a44b18a874fbd6809da8004c8ca71c0d4081b7f0f33"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/npc/NpcSystemTest.java",
+      "sha256": "d05a1bc6da0ee197baecfe42ca440d87ffb0517abd1085dfd9a6d0c145c89788"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/paper/HistoricalCommandsTest.java",
+      "sha256": "f4de515f521ced3d36e4aa567bc37fbdeadfed73ff4ac3d39b84867ae4d06df6"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/paper/MemorySitesTest.java",
+      "sha256": "bfb5db639f7ea99fd5b42bcff172cb84270b1ea16212cb6fff13a8bbccea838e"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/paper/MenusTest.java",
+      "sha256": "d9160ae7f6e1ec25064408b56204ecc04f9f7264a18f57fb2089a8796e2e1430"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalAuthorityServicesTest.java",
+      "sha256": "dc90a9acdebe80c0a394299fd5d6e25373edaa0fa25b98c737ddbbe6ccffaa2f"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalCommandsTest.java",
+      "sha256": "f432b101e70dd3f796cc1adfe440d14642a89f3256f6f1b09e99b472c74056a2"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalMenusTest.java",
+      "sha256": "273bc7692b13ec6f5552278dc06437b6600dee72d2fbe462096b0cdd8c9b1134"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalServicesTest.java",
+      "sha256": "39156d7fa9837857c293d5bb41a4305b2f3f56d6251880bc0fd1e2eb33d6f389"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/paper/RegionTasksTest.java",
+      "sha256": "3cd483c90d099f25cd89d3bd0c9ad5d6489b37cf403d083f63f0ba86a3914639"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/paper/StateWorkerTest.java",
+      "sha256": "3889daa95a6b3fda54ce37d82857893bd62506899b5d377d5aa17176284f5c6c"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/persistence/CanonicalDefinitionSchemaUpgradeTest.java",
+      "sha256": "9a7e7f6edf897236a99ddd46d741a283ede15764eea29492c8e2e4a7bfd0513b"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/persistence/ChoiceSchemaUpgradeTest.java",
+      "sha256": "7911ce77bf10882e1016dad4d2f8e85fee5584818b48f9939a4dbba59a856000"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/persistence/DefinitionSchemaUpgradeTest.java",
+      "sha256": "dab2018f27e322ec5a6b14d12404688e25e5b24f4eaea4c307cc69b0ae1e75cf"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/persistence/SchemaMigrationTest.java",
+      "sha256": "36269dd1193e95eb671daf5a5907a6d82e814f47a1bac514ce98f53326cae592"
+    },
+    {
+      "path": "src/test/java/io/github/addxiaoyi/starchronicle/persistence/SqliteStoreTest.java",
+      "sha256": "0c5be679bd9bb3c73c33c534ce8a71a86eff2675144a4009510d4c4bb5120b12"
+    }
+  ],
+  "build_log_sha256": "e41856d34f8aea103a5b7a20ba0bad6ecaffbfd837edc42e5f8cf2c92c816cbb",
+  "surefire_xml": [
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest.xml",
+      "sha256": "3d9513766c6d0f42632898d97b9f9ad011a6edb6850133e369da9dc53e41b1e3"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.config.ConditionLogicTest.xml",
+      "sha256": "43151be61c0977167481dc0f15518dc5e5c7bcb82a921ce05e55ca4b9b9c360b"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest.xml",
+      "sha256": "3ecbba1d60dcb3bfef1c0889f3de32a9232b00dfde195814908abe4b3e9e5d69"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest.xml",
+      "sha256": "2c35edc4899d2a48cf616a8423618b80b2ef3b67a41d0d536db2bf3da9234772"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest.xml",
+      "sha256": "db7b2fae8cf68d18516bd822fad1534ed4df181ad071ea092c525d42b26ce097"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest.xml",
+      "sha256": "a9b195d17418454b19140c1fa18e1d1ac5bc214dfec6f5deb84cfdeec248bcd4"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest.xml",
+      "sha256": "cae6c156d73aab4134d67fd95636fae6b8134ace2dbf62bbb96c789fb5bef115"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest.xml",
+      "sha256": "36547d93429067b176252a9c1bdcfee5a436fdd0610c04f966f53b547f61aee0"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.xml",
+      "sha256": "1be31572608ab6be8542adfbb5712f01d5cf633efa8634ecb4ca675c1cd4fb8c"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest.xml",
+      "sha256": "027e1d13f4f685f1c5fdd1a906eca9bf334fa81df26eb69ca0ab885cbf60c10f"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest.xml",
+      "sha256": "888e7e6c5eda04ab2705785dc3bd0f062377a2e674d5b475cdb8d7c1b78463be"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest.xml",
+      "sha256": "75906246a8ff43eca2c7da5c91a82364e0de913b946da52a50c506c9eab93507"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest.xml",
+      "sha256": "c406f38af1b6888effd9369628828d86463c27fc3c073977ab5f16203f9d9f75"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest.xml",
+      "sha256": "1ffe1a6ab089ae3049eded3ccbf147ff6f763c8c53e5537472ea7ba851051646"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.FateStoriesTest.xml",
+      "sha256": "2815cbe94c08d9b259848b63d98549678ee55bc207f7c90698fad24f17d46bb6"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest.xml",
+      "sha256": "7d07f1c23d153a57341180ff59019021bd4dde4ded88e9ebf310d22b7c992819"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest.xml",
+      "sha256": "248c8663c75cae4fd8af2b4b33fdff49747324dd87b0fe1fa2873c3fba4d7a4a"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest.xml",
+      "sha256": "3642249c6e19321335cc71bed74aa1a8a1cc0cf6e77851fdda976a8d14199689"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.InvocationGateTest.xml",
+      "sha256": "ba8fdea5a75a2df9d64c910d7f3f74c61b3c9aa3ae65fbfd03dc8ed3858caee4"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest.xml",
+      "sha256": "4d2d92e32d559bc2d24444910224633aeb7cba2b543d43ca881d5a544c7eac80"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.NationalRuleEngineAuthorityBoundaryTest.xml",
+      "sha256": "b8fedb2ae9ccdc3b9ce2136b8ba6feb6db4dbf82bea5ef4a7eb34f8e64ab4789"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.NationalRuleEngineTest.xml",
+      "sha256": "f4b641d103ee4888b217e92f8a75184db63faad766568d41d395f09de2f03b53"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.NationalVoteLedgerTest.xml",
+      "sha256": "f15a33c2bc4591cb77f06b9cdb96c5eac652661ba9641960b93bf01f666c9688"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.NationalVotePreparationTest.xml",
+      "sha256": "667ccee17f45670655c139b013b9b88c9fbf24555eb33d97dc0c417c8b77db2d"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.NativeDispatchTest.xml",
+      "sha256": "382418e5eecb6f6f079c4c9aa0859fa55afbf9d3f7b93af140ad2239312da8b3"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest.xml",
+      "sha256": "87588280c8c48db07a4befa480d0f44aee360fd1df826fd9e801d7fb11c12bf7"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest.xml",
+      "sha256": "3732438be1ed36251c1078470bf25d916ac1f685fa92a68a96b118a50424acf5"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest.xml",
+      "sha256": "b9e1a28e68aebf945f51dc8dafc7872a2fa05b4b5e55f3bfb897e278920f0421"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.RecollectionsTest.xml",
+      "sha256": "edb21d485bc2f7b906ddaa760d4799bd6f1116abab45576130f54d7827124909"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest.xml",
+      "sha256": "1d2734841c2ec1344924cfd7b614698ab3641bdfa5f736fadcf89d4edf73ce03"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.RuleEngineTest.xml",
+      "sha256": "ff9e7e13b25378567837b260817febbb000756e45c39811857c0f61e497df16c"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest.xml",
+      "sha256": "e88ba77b3830f4760681b1138c20197611a283d657dce5dea6dc9a7cca2fcf53"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest.xml",
+      "sha256": "7fefeede6fe758476b9b5b410722c06c7bc58a6d2dd842f052ae48be1192468a"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.core.TextServiceTest.xml",
+      "sha256": "fd0be64efd255d9d79e42db06b411d615e1416603c0e0e1de8093831cd07f0a4"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.history.EventCausalityTest.xml",
+      "sha256": "0194d1e9fb11a190d5dc88e95f5f9cf80f03487ae9dfd847797972ce9a0ca867"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest.xml",
+      "sha256": "09f0fbfb3cdb5003454133c2bc5cde7cae95a4e98683111217296de4038574a8"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.history.ObservationJournalTest.xml",
+      "sha256": "c66830435918c7d05d9f1d38ff53a0d181322c8bb10913ec1e401dc666d98898"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest.xml",
+      "sha256": "99109f83efb7fc4cde270b521736c7626e0da8dc2d72d5f9d51a1669d4662202"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest.xml",
+      "sha256": "5d9488d078067469cf0a22259dae9548957aefa3dd190474ca5c24dcca2a75b0"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest.xml",
+      "sha256": "15d84121a2a96ca95089516b0ed051152d1e9acbed1a1ec964b98e005cecc7d0"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest.xml",
+      "sha256": "f8be5d350b174e7bb8d767a342a25dfa216863dd1355baf6ae350c01bd8cc180"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest.xml",
+      "sha256": "db0a4ad966dd9ee3ce8c5ba2e5937b42bc6e113ccef337a7dc6b5cb23836e5d1"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest.xml",
+      "sha256": "878bd9dfc8d7fd454d46edd662b3ab2a64ea2a0f51a645478658631fb1064ed2"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest.xml",
+      "sha256": "7022e98d3a86b86e6a6a4fd4941e246192f125a2e24d89d2987b1741039b9021"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest.xml",
+      "sha256": "60af61336fdad12cd436b70c3fda8facca5504a117eca19830a0dcca2e78b85a"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest.xml",
+      "sha256": "4433d69c838b16cc9df017272189a08292cdad7593566dd23d4038164ae7775d"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest.xml",
+      "sha256": "15f7c22bed9e27eab8537c5c034843bf45dfcc2e60a30aab404a9d30e494215f"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest.xml",
+      "sha256": "3956a286f3486deb544b99bb9438538683fe7aec3c4b6b6de4ea64cfaf55cade"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest.xml",
+      "sha256": "40048a40374054ea8d2f40593ddf932d30500b44d7ad0e285af1b0542828c805"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest.xml",
+      "sha256": "a221d2e8b79727f6a03da2d86ee5d51907af5400f635877b90ce5d9b546ea215"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.npc.NpcSystemTest.xml",
+      "sha256": "58599e0a02ccc6f187a80ed3a03c619469237adc3f362a6fbb98d27b2907855c"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest.xml",
+      "sha256": "8b9e159bc5355b72032b98863eef3b6bfb9313bcbdd226181e366d1c062694df"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.paper.MemorySitesTest.xml",
+      "sha256": "1c8e840aaba3f77f807d50675880949087fab67c14144cf7f09ca431b59d88c0"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.paper.MenusTest.xml",
+      "sha256": "cbd499c3e82480166d40672b83dc72e924b80db90f3a651656e64a6a2167677c"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest.xml",
+      "sha256": "9991df138b0ec36cc285388ee4a84bbb551466f60f9fa891bc4e8ee35bfb7c78"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest.xml",
+      "sha256": "c9b9a42c29f1614bb21795c92bf26a16d59c89190bc0834144c2866e79239e2b"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.paper.NationalMenusTest.xml",
+      "sha256": "69c10f43b55bc3897460201995178ae02d6b3f745176b6b5745fe3e4cb5dac5c"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.paper.NationalServicesTest.xml",
+      "sha256": "e14a43a8fcb93d30fe046ff554110143a3ebe378a67f692515a4b3c8cdc13b86"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.paper.RegionTasksTest.xml",
+      "sha256": "94066c2987b8c4eacefbd0afa1d67245777da0d32e61e903fc4cdc9ff85919b7"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.paper.StateWorkerTest.xml",
+      "sha256": "0168c201264942351c1578e5bd1bb035ce0934877469ef26f7dbc701b4ed62c5"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest.xml",
+      "sha256": "3c552e04181d1b68c37a96f6accf9b3ba59702de0968d340b0fc759a2e8b8b5c"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.persistence.ChoiceSchemaUpgradeTest.xml",
+      "sha256": "364afd4bc02cc1a3efd744f1ce6d28ce32d46d7d9f5f8d248810093dfc99363c"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest.xml",
+      "sha256": "88fd8ace0f94c061615368cb1b5c5111bc3561189459c85c0d0aa1268b5499ee"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest.xml",
+      "sha256": "0c0e5d2facf073ece1b1b3d5594c8444918b961f13a628d022263b7e802a3968"
+    },
+    {
+      "path": "docs/verification/national-council-surefire/TEST-io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest.xml",
+      "sha256": "d1906a7251e30fbbe683df15b921d9b756ca00cdc355832117239f5cbb996916"
+    }
+  ],
+  "server_acceptance": "Separate fingerprint-bound runtime reports required; unit/build evidence alone makes no Paper/Folia claim."
+}

@@ -1,0 +1,780 @@
+[07:00:43] [ServerMain/INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.13.0.2+1-LTS; Microsoft Microsoft-15780113) on Windows Server 2022 10.0 (amd64)
+[07:00:43] [ServerMain/INFO]: [bootstrap] Loading Paper 1.21.11-132-ver/1.21.11@c5eb079 (2026-05-11T11:43:09Z) for Minecraft 1.21.11
+[07:00:43] [ServerMain/INFO]: [PluginInitializerManager] Initializing plugins...
+[07:00:44] [ServerMain/INFO]: [PluginInitializerManager] Initialized 3 plugins
+[07:00:44] [ServerMain/INFO]: [PluginInitializerManager] Bukkit plugins (3):
+ - NationalCouncilPaperFixture (1), StarChronicle (0.1.0-SNAPSHOT), StarCore (1.0.0)
+[07:00:51] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, profilesHost=https://api.mojang.com, name=PROD]
+[07:00:53] [ServerMain/INFO]: Loaded 1470 recipes
+[07:00:53] [ServerMain/INFO]: Loaded 1584 advancements
+[07:00:53] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[07:00:54] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 433.1ms
+[07:00:54] [Server thread/INFO]: Starting minecraft server version 1.21.11
+[07:00:54] [Server thread/WARN]: ****************************
+[07:00:54] [Server thread/WARN]: YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.
+[07:00:54] [Server thread/WARN]: YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.
+[07:00:54] [Server thread/WARN]: FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/
+[07:00:54] [Server thread/WARN]: ****************************
+[07:00:54] [Server thread/INFO]: Loading properties
+[07:00:54] [Server thread/INFO]: This server is running Paper version 1.21.11-132-ver/1.21.11@c5eb079 (2026-05-11T11:43:09Z) (Implementing API version 1.21.11-R0.1-SNAPSHOT)
+[07:00:54] [Server thread/INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[07:00:54] [Server thread/INFO]: Using 4 threads for Netty based IO
+[07:00:54] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[07:00:55] [Server thread/INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
+[07:00:56] [Server thread/INFO]: Default game type: SURVIVAL
+[07:00:56] [Server thread/INFO]: Generating keypair
+[07:00:56] [Server thread/INFO]: Starting Minecraft server on 127.0.0.1:25603
+[07:00:56] [Server thread/INFO]: Paper: Using Java compression from Velocity.
+[07:00:56] [Server thread/INFO]: Paper: Using Java cipher from Velocity.
+[07:00:56] [Server thread/INFO]: [StarCore] Loading server plugin StarCore v1.0.0
+[07:00:56] [Server thread/INFO]: [StarChronicle] Loading server plugin StarChronicle v0.1.0-SNAPSHOT
+[07:00:56] [Server thread/INFO]: [NationalCouncilPaperFixture] Loading server plugin NationalCouncilPaperFixture v1
+[07:00:56] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[07:00:56] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[07:00:56] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[07:00:56] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[07:00:56] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[07:00:56] [Server thread/INFO]: Preparing level "world"
+[07:00:57] [Server thread/INFO]: Loading 0 persistent chunks for world 'minecraft:overworld'...
+[07:00:57] [Server thread/INFO]: Prepared spawn area in 2 ms
+[07:00:57] [Server thread/INFO]: Loading 0 persistent chunks for world 'minecraft:the_nether'...
+[07:00:57] [Server thread/INFO]: Prepared spawn area in 1 ms
+[07:00:57] [Server thread/INFO]: Loading 0 persistent chunks for world 'minecraft:the_end'...
+[07:00:57] [Server thread/INFO]: Prepared spawn area in 1 ms
+[07:00:57] [Server thread/INFO]: Done preparing level "world" (0.499s)
+[07:00:57] [Server thread/INFO]: [StarCore] Enabling StarCore v1.0.0
+[07:00:57] [Server thread/INFO]: [StarCore] DB query executor sizing: cores=4, initialMaxThreads=4; pool capacity will be applied after database startup
+[07:00:57] [Server thread/INFO]: [com.zaxxer.hikari.HikariDataSource] STARCORE-SQLite - Starting...
+[07:00:57] [Server thread/INFO]: [com.zaxxer.hikari.pool.HikariPool] STARCORE-SQLite - Added connection org.sqlite.jdbc4.JDBC4Connection@8277e97
+[07:00:57] [Server thread/INFO]: [com.zaxxer.hikari.HikariDataSource] STARCORE-SQLite - Start completed.
+[07:00:57] [Server thread/INFO]: [StarCore] STARCORE SQLite schema is managed by portable JDBC initializers.
+[07:00:57] [Server thread/INFO]: [StarCore] DB query executor aligned with connection pool: maxThreads=8
+[07:00:57] [Server thread/INFO]: [StarCore] STARCORE database ready: SQLite 运行中 (C:\Users\Administrator\.codex\worktrees\national-council\StarChronicle\run\paper-national-792a84e3\plugins\StarCore\starcore.db)
+[07:00:57] [Server thread/INFO]: [StarCore] 已从存储加载 0 个领土
+[07:00:57] [Server thread/INFO]: [StarCore] 已从存储加载 0 个子区域
+[07:00:57] [Server thread/INFO]: [StarCore] 加载预设模板: 访客
+[07:00:57] [Server thread/INFO]: [StarCore] 加载预设模板: 信任
+[07:00:57] [Server thread/INFO]: [StarCore] 加载预设模板: 建筑者
+[07:00:57] [Server thread/INFO]: [StarCore] 加载预设模板: 成员
+[07:00:57] [Server thread/INFO]: [StarCore] 加载预设模板: 管理员
+[07:00:57] [Server thread/INFO]: [StarCore] 加载预设模板: 商店
+[07:00:57] [Server thread/INFO]: [StarCore] 加载预设模板: 农场
+[07:00:57] [Server thread/INFO]: [StarCore] 加载预设模板: 竞技场
+[07:00:57] [Server thread/INFO]: [StarCore] 临时权限服务已启动
+[07:00:57] [Server thread/INFO]: [StarCore] 领土租赁服务已启动
+[07:00:57] [Server thread/INFO]: [StarCore] 区域模块已启用 - 基于 Foundation Chunk 级别领土系统
+[07:00:57] [Server thread/INFO]: [StarCore] Business economy provider selected: internal (configured=internal)
+[07:00:57] [Server thread/INFO]: [StarCore] ✅ 审计日志系统已启动
+[07:00:57] [Server thread/INFO]: [StarCore] Particle feedback service initialized.
+[07:00:57] [Server thread/INFO]: [StarCore] STARCORE real time sync disabled.
+[07:00:57] [Server thread/INFO]: [StarCore] Screen shake manager initialized.
+[07:00:57] [Server thread/INFO]: [StarCore] Scene sound system initialized.
+[07:00:57] [Server thread/INFO]: [StarCore] 四季系统已启用
+[07:00:57] [Server thread/INFO]: [StarCore] Season system initialized.
+[07:00:57] [Server thread/INFO]: [StarCore] 宗教数据库初始化完成
+[07:00:57] [Server thread/INFO]: [StarCore] 宗教系统已启用
+[07:00:57] [Server thread/INFO]: [StarCore] Religion system initialized.
+[07:00:57] [Server thread/INFO]: [StarCore] [DeathMessage] 死亡消息配置已加载，支持 31 种类型
+[07:00:57] [Server thread/INFO]: [StarCore] Death message system initialized.
+[07:00:58] [Server thread/INFO]: [StarCore] GUI animation system initialized.
+[07:00:58] [Server thread/INFO]: [StarCore] Optimized move dispatcher registered; modules should subscribe via ServiceRegistry.
+[07:00:58] [Server thread/INFO]: [StarCore] ✅ 检测到 Paper 环境，使用传统调度器
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'mute' 执行器已注册: ModerationCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'unmute' 执行器已注册: ModerationCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'kick' 执行器已注册: ModerationCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'ban' 执行器已注册: ModerationCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'unban' 执行器已注册: ModerationCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'jail' 执行器已注册: ModerationCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'unjail' 执行器已注册: ModerationCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'vanish' 执行器已注册: ModerationCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'feedback' 执行器已注册: ParticleFeedbackCommand
+[07:00:58] [Server thread/INFO]: [StarCore] ✅ 检测到 Paper 环境，使用传统调度器
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'pay' 执行器已注册: EconomyCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'balance' 执行器已注册: EconomyCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'language' 执行器已注册: LanguageCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'stresstest' 执行器已注册: StressTestCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'guide' 执行器已注册: GuideCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'goal' 执行器已注册: GoalCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'season' 执行器已注册: SeasonCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'religion' 执行器已注册: ReligionCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'territory' 执行器已注册: TerritoryCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'operations' 执行器已注册: OperationsCommandHandler
+[07:00:58] [Server thread/INFO]: [StarCore] 命令 'insurance' 执行器已注册: InsuranceCommand
+[07:00:58] [Server thread/INFO]: [StarCore] 成就数据库表初始化完成
+[07:00:58] [Server thread/INFO]: [StarCore] 成就模块已启用，共注册 32 个成就
+[07:00:58] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 成就系统 (achievement)
+[07:00:58] [Server thread/INFO]: [StarCore] Loaded 0 blueprints
+[07:00:58] [Server thread/INFO]: [StarCore] Blueprint command registered.
+[07:00:58] [Server thread/INFO]: [StarCore] STARCORE Blueprint module enabled.
+[07:00:58] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 建筑蓝图 (blueprint)
+[07:00:58] [Server thread/INFO]: [StarCore] STARCORE Economy module enabled (aggregation entry point).
+[07:00:58] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 经济业务聚合 (economy)
+[07:00:58] [Server thread/INFO]: [StarCore] Loaded fatigue data for 4 players
+[07:00:58] [Server thread/INFO]: [StarCore] Fatigue module enabled
+[07:00:58] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 疲劳度系统 (fatigue)
+[07:00:59] [Server thread/INFO]: [StarCore] 邮件附件系统数据库表已初始化
+[07:00:59] [Server thread/INFO]: [StarCore] 邮件模块已启用
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 邮件附件系统 (mail-attachment)
+[07:00:59] [Server thread/INFO]: [StarCore] STARCORE nation lifecycle command registered.
+[07:00:59] [Server thread/INFO]: [StarCore] STARCORE native territory protection registered.
+[07:00:59] [Server thread/INFO]: [StarCore] STARCORE claim tool registered.
+[07:00:59] [Server thread/INFO]: [StarCore] PacketEvents is not installed; anvil input menus are disabled.
+[07:00:59] [Server thread/WARN]: [StarCore] ProtocolLib is unavailable; falling back to another nation menu provider: ClassNotFoundException: com.comphenix.protocol.ProtocolLibrary
+[07:00:59] [Server thread/INFO]: [StarCore] Using Triumph chest menu provider: TriumphGUI (Chest)
+[07:00:59] [Server thread/INFO]: [StarCore] STARCORE Menu provider: TriumphGUI (Chest)
+[07:00:59] [Server thread/INFO]: [StarCore] STARCORE Nation StatusBar initialized.
+[07:00:59] [Server thread/INFO]: [StarCore] STARCORE nation resource districts registered.
+[07:00:59] [Server thread/INFO]: [StarCore] STARCORE nation cache refresh task started (interval: 5 minutes).
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 国家核心 (nation)
+[07:00:59] [Server thread/INFO]: [StarCore] STARCORE Shop module enabled.
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 商店系统 (shop)
+[07:00:59] [Server thread/INFO]: [StarCore] Loaded 0 active tournaments
+[07:00:59] [Server thread/INFO]: [StarCore] 锦标赛模块已启用 - 支持 6 种比赛类型
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 锦标赛系统 (tournament)
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 用户生成内容 (ugc)
+[07:00:59] [Server thread/INFO]: [StarCore] 正在启用 Essentials 模块...
+[07:00:59] [Server thread/INFO]: [StarCore] 正在加载 Essentials 数据...
+[07:00:59] [Server thread/INFO]: [StarCore] 已加载 4 个玩家数据
+[07:00:59] [Server thread/INFO]: [StarCore] 已加载财富排行榜数据
+[07:00:59] [Server thread/INFO]: [StarCore] ✅ Essentials 数据加载完成
+[07:00:59] [Server thread/INFO]: [StarCore] 已注册 Essentials 命令: home/sethome/delhome/homes, warp/setwarp/delwarp/warps, tpa/tpaccept/tpdeny/back/cooldown/spawn/setspawn, balance/baltop/pay/eco/economy, homegui/warpgui/baltopgui/teleporter
+[07:00:59] [Server thread/INFO]: [StarCore] ✅ Essentials 模块已启用
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: Essentials Module (essentials)
+[07:00:59] [Server thread/INFO]: [StarCore] STARCORE Interaction Visualizer enabled: 35 entry/entries enabled, scan radius 8, period 20 ticks
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 交互可视化 (interaction_visualizer)
+[07:00:59] [Server thread/INFO]: [StarCore] 邮件系统数据库表已初始化
+[07:00:59] [Server thread/INFO]: [StarCore] 邮件系统使用数据库存储
+[07:00:59] [Server thread/INFO]: [StarCore] 邮件附件系统数据库表已初始化
+[07:00:59] [Server thread/INFO]: [StarCore] 邮件附件服务已初始化
+[07:00:59] [Server thread/INFO]: [StarCore] 邮件附件命令已注册
+[07:00:59] [Server thread/INFO]: [StarCore] 邮件模块已启用（发送/接收/附件/已读未读/过期清理/GUI）
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 邮件系统 (mail)
+[07:00:59] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] NarrativeEngine enabled
+[07:00:59] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] NarrativeBossIntegration started with 0 bindings
+[07:00:59] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] Loaded 0 boss script bindings
+[07:00:59] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] Loaded 0 narrative scripts from plugins\StarCore\scripts
+[07:00:59] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] NarrativeModule enabled: 0 scripts loaded, 0 boss bindings registered
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: Narrative System (narrative)
+[07:00:59] [Server thread/INFO]: [StarCore] Loaded pet data for 4 players
+[07:00:59] [Server thread/INFO]: [StarCore] Pet module started - supports summon, ride, upgrade, and shop
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: Pet Module (pet)
+[07:00:59] [Server thread/INFO]: [StarCore] 正在启用 PvP 模块...
+[07:00:59] [Server thread/INFO]: [StarCore] No duel-arenas configuration found
+[07:00:59] [Server thread/INFO]: [StarCore] [Matchmaking] 竞技场匹配系统已启用
+[07:00:59] [Server thread/INFO]: [StarCore] PvP 模块已启用
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: PvP系统 (pvp)
+[07:00:59] [Server thread/INFO]: [StarCore] 正在初始化任务模块...
+[07:00:59] [Server thread/INFO]: [StarCore] 任务服务实例已创建
+[07:00:59] [Server thread/INFO]: [DailyQuest] 加载了 0 个每日任务模板
+[07:00:59] [Server thread/INFO]: [StarCore] [CommissionService] 定时任务已启动
+[07:00:59] [Server thread/INFO]: [StarCore] 任务持久化已初始化
+[07:00:59] [Server thread/INFO]: [StarCore] 任务进度监听器已注册
+[07:00:59] [Server thread/INFO]: [StarCore] 委托完成监听器已注册
+[07:00:59] [Server thread/INFO]: [StarCore] 任务GUI监听器已注册
+[07:00:59] [Server thread/INFO]: [StarCore] 任务相关命令已注册
+[07:00:59] [Server thread/INFO]: [StarCore] 定时任务已注册（每日刷新 + 自动保存）
+[07:00:59] [Server thread/INFO]: [StarCore] 任务服务已注册到 ServiceRegistry
+[07:00:59] [Server thread/INFO]: [StarCore] 任务模块已启用（任务/每日任务/委托）
+[07:00:59] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 任务系统 (quest)
+[07:00:59] [Server thread/INFO]: [StarCore] 社交系统 SQLite 兼容表已创建并完成旧列修复
+[07:00:59] [Server thread/INFO]: [StarCore] 社交系统数据库存储已初始化
+[07:00:59] [Server thread/INFO]: [StarCore] 已加载私聊数据
+[07:00:59] [Server thread/INFO]: [StarCore] 已从数据库加载好友数据
+[07:00:59] [Server thread/INFO]: [StarCore] 已从数据库加载 0 个公会
+[07:00:59] [Server thread/INFO]: [StarCore] 已从数据库加载 0 个派对
+[07:01:00] [Server thread/INFO]: [StarCore] 表情/动作系统已初始化 - 22 个动作
+[07:01:00] [Server thread/INFO]: [StarCore] 聊天系统已初始化（气泡/高亮/多频道）
+[07:01:00] [Server thread/INFO]: [StarCore] 活动推荐和排行榜系统已初始化
+[07:01:00] [Server thread/INFO]: [StarCore] 社交服务已注册到服务注册表
+[07:01:00] [Server thread/INFO]: [StarCore] 社交模块已启用（好友/公会/派对/活动/排行榜）- 数据库模式
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 社交系统 (social)
+[07:01:00] [Server thread/INFO]: [StarCore] Warehouse configuration loaded successfully
+[07:01:00] [Server thread/INFO]: [StarCore] Remote access: true, Max distance: 1000.0
+[07:01:00] [Server thread/INFO]: [StarCore] Personal max level: 10, Nation max level: 15
+[07:01:00] [Server thread/INFO]: [StarCore] Logs: true, Retention: 30 days
+[07:01:00] [Server thread/INFO]: [StarCore] Storage data loaded successfully (0 warehouses, 0 logs)
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded 0 warehouses and 0 logs from storage
+[07:01:00] [Server thread/INFO]: [StarCore] StorageService started with 0 warehouses
+[07:01:00] [Server thread/INFO]: [StarCore] Storage log cleanup task started (retention: 30 days)
+[07:01:00] [Server thread/INFO]: [StarCore] WarehouseUpgradeService: restored 0 active upgrades
+[07:01:00] [Server thread/INFO]: [StarCore] Storage module started
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: Storage Module (storage)
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded 0 anniversaries
+[07:01:00] [Server thread/INFO]: [StarCore] Checking existing nations for founding anniversaries...
+[07:01:00] [Server thread/INFO]: [StarCore] STARCORE Anniversary periodic check task started (hourly).
+[07:01:00] [Server thread/INFO]: [StarCore] STARCORE Anniversary module enabled. 0 anniversary(ies), 0 nation(s)
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 纪念日系统 (anniversary)
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded 0 banners from storage.
+[07:01:00] [Server thread/INFO]: [StarCore] Banner module enabled with 0 banners.
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 国家旗帜 (banner)
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded 0 player transactions
+[07:01:00] [Server thread/INFO]: [StarCore] STARCORE Business module enabled.
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 商业系统 (business)
+[07:01:00] [Server thread/INFO]: [StarCore] Starting STARCORE module: dynasty
+[07:01:00] [Server thread/INFO]: [StarCore] Started deferred STARCORE module: dynasty
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded 0 emergency states
+[07:01:00] [Server thread/INFO]: [StarCore] Emergency command registered: /emergency
+[07:01:00] [Server thread/INFO]: [StarCore] Emergency event listener registered.
+[07:01:00] [Server thread/INFO]: [StarCore] Emergency module enabled: emergency state system ready.
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 紧急状态系统 (emergency)
+[07:01:00] [Server thread/INFO]: [StarCore] EventModule Bukkit and StarCore event listeners registered
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 事件核心 (event)
+[07:01:00] [Server thread/INFO]: [StarCore] Faith module enabled - Territory Faith System initialized
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 领土信仰 (faith)
+[07:01:00] [Server thread/INFO]: [dev.starcore.starcore.module.alliance.AllianceServiceImpl] Loaded 0 alliances, 0 members, 0 invites
+[07:01:00] [Server thread/INFO]: [dev.starcore.starcore.module.alliance.AllianceServiceImpl] AllianceService initialized with 0 alliances
+[07:01:00] [Server thread/INFO]: [dev.starcore.starcore.module.alliance.AllianceModule] Alliance command registered as /fed.
+[07:01:00] [Server thread/INFO]: [dev.starcore.starcore.module.alliance.AllianceModule] Alliance command registered as /alliance2.
+[07:01:00] [Server thread/INFO]: [dev.starcore.starcore.module.alliance.AllianceModule] Alliance GUI listeners registered.
+[07:01:00] [Server thread/INFO]: [dev.starcore.starcore.module.alliance.AllianceModule] AllianceModule enabled successfully with 0 alliance(s).
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 联盟外交系统 (federation)
+[07:01:00] [starcore-io-1/INFO]: [StarCore] Dynasty tables initialized
+[07:01:00] [Server thread/INFO]: [StarCore] Parliament tables initialized
+[07:01:00] [starcore-io-1/INFO]: [StarCore] Loaded 3 dynasties from database
+[07:01:00] [Server thread/INFO]: [StarCore] Party tables initialized
+[07:01:00] [Server thread/INFO]: [StarCore] Court tables initialized
+[07:01:00] [Server thread/INFO]: [StarCore] Court history table initialized
+[07:01:00] [Server thread/INFO]: [StarCore] Government services initialized: Parliament, Party, Court with execution
+[07:01:00] [Server thread/INFO]: [StarCore] Government commands registered: /parliament, /politicalparty, /court
+[07:01:00] [Server thread/INFO]: [StarCore] Government listeners registered: CourtExecutionListener
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 政体核心 (government)
+[07:01:00] [Server thread/INFO]: [StarCore] Lease contracts table initialized
+[07:01:00] [Server thread/INFO]: [StarCore] Lease module enabled: Lease service managing 0 contracts
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 契约制度 (lease)
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 战略地图核心 (map)
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded 0 navies from persistence
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 海军系统 (navy)
+[07:01:00] [Server thread/INFO]: [StarCore] STARCORE prosperity module enabled.
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 繁荣度系统 (prosperity)
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded 0 sieges and 0 walls
+[07:01:00] [Server thread/INFO]: [StarCore] Siege module enabled: 攻城器械系统
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 攻城器械系统 (siege)
+[07:01:00] [Server thread/INFO]: [StarCore] [SocialEventScheduler] 已加载 0 个活跃事件
+[07:01:00] [Server thread/INFO]: [StarCore] [SocialEventScheduler] 数据库持久化已启用
+[07:01:00] [Server thread/INFO]: [StarCore] 社会阶层数据已加载: 0 名玩家
+[07:01:00] [Server thread/INFO]: [StarCore] [AlliancePersistence] 数据库表初始化完成
+[07:01:00] [Server thread/INFO]: [StarCore] [AlliancePersistence] 已加载 0 个联盟
+[07:01:00] [Server thread/INFO]: [StarCore] 八卦数据已加载: 0 条八卦, 0 名玩家历史
+[07:01:00] [Server thread/INFO]: [StarCore] Activity rewards deferred until the title service is ready
+[07:01:00] [Server thread/INFO]: [StarCore] 社会模拟服务已注册到服务注册表
+[07:01:00] [Server thread/INFO]: [StarCore] 社会模拟模块已启用: 声望/关系/影响力/文化/新闻/阶层/联盟/八卦/活动
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 社会模拟 (social-simulation)
+[07:01:00] [Server thread/INFO]: [StarCore] Sovereignty tables initialized successfully
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded 0 sovereignties from database
+[07:01:00] [Server thread/INFO]: [StarCore] Sovereignty module enabled: 0 active sovereignty declaration(s), 0 total
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 主权声明 (sovereignty)
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded 0 upgrade paths
+[07:01:00] [Server thread/INFO]: [StarCore] TerritoryUpgradeModule enabled.
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 领地升级系统 (territory_upgrade)
+[07:01:00] [Server thread/INFO]: [StarCore] Tunnel Warfare module enabled successfully
+[07:01:00] [Server thread/INFO]: [StarCore] Commands: /tunnel create, list, info, enter, exit, addentrance, discover, ambush, trap, collapse, destroy
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 地道战 (tunnel)
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded 0 cities from storage
+[07:01:00] [Server thread/INFO]: [StarCore] CityMenuListener registered
+[07:01:00] [Server thread/INFO]: [StarCore] PlaceholderAPI not found, city placeholders disabled
+[07:01:00] [Server thread/INFO]: [StarCore] CityModule enabled: 0 cities loaded
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 城市系统 (city)
+[07:01:00] [Server thread/INFO]: [StarCore] 正在初始化副本模块...
+[07:01:00] [Server thread/INFO]: [StarCore] 副本 goblin_lair 未找到模板世界，改用内置生成场地: dungeon_templates/goblin_lair (resolved=C:\Users\Administrator\.codex\worktrees\national-council\StarChronicle\run\paper-national-792a84e3\dungeon_templates\goblin_lair, container=C:\Users\Administrator\.codex\worktrees\national-council\StarChronicle\run\paper-national-792a84e3)
+[07:01:00] [Server thread/INFO]: [StarCore] 副本 undead_catacombs 未找到模板世界，改用内置生成场地: dungeon_templates/undead_catacombs (resolved=C:\Users\Administrator\.codex\worktrees\national-council\StarChronicle\run\paper-national-792a84e3\dungeon_templates\undead_catacombs, container=C:\Users\Administrator\.codex\worktrees\national-council\StarChronicle\run\paper-national-792a84e3)
+[07:01:00] [Server thread/INFO]: [StarCore] 副本 dragon_lair 未找到模板世界，改用内置生成场地: dungeon_templates/dragon_lair (resolved=C:\Users\Administrator\.codex\worktrees\national-council\StarChronicle\run\paper-national-792a84e3\dungeon_templates\dragon_lair, container=C:\Users\Administrator\.codex\worktrees\national-council\StarChronicle\run\paper-national-792a84e3)
+[07:01:00] [Server thread/INFO]: [StarCore] 副本 nightmare_abyss 未找到模板世界，改用内置生成场地: dungeon_templates/nightmare_abyss (resolved=C:\Users\Administrator\.codex\worktrees\national-council\StarChronicle\run\paper-national-792a84e3\dungeon_templates\nightmare_abyss, container=C:\Users\Administrator\.codex\worktrees\national-council\StarChronicle\run\paper-national-792a84e3)
+[07:01:00] [Server thread/INFO]: [StarCore] 已加载副本: 亡灵地牢
+[07:01:00] [Server thread/INFO]: [StarCore] 已加载副本: 哥布林巢穴
+[07:01:00] [Server thread/INFO]: [StarCore] 已加载副本: Runtime Smoke
+[07:01:00] [Server thread/INFO]: [StarCore] 已加载副本: 噩梦深渊
+[07:01:00] [Server thread/INFO]: [StarCore] 已加载副本: 恶龙巢穴
+[07:01:00] [Server thread/INFO]: [StarCore] 已加载 5 个副本配置
+[07:01:00] [Server thread/INFO]: [StarCore] 已加载 0 条完成记录
+[07:01:00] [Server thread/INFO]: [StarCore] 副本数据仓库已加载
+[07:01:00] [Server thread/INFO]: [StarCore] 副本服务初始化完成!
+[07:01:00] [Server thread/INFO]: [StarCore] 副本命令已注册: /dungeon (别名: /df, /副本)
+[07:01:00] [Server thread/INFO]: [StarCore] 副本模块已启用!
+[07:01:00] [Server thread/INFO]: [StarCore]   - 5 个副本配置
+[07:01:00] [Server thread/INFO]: [StarCore]   - 最大并发实例: 10
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 副本系统 (dungeon)
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.marshal.icon=DIAMOND_SWORD
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.treasurer.display-name=太尉
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.general.slot=2
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.treasurer.slot=3
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.steward.slot=5
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.steward.icon=BOOK
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.steward.display-name=长史
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.diplomat.display-name=外交官
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.diplomat.icon=EMERALD
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.general.display-name=将军
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.marshal.display-name=元帅
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.treasurer.icon=GOLD_INGOT
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.diplomat.slot=4
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.marshal.slot=1
+[07:01:00] [Server thread/INFO]: [StarCore] Loaded role config: roles.general.icon=GOLDEN_SWORD
+[07:01:00] [Server thread/INFO]: [StarCore] 从配置加载了官员角色
+[07:01:00] [Server thread/INFO]: [StarCore] 官员模块已启用，共 5 个可配置角色
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 官员核心 (officer)
+[07:01:00] [Server thread/INFO]: [dev.starcore.starcore.module.resolution.ResolutionModule] Resolution GUI and chat listeners registered.
+[07:01:00] [Server thread/INFO]: [dev.starcore.starcore.module.resolution.ResolutionModule] ResolutionModule enabled successfully with 0 resolution(s).
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 决议引擎 (resolution)
+[07:01:00] [Server thread/INFO]: [StarCore] Diplomacy command registered.
+[07:01:00] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 外交核心 (diplomacy)
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 金库核心 (treasury)
+[07:01:01] [Server thread/INFO]: [dev.starcore.starcore.module.diplomacy.alliance.AllianceModule] Alliance command registered.
+[07:01:01] [Server thread/INFO]: [dev.starcore.starcore.module.diplomacy.alliance.AllianceModule] Alliance GUI listeners registered.
+[07:01:01] [Server thread/INFO]: [StarCore] AllianceModule enabled successfully.
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 联盟外交系统 (alliance)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 arbitration cases
+[07:01:01] [Server thread/INFO]: [StarCore] Arbitration module enabled with config: filingFee=100, min=500, max=10000
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 领土仲裁 (arbitration)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 armies from persistence
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 军队系统 (army)
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 预算管理系统 (budget)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 donations from persistence
+[07:01:01] [Server thread/INFO]: [StarCore] STARCORE donation module enabled
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 献金系统 (donation)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 loan records
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 国债贷款系统 (loan)
+[07:01:01] [Server thread/INFO]: [StarCore] Merge referendum module enabled: nation merge referendum system ready.
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 合并公投 (merge)
+[07:01:01] [Server thread/INFO]: [StarCore] Resource command registered.
+[07:01:01] [Server thread/INFO]: [StarCore] ResourceGUI command registered.
+[07:01:01] [Server thread/INFO]: [StarCore] Trade command registered.
+[07:01:01] [Server thread/INFO]: [StarCore] Resource listeners registered.
+[07:01:01] [Server thread/INFO]: [StarCore] Resource scheduled tasks started.
+[07:01:01] [Server thread/INFO]: [StarCore] Resource services registered to ServiceRegistry.
+[07:01:01] [Server thread/INFO]: [StarCore] ResourceModule enabled successfully
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 资源核心 (resource)
+[07:01:01] [Server thread/INFO]: [StarCore] Satellite command registered: /satellite
+[07:01:01] [Server thread/INFO]: [StarCore] Satellite listener registered
+[07:01:01] [Server thread/INFO]: [StarCore] Satellite module enabled: 0 relations loaded
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 卫星国 (satellite)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded tax configs for 0 nations
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 税收系统 (taxation)
+[07:01:01] [Server thread/INFO]: [StarCore] TerritoryRentModule database tables initialized.
+[07:01:01] [Server thread/INFO]: [StarCore] TerritoryRentModule daily rent task started.
+[07:01:01] [Server thread/INFO]: [StarCore] TerritoryRentModule enabled. Loaded 0 contracts.
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 领土租借系统 (territory_rent)
+[07:01:01] [Server thread/INFO]: [StarCore] STARCORE Zone module enabled. Loaded 0 zones.
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 经济区系统 (zone)
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 破产管理系统 (bankruptcy)
+[07:01:01] [Server thread/INFO]: [StarCore] CombatConfig loaded.
+[07:01:01] [Server thread/INFO]: [StarCore] CombatStorage database tables initialized.
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 player PVP states.
+[07:01:01] [Server thread/INFO]: [StarCore] CombatServiceImpl initialized.
+[07:01:01] [Server thread/INFO]: [StarCore] Combat command registered: /combat
+[07:01:01] [Server thread/INFO]: [StarCore] Battle command registered: /battle
+[07:01:01] [Server thread/INFO]: [StarCore] Real-time combat system enabled with nation-vs-nation support.
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 实时战斗系统 (combat)
+[07:01:01] [Server thread/INFO]: [StarCore] Commander module enabled
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 指挥官系统 (commander)
+[07:01:01] [Server thread/INFO]: [StarCore] Doctrine module enabled: 军事学说
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 军事学说 (doctrine)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 spies from persistence
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 operations, 0 active
+[07:01:01] [Server thread/INFO]: [StarCore] Espionage module enabled successfully!
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 间谍系统 (espionage)
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 演习系统 (exercise)
+[07:01:01] [Server thread/INFO]: [StarCore] Mercenary contracts table initialized
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 mercenary contracts
+[07:01:01] [Server thread/INFO]: [StarCore] Mercenary commands registered: /mercenary, /merc
+[07:01:01] [Server thread/INFO]: [StarCore] Mercenary listeners registered
+[07:01:01] [Server thread/INFO]: [StarCore] Mercenary module enabled
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 雇佣兵系统 (mercenary)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded policy definition: civil_industry
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded policy definition: mercantile_focus
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded policy definition: military_drill
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded policy definition: fortified_borders
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded policy definition: open_diplomacy
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 5 policy definitions from YAML config
+[07:01:01] [Server thread/INFO]: [StarCore] Policy event listener registered
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 国策树核心 (policy)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded raid data: 0 raids, 0 cooldowns
+[07:01:01] [Server thread/INFO]: [StarCore] Night raid module enabled
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 夜间突袭 (raid)
+[07:01:01] [Server thread/INFO]: [StarCore] SplitConfig loaded: enabled=true, minChunks=4
+[07:01:01] [Server thread/INFO]: [StarCore] Split module enabled: nation splitting system ready.
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 国家分裂系统 (split)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 26 technology definitions
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 nations with active research and 0 research payment record(s)
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 科技核心 (technology)
+[07:01:01] [Server thread/INFO]: [StarCore] WarConfig loaded: preparation=24h, maxDuration=30d
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 wars from database
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 wars from storage
+[07:01:01] [Server thread/INFO]: [StarCore] War command registered: /war
+[07:01:01] [Server thread/INFO]: [StarCore] War event-bus listener registered.
+[07:01:01] [Server thread/INFO]: [StarCore] War-Territory integration listener registered.
+[07:01:01] [Server thread/INFO]: [StarCore] War situation menu GUI registered.
+[07:01:01] [Server thread/INFO]: [StarCore] War menu GUI registered.
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 treaty data entries from storage
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 战争核心 (war)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 wounded records from persistence
+[07:01:01] [Server thread/INFO]: [StarCore] Wounded module enabled: wounded limit=100
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 伤兵系统 (wounded)
+[07:01:01] [Server thread/INFO]: [StarCore] [MilitaryModule] 军事指挥中心模块已启用
+[07:01:01] [Server thread/INFO]: [StarCore] [MilitaryModule] 使用 /military 或 /battle 打开战况预览
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: Military Command Center (military)
+[07:01:01] [Server thread/INFO]: [dev.starcore.starcore.module.diplomacy.military.MilitaryAllianceModule] Military Alliance command registered.
+[07:01:01] [Server thread/INFO]: [dev.starcore.starcore.module.diplomacy.military.MilitaryAllianceModule] Military Alliance alias command (/ma) registered.
+[07:01:01] [Server thread/INFO]: [dev.starcore.starcore.module.diplomacy.military.MilitaryAllianceModule] Military Alliance GUI listeners registered.
+[07:01:01] [Server thread/INFO]: [StarCore] MilitaryAllianceModule enabled successfully.
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 军事联盟系统 (military-alliance)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 prisoner records
+[07:01:01] [Server thread/INFO]: [StarCore] 俘虏系统模块已启用
+[07:01:01] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 俘虏系统 (prisoner)
+[07:01:01] [Server thread/INFO]: [StarCore] Loaded 0 reparations and 0 settlement record(s) from storage
+[07:01:02] [Server thread/INFO]: [StarCore] Reparations module enabled: 0 reparations loaded
+[07:01:02] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 战争赔款 (reparations)
+[07:01:02] [Server thread/INFO]: [StarCore] Weather state table initialized: weather_weather_state
+[07:01:02] [Server thread/INFO]: [StarCore] Weather command registered: /weather
+[07:01:02] [Server thread/INFO]: [StarCore] WeatherMenu command registered: /weathermenu
+[07:01:02] [Server thread/INFO]: [StarCore] Weather listeners registered.
+[07:01:02] [Server thread/INFO]: [StarCore] Weather scheduled tasks started.
+[07:01:02] [Server thread/INFO]: [StarCore] Weather services registered to ServiceRegistry.
+[07:01:02] [Server thread/INFO]: [StarCore] Weather forecast subscribed to policy activation and expiry events
+[07:01:02] [Server thread/INFO]: [StarCore] WeatherModule enabled successfully
+[07:01:02] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 天气控制 (weather)
+[07:01:02] [Server thread/INFO]: [StarCore] [GameplayLoop] 玩法闭环集成监听器已注册
+[07:01:02] [Server thread/INFO]: [StarCore] [GameplayLoop] 玩法 GUI 导航已注册
+[07:01:02] [Server thread/INFO]: [StarCore] [GameplayLoop] 玩法闭环模块已启用
+[07:01:02] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 玩法闭环 (gameplay)
+[07:01:02] [Server thread/INFO]: [StarCore] Weather tactics tables initialized
+[07:01:02] [Server thread/INFO]: [StarCore] Loaded weather tactics: 0 nations, 0 boosts
+[07:01:02] [Server thread/INFO]: [StarCore] WeatherTactics command registered: /weathertactics
+[07:01:02] [Server thread/INFO]: [StarCore] WeatherTactics short command registered: /wt
+[07:01:02] [Server thread/INFO]: [StarCore] WeatherTactics listener registered
+[07:01:02] [Server thread/INFO]: [StarCore] WeatherTactics scheduled tasks started
+[07:01:02] [Server thread/INFO]: [StarCore] WeatherTacticsModule enabled successfully
+[07:01:02] [Server thread/INFO]: [StarCore] Enabled STARCORE module: 天气战术 (army-weather-tactics)
+[07:01:02] [Server thread/INFO]: [StarCore] 正在启用智能物品提示...
+[07:01:02] [Server thread/INFO]: [StarCore] 快捷栏提示已启用
+[07:01:02] [Server thread/INFO]: [StarCore] 智能物品提示系统已启用!
+[07:01:02] [Server thread/INFO]: [StarCore] Modern HUD system initialized.
+[07:01:02] [Server thread/INFO]: [StarCore] Random event subsystem disabled (modules.random-event=false).
+[07:01:02] [Server thread/INFO]: [StarCore] Enabling Title System...
+[07:01:02] [Server thread/INFO]: [StarCore] Loaded display configuration
+[07:01:02] [starcore-title-io/INFO]: [StarCore] Title system database initialized
+[07:01:02] [Server thread/INFO]: [StarCore] Loaded 10 titles and 1 badges from titles.yml
+[07:01:02] [Server thread/INFO]: [StarCore] Loaded 23 badges from badges.yml
+[07:01:02] [Server thread/INFO]: [StarCore] No hologram plugin detected, hologram display disabled
+[07:01:02] [Server thread/INFO]: [StarCore] Registered /title command
+[07:01:02] [Server thread/INFO]: [StarCore] Title System enabled successfully
+[07:01:02] [Server thread/INFO]: [StarCore] 活动参与数据已加载: 0 名玩家的连续记录
+[07:01:02] [Server thread/INFO]: [StarCore] Activity reward service initialized
+[07:01:02] [Server thread/INFO]: [StarCore] 命令 'nrank' 执行器已注册: NationRankCommand
+[07:01:02] [Server thread/INFO]: [StarCore] 命令 'menu' 执行器已注册: StarCorePlugin$$Lambda/0x000001ef1150c8b0
+[07:01:02] [Server thread/INFO]: [StarCore] STARCORE menu command registered.
+[07:01:02] [Server thread/INFO]: [StarCore] 命令 'hud' 执行器已注册: HudCommand
+[07:01:02] [Server thread/INFO]: [StarCore] HUD menu command registered (/hud).
+[07:01:02] [Server thread/INFO]: [StarCore] 命令 'achievements' 执行器已注册: AchievementCommand
+[07:01:02] [Server thread/INFO]: [StarCore] Achievement command registered.
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: sc nation gui
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: sc government gui
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: diplomacy
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: tech gui
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: war gui
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: resourcegui
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: sc officer gui
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: army
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: sc treasury gui
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: sc city gui
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: socialgui
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: title list
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: guide
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: resolution
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: weathermenu
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: tournament
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation handler registered: achievements
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation GUI handlers registered successfully.
+[07:01:02] [Server thread/INFO]: [StarCore] 命令 'clan' 执行器已注册: ClanCommand
+[07:01:02] [Server thread/INFO]: [StarCore] Optimized move dispatcher already registered pre-modules.
+[07:01:02] [Server thread/INFO]: [StarCore] 命令 'rank' 执行器已注册: RankingCommand
+[07:01:02] [Server thread/INFO]: [StarCore] 命令 'leaderboard' 执行器已注册: RankingCommand
+[07:01:02] [Server thread/INFO]: [StarCore] 命令 'top' 执行器已注册: RankingCommand
+[07:01:02] [Server thread/INFO]: [StarCore] Ranking commands and navigation GUI registered without PlaceholderAPI.
+[07:01:02] [Server thread/INFO]: [StarCore] 命令 'dbmigrate' 执行器已注册: MigrationCommand
+[07:01:02] [Server thread/INFO]: [StarCore] Database migration command registered.
+[07:01:02] [Server thread/INFO]: [StarCore] [Stats] 统计服务初始化完成
+[07:01:02] [Server thread/INFO]: [StarCore] 命令 'stats' 执行器已注册: StatsCommand
+[07:01:02] [Server thread/INFO]: [StarCore] Stats command system registered.
+[07:01:02] [Server thread/INFO]: [StarCore] Navigation coverage: all hub entries are connected.
+[07:01:02] [Server thread/INFO]: [StarCore] Registered STARCORE public API.
+[07:01:02] [Server thread/INFO]: [StarCore] Platform adapter: Paper | validated on Paper/Minecraft 1.21.11 and 26.3 (API 1.21.11-R0.1-SNAPSHOT)
+[07:01:02] [Server thread/INFO]: [StarCore] STARCORE 1.0.0 enabled.
+[07:01:02] [Server thread/INFO]: [StarChronicle] Enabling StarChronicle v0.1.0-SNAPSHOT
+[07:01:02] [Server thread/INFO]: [StarChronicle] Native supplemental scene registration: {chronicle_siege_embers=INSTALLED, chronicle_last_heir=INSTALLED, chronicle_silk_road=INSTALLED}
+[07:01:03] [Server thread/INFO]: [StarChronicle] Loaded 2 validated stories; durable history/outbox ready
+[07:01:03] [Server thread/INFO]: [NationalCouncilPaperFixture] Enabling NationalCouncilPaperFixture v1
+[07:01:03] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_READY {"noDatabaseAccess":true,"product_sha256":"792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694","seeded":true}
+[07:01:03] [Server thread/INFO]: [spark] Starting background profiler...
+[07:01:03] [Server thread/INFO]: [spark] The async-profiler engine is not supported for your os/arch (windowsserver2022/amd64), so the built-in Java engine will be used instead.
+[07:01:03] [Server thread/INFO]: Running delayed init tasks
+[07:01:03] [Server thread/INFO]: [StarCore] Enabled STARCORE module after deferred startup: dynasty
+[07:01:03] [Server thread/INFO]: [StarCore] Dynasty module enabled: Dynasty System: 3 dynasties (3 with monarch, 0 in interregnum)
+[07:01:03] [Server thread/INFO]: [StarCore] 已加载 0 个圣地
+[07:01:03] [Server thread/INFO]: Done (21.853s)! For help, type "help"
+[07:01:05] [Paper Async Task Handler Thread - 1/WARN]: *************************************************************************************
+[07:01:05] [Paper Async Task Handler Thread - 1/WARN]: You are running the latest build for your Minecraft version (1.21.11)
+[07:01:05] [Paper Async Task Handler Thread - 1/WARN]: However, you are 6 release(s) behind the latest stable release (26.3)!
+[07:01:05] [Paper Async Task Handler Thread - 1/WARN]: It is recommended that you update as soon as possible
+[07:01:05] [Paper Async Task Handler Thread - 1/WARN]: https://papermc.io/downloads/paper
+[07:01:05] [Paper Async Task Handler Thread - 1/WARN]: *************************************************************************************
+[07:01:45] [User Authenticator #2/INFO]: UUID of player PhaseTwoC is 140669be-0a1a-3206-a8b1-20d23a596b3a
+[07:01:45] [User Authenticator #3/INFO]: UUID of player PhaseTwoD is 63e2bb34-acdd-360c-a4b5-57c748f2ef53
+[07:01:45] [User Authenticator #1/INFO]: UUID of player PhaseTwoB is 28a86e57-337f-3ee8-8593-6eed0ce4d3d6
+[07:01:45] [User Authenticator #0/INFO]: UUID of player PhaseTwoA is 08ffd450-5001-3023-a480-057fef707037
+[07:01:47] [Server thread/INFO]: PhaseTwoD joined the game
+[07:01:47] [Server thread/INFO]: PhaseTwoD[/127.0.0.1:65268] logged in with entity id 154 at ([world]-8.5, -60.0, 3.5)
+[07:01:47] [Server thread/INFO]: PhaseTwoC joined the game
+[07:01:47] [Server thread/INFO]: PhaseTwoC[/127.0.0.1:65267] logged in with entity id 155 at ([world]6.5, -60.0, 0.5)
+[07:01:47] [Server thread/INFO]: PhaseTwoB joined the game
+[07:01:47] [Server thread/INFO]: PhaseTwoB[/127.0.0.1:65266] logged in with entity id 156 at ([world]-7.5, -60.0, -1.5)
+[07:01:47] [Server thread/INFO]: PhaseTwoA joined the game
+[07:01:47] [Server thread/INFO]: PhaseTwoA[/127.0.0.1:65265] logged in with entity id 157 at ([world]3.5, -60.0, 5.5)
+[07:02:02] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_IDENTITY {"admin":false,"holder":false,"nation":"421acafc-185a-4e1d-a20b-d6143a03ee22","op":false,"player":"A","use":true,"uuid":"08ffd450-5001-3023-a480-057fef707037"}
+[07:02:02] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_IDENTITY {"admin":false,"holder":false,"nation":"","op":false,"player":"B","use":true,"uuid":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6"}
+[07:02:02] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_IDENTITY {"admin":false,"holder":true,"nation":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","op":false,"player":"C","use":true,"uuid":"140669be-0a1a-3206-a8b1-20d23a596b3a"}
+[07:02:02] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_IDENTITY {"admin":false,"holder":true,"nation":"421acafc-185a-4e1d-a20b-d6143a03ee22","op":false,"player":"D","use":true,"uuid":"63e2bb34-acdd-360c-a4b5-57c748f2ef53"}
+[07:02:02] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_SEEDED {"actualPlayers":4,"capturedCountries":{"A":"421acafc-185a-4e1d-a20b-d6143a03ee22","B":"75cab410-280c-4e0e-b854-94c0f57f9dec","C":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7"},"createdThisBoot":false}
+[07:02:12] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_INVALIDATION_CHECK_PASS {"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","viewerRevision":1,"representative":true,"canVote":true,"canWithdraw":true,"message":"一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]}
+[07:02:12] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_FROZEN_CHECK_PASS {"facts":{"past.nation.choice.national-smoke-primary/1/council":"yes","past.resolution.world.national-smoke-primary/1/council":"yes"},"fate":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"monarch"},"state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","viewerRevision":4,"representative":true,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]}}
+[07:02:28] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_CANONICAL_REPLAY_SOURCE {"id":"national-paper:primary:1","type":"NATIONAL_PRIMARY_TEST","occurredAt":"2026-11-19T22:52:37.948855600Z","participants":["140669be-0a1a-3206-a8b1-20d23a596b3a","08ffd450-5001-3023-a480-057fef707037","63e2bb34-acdd-360c-a4b5-57c748f2ef53","28a86e57-337f-3ee8-8593-6eed0ce4d3d6"],"nations":["6030ce13-0f3c-4ff0-9efc-c2633647d7f7","421acafc-185a-4e1d-a20b-d6143a03ee22","75cab410-280c-4e0e-b854-94c0f57f9dec"],"facts":{"fixture-only":"true"},"source":"NationalCouncilPaperFixture","evidence":"Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=primary"}
+[07:02:28] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_REPLAY_DUPLICATE {"report":{"duplicate":true,"instanceIds":[],"message":"事件已处理"},"source":"national-paper:primary:1"}
+[07:02:39] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {"action":"VOTE","choice":"yes","error":"java.util.concurrent.CompletionException: java.lang.IllegalStateException: 国家议事阶段已经结束","player":"D","revision":4,"story":"national-smoke-primary"}
+[07:02:39] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_FROZEN_CHECK_PASS {"facts":{"past.nation.choice.national-smoke-primary/1/council":"yes","past.resolution.world.national-smoke-primary/1/council":"yes"},"fate":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"monarch"},"state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","viewerRevision":4,"representative":true,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]}}
+[07:03:05] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_NATIVE_MOVE {"nation":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","player":"A"}
+[07:03:16] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_NATIVE_TRANSFER {"nation":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","new":"08ffd450-5001-3023-a480-057fef707037","old":"140669be-0a1a-3206-a8b1-20d23a596b3a"}
+[07:03:16] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_IDENTITY {"admin":false,"holder":false,"nation":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","op":false,"player":"C","use":true,"uuid":"140669be-0a1a-3206-a8b1-20d23a596b3a"}
+[07:03:16] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_IDENTITY {"admin":false,"holder":true,"nation":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","op":false,"player":"A","use":true,"uuid":"08ffd450-5001-3023-a480-057fef707037"}
+[07:03:27] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_HISTORY [{"id":"observation:04f1789382047d52:2:cc3e1e607476a989bd1e27374d54727b0040ce3d25b6e430795683dffa59d847","type":"NATION_DESTROYED","occurredAt":"2026-11-19T22:59:14.792Z","participants":[],"nations":["75cab410-280c-4e0e-b854-94c0f57f9dec"],"facts":{"after":"<absent>","before":"PRESENT","nation.id":"75cab410-280c-4e0e-b854-94c0f57f9dec","observation.key":"75cab410-280c-4e0e-b854-94c0f57f9dec","observation.namespace":"starcore.nations","observation.sequence":"2","time_basis":"OBSERVED","title":"国家消失（权威快照观察）"},"source":"StarCore.NationModule.nations","evidence":"source=StarCore.NationModule.nations; complete authority snapshot; namespace=starcore.nations; sequence=2; key=75cab410-280c-4e0e-b854-94c0f57f9dec; before=PRESENT; after=<absent>; observationInterval=[2026-11-19T22:52:25.065Z,2026-11-19T22:59:14.792Z]; exact mutation time and actor unknown; Native NationModule.nations() list copied under its mutation monitor; absence means no longer present, not a known destruction cause"},{"id":"national-paper:invalidation:1","type":"NATIONAL_INVALIDATION_TEST","occurredAt":"2026-11-19T22:58:52.295387300Z","participants":["140669be-0a1a-3206-a8b1-20d23a596b3a","08ffd450-5001-3023-a480-057fef707037","63e2bb34-acdd-360c-a4b5-57c748f2ef53","28a86e57-337f-3ee8-8593-6eed0ce4d3d6"],"nations":["6030ce13-0f3c-4ff0-9efc-c2633647d7f7","421acafc-185a-4e1d-a20b-d6143a03ee22","75cab410-280c-4e0e-b854-94c0f57f9dec"],"facts":{"fixture-only":"true"},"source":"NationalCouncilPaperFixture","evidence":"Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=invalidation"},{"id":"chronicle:48f348cc11ac0b2b7e876765123b1f40daf38b290721647cbda3ac3427b5034e","type":"NATIONAL_COUNCIL_SMOKE_FINISHED","occurredAt":"2026-11-19T22:58:25.976174Z","participants":["140669be-0a1a-3206-a8b1-20d23a596b3a","08ffd450-5001-3023-a480-057fef707037","28a86e57-337f-3ee8-8593-6eed0ce4d3d6","63e2bb34-acdd-360c-a4b5-57c748f2ef53"],"nations":["6030ce13-0f3c-4ff0-9efc-c2633647d7f7","421acafc-185a-4e1d-a20b-d6143a03ee22","75cab410-280c-4e0e-b854-94c0f57f9dec"],"facts":{"outcome":"The country council made its actual recorded decision.","story":"national-smoke-primary"},"source":"StarChronicle","evidence":"instance=5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d; action=node/done; effect=actual-national-ending; source=national-paper:primary:1"},{"id":"national-paper:primary:1","type":"NATIONAL_PRIMARY_TEST","occurredAt":"2026-11-19T22:52:37.948855600Z","participants":["140669be-0a1a-3206-a8b1-20d23a596b3a","08ffd450-5001-3023-a480-057fef707037","63e2bb34-acdd-360c-a4b5-57c748f2ef53","28a86e57-337f-3ee8-8593-6eed0ce4d3d6"],"nations":["6030ce13-0f3c-4ff0-9efc-c2633647d7f7","421acafc-185a-4e1d-a20b-d6143a03ee22","75cab410-280c-4e0e-b854-94c0f57f9dec"],"facts":{"fixture-only":"true"},"source":"NationalCouncilPaperFixture","evidence":"Isolated acceptance signal, not a production discovery: actual connected client UUIDs and three country IDs observed through native NationService; signal=primary"},{"id":"starcore:nation-founded:6030ce13-0f3c-4ff0-9efc-c2633647d7f7","type":"NATION_FOUNDED","occurredAt":"2026-11-19T22:52:23.226Z","participants":[],"nations":["6030ce13-0f3c-4ff0-9efc-c2633647d7f7"],"facts":{"nation.id":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","title":"国家建立"},"source":"StarCore","evidence":"NationService.nations authoritative entity id=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; persisted foundedAt=2026-11-19T22:52:23.226Z; original founder not exposed; historical import may predate Chronicle installation"},{"id":"starcore:nation-founded:75cab410-280c-4e0e-b854-94c0f57f9dec","type":"NATION_FOUNDED","occurredAt":"2026-11-19T22:52:23.223Z","participants":[],"nations":["75cab410-280c-4e0e-b854-94c0f57f9dec"],"facts":{"nation.id":"75cab410-280c-4e0e-b854-94c0f57f9dec","title":"国家建立"},"source":"StarCore","evidence":"NationService.nations authoritative entity id=75cab410-280c-4e0e-b854-94c0f57f9dec; persisted foundedAt=2026-11-19T22:52:23.223Z; original founder not exposed; historical import may predate Chronicle installation"},{"id":"starcore:nation-founded:421acafc-185a-4e1d-a20b-d6143a03ee22","type":"NATION_FOUNDED","occurredAt":"2026-11-19T22:52:23.213Z","participants":[],"nations":["421acafc-185a-4e1d-a20b-d6143a03ee22"],"facts":{"nation.id":"421acafc-185a-4e1d-a20b-d6143a03ee22","title":"国家建立"},"source":"StarCore","evidence":"NationService.nations authoritative entity id=421acafc-185a-4e1d-a20b-d6143a03ee22; persisted foundedAt=2026-11-19T22:52:23.213Z; original founder not exposed; historical import may predate Chronicle installation"},{"id":"chronicle:arrival:28a86e57-337f-3ee8-8593-6eed0ce4d3d6:2026-11-19","type":"PLAYER_JOIN","occurredAt":"2026-11-19T22:52:07.327964300Z","participants":["28a86e57-337f-3ee8-8593-6eed0ce4d3d6"],"nations":[],"facts":{"day":"2026-11-19","time_basis":"OBSERVED"},"source":"StarChronicle.PlayerJoinEvent","evidence":"First observed player arrival for UTC day=2026-11-19; player=28a86e57-337f-3ee8-8593-6eed0ce4d3d6"},{"id":"chronicle:arrival:63e2bb34-acdd-360c-a4b5-57c748f2ef53:2026-11-19","type":"PLAYER_JOIN","occurredAt":"2026-11-19T22:52:07.301939500Z","participants":["63e2bb34-acdd-360c-a4b5-57c748f2ef53"],"nations":[],"facts":{"day":"2026-11-19","time_basis":"OBSERVED"},"source":"StarChronicle.PlayerJoinEvent","evidence":"First observed player arrival for UTC day=2026-11-19; player=63e2bb34-acdd-360c-a4b5-57c748f2ef53"},{"id":"chronicle:arrival:140669be-0a1a-3206-a8b1-20d23a596b3a:2026-11-19","type":"PLAYER_JOIN","occurredAt":"2026-11-19T22:52:07.104307300Z","participants":["140669be-0a1a-3206-a8b1-20d23a596b3a"],"nations":[],"facts":{"day":"2026-11-19","time_basis":"OBSERVED"},"source":"StarChronicle.PlayerJoinEvent","evidence":"First observed player arrival for UTC day=2026-11-19; player=140669be-0a1a-3206-a8b1-20d23a596b3a"},{"id":"chronicle:arrival:08ffd450-5001-3023-a480-057fef707037:2026-11-19","type":"PLAYER_JOIN","occurredAt":"2026-11-19T22:52:06.969631200Z","participants":["08ffd450-5001-3023-a480-057fef707037"],"nations":[],"facts":{"day":"2026-11-19","time_basis":"OBSERVED"},"source":"StarChronicle.PlayerJoinEvent","evidence":"First observed player arrival for UTC day=2026-11-19; player=08ffd450-5001-3023-a480-057fef707037"}]
+[07:03:27] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_FACTS {"facts":{"past.nation.choice.national-smoke-primary/1/council":"yes","past.resolution.world.national-smoke-primary/1/council":"yes"},"player":"D"}
+[07:03:27] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_FATE {"facts":{"npc.ancient-heir.growth":"0","npc.ancient-heir.hostility":"0","npc.ancient-heir.position":"claimant","npc.ancient-heir.reputation":"0","npc.ancient-heir.trust":"0","npc.caravan-archivist.growth":"0","npc.caravan-archivist.hostility":"0","npc.caravan-archivist.position":"archivist","npc.caravan-archivist.reputation":"0","npc.caravan-archivist.trust":"0","npc.siege-veteran.growth":"0","npc.siege-veteran.hostility":"0","npc.siege-veteran.position":"veteran","npc.siege-veteran.reputation":"0","npc.siege-veteran.trust":"0","player.honor":"7","player.role":"monarch"},"player":"D"}
+[07:03:27] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {"action":"VOTE","choice":"yes","error":"java.util.concurrent.CompletionException: java.lang.SecurityException: 国籍已变化，请由管理员审核成员资格","player":"A","revision":1,"story":"national-smoke-invalidation"}
+[07:03:27] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_STATE {"player":"A","state":{"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","viewerRevision":1,"representative":true,"canVote":false,"canWithdraw":false,"message":"一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]},"story":"national-smoke-invalidation"}
+[07:03:27] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_INVALIDATION_CHECK_PASS {"instanceId":"122ad7c3d57366dae01b76cf15a9d4eee481d9d9fc94ec9175d5b01364f20868","nodeId":"council","quorum":3,"resolution":null,"completed":false,"viewerNationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","viewerRevision":1,"representative":false,"canVote":false,"canWithdraw":false,"message":"只读记录；国家代表资格须由原生权威服务核验","counts":{"no":1,"yes":1},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:04.241117200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:04.241117200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:04.241117200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"no","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:59:04.256620200Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:59:04.256620200Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:59:04.256620200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":2,"choiceId":null,"status":"INVALIDATED","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:59:24.241756200Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:59:24.241756200Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:59:24.241756200Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"}]}
+[07:03:27] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_STATE {"player":"D","state":{"instanceId":"5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d","nodeId":"council","quorum":2,"resolution":"yes","completed":true,"viewerNationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","viewerRevision":4,"representative":true,"canVote":false,"canWithdraw":false,"message":"决议为已冻结历史；国家后续变动不会重算历史","counts":{"no":1,"yes":2},"ballots":[{"nationId":"421acafc-185a-4e1d-a20b-d6143a03ee22","revision":4,"choiceId":"yes","status":"ACTIVE","actorId":"63e2bb34-acdd-360c-a4b5-57c748f2ef53","checkedAt":"2026-11-19T22:54:14.395244Z","authorityEvidence":"{\"actor\":\"63e2bb34-acdd-360c-a4b5-57c748f2ef53\",\"checkedAt\":\"2026-11-19T22:54:14.395244Z\",\"evidence\":\"nationOf=421acafc-185a-4e1d-a20b-d6143a03ee22; nationById=present; isFounder(currentHolder)=true; actor=63e2bb34-acdd-360c-a4b5-57c748f2ef53; checkedAt=2026-11-19T22:54:14.395244Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"421acafc-185a-4e1d-a20b-d6143a03ee22\"}"},{"nationId":"6030ce13-0f3c-4ff0-9efc-c2633647d7f7","revision":1,"choiceId":"yes","status":"ACTIVE","actorId":"140669be-0a1a-3206-a8b1-20d23a596b3a","checkedAt":"2026-11-19T22:58:25.940764700Z","authorityEvidence":"{\"actor\":\"140669be-0a1a-3206-a8b1-20d23a596b3a\",\"checkedAt\":\"2026-11-19T22:58:25.940764700Z\",\"evidence\":\"nationOf=6030ce13-0f3c-4ff0-9efc-c2633647d7f7; nationById=present; isFounder(currentHolder)=true; actor=140669be-0a1a-3206-a8b1-20d23a596b3a; checkedAt=2026-11-19T22:58:25.940764700Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"6030ce13-0f3c-4ff0-9efc-c2633647d7f7\"}"},{"nationId":"75cab410-280c-4e0e-b854-94c0f57f9dec","revision":3,"choiceId":"no","status":"ACTIVE","actorId":"28a86e57-337f-3ee8-8593-6eed0ce4d3d6","checkedAt":"2026-11-19T22:58:02.243982800Z","authorityEvidence":"{\"actor\":\"28a86e57-337f-3ee8-8593-6eed0ce4d3d6\",\"checkedAt\":\"2026-11-19T22:58:02.243982800Z\",\"evidence\":\"nationOf=75cab410-280c-4e0e-b854-94c0f57f9dec; nationById=present; isFounder(currentHolder)=true; actor=28a86e57-337f-3ee8-8593-6eed0ce4d3d6; checkedAt=2026-11-19T22:58:02.243982800Z\",\"issuer\":\"StarCore.NationModule.current-holder\",\"nation\":\"75cab410-280c-4e0e-b854-94c0f57f9dec\"}"}]},"story":"national-smoke-primary"}
+[07:03:55] [Server thread/INFO]: PhaseTwoD issued server command: /chronicle national 5a1c500e7f07558e6cd888e909caf2e0f8e2548a256e07603b704ee0b872f68d
+[07:04:25] [Server thread/INFO]: PhaseTwoD lost connection: Disconnected
+[07:04:25] [Server thread/INFO]: PhaseTwoD left the game
+[07:04:25] [Server thread/INFO]: PhaseTwoC lost connection: Disconnected
+[07:04:25] [Server thread/INFO]: PhaseTwoC left the game
+[07:04:25] [Server thread/INFO]: PhaseTwoB lost connection: Disconnected
+[07:04:25] [Server thread/INFO]: PhaseTwoB left the game
+[07:04:25] [Server thread/INFO]: PhaseTwoA lost connection: Disconnected
+[07:04:25] [Server thread/INFO]: PhaseTwoA left the game
+[07:04:35] [Server thread/INFO]: Stopping the server
+[07:04:35] [Server thread/INFO]: Stopping server
+[07:04:35] [Server thread/INFO]: [NationalCouncilPaperFixture] Disabling NationalCouncilPaperFixture v1
+[07:04:35] [Server thread/INFO]: [StarChronicle] Disabling StarChronicle v0.1.0-SNAPSHOT
+[07:04:35] [Server thread/INFO]: [StarCore] Disabling StarCore v1.0.0
+[07:04:35] [Server thread/INFO]: [StarCore] Particle feedback tasks cleared on disable: 0
+[07:04:35] [starcore-territory-storage-save/INFO]: [StarCore] [TerritoryStorage] 已保存 0 个领土到数据库
+[07:04:35] [Server thread/INFO]: [StarCore] 已保存 0 个领土到存储
+[07:04:35] [starcore-territory-storage-save/INFO]: [StarCore] [TerritoryStorage] 已保存 0 个子区域到数据库
+[07:04:35] [Server thread/INFO]: [StarCore] 已保存 0 个子区域到存储
+[07:04:35] [Server thread/INFO]: [StarCore] 临时权限服务已停止
+[07:04:35] [Server thread/INFO]: [StarCore] 领土租赁服务已停止
+[07:04:35] [Server thread/INFO]: [StarCore] 区域模块已关闭
+[07:04:35] [Server thread/INFO]: [StarCore] Disabling Title System...
+[07:04:35] [Server thread/INFO]: [StarCore] Title System disabled
+[07:04:35] [Server thread/INFO]: [StarCore] 正在禁用智能物品提示...
+[07:04:35] [Server thread/INFO]: [StarCore] 智能物品提示系统已禁用
+[07:04:35] [Server thread/INFO]: [StarCore] [Stats] 统计服务已关闭
+[07:04:35] [Server thread/INFO]: [StarCore] WeatherTacticsModule disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 天气战术 (army-weather-tactics)
+[07:04:35] [Server thread/INFO]: [StarCore] [GameplayLoop] 玩法闭环模块已禁用
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 玩法闭环 (gameplay)
+[07:04:35] [Server thread/INFO]: [StarCore] WeatherModule disabled.
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 天气控制 (weather)
+[07:04:35] [Server thread/INFO]: [StarCore] Reparations module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 战争赔款 (reparations)
+[07:04:35] [Server thread/INFO]: [StarCore] Saved 0 prisoner records
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 俘虏系统 (prisoner)
+[07:04:35] [Server thread/INFO]: [dev.starcore.starcore.module.diplomacy.military.MilitaryAllianceModule] MilitaryAllianceModule disabled.
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 军事联盟系统 (military-alliance)
+[07:04:35] [Server thread/INFO]: [StarCore] [MilitaryModule] 军事指挥中心模块已禁用
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: Military Command Center (military)
+[07:04:35] [Server thread/INFO]: [StarCore] Wounded module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 伤兵系统 (wounded)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 战争核心 (war)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 科技核心 (technology)
+[07:04:35] [Server thread/INFO]: [StarCore] Split module disabled.
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 国家分裂系统 (split)
+[07:04:35] [Server thread/INFO]: [StarCore] Night raid module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 夜间突袭 (raid)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 国策树核心 (policy)
+[07:04:35] [Server thread/INFO]: [StarCore] Mercenary module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 雇佣兵系统 (mercenary)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 演习系统 (exercise)
+[07:04:35] [Server thread/INFO]: [StarCore] Espionage module shutting down...
+[07:04:35] [Server thread/INFO]: [StarCore] Espionage module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 间谍系统 (espionage)
+[07:04:35] [Server thread/INFO]: [StarCore] Doctrine module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 军事学说 (doctrine)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 指挥官系统 (commander)
+[07:04:35] [Server thread/INFO]: [StarCore] CombatServiceImpl shutdown complete.
+[07:04:35] [Server thread/INFO]: [StarCore] CombatStorage closed.
+[07:04:35] [Server thread/INFO]: [StarCore] Real-time combat system disabled.
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 实时战斗系统 (combat)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 破产管理系统 (bankruptcy)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 经济区系统 (zone)
+[07:04:35] [Server thread/INFO]: [StarCore] TerritoryRentModule disabled.
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 领土租借系统 (territory_rent)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 税收系统 (taxation)
+[07:04:35] [Server thread/INFO]: [StarCore] Satellite module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 卫星国 (satellite)
+[07:04:35] [Server thread/INFO]: [StarCore] ResourceModule disabled.
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 资源核心 (resource)
+[07:04:35] [Server thread/INFO]: [StarCore] Merge referendum module disabled.
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 合并公投 (merge)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 国债贷款系统 (loan)
+[07:04:35] [Server thread/INFO]: [StarCore] STARCORE donation module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 献金系统 (donation)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 预算管理系统 (budget)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 军队系统 (army)
+[07:04:35] [Server thread/INFO]: [StarCore] Arbitration module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 领土仲裁 (arbitration)
+[07:04:35] [Server thread/INFO]: [dev.starcore.starcore.module.diplomacy.alliance.AllianceModule] AllianceModule disabled.
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 联盟外交系统 (alliance)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 金库核心 (treasury)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 外交核心 (diplomacy)
+[07:04:35] [Server thread/INFO]: [dev.starcore.starcore.module.resolution.ResolutionModule] ResolutionModule disabled.
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 决议引擎 (resolution)
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 官员核心 (officer)
+[07:04:35] [Server thread/INFO]: [StarCore] 正在关闭副本模块...
+[07:04:35] [Server thread/INFO]: [StarCore] 副本服务已关闭
+[07:04:35] [Server thread/INFO]: [StarCore] 副本模块已关闭
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 副本系统 (dungeon)
+[07:04:35] [Server thread/INFO]: [StarCore] CityModule disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 城市系统 (city)
+[07:04:35] [Server thread/INFO]: [StarCore] Tunnel Warfare module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 地道战 (tunnel)
+[07:04:35] [Server thread/INFO]: [StarCore] TerritoryUpgradeModule disabled.
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 领地升级系统 (territory_upgrade)
+[07:04:35] [Server thread/INFO]: [StarCore] Sovereignty module disabled
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 主权声明 (sovereignty)
+[07:04:35] [Server thread/INFO]: [StarCore] 社会阶层数据已保存: 0 名玩家
+[07:04:35] [Server thread/INFO]: [StarCore] 八卦数据已保存: 0 条八卦, 0 名玩家历史
+[07:04:35] [Server thread/INFO]: [StarCore] 已保存 2 个国家的文化数据
+[07:04:35] [Server thread/INFO]: [StarCore] 活动参与数据已保存: 0 名玩家的连续记录
+[07:04:35] [Server thread/INFO]: [StarCore] 奖励历史已保存: 0 条记录
+[07:04:35] [Server thread/INFO]: [StarCore] 影响力排行榜服务已关闭
+[07:04:35] [Server thread/INFO]: [StarCore] 社会模拟模块已关闭并保存数据
+[07:04:35] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 社会模拟 (social-simulation)
+[07:04:36] [Server thread/INFO]: [StarCore] Siege module disabled
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 攻城器械系统 (siege)
+[07:04:36] [Server thread/INFO]: [StarCore] STARCORE prosperity module disabled.
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 繁荣度系统 (prosperity)
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 海军系统 (navy)
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 战略地图核心 (map)
+[07:04:36] [Server thread/INFO]: [StarCore] Lease module disabled
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 契约制度 (lease)
+[07:04:36] [Server thread/INFO]: [StarCore] Government module disabled
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 政体核心 (government)
+[07:04:36] [Server thread/INFO]: [dev.starcore.starcore.module.alliance.AllianceServiceImpl] AllianceService shutdown - saved state
+[07:04:36] [Server thread/INFO]: [dev.starcore.starcore.module.alliance.AllianceModule] AllianceModule disabled.
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 联盟外交系统 (federation)
+[07:04:36] [Server thread/INFO]: [StarCore] Faith module disabled
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 领土信仰 (faith)
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 事件核心 (event)
+[07:04:36] [Server thread/INFO]: [StarCore] Emergency module disabled.
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 紧急状态系统 (emergency)
+[07:04:36] [Server thread/INFO]: [StarCore] Dynasty module disabled
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 王位继承 (dynasty)
+[07:04:36] [Server thread/INFO]: [StarCore] Saved 0 business transactions
+[07:04:36] [Server thread/INFO]: [StarCore] STARCORE Business module disabled.
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 商业系统 (business)
+[07:04:36] [Server thread/INFO]: [StarCore] Banner module disabled.
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 国家旗帜 (banner)
+[07:04:36] [Server thread/INFO]: [StarCore] Saved 0 anniversaries
+[07:04:36] [Server thread/INFO]: [StarCore] STARCORE Anniversary module disabled
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 纪念日系统 (anniversary)
+[07:04:36] [Server thread/INFO]: [StarCore] Storage data saved successfully (0 warehouses, 0 logs)
+[07:04:36] [Server thread/INFO]: [StarCore] Storage log cleanup task stopped
+[07:04:36] [Server thread/INFO]: [StarCore] WarehouseUpgradeService: persisted 0 active upgrades
+[07:04:36] [Server thread/INFO]: [StarCore] StorageService stopped
+[07:04:36] [Server thread/INFO]: [StarCore] Warehouse configuration saved
+[07:04:36] [Server thread/INFO]: [StarCore] Storage module stopped
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: Storage Module (storage)
+[07:04:36] [Server thread/INFO]: [StarCore] 社交模块已禁用，数据已保存
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 社交系统 (social)
+[07:04:36] [Server thread/INFO]: [StarCore] 正在关闭任务模块...
+[07:04:36] [Server thread/INFO]: [StarCore] [CommissionService] 定时任务已关闭
+[07:04:36] [Server thread/INFO]: [StarCore] 任务数据已保存
+[07:04:36] [Server thread/INFO]: [StarCore] 任务服务保留在 ServiceRegistry 中（模块禁用）
+[07:04:36] [Server thread/INFO]: [StarCore] 任务模块已禁用，所有数据已保存
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 任务系统 (quest)
+[07:04:36] [Server thread/INFO]: [StarCore] 正在禁用 PvP 模块...
+[07:04:36] [Server thread/INFO]: [StarCore] 正在保存 PvP 数据...
+[07:04:36] [Server thread/INFO]: [StarCore] PvP统计最终快照已保存
+[07:04:36] [Server thread/INFO]: [StarCore] 已保存连杀数据
+[07:04:36] [Server thread/INFO]: [StarCore] PvP 数据保存完成
+[07:04:36] [Server thread/INFO]: [StarCore] [Matchmaking] 竞技场匹配系统已禁用
+[07:04:36] [Server thread/INFO]: [StarCore] PvP 模块已禁用
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: PvP系统 (pvp)
+[07:04:36] [Server thread/INFO]: [StarCore] Saved pet data for 4 players
+[07:04:36] [Server thread/INFO]: [StarCore] Pet module stopped
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: Pet Module (pet)
+[07:04:36] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] NarrativeBossIntegration stopped
+[07:04:36] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] Flushed 0 narrative player states to disk
+[07:04:36] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] Destroyed 0 active narrative sessions
+[07:04:36] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] NarrativeEngine disabled
+[07:04:36] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] Flushed 0 narrative player states to disk
+[07:04:36] [Server thread/INFO]: [dev.starcore.starcore.module.narrative.NarrativeModule] NarrativeModule disabled
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: Narrative System (narrative)
+[07:04:36] [Server thread/INFO]: [StarCore] 邮件模块已禁用，数据已保存
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 邮件系统 (mail)
+[07:04:36] [Server thread/INFO]: [StarCore] STARCORE Interaction Visualizer disabled.
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 交互可视化 (interaction_visualizer)
+[07:04:36] [Server thread/INFO]: [StarCore] 正在禁用 Essentials 模块...
+[07:04:36] [starcore-essentials-data-writer/INFO]: [StarCore] 正在保存 Essentials 数据...
+[07:04:36] [starcore-essentials-data-writer/INFO]: [StarCore] ✅ Essentials 数据保存完成
+[07:04:36] [Server thread/INFO]: [StarCore] ✅ Essentials 模块已禁用
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: Essentials Module (essentials)
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 用户生成内容 (ugc)
+[07:04:36] [Server thread/INFO]: [StarCore] Saved 0 active tournaments
+[07:04:36] [Server thread/INFO]: [StarCore] 锦标赛模块已禁用
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 锦标赛系统 (tournament)
+[07:04:36] [Server thread/INFO]: [StarCore] STARCORE Shop module disabled.
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 商店系统 (shop)
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 国家核心 (nation)
+[07:04:36] [Server thread/INFO]: [StarCore] 邮件模块已禁用
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 邮件附件系统 (mail-attachment)
+[07:04:36] [Server thread/INFO]: [StarCore] Fatigue module disabled
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 疲劳度系统 (fatigue)
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 经济业务聚合 (economy)
+[07:04:36] [Server thread/INFO]: [StarCore] STARCORE Blueprint module disabled.
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 建筑蓝图 (blueprint)
+[07:04:36] [Server thread/INFO]: [StarCore] 成就模块已禁用
+[07:04:36] [Server thread/INFO]: [StarCore] Disabled STARCORE module: 成就系统 (achievement)
+[07:04:36] [Server thread/INFO]: [com.zaxxer.hikari.HikariDataSource] STARCORE-SQLite - Shutdown initiated...
+[07:04:36] [Server thread/INFO]: [com.zaxxer.hikari.HikariDataSource] STARCORE-SQLite - Shutdown completed.
+[07:04:36] [Server thread/INFO]: [StarCore] STARCORE disabled.
+[07:04:36] [Server thread/INFO]: Saving players
+[07:04:36] [Server thread/INFO]: Saving worlds
+[07:04:36] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world]'/minecraft:overworld
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'world'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'world'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Saved 107 block chunks, 107 entity chunks, 0 poi chunks in world 'world' in 0.19s
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'world'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'world'
+[07:04:36] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world_nether]'/minecraft:the_nether
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_nether'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'world_nether'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'world_nether'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_nether' in 0.00s
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'world_nether'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'world_nether'
+[07:04:36] [Server thread/INFO]: Saving chunks for level 'ServerLevel[world_the_end]'/minecraft:the_end
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'world_the_end'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Halted chunk system for world 'world_the_end'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Saving all chunkholders for world 'world_the_end'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Saved 0 block chunks, 0 entity chunks, 0 poi chunks in world 'world_the_end' in 0.00s
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'world_the_end'
+[07:04:36] [Server thread/INFO]: [ChunkHolderManager] Halted I/O scheduler for world 'world_the_end'
+[07:04:36] [Server thread/INFO]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[07:04:36] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[07:04:36] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[07:04:36] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[07:04:36] [Server thread/INFO]: Waiting for all RegionFile I/O tasks to complete...
+[07:04:36] [Server thread/INFO]: All RegionFile I/O tasks to complete
+[07:04:36] [Server thread/INFO]: [MoonriseCommon] Awaiting termination of worker pool for up to 60s...
+[07:04:36] [Server thread/INFO]: [MoonriseCommon] Awaiting termination of I/O pool for up to 60s...

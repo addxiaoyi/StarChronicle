@@ -1,5 +1,28 @@
 # Optional StarCore persistence repair
 
+## National treasury authority domain
+
+`starcore-treasury-authority-domain.patch` targets audited StarCore commit
+`f769e62799e769a18fe51305b545869a17f80cd1`. It exposes a persistent treasury
+domain UUID through `TreasuryService`, saves it alongside native transfer
+receipts, creates a UUID only for a new empty treasury store, and leaves legacy
+nonempty stores unidentified so receipt consumers fail closed. The patch also
+rejects an authority marker change during state refresh.
+
+The current StarChronicle build disables national aid unless this API returns a
+valid stable UUID. The patch is a local candidate and has not been merged or
+released upstream. Its exact checkout passed a Java 21 Maven build that compiled
+2,233 production sources and 1,008 test sources, then ran
+`TreasuryAuthorityDomainTest`: 5 passed, 0 failures/errors/skips. This is a
+targeted test, not a full StarCore suite or Paper/Folia treasury acceptance.
+
+Apply in a separate StarCore checkout after reviewing the patch:
+
+```powershell
+git -C C:\path\to\starcore apply --check C:\path\to\StarChronicle\patches\starcore-treasury-authority-domain.patch
+git -C C:\path\to\starcore apply C:\path\to\StarChronicle\patches\starcore-treasury-authority-domain.patch
+```
+
 `starcore-quest-deferred-restore.patch` targets audited StarCore commit `f769e62799e769a18fe51305b545869a17f80cd1`. It is a proposed upstream source patch, not an automatically installed runtime modification. Chronicle's default scenes remain available without it; default native custom quest installation/binding remains disabled.
 
 The patch fixes three related restart problems discovered while auditing real integration paths:

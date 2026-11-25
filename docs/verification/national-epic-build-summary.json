@@ -1,0 +1,1132 @@
+{
+  "captured_utc": "2026-11-25T08:07:34.435414+00:00",
+  "chronicle": {
+    "head": "baf9d91cf99acb575b7630b396bb598df150f0f2",
+    "tests": {
+      "totals": {
+        "tests": 866,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "suites": [
+        {
+          "name": "io.github.addxiaoyi.starchronicle.api.epic.EpicCampaignPlanCatalogTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.api.epic.EpicCampaignPlanCatalogTest.xml",
+          "sha256": "59a909a0eb1491c6818ce625a8039aaefa8b1ef46ece19ebb7a33e8619bd35d6",
+          "written_utc": "2026-11-25T06:49:47.857732+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.api.epic.EpicContractTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.api.epic.EpicContractTest.xml",
+          "sha256": "98469379ca7365ca29df995a1e6d1119dd3da3bef1f5eab47b8038874bb0c555",
+          "written_utc": "2026-11-25T06:49:47.927278+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest.xml",
+          "sha256": "90c2985b82ca0779731ac85ccc713ef3dcd85b97e41e9423cd0152eff9e4fd50",
+          "written_utc": "2026-11-25T06:49:49.348354+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.config.ConditionLogicTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.config.ConditionLogicTest.xml",
+          "sha256": "f6947c249446cf49809db83727515512b66c9122edcd78f162d373398a1d2e14",
+          "written_utc": "2026-11-25T06:49:49.365052+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest.xml",
+          "sha256": "db24fe35b811d257a8dbe71fdee527666fbb4c622ac314ccd6f515de7be77a9f",
+          "written_utc": "2026-11-25T06:49:49.722714+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.config.LastHeirStrategyContentTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.config.LastHeirStrategyContentTest.xml",
+          "sha256": "093dd68e3676dd71933ea757b537ab87d97f7f588d1c5e89833e844c9490124f",
+          "written_utc": "2026-11-25T06:49:49.945256+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest",
+          "tests": 19,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest.xml",
+          "sha256": "3a8afc8634364f23910c6562e6d74a226789be64e8f00256010318505fbadf19",
+          "written_utc": "2026-11-25T06:49:50.269653+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest.xml",
+          "sha256": "8a98066333a641faa67337645935e321fa35a2e940e5358f8521b8adf5a4eebb",
+          "written_utc": "2026-11-25T06:49:50.487122+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.config.QuestGateConfigTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.config.QuestGateConfigTest.xml",
+          "sha256": "75a0136ccf0c182571326baac51bb04a1f445642f3fcc27fa25ba252de7dac71",
+          "written_utc": "2026-11-25T06:49:50.552554+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest.xml",
+          "sha256": "886aa7233c116f91d3cdc6731ab19939e3481f11d2159a98f3a9b2d4abcfcd25",
+          "written_utc": "2026-11-25T06:49:50.885828+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest",
+          "tests": 50,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest.xml",
+          "sha256": "72b1a5f44fa05b35df5a9b3c044523d116b45d0f2849c6fe2b935475df02c58c",
+          "written_utc": "2026-11-25T06:49:51.461490+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest",
+          "tests": 13,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest.xml",
+          "sha256": "08b8335e1592eb64f08e1512da94563fca95ba57c76e0fba6e6115bbc8f76949",
+          "written_utc": "2026-11-25T06:49:52.942026+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest.xml",
+          "sha256": "70e2153c583b45c8d4fc462d1880202069b2dd07b04ba08a012703927c774151",
+          "written_utc": "2026-11-25T06:49:53.932934+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.ContributionLedgerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.ContributionLedgerTest.xml",
+          "sha256": "6dd855353fd9926cf0dad8625d31eeccdbcd2df2e90bbebd1e0881aac92f805f",
+          "written_utc": "2026-11-25T06:49:54.125190+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest.xml",
+          "sha256": "50571b018b162e2d945ba7f8ffc26e90df92d79e3e1412bbb5969fa1fd3bc218",
+          "written_utc": "2026-11-25T06:49:54.962502+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest",
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest.xml",
+          "sha256": "535d94c9a7457e7ea876fc2eff2785f4775ba85059d69b881817b63f9500783a",
+          "written_utc": "2026-11-25T06:49:56.696699+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest.xml",
+          "sha256": "e466da4e8c1560c47e97b354a4d5ade307652f551476c045c76f4def04f8105a",
+          "written_utc": "2026-11-25T06:49:56.726294+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest.xml",
+          "sha256": "059a1dccd5672b627ea60f16ea32ef449ab82a5a431cce1d20ec624eb38a493d",
+          "written_utc": "2026-11-25T06:49:57.235806+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest.xml",
+          "sha256": "d69e15dbd067c25fc113ef99bfde5c7da7c71ce123156bdd1e94d00802535244",
+          "written_utc": "2026-11-25T06:49:57.725840+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.EpicCampaignLedgerTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.EpicCampaignLedgerTest.xml",
+          "sha256": "49f04e38cf00f14b0b4df0f3e9927617e2f2be99b0df8f271870e04a7e2187dc",
+          "written_utc": "2026-11-25T06:49:58.374823+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.EpicStoryProjectionTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.EpicStoryProjectionTest.xml",
+          "sha256": "022d09b3fc308dff6cfb4e31a976f88301a9820d1ea79a0e1f5bed9698f4af2f",
+          "written_utc": "2026-11-25T06:49:58.582734+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.FateStoriesTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.FateStoriesTest.xml",
+          "sha256": "58368cb471d0eda359c56266ebace341d61997217e2163bebae9ea71bbb7c971",
+          "written_utc": "2026-11-25T06:50:00.441273+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest.xml",
+          "sha256": "e70eda3bdad040016292a3e5ff591bb5f767cef11d85024d481e4a50933d6bad",
+          "written_utc": "2026-11-25T06:50:00.757701+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest.xml",
+          "sha256": "1e090207321af29b62ce6d085c2aff10725a80916d995bf27127fa6680f72ba5",
+          "written_utc": "2026-11-25T06:50:01.061253+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest",
+          "tests": 18,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest.xml",
+          "sha256": "76525d9aa18d28b69323cdda5df0c62243a5f69670a11f6b78e6c7fccfab19ef",
+          "written_utc": "2026-11-25T06:50:02.191807+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.InvocationGateTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.InvocationGateTest.xml",
+          "sha256": "09e191a05c1ee93054be7e08abdbd697d0ecdee4cb8b30feffeaba4ad249d444",
+          "written_utc": "2026-11-25T06:50:02.213118+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.NationalAidServiceTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.NationalAidServiceTest.xml",
+          "sha256": "863cd925617545e0053176cbfc16386974728be34c6ef874e6debf242dcfc984",
+          "written_utc": "2026-11-25T06:50:02.489729+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest.xml",
+          "sha256": "6b35264a6e630110d7ad8029a16835d905c5828d5780db584c2d171493e1b51a",
+          "written_utc": "2026-11-25T06:50:03.719097+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.NationalRuleEngineAuthorityBoundaryTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.NationalRuleEngineAuthorityBoundaryTest.xml",
+          "sha256": "4c26a6f3a64af5ff85e14b27fefbb5ae180a9fa3c7110fa013fb1a7cb5e1a0de",
+          "written_utc": "2026-11-25T06:50:04.259869+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.NationalRuleEngineTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.NationalRuleEngineTest.xml",
+          "sha256": "6c043d812c85a562a0609017856c8240fe23d79d84dfdb1d753c0f11242a83a5",
+          "written_utc": "2026-11-25T06:50:05.239300+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.NationalVoteLedgerTest",
+          "tests": 21,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.NationalVoteLedgerTest.xml",
+          "sha256": "440c1cb5071a9c1333078e9775c028b590a820c813839a18f776600c2c9bb885",
+          "written_utc": "2026-11-25T06:50:06.395773+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.NationalVotePreparationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.NationalVotePreparationTest.xml",
+          "sha256": "93abf7c4f890476a4a62cf5fbbff5f08d21151d88657d3488ef28da1795a2eba",
+          "written_utc": "2026-11-25T06:50:06.450697+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.NativeDispatchTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.NativeDispatchTest.xml",
+          "sha256": "1adfea3b91d7cd09aaf83712df8dfe2bd2de653318f201483a02ba6c8d25a04e",
+          "written_utc": "2026-11-25T06:50:06.495658+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest.xml",
+          "sha256": "a9a3ab23e6735e1d4076797cc94da951119427af669310826fb8f39fecf6252d",
+          "written_utc": "2026-11-25T06:50:06.551575+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest.xml",
+          "sha256": "6793460ee3d8f001940e8a50d5c794d8476835c01f93d78d4335255ceec46750",
+          "written_utc": "2026-11-25T06:50:06.580671+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest.xml",
+          "sha256": "1c94493f8622d49c6a187e9222a3ee21669a19c685ebd84a55f077f9779987bc",
+          "written_utc": "2026-11-25T06:50:06.693268+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.QuestGateDriverTest",
+          "tests": 15,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.QuestGateDriverTest.xml",
+          "sha256": "5320f7c97848ee09369de2b8f1ec8183bb1061cfc019565ab1d8cd67063bcbff",
+          "written_utc": "2026-11-25T06:50:08.905572+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.QuestGateEngineTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.QuestGateEngineTest.xml",
+          "sha256": "caf517ebc76b6c8ec61e547807f1e8738bd5b7ea7accb761a357b865f9b30c9d",
+          "written_utc": "2026-11-25T06:50:09.821127+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.QuestGateLedgerTest",
+          "tests": 32,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.QuestGateLedgerTest.xml",
+          "sha256": "a1da9396837d42f7422f8aacdcbc1b10f02b30875e7a59803140c956e8a401eb",
+          "written_utc": "2026-11-25T06:50:10.754615+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.RecollectionsTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.RecollectionsTest.xml",
+          "sha256": "8975cfe493b21265f56ba9d84cf10372808f380a39e28174cef09ed2ecd583b4",
+          "written_utc": "2026-11-25T06:50:11.195514+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest.xml",
+          "sha256": "04b304ba171ae051a7ad061cff4cd545d02c278f1b0c453e8e02b8ebeef492d8",
+          "written_utc": "2026-11-25T06:50:11.705568+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.RuleEngineTest",
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.RuleEngineTest.xml",
+          "sha256": "566e83ede0cff1a6aa62b371d506c905bef8a3f8025fee90bb8a9ef614696463",
+          "written_utc": "2026-11-25T06:50:12.872947+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest.xml",
+          "sha256": "1539a6387cd1190d380b16a853bc5f1bde4271a01f53d0aa01bdefd6fdcf44a0",
+          "written_utc": "2026-11-25T06:50:12.932604+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest",
+          "tests": 22,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest.xml",
+          "sha256": "71171e995cb1a4716e24fc1ebeb3675e21b962b3390c9936d8791eb253de0115",
+          "written_utc": "2026-11-25T06:50:17.199493+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.core.TextServiceTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.core.TextServiceTest.xml",
+          "sha256": "fb810f10509c0f0706eb2da25fd9a1107adba88b423ebaed3adbe1e6b7cf3ad9",
+          "written_utc": "2026-11-25T06:50:19.271359+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.history.EventCausalityTest",
+          "tests": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.history.EventCausalityTest.xml",
+          "sha256": "83051abb25c4a794d5b3b7eefa2dd88d8b891fc0a00f3977c8d8b53ead320a0f",
+          "written_utc": "2026-11-25T06:50:19.620948+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.history.FirstVisitBufferTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.history.FirstVisitBufferTest.xml",
+          "sha256": "1f2745a9704471eeabaa69448341056c1f8ef52c956297e55cedeccf83b20b06",
+          "written_utc": "2026-11-25T06:50:19.629880+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest.xml",
+          "sha256": "d85bd3264e1443dc4d57019fc9b07fec7cf4fa7db3e232262532a01d0d68ab1f",
+          "written_utc": "2026-11-25T06:50:19.941067+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.history.ObservationJournalTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.history.ObservationJournalTest.xml",
+          "sha256": "56a42b1dfcb7a342551b8aa11c0b25f1731c7e17348d31d7bd2cfc6fa47287ed",
+          "written_utc": "2026-11-25T06:50:20.608166+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest.xml",
+          "sha256": "d8bd6718eeecf9af7151426a01ecdde5115773a31a24706ecb948f6a25477bc6",
+          "written_utc": "2026-11-25T06:50:22.776126+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest.xml",
+          "sha256": "dc2f465ed316a97e3a618dda2edca29a6a8f53c54fd38b3ba5a8af88c6967fec",
+          "written_utc": "2026-11-25T06:50:23.042580+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest.xml",
+          "sha256": "1e5722ddd5069aa6b10b8515946f7e41eea3525653130e434717a4ca39b54601",
+          "written_utc": "2026-11-25T06:50:24.491924+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest",
+          "tests": 21,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest.xml",
+          "sha256": "e1e2026abb3fcfc24d4589585de41d2c6ab60d38e3020be3253a6677eea80411",
+          "written_utc": "2026-11-25T06:50:24.588783+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest.xml",
+          "sha256": "74adf11a44efad4feb7c4624149c3df308262a8a8e9d39f4ec6f61e0f167678e",
+          "written_utc": "2026-11-25T06:50:24.611649+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest.xml",
+          "sha256": "da6f3b007b2a2ccc4b03b7f938db0cd0acc493bd421537365c9d85592180857f",
+          "written_utc": "2026-11-25T06:50:24.691442+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest",
+          "tests": 21,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest.xml",
+          "sha256": "ee6673759ca8d05b3cc122909d6c46a3edb9ff1ebf425326c20d579d368651b5",
+          "written_utc": "2026-11-25T06:50:26.045753+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProviderTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProviderTest.xml",
+          "sha256": "d5ac40c61c4fc2ad0abe253bcc0b17fb8c5b9e3b776047efe0461aea4e288c52",
+          "written_utc": "2026-11-25T06:50:26.097681+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest",
+          "tests": 17,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest.xml",
+          "sha256": "17c52b426aa438e1b97c901a41f02092eff7d98a55f7a967e57781c6d6fe11f2",
+          "written_utc": "2026-11-25T06:50:26.170888+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest",
+          "tests": 23,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest.xml",
+          "sha256": "0dd7cc0ac5da22f006bb50e7dd43f1af960aacde276246141d44636d246a9616",
+          "written_utc": "2026-11-25T06:50:26.220380+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryEpicProviderTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryEpicProviderTest.xml",
+          "sha256": "2e27a1eb1ca7943064172d908b90701e44398d5cc8e80e740af1d48be037e210",
+          "written_utc": "2026-11-25T06:50:26.272101+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest",
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest.xml",
+          "sha256": "8afbcb597c1214a2c593624461e6f013eb564552c4bfd78f9ff2da8d18cb84c5",
+          "written_utc": "2026-11-25T06:50:26.287850+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest.xml",
+          "sha256": "c53ffb0cc5ebe1b7befbbfec5acf73e085aea420bdc0840d49ee65cefdbf9447",
+          "written_utc": "2026-11-25T06:50:26.463633+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.memory.MemoryRecipeCatalogTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.memory.MemoryRecipeCatalogTest.xml",
+          "sha256": "5f00e743a8333bf2e53aec7c46a830ed85512652298c8b72d3a582ae2e219642",
+          "written_utc": "2026-11-25T06:50:26.611250+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.memory.MemoryRecipeEngineTest",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.memory.MemoryRecipeEngineTest.xml",
+          "sha256": "ce094946432e6c29ac50815160620bfabc28df2142a4ef70428e4755821d4633",
+          "written_utc": "2026-11-25T06:50:27.830195+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.memory.MemoryRecipeExampleTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.memory.MemoryRecipeExampleTest.xml",
+          "sha256": "cba3cefc6350ffd3785b3475c609c474878ae635ce57a1cd22c07c14d20b4e2a",
+          "written_utc": "2026-11-25T06:50:28.064550+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest",
+          "tests": 25,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest.xml",
+          "sha256": "f3da04d1fd8a1aecde086c04eaf7b4e4c70de9f04e04d04f22dd4176576b1595",
+          "written_utc": "2026-11-25T06:50:29.508213+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest.xml",
+          "sha256": "39bbe5aad6fc4a14b5ec12b48a96ac5c1ab69927a216de94bbba46164456e97a",
+          "written_utc": "2026-11-25T06:50:29.739639+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest.xml",
+          "sha256": "884029a54a6cbbc4c248537e30e4d011d039a76f0a3b509322fd632ea6f8be0b",
+          "written_utc": "2026-11-25T06:50:30.057989+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.npc.NpcSystemTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.npc.NpcSystemTest.xml",
+          "sha256": "08f57b9de23cccf5131ac8dc072da43140c330d9656e264bdc77bf920f5ea500",
+          "written_utc": "2026-11-25T06:50:30.660287+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.EpicServicesTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.EpicServicesTest.xml",
+          "sha256": "f7002f25995a985e621809e527924898f59afe636fce02728b34043303f46937",
+          "written_utc": "2026-11-25T06:50:31.444044+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.ExplorationDiscoveriesTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.ExplorationDiscoveriesTest.xml",
+          "sha256": "b1c63be9c1e67412430ead0818ecc9fa362fba3efe65ff3a6256398fd8c41b8d",
+          "written_utc": "2026-11-25T06:50:31.520275+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.ExplorationRegionTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.ExplorationRegionTest.xml",
+          "sha256": "8821f73ab9dbf1d2f6f0ad73a2eceb1655ef7fd93084e5c322a83a3b645f7752",
+          "written_utc": "2026-11-25T06:50:31.579060+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.FirstVisitJournalTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.FirstVisitJournalTest.xml",
+          "sha256": "2cf47ebadd12f206fd4909f15a7d227c6653de275c2f5cccc91a3bf80446f4d7",
+          "written_utc": "2026-11-25T06:50:31.838327+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest",
+          "tests": 5,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest.xml",
+          "sha256": "48b389025b49147151efcc80f6f9acf117d308b78e8bf4c273a27932d674bc84",
+          "written_utc": "2026-11-25T06:50:32.098908+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.MemorySitesTest",
+          "tests": 16,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.MemorySitesTest.xml",
+          "sha256": "70a5531f6885ab593f4b4c81f85c49808a43758ec569dca5045bae72f8af0ee9",
+          "written_utc": "2026-11-25T06:50:33.979776+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.MenusTest",
+          "tests": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.MenusTest.xml",
+          "sha256": "e7951b6ad32729e1c8a9ceccf23c18f3211ce9c4dd24ecbea389186535fbced5",
+          "written_utc": "2026-11-25T06:50:34.524019+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest.xml",
+          "sha256": "c1ddee3aeb5c04f403f62459dacb717df21bf41314e5f976910492b8ae8ffdd2",
+          "written_utc": "2026-11-25T06:50:34.802509+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest",
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest.xml",
+          "sha256": "36d0eca22b7992d1527ac27b83cc8f02883f8fddf29cb5a35a892c9e80b09c44",
+          "written_utc": "2026-11-25T06:50:34.943980+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.NationalMenusTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.NationalMenusTest.xml",
+          "sha256": "a991525fb373cec37343d7cde7fd6ac234033ef920c347903d59fa5c1cd7fcb9",
+          "written_utc": "2026-11-25T06:50:34.978338+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.NationalServicesTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.NationalServicesTest.xml",
+          "sha256": "551825f878612f9810125c09f861856dfdcf15034dad916d3f208bdbf2e7589d",
+          "written_utc": "2026-11-25T06:50:35.156992+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.PlayerOwnershipConsumersTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.PlayerOwnershipConsumersTest.xml",
+          "sha256": "1d5d0eaf03b3c89c2e5439b98f9fdc734dcbf8446d49b669342a0a10f6bcf7d1",
+          "written_utc": "2026-11-25T06:50:35.174615+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.QuestGateMenusTest",
+          "tests": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.QuestGateMenusTest.xml",
+          "sha256": "050ce86d326535282fac4befdd9065cee220762d5c46a8886ee7637c4020f0cc",
+          "written_utc": "2026-11-25T06:50:35.216754+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.RegionTasksTest",
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.RegionTasksTest.xml",
+          "sha256": "df00fe6dc2f2c52d3d63419fabf90af9a27cc57aa5abb182425251db20727b2e",
+          "written_utc": "2026-11-25T06:50:35.315720+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.paper.StateWorkerTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.paper.StateWorkerTest.xml",
+          "sha256": "6f557a6f7a1bee822bcf5efa64baa7013f53e7cc26d2959f5b6f865fd6ddb48e",
+          "written_utc": "2026-11-25T06:50:35.327192+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest",
+          "tests": 11,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest.xml",
+          "sha256": "a2d482128fa77b3ebe2030926bf8fe59fe6c0397fa1a819258235897e0c8c109",
+          "written_utc": "2026-11-25T06:50:36.307647+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.persistence.ChoiceSchemaUpgradeTest",
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.persistence.ChoiceSchemaUpgradeTest.xml",
+          "sha256": "3cc85af41d41371ffb9f2d07f040a3b5805b09868e834089cbcd51cbbef36533",
+          "written_utc": "2026-11-25T06:50:36.706042+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest.xml",
+          "sha256": "f8fd3ffb5369645e93fd31beb2fd37d581b5c1348faa3e62c91e4b0b42e1d354",
+          "written_utc": "2026-11-25T06:50:36.982342+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.persistence.MemoryRecipeSchemaUpgradeTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.persistence.MemoryRecipeSchemaUpgradeTest.xml",
+          "sha256": "be0bb6195b05f8e5f5945243356b06a3e0bdfeb325717149a41d4bfac27b4c0c",
+          "written_utc": "2026-11-25T06:50:37.096357+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest.xml",
+          "sha256": "c826e2db068e91215dc5546155d101d6855e888f8a9d74a72ec741787f32bc34",
+          "written_utc": "2026-11-25T06:50:37.511591+00:00"
+        },
+        {
+          "name": "io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\surefire-reports\\TEST-io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest.xml",
+          "sha256": "d2c14570dbc76fe0676ff852d30602de035a7e7e5f8db1540b4958887b46ee59",
+          "written_utc": "2026-11-25T06:50:37.668845+00:00"
+        }
+      ]
+    },
+    "jar": {
+      "path": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\national-epic-delivery\\starchronicle-0.1.0-SNAPSHOT.jar",
+      "sha256": "7d3b4ac7a32dc796e59bcb3004a642e20d8d87153a20ff0e2fbe76f2306395be",
+      "bytes": 18022562
+    }
+  },
+  "starcore": {
+    "head": "f769e62799e769a18fe51305b545869a17f80cd1",
+    "tests": {
+      "totals": {
+        "tests": 59,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "suites": [
+        {
+          "name": "dev.starcore.starcore.module.dungeon.DungeonRepositoryEpicReceiptTest",
+          "tests": 4,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\.codex\\worktrees\\joint-production\\starcore\\target\\surefire-reports\\TEST-dev.starcore.starcore.module.dungeon.DungeonRepositoryEpicReceiptTest.xml",
+          "sha256": "1a1cb01072710f4cc2e1c42eaa045221f9e033a99f7d9ecda0fcfeb3ac0408fe",
+          "written_utc": "2026-11-25T07:46:32.681270+00:00"
+        },
+        {
+          "name": "dev.starcore.starcore.module.dungeon.DungeonRepositoryIdempotencyTest",
+          "tests": 36,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\.codex\\worktrees\\joint-production\\starcore\\target\\surefire-reports\\TEST-dev.starcore.starcore.module.dungeon.DungeonRepositoryIdempotencyTest.xml",
+          "sha256": "1b7f9503d51840d23a8789e8ba0553a963a5e591d65e80c49f865e09d77c6d81",
+          "written_utc": "2026-11-25T07:46:34.863620+00:00"
+        },
+        {
+          "name": "dev.starcore.starcore.module.nation.NationFoundingOperationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\.codex\\worktrees\\joint-production\\starcore\\target\\surefire-reports\\TEST-dev.starcore.starcore.module.nation.NationFoundingOperationTest.xml",
+          "sha256": "66cdf219a5abbc58ebfa949c12759ee0cfbe11d8f4dd060eb2715bc9c8acf37e",
+          "written_utc": "2026-11-25T07:46:35.560021+00:00"
+        },
+        {
+          "name": "dev.starcore.starcore.module.war.gui.WarMenuReinforcementOwnerTest",
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\.codex\\worktrees\\joint-production\\starcore\\target\\surefire-reports\\TEST-dev.starcore.starcore.module.war.gui.WarMenuReinforcementOwnerTest.xml",
+          "sha256": "061808090f785f9ffd50799f684c39bfa3492ffeb8c5e61003e50e7393c6a7b4",
+          "written_utc": "2026-11-25T07:46:37.483571+00:00"
+        },
+        {
+          "name": "dev.starcore.starcore.quest.QuestEvidenceServiceTest",
+          "tests": 14,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\.codex\\worktrees\\joint-production\\starcore\\target\\surefire-reports\\TEST-dev.starcore.starcore.quest.QuestEvidenceServiceTest.xml",
+          "sha256": "6a1c6bfea0d6d43dbe9c14044aaff06fb01c811f7e05d7b2858bcdc904dbe026",
+          "written_utc": "2026-11-25T07:46:39.438143+00:00"
+        },
+        {
+          "name": "dev.starcore.starcore.war.WarCompletionReceiptTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\.codex\\worktrees\\joint-production\\starcore\\target\\surefire-reports\\TEST-dev.starcore.starcore.war.WarCompletionReceiptTest.xml",
+          "sha256": "964bdc75429f7b672a2e068053915da6b1756aec0f80e10d84a4c444e8240058",
+          "written_utc": "2026-11-25T07:46:39.625201+00:00"
+        },
+        {
+          "name": "dev.starcore.starcore.war.WarDeclarationOperationRestartIntegrationTest",
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "report": "C:\\Users\\Administrator\\.codex\\worktrees\\joint-production\\starcore\\target\\surefire-reports\\TEST-dev.starcore.starcore.war.WarDeclarationOperationRestartIntegrationTest.xml",
+          "sha256": "9df9ea2d065b4bf0f6aca29a40ca73ca3d6d5e4ee647ff047b18e1b3e4a0c4a7",
+          "written_utc": "2026-11-25T07:46:40.139791+00:00"
+        }
+      ]
+    },
+    "jar": {
+      "path": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\national-epic-delivery\\starcore-1.0.0.jar",
+      "sha256": "4d97f0f180abcbc3910a9fdc36e308c20aa298f055d8b143797ea517a70057ae",
+      "bytes": 19702494
+    },
+    "source_archive": {
+      "path": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\national-epic-delivery\\starcore-candidate-sources.zip",
+      "sha256": "0c52aa7f81425bb7263e69c1c542528a6c5099926df7adad0a521d370769d719"
+    }
+  },
+  "coverage": "No new JaCoCo coverage measurement: tests used forkCount=0.",
+  "source_note": "Source archive captures the candidate worktree after building; it includes prior uncommitted joint-production changes. No upstream release or clean-commit build is claimed.",
+  "runs": [
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\paper-epic-7d3b4ac7-dungeon-1",
+      "preparation": {
+        "plugin_sha256": "7d3b4ac7a32dc796e59bcb3004a642e20d8d87153a20ff0e2fbe76f2306395be",
+        "starcore_sha256": "9f805e6779a3a1ff9690456e799576ddb3bb09e4c1c14c380eab52df19b30a8f",
+        "route": "DUNGEON",
+        "server_port": 25631,
+        "server_ip": "127.0.0.1",
+        "fixture_source_sha256": "1512fe78c6301caecf71004a817cabd3480e1a3e45f28206acee37bc2f7a7f01",
+        "players": {
+          "A": "35e02d6d-1111-3ff6-bd41-91cad584563c",
+          "B": "5a2a1989-08f3-3f65-a906-299ff19592c8",
+          "C": "b49fe0f3-8520-3904-8416-cca671f53744",
+          "D": "83451b1e-b8c7-31d9-a711-90b86f5c427f"
+        },
+        "source_artifacts": {
+          "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\smoke\\paper.jar": "5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba",
+          "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\starchronicle-0.1.0-SNAPSHOT.jar": "7d3b4ac7a32dc796e59bcb3004a642e20d8d87153a20ff0e2fbe76f2306395be",
+          "C:\\Users\\Administrator\\.codex\\worktrees\\joint-production\\starcore\\target\\starcore-1.0.0.jar": "9f805e6779a3a1ff9690456e799576ddb3bb09e4c1c14c380eab52df19b30a8f"
+        },
+        "fixture_compiled": true,
+        "limitations": [
+          "Fixture seeds native treasury/resources and crafting ingredients.",
+          "Nation creation cost and new-nation protection disabled only in this test configuration.",
+          "Dungeon uses a three-second native survival room.",
+          "War ending uses native principal peace, not battlefield victory."
+        ],
+        "fixture_sha256": "554e47de721aab0a475f73e477285ec58279c784a90e3040c10041f047a0cdd5"
+      },
+      "passing_checks": [],
+      "failures": [
+        {
+          "boot": 1,
+          "data": {
+            "action": "checkpoint",
+            "error": "java.lang.NullPointerException"
+          },
+          "kind": "FAILED",
+          "time": "2026-11-25T07:04:09.790518900Z"
+        }
+      ],
+      "fatal_jvm_logs": [
+        "hs_err_pid31724.log"
+      ]
+    },
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\paper-epic-7d3b4ac7-dungeon-3",
+      "preparation": {
+        "plugin_sha256": "7d3b4ac7a32dc796e59bcb3004a642e20d8d87153a20ff0e2fbe76f2306395be",
+        "starcore_sha256": "9f805e6779a3a1ff9690456e799576ddb3bb09e4c1c14c380eab52df19b30a8f",
+        "route": "DUNGEON",
+        "server_port": 25631,
+        "server_ip": "127.0.0.1",
+        "fixture_source_sha256": "c40cd3baeab04485e8ea2a79f5eed03a6ffbc6cd74d3607a24dbc94913c8e322",
+        "players": {
+          "A": "35e02d6d-1111-3ff6-bd41-91cad584563c",
+          "B": "5a2a1989-08f3-3f65-a906-299ff19592c8",
+          "C": "b49fe0f3-8520-3904-8416-cca671f53744",
+          "D": "83451b1e-b8c7-31d9-a711-90b86f5c427f"
+        },
+        "source_artifacts": {
+          "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\smoke\\paper.jar": "5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba",
+          "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\starchronicle-0.1.0-SNAPSHOT.jar": "7d3b4ac7a32dc796e59bcb3004a642e20d8d87153a20ff0e2fbe76f2306395be",
+          "C:\\Users\\Administrator\\.codex\\worktrees\\joint-production\\starcore\\target\\starcore-1.0.0.jar": "9f805e6779a3a1ff9690456e799576ddb3bb09e4c1c14c380eab52df19b30a8f"
+        },
+        "fixture_compiled": true,
+        "limitations": [
+          "Fixture seeds native treasury/resources and crafting ingredients.",
+          "Nation creation cost and new-nation protection disabled only in this test configuration.",
+          "Dungeon uses a three-second native survival room.",
+          "War ending uses native principal peace, not battlefield victory."
+        ],
+        "fixture_sha256": "c8df6845e811b5736089384682cd38206f14a8dbd9f617631d4ded1304a96b7a"
+      },
+      "passing_checks": [],
+      "failures": [],
+      "fatal_jvm_logs": []
+    },
+    {
+      "path": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\paper-epic-7d3b4ac7-dungeon-4",
+      "preparation": {
+        "plugin_sha256": "7d3b4ac7a32dc796e59bcb3004a642e20d8d87153a20ff0e2fbe76f2306395be",
+        "starcore_sha256": "4d97f0f180abcbc3910a9fdc36e308c20aa298f055d8b143797ea517a70057ae",
+        "route": "DUNGEON",
+        "server_port": 25631,
+        "server_ip": "127.0.0.1",
+        "fixture_source_sha256": "c40cd3baeab04485e8ea2a79f5eed03a6ffbc6cd74d3607a24dbc94913c8e322",
+        "players": {
+          "A": "35e02d6d-1111-3ff6-bd41-91cad584563c",
+          "B": "5a2a1989-08f3-3f65-a906-299ff19592c8",
+          "C": "b49fe0f3-8520-3904-8416-cca671f53744",
+          "D": "83451b1e-b8c7-31d9-a711-90b86f5c427f"
+        },
+        "source_artifacts": {
+          "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\smoke\\paper.jar": "5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba",
+          "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\starchronicle-0.1.0-SNAPSHOT.jar": "7d3b4ac7a32dc796e59bcb3004a642e20d8d87153a20ff0e2fbe76f2306395be",
+          "C:\\Users\\Administrator\\.codex\\worktrees\\joint-production\\starcore\\target\\starcore-1.0.0.jar": "4d97f0f180abcbc3910a9fdc36e308c20aa298f055d8b143797ea517a70057ae"
+        },
+        "fixture_compiled": true,
+        "limitations": [
+          "Fixture seeds native treasury/resources and crafting ingredients.",
+          "Nation creation cost and new-nation protection disabled only in this test configuration.",
+          "Dungeon uses a three-second native survival room.",
+          "War ending uses native principal peace, not battlefield victory."
+        ],
+        "fixture_sha256": "dcefc856b308c51320708c10c37f3f182efebf53cfbd48b228b34445c9feae9f"
+      },
+      "passing_checks": [],
+      "failures": [],
+      "fatal_jvm_logs": []
+    }
+  ],
+  "evidence_archive": {
+    "path": "C:\\Users\\Administrator\\Documents\\StarChronicle\\target\\national-epic-delivery\\verification-evidence.zip",
+    "sha256": "33eef726c28db046ce501fd75c3ee3e2dd762bd7424c4fb7f89de9eabe3a81a2"
+  }
+}

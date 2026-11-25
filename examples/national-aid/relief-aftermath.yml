@@ -1,0 +1,20 @@
+# Optional example. Copy into plugins/StarChronicle/stories only after validating
+# the referenced source integration and the current definition catalog.
+id: national-aid-relief-aftermath
+version: "1"
+title: "援助回执：旧都的救济记录"
+scope: WORLD
+triggers: [NATIONAL_AID_COMMITTED]
+condition:
+  all:
+    - {fact: event.aid.campaign, op: eq, value: heir-relief}
+    - {fact: event.aid.operation, op: eq, value: TREASURY_TRANSFER}
+start: record
+cooldownSeconds: 0
+nodes:
+  record:
+    text: "StarCore 已提交一笔国库援助。编年史保存付款国、收款国、金额和 authority domain 的证据；本剧情不会再次扣款。"
+    terminal: true
+    effects:
+      - {id: relief-memory, type: memory, target: old-imperial-capital.relief, value: "native-aid-committed"}
+      - {id: relief-history, type: history, target: HEIR_RELIEF_COMMITTED, value: "一笔已由原生国库服务提交的援助被写入旧都历史。"}

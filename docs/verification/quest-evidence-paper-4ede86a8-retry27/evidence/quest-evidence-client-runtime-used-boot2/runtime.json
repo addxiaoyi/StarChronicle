@@ -1,0 +1,77 @@
+{
+  "versions": {
+    "mineflayer": "4.39.0",
+    "prismarine_windows": "2.10.0",
+    "prismarine_item": "1.18.0"
+  },
+  "sources": {
+    "mineflayer_entry": {
+      "path": "C:\\Users\\Administrator\\Documents\\starworld-tools\\mc-client\\node_modules\\.pnpm\\mineflayer@4.39.0\\node_modules\\mineflayer\\index.js",
+      "copy": "evidence\\quest-evidence-client-runtime-used-boot2\\mineflayer_entry.cjs",
+      "sha256": "204c1a8e6ef941f0704834523889077e02aea5d2aa7bc31fc38d78827c0096d9"
+    },
+    "mineflayer_inventory": {
+      "path": "C:\\Users\\Administrator\\Documents\\starworld-tools\\mc-client\\node_modules\\.pnpm\\mineflayer@4.39.0\\node_modules\\mineflayer\\lib\\plugins\\inventory.js",
+      "copy": "evidence\\quest-evidence-client-runtime-used-boot2\\mineflayer_inventory.cjs",
+      "sha256": "c7c4eb12a4ba606b2abd6ea62701933fd10f3751297590e6b2ee56d78798b4a8"
+    },
+    "prismarine_windows_entry": {
+      "path": "C:\\Users\\Administrator\\Documents\\starworld-tools\\mc-client\\node_modules\\.pnpm\\prismarine-windows@2.10.0\\node_modules\\prismarine-windows\\index.js",
+      "copy": "evidence\\quest-evidence-client-runtime-used-boot2\\prismarine_windows_entry.cjs",
+      "sha256": "6995f9e46c3248d51c0baf0b7d9fdec52d97611313a816d63c24c615bc603686"
+    },
+    "prismarine_windows_model": {
+      "path": "C:\\Users\\Administrator\\Documents\\starworld-tools\\mc-client\\node_modules\\.pnpm\\prismarine-windows@2.10.0\\node_modules\\prismarine-windows\\lib\\Window.js",
+      "copy": "evidence\\quest-evidence-client-runtime-used-boot2\\prismarine_windows_model.cjs",
+      "sha256": "2ab0f8c21e6427520f79771d72079a9df36250c020c4c784c9995805295b68f7"
+    },
+    "prismarine_item_entry": {
+      "path": "C:\\Users\\Administrator\\Documents\\starworld-tools\\mc-client\\node_modules\\.pnpm\\prismarine-item@1.18.0\\node_modules\\prismarine-item\\index.js",
+      "copy": "evidence\\quest-evidence-client-runtime-used-boot2\\prismarine_item_entry.cjs",
+      "sha256": "4706eeea9cba6d1e15953c1b4415d191be42c59ced4f77586cb0529338b09a9b"
+    },
+    "craft_wire": {
+      "path": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\tools\\quest-evidence-wire.cjs",
+      "copy": "evidence\\quest-evidence-client-runtime-used-boot2\\craft_wire.cjs",
+      "sha256": "ef303142bb577987ff1cf960d9bc16873cb35447aa4aa347154a860a60942808"
+    }
+  },
+  "attribution": {
+    "mineflayer": {
+      "package": {
+        "copy": "evidence\\quest-evidence-client-runtime-used-boot2\\mineflayer-package.json",
+        "sha256": "0be37d69783b0a29fffd0447b875c75480c167f5a6de1727b81efdad661c3735"
+      },
+      "license": {
+        "copy": "evidence\\quest-evidence-client-runtime-used-boot2\\mineflayer-LICENSE",
+        "sha256": "52529d607ea0fb18663bb9f3704d26a7f49f9dba637c16a1becc35e79ab21476"
+      }
+    },
+    "prismarine_windows": {
+      "package": {
+        "copy": "evidence\\quest-evidence-client-runtime-used-boot2\\prismarine_windows-package.json",
+        "sha256": "349be3957f703825c51ef5b1f320265a0688f257e6f8fcb2445276a819ac6efa"
+      },
+      "license": {
+        "status": "MISSING_FROM_INSTALLED_PACKAGE",
+        "copy": null,
+        "sha256": null,
+        "declaredLicense": "MIT",
+        "note": "Keep these vendor source snapshots in the local run; distribute version/SHA/source references unless the original license is obtained."
+      }
+    },
+    "prismarine_item": {
+      "package": {
+        "copy": "evidence\\quest-evidence-client-runtime-used-boot2\\prismarine_item-package.json",
+        "sha256": "67056a24bea1cc6a065ca20c708273146d7d53d2074042584b1009dffe8d1db8"
+      },
+      "license": {
+        "status": "MISSING_FROM_INSTALLED_PACKAGE",
+        "copy": null,
+        "sha256": null,
+        "declaredLicense": "MIT",
+        "note": "Keep these vendor source snapshots in the local run; distribute version/SHA/source references unless the original license is obtained."
+      }
+    }
+  }
+}

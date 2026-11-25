@@ -38,14 +38,13 @@ class DefinitionCatalogTest {
         }
         try(var store=open()) {assertEquals(1,count(store));assertEquals(first,store.transaction(DefinitionCatalog::read).entries().get(first.key()).getFirst());assertEquals(plain(),store.transaction(DefinitionCatalog::read).require("archive.story","1.2"));}
     }
-    @Test void canonicalIdentityIgnoresMapAndJsonFormattingButRetainsEveryDefinitionField() {
+    @Test void canonicalIdentityIgnoresInputMapOrderButRetainsEveryDefinitionField() {
         try(var store=open()) {
             var original=plain();var reversedNodes=new LinkedHashMap<String,Node>();reversedNodes.put("end",original.nodes().get("end"));
             var vote=original.nodes().get("vote");var reversedChoices=new LinkedHashMap<String,Choice>();reversedChoices.put("no",vote.choices().get("no"));reversedChoices.put("yes",vote.choices().get("yes"));
             reversedNodes.put("vote",new Node(vote.text(),vote.script(),vote.quest(),vote.quorum(),reversedChoices,vote.effects(),vote.terminal()));
             var reversed=new StoryDefinition(original.id(),original.version(),original.title(),original.scope(),original.triggers(),original.condition(),original.start(),original.cooldownSeconds(),reversedNodes);
             store.transaction(c->{assertEquals(1,DefinitionCatalog.archive(c,List.of(original),"FIRST"));assertEquals(0,DefinitionCatalog.archive(c,List.of(reversed),"REORDERED"));return null;});
-            store.transaction(c->{String pretty=SqliteStore.JSON.writerWithDefaultPrettyPrinter().writeValueAsString(original)+"\n";try(var s=c.prepareStatement("UPDATE story_definitions SET json=?")){s.setString(1,pretty);s.executeUpdate();}assertEquals(0,DefinitionCatalog.archive(c,List.of(reversed),"PRETTY_DUPLICATE"));return null;});
             assertEquals(original,store.transaction(DefinitionCatalog::read).require(original.id(),original.version()));assertEquals(1,count(store));
             assertThrows(IllegalArgumentException.class,()->store.transaction(DefinitionCatalog::read).validateCurrent(List.of(definition(original.id(),original.version(),"Changed text",null,null))));
         }
@@ -103,7 +102,7 @@ class DefinitionCatalogTest {
     }
     @Test void readRejectsTamperedMetadataOrContentInsteadOfTreatingItAsAnotherTrustworthyVariant() {
         try(var store=open()) {
-            store.transaction(c->{DefinitionCatalog.archive(c,List.of(plain()),"ACTUAL");try(var s=c.createStatement()){s.execute("UPDATE story_definitions SET story='forged'");}return null;});
+            store.transaction(c->{DefinitionCatalog.archive(c,List.of(plain()),"ACTUAL");try(var s=c.createStatement()){s.execute("UPDATE story_definitions SET json=replace(json,'archive.story','forged')");}return null;});
             assertThrows(IllegalStateException.class,()->store.transaction(DefinitionCatalog::read));
         }
     }
@@ -113,9 +112,22 @@ class DefinitionCatalogTest {
             assertTrue(store.transaction(DefinitionCatalog::read).keys().isEmpty());assertThrows(IllegalArgumentException.class,()->store.transaction(DefinitionCatalog::read).require("fake","1"));
         }
     }
+    @Test void rawWhitespaceTamperingIsDetectedBeforeAnEquivalentDefinitionCanBeReused() {
+        try(var store=open()) {
+            store.transaction(c->{DefinitionCatalog.archive(c,List.of(plain()),"ORIGINAL");try(var s=c.createStatement()){s.execute("UPDATE story_definitions SET json=json||char(10)");}return null;});
+            assertThrows(IllegalStateException.class,()->store.transaction(DefinitionCatalog::read));assertThrows(IllegalStateException.class,()->store.transaction(c->DefinitionCatalog.archive(c,List.of(plain()),"DUPLICATE")));
+        }
+    }
+    @Test void aFormatInsertFailureRollsBackItsRawArchiveRowInTheSameTransaction() {
+        try(var store=open()) {
+            store.transaction(c->{try(var s=c.createStatement()){s.execute("CREATE TRIGGER reject_definition_format BEFORE INSERT ON story_definition_formats BEGIN SELECT RAISE(ABORT,'injected format failure'); END");}return null;});
+            assertThrows(IllegalStateException.class,()->store.transaction(c->DefinitionCatalog.archive(c,List.of(plain()),"FAILED")));assertEquals(0,count(store));
+            assertEquals(0,store.transaction(c->{try(var s=c.createStatement();var r=s.executeQuery("SELECT COUNT(*) FROM story_definition_formats")){r.next();return r.getInt(1);}}).intValue());
+        }
+    }
     @Test void databaseMethodsRequireAnExplicitEnclosingTransaction()throws Exception {
         try(var connection=DriverManager.getConnection("jdbc:sqlite:"+directory.resolve("raw.db"))) {
-            assertThrows(IllegalStateException.class,()->DefinitionCatalog.createSchema(connection));assertThrows(IllegalStateException.class,()->DefinitionCatalog.read(connection));assertThrows(IllegalStateException.class,()->DefinitionCatalog.migrateSnapshots(connection));assertThrows(IllegalStateException.class,()->DefinitionCatalog.archive(connection,List.of(plain()),"SOURCE"));
+            assertThrows(IllegalStateException.class,()->DefinitionCatalog.createSchema(connection));assertThrows(IllegalStateException.class,()->DefinitionCatalog.read(connection));assertThrows(IllegalStateException.class,()->DefinitionCatalog.migrateSnapshots(connection));assertThrows(IllegalStateException.class,()->DefinitionCatalog.migrateCanonicalV2(connection));assertThrows(IllegalStateException.class,()->DefinitionCatalog.archive(connection,List.of(plain()),"SOURCE"));
         }
     }
 }

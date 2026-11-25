@@ -1,0 +1,3 @@
+# Optional background memory recipes. Empty defaults create no new world memories.
+# See docs/MEMORY-RECIPES.md and examples/memory-recipes/ before enabling a recipe.
+recipes: []

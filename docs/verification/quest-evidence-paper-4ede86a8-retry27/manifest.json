@@ -1,0 +1,655 @@
+{
+  "status": "BYTE_IDENTICAL_TEXT_ARCHIVE",
+  "source_run": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\paper-quest-evidence-4ede86a8-retry27",
+  "plugin_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+  "file_count": 105,
+  "total_bytes": 2614019,
+  "copied_files": [
+    {
+      "relative": "evidence/checkpoints/boot1/checkpoint.json",
+      "size": 2721,
+      "sha256": "0d67fe88ea1d0b4467adc9f2564561a07c7e80cbed35425cc779ad088a591684"
+    },
+    {
+      "relative": "evidence/checkpoints/boot1/native-quest/commissions.properties",
+      "size": 54,
+      "sha256": "c8b216e8642a33faf8e9ba6f099cd79123f144cf473c6e553833aed238414501"
+    },
+    {
+      "relative": "evidence/checkpoints/boot1/native-quest/commissions.properties.bak",
+      "size": 54,
+      "sha256": "c8b216e8642a33faf8e9ba6f099cd79123f144cf473c6e553833aed238414501"
+    },
+    {
+      "relative": "evidence/checkpoints/boot1/native-quest/daily_quests.properties",
+      "size": 54,
+      "sha256": "c8b216e8642a33faf8e9ba6f099cd79123f144cf473c6e553833aed238414501"
+    },
+    {
+      "relative": "evidence/checkpoints/boot1/native-quest/daily_quests.properties.bak",
+      "size": 54,
+      "sha256": "c8b216e8642a33faf8e9ba6f099cd79123f144cf473c6e553833aed238414501"
+    },
+    {
+      "relative": "evidence/checkpoints/boot1/native-quest/evidence-authority.properties",
+      "size": 145,
+      "sha256": "2ac77c1ea0b6741ba2e84f42c0afa82f70fd28b2e10909443252be10e8446d7f"
+    },
+    {
+      "relative": "evidence/checkpoints/boot1/native-quest/quests.properties",
+      "size": 2323,
+      "sha256": "eb7714bd592bfab75adaf08aa966d8677b9a082745a53067ae447495333185dc"
+    },
+    {
+      "relative": "evidence/checkpoints/boot1/native-quest/quests.properties.bak",
+      "size": 2323,
+      "sha256": "525a20f94a9f8f8d96309b2ed5721a0b0914e77fcecf62d1af59a8bc7cfaea05"
+    },
+    {
+      "relative": "evidence/checkpoints/boot1/native-quest/tracked-evidence.properties",
+      "size": 7395,
+      "sha256": "34f131e84a0f179a1325eb71646ae494b4f38bb58b3a483277103a6ff0ef8ed6"
+    },
+    {
+      "relative": "evidence/checkpoints/boot1/native-quest/tracked-evidence.properties.bak",
+      "size": 6912,
+      "sha256": "3809075881e0800c08a9770cba9c388d21be3cab48b09f62d7d907e5082695ff"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/checkpoint.json",
+      "size": 3371,
+      "sha256": "5336104dd78989dd298b6af82a1028f51e3ae840c2ff1b47581c3fb007ff4255"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/commissions.properties",
+      "size": 54,
+      "sha256": "ad6a8bd0926613537eda1ee5c992e49a8b50375b5b0eb5188048b5485c7e6a73"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/commissions.properties.bak",
+      "size": 54,
+      "sha256": "ad6a8bd0926613537eda1ee5c992e49a8b50375b5b0eb5188048b5485c7e6a73"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/completion-journal/0bd370b9-618e-438d-84b8-873f615c763f.json",
+      "size": 2051,
+      "sha256": "dc9c973a63f642a39e43d4b6fbf9d8350b3afc52f0c8cd50b6bdc9bbba46a812"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/completion-journal/55b5acd6-b29b-46bb-a246-c5a1b8e5eb5b.json",
+      "size": 2050,
+      "sha256": "f85ba6b883315623b9c0ac521bfa1920554767bf2d757ee9250723bcdbb29722"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/completion-journal/c316730f-f2fd-40df-ac57-562121eecbe6.json",
+      "size": 2055,
+      "sha256": "94d90556d88ca16be455cc3abd82670271174d656ec3453cf804bbece8afe5bf"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/daily_quests.properties",
+      "size": 54,
+      "sha256": "ad6a8bd0926613537eda1ee5c992e49a8b50375b5b0eb5188048b5485c7e6a73"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/daily_quests.properties.bak",
+      "size": 54,
+      "sha256": "ad6a8bd0926613537eda1ee5c992e49a8b50375b5b0eb5188048b5485c7e6a73"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/evidence-authority.properties",
+      "size": 145,
+      "sha256": "2ac77c1ea0b6741ba2e84f42c0afa82f70fd28b2e10909443252be10e8446d7f"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/quests.properties",
+      "size": 2413,
+      "sha256": "be04f0ceaee96393545730a1d7c4c9c455dde2f7f0c131c2098fdbabb28efbb9"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/quests.properties.bak",
+      "size": 2413,
+      "sha256": "522bc1d1fd83ea5592df623f8f04f619035d5d4847b126ae10bfb1bd1f947e22"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/tracked-evidence.properties",
+      "size": 9684,
+      "sha256": "8fbdd09f278de69a9e33520aa2ddd5e6ca6f0e8b417385b10947e219072cd694"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/native-quest/tracked-evidence.properties.bak",
+      "size": 9697,
+      "sha256": "42c08db215f12565fd441684d7fc5c7de31f1cf112aaee43a888c7292ff277ca"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/checkpoint.json",
+      "size": 3371,
+      "sha256": "d3e5c773001ce21387fe499f9080a9a71c4774d6fb20b9bd98fc60501b8cc454"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/commissions.properties",
+      "size": 54,
+      "sha256": "83a9e717bf2c802ac66b6d94e9165c5112eb5f339d3a47108038bd2752f18619"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/commissions.properties.bak",
+      "size": 54,
+      "sha256": "83a9e717bf2c802ac66b6d94e9165c5112eb5f339d3a47108038bd2752f18619"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/completion-journal/0bd370b9-618e-438d-84b8-873f615c763f.json",
+      "size": 2051,
+      "sha256": "dc9c973a63f642a39e43d4b6fbf9d8350b3afc52f0c8cd50b6bdc9bbba46a812"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/completion-journal/55b5acd6-b29b-46bb-a246-c5a1b8e5eb5b.json",
+      "size": 2050,
+      "sha256": "f85ba6b883315623b9c0ac521bfa1920554767bf2d757ee9250723bcdbb29722"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/completion-journal/c316730f-f2fd-40df-ac57-562121eecbe6.json",
+      "size": 2055,
+      "sha256": "94d90556d88ca16be455cc3abd82670271174d656ec3453cf804bbece8afe5bf"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/daily_quests.properties",
+      "size": 54,
+      "sha256": "83a9e717bf2c802ac66b6d94e9165c5112eb5f339d3a47108038bd2752f18619"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/daily_quests.properties.bak",
+      "size": 54,
+      "sha256": "83a9e717bf2c802ac66b6d94e9165c5112eb5f339d3a47108038bd2752f18619"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/evidence-authority.properties",
+      "size": 145,
+      "sha256": "2ac77c1ea0b6741ba2e84f42c0afa82f70fd28b2e10909443252be10e8446d7f"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/quests.properties",
+      "size": 2413,
+      "sha256": "7a2e20625b77189f9af2acf685fa3070f8472ab609e74ef1e6abfbb708b30715"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/quests.properties.bak",
+      "size": 2413,
+      "sha256": "50b19236df39ba4e1d2f7bd89e176478afe53ce1f1c74fbfa3b31cc4bdbf6593"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/tracked-evidence.properties",
+      "size": 9684,
+      "sha256": "8fbdd09f278de69a9e33520aa2ddd5e6ca6f0e8b417385b10947e219072cd694"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/native-quest/tracked-evidence.properties.bak",
+      "size": 9697,
+      "sha256": "42c08db215f12565fd441684d7fc5c7de31f1cf112aaee43a888c7292ff277ca"
+    },
+    {
+      "relative": "evidence/fixture-compile-attempt1.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative": "evidence/owner-source-inspect-quest-evidence-paper.py",
+      "size": 71503,
+      "sha256": "9ae19bfd414aa628c0c69b28eef61799e60c00e8d2670aeb172d3e46164e1a2c"
+    },
+    {
+      "relative": "evidence/owner-source-quest-evidence-clients.cjs",
+      "size": 36976,
+      "sha256": "103c8b4e29243689271a85df1f56279a96b321c0a06a2e270b700d6708b258d8"
+    },
+    {
+      "relative": "evidence/owner-source-quest-evidence-session.py",
+      "size": 25129,
+      "sha256": "b1cc9d48185b1feea6719ef579b86a5016717c1af4698b9120b66a1bb8167e2c"
+    },
+    {
+      "relative": "evidence/owner-source-quest-evidence-wire.cjs",
+      "size": 6065,
+      "sha256": "ef303142bb577987ff1cf960d9bc16873cb35447aa4aa347154a860a60942808"
+    },
+    {
+      "relative": "evidence/owner-source-quest_evidence_control.py",
+      "size": 3452,
+      "sha256": "7edc5c76c668b03c6580615f38f3b04080ce1540570083a6b6acfae94b722300"
+    },
+    {
+      "relative": "evidence/owner-source-run-quest-evidence-acceptance.py",
+      "size": 22989,
+      "sha256": "64b3819334b6f005ff3da01c869b14ba935d1103777774cccef66a3895c8927d"
+    },
+    {
+      "relative": "evidence/quest-evidence-boot1.log",
+      "size": 92702,
+      "sha256": "f87e9a4f2e9f1e5faf6d3ac940ad1302f3d05106310b6e72022034432046e2a8"
+    },
+    {
+      "relative": "evidence/quest-evidence-boot2.log",
+      "size": 84907,
+      "sha256": "9954b1e943142dcc3cb715c441a3c095dd57f8fde0ba37f5d6604ba56beaad28"
+    },
+    {
+      "relative": "evidence/quest-evidence-boot3.log",
+      "size": 111705,
+      "sha256": "d83dee591b030dcf0b6bc3b76535206fbf82e6b2cb0e1c8fee21356f73808d80"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-boot1.log",
+      "size": 194691,
+      "sha256": "9a8d9d3076542590ce6f274360f7381cb600adc0ce53c48baff7960abe5e34e5"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-boot2.log",
+      "size": 57231,
+      "sha256": "260ad5e29e6074504bc911b10e8ac00630e2daf98c25447f0b1e5485a79bb2fc"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-boot3.log",
+      "size": 47489,
+      "sha256": "b33d496c1d24e98a34e894cd87a28c5892d26bd090e7e0b69160a8b1d44b1d44"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/craft_wire.cjs",
+      "size": 6065,
+      "sha256": "ef303142bb577987ff1cf960d9bc16873cb35447aa4aa347154a860a60942808"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/mineflayer-LICENSE",
+      "size": 1080,
+      "sha256": "52529d607ea0fb18663bb9f3704d26a7f49f9dba637c16a1becc35e79ab21476"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/mineflayer-package.json",
+      "size": 1578,
+      "sha256": "0be37d69783b0a29fffd0447b875c75480c167f5a6de1727b81efdad661c3735"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/prismarine_item-package.json",
+      "size": 990,
+      "sha256": "67056a24bea1cc6a065ca20c708273146d7d53d2074042584b1009dffe8d1db8"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/prismarine_windows-package.json",
+      "size": 955,
+      "sha256": "349be3957f703825c51ef5b1f320265a0688f257e6f8fcb2445276a819ac6efa"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/runtime.json",
+      "size": 3968,
+      "sha256": "311f2142cfdd581bace8e99c4be9ff189770a5ea636c5b2ca149187f293a84dc"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/craft_wire.cjs",
+      "size": 6065,
+      "sha256": "ef303142bb577987ff1cf960d9bc16873cb35447aa4aa347154a860a60942808"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/mineflayer-LICENSE",
+      "size": 1080,
+      "sha256": "52529d607ea0fb18663bb9f3704d26a7f49f9dba637c16a1becc35e79ab21476"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/mineflayer-package.json",
+      "size": 1578,
+      "sha256": "0be37d69783b0a29fffd0447b875c75480c167f5a6de1727b81efdad661c3735"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/prismarine_item-package.json",
+      "size": 990,
+      "sha256": "67056a24bea1cc6a065ca20c708273146d7d53d2074042584b1009dffe8d1db8"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/prismarine_windows-package.json",
+      "size": 955,
+      "sha256": "349be3957f703825c51ef5b1f320265a0688f257e6f8fcb2445276a819ac6efa"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/runtime.json",
+      "size": 3968,
+      "sha256": "4bd53e7a8e37410a37d5091e53f17bd23a2e4cabef1092ec3f9677b6b719776f"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/craft_wire.cjs",
+      "size": 6065,
+      "sha256": "ef303142bb577987ff1cf960d9bc16873cb35447aa4aa347154a860a60942808"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/mineflayer-LICENSE",
+      "size": 1080,
+      "sha256": "52529d607ea0fb18663bb9f3704d26a7f49f9dba637c16a1becc35e79ab21476"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/mineflayer-package.json",
+      "size": 1578,
+      "sha256": "0be37d69783b0a29fffd0447b875c75480c167f5a6de1727b81efdad661c3735"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/prismarine_item-package.json",
+      "size": 990,
+      "sha256": "67056a24bea1cc6a065ca20c708273146d7d53d2074042584b1009dffe8d1db8"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/prismarine_windows-package.json",
+      "size": 955,
+      "sha256": "349be3957f703825c51ef5b1f320265a0688f257e6f8fcb2445276a819ac6efa"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/runtime.json",
+      "size": 3968,
+      "sha256": "511abc38cb5da82c6b4bb13075214a17baedf81d87938988906483263d310390"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-used-boot1.cjs",
+      "size": 36976,
+      "sha256": "103c8b4e29243689271a85df1f56279a96b321c0a06a2e270b700d6708b258d8"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-used-boot2.cjs",
+      "size": 36976,
+      "sha256": "103c8b4e29243689271a85df1f56279a96b321c0a06a2e270b700d6708b258d8"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-used-boot3.cjs",
+      "size": 36976,
+      "sha256": "103c8b4e29243689271a85df1f56279a96b321c0a06a2e270b700d6708b258d8"
+    },
+    {
+      "relative": "evidence/quest-evidence-clients.log",
+      "size": 298898,
+      "sha256": "3fbf96cfbfe3744d190edb134a70864130691878ccda213cd465ad1488a0d8a1"
+    },
+    {
+      "relative": "evidence/quest-evidence-commands-boot1.jsonl",
+      "size": 8647,
+      "sha256": "e20c92d7ac24a6c8180524ffc4dbfab8be7ed6c24b37156ec80770adf7bf29a8"
+    },
+    {
+      "relative": "evidence/quest-evidence-commands-boot2.jsonl",
+      "size": 7291,
+      "sha256": "7d368f9e0a57139f52a3a35a15043a0ad5d48d1fc9ccc06e658f96bf94127a1b"
+    },
+    {
+      "relative": "evidence/quest-evidence-commands-boot3.jsonl",
+      "size": 8830,
+      "sha256": "f3b5abbf825e146754e5dd3ff685890b4205b59f16febf14c264d13131402be8"
+    },
+    {
+      "relative": "evidence/quest-evidence-control-boot1.jsonl",
+      "size": 1558,
+      "sha256": "9ac8b0d3c7de1bc1433a2138ee3dc9653d1c26e9b6886a3b9585d634e9a9d0be"
+    },
+    {
+      "relative": "evidence/quest-evidence-control-boot2.jsonl",
+      "size": 1286,
+      "sha256": "cda7ebf0ab77d63c347ea3660c61f66ad3bb8ad738f6dbf02c355aed073432ea"
+    },
+    {
+      "relative": "evidence/quest-evidence-control-boot3.jsonl",
+      "size": 1699,
+      "sha256": "c237a90e4dc09a7754e8d1e61eea6520911027e0ffb31ff83d9e6350c9d4497a"
+    },
+    {
+      "relative": "evidence/quest-evidence-control-used-boot1.py",
+      "size": 3452,
+      "sha256": "7edc5c76c668b03c6580615f38f3b04080ce1540570083a6b6acfae94b722300"
+    },
+    {
+      "relative": "evidence/quest-evidence-control-used-boot2.py",
+      "size": 3452,
+      "sha256": "7edc5c76c668b03c6580615f38f3b04080ce1540570083a6b6acfae94b722300"
+    },
+    {
+      "relative": "evidence/quest-evidence-control-used-boot3.py",
+      "size": 3452,
+      "sha256": "7edc5c76c668b03c6580615f38f3b04080ce1540570083a6b6acfae94b722300"
+    },
+    {
+      "relative": "evidence/quest-evidence-detached-launch.json",
+      "size": 1241,
+      "sha256": "ef1a61ad6f7cc59a2c277373f34ade29d20c459ea26ad7927bed2fab5a6f86dc"
+    },
+    {
+      "relative": "evidence/quest-evidence-inspection.json",
+      "size": 314389,
+      "sha256": "75d57b97a592d7b21d4da53dcfe84a827d4f35355bd51bcede525a12f7ad109d"
+    },
+    {
+      "relative": "evidence/quest-evidence-inspector-output.log",
+      "size": 386,
+      "sha256": "706ff282fe70ea0a76c4170912020b6dcf7c1ea5be6f061519cf1608449fae0e"
+    },
+    {
+      "relative": "evidence/quest-evidence-owner-boot1.log",
+      "size": 316064,
+      "sha256": "c1446120825c171b2be9c6fc850fb99b376e9f19ca5e5f77865c3ac55a876c47"
+    },
+    {
+      "relative": "evidence/quest-evidence-owner-boot2.log",
+      "size": 168976,
+      "sha256": "a7944558133c7e617c9fec2e2ee5d3f6b3016ba7065ec2f17e65b90d60b77c2d"
+    },
+    {
+      "relative": "evidence/quest-evidence-owner-boot3.log",
+      "size": 185791,
+      "sha256": "d9c607a441dd3b059b675222c9cf9f1f1d621a7c7ae77868f158e3748d8f9a3a"
+    },
+    {
+      "relative": "evidence/quest-evidence-owner-stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative": "evidence/quest-evidence-owner-stdout.log",
+      "size": 8354,
+      "sha256": "5551f5d353aafe0536c10c595445560e4d443855a6d5047acf48c6dab3317229"
+    },
+    {
+      "relative": "evidence/quest-evidence-owner.json",
+      "size": 8414,
+      "sha256": "3fe0c1d23c65e7335758d78de9ff9778bdccd08db1acd863dd7b2ad2c2f4fa36"
+    },
+    {
+      "relative": "evidence/quest-evidence-processes.json",
+      "size": 12774,
+      "sha256": "1a265f4e2d3fd8af333536e1fc5811760df70f6aa71f15f248344d8fed700644"
+    },
+    {
+      "relative": "evidence/quest-evidence-session-used-boot1.py",
+      "size": 25129,
+      "sha256": "b1cc9d48185b1feea6719ef579b86a5016717c1af4698b9120b66a1bb8167e2c"
+    },
+    {
+      "relative": "evidence/quest-evidence-session-used-boot2.py",
+      "size": 25129,
+      "sha256": "b1cc9d48185b1feea6719ef579b86a5016717c1af4698b9120b66a1bb8167e2c"
+    },
+    {
+      "relative": "evidence/quest-evidence-session-used-boot3.py",
+      "size": 25129,
+      "sha256": "b1cc9d48185b1feea6719ef579b86a5016717c1af4698b9120b66a1bb8167e2c"
+    },
+    {
+      "relative": "evidence/quest-evidence-wire-used-boot1.cjs",
+      "size": 6065,
+      "sha256": "ef303142bb577987ff1cf960d9bc16873cb35447aa4aa347154a860a60942808"
+    },
+    {
+      "relative": "evidence/quest-evidence-wire-used-boot2.cjs",
+      "size": 6065,
+      "sha256": "ef303142bb577987ff1cf960d9bc16873cb35447aa4aa347154a860a60942808"
+    },
+    {
+      "relative": "evidence/quest-evidence-wire-used-boot3.cjs",
+      "size": 6065,
+      "sha256": "ef303142bb577987ff1cf960d9bc16873cb35447aa4aa347154a860a60942808"
+    },
+    {
+      "relative": "evidence/quest-fixture.jsonl",
+      "size": 91337,
+      "sha256": "6d69dda0e12eecdf19da3632d98ebb63d58e49cf6d53e11fc6b19e75f3c1e8c8"
+    },
+    {
+      "relative": "fixture/QuestEvidencePaperFixture.java",
+      "size": 30013,
+      "sha256": "01db851ab8f4a6a1ddd4bbf2824923587a77813327647cc5abcc57f2862422f5"
+    },
+    {
+      "relative": "plugins/StarChronicle/config.yml",
+      "size": 183,
+      "sha256": "c378a003f03bda33f87c772673c1bcc64e08cdb03aa666426ab075a9bb7b1a11"
+    },
+    {
+      "relative": "plugins/StarChronicle/stories/qe-nation-testimonies.json",
+      "size": 1351,
+      "sha256": "c81b08d73a0506eabbc71a26d4accef9bf8d9c37704bb5d030a50c21989427cb"
+    },
+    {
+      "relative": "plugins/StarChronicle/stories/qe-player-atlas.json",
+      "size": 1334,
+      "sha256": "0bfb200ddaf6f1a33e8aef0c11d843311c0fd9cbad5af36ec2bb3b1f50ff7b4e"
+    },
+    {
+      "relative": "plugins/StarChronicle/stories/qe-player-records.json",
+      "size": 1340,
+      "sha256": "9963f7f5db1eaf06c8f2ba8188437bc755efdb1d24d637e588ecd143e02b3041"
+    },
+    {
+      "relative": "preparation.json",
+      "size": 30422,
+      "sha256": "5fe1e94055ab329806f7820d89a22ca3c581c490b9b35590f506d73fab2e9603"
+    },
+    {
+      "relative": "RUNBOOK.md",
+      "size": 7623,
+      "sha256": "eb9588b4fe8ef95bdc6c0ef6969709d4e37feead50f05986dbfb2e575535842d"
+    },
+    {
+      "relative": "server.properties",
+      "size": 1980,
+      "sha256": "e9e5e8fab985b404a612c98b87a578cef966d0e09c7c805d7622ccac9de2a084"
+    }
+  ],
+  "excluded_evidence_files": [
+    {
+      "relative": "evidence/checkpoints/boot1/chronicle.db",
+      "size": 364544,
+      "sha256": "2d0b598c01393095f02efe064ca915b419db3a7fe10c7cd83b67b387210cb120",
+      "reason": "database_kept_in_stopped_local_run"
+    },
+    {
+      "relative": "evidence/checkpoints/boot2/chronicle.db",
+      "size": 364544,
+      "sha256": "fa08f6a86fee810eadd19acbd587d6a15bd229c3a847c37bf4e9d669a918d101",
+      "reason": "database_kept_in_stopped_local_run"
+    },
+    {
+      "relative": "evidence/checkpoints/boot3/chronicle.db",
+      "size": 393216,
+      "sha256": "e132f1cc6bc890fc0423e5c81986c415dfb76aaaa8a8ed6e75eee20f100e1afb",
+      "reason": "database_kept_in_stopped_local_run"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/mineflayer_entry.cjs",
+      "size": 368,
+      "sha256": "204c1a8e6ef941f0704834523889077e02aea5d2aa7bc31fc38d78827c0096d9",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/mineflayer_inventory.cjs",
+      "size": 31516,
+      "sha256": "c7c4eb12a4ba606b2abd6ea62701933fd10f3751297590e6b2ee56d78798b4a8",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/prismarine_item_entry.cjs",
+      "size": 15696,
+      "sha256": "4706eeea9cba6d1e15953c1b4415d191be42c59ced4f77586cb0529338b09a9b",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/prismarine_windows_entry.cjs",
+      "size": 7343,
+      "sha256": "6995f9e46c3248d51c0baf0b7d9fdec52d97611313a816d63c24c615bc603686",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot1/prismarine_windows_model.cjs",
+      "size": 16134,
+      "sha256": "2ab0f8c21e6427520f79771d72079a9df36250c020c4c784c9995805295b68f7",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/mineflayer_entry.cjs",
+      "size": 368,
+      "sha256": "204c1a8e6ef941f0704834523889077e02aea5d2aa7bc31fc38d78827c0096d9",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/mineflayer_inventory.cjs",
+      "size": 31516,
+      "sha256": "c7c4eb12a4ba606b2abd6ea62701933fd10f3751297590e6b2ee56d78798b4a8",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/prismarine_item_entry.cjs",
+      "size": 15696,
+      "sha256": "4706eeea9cba6d1e15953c1b4415d191be42c59ced4f77586cb0529338b09a9b",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/prismarine_windows_entry.cjs",
+      "size": 7343,
+      "sha256": "6995f9e46c3248d51c0baf0b7d9fdec52d97611313a816d63c24c615bc603686",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot2/prismarine_windows_model.cjs",
+      "size": 16134,
+      "sha256": "2ab0f8c21e6427520f79771d72079a9df36250c020c4c784c9995805295b68f7",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/mineflayer_entry.cjs",
+      "size": 368,
+      "sha256": "204c1a8e6ef941f0704834523889077e02aea5d2aa7bc31fc38d78827c0096d9",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/mineflayer_inventory.cjs",
+      "size": 31516,
+      "sha256": "c7c4eb12a4ba606b2abd6ea62701933fd10f3751297590e6b2ee56d78798b4a8",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/prismarine_item_entry.cjs",
+      "size": 15696,
+      "sha256": "4706eeea9cba6d1e15953c1b4415d191be42c59ced4f77586cb0529338b09a9b",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/prismarine_windows_entry.cjs",
+      "size": 7343,
+      "sha256": "6995f9e46c3248d51c0baf0b7d9fdec52d97611313a816d63c24c615bc603686",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    },
+    {
+      "relative": "evidence/quest-evidence-client-runtime-used-boot3/prismarine_windows_model.cjs",
+      "size": 16134,
+      "sha256": "2ab0f8c21e6427520f79771d72079a9df36250c020c4c784c9995805295b68f7",
+      "reason": "vendor_source_kept_local; versions_hashes_metadata_attribution_are_published"
+    }
+  ],
+  "source_run_files_hashed": 478,
+  "source_run_unchanged": true,
+  "independent_review": {
+    "path": "quest-evidence-paper-4ede86a8-retry27-independent-review.json",
+    "sha256": "4585809a9fbb48b949536a42e01d573526cc6b3e93622a403989bcd6d199388a"
+  },
+  "limitations": [
+    "The three stopped Chronicle databases are retained locally and identified by original checkpoint manifests; this text archive alone cannot rerun DB acceptance.",
+    "Third-party JARs, world/player data and complete StarCore runtime configuration are excluded.",
+    "Installed vendor source copies stay local. Runtime manifests preserve exact source hashes and package metadata; the available mineflayer MIT LICENSE is copied. Windows/item package LICENSE files were absent and are recorded as such."
+  ]
+}

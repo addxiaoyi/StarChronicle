@@ -1,0 +1,291 @@
+{
+  "plugin_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694",
+  "files": [
+    {
+      "path": "evidence/fixture-compile-attempt1.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/national-council-boot1-complete-server.log",
+      "size": 96871,
+      "sha256": "a01fce7419cd8e91f8a28e4b0a40f59a76acfae197b6a222955c9fbab7d5130b"
+    },
+    {
+      "path": "evidence/national-council-boot1.log",
+      "size": 90484,
+      "sha256": "6a602c1249c589048ad3a1607127f098cf82750f74b17e79861c910c02c81996"
+    },
+    {
+      "path": "evidence/national-council-boot2-complete-server.log",
+      "size": 100913,
+      "sha256": "e8e13d6e9494dadd7ca6786edfe568f5571e1cbca68797a36134a0cb8c12f9df"
+    },
+    {
+      "path": "evidence/national-council-boot2.log",
+      "size": 94460,
+      "sha256": "806eb982e1dfd92c7381a8998137866305f0bcbdf43013d01554c28ed8e80ed7"
+    },
+    {
+      "path": "evidence/national-council-boot3-complete-server.log",
+      "size": 97675,
+      "sha256": "38c5551771231e03eafc57d564720611c811b3f880cc7b82292f9454a7764029"
+    },
+    {
+      "path": "evidence/national-council-boot3.log",
+      "size": 91264,
+      "sha256": "c575c8d2263bd239c6a761d395a61375edde5c1b58334b4ccc7e08bdb9aae6cc"
+    },
+    {
+      "path": "evidence/national-council-client-boot1-reconnect.log",
+      "size": 11462,
+      "sha256": "a224a1aed260eb2a3c0a6cb0d3144d93dbf662404158fd7487c652cfad8b6502"
+    },
+    {
+      "path": "evidence/national-council-client-boot1.log",
+      "size": 30333,
+      "sha256": "905a5bc0a7df522ac7ba9f59b5fb2f0e9d9be1c4b289e6ce6e4e0a2eaea848fe"
+    },
+    {
+      "path": "evidence/national-council-client-boot2.log",
+      "size": 20614,
+      "sha256": "01009edb4940a990e8c977b3b556b7b5b631d7aa4525613f7c099e42650da031"
+    },
+    {
+      "path": "evidence/national-council-client-boot3.log",
+      "size": 29230,
+      "sha256": "f150d191b2ba15f5e4e66728e81f1df1168d061a5b330a921d87ccf16fbe49cb"
+    },
+    {
+      "path": "evidence/national-council-client-reconnect-process.json",
+      "size": 293,
+      "sha256": "097d8cc1edd57cd87e3dd6108dc2d9e3159a922a3aa263ed3eb905f6b0855e0c"
+    },
+    {
+      "path": "evidence/national-council-clients.log",
+      "size": 91219,
+      "sha256": "52998805c1839efeeeeec47bc9dcba4283e24f5259ca39ce8024817728413b5b"
+    },
+    {
+      "path": "evidence/national-council-preflight-complete-server.log",
+      "size": 77327,
+      "sha256": "191c903e3bb113eb99a9e09826e80526f74909f242ef1deccd5d797b6e58addb"
+    },
+    {
+      "path": "evidence/national-council-preflight.log",
+      "size": 71121,
+      "sha256": "846c891f0c4a27d5fb62cae67d1dc824887364aad092a4304bf266e2eaa4a7e7"
+    },
+    {
+      "path": "evidence/national-council-processes.json",
+      "size": 4089,
+      "sha256": "f644ee324661e07c45498dfe5307c0aee9450eb386966da21cc8dd6922513de2"
+    },
+    {
+      "path": "evidence/national-council-report-review.json",
+      "size": 27421,
+      "sha256": "4c7f879fc12c6d3ec4fe0294e2f255dc651f54a045401be4f6a49ac0f5f20c25"
+    },
+    {
+      "path": "evidence/national-fixture.jsonl",
+      "size": 70811,
+      "sha256": "457590dded2f933d8e71976c5976ea65f54d60592ccbe10657a61e9036510d07"
+    },
+    {
+      "path": "evidence/preflight-normal-shutdown.json",
+      "size": 179,
+      "sha256": "e8ac89b3c87d38ada89f950d1260083627703cd036601f7d38e7f7fa06abeb05"
+    },
+    {
+      "path": "evidence/national-council-boot1-immutable.json",
+      "size": 326037,
+      "sha256": "eb60dea1e19370b53c4f5344aa2c001fa9f4bddf2668be209182e9932a2ae92d"
+    },
+    {
+      "path": "evidence/national-council-boot2.json",
+      "size": 397582,
+      "sha256": "a122d141af4b0bfdc6da95e7e0f7df28753631dd477a79425531eb84e6ba370f"
+    },
+    {
+      "path": "evidence/national-council-boot3.json",
+      "size": 418556,
+      "sha256": "0710789533fdc47a01afa797259966fcf74bfbe85375b6c231fc6cf5ac626201"
+    },
+    {
+      "path": "evidence/national-council-boot1.json",
+      "size": 308437,
+      "sha256": "16b0ad7339ff44ad344ff2d9408b28ad383989564aef2ae695ed58370d240224"
+    }
+  ],
+  "incidents": {
+    "preflight_without_tty": [
+      {
+        "boot": 1,
+        "server_pid": 15048,
+        "server_command": [
+          "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+          "-Xms256M",
+          "-Xmx768M",
+          "-XX:MaxMetaspaceSize=256M",
+          "-Dfile.encoding=UTF-8",
+          "-jar",
+          "paper.jar",
+          "--nogui"
+        ],
+        "started_at": 1795128571.1021712,
+        "server_exit": 0,
+        "client_exit": null,
+        "finished_at": 1795128651.8818834,
+        "reason": "Tool omitted tty=true; EOF before clients; normal Bukkit shutdown through owned fingerprint-bound agent; not counted as multiplayer acceptance"
+      }
+    ],
+    "preflight_shutdown_receipt": {
+      "status": "NORMAL_BUKKIT_SHUTDOWN_INVOKED",
+      "pid": 15048,
+      "utc": "2026-11-19T22:50:50.695851300Z",
+      "product_sha256": "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+    },
+    "offline_fixture_checks": [
+      {
+        "line": 23,
+        "event": {
+          "kind": "FAILED",
+          "time": "2026-11-19T22:54:28.164921900Z",
+          "value": {
+            "error": "java.lang.IllegalStateException: Actual client must be connected: PhaseTwoD",
+            "operation": "check-pending"
+          }
+        }
+      },
+      {
+        "line": 24,
+        "event": {
+          "kind": "FAILED",
+          "time": "2026-11-19T22:54:28.165969400Z",
+          "value": {
+            "error": "java.lang.IllegalStateException: Actual client must be connected: PhaseTwoB",
+            "operation": "state"
+          }
+        }
+      }
+    ],
+    "same_identity_reconnect": {
+      "pid": 14464,
+      "boot": 1,
+      "reason": "Reconnect same real players after controller disconnected them before asynchronous pending snapshot; no world or database reset",
+      "started": "2026-11-19T22:55:00.665Z",
+      "exit_code": 0,
+      "signal": null,
+      "finished": "2026-11-19T22:55:38.189Z"
+    },
+    "inspector_first_attempt": {
+      "evidence": "evidence/national-council-boot1.json",
+      "sha256": "16b0ad7339ff44ad344ff2d9408b28ad383989564aef2ae695ed58370d240224",
+      "main_database_bytes_unchanged": true,
+      "explanation": "mode=ro on the owned stopped WAL-mode copy created only empty WAL/SHM metadata; initial FAIL is retained. Corrected captures use mode=ro&immutable=1 after checking no nonempty WAL/journal; database main bytes and every table content remained identical."
+    },
+    "upstream_windows_directory_fsync": {
+      "observed": true,
+      "locations": [
+        {
+          "boot": 1,
+          "line": 316,
+          "text": "Caused by: java.nio.file.AccessDeniedException: C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\paper-national-792a84e3\\plugins\\StarCore\\dungeon\\player-snapshots"
+        }
+      ],
+      "scope": "StarCore dungeon/player-snapshots directory fsync raised Windows AccessDenied during startup. This is retained upstream startup scope, not a claim that every StarCore subsystem or all logs are clean. Native nation and Chronicle acceptance proceeded through their real ready services."
+    },
+    "all_server_error_and_exception_lines": [
+      {
+        "boot": 1,
+        "line": 124,
+        "text": "[06:51:46] [Server thread/WARN]: [StarCore] ProtocolLib is unavailable; falling back to another nation menu provider: ClassNotFoundException: com.comphenix.protocol.ProtocolLibrary"
+      },
+      {
+        "boot": 1,
+        "line": 294,
+        "text": "[06:51:48] [Server thread/ERROR]: [StarCore] Failed to enable STARCORE module: dungeon"
+      },
+      {
+        "boot": 1,
+        "line": 295,
+        "text": "java.lang.IllegalStateException: DUNGEON_DIRECTORY_SYNC_FAILED path=C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\paper-national-792a84e3\\plugins\\StarCore\\dungeon\\player-snapshots"
+      },
+      {
+        "boot": 1,
+        "line": 316,
+        "text": "Caused by: java.nio.file.AccessDeniedException: C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\paper-national-792a84e3\\plugins\\StarCore\\dungeon\\player-snapshots"
+      },
+      {
+        "boot": 1,
+        "line": 317,
+        "text": "\tat java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:89) ~[?:?]"
+      },
+      {
+        "boot": 1,
+        "line": 318,
+        "text": "\tat java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103) ~[?:?]"
+      },
+      {
+        "boot": 1,
+        "line": 319,
+        "text": "\tat java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108) ~[?:?]"
+      },
+      {
+        "boot": 1,
+        "line": 571,
+        "text": "[06:53:10] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {\"action\":\"VOTE\",\"choice\":\"yes\",\"error\":\"java.util.concurrent.CompletionException: java.lang.SecurityException: Only the nation's current authoritative holder may cast its ballot\",\"player\":\"D\",\"revision\":1,\"story\":\"national-smoke-primary\"}"
+      },
+      {
+        "boot": 1,
+        "line": 573,
+        "text": "[06:53:10] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {\"action\":\"VOTE\",\"choice\":\"no\",\"error\":\"java.util.concurrent.CompletionException: java.lang.IllegalStateException: National ballot revision changed; refresh before submitting\",\"player\":\"A\",\"revision\":0,\"story\":\"national-smoke-primary\"}"
+      },
+      {
+        "boot": 1,
+        "line": 579,
+        "text": "[06:53:49] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {\"action\":\"VOTE\",\"choice\":\"yes\",\"error\":\"java.util.concurrent.CompletionException: java.lang.SecurityException: Only the nation's current authoritative holder may cast its ballot\",\"player\":\"A\",\"revision\":1,\"story\":\"national-smoke-primary\"}"
+      },
+      {
+        "boot": 1,
+        "line": 592,
+        "text": "[06:54:28] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_FAILED {\"error\":\"java.lang.IllegalStateException: Actual client must be connected: PhaseTwoD\",\"operation\":\"check-pending\"}"
+      },
+      {
+        "boot": 1,
+        "line": 593,
+        "text": "[06:54:28] [Server thread/WARN]: java.lang.IllegalStateException: Actual client must be connected: PhaseTwoD"
+      },
+      {
+        "boot": 1,
+        "line": 619,
+        "text": "[06:54:28] [Server thread/INFO]: [NationalCouncilPaperFixture] NATIONAL_FAILED {\"error\":\"java.lang.IllegalStateException: Actual client must be connected: PhaseTwoB\",\"operation\":\"state\"}"
+      },
+      {
+        "boot": 1,
+        "line": 620,
+        "text": "[06:54:28] [Server thread/WARN]: java.lang.IllegalStateException: Actual client must be connected: PhaseTwoB"
+      },
+      {
+        "boot": 2,
+        "line": 123,
+        "text": "[06:57:06] [Server thread/WARN]: [StarCore] ProtocolLib is unavailable; falling back to another nation menu provider: ClassNotFoundException: com.comphenix.protocol.ProtocolLibrary"
+      },
+      {
+        "boot": 3,
+        "line": 122,
+        "text": "[07:00:59] [Server thread/WARN]: [StarCore] ProtocolLib is unavailable; falling back to another nation menu provider: ClassNotFoundException: com.comphenix.protocol.ProtocolLibrary"
+      },
+      {
+        "boot": 3,
+        "line": 540,
+        "text": "[07:02:39] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {\"action\":\"VOTE\",\"choice\":\"yes\",\"error\":\"java.util.concurrent.CompletionException: java.lang.IllegalStateException: 国家议事阶段已经结束\",\"player\":\"D\",\"revision\":4,\"story\":\"national-smoke-primary\"}"
+      },
+      {
+        "boot": 3,
+        "line": 549,
+        "text": "[07:03:27] [StarChronicle-state/INFO]: [NationalCouncilPaperFixture] NATIONAL_EXPECTED_REJECTION {\"action\":\"VOTE\",\"choice\":\"yes\",\"error\":\"java.util.concurrent.CompletionException: java.lang.SecurityException: 国籍已变化，请由管理员审核成员资格\",\"player\":\"A\",\"revision\":1,\"story\":\"national-smoke-invalidation\"}"
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "boot": 1,
+  "server_pid": 15924,
+  "server_command": [
+    "C:\\Users\\Administrator\\Documents\\luoseng\\.toolchains\\jdk-21.0.13.0.2+1\\bin\\java.exe",
+    "-Xms256M",
+    "-Xmx768M",
+    "-XX:MaxMetaspaceSize=256M",
+    "-Dfile.encoding=UTF-8",
+    "-jar",
+    "folia.jar",
+    "--nogui"
+  ],
+  "started_at": 1795129952.5474374,
+  "server_exit": 0,
+  "client_exit": 1,
+  "client_pid": 4420,
+  "client_command": [
+    "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\tools\\national-council-folia-clients.cjs",
+    "--run-dir",
+    "C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\folia-national-792a84e3",
+    "--boot",
+    "1",
+    "--expected-sha",
+    "792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+  ],
+  "finished_at": 1795130162.115879,
+  "cleanup_errors": [],
+  "classification": "FAILED_CAPACITY_PREFLIGHT_NOT_MULTIPLAYER_PASS",
+  "reason": "Four simultaneous non-OP clients were all refused as server_full at max-players=4. All client sockets ended. Old controller quit did not close readline after prior disconnects; exact node PID/name/command was verified before force cleanup. Folia itself stopped normally. No world/history/reward/database reset.",
+  "verified_client_process": {
+    "ProcessId": 4420,
+    "Name": "node.exe",
+    "CommandLine": "C:\\Users\\Administrator\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\tools\\national-council-folia-clients.cjs --run-dir C:\\Users\\Administrator\\.codex\\worktrees\\national-council\\StarChronicle\\run\\folia-national-792a84e3 --boot 1 --expected-sha 792a84e345c4478b3731e7bff426c30d1aa21e1f1be499a967ed3e7a4aaa4694"
+  },
+  "client_cleanup_attempts": [
+    {
+      "command": [
+        "taskkill.exe",
+        "/PID",
+        "4420"
+      ],
+      "exit_code": 1,
+      "reason": "Process requires force (observed tool output)"
+    },
+    {
+      "command": [
+        "taskkill.exe",
+        "/F",
+        "/PID",
+        "4420"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "server_capacity_before": 4,
+  "server_capacity_after": 12
+}

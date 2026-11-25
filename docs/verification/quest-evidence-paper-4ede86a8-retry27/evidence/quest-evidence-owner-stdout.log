@@ -1,0 +1,159 @@
+OBSERVED boot=1 Paper Done and fixture READY
+SENT boot=1 sequence=1 clients start A,B,C
+OBSERVED boot=1 exact actual client SPAWN cohort
+SENT boot=1 sequence=2 server qeverify seed
+OBSERVED boot=1 server qeverify seed
+SENT boot=1 sequence=3 server qeverify begin player
+OBSERVED boot=1 server qeverify begin player
+SENT boot=1 sequence=4 server qeverify begin nation
+OBSERVED boot=1 server qeverify begin nation
+SENT boot=1 sequence=5 server qeverify begin atlas
+OBSERVED boot=1 server qeverify begin atlas
+OBSERVED boot=1 actual native persisted ACTIVE admission A player
+SENT boot=1 sequence=6 server qeverify check-native A player 0 read
+OBSERVED boot=1 server qeverify check-native A player 0 read
+SENT boot=1 sequence=7 server qeverify craft-kit A paper
+OBSERVED boot=1 server qeverify craft-kit A paper
+SENT boot=1 sequence=8 client craft A paper
+OBSERVED boot=1 client craft A paper
+SENT boot=1 sequence=9 server qeverify check-native A player 3 capture
+OBSERVED boot=1 server qeverify check-native A player 3 capture
+OBSERVED boot=1 actual native persisted ACTIVE admission B nation
+SENT boot=1 sequence=10 server qeverify check-native B nation 0 read
+OBSERVED boot=1 server qeverify check-native B nation 0 read
+SENT boot=1 sequence=11 server qeverify craft-kit B book
+OBSERVED boot=1 server qeverify craft-kit B book
+SENT boot=1 sequence=12 client craft B book
+OBSERVED boot=1 client craft B book
+SENT boot=1 sequence=13 server qeverify check-native B nation 1 capture
+OBSERVED boot=1 server qeverify check-native B nation 1 capture
+OBSERVED boot=1 actual native persisted ACTIVE admission C atlas
+SENT boot=1 sequence=14 server qeverify check-native C atlas 0 read
+OBSERVED boot=1 server qeverify check-native C atlas 0 read
+SENT boot=1 sequence=15 server qeverify craft-kit C map
+OBSERVED boot=1 server qeverify craft-kit C map
+SENT boot=1 sequence=16 client craft C map
+OBSERVED boot=1 client craft C map
+SENT boot=1 sequence=17 server qeverify check-native C atlas 1 capture
+OBSERVED boot=1 server qeverify check-native C atlas 1 capture
+SENT boot=1 sequence=18 server qeverify state A player
+OBSERVED boot=1 server qeverify state A player
+SENT boot=1 sequence=19 server qeverify state A nation
+OBSERVED boot=1 server qeverify state A nation
+SENT boot=1 sequence=20 server qeverify state B nation
+OBSERVED boot=1 server qeverify state B nation
+SENT boot=1 sequence=21 server qeverify state C nation
+OBSERVED boot=1 server qeverify state C nation
+SENT boot=1 sequence=22 server qeverify state C atlas
+OBSERVED boot=1 server qeverify state C atlas
+SENT boot=1 sequence=23 server qeverify flush
+OBSERVED boot=1 server qeverify flush
+SENT boot=1 sequence=24 client quit all
+OBSERVED boot=1 client quit all
+OBSERVED boot=1 actual client process exit 0
+SENT boot=1 sequence=25 server stop
+OBSERVED boot=1 actual normal server/session exit
+OBSERVED boot=2 Paper Done and fixture READY
+SENT boot=2 sequence=1 clients start A,B,C
+OBSERVED boot=2 exact actual client SPAWN cohort
+SENT boot=2 sequence=2 server qeverify seed
+OBSERVED boot=2 server qeverify seed
+SENT boot=2 sequence=3 server qeverify check-native A player 3 restore
+OBSERVED boot=2 server qeverify check-native A player 3 restore
+SENT boot=2 sequence=4 server qeverify check-native B nation 1 restore
+OBSERVED boot=2 server qeverify check-native B nation 1 restore
+SENT boot=2 sequence=5 server qeverify check-native C atlas 1 restore
+OBSERVED boot=2 server qeverify check-native C atlas 1 restore
+SENT boot=2 sequence=6 server qeverify unregister-provider
+OBSERVED boot=2 server qeverify unregister-provider
+SENT boot=2 sequence=7 client native-open A heir
+OBSERVED boot=2 client native-open A heir
+SENT boot=2 sequence=8 client native-complete A
+OBSERVED boot=2 client native-complete A
+OBSERVED boot=2 actual durable completion message A chronicle_heir_records
+SENT boot=2 sequence=9 server qeverify check-receipt A player
+OBSERVED boot=2 server qeverify check-receipt A player
+SENT boot=2 sequence=10 client native-open B siege
+OBSERVED boot=2 client native-open B siege
+SENT boot=2 sequence=11 client native-complete B
+OBSERVED boot=2 client native-complete B
+OBSERVED boot=2 actual durable completion message B chronicle_siege_testimonies
+SENT boot=2 sequence=12 server qeverify check-receipt B nation
+OBSERVED boot=2 server qeverify check-receipt B nation
+SENT boot=2 sequence=13 client native-open C atlas
+OBSERVED boot=2 client native-open C atlas
+SENT boot=2 sequence=14 client native-complete C
+OBSERVED boot=2 client native-complete C
+OBSERVED boot=2 actual durable completion message C chronicle_caravan_atlas
+SENT boot=2 sequence=15 server qeverify check-receipt C atlas
+OBSERVED boot=2 server qeverify check-receipt C atlas
+SENT boot=2 sequence=16 server qeverify check-paused
+OBSERVED boot=2 server qeverify check-paused
+SENT boot=2 sequence=17 client quit B
+OBSERVED boot=2 client quit B
+SENT boot=2 sequence=18 server qeverify check-receipt B nation
+OBSERVED boot=2 server qeverify check-receipt B nation
+SENT boot=2 sequence=19 server qeverify flush
+OBSERVED boot=2 server qeverify flush
+SENT boot=2 sequence=20 client quit all
+OBSERVED boot=2 client quit all
+OBSERVED boot=2 actual client process exit 0
+SENT boot=2 sequence=21 server stop
+OBSERVED boot=2 actual normal server/session exit
+OBSERVED boot=3 Paper Done and fixture READY
+SENT boot=3 sequence=1 clients start A,C
+OBSERVED boot=3 exact actual client SPAWN cohort
+SENT boot=3 sequence=2 server qeverify seed
+OBSERVED boot=3 server qeverify seed
+SENT boot=3 sequence=3 server qeverify check-receipt A player
+OBSERVED boot=3 server qeverify check-receipt A player
+SENT boot=3 sequence=4 server qeverify check-receipt B nation
+OBSERVED boot=3 server qeverify check-receipt B nation
+SENT boot=3 sequence=5 server qeverify check-receipt C atlas
+OBSERVED boot=3 server qeverify check-receipt C atlas
+SENT boot=3 sequence=6 server qeverify state A player
+OBSERVED boot=3 read-only state observation A player
+SENT boot=3 sequence=7 server qeverify state C atlas
+OBSERVED boot=3 read-only state observation C atlas
+SENT boot=3 sequence=8 server qeverify state A nation
+OBSERVED boot=3 read-only state observation A nation
+SENT boot=3 sequence=9 server qeverify state C nation
+OBSERVED boot=3 read-only state observation C nation
+SENT boot=3 sequence=10 server qeverify check-offline-country
+OBSERVED boot=3 server qeverify check-offline-country
+SENT boot=3 sequence=11 client open-story C Quest evidence — country testimonies
+OBSERVED boot=3 client open-story C Quest evidence — country testimonies
+SENT boot=3 sequence=12 client inspect C
+OBSERVED boot=3 client inspect C
+SENT boot=3 sequence=13 client close C
+OBSERVED boot=3 client close C
+SENT boot=3 sequence=14 client open-story A Quest evidence — personal records
+OBSERVED boot=3 client open-story A Quest evidence — personal records
+SENT boot=3 sequence=15 client choice A yes
+OBSERVED boot=3 client choice A yes
+SENT boot=3 sequence=16 client open-story A Quest evidence — country testimonies
+OBSERVED boot=3 client open-story A Quest evidence — country testimonies
+SENT boot=3 sequence=17 client choice A yes
+OBSERVED boot=3 client choice A yes
+SENT boot=3 sequence=18 client open-story C Quest evidence — caravan atlas
+OBSERVED boot=3 client open-story C Quest evidence — caravan atlas
+SENT boot=3 sequence=19 client choice C yes
+OBSERVED boot=3 client choice C yes
+SENT boot=3 sequence=20 server qeverify check-final-before-replay
+OBSERVED boot=3 server qeverify check-final-before-replay
+SENT boot=3 sequence=21 server qeverify replay player
+OBSERVED boot=3 server qeverify replay player
+SENT boot=3 sequence=22 server qeverify replay nation
+OBSERVED boot=3 server qeverify replay nation
+SENT boot=3 sequence=23 server qeverify replay atlas
+OBSERVED boot=3 server qeverify replay atlas
+SENT boot=3 sequence=24 server qeverify check-final
+OBSERVED boot=3 server qeverify check-final
+SENT boot=3 sequence=25 server qeverify flush
+OBSERVED boot=3 server qeverify flush
+SENT boot=3 sequence=26 client quit all
+OBSERVED boot=3 client quit all
+OBSERVED boot=3 actual client process exit 0
+SENT boot=3 sequence=27 server stop
+OBSERVED boot=3 actual normal server/session exit
+PASS

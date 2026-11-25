@@ -1,0 +1,166 @@
+{
+  "status": "PASS",
+  "reviewed_utc": "2026-11-20T14:36:21.025210+00:00",
+  "product_sha256": "4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca",
+  "starcore_sha256": "c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a",
+  "inspector_sha256": "9ae19bfd414aa628c0c69b28eef61799e60c00e8d2670aeb172d3e46164e1a2c",
+  "strict_result_equals_retained_after_json_normalization": true,
+  "source_run": "C:\\Users\\Administrator\\.codex\\worktrees\\quest-evidence\\StarChronicle\\run\\paper-quest-evidence-4ede86a8-retry27",
+  "original_files_hashed": 136,
+  "original_hashes_unchanged": true,
+  "checkpoints": [
+    {
+      "boot": 1,
+      "descriptor_sha256": "0d67fe88ea1d0b4467adc9f2564561a07c7e80cbed35425cc779ad088a591684",
+      "db_sha256": "2d0b598c01393095f02efe064ca915b419db3a7fe10c7cd83b67b387210cb120",
+      "schema": 6,
+      "journal_count": 0,
+      "server_exit": 0,
+      "client_exit": 0,
+      "all_owned_children_exited": true
+    },
+    {
+      "boot": 2,
+      "descriptor_sha256": "5336104dd78989dd298b6af82a1028f51e3ae840c2ff1b47581c3fb007ff4255",
+      "db_sha256": "fa08f6a86fee810eadd19acbd587d6a15bd229c3a847c37bf4e9d669a918d101",
+      "schema": 6,
+      "journal_count": 3,
+      "server_exit": 0,
+      "client_exit": 0,
+      "all_owned_children_exited": true
+    },
+    {
+      "boot": 3,
+      "descriptor_sha256": "d3e5c773001ce21387fe499f9080a9a71c4774d6fb20b9bd98fc60501b8cc454",
+      "db_sha256": "e132f1cc6bc890fc0423e5c81986c415dfb76aaaa8a8ed6e75eee20f100e1afb",
+      "schema": 6,
+      "journal_count": 3,
+      "server_exit": 0,
+      "client_exit": 0,
+      "all_owned_children_exited": true
+    }
+  ],
+  "history": {
+    "quest_completed": 3,
+    "endings": 3,
+    "consumed_keys": 3
+  },
+  "map_wire": {
+    "original_clicks": 13,
+    "synchronization_requests": 13,
+    "raw_confirmations": 13,
+    "result_clicks": 1
+  },
+  "chronicle_projection": {
+    "actual_gui_choices": 3,
+    "personal_ballots": 2,
+    "national_votes": 1,
+    "resolutions": 3,
+    "done_outcomes": 8,
+    "honor": {
+      "08ffd450-5001-3023-a480-057fef707037": 10,
+      "28a86e57-337f-3ee8-8593-6eed0ce4d3d6": 7,
+      "140669be-0a1a-3206-a8b1-20d23a596b3a": 12
+    }
+  },
+  "negative_cases": [
+    {
+      "case": "native active run substitution",
+      "status": "REJECTED",
+      "reason": "Boot-one independently persisted active identity/craft progress differs"
+    },
+    {
+      "case": "native immutable journal proof substitution",
+      "status": "REJECTED",
+      "reason": "Immutable journal, tracked index, native RunCompletion, and runtime canonical receipt do not agree"
+    },
+    {
+      "case": "Chronicle consumed receipt hash substitution",
+      "status": "REJECTED",
+      "reason": "SQLite consumed row, proof digest or receive chronology differs"
+    },
+    {
+      "case": "stopped local honor substitution",
+      "status": "REJECTED",
+      "reason": "Stopped honor ledger differs from exact once-only local rewards"
+    },
+    {
+      "case": "stable reward receipt changed to pending",
+      "status": "REJECTED",
+      "reason": "Exact stable local reward/ending receipts differ"
+    },
+    {
+      "case": "ending canonical payload hash substitution",
+      "status": "REJECTED",
+      "reason": "Canonical history event payload hash differs"
+    },
+    {
+      "case": "actual personal GUI ballot actor substitution",
+      "status": "REJECTED",
+      "reason": "Durable personal ballot differs from actual GUI actor"
+    },
+    {
+      "case": "actual national GUI holder actor substitution",
+      "status": "REJECTED",
+      "reason": "Durable national vote differs from actual authorized GUI actor"
+    },
+    {
+      "case": "final API versus stopped history mismatch",
+      "status": "REJECTED",
+      "reason": "Final API history differs from stopped canonical history"
+    },
+    {
+      "case": "duplicate map result click",
+      "status": "REJECTED",
+      "reason": "Map synchronization steps or original/synchronization write counts differ"
+    },
+    {
+      "case": "predicted model in place of raw cursor",
+      "status": "REJECTED",
+      "reason": "Decoded slot type/count differs from the actual raw server item"
+    },
+    {
+      "case": "nonzero actual child exit",
+      "status": "REJECTED",
+      "reason": "Boot 1 did not exit normally"
+    },
+    {
+      "case": "retained cleanup error",
+      "status": "REJECTED",
+      "reason": "Boot 1 retained a launcher, cleanup or checkpoint error"
+    },
+    {
+      "case": "post-stop core artifact substitution",
+      "status": "REJECTED",
+      "reason": "Boot 1 post-stop artifact identities differ"
+    },
+    {
+      "case": "actual client source substitution",
+      "status": "REJECTED",
+      "reason": "Boot 1 copied controller/client sources differ from recorded fingerprints"
+    },
+    {
+      "case": "overlapping boot chronology",
+      "status": "REJECTED",
+      "reason": "Boots were not serial after owned process termination"
+    },
+    {
+      "case": "retained actual fixture failure",
+      "status": "REJECTED",
+      "reason": "Actual fixture FAILED record retained; final PASS prohibited"
+    },
+    {
+      "case": "loaded wire source bytes substitution",
+      "status": "REJECTED",
+      "reason": "Actual client runtime source bytes drifted: craft_wire"
+    },
+    {
+      "case": "actual SQLite copy honor modification",
+      "status": "REJECTED",
+      "reason": "Stopped honor ledger differs from exact once-only local rewards"
+    }
+  ],
+  "test_scope_note": "Default 19 Python contract tests include retry21-specific failure/cardinality assumptions and run on unchanged retry21 plus offline packet fixtures. They are not 19 runtime assertions over retry27. This review directly inspects complete retry27 and applies independent negatives.",
+  "jvm_started": false,
+  "raw_evidence_modified": false
+}

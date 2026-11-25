@@ -2,14 +2,21 @@
 
 Status recorded on 2026-11-19. The audited upstream is StarCore commit `f769e62799e769a18fe51305b545869a17f80cd1`; Folia is the official 1.21.11 build 14 artifact.
 
+Exploration acceptance was updated on 2026-11-20 for StarChronicle SHA-256 `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca`. This records the bounded standalone exploration scope below and does not change the upstream full-stack boundary.
+
 | Combination | Recorded result |
 | --- | --- |
 | Paper + audited StarCore + StarChronicle | Real-server startup, authoritative founded event import and restart replay passed; see `verification/paper-smoke-report.md`. |
 | Folia + StarChronicle standalone | Two real protocol clients, shared instance voting across restart, local history/title receipts and repeated event replay passed 18/18 bounded checks; see `verification/folia-smoke-report.md`. |
+| Folia 1.21.11-14 + StarChronicle configured-region exploration, standalone | Two normal boots passed physical walking, actual async teleport arrival, actual GUI choices, canonical first-visit persistence and repeated-arrival idempotency. Cancellable teleport coverage is `UNSUPPORTED` / `null`; see [the exact-build report](verification/exploration-folia-4ede86a8-report.md). |
 | Folia + unmodified audited StarCore + StarChronicle with `require-starcore: true` | Full stack does not start. Real Folia loader rejected StarCore because its descriptor does not declare Folia support, then StarChronicle correctly refused absent authority services. See `verification/folia-upstream-loader-probe.log`. |
 | Folia + patched StarCore | Not certified or shipped. The included owner-thread contract patch is a prerequisite, not a complete port. |
 
 The separate negative loader probe has no observed normal-stop/exit-code result: its PTY handle became unavailable during host resource pressure, and a later process inventory contained no `folia.jar` JVM. The two successful standalone runs were independently observed to stop normally with exit 0. These outcomes are recorded separately.
+
+The exploration runs used `require-starcore:false`; both server and client exited normally with code 0 on both boots. In the preserved old-build platform probe, `Player.teleportAsync` moved the player without dispatching `PlayerTeleportEvent`, so this platform could not exercise cancellation through that event. The current build confirms actual position on the player's owning entity scheduler during regular context polling, in addition to post-event confirmation. Its callbacks retain the scheduled player entity instead of resolving a replacement session by UUID. It records an `OBSERVED` time and does not infer a visit that ended before any observation. The five supported checks passed; cancellation remains unavailable, not a passed check. Both stopped SQLite checkpoints retained two canonical discoveries and receipts, two completed stories and honor 5. The [matching Paper report](verification/exploration-paper-4ede86a8-report.md) includes a real cancelled-teleport check; the [build summary](verification/owner-consumers-build-summary.json) separately records 800 passing tests.
+
+The current runs used a detached controller with exact PID/creation identity, append-only sequenced commands and post-command response cursors. Each platform passed nine offline evidence regressions after strict inspection. The previous `8fdcf8d3` [Paper](verification/exploration-paper-8fdcf8d3-report.md) and [Folia](verification/exploration-folia-8fdcf8d3-report.md) reports remain separate historical evidence.
 
 ## Reproducible upstream patch
 
