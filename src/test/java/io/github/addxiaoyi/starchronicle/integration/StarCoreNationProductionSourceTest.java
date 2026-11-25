@@ -23,6 +23,16 @@ class StarCoreNationProductionSourceTest {
     public record Run(UUID runId,UUID actorId,UUID nationId,UUID resourceDomain,String recipeId,long batches,
                       Map<String,Long> inputs,Map<String,Long> outputs,Instant startedAt,Instant readyAt){}
     public record Receipt(UUID authorityDomain,long sequence,Run run,Instant committedAt){}
+    public enum FactoryType { SMELTER }
+    public record Factory(UUID authorityDomain,UUID factoryId,long version,FactoryType type,int level,int minimumLevel){}
+    public record FactoryRun(UUID runId,UUID actorId,UUID nationId,UUID resourceDomain,String recipeId,long batches,
+                             Map<String,Long> inputs,Map<String,Long> outputs,Instant startedAt,Instant readyAt,Factory factory){}
+    public record FactoryReceipt(UUID authorityDomain,long sequence,FactoryRun run,Instant committedAt){}
+    FactoryReceipt factoryReceipt(){
+        var r=receipt(1);var v=r.run();
+        return new FactoryReceipt(domain,1,new FactoryRun(v.runId(),actor,nation,resourceDomain,v.recipeId(),v.batches(),v.inputs(),v.outputs(),v.startedAt(),v.readyAt(),
+                new Factory(UUID.randomUUID(),UUID.randomUUID(),3,FactoryType.SMELTER,2,1)),r.committedAt());
+    }
     public static class Source {
         Optional<UUID> domain;List<Receipt> rows;int reads;boolean change;RuntimeException failure;
         Source(UUID domain,List<Receipt> rows){this.domain=Optional.of(domain);this.rows=rows;}
@@ -47,6 +57,43 @@ class StarCoreNationProductionSourceTest {
         assertEquals("NATIONAL_PRODUCTION_COMMITTED",e.type());assertEquals(resourceDomain,proof.resourceDomain());
         assertEquals(r.run().inputs(),proof.inputs());assertEquals(r.run().outputs(),proof.outputs());
         assertEquals(r.run().startedAt(),proof.startedAt());assertEquals(r.run().readyAt(),proof.readyAt());assertEquals(2,proof.batches());
+    }
+
+    @Test void factoryAdmissionSurvivesInboxRestartAndDoesNotMintAdditionalContribution()throws Exception{
+        var nativeReceipt=factoryReceipt();var entry=StarCoreNationProductionSource.convert(domain,nativeReceipt);
+        var proof=NationProductionEvidence.fromEvent(entry.event());var f=nativeReceipt.run().factory();
+        assertEquals(new NationProductionEvidence.FactoryAdmission(f.authorityDomain(),f.factoryId(),3,"SMELTER",2,1),proof.factory());
+        Path path=directory.resolve("factory.db");
+        try(var store=new SqliteStore(path)){
+            var journal=new CommittedHistoryJournal(store);journal.accept(StarCoreNationProductionSource.SOURCE,domain,0,List.of(entry));
+        }
+        try(var store=new SqliteStore(path)){
+            var journal=new CommittedHistoryJournal(store);var engine=engine(store);
+            assertEquals(entry.event(),journal.pending(StarCoreNationProductionSource.SOURCE,1).getFirst());
+            consume(journal,engine);assertEquals(2,engine.contributions(null,ContributionType.CIVILIZATION,0,100).size());
+            assertTrue(engine.commitNationalProduction(entry.event(),List.of()).duplicate());
+        }
+    }
+
+    @ParameterizedTest @ValueSource(strings={"authority_domain","id","version","type","level","minimum_level"})
+    void incompleteFactoryProvenanceCannotBeConsumedAsLegacyProduction(String key)throws Exception{
+        var entry=StarCoreNationProductionSource.convert(domain,factoryReceipt());var good=entry.event();
+        var facts=new TreeMap<>(good.facts());facts.remove("production.factory."+key);
+        var partial=new WorldEvent(good.id(),good.type(),good.occurredAt(),good.participants(),good.nations(),facts,good.source(),good.evidence());
+        assertThrows(RuntimeException.class,()->NationProductionEvidence.fromEvent(partial));
+    }
+
+    @Test void newNativeRunWithNoFactoryPreservesLegacyCanonicalProjection()throws Exception{
+        var r=receipt(1);var v=r.run();
+        var newer=new FactoryReceipt(domain,1,new FactoryRun(v.runId(),actor,nation,resourceDomain,v.recipeId(),v.batches(),v.inputs(),v.outputs(),v.startedAt(),v.readyAt(),null),r.committedAt());
+        assertEquals(event(r),StarCoreNationProductionSource.convert(domain,newer).event());
+    }
+
+    @Test void impossibleFactoryLevelFailsBeforeIngress() {
+        var r=factoryReceipt();var v=r.run();var f=v.factory();
+        var impossible=new FactoryReceipt(domain,1,new FactoryRun(v.runId(),actor,nation,resourceDomain,v.recipeId(),v.batches(),v.inputs(),v.outputs(),v.startedAt(),v.readyAt(),
+                new Factory(f.authorityDomain(),f.factoryId(),1,FactoryType.SMELTER,2,1)),r.committedAt());
+        assertThrows(IllegalArgumentException.class,()->StarCoreNationProductionSource.convert(domain,impossible));
     }
 
     @Test void emptyServerCompletionAndRestartReplayKeepTwoViewsOfOneRealOutput()throws Exception{

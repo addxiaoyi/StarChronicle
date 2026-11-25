@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /** Observes real production commands; setup and succession use explicit native public APIs. */
-public final class NationProductionPaperFixture extends ProductionStackPaperFixture {
+public class NationProductionPaperFixture extends ProductionStackPaperFixture {
     private static final String SOURCE="StarCore.NationProductionService";
     private ChronicleService api(){return Objects.requireNonNull(getServer().getServicesManager().load(ChronicleService.class));}
     private static Map<String,Object> map(Object...pairs){Map<String,Object> result=new LinkedHashMap<>();for(int i=0;i<pairs.length;i+=2)result.put(pairs[i].toString(),pairs[i+1]);return result;}

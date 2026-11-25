@@ -43,9 +43,17 @@ public final class StarCoreNationProductionSource {
         var proof=new NationProductionEvidence(domain,number(call(receipt,"sequence")),uuid(call(run,"runId")),uuid(call(run,"actorId")),
                 Objects.requireNonNull(call(run,"nationId")).toString(),uuid(call(run,"resourceDomain")),text(call(run,"recipeId")),
                 number(call(run,"batches")),quantities(call(run,"inputs")),quantities(call(run,"outputs")),
-                instant(call(run,"startedAt")),instant(call(run,"readyAt")),instant(call(receipt,"committedAt")));
+                instant(call(run,"startedAt")),instant(call(run,"readyAt")),instant(call(receipt,"committedAt")),factory(run));
         return new CommittedHistoryJournal.Entry(proof.sequence(),proof.event());
     }
+    private static NationProductionEvidence.FactoryAdmission factory(Object run)throws ReflectiveOperationException{
+        try{run.getClass().getMethod("factory");}catch(NoSuchMethodException legacy){return null;}
+        Object value=call(run,"factory");if(value==null)return null;
+        Object type=call(value,"type");if(!(type instanceof Enum<?> kind))throw new IllegalArgumentException("Expected factory enum");
+        return new NationProductionEvidence.FactoryAdmission(uuid(call(value,"authorityDomain")),uuid(call(value,"factoryId")),
+                number(call(value,"version")),kind.name(),integer(call(value,"level")),integer(call(value,"minimumLevel")));
+    }
+    private static int integer(Object value){if(!(value instanceof Integer n))throw new IllegalArgumentException("Expected factory integer");return n;}
     private static Optional<UUID> domain(Object service)throws ReflectiveOperationException{
         Object result=call(service,"completionAuthorityDomain");if(!(result instanceof Optional<?> value))throw new IllegalArgumentException("Invalid national production capability");
         return value.map(StarCoreNationProductionSource::uuid);
