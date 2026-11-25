@@ -25,7 +25,7 @@ if report is None:
 # Inner evidence inventories must still match captured bytes after checkout/transport.
 # The delivery's outer checksum alone cannot detect earlier newline normalization.
 subprocess.run([sys.executable, str(root / "tools/verify-evidence-archives.py")],
-               cwd=root, check=True, capture_output=True)
+               cwd=root, check=True)
 
 # The source JAR is proof that the delivered main source matches this compiled snapshot.
 with zipfile.ZipFile(sources) as jar:
