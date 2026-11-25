@@ -122,14 +122,27 @@ async function battleOpen(who){
 }
 async function battleTry(who,index,mode){
   if(!manifest.battlefield_acceptance||!['1','2'].includes(index)||!['capture','blocked'].includes(mode))throw Error('Invalid actual battlefield attempt');
-  const bot=bots.get(who);await bot.waitForTicks(5);
-  if(!componentText(bot.currentWindow?.title).includes('战争要塞管理'))throw Error('Actual native stronghold menu missing');
-  const row=uniqueSlot(bot,item=>itemLabel(item).endsWith('Epic citadel '+index)),before={name:row.item.name,lore:itemLore(row.item)};
+  const bot=bots.get(who);
+  // A console-opened menu has no client-side action promise. Wait for its actual
+  // item packet before attempting a click; never replay a capture on timeout.
+  async function observedRow(){
+    const deadline=Date.now()+5000;
+    while(Date.now()<deadline){
+      if(componentText(bot.currentWindow?.title).includes('战争要塞管理')){
+        const rows=topSlots(bot).flatMap((item,slot)=>item&&itemLabel(item).endsWith('Epic citadel '+index)?[{item,slot}]:[]);
+        if(rows.length>1)throw Error('Duplicate actual stronghold rows');
+        if(rows.length===1)return rows[0];
+      }
+      await bot.waitForTicks(1);
+    }
+    throw Error('Actual stronghold item packet missing: '+JSON.stringify({title:componentText(bot.currentWindow?.title),items:bot.currentWindow?topSlots(bot).map(item=>({name:item?.name,label:itemLabel(item)})):[]}));
+  }
+  const row=await observedRow(),before={name:row.item.name,lore:itemLore(row.item)};
   if(mode==='capture'&&row.item.name!=='redstone_block')throw Error('Native GUI did not authorize this capture');
   if(mode==='blocked'&&!['iron_block','emerald_block'].includes(row.item.name))throw Error('Native GUI unexpectedly offers capture');
   if(mode==='capture')await waitWindow(bot,title=>title.includes('战争要塞管理'),()=>bot.clickWindow(row.slot,0,0));
   else await bot.clickWindow(row.slot,0,0);
-  await bot.waitForTicks(8);const after=uniqueSlot(bot,item=>itemLabel(item).endsWith('Epic citadel '+index));
+  await bot.waitForTicks(8);const after=await observedRow();
   if(mode==='capture'&&after.item.name!=='emerald_block')throw Error('Actual capture did not update native ownership');
   log('BATTLE_GUI_ATTEMPT',{who,index:Number(index),mode,slot:row.slot,before,after:{name:after.item.name,lore:itemLore(after.item)},realClick:true,syntheticEvents:false});
 }
@@ -187,7 +200,8 @@ async function questGate(who,action,status,rawRound){
 let chain=Promise.resolve();
 async function expectCommand(who,encoded) {
   const request=JSON.parse(Buffer.from(encoded,'base64url').toString('utf8')),bot=bots.get(who);
-  if(!request.command.startsWith('/chronicle ')||typeof request.contains!=='string'||!request.contains)throw Error('Require a concrete Chronicle command and response');
+  const allowed=request.command.startsWith('/chronicle ')||(manifest.nation_trade_acceptance&&request.command.startsWith('/nationtrade '));
+  if(!allowed||typeof request.contains!=='string'||!request.contains)throw Error('Require a concrete prepared command and response');
   await new Promise((resolve,reject)=>{
     let received='';
     const timer=setTimeout(()=>{bot.removeListener('messagestr',onMessage);reject(Error('Command response missing: '+request.command+' expected '+request.contains+' received '+received));},10000);

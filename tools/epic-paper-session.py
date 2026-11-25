@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
+parser.add_argument('--scenario', choices=['sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 args = parser.parse_args()
 run = args.run.resolve()
@@ -264,9 +264,61 @@ def member_scenario(phase):
         raise ValueError('Unknown member scenario')
 
 
+def sale_scenario(phase):
+    if not manifest.get('nation_trade_acceptance'): raise RuntimeError('Require prepared national sale scenario')
+    server_action('stack-check');server_action('sale-bind')
+    def command(who,cmd,contains):
+        request=json.dumps(dict(command=cmd,contains=contains),ensure_ascii=False).encode()
+        client_action('expect '+who+' '+base64.urlsafe_b64encode(request).decode().rstrip('='))
+    def identity(key):
+        records=[json.loads(line) for line in (run/'evidence/epic-fixture.jsonl').read_text().splitlines()]
+        return next(row['data']['offer']['offerId'] for row in reversed(records) if row['kind']=='SALE_OFFER' and row['data']['key']==key)
+    def offer(key,who,quantity,price,minor):
+        command(who,f'/nationtrade offer EpicB agricultural {quantity} {price} 3600','报价已保存')
+        server_action(f'sale-capture {key} {who} {quantity} {minor}')
+    def accept(key,response='国家贸易操作已提交'):
+        command('B','/nationtrade accept '+identity(key),response)
+    if phase=='sale-offline-first':
+        offer('primary','A',20,'2.50',250);accept('primary')
+        offer('pending','A',5,'4.00',400);server_action('sale-offline-buffered')
+    elif phase=='sale-offline-second':
+        accept('primary','没有重复成交');server_action('sale-check 1')
+        command('B','/chronicle contributions','国库支付')
+    elif phase=='sale-first':
+        server_action('sale-check 0')
+        offer('primary','A',20,'2.50',250)
+        server_action('sale-check 0')
+        for who in 'DC':command(who,'/nationtrade accept '+identity('primary'),'操作被拒绝')
+        command('B','/nationtrade show '+identity('primary'),'国库总价: 50.00')
+        accept('primary');server_action('sale-check 1')
+        accept('primary','没有重复成交');server_action('sale-check 1')
+        offer('pending','A',5,'4.00',400);server_action('sale-status pending OPEN')
+    elif phase=='sale-second':
+        server_action('sale-check 1');server_action('sale-status pending OPEN')
+        accept('pending');server_action('sale-check 2')
+        offer('cancelled','A',1,'1.00',100)
+        command('A','/nationtrade cancel '+identity('cancelled'),'国家贸易操作已提交')
+        accept('cancelled','操作被拒绝');server_action('sale-status cancelled CANCELLED')
+        offer('old-founder','A',3,'3.00',300);server_action('sale-successor')
+        accept('old-founder','操作被拒绝');server_action('sale-status old-founder OPEN')
+        offer('successor','D',4,'1.25',125);server_action('sale-check 2')
+    elif phase=='sale-third':
+        server_action('sale-check 2');server_action('sale-status successor OPEN')
+        accept('old-founder','操作被拒绝');accept('cancelled','操作被拒绝')
+        accept('primary','没有重复成交');accept('pending','没有重复成交')
+        accept('successor');server_action('sale-check 3')
+        accept('successor','没有重复成交');server_action('sale-check 3')
+        for who in 'AD':command(who,'/chronicle contributions','成交资源 agricultural')
+        command('B','/chronicle contributions','国库支付')
+        command('D','/chronicle contributions nation me','成交资源 agricultural')
+    else: raise ValueError(phase)
+
+
 def scenario(phase):
     global clients
     await_lines(0, lambda lines: any('Done (' in line for _, line in lines) and any('EPIC_READY ' in line for _, line in lines), 180)
+    if phase == 'sale-offline-second':
+        server_action('sale-offline-consumed')
     if phase == 'memory-offline-second':
         server_action('memory-check offline-recorded')
     if phase == 'capital-offline-second':
@@ -279,7 +331,9 @@ def scenario(phase):
     if manifest.get('battlefield_acceptance'):
         server_action('battle-bind')
         if phase != 'first': server_action('battle-check ended')
-    if phase == 'quest-first':
+    if phase.startswith('sale-'):
+        sale_scenario(phase)
+    elif phase == 'quest-first':
         server_action('open')
         for who in 'AB': server_action('task-ready ' + who)
         server_action('quest-check A 0 ACTIVE')
@@ -460,7 +514,7 @@ def scenario(phase):
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:
         raise RuntimeError('Acceptance processes must exit normally')
-    if manifest.get('memory_acceptance') or manifest.get('capital_acceptance') or manifest.get('production_campaign'): database_checkpoint()
+    if manifest.get('memory_acceptance') or manifest.get('capital_acceptance') or manifest.get('production_campaign') or manifest.get('nation_trade_acceptance'): database_checkpoint()
     print('SCENARIO_COMPLETE ' + phase, flush=True)
 outcome = dict(boot=args.boot, scenario=args.scenario, contributions=args.contributions, status='INCOMPLETE')
 outcome['source_sha256'] = {

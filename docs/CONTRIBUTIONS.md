@@ -1,5 +1,7 @@
 # 已核验贡献与史诗援助接线
 
+最新增量：国家库存直售使用专门原生共同SQL提交，保留双方原操作者，派生四条国家／个人查询视图；见[合同](NATION-TRADE-CONTRACT.md)和[验收](NATION-TRADE-TEST-REPORT.md)。下文878项构建及旧库回填属于历史援助检查点。
+
 2026-11-25：国家史诗的国库、资源援助现已写入长期贡献账本，并提供玩家／国家分页查询。此前史诗国库适配器直接调用原生转账，绕过普通援助的贡献入口；旧实服库虽有真实扣款和资源回执，贡献表仍为空。本增量修复该缺口，并从已保存的权威回执回填旧库。
 
 ## 玩家命令与服务 API
@@ -19,7 +21,7 @@ CompletionStage<List<ContributionEntry>> contributions(
 
 `ChronicleService` 提供上述只读方法。主体为 `player:UUID` 或 `nation:UUID`，`subjectId`／`type` 为 null 时不过滤对应维度；API 页码从 0 起，页大小 1–100，按本地记录时间降序、稳定 ID 排序。该接口返回公开历史证据，不执行扣款、资源交付或奖励；旧服务实现通过默认方法明确返回不支持。
 
-一个原生回执在玩家、付款国家两个主体下各有一条贡献，属于同一事实的两个查询视角，不能跨主体求和当作额外收益。国库使用 `treasury`，资源使用 `resource.<标识>`；不同单位也不能直接相加。当前两类援助均归入 `ContributionType.RESOURCE_AID`；`TRADE`、`CIVILIZATION` 尚未接入真实生产来源。
+一个原生回执在玩家、付款国家两个主体下各有一条贡献，属于同一事实的两个查询视角，不能跨主体求和当作额外收益。国库使用 `treasury`，资源使用 `resource.<标识>`；不同单位也不能直接相加。当前两类援助均归入 `ContributionType.RESOURCE_AID`；本轮另接入国家库存直售的 `TRADE` 来源，详见[国家贸易合同](NATION-TRADE-CONTRACT.md)；`CIVILIZATION` 尚无真实生产来源。
 
 ## 提交与恢复
 
@@ -49,7 +51,7 @@ CompletionStage<List<ContributionEntry>> contributions(
 
 运行目录为 `run/paper-epic-57e4171f-{dungeon,war}-contributions-1` 和 `run/paper-epic-57e4171f-dungeon-contribution-upgrade-1`，端口分别 29641／29642／29643。八次服务端及八次客户端进程均退出 0。环境为 Linux、Java 21、Paper 1.21.11、Node 22.22.2、Mineflayer 4.39.0。
 
-仍使用隔离资金／资源种子、三秒原生生存副本与原生和谈结束 WAR；不代表战场胜利、目标生产经济、全栈 Folia 或任意外部资源转移已自动计入贡献。贸易／文明生产和精确全类历史继续开发。
+仍使用隔离资金／资源种子、三秒原生生存副本与原生和谈结束 WAR；不代表战场胜利、目标生产经济、全栈 Folia 或任意外部资源转移已自动计入贡献。这份旧构件报告不覆盖后来新增的国家贸易来源；旧玩家交易／市场、文明生产和精确全类历史继续开发。
 
 ## 复验与跨设备交接
 
