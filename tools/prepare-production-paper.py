@@ -11,6 +11,8 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--attempt', required=True)
+parser.add_argument('--route', choices=['DUNGEON','WAR'], default='DUNGEON')
+parser.add_argument('--campaign', action='store_true', help='Run the full epic campaign with this third-party stack')
 parser.add_argument('--port', type=int, required=True)
 parser.add_argument('--starcore', type=Path, required=True)
 parser.add_argument('--runtime', type=Path, required=True)
@@ -19,9 +21,9 @@ parser.add_argument('--artifacts-dir', type=Path, help='Downloaded JAR directory
 parser.add_argument('--lock', type=Path, default=ROOT / 'docs/verification/production-stack-candidate-20261125.json')
 parser.add_argument('--prepare-only', action='store_true', help='Leave the new, unstarted fixture uncompiled for an additional acceptance scenario')
 args = parser.parse_args()
-subprocess.run(['python3', str(ROOT / 'tools/prepare-epic-paper.py'), 'prepare', '--route', 'DUNGEON', '--attempt', args.attempt, '--port', str(args.port), '--starcore', str(args.starcore), '--runtime', str(args.runtime)], cwd=ROOT, check=True)
+subprocess.run(['python3', str(ROOT / 'tools/prepare-epic-paper.py'), 'prepare', '--route', args.route, '--attempt', args.attempt, '--port', str(args.port), '--starcore', str(args.starcore), '--runtime', str(args.runtime)], cwd=ROOT, check=True)
 sha = hashlib.sha256((ROOT / 'target/starchronicle-0.1.0-SNAPSHOT.jar').read_bytes()).hexdigest()
-run = ROOT / 'run' / f'paper-epic-{sha[:8]}-dungeon-{args.attempt}'
+run = ROOT / 'run' / f'paper-epic-{sha[:8]}-{args.route.lower()}-{args.attempt}'
 manifest = json.loads((run / 'preparation.json').read_text())
 lock = json.loads(args.lock.read_text())
 for artifact in lock['artifacts']:
@@ -35,6 +37,12 @@ shutil.copy2(extra, run / 'fixture' / extra.name)
 manifest['fixture_extra_sources_sha256'] = {extra.name: hashlib.sha256(extra.read_bytes()).hexdigest()}
 manifest['fixture_main_class'] = 'ProductionStackPaperFixture'
 manifest['limitations'] = ['Isolated Paper integration acceptance with explicit fixture funds, nations and two FancyNpcs villagers.', 'This stack scenario does not execute a dungeon or war campaign.', 'Nation creation cost is disabled in this fixture; it does not validate legacy paid nation creation.', 'External economy and native claim storage are not one atomic transaction.']
+if args.campaign:
+    manifest['production_campaign'] = dict(route=args.route, war_ending='native principal peace', dungeon='three-second native survival room')
+    manifest['limitations'] = ['Selected isolated Paper stack; no production deployment or Folia claim.',
+        'The fixture seeds nations, treasury/resources and real crafting ingredients; nation creation is free only in the fixture.',
+        'War ending uses native principal peace, not battlefield victory; dungeon uses a three-second native survival room.',
+        'This scenario revalidates the complete epic chain and contribution projection on the frozen selected stack.']
 manifest['production_stack'] = lock
 manifest['production_stack_lock_sha256'] = hashlib.sha256(args.lock.read_bytes()).hexdigest()
 config = run / 'plugins/StarCore/config.yml'

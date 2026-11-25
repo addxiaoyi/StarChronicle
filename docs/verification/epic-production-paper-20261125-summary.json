@@ -1,0 +1,156 @@
+{
+  "status": "SELECTED_PAPER_STACK_EPIC_ACCEPTED",
+  "captured_utc": "2026-11-25T17:41:56.580237+00:00",
+  "chronicle_head": "2261cada2bfd38676812a4aed9d26396aa09fb2d",
+  "native_head": "423e976a7967553975be19e4df7234db0fdff5bd",
+  "runs": [
+    {
+      "directory": "paper-epic-daa12354-dungeon-epic-stack-candidate-1",
+      "status": "SELECTED_PAPER_STACK_EPIC_ACCEPTED",
+      "route": "DUNGEON",
+      "instance": "c18d9079b38de8dcf581669da7cd1f1745fe57844f68b54f75cec73be627da44",
+      "chronicle_sha256": "daa123548d66b5da6c8bd3c759767256d1bc0e6f7a66edfe5eb9c79d1fe70bf7",
+      "starcore_sha256": "3199771bfe9d194443d1d106546ea5ac783a98452b8240e9a67e0b6f09fec135",
+      "committed_operations": 12,
+      "treasury_transfers": 2,
+      "resource_transfers": 2,
+      "settlement_events": 1,
+      "verified_boots": 3,
+      "aftermath_instances": 3,
+      "verification": "Normal server/client exits, required live scenario evidence and independent native/Chronicle receipt cross-check; server port unbound.",
+      "contribution_entries": 8,
+      "aid_source_events": 4,
+      "contribution_query_boots": [
+        1,
+        2,
+        3
+      ],
+      "subjects": [
+        "player:35e02d6d-1111-3ff6-bd41-91cad584563c",
+        "player:5a2a1989-08f3-3f65-a906-299ff19592c8"
+      ],
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "business_economy": "dev.starcore.starcore.foundation.economy.PlayerVaultEconomyService",
+      "database_checkpoint_boots": [
+        1,
+        2,
+        3
+      ],
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[17:36:16 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitation": "War completion is native principal peace; this does not demonstrate battlefield victory, paid founding, Folia or production deployment."
+    },
+    {
+      "directory": "paper-epic-daa12354-war-epic-stack-candidate-1",
+      "status": "SELECTED_PAPER_STACK_EPIC_ACCEPTED",
+      "route": "WAR",
+      "instance": "937b50bc19fa047f9bd2b398a6568aa53a600b8d76bd499d8d3d470e5b218038",
+      "chronicle_sha256": "daa123548d66b5da6c8bd3c759767256d1bc0e6f7a66edfe5eb9c79d1fe70bf7",
+      "starcore_sha256": "3199771bfe9d194443d1d106546ea5ac783a98452b8240e9a67e0b6f09fec135",
+      "committed_operations": 13,
+      "treasury_transfers": 2,
+      "resource_transfers": 2,
+      "settlement_events": 1,
+      "verified_boots": 3,
+      "aftermath_instances": 3,
+      "verification": "Normal server/client exits, required live scenario evidence and independent native/Chronicle receipt cross-check; server port unbound.",
+      "contribution_entries": 8,
+      "aid_source_events": 4,
+      "contribution_query_boots": [
+        1,
+        2,
+        3
+      ],
+      "subjects": [
+        "player:35e02d6d-1111-3ff6-bd41-91cad584563c",
+        "player:5a2a1989-08f3-3f65-a906-299ff19592c8"
+      ],
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "business_economy": "dev.starcore.starcore.foundation.economy.PlayerVaultEconomyService",
+      "database_checkpoint_boots": [
+        1,
+        2,
+        3
+      ],
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[17:36:16 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitation": "War completion is native principal peace; this does not demonstrate battlefield victory, paid founding, Folia or production deployment."
+    }
+  ],
+  "regressions": [
+    {
+      "log": "epic-stack-dungeon-regression-1.log",
+      "tests": 29,
+      "passed": 29,
+      "skipped": 0,
+      "sha256": "c437cd7703386ffc8e1674d37519e0bf92d0636ebd0bad858e144fcf543c1db0"
+    },
+    {
+      "log": "epic-stack-war-regression-1.log",
+      "tests": 29,
+      "passed": 29,
+      "skipped": 0,
+      "sha256": "a8edd404739766fff4d4ecaecee41e8842ca7a6cd7a22c288e605a9025954c3c"
+    }
+  ],
+  "inherited_builds": {
+    "reference": "capital-history-paper-20261125-summary.json",
+    "sha256": "f24f79ed83b548fd6a7e06f1e723f07dbb433cb6efc06ea249f0abacaf395a8c",
+    "chronicle": {
+      "tests": 927,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "native": {
+      "tests": 7272,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 21
+    },
+    "note": "No product rebuild; the src/ and pom.xml trees match the capital increment and both frozen runtime JAR fingerprints match its acceptance."
+  },
+  "redactions": [
+    {
+      "path": "runs/paper-epic-daa12354-dungeon-epic-stack-candidate-1/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-daa12354-war-epic-stack-candidate-1/plugins/StarCore/config.yml",
+      "fields": 3
+    }
+  ],
+  "evidence_archive": {
+    "sha256": "48bf255f01775252a742440eef7425923bd080244356a8ea78b04375d9b47a50",
+    "bytes": 1672825,
+    "members": 304
+  },
+  "source_archives": {
+    "starchronicle-source.tar.gz": "c4e067aaeab94bb551f8a05f27183913eb55c99680cdfa1009ecee04601ea884",
+    "starcore-source.tar.gz": "b85fd5c0b0e35dd7f28e1382c8aa85ce6eb0e4068f60b7a6d2e2a4f13db45a26"
+  }
+}
