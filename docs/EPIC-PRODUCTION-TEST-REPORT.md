@@ -1,5 +1,7 @@
 # 所选 Paper 组合的完整国家史诗验收
 
+后续据点增量（2026-11-25）：新原生国家SQLite修复构件 `3dcc34b0…36f6` 配对Chronicle `daa12354…0bf7`，真实菜单占领两座要塞并获得原生100∶0胜利；WAR与DUNGEON各三次启动、唯一结算与重放及70项证据回归通过。原生新构建7,274项（21跳过），Chronicle继承927项。见[据点胜利报告](BATTLEFIELD-TEST-REPORT.md)；以下报告的旧构件与有限范围继续独立保留。
+
 2026-11-25：DUNGEON 与 WAR 两条路线已分别完成三次正常启动、第二次启动后的唯一结算、第三次启动恢复与拒绝重放；58 项独立证据回归全部通过，无跳过。每轮均实际加载 EssentialsX／Vault、FancyNpcs、WorldEdit／WorldGuard，原生业务经济为 PlayerVaultEconomyService。
 
 WAR 使用原生主战国和谈结束；DUNGEON 使用三秒原生生存房间。本报告覆盖完整史诗业务链在所选组合上的集成和恢复，真实战场胜利、收费建国、Folia、MySQL、容量与生产部署仍未验收，十阶段继续推进。
