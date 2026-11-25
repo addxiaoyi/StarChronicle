@@ -2,7 +2,7 @@
 
 国家库存间的真实转移现已接入 Chronicle 持久收件箱。原生库存、转移回执和独立序列末尾共同提交；Chronicle 保留转出／转入国家、资源数量、提交时间和稳定事件 ID。原生回执没有操作玩家，因此参与者为空，不据此签发个人贡献。
 
-源码检查点：Chronicle `1ae8da2`（基于科技分支 `7382b73`），StarCore `2c2ae268`（基于 `0c13cfc3`）；归档工具 `33cfd4c`。当前两分支为 `codex/resource-history-ingress-20261125`、`codex/resource-transfer-journal-20261125`，叠加在科技增量之上。没有合并主分支或部署生产服。
+源码检查点：Chronicle `1ae8da2`（基于科技分支 `7382b73`），StarCore `2c2ae268`（基于 `0c13cfc3`）；归档工具 `33cfd4c`。当前两分支为 `codex/resource-history-ingress-20261125`、`codex/resource-transfer-journal-20261125`，叠加在科技增量之上。对应 [Chronicle草稿PR #7](https://github.com/addxiaoyi/StarChronicle/pull/7) 与 [StarCore草稿PR #6](https://github.com/addxiaoyi/starcore/pull/6)。没有合并主分支或部署生产服。
 
 ## 原生协议与故障修复
 
