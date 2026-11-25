@@ -1,5 +1,6 @@
 """Stage explicitly synthetic raw legacy records in this task's stopped boot-1 fixture only."""
 from pathlib import Path
+from contextlib import closing
 import argparse, hashlib, json, shutil, socket, sqlite3, uuid
 from legacy_factory_raw import fingerprint
 ROOT=Path(__file__).resolve().parents[1]
@@ -23,7 +24,7 @@ for i,key in enumerate(('valid','processing','malformed','duplicate','duplicate'
     if key=='unknown':fields['unrecognized']='retain this original evidence'
     raw.update({f'factory.{i}.{k}':v for k,v in fields.items()})
 before=sha(db)
-with sqlite3.connect(db) as c:
+with closing(sqlite3.connect(db)) as c:
     c.execute('BEGIN IMMEDIATE')
     props=dict(c.execute('SELECT property_key,property_value FROM starcore_resource_state'))
     assert not any(k.startswith('factory.') for k in props)
@@ -32,7 +33,14 @@ with sqlite3.connect(db) as c:
     c.executemany('INSERT INTO starcore_resource_state(property_key,property_value) VALUES(?,?)',sorted(raw.items()))
     assert c.execute('UPDATE starcore_resource_revision SET revision=revision+1 WHERE singleton=1 AND revision=?',(revision,)).rowcount==1
     c.commit()
+    # The transaction context alone does not close a Python SQLite connection.
+    # Flush committed WAL pages before preserving the standalone source file.
+    assert c.execute('PRAGMA wal_checkpoint(TRUNCATE)').fetchone()[0]==0
+assert not Path(str(db)+'-wal').exists() or Path(str(db)+'-wal').stat().st_size==0
 shutil.copy2(db,e/'legacy-source-starcore.db')
+with closing(sqlite3.connect('file:'+str(e/'legacy-source-starcore.db')+'?mode=ro',uri=True)) as c:
+    assert dict(c.execute('SELECT property_key,property_value FROM starcore_resource_state'))==dict(props,**raw)
+    assert c.execute('SELECT revision FROM starcore_resource_revision WHERE singleton=1').fetchone()[0]==revision+1
 shutil.copy2(__file__,e/'legacy-stage.py');shutil.copy2(Path(__file__).with_name('legacy_factory_raw.py'),e/'legacy_factory_raw.py')
 record=dict(kind='EXPLICIT_STOPPED_FIXTURE_SEED',before_sha256=before,after_sha256=sha(db),revision_before=revision,revision_after=revision+1,
     resource_domain=props['resource.authority-domain'],nation=seed['A'],raw=raw,fingerprint=fingerprint(props['resource.authority-domain'],raw),

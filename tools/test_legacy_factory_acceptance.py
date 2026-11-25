@@ -86,6 +86,23 @@ class LegacyFactoryEvidenceTest(unittest.TestCase):
         self.edit('evidence/legacy-staging.json',lambda v:v.update(payment_evidence='PAID'));self.reject('Legacy staging must be explicit and unproven')
     def test_source_before_snapshot_changed(self):
         self.edit('evidence/legacy-staging.json',lambda v:v.update(before_sha256='0'*64));self.reject('Legacy source snapshot changed')
+    def test_source_copy_omits_committed_wal(self):
+        path=self.run/'evidence/legacy-source-starcore.db'
+        shutil.copy2(self.run/'evidence/checkpoints/boot1/starcore.db',path)
+        self.edit('evidence/legacy-staging.json',lambda v:v.update(after_sha256=I.sha(path)))
+        self.reject('Legacy staging changed nonfactory resources')
+    def test_source_changes_unrelated_materials(self):
+        path=self.run/'evidence/legacy-source-starcore.db'
+        with closing(sqlite3.connect(path)) as db:
+            db.execute("update starcore_resource_state set property_value='1' where property_key='stockpile.0.amount'");db.commit()
+        self.edit('evidence/legacy-staging.json',lambda v:v.update(after_sha256=I.sha(path)))
+        self.reject('Legacy staging changed nonfactory resources')
+    def test_source_skips_revision(self):
+        path=self.run/'evidence/legacy-source-starcore.db'
+        with closing(sqlite3.connect(path)) as db:
+            db.execute('update starcore_resource_revision set revision=revision-1');db.commit()
+        self.edit('evidence/legacy-staging.json',lambda v:v.update(after_sha256=I.sha(path)))
+        self.reject('Legacy staging revision was not exact')
     def test_audit_ignores_inflight_work(self):
         self.live(2,'LEGACY_AUDIT',lambda v:v['report']['entries'][1].update(issues=[]));self.reject('Legacy malformed/inflight/foreign records')
     def test_quote_grants_credit_without_payment(self):

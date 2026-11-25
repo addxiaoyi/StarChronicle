@@ -35,6 +35,7 @@ def main():
     for name,*_ in CASES:p.add_argument('--'+name+'-run',type=Path,required=True)
     for name in ('native','mysql','private-env','legacy-test-log','regressions'):p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--failed-run',type=Path,action='append',default=[])
+    p.add_argument('--rejected-run',type=Path,action='append',default=[],help='Normally stopped run whose source snapshot failed independent inspection')
     p.add_argument('--retained-directory',type=Path,action='append',default=[])
     p.add_argument('--log',type=Path,action='append',default=[])
     p.add_argument('--label',default='legacy-factory-20261125')
@@ -64,8 +65,17 @@ def main():
         sessions=[read(p) for p in sorted((run/'evidence').glob('boot*.session.json'))]
         require(any(s['status']=='FAILED' for s in sessions) and all(p.get('exit_code')==0 for s in sessions for p in s['processes']),'Failed attempt not retained/stopped')
         failures.append(dict(directory=run.name,sessions=sessions))
+    rejected=[]
+    for run in a.rejected_run:
+        sessions=[read(p) for p in sorted((run/'evidence').glob('boot*.session.json'))]
+        require(len(sessions)==4 and all(s['status']=='COMPLETE' and all(p.get('exit_code')==0 for p in s['processes']) for s in sessions),'Rejected evidence run not retained/stopped')
+        try:module(ROOT/'tools/inspect-legacy-factory-paper.py').inspect(run.resolve())
+        except AssertionError as error:
+            require(str(error)=='Legacy staging changed nonfactory resources','Unexpected rejected evidence failure')
+            rejected.append(dict(directory=run.name,reason=str(error),sessions=sessions))
+        else:raise ValueError('Rejected evidence unexpectedly passed')
     summary=dict(status='LEGACY_FACTORY_AND_FROZEN_PAIR_SELECTED_STACK_ACCEPTED',captured_utc=datetime.now(timezone.utc).isoformat(),source_heads=dict(chronicle=git(ROOT,'rev-parse','HEAD'),native=git(native,'rev-parse','HEAD')),product_sources=dict(chronicle=CHRONICLE,native=NATIVE),frozen_pair=pair,builds=builds,mysql=sql,mysql_shutdown=stopped,
-        runs=[dict(kind=case[0],directory=run.name,**result) for case,run,result in zip(CASES,runs,results)],regressions=regressions,failed_runs=failures,
+        runs=[dict(kind=case[0],directory=run.name,**result) for case,run,result in zip(CASES,runs,results)],regressions=regressions,failed_runs=failures,rejected_evidence_runs=rejected,
         limitations=['Only idle structurally valid legacy metadata supports explicit new cumulative material payment; six malformed/inflight/foreign fixture records remain quarantined.',
             'The exact pair has 21 normal Paper boots. Real MySQL tests are separate from Paper/SQLite; earlier MySQL Paper/crash evidence is not transferred to this pair.',
             'No historical payment credit, automatic old-work compensation, original-builder attribution, world construction, Folia or production deployment claim.'])
@@ -97,7 +107,7 @@ def main():
                 text,n=re.subn(pattern,r'\1 "REDACTED_TEST_SECRET"',raw.decode());raw=text.encode()
                 if n:redactions.append(dict(path=name,fields=n))
             archive.writestr(name,raw)
-        for run in [*runs,*a.failed_run]:
+        for run in [*runs,*a.failed_run,*a.rejected_run]:
             files=[run/'preparation.json',run/'server.properties']+[p for p in (run/'evidence').rglob('*') if p.is_file()]
             files += [p for p in (run/'fixture').glob('*') if p.suffix in ('.java','.json','.yml','.yaml')]
             for plugin in ('StarCore','StarChronicle','EpicCampaignPaperFixture','Essentials'):
