@@ -75,6 +75,8 @@ python3 tools/epic-paper-session.py --run run/paper-epic-<new-sha8>-dungeon-cata
 
 ## 交付与归档
 
-[公开证据包](verification/production-catalog-20261125-evidence.zip)与[机器清单](verification/production-catalog-20261125-summary.json)包含六个成功现场、三份失败现场、全部停服SQL检查点、实际命令／配置切换、完整构建XML、MySQL34例、所有反例日志及检查工具。私有数据库凭据不入包，测试配置密钥脱敏；逐成员SHA-256校验。完整双JAR和两库源码tar保存在本机 `target/production-catalog-20261125/`，公开证据不替代二进制分发。
+[公开证据包](verification/production-catalog-20261125-final-evidence.zip)与[机器清单](verification/production-catalog-20261125-final-summary.json)包含六个成功现场、三份失败现场、全部停服SQL检查点、实际命令／配置切换、完整构建XML、MySQL34例、所有反例日志及检查工具。私有数据库凭据不入包，测试配置密钥脱敏；逐成员SHA-256校验。完整双JAR和两库源码tar保存在本机 `target/production-catalog-20261125-final/`，公开证据不替代二进制分发。
 
 首工具提交`0ce0e9b`的PR CI `45707294132`／job `139532415294`已success：979测试、1478交付条目；CI JAR `6fa0bbe2fba054461eca354013fb66ab63c28461fd8fd90c5ced972c70852029`，交付ZIP `f1e112243a6b8dc740bf689f64fc39d661c6dfc0f05e06d58d78369249df9b01`，均不冒充实服冻结指纹。最终归档提交的CI／交付指纹记录到PR正文，避免为记录CI改变被验证提交。
+
+首归档解压复验发现副本`authority-domain.txt`未纳入文件筛选，前三类及配方检查通过而副本检查正确拒绝。首包SHA `3b21b2f5d0da847547d3af5605a8c948b4e7764a8e2a1ce17bccc0bb26276a2a` 与解压失败目录保留在target；首包没有发布到Git。归档工具补上该权威文件，并强制六个解压检查器全部通过后才能生成公开包。

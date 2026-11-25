@@ -76,7 +76,7 @@ def main():
             files=[run/'preparation.json',run/'server.properties']+[f for f in (run/'evidence').rglob('*') if f.is_file()]
             files += [f for f in (run/'fixture').iterdir() if f.suffix in ('.java','.json','.yml','.yaml')]
             for plugin in ('StarCore','StarChronicle','EpicCampaignPaperFixture','Essentials'):
-                files += [f for f in (run/'plugins'/plugin).rglob('*') if f.is_file() and (f.suffix in ('.db','.yml','.yaml','.json','.properties') or 'quest' in f.relative_to(run/'plugins'/plugin).parts or f.name.startswith('capital-designations.log'))]
+                files += [f for f in (run/'plugins'/plugin).rglob('*') if f.is_file() and (f.suffix in ('.db','.yml','.yaml','.json','.properties') or 'quest' in f.relative_to(run/'plugins'/plugin).parts or f.name=='authority-domain.txt' or f.name.startswith('capital-designations.log'))]
             for path in sorted(set(files)):add(path,'runs/'+run.name+'/'+path.relative_to(run).as_posix())
         for name,root in [('native',native),('chronicle',ROOT)]:
             for path in sorted((root/'target/catalog-build-evidence').rglob('*')):
@@ -95,6 +95,18 @@ def main():
         summary['redactions']=redactions;archive.writestr('source-provenance.json',json.dumps(summary,ensure_ascii=False,indent=2)+'\n')
         inventory={i.filename:hashlib.sha256(archive.read(i.filename)).hexdigest() for i in archive.infolist()};archive.writestr('evidence-manifest.json',json.dumps(inventory,indent=2)+'\n')
     with zipfile.ZipFile(archive_path) as z:require(z.testzip() is None and all(hashlib.sha256(z.read(k)).hexdigest()==v for k,v in inventory.items()),'Archive hash verification failed')
+    extracted=dest/'extracted-check';extracted.mkdir(exist_ok=False)
+    with zipfile.ZipFile(archive_path) as z:z.extractall(extracted)
+    for name,run,tool in zip(names,runs,tools):
+        copied=extracted/'runs'/run.name
+        binaries=['paper.jar','plugins/StarCore.jar','plugins/StarChronicle.jar','plugins/EpicCampaignPaperFixture.jar']
+        binaries += ['plugins/'+a['filename'] for a in read(run/'preparation.json')['production_stack']['artifacts']]
+        for binary in binaries:
+            target=copied/binary;target.parent.mkdir(parents=True,exist_ok=True);target.symlink_to(run/binary)
+        with (dest/(name+'-extracted-inspect.log')).open('xb') as log:
+            code=subprocess.run(['python3',str(extracted/'tools'/tool),str(copied)],stdout=log,stderr=subprocess.STDOUT).returncode
+        require(code==0,'Extracted '+name+' check failed; keep this unpublished attempt')
+    summary['extracted_inspectors']='ALL_SIX_PASSED'
     summary['evidence_archive']=dict(sha256=sha(archive_path),bytes=archive_path.stat().st_size,members=len(inventory));summary['source_archives']={n:sha(dest/n) for n in ('starchronicle-source.tar.gz','starcore-source.tar.gz')}
     data=json.dumps(summary,ensure_ascii=False,indent=2)+'\n';(dest/'manifest.json').write_text(data)
     public=ROOT/'docs/verification';require(not (public/(a.label+'-evidence.zip')).exists() and not (public/(a.label+'-summary.json')).exists(),'Public evidence exists')
