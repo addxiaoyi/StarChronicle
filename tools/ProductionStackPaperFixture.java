@@ -15,7 +15,7 @@ import org.bukkit.*;
 import org.bukkit.plugin.Plugin;
 
 /** Extra acceptance checks compiled only with the frozen production candidate stack. */
-public final class ProductionStackPaperFixture extends EpicCampaignPaperFixture implements Listener {
+public class ProductionStackPaperFixture extends EpicCampaignPaperFixture implements Listener {
     private static final String BOUND="00000000-0000-4000-8000-000000000701", UNBOUND="00000000-0000-4000-8000-000000000702";
     private boolean cancelNpc, npcListeners;
     private int observedNpcInteractions;

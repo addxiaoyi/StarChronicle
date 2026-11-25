@@ -59,6 +59,54 @@ async function npc(who,rawId) {
   await bot.activateEntity(entity);
   log('NPC_CLICK',{who,entityId,distance,type:entity.name,syntheticEvents:false});
 }
+const componentText=value=>{
+  if(value==null)return '';if(typeof value==='string')return value.replace(/\u00a7[0-9a-fk-or]/gi,'');
+  if(Array.isArray(value))return value.map(componentText).join('');
+  if(value.type==='string'||value.type==='compound')return componentText(value.value);
+  if(value.text!=null)return componentText(value.text)+componentText(value.extra);
+  return value.value!=null?componentText(value.value):'';
+};
+const itemLabel=item=>componentText(item?.customName||item?.components?.find(c=>c.type==='custom_name')?.data);
+const itemLore=item=>(item?.components?.find(c=>c.type==='lore')?.data||[]).map(componentText);
+function itemField(item,prefix){
+  const lines=itemLore(item),at=lines.findIndex(line=>line.startsWith(prefix));if(at<0)return null;
+  const boundaries=['实例: ','范围: ','参与人数: ','当前阶段: ','投票: ','选项: ','权限和条件','同一阶段'];
+  let value=lines[at].slice(prefix.length);for(let n=at+1;n<lines.length&&!boundaries.some(b=>lines[n].startsWith(b));n++)value+=lines[n];return value.trim();
+}
+function waitWindow(bot,predicate,action){return new Promise((resolve,reject)=>{
+  const timer=setTimeout(()=>{clean();reject(Error('Actual memory GUI transition timed out'));},15000);
+  function clean(){clearTimeout(timer);bot.off('windowOpen',opened);}
+  function opened(window){if(predicate(componentText(window.title))){clean();resolve(window);}}
+  bot.on('windowOpen',opened);Promise.resolve().then(action).catch(error=>{clean();reject(error);});
+});}
+function topSlots(bot){const w=bot.currentWindow;if(!w||!Number.isInteger(w.inventoryStart))throw Error('Actual GUI is absent');return w.slots.slice(0,w.inventoryStart);}
+function uniqueSlot(bot,predicate){const rows=topSlots(bot).flatMap((item,slot)=>item&&predicate(item)?[{item,slot}]:[]);if(rows.length!==1)throw Error('Expected one actual memory story/choice row; got '+rows.length);return rows[0];}
+async function memoryWalk(who){
+  if(!manifest.memory_acceptance)throw Error('Prepared memory acceptance is required');const bot=bots.get(who);
+  if(bot.currentWindow)await bot.closeWindow(bot.currentWindow);
+  for(let n=0;n<80&&(bot.entity.position.x<999||bot.entity.position.x>1002);n++)await bot.waitForTicks(1);
+  if(bot.entity.position.x<999||bot.entity.position.x>1002||Math.abs(bot.entity.position.z-1.5)>1)throw Error('Walk must start at actual outside station');
+  const before={...bot.entity.position};await bot.lookAt(bot.entity.position.offset(10,1.62,0),true);bot.setControlState('forward',true);
+  const deadline=Date.now()+12000;try{while(bot.entity.position.x<1005&&Date.now()<deadline)await bot.waitForTicks(1);}finally{bot.clearControlStates();}
+  await bot.waitForTicks(3);const after={...bot.entity.position};
+  if(after.x<1004||after.x>=1007||after.y< -60.2||after.y> -58||after.z<0||after.z>=4)throw Error('Actual arrival is outside prepared cuboid: '+JSON.stringify(after));
+  log('MEMORY_WALK',{who,before,after,syntheticEvents:false,implementation:'real control-state movement packets'});
+}
+async function memoryChoice(who,choice,expectedInstance){
+  const story=manifest.memory_acceptance?.story;if(!story||!['testify','read'].includes(choice))throw Error('Require prepared library story and exact branch');
+  if(!/^[0-9a-f]{64}$/.test(expectedInstance||''))throw Error('Require the observed active instance ID');
+  const bot=bots.get(who);if(bot.currentWindow)await bot.closeWindow(bot.currentWindow);
+  await waitWindow(bot,title=>/^共同书写历史 · \d+$/.test(title),()=>bot.chat('/chronicle stories'));
+  const row=uniqueSlot(bot,item=>['book','enchanted_book'].includes(item.name)&&itemLabel(item)===story.title&&itemField(item,'实例: ')===expectedInstance),instance=itemField(row.item,'实例: ');
+  if(!/^[0-9a-f]{64}$/.test(instance||''))throw Error('Actual story instance ID is missing');
+  await waitWindow(bot,title=>title===story.title,()=>bot.clickWindow(row.slot,0,0));
+  const header=topSlots(bot)[4];
+  if(header?.name!=='written_book'||itemLabel(header)!==story.title||itemField(header,'实例: ')!==instance||itemField(header,'当前阶段: ')!=='archive')throw Error('Library GUI source/node changed');
+  log('MEMORY_GUI_OPEN',{who,story:story.id,instance,node:'archive',title:componentText(bot.currentWindow.title),header:itemLore(header)});
+  const option=uniqueSlot(bot,item=>item.name==='lime_dye'&&itemField(item,'选项: ')===choice);
+  await waitWindow(bot,title=>/^共同书写历史 · \d+$/.test(title),()=>bot.clickWindow(option.slot,0,0));
+  log('MEMORY_GUI_CHOICE',{who,story:story.id,instance,node:'archive',choice,slot:option.slot,realClick:true});
+}
 let chain=Promise.resolve();
 async function expectCommand(who,encoded) {
   const request=JSON.parse(Buffer.from(encoded,'base64url').toString('utf8')),bot=bots.get(who);
@@ -82,6 +130,8 @@ readline.createInterface({input:process.stdin}).on('line',line=>{chain=chain.the
   if(action==='craft')await craft(who);
   else if(action==='contributions')await contributions(who);
   else if(action==='npc')await npc(who,rest[0]);
+  else if(action==='memory-walk')await memoryWalk(who);
+  else if(action==='memory-choice')await memoryChoice(who,rest[0],rest[1]);
   else if(action==='expect')await expectCommand(who,rest.join(' '));
   else if(action==='chat')bots.get(who).chat(rest.join(' '));
   else if(action==='close'&&bots.get(who).currentWindow)bots.get(who).closeWindow(bots.get(who).currentWindow);

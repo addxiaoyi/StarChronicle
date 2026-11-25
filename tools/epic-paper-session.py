@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third'])
+parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 args = parser.parse_args()
 run = args.run.resolve()
@@ -118,6 +118,89 @@ def client_action(action):
     await_lines(cursor, lambda lines: any('"kind":"ACTION_DONE"' in line and '"action":"' + name + '"' in line for _, line in lines))
 
 
+def console_expect(command, expected):
+    cursor = len(observed)
+    server.stdin.write(command + '\n'); server.stdin.flush()
+    await_lines(cursor, lambda lines: any(name == 'server' and expected in line for name, line in lines))
+    with (run/'evidence/memory-config.jsonl').open('a') as out:
+        out.write(json.dumps(dict(boot=args.boot, time=time.time(), command=command, expected=expected, matched=True), ensure_ascii=False)+'\n')
+
+
+def memory_config(variant):
+    source = run/'fixture'/f'memory-{variant}.yml'
+    expected = manifest['memory_acceptance']['recipe_variants_sha256'][variant]
+    if hashlib.sha256(source.read_bytes()).hexdigest() != expected: raise RuntimeError('Frozen memory catalog variant changed')
+    target = run/'plugins/StarChronicle/memory-recipes.yml'
+    before = hashlib.sha256(target.read_bytes()).hexdigest(); shutil.copy2(source,target)
+    with (run/'evidence/memory-config.jsonl').open('a') as out:
+        out.write(json.dumps(dict(boot=args.boot, time=time.time(), variant=variant, before=before, after=expected))+'\n')
+
+
+def memory_scenario(phase):
+    server_action('stack-check')
+    server_action('memory-station')
+    def walk(who):
+        server_action('memory-place ' + who)
+        client_action('memory-walk ' + who)
+    def choose(who,choice):
+        rows = [json.loads(line) for line in (run/'evidence/epic-fixture.jsonl').read_text().splitlines()]
+        latest = next(row['data']['state'] for row in reversed(rows) if row['kind'] == 'MEMORY_CHECK')
+        active = [i for i in latest['players'][who]['instances'] if not i['completed']]
+        if len(active) != 1: raise RuntimeError('Expected one observed active library instance')
+        client_action('memory-choice '+who+' '+choice+' '+active[0]['id'])
+    if phase == 'memory-first':
+        server_action('memory-check zero')
+        request = json.dumps(dict(command='/chronicle reload', contains='没有管理权限。'),ensure_ascii=False).encode()
+        client_action('expect A ' + base64.urlsafe_b64encode(request).decode().rstrip('='))
+        walk('A'); server_action('memory-check first')
+        choose('A','testify'); server_action('memory-check testimony')
+        choose('D','read'); server_action('memory-check witness')
+        memory_config('validate-v2'); console_expect('chronicle validate', '验证通过:')
+        server_action('memory-check witness')
+        memory_config('invalid-v1'); console_expect('chronicle validate', '验证失败: Memory recipe content changed without a new version:')
+        console_expect('chronicle reload', '重载失败，原定义保留: Memory recipe content changed without a new version:')
+        walk('B'); server_action('memory-check second')
+        choose('B','read'); server_action('memory-check read')
+        memory_config('disabled'); console_expect('chronicle reload', '已重载 ')
+        walk('C'); server_action('memory-check disabled')
+        memory_config('enabled'); console_expect('chronicle reload', '已重载 ')
+        server_action('memory-replay'); server_action('memory-check disabled')
+        walk('D'); server_action('memory-check pending')
+        server_action('memory-replay'); server_action('memory-check pending')
+    elif phase == 'memory-second':
+        server_action('memory-check pending')
+        choose('D','testify'); server_action('memory-check d-complete')
+        choose('A','read'); server_action('memory-check complete')
+        server_action('memory-replay')
+        for who in ('A','B','D'): server_action('memory-repeat ' + who)
+        server_action('memory-check complete')
+    elif phase == 'memory-third':
+        server_action('memory-check complete'); walk('A'); server_action('memory-replay')
+        server_action('memory-repeat A'); server_action('memory-check complete')
+    elif phase == 'memory-offline-first':
+        walk('D'); server_action('memory-check offline-buffered')
+    elif phase == 'memory-offline-second':
+        server_action('memory-check offline-pending')
+        choose('D','testify'); server_action('memory-check offline-testimony')
+        choose('A','read'); server_action('memory-check offline-complete')
+        server_action('memory-replay'); server_action('memory-check offline-complete')
+    else: raise ValueError('Unknown memory scenario')
+
+
+def memory_checkpoint():
+    directory = run/'evidence/checkpoints'/f'boot{args.boot}'; directory.mkdir(parents=True,exist_ok=False)
+    hashes = {}
+    for plugin, name in (('StarChronicle','chronicle.db'),('StarCore','starcore.db')):
+        source = run/'plugins'/plugin/name
+        for suffix in ('-wal','-journal'):
+            sidecar = Path(str(source)+suffix)
+            if sidecar.exists() and sidecar.stat().st_size: raise RuntimeError('Stopped database has pending journal: '+plugin)
+        before = hashlib.sha256(source.read_bytes()).hexdigest(); shutil.copy2(source,directory/name)
+        if hashlib.sha256((directory/name).read_bytes()).hexdigest() != before: raise RuntimeError('Stopped database checkpoint drift')
+        hashes[name] = before
+    (directory/'checkpoint.json').write_text(json.dumps(dict(boot=args.boot,time=time.time(),sha256=hashes),indent=2)+'\n')
+
+
 def member_scenario(phase):
     if phase == 'members-first':
         server_action('members-open')
@@ -168,11 +251,15 @@ def member_scenario(phase):
 def scenario(phase):
     global clients
     await_lines(0, lambda lines: any('Done (' in line for _, line in lines) and any('EPIC_READY ' in line for _, line in lines), 180)
+    if phase == 'memory-offline-second':
+        server_action('memory-check offline-recorded')
     cursor = len(observed)
     clients = start([str(args.node), '--max-old-space-size=192', str(client_script), str(run)], 'clients')
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
-    if phase.startswith('stack-'):
+    if phase.startswith('memory-'):
+        memory_scenario(phase)
+    elif phase.startswith('stack-'):
         server_action('stack-check')
         server_action('stack-economy ' + ('first' if phase == 'stack-first' else 'restore'))
         stack_phase = 'first' if phase == 'stack-first' else 'restore'
@@ -288,6 +375,7 @@ def scenario(phase):
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:
         raise RuntimeError('Acceptance processes must exit normally')
+    if manifest.get('memory_acceptance'): memory_checkpoint()
     print('SCENARIO_COMPLETE ' + phase, flush=True)
 outcome = dict(boot=args.boot, scenario=args.scenario, contributions=args.contributions, status='INCOMPLETE')
 outcome['source_sha256'] = {
