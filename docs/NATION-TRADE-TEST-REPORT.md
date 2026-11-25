@@ -64,6 +64,8 @@ STARCHRONICLE_NATION_TRADE_RUN=run/NEW python3 -m unittest discover -s tools -p 
 
 空服新目录准备时加 `--offline`，依次执行 `sale-offline-first`、停服后的 `prepare-nation-trade-resume.py --run run/NEW`、`sale-offline-second`。最后执行 `inspect-nation-trade-offline-paper.py run/NEW`；回归环境变量为 `STARCHRONICLE_NATION_TRADE_OFFLINE_RUN`。史诗双路线沿用production／battlefield准备器和各三轮命令；必须登记新构件指纹，不覆盖旧失败目录。
 
+[证据ZIP](verification/nation-trade-paper-20261125-evidence.zip)：23,894,107字节、5,344个有哈希成员，SHA-256 `98ca2e7367da9ce527f3b002752f4bd70f23ab2453318884c095530dd2905724`；全部成员校验通过，15个配置密钥字段脱敏。[机器清单](verification/nation-trade-paper-20261125-summary.json)记录源码、双JAR、四成功目录／一失败目录和所有XML。工具／报告源码归档提交为 `a41c533e`，原生为 `60621979`。
+
 证据包和机器清单由 `archive-nation-trade-evidence.py` 验证四个成功目录、失败目录、两库源码、实际构建日志与全部保留XML后生成。新设备按本报告分支续接，重建产生的新JAR必须重新验收。
 
 上一任务恢复PR #13最终源码 `97edd98` 的push CI 45677086351与PR CI 45677100191均成功：947项及1,405项交付校验；其CI JAR `b6544de44d4cf4aef3581d5e7b1d37d7198ce17c21c3e0e66550470ae89e2078`、交付ZIP `fbed06962bd42238cb75abbe63eab62619c5584bafced5c38c58986b38bc6e32`与旧实服冻结构件分开记录。本轮没有修改旧分支制造CI循环。
