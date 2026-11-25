@@ -28,6 +28,16 @@ class StarCoreNationProductionSourceTest {
     public record FactoryRun(UUID runId,UUID actorId,UUID nationId,UUID resourceDomain,String recipeId,long batches,
                              Map<String,Long> inputs,Map<String,Long> outputs,Instant startedAt,Instant readyAt,Factory factory){}
     public record FactoryReceipt(UUID authorityDomain,long sequence,FactoryRun run,Instant committedAt){}
+    public enum FactoryOrigin { BUILT, LEGACY_REGISTERED, UNRECOGNIZED }
+    public record RegisteredFactory(UUID authorityDomain,UUID factoryId,long version,FactoryType type,int level,int minimumLevel,Object origin){}
+    public record RegisteredRun(UUID runId,UUID actorId,UUID nationId,UUID resourceDomain,String recipeId,long batches,
+            Map<String,Long> inputs,Map<String,Long> outputs,Instant startedAt,Instant readyAt,RegisteredFactory factory){}
+    public record RegisteredReceipt(UUID authorityDomain,long sequence,RegisteredRun run,Instant committedAt){}
+    RegisteredReceipt registeredReceipt(Object origin){
+        var r=receipt(1);var v=r.run();
+        return new RegisteredReceipt(domain,1,new RegisteredRun(v.runId(),actor,nation,resourceDomain,v.recipeId(),v.batches(),v.inputs(),v.outputs(),v.startedAt(),v.readyAt(),
+                new RegisteredFactory(UUID.randomUUID(),UUID.randomUUID(),2,FactoryType.SMELTER,5,3,origin)),r.committedAt());
+    }
     FactoryReceipt factoryReceipt(){
         var r=receipt(1);var v=r.run();
         return new FactoryReceipt(domain,1,new FactoryRun(v.runId(),actor,nation,resourceDomain,v.recipeId(),v.batches(),v.inputs(),v.outputs(),v.startedAt(),v.readyAt(),
@@ -94,6 +104,49 @@ class StarCoreNationProductionSourceTest {
         var impossible=new FactoryReceipt(domain,1,new FactoryRun(v.runId(),actor,nation,resourceDomain,v.recipeId(),v.batches(),v.inputs(),v.outputs(),v.startedAt(),v.readyAt(),
                 new Factory(f.authorityDomain(),f.factoryId(),1,FactoryType.SMELTER,2,1)),r.committedAt());
         assertThrows(IllegalArgumentException.class,()->StarCoreNationProductionSource.convert(domain,impossible));
+    }
+
+    @Test void registeredFactoryOriginSurvivesRestartAndRewardsOnlyCompletedProduction()throws Exception{
+        var receipt=registeredReceipt(FactoryOrigin.LEGACY_REGISTERED);
+        var entry=StarCoreNationProductionSource.convert(domain,receipt);
+        var proof=NationProductionEvidence.fromEvent(entry.event());
+        assertEquals("LEGACY_REGISTERED",proof.factory().origin());
+        assertEquals(2,proof.factory().version());assertEquals(5,proof.factory().level());
+        Path path=directory.resolve("registered.db");
+        try(var store=new SqliteStore(path)){
+            var journal=new CommittedHistoryJournal(store);journal.accept(StarCoreNationProductionSource.SOURCE,domain,0,List.of(entry));
+            assertTrue(engine(store).contributions(null,null,0,100).isEmpty());
+        }
+        try(var store=new SqliteStore(path)){
+            var journal=new CommittedHistoryJournal(store);var engine=engine(store);consume(journal,engine);
+            assertEquals(entry.event(),engine.history(null,null,0,100).getFirst());
+            var contributions=engine.contributions(null,ContributionType.CIVILIZATION,0,100);
+            assertEquals(2,contributions.size());
+            for(var c:contributions){assertEquals(actor,c.request().actorId());assertEquals(0,new BigDecimal("4").compareTo(c.request().amount()));}
+            assertTrue(engine.commitNationalProduction(entry.event(),List.of()).duplicate());
+            assertEquals(2,engine.contributions(null,null,0,100).size());
+        }
+    }
+
+    @Test void missingUnknownOrWrongTypeRegistrationOriginsCannotRelaxBuiltFactoryValidation()throws Exception{
+        for(Object origin:List.of(FactoryOrigin.BUILT,FactoryOrigin.UNRECOGNIZED,"LEGACY_REGISTERED"))
+            assertThrows(IllegalArgumentException.class,()->StarCoreNationProductionSource.convert(domain,registeredReceipt(origin)));
+        assertThrows(IllegalArgumentException.class,()->StarCoreNationProductionSource.convert(domain,registeredReceipt(null)));
+        var good=StarCoreNationProductionSource.convert(domain,registeredReceipt(FactoryOrigin.LEGACY_REGISTERED)).event();
+        var facts=new TreeMap<>(good.facts());facts.remove("production.factory.origin");
+        var stripped=new WorldEvent(good.id(),good.type(),good.occurredAt(),good.participants(),good.nations(),facts,good.source(),good.evidence());
+        assertThrows(IllegalArgumentException.class,()->NationProductionEvidence.fromEvent(stripped));
+    }
+
+    @Test void explicitBuiltOriginKeepsOldEventBytesAndUnexpectedOriginFactsFail()throws Exception{
+        var old=factoryReceipt();var v=old.run();var f=v.factory();
+        var newer=new RegisteredReceipt(domain,1,new RegisteredRun(v.runId(),actor,nation,resourceDomain,v.recipeId(),v.batches(),v.inputs(),v.outputs(),v.startedAt(),v.readyAt(),
+                new RegisteredFactory(f.authorityDomain(),f.factoryId(),f.version(),f.type(),f.level(),f.minimumLevel(),FactoryOrigin.BUILT)),old.committedAt());
+        var expected=StarCoreNationProductionSource.convert(domain,old).event();
+        assertEquals(expected,StarCoreNationProductionSource.convert(domain,newer).event());
+        var facts=new TreeMap<>(expected.facts());facts.put("production.factory.origin","BUILT");
+        var extra=new WorldEvent(expected.id(),expected.type(),expected.occurredAt(),expected.participants(),expected.nations(),facts,expected.source(),expected.evidence());
+        assertThrows(IllegalArgumentException.class,()->NationProductionEvidence.fromEvent(extra));
     }
 
     @Test void emptyServerCompletionAndRestartReplayKeepTwoViewsOfOneRealOutput()throws Exception{

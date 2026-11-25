@@ -1,16 +1,14 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-26T07:11:37+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T07:56:44+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
-本机本轮Chronicle未重新构建；下方核验沿用工厂冻结JAR及其988项完整构建报告。新原生JAR、红绿实服和配套范围见[国库报告](TREASURY-WRITER-TEST-REPORT.md)。
-
 ## 构建结果
 
-- 执行命令：`./mvnw -o -B -ntp clean verify`（Java 21）。
+- 执行命令：`mvn -o clean verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
-- 单元／集成回归：988 项，失败 0，错误 0，跳过 0。
+- 单元／集成回归：991 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
 - 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。
 - 同时生成全部 Java 源码 JAR。
@@ -78,7 +76,7 @@
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest` | 21 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySourceTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProviderTest` | 6 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.integration.StarCoreNationProductionSourceTest` | 26 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreNationProductionSourceTest` | 29 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSourceTest` | 15 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest` | 19 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest` | 25 | 0 | 0 | 0 |
@@ -128,13 +126,13 @@
 | `io/github/addxiaoyi/starchronicle/api/aid` | 34/34 (100.0%) | 35/62 (56.5%) |
 | `io/github/addxiaoyi/starchronicle/api/quest` | 37/37 (100.0%) | 13/18 (72.2%) |
 | `io/github/addxiaoyi/starchronicle/paper` | 423/1333 (31.7%) | 477/1599 (29.8%) |
-| `io/github/addxiaoyi/starchronicle/integration` | 955/1412 (67.6%) | 978/1722 (56.8%) |
+| `io/github/addxiaoyi/starchronicle/integration` | 961/1418 (67.8%) | 980/1724 (56.8%) |
 | `io/github/addxiaoyi/starchronicle/persistence` | 59/59 (100.0%) | 15/18 (83.3%) |
 | `io/github/addxiaoyi/starchronicle/narrative` | 88/88 (100.0%) | 113/150 (75.3%) |
 | `io/github/addxiaoyi/starchronicle/api` | 27/67 (40.3%) | 25/42 (59.5%) |
 | `io/github/addxiaoyi/starchronicle/memory` | 136/136 (100.0%) | 136/188 (72.3%) |
 | `io/github/addxiaoyi/starchronicle/api/contribution` | 31/35 (88.6%) | 14/28 (50.0%) |
-| `io/github/addxiaoyi/starchronicle/history` | 373/382 (97.6%) | 333/441 (75.5%) |
+| `io/github/addxiaoyi/starchronicle/history` | 378/387 (97.7%) | 341/451 (75.6%) |
 | `io/github/addxiaoyi/starchronicle/config` | 264/272 (97.1%) | 358/444 (80.6%) |
 | `io/github/addxiaoyi/starchronicle/npc` | 228/231 (98.7%) | 213/288 (74.0%) |
 | `io/github/addxiaoyi/starchronicle/core` | 2343/2496 (93.9%) | 2274/3138 (72.5%) |
@@ -144,8 +142,8 @@
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18109174 | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 362432 | `16142aef7378e07c31cc5da0f5516f54cc389b7034c7a828c783537d23105999` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18109627 | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 362644 | `1a1482d87229cec251bf8ac7050b562ff14631f940fe3148e6adcbc56ff11fd6` |
 
 ## 真实服务器证据与构建对应
 
@@ -170,18 +168,27 @@
 | [Configured first visits: paper-4ede86a8](verification/exploration-paper-4ede86a8-report.md) | `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca` | 否，不能覆盖当前构建 | PASS；6/6 |
 | [Configured first visits: paper-8fdcf8d3](verification/exploration-paper-8fdcf8d3-report.md) | `8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051` | 否，不能覆盖当前构建 | PASS；6/6 |
 | [Native quest evidence: paper-4ede86a8-retry27](verification/quest-evidence-paper-4ede86a8-retry27-report.md) | `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca` | 否，不能覆盖当前构建 | PASS；24/24；未执行／未支持：native_full_folia_multiplayer_acceptance, full_upstream_starcore_regression, production_deployment_or_external_rewards |
-| [国家工厂及同构件回归：factory](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_NATION_FACTORIES_ACCEPTED；3次启动 |
-| [国家工厂及同构件回归：production](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；3次启动 |
-| [国家工厂及同构件回归：offline](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；2次启动 |
-| [国家工厂及同构件回归：trade](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED；3次启动 |
-| [国家工厂及同构件回归：dungeon](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_STACK_EPIC_ACCEPTED；见报告次启动 |
-| [国家工厂及同构件回归：war](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | NATIVE_STRONGHOLD_VICTORY_ACCEPTED；见报告次启动 |
-| [国库写锁及同构件回归：treasury](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | TREASURY_SQLITE_WRITER_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
-| [国库写锁及同构件回归：trade](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
-| [国库写锁及同构件回归：dungeon](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_STACK_EPIC_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
-| [国库写锁及同构件回归：war](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | NATIVE_STRONGHOLD_VICTORY_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
+| [国家工厂及同构件回归：factory](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | SELECTED_PAPER_NATION_FACTORIES_ACCEPTED；3次启动 |
+| [国家工厂及同构件回归：production](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；3次启动 |
+| [国家工厂及同构件回归：offline](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；2次启动 |
+| [国家工厂及同构件回归：trade](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED；3次启动 |
+| [国家工厂及同构件回归：dungeon](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | SELECTED_PAPER_STACK_EPIC_ACCEPTED；见报告次启动 |
+| [国家工厂及同构件回归：war](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | NATIVE_STRONGHOLD_VICTORY_ACCEPTED；见报告次启动 |
+| [国库写锁及同构件回归：treasury](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | TREASURY_SQLITE_WRITER_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
+| [国库写锁及同构件回归：trade](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
+| [国库写锁及同构件回归：dungeon](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | SELECTED_PAPER_STACK_EPIC_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
+| [国库写锁及同构件回归：war](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | NATIVE_STRONGHOLD_VICTORY_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
+| [旧工厂登记及同构件回归：legacy](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_LEGACY_FACTORY_REGISTRATION_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：factory](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_NATION_FACTORIES_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：production](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：offline](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：trade](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：dungeon](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_STACK_EPIC_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：war](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | NATIVE_STRONGHOLD_VICTORY_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
 
-## 原生任务候选的独立边界
+## 早期原生任务候选的历史边界
+
+以下为早期任务候选的独立历史记录，不覆盖后续产品构件；当前原生完整构建、真实MySQL及配套实服结果见[旧工厂登记报告](LEGACY-FACTORY-TEST-REPORT.md)。
 
 StarCore 候选 JAR SHA-256：`c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a`。
 聚焦测试：44 项，失败 0，错误 0，跳过 0；该次证据为六份实际 Surefire XML，未保留统一原始控制台日志。
@@ -193,4 +200,4 @@ StarCore 完整回归：7968 项，失败 11，错误 123，跳过 21，`BUILD F
 - 数据库与规则测试使用真实 SQLite JDBC，并包含多线程调用、重启重开、事件重放、稳定效果收据和错误回滚。
 - Bukkit/Paper API 的编译或 Mockito 调度测试不能替代实际 Paper/Folia 服务器多人联机验收。
 - 上游 StarCore 的 Folia 调度限制、未提供的提交后事件、国家权限和第三方 NPC 具体构建版本，以 `UPSTREAM-AUDIT.md`、`NPC-INTEGRATIONS.md` 与 `REQUIREMENTS.md` 的证据和边界为准。
-- 本报告不声称已运行真实国家战争、NPC 客户端数据包或外部奖励到账的端到端验收。
+- 构建通过本身不证明真实战争、NPC交互或外部奖励到账；实服结论仅适用于上表标明的精确双构件与各独立报告实际执行的范围。

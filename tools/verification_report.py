@@ -142,18 +142,24 @@ for summary in sorted((root/"docs/verification").glob("treasury-writer-*-summary
     for run in data.get("runs",[]):
         tested=run["chronicle_sha256"]
         lines.append(f"| [国库写锁及同构件回归：{run['kind']}](TREASURY-WRITER-TEST-REPORT.md) | `{tested}` | {'是' if tested==current_hash else '否，不能覆盖当前构建'} | {run['status']}；配套原生 `{run['starcore_sha256']}` |")
+for summary in sorted((root/"docs/verification").glob("legacy-factory-*-summary.json")):
+    data=json.loads(summary.read_text(encoding="utf-8"))
+    for run in data.get("runs",[]):
+        tested=run["chronicle_sha256"]
+        lines.append(f"| [旧工厂登记及同构件回归：{run['kind']}](LEGACY-FACTORY-TEST-REPORT.md) | `{tested}` | {'是' if tested==current_hash else '否，不能覆盖当前构建'} | {run['status']}；配套原生 `{run['starcore_sha256']}` |")
 handoff=root/"patches/quest-evidence/static-handoff-report.json"
 if handoff.is_file():
     upstream=json.loads(handoff.read_text(encoding="utf-8-sig"))
     focused=upstream.get("currentFocusedQuestEvidenceRun",{})
     full=upstream.get("latestFullUpstreamRun",{})
     candidate=upstream.get("currentNativePackage",{})
-    lines += ["", "## 原生任务候选的独立边界", "",
+    lines += ["", "## 早期原生任务候选的历史边界", "",
+              "以下为早期任务候选的独立历史记录，不覆盖后续产品构件；当前原生完整构建、真实MySQL及配套实服结果见[旧工厂登记报告](LEGACY-FACTORY-TEST-REPORT.md)。", "",
               f"StarCore 候选 JAR SHA-256：`{candidate.get('sha256','未记录')}`。",
               f"聚焦测试：{focused.get('tests','未记录')} 项，失败 {focused.get('failures','未记录')}，错误 {focused.get('errors','未记录')}，跳过 {focused.get('skipped','未记录')}；该次证据为六份实际 Surefire XML，未保留统一原始控制台日志。",
               f"StarCore 完整回归：{full.get('tests','未记录')} 项，失败 {full.get('failures','未记录')}，错误 {full.get('errors','未记录')}，跳过 {full.get('skipped','未记录')}，`BUILD {full.get('build','未记录')}`。不能用聚焦测试或 Paper 功能验收覆盖该失败。",
               "候选补丁尚未上游合并或生产部署。各次失败、不完整 attempt、UNKNOWN 对账与 Folia 限制见 [任务证据审查](QUEST-GATE-REVIEW.md) 和 [原生静态交接](../patches/quest-evidence/static-handoff-report.json)。"]
-lines += ["", "## 验证边界", "", "- 数据库与规则测试使用真实 SQLite JDBC，并包含多线程调用、重启重开、事件重放、稳定效果收据和错误回滚。", "- Bukkit/Paper API 的编译或 Mockito 调度测试不能替代实际 Paper/Folia 服务器多人联机验收。", "- 上游 StarCore 的 Folia 调度限制、未提供的提交后事件、国家权限和第三方 NPC 具体构建版本，以 `UPSTREAM-AUDIT.md`、`NPC-INTEGRATIONS.md` 与 `REQUIREMENTS.md` 的证据和边界为准。", "- 本报告不声称已运行真实国家战争、NPC 客户端数据包或外部奖励到账的端到端验收。", ""]
+lines += ["", "## 验证边界", "", "- 数据库与规则测试使用真实 SQLite JDBC，并包含多线程调用、重启重开、事件重放、稳定效果收据和错误回滚。", "- Bukkit/Paper API 的编译或 Mockito 调度测试不能替代实际 Paper/Folia 服务器多人联机验收。", "- 上游 StarCore 的 Folia 调度限制、未提供的提交后事件、国家权限和第三方 NPC 具体构建版本，以 `UPSTREAM-AUDIT.md`、`NPC-INTEGRATIONS.md` 与 `REQUIREMENTS.md` 的证据和边界为准。", "- 构建通过本身不证明真实战争、NPC交互或外部奖励到账；实服结论仅适用于上表标明的精确双构件与各独立报告实际执行的范围。", ""]
 destination = root / "docs/TEST-REPORT.md"
 destination.parent.mkdir(parents=True, exist_ok=True)
 destination.write_text("\n".join(lines), encoding="utf-8")

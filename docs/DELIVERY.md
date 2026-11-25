@@ -1,6 +1,8 @@
 # 第一阶段交付与复验
 
-当前国库写锁修复交付见[验收报告](TREASURY-WRITER-TEST-REPORT.md)和[十阶段交接](HANDOFF-2026-11-25.md)。`target/treasury-writer-20261125/`保留本轮精确双JAR、两库源码tar、含旧JAR负例的证据与解压复验日志；Chronicle产品沿用已冻结工厂构件，新StarCore已单独全量构建及12次正常Paper验收。
+当前旧工厂登记配套交付见[验收报告](LEGACY-FACTORY-TEST-REPORT.md)与[十阶段交接](HANDOFF-2026-11-25.md)。使用配套双JAR；旧Chronicle不能接收登记来源，新登记不代表旧款已付或旧加工已结算。冻结构件与完整构建报告位于`target/legacy-factory-frozen/`，七场景21次正常启动已完成，最终归档／解压复验清单见本轮报告。
+
+上一检查点：当前国库写锁修复交付见[验收报告](TREASURY-WRITER-TEST-REPORT.md)和[十阶段交接](HANDOFF-2026-11-25.md)。`target/treasury-writer-20261125/`保留本轮精确双JAR、两库源码tar、含旧JAR负例的证据与解压复验日志；Chronicle产品沿用已冻结工厂构件，新StarCore已单独全量构建及12次正常Paper验收。
 
 上一国家工厂配套交付见[NATION-FACTORIES-TEST-REPORT.md](NATION-FACTORIES-TEST-REPORT.md)和[十阶段交接](HANDOFF-2026-11-25.md)。本机`target/nation-factories-20261125-final-3/`保留精确双JAR、两库源码tar及独立证据；公开仓库提供可解压复验的证据ZIP与机器清单。使用配套双插件；旧StarCore不支持工厂绑定format2，回退须恢复相匹配的完整备份。工厂记录不放置世界建筑；旧厂字段原样保留，未自动迁移或退款。
 

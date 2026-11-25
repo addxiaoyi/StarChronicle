@@ -50,8 +50,15 @@ public final class StarCoreNationProductionSource {
         try{run.getClass().getMethod("factory");}catch(NoSuchMethodException legacy){return null;}
         Object value=call(run,"factory");if(value==null)return null;
         Object type=call(value,"type");if(!(type instanceof Enum<?> kind))throw new IllegalArgumentException("Expected factory enum");
+        String origin="BUILT";
+        try{
+            value.getClass().getMethod("origin");
+            Object raw=call(value,"origin");
+            if(!(raw instanceof Enum<?> source))throw new IllegalArgumentException("Expected factory origin enum");
+            origin=source.name();
+        }catch(NoSuchMethodException legacy){ /* Old native paid factories retain their exact projection. */ }
         return new NationProductionEvidence.FactoryAdmission(uuid(call(value,"authorityDomain")),uuid(call(value,"factoryId")),
-                number(call(value,"version")),kind.name(),integer(call(value,"level")),integer(call(value,"minimumLevel")));
+                number(call(value,"version")),kind.name(),integer(call(value,"level")),integer(call(value,"minimumLevel")),origin);
     }
     private static int integer(Object value){if(!(value instanceof Integer n))throw new IllegalArgumentException("Expected factory integer");return n;}
     private static Optional<UUID> domain(Object service)throws ReflectiveOperationException{

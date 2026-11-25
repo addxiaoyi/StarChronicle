@@ -86,6 +86,7 @@ def event(receipt):
         facts.update({f'production.{side}.{key}':str(value) for key,value in run[side+'s'].items()})
     if 'factory' in run:
         f=run['factory'];facts.update({'production.factory.'+key:str(f[value]) for key,value in [('authority_domain','authorityDomain'),('id','factoryId'),('version','version'),('type','type'),('level','level'),('minimum_level','minimumLevel')]})
+        if 'origin' in f:facts['production.factory.origin']=f['origin']
     evidence=f'Native national production; authority={d}; sequence={n}; run={run["runId"]}; resource_domain={run["resourceDomain"]}; input consumption and paid run share one SQL commit; exact outputs and unique completion share one SQL commit; original initiator is frozen; no player inventory, external wallet, legacy factory attribution or extra rewards'
     return dict(id=f'starcore:nation-production:{d}:{n}',type='NATIONAL_PRODUCTION_COMMITTED',occurredAt=receipt['committedAt'],participants=[run['actorId']],nations=[run['nationId']],facts=facts,source=ISSUER,evidence=evidence)
 
