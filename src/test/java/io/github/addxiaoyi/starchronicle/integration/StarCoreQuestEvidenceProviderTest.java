@@ -52,6 +52,10 @@ class StarCoreQuestEvidenceProviderTest {
         public int protocolVersion(){return 1;}public boolean available(){return true;}public Object lookup(String binding){return null;}
         public CompletionStage<Admission> beginTracked(UUID player,String quest,String binding,String nation,boolean same){return CompletableFuture.completedFuture(new Admission("REJECTED",null,"no durable authority"));}
     }
+    public static class DurableNative extends NativeService {
+        Runnable capabilityCheck=()->{};boolean durable=true;
+        public boolean durableTerminalStates(){capabilityCheck.run();return durable;}
+    }
     private StarCoreQuestEvidenceProvider adapter(NativeService service){return new StarCoreQuestEvidenceProvider(()->service,false,clock);}
     private QuestObservation lookup(NativeService service){return adapter(service).lookup(PLAYER_REQUEST).toCompletableFuture().join();}
     private Snapshot active(){return new Snapshot();}
@@ -146,5 +150,20 @@ class StarCoreQuestEvidenceProviderTest {
     }
     @Test void lookupFailuresAndInvalidRequestsDoNotAttemptAdmission(){
         NativeService nativeService=new NativeService();nativeService.failLookup=true;assertEquals(QuestObservation.Status.UNKNOWN,lookup(nativeService).status());assertEquals(0,nativeService.beginCalls);AtomicInteger calls=new AtomicInteger();var provider=new StarCoreQuestEvidenceProvider(()->{calls.incrementAndGet();return nativeService;},false,clock);assertEquals(QuestObservation.Status.UNKNOWN,provider.ensureStarted(null).toCompletableFuture().join().status());assertEquals(0,calls.get());
+    }
+    @Test void retryLookupRequiresTheNativeDurableTerminalCapability(){
+        NativeService old=new NativeService();Snapshot failed=active();failed.status="FAILED";old.canonical=failed;
+        assertEquals(QuestObservation.Status.FAILED,adapter(old).lookup(PLAYER_REQUEST).toCompletableFuture().join().status());
+        assertEquals(QuestObservation.Status.UNSUPPORTED,adapter(old).lookupForRetry(PLAYER_REQUEST).toCompletableFuture().join().status());assertEquals(1,old.lookupCalls);
+        DurableNative capable=new DurableNative();capable.canonical=failed;var result=adapter(capable).lookupForRetry(PLAYER_REQUEST).toCompletableFuture().join();
+        assertEquals(QuestObservation.Status.FAILED,result.status());assertNotNull(result.acceptedRun());assertEquals(1,capable.lookupCalls);assertEquals(0,capable.beginCalls);
+        capable.durable=false;assertEquals(QuestObservation.Status.UNSUPPORTED,adapter(capable).lookupForRetry(PLAYER_REQUEST).toCompletableFuture().join().status());assertEquals(1,capable.lookupCalls);
+    }
+    @Test void durableCapabilityAndLookupMustBelongToTheSameNativeService(){
+        DurableNative first=new DurableNative();NativeService replacement=new NativeService();Snapshot failed=active();failed.status="FAILED";first.canonical=failed;replacement.canonical=failed;
+        AtomicReference<Object> current=new AtomicReference<>(first);first.capabilityCheck=()->current.set(replacement);
+        var provider=new StarCoreQuestEvidenceProvider(current::get,false,clock);
+        assertEquals(QuestObservation.Status.UNKNOWN,provider.lookupForRetry(PLAYER_REQUEST).toCompletableFuture().join().status());assertEquals(0,replacement.lookupCalls);
+        assertEquals(QuestObservation.Status.UNSUPPORTED,provider.lookupForRetry(PLAYER_REQUEST).toCompletableFuture().join().status());assertEquals(0,replacement.beginCalls);
     }
 }

@@ -82,6 +82,32 @@ public final class QuestGateDriver implements AutoCloseable {
         });
     }
 
+    /** Explicit owner recovery shares the poll flight bound. Native reads occur outside SQL;
+     * retry only creates a durable new intent after a provider's dedicated terminal lookup. */
+    public CompletionStage<QuestGateLedger.Gate> recover(String gateId,UUID actorId,int expectedRound,boolean newRound) {
+        Objects.requireNonNull(gateId);Objects.requireNonNull(actorId);
+        synchronized(flights){
+            if(closed)return CompletableFuture.failedFuture(new IllegalStateException("任务服务正在停止"));
+            if(flights.size()>=maxFlights||!flights.add(gateId))return CompletableFuture.failedFuture(new IllegalStateException("任务正在核对，请稍后刷新"));
+        }
+        CompletionStage<QuestGateLedger.Gate> result=fresh(actorId)
+            .thenCompose(actor->state.submit(()->engine.questGateForRecovery(gateId,expectedRound,actor)))
+            .thenCompose(gate->{
+                if(gate.completed()) {
+                    if(newRound)return CompletableFuture.failedFuture(new IllegalStateException("已完成的任务不能开启新一轮"));
+                    return CompletableFuture.completedFuture(gate);
+                }
+                Lease lease=providers.stream().filter(p->p.id.equals(gate.providerId())).findFirst()
+                    .orElseThrow(()->new IllegalStateException("原任务提供者未就绪，保持原轮次等待"));
+                return call(lease,gate.request(),false,newRound)
+                    .exceptionally(error->new QuestObservation(QuestObservation.Status.UNKNOWN,null,null,now(),bounded(message(error))))
+                    .thenCompose(observation->fresh(actorId).thenCompose(actor->state.submit(()->{
+                        requireLease(lease);return engine.applyQuestRecovery(gate,observation,newRound,actor);
+                    })));
+            });
+        return result.whenComplete((ignored,error)->flights.remove(gateId));
+    }
+
     private CompletionStage<Void> start(QuestGateLedger.Gate gate,Set<UUID> online) {
         if(gate.mode()==QuestRequest.Mode.NATION&&gate.expectedNationId().isBlank())
             return update(()->engine.questUnavailable(gate.id(),"原成员没有可证明的国家，国家任务保持等待且不接取"));
@@ -94,17 +120,17 @@ public final class QuestGateDriver implements AutoCloseable {
             })):CompletableFuture.completedFuture(gate);
         return pinned.thenCompose(current->call(lease,current.request(),false).thenCompose(observation->
             state.submit(()->{
-                requireLease(lease);return engine.observeQuestGate(current.id(),lease.id,observation);
+                requireLease(lease);return engine.observeQuestGate(current.id(),lease.id,current.round(),observation);
             }).thenCompose(mutation->{
                 var latest=mutation.gate();
                 // Only canonical absence permits an idempotent admission. A previously accepted
                 // run, an uncertain result, readiness or completed-ever never does so.
-                if(!latest.active()||latest.completed()||latest.acceptedRun()!=null||observation.status()!=QuestObservation.Status.NOT_STARTED||!online.contains(latest.playerId()))
+                if(latest.round()!=current.round()||!latest.active()||latest.completed()||latest.acceptedRun()!=null||observation.status()!=QuestObservation.Status.NOT_STARTED||!online.contains(latest.playerId()))
                     return CompletableFuture.completedFuture(null);
                 return fresh(latest.playerId()).thenCompose(actor->state.submit(()->{
                     requireLease(lease);return engine.prepareQuestGate(latest.id(),lease.id,actor);
                 })).thenCompose(ready->call(lease,ready.request(),true)).thenCompose(result->update(()->{
-                    requireLease(lease);return engine.observeQuestGate(latest.id(),lease.id,result);
+                    requireLease(lease);return engine.observeQuestGate(latest.id(),lease.id,latest.round(),result);
                 }));
             }))
         ).exceptionallyCompose(error->{
@@ -118,7 +144,7 @@ public final class QuestGateDriver implements AutoCloseable {
                     var pinnedNow=engine.questGate(gate.id());
                     if(pinnedNow==null||pinnedNow.providerId()==null)return engine.questUnavailable(gate.id(),bounded(message(error)));
                 }
-                return engine.observeQuestGate(gate.id(),lease.id,status);
+                return engine.observeQuestGate(gate.id(),lease.id,gate.round(),status);
             });
         });
     }
@@ -135,12 +161,16 @@ public final class QuestGateDriver implements AutoCloseable {
         return result.orTimeout(timeoutMillis,TimeUnit.MILLISECONDS);
     }
     private CompletionStage<QuestObservation> call(Lease lease,QuestRequest request,boolean admit) {
+        return call(lease,request,admit,false);
+    }
+    private CompletionStage<QuestObservation> call(Lease lease,QuestRequest request,boolean admit,boolean forRetry) {
         CompletableFuture<QuestObservation> result=new CompletableFuture<>();
         try {calls.execute(()->{
             if(result.isDone())return;
             try {
                 requireLease(lease);
-                CompletionStage<QuestObservation> response=admit?lease.provider.ensureStarted(request):lease.provider.lookup(request);
+                CompletionStage<QuestObservation> response=admit?lease.provider.ensureStarted(request):
+                    forRetry?lease.provider.lookupForRetry(request):lease.provider.lookup(request);
                 if(response==null)throw new IllegalStateException("Quest provider returned no future");
                 response.whenComplete((value,error)->{
                     if(error!=null)result.completeExceptionally(error);

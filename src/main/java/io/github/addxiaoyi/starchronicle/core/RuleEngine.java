@@ -852,6 +852,7 @@ public final class RuleEngine implements AutoCloseable {
         return transaction(c->{
             var gate=QuestGateLedger.find(c,gateId);StoryInstance instance=require(c,gate.instanceId());
             requireQuestMember(instance,actor);
+            MemberReviewLedger.requireEligible(c,instance,actor.playerId(),actor.nationId(),clock.instant());
             if(!gate.active()||gate.completed()||!gate.playerId().equals(actor.playerId()))throw new SecurityException("任务闸门不属于当前活动成员");
             var effect=instance.definition().nodes().get(instance.node()).effects().stream().filter(e->e.id().equals(gate.effectId())&&e.type().equals("quest.await")).findFirst().orElseThrow();
             if(!actor.permitted(effect.permission())||!test(instance.definition().condition(),facts(c,actor,event(c,instance.sourceEventId()),instance)))throw new SecurityException("不满足原生任务接取权限或剧情条件");
@@ -859,6 +860,41 @@ public final class RuleEngine implements AutoCloseable {
         });
     }
     public QuestGateLedger.Gate questGate(String gateId){return transaction(c->QuestGateLedger.find(c,gateId));}
+
+    /** Authorize the owner before an explicit read-only native lookup, without pinning a provider. */
+    public QuestGateLedger.Gate questGateForRecovery(String gateId,int expectedRound,PlayerContext actor) {
+        return transaction(c->requireQuestRecovery(c,gateId,expectedRound,actor));
+    }
+    private QuestGateLedger.Gate requireQuestRecovery(Connection c,String gateId,int expectedRound,PlayerContext actor)throws Exception {
+        Objects.requireNonNull(actor);var gate=QuestGateLedger.find(c,gateId);var instance=require(c,gate.instanceId());
+        requireQuestMember(instance,actor);
+        MemberReviewLedger.requireEligible(c,instance,actor.playerId(),actor.nationId(),clock.instant());
+        if(!gate.active()||!gate.playerId().equals(actor.playerId()))throw new SecurityException("仅本人可以核对当前阶段的任务");
+        if(expectedRound<0||gate.round()!=expectedRound)throw new IllegalStateException("任务轮次已变化，请刷新状态");
+        var effect=instance.definition().nodes().get(instance.node()).effects().stream().filter(e->e.id().equals(gate.effectId())&&e.type().equals("quest.await")).findFirst().orElseThrow();
+        if(!actor.permitted(effect.permission())||!test(instance.definition().condition(),facts(c,actor,event(c,instance.sourceEventId()),instance)))throw new SecurityException("不满足原生任务接取权限或剧情条件");
+        if(gate.providerId()==null)throw new IllegalStateException("原生任务尚未绑定提供者，请等待接取");
+        return gate;
+    }
+    /** Fresh owner authorization and canonical completion/event or retry intent share one transaction. */
+    public QuestGateLedger.Gate applyQuestRecovery(QuestGateLedger.Gate captured,QuestObservation observation,
+                                                  boolean newRound,PlayerContext actor) {
+        Objects.requireNonNull(captured);Objects.requireNonNull(observation);
+        return transaction(c->{
+            var current=requireQuestRecovery(c,captured.id(),captured.round(),actor);
+            if(!Objects.equals(current.providerId(),captured.providerId()))throw new IllegalStateException("Quest provider changed during recovery");
+            if(current.completed()) {
+                if(newRound)throw new IllegalStateException("已完成的任务不能开启新一轮");
+                return current;
+            }
+            Instant received=Instant.ofEpochMilli(clock.millis());
+            if(newRound&&observation.observedAt().isBefore(current.lastCheckedAt()))throw new IllegalStateException("任务凭证已过期，请重新核对");
+            var mutation=recordQuestObservation(c,current.id(),captured.providerId(),observation,received);
+            if(newRound&&Set.of(QuestObservation.Status.ABANDONED,QuestObservation.Status.FAILED).contains(observation.status()))
+                return QuestGateLedger.restart(c,mutation.gate(),observation,actor.playerId(),received);
+            return mutation.gate();
+        });
+    }
 
     /** Project an already committed national task gate as an epic receipt without starting a task. */
     public EpicObservation epicQuestEvidence(EpicOperation operation,String providerId,String authorityDomain) {
@@ -904,15 +940,26 @@ public final class RuleEngine implements AutoCloseable {
      * This operation does not advance a choice or invoke native completion/rewards. */
     public QuestGateLedger.Mutation observeQuestGate(String gateId,String providerId,QuestObservation observation) {
         Objects.requireNonNull(observation);
+        return transaction(c->recordQuestObservation(c,gateId,providerId,observation,clock.instant()));
+    }
+    /** Driver callbacks carry their captured round so late replies cannot alter a replacement run. */
+    public QuestGateLedger.Mutation observeQuestGate(String gateId,String providerId,int expectedRound,QuestObservation observation) {
+        Objects.requireNonNull(observation);
         return transaction(c->{
-            var mutation=QuestGateLedger.observe(c,gateId,providerId,observation,clock.instant());
+            var current=QuestGateLedger.find(c,gateId);
+            if(current.round()!=expectedRound)return new QuestGateLedger.Mutation(false,current,false);
+            return recordQuestObservation(c,gateId,providerId,observation,clock.instant());
+        });
+    }
+    private QuestGateLedger.Mutation recordQuestObservation(Connection c,String gateId,String providerId,
+                                                           QuestObservation observation,Instant received)throws Exception {
+            var mutation=QuestGateLedger.observe(c,gateId,providerId,observation,received);
             if(mutation.completionNewlyRecorded()) {
                 var gate=mutation.gate();var receipt=Objects.requireNonNull(gate.completion());
                 WorldEvent event=questCompletionEvent(gate,receipt);
                 recordAndQueue(c,event,List.of(),runtime.enabledDefinitions(),EventCausality.derive(c,gate.sourceEventId(),gate.storyId()));
             }
             return mutation;
-        });
     }
     public static String questCompletionEventId(String issuer,String completionId){return "chronicle:quest:"+stable(issuer,completionId);}
     private static WorldEvent questCompletionEvent(QuestGateLedger.Gate gate,CommittedCompletion receipt) {

@@ -10,4 +10,10 @@ public interface QuestEvidenceProvider {
     String providerId();
     CompletionStage<QuestObservation> ensureStarted(QuestRequest request);
     CompletionStage<QuestObservation> lookup(QuestRequest request);
+    /** Read-only retry lookup. FAILED/ABANDONED results must be durably terminal and cannot
+     * later become a completion. Implementations must bind this guarantee to the exact service
+     * used for the lookup. Older providers cannot authorize a replacement run. */
+    default CompletionStage<QuestObservation> lookupForRetry(QuestRequest request){
+        return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Provider does not guarantee durable terminal quest state"));
+    }
 }

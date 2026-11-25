@@ -145,6 +145,45 @@ async function battleEnd(who){
     bot.on('messagestr',receive);bot.chat(command);
   });
 }
+async function questAbandon(who){
+  if(!manifest.quest_recovery_acceptance)throw Error('Prepared task recovery required');
+  const bot=bots.get(who);if(bot.currentWindow)await bot.closeWindow(bot.currentWindow);
+  await waitWindow(bot,title=>title.startsWith('任务进度'),()=>bot.chat('/questgui progress'));
+  await bot.waitForTicks(3);const row=uniqueSlot(bot,item=>itemLabel(item).includes('继承证据的抄录'));
+  await waitWindow(bot,title=>title.includes('任务详情')&&title.includes('继承证据的抄录'),()=>bot.clickWindow(row.slot,0,0));
+  await bot.waitForTicks(3);const button=uniqueSlot(bot,item=>item.name==='red_dye'&&itemLabel(item)==='放弃任务');
+  await waitWindow(bot,title=>title.includes('任务中心'),()=>bot.clickWindow(button.slot,0,0));
+  log('QUEST_GUI_ABANDON',{who,quest:manifest.quest_recovery_acceptance.quest,slot:button.slot,realClick:true,syntheticEvents:false});
+  await bot.closeWindow(bot.currentWindow);
+}
+async function questGate(who,action,status,rawRound){
+  if(!manifest.quest_recovery_acceptance||!['reconcile','retry'].includes(action))throw Error('Prepared task recovery action required');
+  const round=Number(rawRound),bot=bots.get(who),fixture=fs.readFileSync(path.join(run,'evidence/epic-fixture.jsonl'),'utf8').trim().split('\n').map(JSON.parse);
+  const expected=fixture.filter(r=>r.kind==='QUEST_RECOVERY_STATE'&&r.data.who===who).at(-1)?.data.gate;
+  if(!expected||expected.round!==round||expected.status!==status)throw Error('Actual task snapshot not observed');
+  if(bot.currentWindow)await bot.closeWindow(bot.currentWindow);
+  await waitWindow(bot,title=>/^共同书写历史 · \d+$/.test(title),()=>bot.chat('/chronicle stories'));
+  await bot.waitForTicks(3);const story=uniqueSlot(bot,item=>itemField(item,'实例: ')===fixture.find(r=>r.kind==='OPENED').data.instanceId);
+  await waitWindow(bot,title=>!title.startsWith('共同书写历史'),()=>bot.clickWindow(story.slot,0,0));
+  await bot.waitForTicks(3);const gates=uniqueSlot(bot,item=>itemLabel(item)==='任务门槛状态');
+  await waitWindow(bot,title=>title.startsWith('任务门槛 · '),()=>bot.clickWindow(gates.slot,0,0));
+  await bot.waitForTicks(3);const row=uniqueSlot(bot,item=>itemLabel(item)===manifest.quest_recovery_acceptance.quest&&itemLore(item).join('').includes('参与者: '+manifest.players[who]));
+  await waitWindow(bot,title=>title.startsWith('任务门槛详情 · '),()=>bot.clickWindow(row.slot,0,0));
+  await bot.waitForTicks(3);
+  const detail=name=>itemLore(uniqueSlot(bot,item=>itemLabel(item)===name+' · 1'||itemLabel(item)===name).item).join('');
+  const expectedStatus={UNKNOWN:'状态待核对',ABANDONED:'原生任务已放弃'}[status];
+  if(detail('状态')!==expectedStatus)throw Error('Actual task GUI status differs');
+  if(detail('门槛 ID')!==expected.gateId||detail('原生运行 ID')!==expected.runId||detail('任务轮次')!==String(round+1))throw Error('Actual task detail identity/round differs');
+  const before={status:detail('状态'),round:detail('任务轮次'),gate:detail('门槛 ID'),run:detail('原生运行 ID')};
+  if(status==='UNKNOWN'&&topSlots(bot).some(item=>item&&itemLabel(item)==='重新尝试任务'))throw Error('UNKNOWN GUI offers retry');
+  const label=action==='retry'?'重新尝试任务':'核对原生任务',button=uniqueSlot(bot,item=>itemLabel(item)===label);
+  await waitWindow(bot,title=>title.startsWith('任务门槛详情 · '),()=>bot.clickWindow(button.slot,0,0));
+  await bot.waitForTicks(3);const after={status:detail('状态'),round:detail('任务轮次'),gate:detail('门槛 ID'),run:detail('原生运行 ID')};
+  if(after.gate!==before.gate||after.round!==String(round+(action==='retry'?2:1)))throw Error('Task recovery GUI round differs');
+  if(action==='reconcile'&&after.run!==before.run)throw Error('Read-only reconcile changed native run');
+  log('QUEST_GUI_RECOVERY',{who,action,before,after,slot:button.slot,realClick:true,syntheticEvents:false});
+  await bot.closeWindow(bot.currentWindow);
+}
 let chain=Promise.resolve();
 async function expectCommand(who,encoded) {
   const request=JSON.parse(Buffer.from(encoded,'base64url').toString('utf8')),bot=bots.get(who);
@@ -167,6 +206,8 @@ readline.createInterface({input:process.stdin}).on('line',line=>{chain=chain.the
   if(action==='quit'){quitting=true;for(const bot of bots.values())bot.quit('Epic acceptance complete');return;}
   if(action==='craft')await craft(who);
   else if(action==='contributions')await contributions(who);
+  else if(action==='quest-abandon')await questAbandon(who);
+  else if(action==='quest-gate')await questGate(who,rest[0],rest[1],rest[2]);
   else if(action==='battle-open')await battleOpen(who);
   else if(action==='battle-try')await battleTry(who,rest[0],rest[1]);
   else if(action==='battle-end')await battleEnd(who);

@@ -64,8 +64,9 @@ def contributions(run, boots=(1, 2, 3)):
                 subjects=['player:' + manifest['players'][who] for who in 'AB'])
 
 
-def inspect(run):
-    return dict(EPIC.inspect(run), **contributions(run))
+def inspect(run, *, scenarios=('first','second','third'), quest_binding=None):
+    boots=tuple(i for i,phase in enumerate(scenarios,1) if phase!='quest-first')
+    return dict(EPIC.inspect(run,scenarios=scenarios,quest_binding=quest_binding), **contributions(run,boots))
 
 
 if __name__ == '__main__':

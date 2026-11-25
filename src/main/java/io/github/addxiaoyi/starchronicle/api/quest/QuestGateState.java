@@ -24,7 +24,7 @@ public record QuestGateState(String instanceId, String nodeId, boolean ready,
             return new GateSummary(gate.id(),gate.playerId(),gate.effectId(),gate.questId(),gate.mode(),
                     gate.expectedNationId(),gate.status(),gate.providerId(),
                     gate.acceptedRun()==null?"":gate.acceptedRun().runId(),
-                    gate.completion()==null?"":gate.completion().completionId(),gate.message());
+                    gate.completion()==null?"":gate.completion().completionId(),gate.message(),gate.round(),gate.revision());
         }).sorted(Comparator.comparing(GateSummary::effectId).thenComparing(g->g.playerId().toString())
                 .thenComparing(GateSummary::gateId)).toList();
         return new QuestGateState(instanceId,nodeId,view.ready(),view.blockedEffectIds(),summaries);
@@ -33,11 +33,17 @@ public record QuestGateState(String instanceId, String nodeId, boolean ready,
     /** IDs and human-readable status only: no native evidence, fingerprints or mutable quest objects. */
     public record GateSummary(String gateId, UUID playerId, String effectId, String questId,
                               QuestRequest.Mode mode, String nationId, QuestObservation.Status status,
-                              String providerId, String runId, String completionId, String message) {
+                              String providerId, String runId, String completionId, String message,
+                              int round,long revision) {
+        public GateSummary(String gateId,UUID playerId,String effectId,String questId,QuestRequest.Mode mode,
+                           String nationId,QuestObservation.Status status,String providerId,String runId,String completionId,String message) {
+            this(gateId,playerId,effectId,questId,mode,nationId,status,providerId,runId,completionId,message,0,1);
+        }
         public GateSummary {
             Objects.requireNonNull(gateId,"gateId");Objects.requireNonNull(playerId,"playerId");
             Objects.requireNonNull(effectId,"effectId");Objects.requireNonNull(questId,"questId");
             Objects.requireNonNull(mode,"mode");Objects.requireNonNull(status,"status");
+            if(round<0||round>1000||revision<1)throw new IllegalArgumentException("Invalid task round or revision");
             nationId=Objects.toString(nationId,"");providerId=Objects.toString(providerId,"");
             runId=Objects.toString(runId,"");completionId=Objects.toString(completionId,"");
             message=Objects.toString(message,"");

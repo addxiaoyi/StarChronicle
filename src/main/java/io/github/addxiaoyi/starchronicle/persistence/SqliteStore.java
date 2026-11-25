@@ -17,7 +17,7 @@ import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    public static final int SCHEMA_VERSION=7;
+    public static final int SCHEMA_VERSION=8;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;

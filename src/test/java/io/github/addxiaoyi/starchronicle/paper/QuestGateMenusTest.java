@@ -64,6 +64,20 @@ class QuestGateMenusTest {
         ChronicleService defaultApi=mock(ChronicleService.class,CALLS_REAL_METHODS);
         CompletionException failure=assertThrows(CompletionException.class,()->defaultApi.questGateState("instance",viewer).toCompletableFuture().join());
         assertInstanceOf(UnsupportedOperationException.class,failure.getCause());
+        assertThrows(CompletionException.class,()->defaultApi.reconcileQuestGate("gate",viewer,0).toCompletableFuture().join());
+        assertThrows(CompletionException.class,()->defaultApi.retryQuestGate("gate",viewer,0).toCompletableFuture().join());
+    }
+    @Test void recoveryMenuPassesTheDisplayedRoundAndCannotActForAnotherPlayer(){
+        var own=new QuestGateState.GateSummary("gate",viewer,"effect","quest",QuestRequest.Mode.NATION,"nation-a",QuestObservation.Status.ABANDONED,"native","run","","abandoned",3,10);
+        var result=state("start",List.of(own));when(service.retryQuestGate("gate",viewer,3)).thenReturn(CompletableFuture.completedFuture(result));
+        assertEquals(result,Menus.questGateRecovery(service,viewer,own,true).toCompletableFuture().join());verify(service).retryQuestGate("gate",viewer,3);
+        assertThrows(CompletionException.class,()->Menus.questGateRecovery(service,UUID.randomUUID(),own,true).toCompletableFuture().join());verifyNoMoreInteractions(service);
+    }
+    @Test void unknownMenuOnlyPermitsReconciliation(){
+        var own=new QuestGateState.GateSummary("gate",viewer,"effect","quest",QuestRequest.Mode.PLAYER,"nation-a",QuestObservation.Status.UNKNOWN,"native","run","","uncertain",2,11);
+        var result=state("start",List.of(own));when(service.reconcileQuestGate("gate",viewer,2)).thenReturn(CompletableFuture.completedFuture(result));
+        assertEquals(result,Menus.questGateRecovery(service,viewer,own,false).toCompletableFuture().join());
+        assertThrows(CompletionException.class,()->Menus.questGateRecovery(service,viewer,own,true).toCompletableFuture().join());verify(service).reconcileQuestGate("gate",viewer,2);verifyNoMoreInteractions(service);
     }
     @Test void currentNodePageHidesOtherPlayersPersonalGateButKeepsServerFilteredCountryGate(){
         StoryInstance instance=instance("start");UUID other=UUID.randomUUID();

@@ -66,6 +66,11 @@ public interface ChronicleService {
     /** Read-only task gate summaries for the current pinned node. The service filters private
      * and country visibility using freshly collected identity; this grants no completion or choice authority. */
     default CompletionStage<io.github.addxiaoyi.starchronicle.api.quest.QuestGateState> questGateState(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Quest gates unavailable"));}
+    /** Read canonical state for the owner's current round; never starts a task or invokes rewards. */
+    default CompletionStage<io.github.addxiaoyi.starchronicle.api.quest.QuestGateState> reconcileQuestGate(String gateId,UUID playerId,int expectedRound){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Quest recovery unavailable"));}
+    /** After a fresh durable terminal lookup, preserve the old run and open one new binding.
+     * The expected round rejects stale/repeated requests; native admission remains asynchronous. */
+    default CompletionStage<io.github.addxiaoyi.starchronicle.api.quest.QuestGateState> retryQuestGate(String gateId,UUID playerId,int expectedRound){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Quest recovery unavailable"));}
     CompletionStage<ProcessReport> join(String instanceId, UUID playerId);
     /** Only the supplied player's server-collected identity is used; no submitted nationality. */
     default CompletionStage<MemberState> memberState(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}

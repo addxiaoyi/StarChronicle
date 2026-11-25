@@ -26,6 +26,8 @@ if (chronicle != null) {
 
 `questGateState` 是只读投影，要求玩家已是该实例成员并仍保持实例记录的原国籍。个人模式只显示本人任务门槛；国家模式只向同一原国家成员显示。它不接受完成回执，不执行任务、不作出剧情选择，也不代表国家席位。配置使用 `quest.await` 前需有可信的 `QuestEvidenceProvider`，不能将 `quest.accept` 投递成功或目标达标解释为完成。完整 provider/run/completion 合同与 StarCore 部署边界见 [QUEST-GATES.md](QUEST-GATES.md)。
 
+任务恢复使用 `reconcileQuestGate(gateId,playerId,expectedRound)` 与 `retryQuestGate(gateId,playerId,expectedRound)`，返回新的 `QuestGateState`。摘要增加从0开始的 round 与持久 revision；兼容旧构造器。所有者核对只查询原生记录，重试必须由 `QuestEvidenceProvider.lookupForRetry` 确认持久 FAILED／ABANDONED；旧提供者默认拒绝。原生记录仍不确定时继续等待，不能重放奖励。schema 8 保留旧轮次证明并同事务分配新绑定，旧 gate 第0轮绑定保持不变；每个门槛最多重试1,000次。任务详情提供本人操作入口，普通刷新仍只读本地投影。
+
 对交互界面，应调用带阶段令牌的版本：
 
 ```java
@@ -52,7 +54,7 @@ chronicle.recollections(playerId, List.of(
 
 自动恢复另受下文三个自有场景的指纹、命名空间、checkpoint 和持久化操作令牌约束。仅有 `chronicle_` 名称或一个空投影不构成恢复／完成证明。未完成上游线程审计时，Folia 上的原生场景访问和执行继续关闭。
 
-当前 GUI 与玩家命令还会检查 `starchronicle.use`；管理验证、测试事件与 UNKNOWN 对账要求 `starchronicle.admin`。自定义故事权限从已加载的 choice/effect permission 收集，在玩家实体线程使用 Bukkit 权限检查后构造明确权限集合。
+当前 GUI 与玩家命令还会检查 `starchronicle.use`；管理验证、测试事件与外部效果 UNKNOWN 对账要求 `starchronicle.admin`；本人任务凭证核对使用原任务权限和有效成员核验。自定义故事权限从已加载的 choice/effect permission 收集，在玩家实体线程使用 Bukkit 权限检查后构造明确权限集合。
 
 ## 可信职业与地区事实扩展
 

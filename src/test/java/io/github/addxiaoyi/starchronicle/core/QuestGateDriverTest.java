@@ -85,14 +85,18 @@ class QuestGateDriverTest {
         volatile Function<QuestRequest,CompletionStage<QuestObservation>> onLookup=r->CompletableFuture.completedFuture(observation(r,Status.NOT_STARTED));
         volatile Function<QuestRequest,CompletionStage<QuestObservation>> onAdmission=r->CompletableFuture.completedFuture(observation(r,Status.ACTIVE));
         Provider(String id){this.id=id;}
+        boolean retryLookup;
         public String providerId(){return id;}
         private CompletionStage<QuestObservation> invoke(QuestRequest request,boolean admission) {
             try {
                 assertFalse(Thread.holdsLock(store),"Provider invocation must not own Chronicle SQL monitor");
                 // A second SQLite connection proves that the provider pin was committed,
                 // rather than merely written on Chronicle's still-open transaction.
-                try(var c=DriverManager.getConnection("jdbc:sqlite:"+directory.resolve("driver.db").toAbsolutePath());var s=c.prepareStatement("SELECT provider_id,provider_pinned_at FROM quest_gates WHERE id=?")) {
-                    s.setString(1,request.bindingId());try(var r=s.executeQuery()){assertTrue(r.next());assertEquals(id,r.getString(1));assertNotNull(r.getObject(2));}
+                try(var c=DriverManager.getConnection("jdbc:sqlite:"+directory.resolve("driver.db").toAbsolutePath());var s=c.prepareStatement("SELECT g.id,g.provider_id,g.provider_pinned_at,COALESCE(h.round,0) FROM quest_gates g LEFT JOIN quest_gate_round_heads h ON h.gate_id=g.id WHERE g.player_id=? AND g.quest_id=?")) {
+                    s.setString(1,request.playerId().toString());s.setString(2,request.questId());try(var r=s.executeQuery()){
+                        assertTrue(r.next());assertEquals(id,r.getString(2));assertNotNull(r.getObject(3));int round=r.getInt(4);
+                        assertEquals(round==0?r.getString(1):RuleEngine.stable("quest-gate-round",r.getString(1),Integer.toString(round)),request.bindingId());
+                    }
                 }
                 order.add((admission?"admit:":"lookup:")+request.bindingId());
                 if(admission){admissions.incrementAndGet();admissionRequests.add(request);return onAdmission.apply(request);}
@@ -101,6 +105,7 @@ class QuestGateDriverTest {
         }
         public CompletionStage<QuestObservation> lookup(QuestRequest request){return invoke(request,false);}
         public CompletionStage<QuestObservation> ensureStarted(QuestRequest request){return invoke(request,true);}
+        public CompletionStage<QuestObservation> lookupForRetry(QuestRequest request){return retryLookup?invoke(request,false):QuestEvidenceProvider.super.lookupForRetry(request);}
     }
     QuestRequest lookup(Provider p)throws Exception {var request=p.lookupRequests.poll(3,TimeUnit.SECONDS);assertNotNull(request,"No native lookup call");return request;}
     QuestRequest admission(Provider p)throws Exception {var request=p.admissionRequests.poll(3,TimeUnit.SECONDS);assertNotNull(request,"No native admission call");return request;}
@@ -168,5 +173,49 @@ class QuestGateDriverTest {
         start(1,Mode.NATION,"");var gate=own(a);AtomicInteger fresh=new AtomicInteger();
         driver(Duration.ofSeconds(3),2,id->{fresh.incrementAndGet();return CompletableFuture.completedFuture(context(id));},false);var p=new Provider("native-a");driver.providers(List.of(p));poll();idle();
         assertEquals(Status.UNSUPPORTED,saved(gate.id()).status());assertNull(saved(gate.id()).providerId());assertNull(saved(gate.id()).providerPinnedAt());assertEquals(0,p.lookups.get());assertEquals(0,p.admissions.get());assertEquals(0,fresh.get());assertEquals(0,history());assertFalse(engine.questGateState(instanceId,context(a)).ready());
+    }
+    @Test void explicitReconcileOnlyReadsEvenWhenCanonicalBindingIsAbsent()throws Exception {
+        start(1,Mode.PLAYER);driver();var p=new Provider("native-a");driver.providers(List.of(p));var gate=engine.prepareQuestGate(own(a).id(),p.id,context(a));
+        var result=driver.recover(gate.id(),a,0,false).toCompletableFuture().get(3,TimeUnit.SECONDS);
+        assertEquals(Status.NOT_STARTED,result.status());assertEquals(1,p.lookups.get());assertEquals(0,p.admissions.get());assertEquals(0,driver.inFlight());assertEquals(0,history());
+    }
+    @Test void explicitRetryRetiresOnlyTheDurableRunAndNormalPollStartsOneNewBinding()throws Exception {
+        start(1,Mode.PLAYER);driver();var p=new Provider("native-a");p.retryLookup=true;driver.providers(List.of(p));var old=engine.prepareQuestGate(own(a).id(),p.id,context(a));
+        p.onLookup=r->CompletableFuture.completedFuture(new QuestObservation(Status.ABANDONED,accepted(r),null,now,"durable terminal"));
+        var next=driver.recover(old.id(),a,0,true).toCompletableFuture().get(3,TimeUnit.SECONDS);
+        assertEquals(1,next.round());assertNotEquals(old.request().bindingId(),next.request().bindingId());assertEquals(0,p.admissions.get());assertEquals(0,history());
+        p.onLookup=r->CompletableFuture.completedFuture(observation(r,Status.NOT_STARTED));poll();var request=admission(p);idle();
+        assertEquals(next.bindingId(),request.bindingId());assertEquals(1,p.admissions.get());assertEquals(Status.ACTIVE,saved(old.id()).status());
+        assertThrows(ExecutionException.class,()->driver.recover(old.id(),a,0,true).toCompletableFuture().get(3,TimeUnit.SECONDS));
+        assertEquals(2,p.lookups.get());assertEquals(1,p.admissions.get());
+    }
+    @Test void aLegacyProviderCannotAuthorizeRetryFromItsOrdinaryTerminalLookup()throws Exception {
+        start(1,Mode.PLAYER);driver();var p=new Provider("native-a");driver.providers(List.of(p));var old=engine.prepareQuestGate(own(a).id(),p.id,context(a));
+        p.onLookup=r->CompletableFuture.completedFuture(new QuestObservation(Status.FAILED,accepted(r),null,now,"terminal but no durable guarantee"));
+        var retained=driver.recover(old.id(),a,0,true).toCompletableFuture().get(3,TimeUnit.SECONDS);
+        assertEquals(0,retained.round());assertEquals(Status.UNKNOWN,retained.status());assertEquals(0,p.lookups.get());assertEquals(0,p.admissions.get());
+    }
+    @Test void recoveryRechecksPermissionsAfterTheLookupCompletes()throws Exception {
+        start(1,Mode.PLAYER);AtomicBoolean allowed=new AtomicBoolean(true);
+        driver(Duration.ofSeconds(3),2,id->CompletableFuture.completedFuture(allowed.get()?context(id):new PlayerContext(id,originalNation,Map.of(),Set.of("starchronicle.use"))),false);
+        var p=new Provider("native-a");p.retryLookup=true;driver.providers(List.of(p));var gate=engine.prepareQuestGate(own(a).id(),p.id,context(a));
+        var response=new CompletableFuture<QuestObservation>();p.onLookup=r->response;
+        var recovery=driver.recover(gate.id(),a,0,true).toCompletableFuture();var request=lookup(p);allowed.set(false);
+        response.complete(new QuestObservation(Status.FAILED,accepted(request),null,now,"durable failure"));
+        assertThrows(ExecutionException.class,()->recovery.get(3,TimeUnit.SECONDS));assertEquals(gate,saved(gate.id()));assertEquals(0,p.admissions.get());
+    }
+    @Test void recoveryAndPollingShareOneFlightAndDuplicateClicksCannotAllocateTwoRounds()throws Exception {
+        start(1,Mode.PLAYER);driver();var p=new Provider("native-a");p.retryLookup=true;driver.providers(List.of(p));var gate=engine.prepareQuestGate(own(a).id(),p.id,context(a));
+        var response=new CompletableFuture<QuestObservation>();p.onLookup=r->response;
+        var first=driver.recover(gate.id(),a,0,true).toCompletableFuture();var request=lookup(p);
+        assertThrows(ExecutionException.class,()->driver.recover(gate.id(),a,0,true).toCompletableFuture().get(3,TimeUnit.SECONDS));poll();assertEquals(1,p.lookups.get());
+        response.complete(new QuestObservation(Status.ABANDONED,accepted(request),null,now,"confirmed"));assertEquals(1,first.get(3,TimeUnit.SECONDS).round());assertEquals(0,driver.inFlight());assertEquals(0,p.admissions.get());
+    }
+    @Test void providerReplacementDuringRecoveryCannotRetireTheOldRun()throws Exception {
+        start(1,Mode.PLAYER);driver();var p=new Provider("native-a");p.retryLookup=true;driver.providers(List.of(p));var gate=engine.prepareQuestGate(own(a).id(),p.id,context(a));
+        var response=new CompletableFuture<QuestObservation>();p.onLookup=r->response;
+        var recovery=driver.recover(gate.id(),a,0,true).toCompletableFuture();var request=lookup(p);driver.providers(List.of(new Provider("native-a")));
+        response.complete(new QuestObservation(Status.FAILED,accepted(request),null,now,"old lease"));
+        assertThrows(ExecutionException.class,()->recovery.get(3,TimeUnit.SECONDS));assertEquals(gate,saved(gate.id()));assertEquals(0,p.admissions.get());
     }
 }
