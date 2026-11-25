@@ -16,7 +16,8 @@ public final class CommittedSourceCollector {
         TRADE("starcore.trade","module.resource.TradeHistoryService","historyAuthorityDomainId","committedChangesAfter"),
         TECHNOLOGY("starcore.technology","module.technology.TechnologyService","historyAuthorityDomainId","technologyChangesAfter"),
         CAPITAL("starcore.capital","module.nation.NationService","authorityDomainId","capitalDesignationsAfter"),
-        RESOURCES("starcore.resources","module.resource.NationResourceTransactionService","authorityDomainId","transferReceiptsAfter");
+        RESOURCES("starcore.resources","module.resource.NationResourceTransactionService","authorityDomainId","transferReceiptsAfter"),
+        PRODUCTION("starcore.production","module.resource.ProcessingService","productionAuthorityDomainId","productionReceiptsAfter");
         public final String id;final String service,domainMethod,pageMethod;
         Source(String id,String service,String domain,String page){this.id=id;this.service=service;domainMethod=domain;pageMethod=page;}
     }
@@ -42,6 +43,7 @@ public final class CommittedSourceCollector {
             case TECHNOLOGY->technology(domain,record);
             case CAPITAL->capital(domain,record);
             case RESOURCES->resources(domain,record);
+            case PRODUCTION->production(domain,record);
         });
         if(cursor.isPresent()&&cursor.get().sequence()>0&&entries.isEmpty())throw new IllegalStateException("Native source lost the last acknowledged receipt: "+source.id);
         if(!domain.equals(uuidText(unwrap(call(service,source.domainMethod)))))throw new IllegalStateException("Native domain changed during page read");
@@ -110,6 +112,37 @@ public final class CommittedSourceCollector {
         return new CommittedSourcePage.Entry(sequence,operation,new WorldEvent(eventId("resources",domain,operation),"NATIONAL_RESOURCES_TRANSFERRED",time(call(receipt,"appliedAt")),Set.of(),Set.of(facts.get("resource.payer"),facts.get("resource.receiver")),facts,"StarCore.NationResourceTransactionService","native transfer="+operation+"; actor is not exposed; epic-linked contributions require separate actor proof"),false,null);
     }
     private static Map<String,String> base(String domain,long sequence,String operation){return new TreeMap<>(Map.of("time_basis","COMMITTED_SOURCE","source.domain",domain,"source.sequence",Long.toString(sequence),"source.operation",operation));}
+    private static CommittedSourcePage.Entry production(String domain,Object receipt)throws ReflectiveOperationException {
+        requireDomain(domain,call(receipt,"authorityDomainId"));
+        long sequence=number(call(receipt,"sequence"));String operation=text(call(receipt,"operationId"));
+        String nation=uuidText(call(receipt,"nationId")),recipe=text(call(receipt,"recipeId"));
+        UUID actor=optionalUuid(call(receipt,"actorId"));Instant committed=time(call(receipt,"committedAt"));
+        long batches=number(call(receipt,"batches"));if(batches<1||batches>1_000_000)throw new IllegalStateException("Invalid production batch count");
+        var inputs=quantities(call(receipt,"inputs"));var outputs=quantities(call(receipt,"outputs"));
+        Map<String,String> facts=base(domain,sequence,operation);facts.put("title","国家资源加工");
+        facts.put("production.recipe",recipe);facts.put("production.batches",Long.toString(batches));
+        inputs.forEach((key,value)->facts.put("production.input."+key,Long.toString(value)));
+        outputs.forEach((key,value)->facts.put("production.output."+key,Long.toString(value)));
+        String event=eventId("production",domain,operation);
+        List<ContributionRequest> entries=new ArrayList<>();
+        boolean eligible=actor!=null;
+        try { for(var output:outputs.entrySet()){ContributionRequest.token("resource."+output.getKey(),"unit",32);ContributionRequest.amount(BigDecimal.valueOf(output.getValue()));} }
+        catch(IllegalArgumentException unsupported){eligible=false;}
+        facts.put("production.contribution",actor==null?"NO_ACTOR":eligible?"ELIGIBLE":"OUTSIDE_LEDGER_QUANTITY_LIMITS");
+        if(eligible)for(var output:outputs.entrySet())for(String subject:List.of("player:"+actor,"nation:"+nation))
+            entries.add(new ContributionRequest("starcore:production:"+RuleEngine.stable(domain,operation,output.getKey()),ContributionType.CIVILIZATION,subject,event,actor,nation,BigDecimal.valueOf(output.getValue()),"resource."+output.getKey(),committed,"native national conversion="+operation+"; recipe="+recipe+"; authority_domain="+domain));
+        return new CommittedSourcePage.Entry(sequence,operation,new WorldEvent(event,"CIVILIZATION_PRODUCTION_COMMITTED",committed,actor==null?Set.of():Set.of(actor),Set.of(nation),facts,"StarCore.ProcessingService","native atomic national processing="+operation+"; timed factories and ordinary harvesting are separate sources"),false,null,entries);
+    }
+    private static SortedMap<String,Long> quantities(Object value) {
+        if(!(value instanceof Map<?,?> map)||map.isEmpty()||map.size()>32)throw new IllegalArgumentException("Missing bounded production quantities");
+        SortedMap<String,Long> result=new TreeMap<>();
+        for(var entry:map.entrySet()) {
+            String key=text(entry.getKey());long amount=number(entry.getValue());
+            if(!key.matches("[a-z][a-z0-9_]{0,31}")||amount<1)throw new IllegalArgumentException("Invalid production quantity");
+            result.put(key,amount);
+        }
+        return result;
+    }
     private static String eventId(String source,String domain,String operation){return "starcore:committed:"+source+":"+RuleEngine.stable(domain,operation);}
     private static Object unwrap(Object value){return value instanceof Optional<?> o?o.orElse(null):value;}
     private static String text(Object value){if(value==null)throw new IllegalArgumentException("Native receipt field missing");return value.toString();}

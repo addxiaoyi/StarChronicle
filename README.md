@@ -1,5 +1,7 @@
 # StarChronicle
 
+最新源码已接入[国家即时加工持久来源](docs/PRODUCTION-SOURCE-20261125.md)：原生原子扣料／产出、编号重试、创始人命令和自动历史／贡献投影。Chronicle 922 项、StarCore 71 项专项与双库三 JVM 契约通过；旧定时工厂、实服与长期容量仍待继续。此前 GitHub 交付包的旧证据换行问题已精确恢复，修复提交的 Linux CI 已通过。
+
 最新源码已补齐[任务安全恢复与新轮次](docs/QUEST-RECOVERY-SOURCE-20261125.md)：UNKNOWN 权威对账、持久终止凭据、轮次归档、本人命令／GUI 和成员退出后的历史保护。Chronicle 914 项、StarCore 76 项专项及最终构件三 JVM 任务恢复契约通过；当前构件尚未做 Minecraft 实服验收。
 
 当前续接开发已补齐[成员资格复核与退出](docs/MEMBERSHIP.md)：原生身份重检、显式退出／重加、换国后当前个人票失效及转换日志。当前阶段的测试与实服范围单独记录，不覆盖下方旧构件验收结论。

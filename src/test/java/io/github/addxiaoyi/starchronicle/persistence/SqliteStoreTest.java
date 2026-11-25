@@ -36,6 +36,19 @@ class SqliteStoreTest {
         assertThrows(IllegalStateException.class,()->new SqliteStore(path));
         try(var c=DriverManager.getConnection("jdbc:sqlite:"+path);var s=c.createStatement();var r=s.executeQuery("PRAGMA user_version")){assertEquals(999,r.getInt(1));}
     }
+    @Test void sqliteAbortedTransactionPreservesOriginalCauseAndRetiresUncertainConnection() {
+        Path path=directory.resolve("native-rollback.db");
+        try(var store=new SqliteStore(path)) {
+            store.transaction(c->{try(var s=c.createStatement()){s.execute("CREATE TRIGGER abort_fact BEFORE INSERT ON facts BEGIN SELECT RAISE(ROLLBACK,'original-storage-error'); END");}return null;});
+            var error=assertThrows(IllegalStateException.class,()->store.transaction(c->{try(var s=c.createStatement()){s.execute("INSERT INTO facts VALUES('p','key','value')");}return null;}));
+            assertTrue(error.getCause().getMessage().contains("original-storage-error"));
+            assertTrue(error.getCause().getSuppressed().length>0);
+            assertThrows(IllegalStateException.class,()->store.transaction(c->"must reopen"));
+        }
+        try(var reopened=new SqliteStore(path)) {
+            assertEquals(0,reopened.transaction(c->{try(var s=c.createStatement();var r=s.executeQuery("SELECT COUNT(*) FROM facts")){return r.getInt(1);}}).intValue());
+        }
+    }
     @Test void failedRewardRollsBackReceiptAndNodeThenCanBeRetriedSafely() {
         UUID player=UUID.randomUUID();var context=new PlayerContext(player,"nation",Map.of(),Set.of());
         var reward=new StoryDefinition.Effect("honor","honor","player","10",null);

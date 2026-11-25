@@ -8,6 +8,8 @@
 
 可信生产插件可使用 `submitContributions(WorldEvent,List<ContributionRequest>)` 同事务提交真实贸易／文明生产事件与贡献。每项请求必须绑定来源事件 ID、发生时间、真实参与者及关联国家；主体只能是该操作者或其已证明的国家。该 API 不执行交易或生产，也不接受玩家命令、AI 文本或未交付意图作为证明。来源系统负责持久化其原生完成证据并在崩溃后重投。
 
-当前 StarCore 国家史诗援助与原生贸易提交日志已接入本流程。贸易使用配套 StarCore 新增的 `committedChangesAfter`，包含迟到完成及退款状态变化；旧 `getRecordsAfter(executedAt,recordId,limit)` 不作为无损提交源。交易贡献保留原始行，退款／争议／取消从有效合计排除，查询返回 `sourceStatus`。具体基线、双主体归属及恢复规则见 [持久提交来源](COMMITTED-SOURCES.md)。文明生产自动持久来源仍待接线；缺少实际操作者的国家业务不会推断国王或在线国民为操作者。
+当前 StarCore 国家史诗援助、原生贸易提交日志与国家即时加工日志已接入本流程。贸易使用配套 StarCore 新增的 `committedChangesAfter`，包含迟到完成及退款状态变化；旧 `getRecordsAfter(executedAt,recordId,limit)` 不作为无损提交源。交易贡献保留原始行，退款／争议／取消从有效合计排除，查询返回 `sourceStatus`。具体基线、双主体归属及恢复规则见 [持久提交来源](COMMITTED-SOURCES.md)。
+
+国家即时加工在实际投入、产出与原生回执同事务完成后产生 `CIVILIZATION` 贡献，按每种产出分别计量；再次用作投入不会改写过去的生产记录，生产累计量不同于库存余额。没有实际操作者的系统加工仅记国家历史，不推断国王或在线国民为操作者。旧定时工厂和第三方工厂仍不属于该自动来源。
 
 `ContributionFlowTest` 验证真实 SQLite 重启重放、双主体投影、错误数量导致整笔事务回滚、可信来源绑定以及旧记录的原生回执去重。扩展实服工具通过 `prepare-epic-paper.py prepare --extended ...` 验证四笔真实援助的八项投影；必须实际跑完三次启动及独立检查后才可认定该构件验收通过。

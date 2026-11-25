@@ -221,6 +221,8 @@ public final class RuleEngine implements AutoCloseable {
         for(var entry:page.entries()) {
             if(entry.event().facts().keySet().stream().anyMatch(EpicCampaignLedger.STORY_FACTS::contains))throw new SecurityException("Reserved epic facts");
             if(entry.trade()!=null)validateContributionSource(entry.event(),entry.trade().contributions());
+            validateContributionSource(entry.event(),entry.contributions());
+            if(entry.contributions().stream().anyMatch(r->r.type()!=ContributionType.CIVILIZATION))throw new IllegalArgumentException("Non-civilization contribution in production source");
         }
         return transaction(c->{
             long head=io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.begin(c,page);int accepted=0;
@@ -232,6 +234,7 @@ public final class RuleEngine implements AutoCloseable {
                 if(!entry.baseline())recordAndQueue(c,event,witnesses,runtime.enabledDefinitions(),EventCausality.root(event.id()));
                 Instant at=clock.instant().isBefore(event.occurredAt())?event.occurredAt():clock.instant();
                 TradeContributionLedger.apply(c,page,entry,at);
+                for(var request:entry.contributions())ContributionLedger.recordNative(c,page.domain(),entry.operationId(),request,null,at);
                 if(!entry.baseline())drainTriggers(c,witnesses,event.id());
             }
             return accepted;

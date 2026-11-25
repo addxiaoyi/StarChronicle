@@ -80,9 +80,17 @@ public final class SqliteStore implements AutoCloseable {
     public synchronized <T>T transaction(Work<T> work){
         try {
             connection.setAutoCommit(false);
-            try { T result=work.run(connection); connection.commit(); return result; }
-            catch(Exception|Error e){connection.rollback();throw e;}
-            finally{connection.setAutoCommit(true);}
+            try {
+                T result=work.run(connection);connection.commit();connection.setAutoCommit(true);return result;
+            } catch(Exception|Error failure) {
+                boolean uncertain=false;
+                try{connection.rollback();}catch(Exception cleanup){failure.addSuppressed(cleanup);uncertain=true;}
+                try{connection.setAutoCommit(true);}catch(Exception cleanup){failure.addSuppressed(cleanup);uncertain=true;}
+                // SQLite can abort a transaction itself (ROLLBACK trigger, I/O or memory failure).
+                // Preserve that original error and retire a connection whose cleanup failed.
+                if(uncertain)try{connection.close();}catch(Exception cleanup){failure.addSuppressed(cleanup);}
+                throw failure;
+            }
         }catch(RuntimeException|Error e){throw e;}catch(Exception e){throw new IllegalStateException("Chronicle transaction failed",e);}
     }
     public static String json(Object value){try{return JSON.writeValueAsString(value);}catch(Exception e){throw new IllegalStateException(e);}}

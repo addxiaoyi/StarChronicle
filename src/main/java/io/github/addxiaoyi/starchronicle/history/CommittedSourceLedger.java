@@ -38,6 +38,8 @@ public final class CommittedSourceLedger {
         canonical.put("sequence",entry.sequence());canonical.put("operation",entry.operationId());canonical.put("baseline",entry.baseline());
         canonical.put("event",List.of(e.id(),e.type(),e.occurredAt().toString(),new TreeSet<>(e.participants()),new TreeSet<>(e.nations()),new TreeMap<>(e.facts()),e.source(),e.evidence()));
         canonical.put("trade",entry.trade());
+        // Keep pre-production receipt hashes unchanged across an additive upgrade.
+        if(!entry.contributions().isEmpty())canonical.put("contributions",entry.contributions());
         String hash=RuleEngine.stable(SqliteStore.json(canonical));
         if(entry.sequence()<=head) {
             try(var s=c.prepareStatement("SELECT hash FROM committed_source_receipts WHERE source=? AND domain=? AND sequence=?")) {

@@ -1,0 +1,109 @@
+{
+  "date": "2026-11-25",
+  "scope": "Source and unit tests; three JVMs with real packaged resource/processing/SQLite services and fixed detached NationService fixture. No Minecraft or live player, timed factory, production deployment or full Folia acceptance.",
+  "chronicle": {
+    "baseline": "11ff080b06ff7c98547b93688a56d0156d6fae9a",
+    "tests": {
+      "tests": 922,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "jar_sha256": "71d98cd504338b1116109cc8b793897727e848867b97223f8b48d7a730b623a6"
+  },
+  "starcore": {
+    "baseline": "1dd156218dafc7d6fdd37bc48fa4190e3c394160",
+    "tests": {
+      "tests": 71,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "jar_sha256": "693fee46972d26668aaded6b62f83263e0828238ec50ce5d04b1aab7d37a59d2",
+    "full_suite_rerun": false
+  },
+  "contract": {
+    "status": "PASS",
+    "artifacts": {
+      "ProductionContractProbe.java": "59699ccb55dc1ed6c97f2b150bd3a3f8a9c92e1160ee137f08a7ce2665b052eb",
+      "starchronicle.jar": "71d98cd504338b1116109cc8b793897727e848867b97223f8b48d7a730b623a6",
+      "starcore.jar": "693fee46972d26668aaded6b62f83263e0828238ec50ce5d04b1aab7d37a59d2"
+    },
+    "scope": "Three JVMs; real packaged national resource/processing services and SQLite databases; fixed detached NationService fixture; no Minecraft, live player or timed factory certification",
+    "phases": {
+      "compile": {
+        "exit_code": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "first": {
+        "exit_code": 0,
+        "log_sha256": "2d91f872584420acce57165214e3e233f4deafe78fe198e07aee802d9b4cc850"
+      },
+      "second": {
+        "exit_code": 0,
+        "log_sha256": "a889ab207ad5f120617e1ba97c18839c2f9f98f1008a7e8661b14da495fc7751"
+      },
+      "third": {
+        "exit_code": 0,
+        "log_sha256": "df0d1404b132868fc7f95a020d92c1df412fddf6c38767c76cf6adc311fd6dc7"
+      }
+    },
+    "files": {
+      "chronicle.db": "7a67c7bc33a0091556b2294fb3082b21fcd8850781af9417e6d1ac231cf60f05",
+      "chronicle.db-shm": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+      "chronicle.db-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compile.args": "2fb47370b295baa9a922b6293459f59c4ad73393cf6c677ff625fca7bfba8cd9",
+      "compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "first-receipt.txt": "db1117786eb6a3b1b04c4083ba2e326629822483192da2995d9df01baca8cc0c",
+      "first.args": "73516cf9d2810bac2af7800d15c9f8e502e2c86eaa33bce99d2a7c0cc29eeba6",
+      "first.log": "2d91f872584420acce57165214e3e233f4deafe78fe198e07aee802d9b4cc850",
+      "native.db": "22a747b63f420afbda10d5fa8e4a2062f91f661c0b95ea2cbc8418be08820af3",
+      "second.args": "500cecabcc69f40708b84195da524cd9c96ad7fc418b7739dc5f6f6afb89c5d6",
+      "second.log": "a889ab207ad5f120617e1ba97c18839c2f9f98f1008a7e8661b14da495fc7751",
+      "third.args": "aedc59eb726481717a8ae12211b1688ae317d882987817418107c971777049cb",
+      "third.log": "df0d1404b132868fc7f95a020d92c1df412fddf6c38767c76cf6adc311fd6dc7",
+      "artifacts/ProductionContractProbe.java": "59699ccb55dc1ed6c97f2b150bd3a3f8a9c92e1160ee137f08a7ce2665b052eb",
+      "artifacts/starchronicle.jar": "71d98cd504338b1116109cc8b793897727e848867b97223f8b48d7a730b623a6",
+      "artifacts/starcore.jar": "693fee46972d26668aaded6b62f83263e0828238ec50ce5d04b1aab7d37a59d2",
+      "classes/io/github/addxiaoyi/starchronicle/integration/ProductionContractProbe.class": "cb35e1ffcb0ca53bb797905a14720a520f2b9ffbb2b8878cf7738fcbfeeb2e6a"
+    }
+  },
+  "coverage": "No current JaCoCo evidence: low-memory forkCount=0.",
+  "retained_failure": "First Chronicle run: 921 tests, zero failures and one error in CrossStoryEngineTest.offlineRootAndDerivedFollowupSurviveRestartThenConsumeBothPersonalAndWorldPastFactsOnce. Transaction cleanup masked the original exception with cannot commit - no transaction is active. Added suppressed-error preservation and connection retirement plus real SQLite ROLLBACK-trigger regression. Focused 13 and full 922 passed; original transient trigger was not reproduced and its root cause is not established.",
+  "ci_prior_fix": {
+    "commit": "11ff080b06ff7c98547b93688a56d0156d6fae9a",
+    "run": "https://github.com/addxiaoyi/StarChronicle/actions/runs/45610161896",
+    "status": "success",
+    "tests": 914
+  },
+  "source_hashes": {
+    "chronicle": {
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/RuleEngine.java": "30528339c2c8936901a7ac386488c49205a4ac0b9f0e18433cf1b8af4deb4452",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/CommittedSourceLedger.java": "e0edc911b0284f91a5e38e03ddf2dee4a1c627522b8704df1e91a9443a83d107",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/CommittedSourcePage.java": "f23b7bdabbd701106be536c024e13a6afff1934d283e1d0a9d25980a78c57eec",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/CommittedSourceCollector.java": "c5ba338425566a5830a882945cef34620e323515a085be0dbc8dd44c8d2c524f",
+      "src/main/java/io/github/addxiaoyi/starchronicle/persistence/SqliteStore.java": "acc265a612da791d4e713255328bd04384db7dc5730b1f3833ef61bac1792069",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/ProductionContributionFlowTest.java": "0dd3257824c2e5985ad47f084017ad704fbcc67333aeb7f8360ef4ea53cc410e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/CommittedSourceCollectorTest.java": "246d0e07a66e6eb8174ef0c6b147712b4bea5c1c9f073ee2a491af33846f7156",
+      "src/test/java/io/github/addxiaoyi/starchronicle/persistence/SqliteStoreTest.java": "58b184965c02807514f45fdbb861da55c0ad658c00fe35cf944fbc9a8a7dc089"
+    },
+    "starcore": {
+      "src/main/java/dev/starcore/starcore/module/resource/DatabaseAwareResourceStateStorage.java": "4494155f11159386a844c5fbb52d4f1b25a0b511561034671ad84cbb2af579a0",
+      "src/main/java/dev/starcore/starcore/module/resource/PersistenceResourceStateStorage.java": "64a35d9e3204f87f3d5860efc68b8fb7840be53f7a814e172815fdc971e21604",
+      "src/main/java/dev/starcore/starcore/module/resource/ProcessingService.java": "190b16dec07cbb070c0b0b8cf26983cf27e68c9fab42af6899655e3d426b09c9",
+      "src/main/java/dev/starcore/starcore/module/resource/ProductionReceipt.java": "bd806feb44127f4af793a6ceffd880701232d6abd08e153f0aa68c43e975e431",
+      "src/main/java/dev/starcore/starcore/module/resource/ProductionReceiptStore.java": "498ac5613fea6320a2be6c7ead2932de509c611d33eb418bc10b9a9ad0e8ddb9",
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceModule.java": "12d1b12d573cbeea6e95fb273e85e5c6cb560ea1994085b6592487ca38630dba",
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceStateStorage.java": "754689ed8bb512830f717c260f5dca3d2943c56aa81f6fbe1a0b7389b1aefa4e",
+      "src/main/java/dev/starcore/starcore/module/resource/SimpleProcessingService.java": "d8592ba8ccc7e4afea499ce9327350e7189434f74f2a483cc764197ecea21ed3",
+      "src/main/java/dev/starcore/starcore/module/resource/SqlProductionReceipts.java": "cd3cce2a505962fac20fd65ab3bd6e289f203a4eeeeb9b2dd3fe1115326b4777",
+      "src/main/java/dev/starcore/starcore/module/resource/SqlResourceStateStorage.java": "f29dd8e1c80729f74e6a5535dc16b9e888cd961709a0c8d8a9f88d9cd074a5aa",
+      "src/main/java/dev/starcore/starcore/module/resource/command/ResourceCommand.java": "fa170feffbe868fe0d359e994bc48c15151f725c206f028d80cce0dcd1738526",
+      "src/test/java/dev/starcore/starcore/module/resource/ProductionPersistenceTest.java": "8d8d3af0b44e75ad291dd55864ba511d7302deb62d7dbda91b3f82f86f889c63",
+      "src/test/java/dev/starcore/starcore/module/resource/SqlProductionPersistenceTest.java": "346caa24fdf2a604a45998b0b44342b68481e8dcef0a1686c07cee7f9d5cd08c",
+      "src/test/java/dev/starcore/starcore/module/resource/command/ResourceProductionCommandTest.java": "6daf03c1067d3fde19d6c37200f7c56e54c64b8adea587e1bce282342ccbfd97"
+    }
+  },
+  "evidence_zip_sha256": "46cea3d686cd37e9c3b7969d883e9feb09c70215d5482ced3deb0e03fc6fa059",
+  "evidence_files": 251
+}

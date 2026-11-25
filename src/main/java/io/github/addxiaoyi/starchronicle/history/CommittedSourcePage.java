@@ -14,10 +14,15 @@ public record CommittedSourcePage(String source, String domain, long after, List
         long expected=after;
         for(var entry:entries)if(entry.sequence()!=Math.addExact(expected++,1))throw new IllegalArgumentException("Noncontiguous committed source page");
     }
-    public record Entry(long sequence,String operationId,WorldEvent event,boolean baseline,Trade trade) {
+    public record Entry(long sequence,String operationId,WorldEvent event,boolean baseline,Trade trade,List<ContributionRequest> contributions) {
+        public Entry(long sequence,String operationId,WorldEvent event,boolean baseline,Trade trade) {
+            this(sequence,operationId,event,baseline,trade,List.of());
+        }
         public Entry {
             if(sequence<1)throw new IllegalArgumentException("Positive source sequence required");
             if(operationId==null||operationId.isBlank()||operationId.length()>4096)throw new IllegalArgumentException("Invalid source operation ID");Objects.requireNonNull(event);
+            contributions=contributions==null?List.of():List.copyOf(contributions);
+            if(contributions.size()>64||!contributions.isEmpty()&&(baseline||trade!=null))throw new IllegalArgumentException("Invalid committed contribution projection");
         }
     }
     public record Trade(String recordId,String termsHash,String status,List<ContributionRequest> contributions) {

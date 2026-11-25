@@ -8,6 +8,7 @@ Chronicle 在有界状态工作线程中分页读取配套 StarCore 的真实持
 | 科技 | `TechnologyService.historyAuthorityDomainId/technologyChangesAfter` | `TECHNOLOGY_UNLOCKED/REVOKED`，保留国家、科技和时代；日志没有研究者，不推断玩家 |
 | 指定首都 | `NationService.authorityDomainId/capitalDesignationsAfter` | 首次为 `CAPITAL_DESIGNATED`，已有指定首都变化为 `CAPITAL_MOVED`；保留前后城市 ID 和真实操作者 |
 | 国家资源交付 | `NationResourceTransactionService.authorityDomainId/transferReceiptsAfter` | `NATIONAL_RESOURCES_TRANSFERRED`，保留付款国、收款国、资源数量、类别、描述；无操作者的回执不直接授予个人贡献 |
+| 国家即时加工 | `ProcessingService.productionAuthorityDomainId/productionReceiptsAfter` | `CIVILIZATION_PRODUCTION_COMMITTED`，保留实际扣料与产出、配方、批次、操作者和提交时间；只有已确认持久回执可生成贡献 |
 
 来源缺失时保持已有游标。存储域改变、序号缺口、回执冲突、恢复后丢失锚点或插入失败均保留游标并报告错误；不得通过清空游标掩盖问题。互相独立的来源可分别追赶。原有快照观察仍明确标为 `OBSERVED`；科技解锁提交不冒充含研究者的 `TECHNOLOGY_BREAKTHROUGH` 研究完成事件。
 
@@ -25,7 +26,15 @@ Chronicle 在有界状态工作线程中分页读取配套 StarCore 的真实持
 
 原始贡献行只追加。退款、争议和取消更新独立状态投影，`ContributionLedger.total` 只合计当前 `COMPLETED` 的贸易；公开分页查询在 `ContributionEntry.sourceStatus` 中返回当前状态。再次恢复完成重新计入原来的贡献，不能新建第二份。历史中的完成事件仍保留，历史次数不等于净贡献总额。系统不根据这些记录自动执行经济退款、奖励追回或新奖励。
 
-国家资源交付可能同时出现在资源历史与史诗援助历史中，两者类型和证据用途明确不同；实际援助贡献由绑定操作者的史诗回执负责去重。文明生产仍使用可信 `submitContributions` 协议，未提供自动生产来源。
+国家资源交付可能同时出现在资源历史与史诗援助历史中，两者类型和证据用途明确不同；实际援助贡献由绑定操作者的史诗回执负责去重。
+
+## 国家加工贡献
+
+配套 StarCore 新增 `/resource process <配方ID> <批次数> <操作编号>`，由当前国家创始人提交并由服务重检身份。所有投入、产出和生产凭据同事务提交；编号重试读取原结果。Chronicle 自动读取第五类持久来源，并在本地历史、来源游标与 `CIVILIZATION` 贡献之间维持同事务提交。每种产出以 `resource.<资源ID>` 独立计量，个人与国家分别有一份；相同回执和单位不会再次计入。
+
+没有玩家身份的系统加工只有国家历史。超出贡献数量或单位范围时保留完整历史并标记原因，不截断金额或猜测操作者。旧来源的规范化哈希不增加空字段，升级后仍可验证旧锚点。可信第三方仍可使用 `submitContributions`，但需自行提供真实持久来源。
+
+当前生产来源覆盖国家即时资源加工，未覆盖旧定时工厂、第三方工厂、普通采集或大型建筑施工。单笔加工事件不自动宣布文明里程碑；内容规则需要自行定义规模与条件，且贡献查询不会直接发奖励。
 
 ## 验证与恢复
 

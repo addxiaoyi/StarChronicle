@@ -82,4 +82,35 @@ class CommittedSourceCollectorTest {
         var entry=new CommittedSourceCollector(type->new ResourceService()).collect(CommittedSourceCollector.Source.RESOURCES,Optional.empty()).orElseThrow().entries().getFirst();
         assertEquals("10",entry.event().facts().get("resource.amount.agricultural"));assertTrue(entry.event().participants().isEmpty());assertNull(entry.trade());
     }
+
+    public record Production(String operationId,String authorityDomainId,long sequence,UUID nationId,UUID actorId,String recipeId,int batches,Map<String,Long> inputs,Map<String,Long> outputs,Instant committedAt) {}
+    public static class ProductionService {
+        List<Production> receipts=new ArrayList<>();
+        public Optional<String> productionAuthorityDomainId(){return Optional.of(DOMAIN.toString());}
+        public List<Production> productionReceiptsAfter(long after,int limit){return receipts.stream().filter(r->r.sequence()>after).limit(limit).toList();}
+    }
+    Production production(UUID actor,Map<String,Long> outputs){return new Production("national-batch",DOMAIN.toString(),1,NATION,actor,"national_industry",10,Map.of("mineral",30L,"energy",10L),outputs,NOW);}
+    @Test void nationalConversionRetainsInputsAndCreditsEachOutputToExactActorAndNation()throws Exception {
+        var service=new ProductionService();service.receipts.add(production(SELLER,Map.of("industrial",20L,"chemical",10L)));
+        var entry=new CommittedSourceCollector(type->service).collect(CommittedSourceCollector.Source.PRODUCTION,Optional.empty()).orElseThrow().entries().getFirst();
+        assertEquals("CIVILIZATION_PRODUCTION_COMMITTED",entry.event().type());assertEquals("30",entry.event().facts().get("production.input.mineral"));
+        assertEquals(4,entry.contributions().size());assertEquals(Set.of(SELLER),entry.event().participants());
+        assertEquals(2,entry.contributions().stream().map(r->r.operationId()).distinct().count());
+        assertTrue(entry.contributions().stream().allMatch(r->r.type()==io.github.addxiaoyi.starchronicle.api.contribution.ContributionType.CIVILIZATION&&r.committedAt().equals(NOW)));
+    }
+    @Test void systemProductionAndOversizedOutputRetainHistoryWithoutFabricatedCredit()throws Exception {
+        for(var receipt:List.of(production(null,Map.of("industrial",20L)),production(SELLER,Map.of("industrial",Long.MAX_VALUE)))) {
+            var service=new ProductionService();service.receipts.add(receipt);
+            var entry=new CommittedSourceCollector(type->service).collect(CommittedSourceCollector.Source.PRODUCTION,Optional.empty()).orElseThrow().entries().getFirst();
+            assertTrue(entry.contributions().isEmpty());assertEquals(receipt.actorId()==null?Set.of():Set.of(SELLER),entry.event().participants());
+        }
+    }
+    @Test void productionRejectsInvalidQuantityAndDomainAndKeepsResumeAnchor()throws Exception {
+        var service=new ProductionService();service.receipts.add(production(SELLER,Map.of("industrial",0L)));
+        var collector=new CommittedSourceCollector(type->service);
+        assertThrows(IllegalArgumentException.class,()->collector.collect(CommittedSourceCollector.Source.PRODUCTION,Optional.empty()));
+        service.receipts=List.of(production(SELLER,Map.of("industrial",20L)));
+        assertThrows(IllegalStateException.class,()->collector.collect(CommittedSourceCollector.Source.PRODUCTION,Optional.of(new CommittedSourceLedger.Cursor(UUID.randomUUID().toString(),1))));
+        assertEquals(1,collector.collect(CommittedSourceCollector.Source.PRODUCTION,Optional.of(new CommittedSourceLedger.Cursor(DOMAIN.toString(),1))).orElseThrow().entries().size());
+    }
 }
