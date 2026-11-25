@@ -54,3 +54,5 @@ STARCHRONICLE_CAPITAL_RUN=run/NEW-DIRECTORY python3 tools/test_capital_acceptanc
 离线验收使用另一个目录／端口并增加准备参数 `--offline`。运行 `capital-offline-first` 正常停服后，执行 `prepare-capital-resume.py --run ...` 保存完整配置变更证据，再运行 boot2 `capital-offline-second`。破坏性验证仅对停服副本使用 `run-capital-corruption.py`，原受验目录不修改。新设备重建必须用新指纹和新目录。
 
 本增量没有复验完整史诗业务、贸易资产共同提交、文明生产、MySQL、Folia 或长期吞吐。每次原生完整性检查仍扫描日志前缀；正常重启和故障注入不等同于物理断电与存储硬件保证。全套一致旧备份的回滚、迁移前历史损失及人工恢复边界见合同。十阶段继续推进，尚未合并或生产部署。
+
+首都草稿最终 [CI 45666203035](https://github.com/addxiaoyi/StarChronicle/actions/runs/45666203035) 在 `3dfa1d8` 通过 927 项测试及完整交付检查，包内 1,383 项。CI JAR SHA-256 为 `2bc3b52313ee7a2d836b9c593fabc264740126fe16a4649b0bb511b81b527871`，交付 ZIP 为 `270b8bf03d6b072e06b58a713b4567515c9eee9eca6717a1af4ac12808e1b83e`；它们没有替换上文实服构件。

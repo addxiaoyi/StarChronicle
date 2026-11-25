@@ -267,6 +267,7 @@ def scenario(phase):
     clients = start([str(args.node), '--max-old-space-size=192', str(client_script), str(run)], 'clients')
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
+    if manifest.get('production_campaign'): server_action('stack-check')
     if phase.startswith('capital-'):
         server_action('stack-check')
         if phase in ('capital-first', 'capital-offline-first'):
@@ -399,7 +400,7 @@ def scenario(phase):
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:
         raise RuntimeError('Acceptance processes must exit normally')
-    if manifest.get('memory_acceptance') or manifest.get('capital_acceptance'): database_checkpoint()
+    if manifest.get('memory_acceptance') or manifest.get('capital_acceptance') or manifest.get('production_campaign'): database_checkpoint()
     print('SCENARIO_COMPLETE ' + phase, flush=True)
 outcome = dict(boot=args.boot, scenario=args.scenario, contributions=args.contributions, status='INCOMPLETE')
 outcome['source_sha256'] = {
