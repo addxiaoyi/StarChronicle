@@ -9,7 +9,7 @@
 | StarChronicle | 产品 `70bd4e0e75b841def58ab5c23e5d06603359668d`；工具 `25d5c091d31ea403de15d79654394b95d742e3c9`，基于据点增量 `546d66d` | `c5455ec5e790b6b4d9d48ab381938be4e91a80aa001a29e4bd90e6b817bda55e` |
 | StarCore | 产品 `9e73e5136ad880384ad96c28566ace65fe25eba2`，基于国家写锁增量 `5aa091ce` | `42063ee7694b0074c23548047a08adfac9cc359266fc3fccd82bfab1b82b4d9c` |
 
-Chronicle 分支 `codex/quest-recovery-20261125`，原生分支 `codex/durable-quest-terminal-20261125`。原生草稿 [PR #10](https://github.com/addxiaoyi/starcore/pull/10) 叠加 #9。构建后冻结 JAR，实服、工具开发与报告整理期间均未重建产品；后续 CI 的新构件必须独立登记，不能继承这些实服结果。
+Chronicle 分支 `codex/quest-recovery-20261125`，原生分支 `codex/durable-quest-terminal-20261125`。Chronicle草稿 [PR #13](https://github.com/addxiaoyi/StarChronicle/pull/13) 叠加 #12；原生草稿 [PR #10](https://github.com/addxiaoyi/starcore/pull/10) 叠加 #9。构建后冻结 JAR，实服、工具开发与报告整理期间均未重建产品；后续 CI 的新构件必须独立登记，不能继承这些实服结果。
 
 沿用已授权自行确定的 Java21／Paper1.21.11、EssentialsX2.22.0／Vault1.7.3-b131、FancyNpcs2.10.1-java21+2、WorldEdit7.4.2／WorldGuard7.0.17。精确第三方指纹见[组合锁](verification/production-stack-candidate-20261125.json)。七次启动均实际加载七插件，原生业务经济使用 PlayerVaultEconomyService。
 
