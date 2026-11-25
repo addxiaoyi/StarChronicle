@@ -1,0 +1,614 @@
+{
+  "status": "NATION_FACTORIES_AND_FROZEN_PAIR_SELECTED_STACK_ACCEPTED",
+  "captured_utc": "2026-11-25T22:47:24.237124+00:00",
+  "source_heads": {
+    "chronicle": "e523f6b7d499ac78fe98fbca0b28f02a7fb16568",
+    "native": "5c7eb07d9aab43b80eaf83aaee3d5c5b69615b3e"
+  },
+  "product_sources": {
+    "chronicle": "fc08038d5e9016ad04280552a3a641193c0971c4",
+    "native": "5c7eb07d9aab43b80eaf83aaee3d5c5b69615b3e"
+  },
+  "runs": [
+    {
+      "kind": "factory",
+      "directory": "paper-epic-d4992706-dungeon-factories-3",
+      "status": "SELECTED_PAPER_NATION_FACTORIES_ACCEPTED",
+      "boots": 3,
+      "normal_process_exits": 6,
+      "actual_command_results": 45,
+      "factory_changes": 6,
+      "completions": 3,
+      "cancellations": 1,
+      "contributions": 6,
+      "construction_and_upgrade_cost": {
+        "energy": 56,
+        "industrial": 70,
+        "mineral": 280
+      },
+      "production_inputs": {
+        "mineral": 12,
+        "energy": 4
+      },
+      "industrial_output": 8,
+      "chronicle_sha256": "d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f",
+      "starcore_sha256": "b06b317ffe1af77162da42e301851abc9de6ccdc4aa88e2e7da546ab8f8ced3b",
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[22:33:02 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitations": [
+        "Selected isolated Paper stack and SQLite; MySQL atomicity is a separate native integration test.",
+        "Nations and inventory are explicit fixture seeds; factory and production mutations are real non-OP player commands.",
+        "Factory records do not place world blocks or claim land. Legacy factory fields are retained but never become paid production or contribution evidence.",
+        "Three normal boots are not physical power-loss, Folia or production deployment evidence."
+      ]
+    },
+    {
+      "kind": "production",
+      "directory": "paper-epic-d4992706-dungeon-fact-reg-production-2",
+      "status": "SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED",
+      "mode": "main",
+      "chronicle_sha256": "d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f",
+      "starcore_sha256": "b06b317ffe1af77162da42e301851abc9de6ccdc4aa88e2e7da546ab8f8ced3b",
+      "boots": 3,
+      "normal_process_exits": 6,
+      "actual_command_results": 24,
+      "completions": 4,
+      "contributions": 8,
+      "industrial_output": 12,
+      "authority_domain": "93e9c8af-6ac0-47e0-8dee-5b45f1ec0a55",
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[22:30:33 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitations": [
+        "Selected isolated Paper stack; no production deployment or full Folia acceptance.",
+        "Test nations and initial national resources are explicitly seeded through public native APIs; nation creation is free in this fixture.",
+        "Production start, collection, cancellation and replays are actual non-OP player commands. Succession uses the real native authorization service.",
+        "Paid production runs use national inventory, fixed recipe terms and original initiators. Legacy actorless factory writes are disabled; no migration invents old contributors.",
+        "SQL rollback and lost commit acknowledgements are product tests; real boots validate normal persisted recovery."
+      ]
+    },
+    {
+      "kind": "offline",
+      "directory": "paper-epic-d4992706-dungeon-fact-reg-offline-2",
+      "status": "SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED",
+      "mode": "offline",
+      "chronicle_sha256": "d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f",
+      "starcore_sha256": "b06b317ffe1af77162da42e301851abc9de6ccdc4aa88e2e7da546ab8f8ced3b",
+      "boots": 2,
+      "normal_process_exits": 4,
+      "actual_command_results": 11,
+      "completions": 1,
+      "contributions": 2,
+      "industrial_output": 2,
+      "authority_domain": "a6e69e1e-88b8-42d6-bcd9-69743b9153df",
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[22:34:06 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitations": [
+        "Selected isolated Paper stack; no production deployment or full Folia acceptance.",
+        "Test nations and initial national resources are explicitly seeded through public native APIs; nation creation is free in this fixture.",
+        "Production start, collection, cancellation and replays are actual non-OP player commands. Succession uses the real native authorization service.",
+        "Paid production runs use national inventory, fixed recipe terms and original initiators. Legacy actorless factory writes are disabled; no migration invents old contributors.",
+        "SQL rollback and lost commit acknowledgements are product tests; real boots validate normal persisted recovery."
+      ]
+    },
+    {
+      "kind": "trade",
+      "directory": "paper-epic-d4992706-dungeon-fact-reg-trade-2",
+      "status": "SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED",
+      "chronicle_sha256": "d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f",
+      "starcore_sha256": "b06b317ffe1af77162da42e301851abc9de6ccdc4aa88e2e7da546ab8f8ced3b",
+      "boots": 3,
+      "normal_process_exits": 6,
+      "actual_command_results": 24,
+      "settlements": 3,
+      "resource_receipts": 3,
+      "treasury_receipts": 3,
+      "contributions": 12,
+      "assets": {
+        "quantity": 29,
+        "value": "75.00",
+        "sellerResources": 71,
+        "buyerResources": 129,
+        "sellerTreasury": "1000075.00",
+        "buyerTreasury": "999925.00"
+      },
+      "authority_domain": "2dfd64ce-0e6e-4964-8b34-0dfcbb66ded0",
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[22:36:06 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitations": [
+        "Selected isolated Paper stack; no production deployment or full Folia acceptance.",
+        "Test nations, treasury funds and inventory are explicitly seeded through public native APIs; nation creation is free in this fixture.",
+        "Offers, acceptance, cancellation and replays are actual non-OP player commands. Founder handover uses the real native authorization service.",
+        "This protocol pays from national treasuries and delivers national inventory. It makes no claim for Vault wallets, player inventory, legacy market orders or taxes.",
+        "SQL rollback and lost commit acknowledgements are product tests; these real boots validate normal persisted recovery."
+      ]
+    },
+    {
+      "kind": "dungeon",
+      "directory": "paper-epic-d4992706-dungeon-fact-reg-dungeon-3",
+      "status": "SELECTED_PAPER_STACK_EPIC_ACCEPTED",
+      "route": "DUNGEON",
+      "instance": "d310ad9d930241cb75d1bc53151e06542af94ffc68c044ed2a44ab7a35564f51",
+      "chronicle_sha256": "d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f",
+      "starcore_sha256": "b06b317ffe1af77162da42e301851abc9de6ccdc4aa88e2e7da546ab8f8ced3b",
+      "committed_operations": 12,
+      "treasury_transfers": 2,
+      "resource_transfers": 2,
+      "settlement_events": 1,
+      "verified_boots": 3,
+      "aftermath_instances": 3,
+      "verification": "Normal server/client exits, required live scenario evidence and independent native/Chronicle receipt cross-check; server port unbound.",
+      "contribution_entries": 8,
+      "aid_source_events": 4,
+      "contribution_query_boots": [
+        1,
+        2,
+        3
+      ],
+      "subjects": [
+        "player:35e02d6d-1111-3ff6-bd41-91cad584563c",
+        "player:5a2a1989-08f3-3f65-a906-299ff19592c8"
+      ],
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "business_economy": "dev.starcore.starcore.foundation.economy.PlayerVaultEconomyService",
+      "database_checkpoint_boots": [
+        1,
+        2,
+        3
+      ],
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[22:40:21 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitation": "War completion is native principal peace; this does not demonstrate battlefield victory, paid founding, Folia or production deployment."
+    },
+    {
+      "kind": "war",
+      "directory": "paper-epic-d4992706-war-fact-reg-war-3",
+      "status": "NATIVE_STRONGHOLD_VICTORY_ACCEPTED",
+      "route": "WAR",
+      "instance": "30c0dd82a7f3ceaac5d5f9dfc0c4cd9f28e2523073980f0aad6dc9b85be88044",
+      "chronicle_sha256": "d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f",
+      "starcore_sha256": "b06b317ffe1af77162da42e301851abc9de6ccdc4aa88e2e7da546ab8f8ced3b",
+      "committed_operations": 13,
+      "treasury_transfers": 2,
+      "resource_transfers": 2,
+      "settlement_events": 1,
+      "verified_boots": 3,
+      "aftermath_instances": 3,
+      "verification": "Normal server/client exits, required live scenario evidence and independent native/Chronicle receipt cross-check; server port unbound.",
+      "contribution_entries": 8,
+      "aid_source_events": 4,
+      "contribution_query_boots": [
+        1,
+        2,
+        3
+      ],
+      "subjects": [
+        "player:35e02d6d-1111-3ff6-bd41-91cad584563c",
+        "player:5a2a1989-08f3-3f65-a906-299ff19592c8"
+      ],
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "business_economy": "dev.starcore.starcore.foundation.economy.PlayerVaultEconomyService",
+      "database_checkpoint_boots": [
+        1,
+        2,
+        3
+      ],
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[22:42:59 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitation": "Native GUI stronghold capture with explicit fixture objects and native start service; no PvP, siege movement, army simulation, territory transfer, occupation-duration or production deployment claim.",
+      "war_id": "573a4f88-896d-3c86-b283-eb38173c4d9a",
+      "strongholds": 2,
+      "aggressor_score": 100,
+      "defender_score": 0,
+      "native_end_reason": "VICTORY_DETERMINED",
+      "native_winner": "AGGRESSOR",
+      "capture_clicks": 2,
+      "blocked_attempts": 6
+    }
+  ],
+  "builds": {
+    "chronicle": {
+      "counts": {
+        "tests": 988,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "suites": 101,
+      "log_sha256": "1a406d407bf86bf217b13c9b916540dff7ca69550cc14ad3b9aba631cf4f6119"
+    },
+    "native": {
+      "counts": {
+        "tests": 7465,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 47
+      },
+      "suites": 1452,
+      "log_sha256": "42b9201ef07a16ebae4a01d262a6c7c3a18bc68526bb62ad2634e11e545f0ece"
+    }
+  },
+  "mysql": {
+    "status": "PASSED",
+    "started_utc": "2026-11-25T22:22:54.466756+00:00",
+    "finished_utc": "2026-11-25T22:24:10.050816+00:00",
+    "exit_code": 0,
+    "command": [
+      "./mvnw",
+      "-o",
+      "-B",
+      "-ntp",
+      "-Dstarcore.mysql.settlement.it=true",
+      "-Dtest=MySqlNationSettlementIntegrationTest",
+      "test"
+    ],
+    "tests": {
+      "tests": 56,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 33325,
+      "database": "starcore_settlement_it"
+    },
+    "native_head": "3391555e99e8a673a2adfd23fa9f3081be031583",
+    "files": {
+      "maven.log": "b4a2ac5ba16b329fbcf48cd5372cf5f5a2f6cb5d3b8947a7be194304ea10db30",
+      "TEST-dev.starcore.starcore.module.resource.MySqlNationSettlementIntegrationTest.xml": "d032882db47d3fb3301ba07f54bbda150dd91343358fa987eb0925199d32e9a7",
+      "MySqlNationSettlementIntegrationTest.java": "82fec4d7c70b5d0e8e4bac48998d693fea73d82297beaa115fcaebbea5717d9d"
+    }
+  },
+  "mysql_shutdown": {
+    "instance": {
+      "container": "starcore-factories-mysql-20261125-2",
+      "id": "daf3f32777742f6dec5f7229b7f195ba4ba754c2bafef63b773efac519f96339",
+      "image": "public.ecr.aws/docker/library/mysql@sha256:8c233bad33d520a7aae1c1e619c3a9775f4a1ba2d463d692fada04ec7f40be00",
+      "host": "127.0.0.1",
+      "port": 33325,
+      "database": "starcore_settlement_it"
+    },
+    "state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-11-25T22:07:29.26946908Z",
+      "FinishedAt": "2026-11-25T22:30:24.657431974Z"
+    }
+  },
+  "mysql_runtime_note": "TABLE_ROWS is approximate metadata; test teardown independently requires empty tables. The precommit HEAD in the original MySQL manifest is retained; the copied test source hash matches the final product commit.",
+  "regressions": [
+    {
+      "log": "factories-evidence-tests-2.log",
+      "tests": 32,
+      "passed": 32,
+      "skipped": 0,
+      "sha256": "3a4917293ea4afe66003a6fbcca185afdc394f4f2667f5d05902eaa9384896cc"
+    },
+    {
+      "log": "dungeon-evidence-tests.log",
+      "tests": 29,
+      "passed": 27,
+      "skipped": 2,
+      "sha256": "a4813cb76fcc52ea5af24cb683cad40067260561ec3ad533445e7d6cc4f95ada"
+    },
+    {
+      "log": "offline-evidence-tests.log",
+      "tests": 37,
+      "passed": 37,
+      "skipped": 0,
+      "sha256": "085d39978226d96c13a3980cd672970da7d357bf3cdcffbaf70faee5d2873ef1"
+    },
+    {
+      "log": "production-evidence-tests.log",
+      "tests": 37,
+      "passed": 33,
+      "skipped": 4,
+      "sha256": "4ccd8545b8b776c1910815a5d9516e9fba656ca9ec9332bd8aaadcf6c598e0a2"
+    },
+    {
+      "log": "trade-evidence-tests.log",
+      "tests": 38,
+      "passed": 38,
+      "skipped": 0,
+      "sha256": "3890a9953ac375b60da93d5f1bfc3d28c84112ad4599f7468131f177a2581564"
+    },
+    {
+      "log": "war-evidence-tests.log",
+      "tests": 41,
+      "passed": 39,
+      "skipped": 2,
+      "sha256": "ed29e9809e7e4ebeafb4e7297277d38c722b265c7031821f4403c2bf735f85a0"
+    }
+  ],
+  "failed_runs": [
+    {
+      "directory": "paper-epic-d4992706-dungeon-factories-2",
+      "sessions": [
+        {
+          "boot": 1,
+          "scenario": "factory-first",
+          "contributions": false,
+          "status": "FAILED",
+          "source_sha256": {
+            "controller": "18570e96bc2fe07475be4162ab5f6db9255a06f45e12d7856a47224a41391507",
+            "clients": "5c0017ffaab040ed9c873650bd35db192c6a2974c1d0a5b759b3dccf5c02c69d"
+          },
+          "error": "Observed failure: {\"time\":\"2026-11-25T22:30:52.391Z\",\"kind\":\"FAILED\",\"data\":{\"command\":\"expect A eyJjb21tYW5kIjogIi9uYXRpb25mYWN0b3J5IHBsYW5zIFNNRUxURVIgMiIsICJjb250YWlucyI6ICLlrrnph48gMiDkuKrnlJ_kuqfjgIE1MCDmibkifQ\",\"error\":\"Error: Require a concrete prepared command and response\"}}\n",
+          "processes": [
+            {
+              "name": "server",
+              "pid": 3769706,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795645796.3475506,
+              "exit_code": 0,
+              "exited_at": 1795645857.2881668
+            },
+            {
+              "name": "clients",
+              "pid": 3770802,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-nation-factories/run/paper-epic-d4992706-dungeon-factories-2/evidence/boot1.clients.cjs",
+                "/home/add/starchronicle-nation-factories/run/paper-epic-d4992706-dungeon-factories-2"
+              ],
+              "started_at": 1795645845.424783,
+              "exit_code": 0,
+              "exited_at": 1795645852.4006095
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "directory": "paper-epic-d4992706-dungeon-fact-reg-dungeon-2",
+      "sessions": [
+        {
+          "boot": 1,
+          "scenario": "first",
+          "contributions": true,
+          "status": "FAILED",
+          "source_sha256": {
+            "controller": "18570e96bc2fe07475be4162ab5f6db9255a06f45e12d7856a47224a41391507",
+            "clients": "31617451479020f73a564751310572acdbdba19eae8e161552494cfecfb2d29b"
+          },
+          "error": "Observed failure: [22:38:35 INFO]: [EpicCampaignPaperFixture] EPIC_FAILED {\"action\":\"seed\",\"error\":\"java.lang.IllegalStateException: Treasury deposit was rejected or could not be persisted for nation 3bc950e9-0839-458a-b46b-14503e7cc021\"}\n",
+          "processes": [
+            {
+              "name": "server",
+              "pid": 3779009,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795646262.0342348,
+              "exit_code": 0,
+              "exited_at": 1795646319.3198178
+            },
+            {
+              "name": "clients",
+              "pid": 3779959,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-nation-factories/run/paper-epic-d4992706-dungeon-fact-reg-dungeon-2/evidence/boot1.clients.cjs",
+                "/home/add/starchronicle-nation-factories/run/paper-epic-d4992706-dungeon-fact-reg-dungeon-2"
+              ],
+              "started_at": 1795646310.599441,
+              "exit_code": 0,
+              "exited_at": 1795646315.7927911
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "retained_preparations": [
+    "paper-epic-d4992706-dungeon-factories-1"
+  ],
+  "redactions": [
+    {
+      "path": "runs/paper-epic-d4992706-dungeon-factories-3/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4992706-dungeon-fact-reg-production-2/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4992706-dungeon-fact-reg-offline-2/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4992706-dungeon-fact-reg-trade-2/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4992706-dungeon-fact-reg-dungeon-3/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4992706-war-fact-reg-war-3/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4992706-dungeon-factories-2/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4992706-dungeon-fact-reg-dungeon-2/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4992706-dungeon-factories-1/plugins/StarCore/config.yml",
+      "fields": 3
+    }
+  ],
+  "extracted_inspectors": "ALL_SIX_PASSED",
+  "extracted_regressions": [
+    {
+      "log": "factory-extracted-tests.log",
+      "tests": 32,
+      "passed": 32,
+      "skipped": 0,
+      "sha256": "6bc0d2792ce38e78375b06ca7103e5e9c02194b1ee14aba3e25123eb9286d70d"
+    },
+    {
+      "log": "production-extracted-tests.log",
+      "tests": 37,
+      "passed": 33,
+      "skipped": 4,
+      "sha256": "160119ca62074ef314b6f932701463bf1765b75ec131d2d01d2fa6c5818744ab"
+    },
+    {
+      "log": "offline-extracted-tests.log",
+      "tests": 37,
+      "passed": 37,
+      "skipped": 0,
+      "sha256": "b8e9abf40e5d506cb100a5578b17ef73f301f7f3b9e234dfea999dc30b83c3aa"
+    },
+    {
+      "log": "trade-extracted-tests.log",
+      "tests": 38,
+      "passed": 38,
+      "skipped": 0,
+      "sha256": "02581943b061439f53ebe634d6ee64669a352b517f294d8b19103fe76abc8350"
+    },
+    {
+      "log": "dungeon-extracted-tests.log",
+      "tests": 29,
+      "passed": 27,
+      "skipped": 2,
+      "sha256": "54d125af0f7fc8cc2b3baefa366989308f862d75a9bdf54d194ff767127ce122"
+    },
+    {
+      "log": "war-extracted-tests.log",
+      "tests": 41,
+      "passed": 39,
+      "skipped": 2,
+      "sha256": "3b6657705a8afef4abb7fd201a36c0583486c6a1f614f5d4cc329f725f43694e"
+    }
+  ],
+  "credential_scan": "No private environment or non-template configured credential bytes found. Public source-template defaults are redacted at credential fields; template references elsewhere are not private credentials.",
+  "evidence_archive": {
+    "sha256": "de02d0af908377f8321edc934563e832a9057588f88db92865bf622506833f36",
+    "bytes": 22067852,
+    "members": 7363
+  },
+  "source_archives": {
+    "starchronicle-source.tar.gz": "739c765743b13a6d16b05612af3c9b37a026dd4d2bd29da5c53368bcd4118437",
+    "starcore-source.tar.gz": "66ec346e01dbadee1eb0a938ace75cbf41dfceaba3b3688ad48fc7cd2edea331"
+  }
+}

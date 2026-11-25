@@ -1,6 +1,6 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-26T05:38:20+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T06:48:07+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
@@ -8,7 +8,7 @@
 
 - 执行命令：`./mvnw -o -B -ntp clean verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
-- 单元／集成回归：979 项，失败 0，错误 0，跳过 0。
+- 单元／集成回归：988 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
 - 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。
 - 同时生成全部 Java 源码 JAR。
@@ -76,7 +76,7 @@
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest` | 21 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySourceTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProviderTest` | 6 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.integration.StarCoreNationProductionSourceTest` | 17 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreNationProductionSourceTest` | 26 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSourceTest` | 15 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest` | 19 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest` | 25 | 0 | 0 | 0 |
@@ -126,24 +126,24 @@
 | `io/github/addxiaoyi/starchronicle/api/aid` | 34/34 (100.0%) | 35/62 (56.5%) |
 | `io/github/addxiaoyi/starchronicle/api/quest` | 37/37 (100.0%) | 13/18 (72.2%) |
 | `io/github/addxiaoyi/starchronicle/paper` | 423/1333 (31.7%) | 477/1599 (29.8%) |
-| `io/github/addxiaoyi/starchronicle/integration` | 949/1406 (67.5%) | 974/1716 (56.8%) |
+| `io/github/addxiaoyi/starchronicle/integration` | 955/1412 (67.6%) | 978/1722 (56.8%) |
 | `io/github/addxiaoyi/starchronicle/persistence` | 59/59 (100.0%) | 15/18 (83.3%) |
 | `io/github/addxiaoyi/starchronicle/narrative` | 88/88 (100.0%) | 113/150 (75.3%) |
 | `io/github/addxiaoyi/starchronicle/api` | 27/67 (40.3%) | 25/42 (59.5%) |
 | `io/github/addxiaoyi/starchronicle/memory` | 136/136 (100.0%) | 136/188 (72.3%) |
 | `io/github/addxiaoyi/starchronicle/api/contribution` | 31/35 (88.6%) | 14/28 (50.0%) |
-| `io/github/addxiaoyi/starchronicle/history` | 360/367 (98.1%) | 319/423 (75.4%) |
+| `io/github/addxiaoyi/starchronicle/history` | 373/382 (97.6%) | 333/441 (75.5%) |
 | `io/github/addxiaoyi/starchronicle/config` | 264/272 (97.1%) | 358/444 (80.6%) |
 | `io/github/addxiaoyi/starchronicle/npc` | 228/231 (98.7%) | 213/288 (74.0%) |
-| `io/github/addxiaoyi/starchronicle/core` | 2343/2496 (93.9%) | 2273/3138 (72.4%) |
+| `io/github/addxiaoyi/starchronicle/core` | 2343/2496 (93.9%) | 2274/3138 (72.5%) |
 | `io/github/addxiaoyi/starchronicle/api/epic` | 234/261 (89.7%) | 151/274 (55.1%) |
 
 ## 产物校验
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18106284 | `835588de9c62a73c0b2828b383beb9cbaaea0e56aeff103a6e798b6828ddb24a` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 361781 | `fba52aadb6a7222f03f1e5396429c480bd52dff7dce000de83b8394d6c52e5f9` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18109174 | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 362432 | `16142aef7378e07c31cc5da0f5516f54cc389b7034c7a828c783537d23105999` |
 
 ## 真实服务器证据与构建对应
 
@@ -168,6 +168,12 @@
 | [Configured first visits: paper-4ede86a8](verification/exploration-paper-4ede86a8-report.md) | `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca` | 否，不能覆盖当前构建 | PASS；6/6 |
 | [Configured first visits: paper-8fdcf8d3](verification/exploration-paper-8fdcf8d3-report.md) | `8fdcf8d375c22ca06c5bc15eb8e67b0ac58342b1e5a5636ea29307a88b423051` | 否，不能覆盖当前构建 | PASS；6/6 |
 | [Native quest evidence: paper-4ede86a8-retry27](verification/quest-evidence-paper-4ede86a8-retry27-report.md) | `4ede86a8bb6315776184c612a488f0c9ebc0321ccef73ce84ddfb097c1f374ca` | 否，不能覆盖当前构建 | PASS；24/24；未执行／未支持：native_full_folia_multiplayer_acceptance, full_upstream_starcore_regression, production_deployment_or_external_rewards |
+| [国家工厂及同构件回归：factory](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_NATION_FACTORIES_ACCEPTED；3次启动 |
+| [国家工厂及同构件回归：production](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；3次启动 |
+| [国家工厂及同构件回归：offline](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；2次启动 |
+| [国家工厂及同构件回归：trade](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED；3次启动 |
+| [国家工厂及同构件回归：dungeon](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | SELECTED_PAPER_STACK_EPIC_ACCEPTED；见报告次启动 |
+| [国家工厂及同构件回归：war](NATION-FACTORIES-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 是 | NATIVE_STRONGHOLD_VICTORY_ACCEPTED；见报告次启动 |
 
 ## 原生任务候选的独立边界
 

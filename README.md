@@ -1,5 +1,7 @@
 # StarChronicle
 
+2026-11-25 国家工厂增量：付费建造、1–10级升级／启停、工厂容量与绑定生产已完成所选Paper验收。Chronicle988项、原生7,465项零失败／错误（47跳过）、独立MySQL56例通过；冻结双JAR17次正常启动，206项证据检查通过／8场景跳过。见[工厂合同](docs/NATION-FACTORIES.md)、[验收报告](docs/NATION-FACTORIES-TEST-REPORT.md)与[十阶段交接](docs/HANDOFF-2026-11-25.md)。旧工厂迁移、全栈Folia和生产部署尚未完成。
+
 2026-11-25 最新提交窗口增量：国家生产／贸易12个真实MySQL进程中断场景通过，12次数据库SIGKILL／重启、8次业务JVM SIGKILL、40次正常JVM退出；修正后31项SQL、32项证据、9项目标保护回归全通过。资产、原操作者与唯一回执恢复／重放不变；本轮为原生服务测试，未新增Paper联机或物理断电结论。见[报告](docs/MYSQL-INFLIGHT-TEST-REPORT.md)及[十阶段交接](docs/HANDOFF-2026-11-25.md)。冻结双JAR不变，目标继续推进。
 
 2026-11-25 最新恢复增量：冻结双JAR完成五现场联合备份、独立MySQL恢复与已完成重放后的进程中断恢复，共15次验收启动、5次JVM／MySQL强制终止及恢复、69条真实命令／查询。完整数据与结构、原操作者、资产、唯一结算和贡献保持一致；物理断电及进行中事务窗口仍待验证。见[恢复报告](docs/MYSQL-RECOVERY-TEST-REPORT.md)、[草稿PR #18](https://github.com/addxiaoyi/StarChronicle/pull/18)与[交接](docs/HANDOFF-2026-11-25.md)。十阶段继续推进，未合并或生产部署。
@@ -136,6 +138,8 @@ Paper API 为 provided，不打包入插件。Jackson 和 YAML 依赖重定位�
 Folia 的 UI 操作回到玩家实体线程，数据库编排放在工作线程。审计版本 StarCore 缺少 Folia 支持声明且 NarrativeModule 使用旧调度器；默认 `require-starcore: true` 时上游服务缺失会安全停用本插件。显式 `require-starcore: false` 可用于 Folia 独立规则／历史模式，不提供国家身份或上游执行能力。当前 Folia 禁用 `narrative.start`，不把 StarChronicle 自身调度设计当作上游全栈兼容证明。
 
 ## 文档
+
+- [付费国家工厂与绑定生产](docs/NATION-FACTORIES.md)及[本轮精确构件验收](docs/NATION-FACTORIES-TEST-REPORT.md)
 
 - [剧情格式、条件、效果、示例和版本管理](docs/STORY-FORMAT.md)
 - [Java API、权威边界、幂等和扩展提供者](docs/API.md)

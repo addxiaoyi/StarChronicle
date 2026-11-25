@@ -1,5 +1,7 @@
 # 第一阶段交付与复验
 
+当前国家工厂配套交付见[NATION-FACTORIES-TEST-REPORT.md](NATION-FACTORIES-TEST-REPORT.md)和[十阶段交接](HANDOFF-2026-11-25.md)。本机`target/nation-factories-20261125-final-3/`保留精确双JAR、两库源码tar及独立证据；公开仓库提供可解压复验的证据ZIP与机器清单。使用配套双插件；旧StarCore不支持工厂绑定format2，回退须恢复相匹配的完整备份。工厂记录不放置世界建筑；旧厂字段原样保留，未自动迁移或退款。
+
 > 当前构建与逐项实服证据见[测试报告](TEST-REPORT.md)。下文同时保留先前冻结的版本目录和国家议事检查点；旧构件证据不覆盖新增功能。
 
 当前 schema 7 世界记忆与国库援助源码已通过 831 项完整构建，构件指纹见[构建报告](TEST-REPORT.md)。本次国库援助构建尚无匹配 JAR 的实服验收；以下 `4ede86a8` 保留为独立旧构件的实服交付检查点。
