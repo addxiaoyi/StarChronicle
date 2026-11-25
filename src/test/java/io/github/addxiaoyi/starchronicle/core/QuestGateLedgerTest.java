@@ -376,4 +376,76 @@ class QuestGateLedgerTest {
             assertEquals(1,count(c,"quest_gate_completions"));assertFalse(gate(c,i,a,"supply").completed());assertEquals(Status.NOT_STARTED,gate(c,i,a,"supply").status());
         }
     }
+    QuestTermination terminal(Connection c,QuestGateLedger.Gate g,Status status)throws Exception {
+        var run=accepted(g);
+        QuestGateLedger.observe(c,g.id(),provider,new QuestObservation(status,run,null,now.plusSeconds(5),"native terminal"),now.plusSeconds(6));
+        return new QuestTermination(run,status,"termination:"+run.runId(),now.plusSeconds(4),now.plusSeconds(5),"durable native termination");
+    }
+    @Test void retryArchivesOriginalEvidenceAndNewAttemptSurvivesRestart()throws Exception {
+        String id,binding;QuestTermination proof;
+        try(var c=fresh()) {
+            var gate=pin(c,one("retry",Mode.PLAYER));id=gate.id();proof=terminal(c,gate,Status.ABANDONED);
+            var next=QuestGateLedger.retry(c,id,1,provider,proof,a,now.plusSeconds(7));binding=next.bindingId();
+            assertEquals(2,next.attempt());assertEquals(id,next.id());assertNotEquals(id,binding);assertNull(next.acceptedRun());
+            assertEquals(provider,next.providerId());assertEquals(now.plusSeconds(7),next.providerPinnedAt());
+            assertEquals(Status.NOT_STARTED,next.status());assertEquals(1,count(c,"quest_gate_attempts"));
+            assertTrue(scalar(c,"SELECT gate_json FROM quest_gate_attempts").contains(proof.acceptedRun().runId()));c.commit();
+        }
+        try(var c=connect()) {
+            c.setAutoCommit(false);QuestGateLedger.createSchema(c);var next=QuestGateLedger.find(c,id);
+            assertEquals(binding,next.request().bindingId());assertEquals(2,next.attempt());
+            var run=new AcceptedRun(binding,"new-run",a,next.questId(),fingerprint,now.plusSeconds(8),nation("river",now.plusSeconds(7)),issuer,"new acceptance");
+            var done=new CommittedCompletion(binding,run.runId(),"new-completion",a,next.questId(),fingerprint,run.startedAt(),now.plusSeconds(9),now.plusSeconds(10),run.acceptedNation(),nation("river",now.plusSeconds(9)),issuer,run.evidence(),"new completion");
+            var result=QuestGateLedger.observe(c,id,binding,provider,new QuestObservation(Status.COMMITTED,run,done,now.plusSeconds(11),"completed"),now.plusSeconds(11));
+            assertTrue(result.completionNewlyRecorded());assertEquals(1,count(c,"quest_gate_completions"));assertEquals(1,count(c,"quest_gate_attempts"));c.commit();
+        }
+    }
+    @Test void retryRejectsUnknownWrongOwnerProviderAndStaleAttemptWithoutErasingAcceptance()throws Exception {
+        try(var c=fresh()) {
+            var gate=pin(c,one("guard",Mode.NATION));var proof=terminal(c,gate,Status.FAILED);
+            assertThrows(SecurityException.class,()->QuestGateLedger.retry(c,gate.id(),1,provider,proof,b,now.plusSeconds(7)));
+            assertThrows(SecurityException.class,()->QuestGateLedger.retry(c,gate.id(),1,"replacement",proof,a,now.plusSeconds(7)));
+            assertThrows(IllegalStateException.class,()->QuestGateLedger.retry(c,gate.id(),2,provider,proof,a,now.plusSeconds(7)));
+            QuestGateLedger.observe(c,gate.id(),provider,new QuestObservation(Status.UNKNOWN,null,null,now.plusSeconds(7),"uncertain"),now.plusSeconds(7));
+            assertThrows(IllegalStateException.class,()->QuestGateLedger.retry(c,gate.id(),1,provider,proof,a,now.plusSeconds(8)));
+            assertEquals(proof.acceptedRun(),QuestGateLedger.find(c,gate.id()).acceptedRun());assertEquals(0,count(c,"quest_gate_attempts"));
+        }
+    }
+    @Test void lateOldAttemptDiagnosticsAndCompletionsCannotAffectNewBinding()throws Exception {
+        try(var c=fresh()) {
+            var gate=pin(c,one("late",Mode.PLAYER));var proof=terminal(c,gate,Status.ABANDONED);
+            var next=QuestGateLedger.retry(c,gate.id(),1,provider,proof,a,now.plusSeconds(7));
+            assertFalse(QuestGateLedger.observe(c,gate.id(),gate.bindingId(),provider,new QuestObservation(Status.UNKNOWN,null,null,now.plusSeconds(8),"late timeout"),now.plusSeconds(8)).changed());
+            assertFalse(QuestGateLedger.observe(c,gate.id(),gate.bindingId(),provider,committed(completed(accepted(gate))),now.plusSeconds(9)).changed());
+            assertEquals(next,QuestGateLedger.find(c,gate.id()));assertEquals(0,count(c,"quest_gate_completions"));
+            assertThrows(IllegalStateException.class,()->QuestGateLedger.retry(c,gate.id(),1,provider,proof,a,now.plusSeconds(10)));
+        }
+    }
+    @Test void retryArchiveAndBindingRollBackTogetherOnSqlFailure()throws Exception {
+        try(var c=fresh()) {
+            var gate=pin(c,one("atomic-retry",Mode.PLAYER));var proof=terminal(c,gate,Status.FAILED);c.commit();
+            try(var statement=c.createStatement()){statement.execute("CREATE TRIGGER fail_retry BEFORE UPDATE OF attempt ON quest_gates BEGIN SELECT RAISE(ABORT,'test failure'); END");}c.commit();
+            assertThrows(SQLException.class,()->QuestGateLedger.retry(c,gate.id(),1,provider,proof,a,now.plusSeconds(7)));c.rollback();
+            assertEquals(0,count(c,"quest_gate_attempts"));assertEquals(proof.acceptedRun(),QuestGateLedger.find(c,gate.id()).acceptedRun());
+        }
+    }
+    @Test void missingOrRewrittenAttemptArchiveFailsClosed()throws Exception {
+        try(var c=fresh()) {
+            var gate=pin(c,one("archive",Mode.PLAYER));var proof=terminal(c,gate,Status.ABANDONED);
+            QuestGateLedger.retry(c,gate.id(),1,provider,proof,a,now.plusSeconds(7));c.commit();
+            try(var s=c.createStatement()){s.execute("UPDATE quest_gate_attempts SET proof_hash='changed'");}
+            assertThrows(IllegalStateException.class,()->QuestGateLedger.find(c,gate.id()));c.rollback();
+            try(var s=c.createStatement()){s.execute("DELETE FROM quest_gate_attempts");}
+            assertThrows(IllegalStateException.class,()->QuestGateLedger.find(c,gate.id()));
+        }
+    }
+    @Test void existingGateMigrationKeepsFirstBindingProviderAndCompletionExactly()throws Exception {
+        try(var c=fresh()) {
+            var gate=pin(c,one("migration",Mode.PLAYER));finish(c,gate);var before=QuestGateLedger.find(c,gate.id());
+            try(var s=c.createStatement()){s.execute("ALTER TABLE quest_gates DROP COLUMN attempt");}
+            QuestGateLedger.createSchema(c);var after=QuestGateLedger.find(c,gate.id());
+            assertEquals(before,after);assertEquals(gate.id(),after.bindingId());assertEquals(1,after.attempt());assertEquals(0,count(c,"quest_gate_attempts"));
+        }
+    }
+
 }

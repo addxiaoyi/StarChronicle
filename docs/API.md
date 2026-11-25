@@ -26,6 +26,8 @@ if (chronicle != null) {
 
 `questGateState` 是只读投影，要求玩家已是该实例成员并仍保持实例记录的原国籍。个人模式只显示本人任务门槛；国家模式只向同一原国家成员显示。它不接受完成回执，不执行任务、不作出剧情选择，也不代表国家席位。配置使用 `quest.await` 前需有可信的 `QuestEvidenceProvider`，不能将 `quest.accept` 投递成功或目标达标解释为完成。完整 provider/run/completion 合同与 StarCore 部署边界见 [QUEST-GATES.md](QUEST-GATES.md)。
 
+`reconcileQuestGate(gateId, playerId, expectedAttempt)` 向原提供者核对本人的原任务；`retryQuestGate(gateId, playerId, expectedAttempt)` 仅在原生持久确认 FAILED/ABANDONED 后归档旧凭据、开启新轮次。调用者不能提交接受、完成或终止证明，身份和权限在服务端重新采集。轮次来自 `GateSummary.attempt()`，旧轮次和其他成员请求会被拒绝。可选 `QuestRecoveryProvider` 扩展负责原生对账和终止证明查询；不支持该扩展的提供者仍可读取原协议，但不能自动重试。UNKNOWN 对账不重放奖励，也不授权盲目新接取。
+
 对交互界面，应调用带阶段令牌的版本：
 
 ```java

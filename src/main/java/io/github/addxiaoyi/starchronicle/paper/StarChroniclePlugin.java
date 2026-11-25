@@ -157,7 +157,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             running.set(true);
             questGates=new QuestGateDriver(engine,new QuestGateDriver.StateDispatcher(){
                 @Override public <T>CompletionStage<T> submit(Callable<T> operation){return query(operation);}
-            },this::snapshot,Clock.systemUTC(),Duration.ofSeconds(10),8,message->getLogger().warning(message));
+            },this::nationalSnapshot,Clock.systemUTC(),Duration.ofSeconds(10),8,message->getLogger().warning(message));
             service=new Service();
             getServer().getServicesManager().register(ChronicleService.class,service,this,ServicePriority.Normal);
             var builtinAuthority=new StarCoreAuthorityProvider(gateway);
@@ -750,6 +750,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<ProcessReport> nationalVote(String id,UUID player,String expected,long revision,String choice){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.nationalVote(id,player,expected,revision,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> withdrawNationalVote(String id,UUID player,String expected,long revision){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.withdrawNationalVote(id,player,expected,revision,context);deliverPending();return result;}));}
         @Override public CompletionStage<QuestGateState> questGateState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.questGateSnapshot(id,context)));}
+        @Override public CompletionStage<QuestGateState.GateSummary> reconcileQuestGate(String gateId,UUID player,int attempt){return questGates.recover(gateId,player,attempt,false).thenApply(QuestGateState::summary);}
+        @Override public CompletionStage<QuestGateState.GateSummary> retryQuestGate(String gateId,UUID player,int attempt){return questGates.recover(gateId,player,attempt,true).thenApply(QuestGateState::summary);}
         @Override public CompletionStage<NationalVoteState> nationalState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->{NationalVoteState result=engine.nationalState(id,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> join(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.join(id,context)));}
         @Override public CompletionStage<List<MemberReviewLedger.Review>> memberReviews(UUID player,int limit){return nationalSnapshot(player).thenCompose(context->query(()->{engine.observeMembers(List.of(context));return engine.memberReviews(player,limit);}));}
@@ -790,6 +792,12 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             String action=args.length==0?"stories":args[0].toLowerCase(Locale.ROOT);
             switch(action) {
                 case "stories"->menus.stories(id,0);
+                case "quest-reconcile","quest-retry"->{
+                    if(args.length!=3)throw new IllegalArgumentException("用法: /chronicle "+action+" <门槛ID> <当前轮次>");
+                    int attempt=Integer.parseInt(args[2]);if(attempt<1)throw new IllegalArgumentException("轮次从 1 开始");
+                    var recovery=action.equals("quest-retry")?service.retryQuestGate(args[1],id,attempt):service.reconcileQuestGate(args[1],id,attempt);
+                    recovery.whenComplete((gate,error)->{if(error!=null)failure(id,error);else message(id,"任务轮次="+gate.attempt()+" 状态="+Menus.questGateStatus(gate.status())+"；"+gate.message());});
+                }
                 case "scene"->menus.scene(id);
                 case "npc"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle npc <逻辑NPC ID>");menus.npc(id,args[1]);}
                 case "fate"->menus.fate(id);
@@ -983,7 +991,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return true;
     }
     @Override public List<String> onTabComplete(CommandSender sender,Command command,String alias,String[] args) {
-        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","membership","reviews","revalidate","leave","contributions","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","membership","reviews","revalidate","leave","contributions","quest-reconcile","quest-retry","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
         if(args.length==2&&args[0].equalsIgnoreCase("epic"))return List.of("plans","providers","open","signup","enroll","withdraw-signup","seal","status","route","prepare","apply","reconcile","founding-reference").stream().filter(s->s.startsWith(args[1].toLowerCase(Locale.ROOT))).toList();
         if(args.length==4&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("prepare"))return Arrays.stream(EpicOperation.Type.values()).map(Enum::name).filter(s->s.startsWith(args[3].toUpperCase(Locale.ROOT))).toList();
         if(args.length==5&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("route"))return List.of("WAR","DUNGEON").stream().filter(s->s.startsWith(args[4].toUpperCase(Locale.ROOT))).toList();

@@ -869,6 +869,26 @@ public final class RuleEngine implements AutoCloseable {
     }
     public QuestGateLedger.Gate questGate(String gateId){return transaction(c->QuestGateLedger.find(c,gateId));}
 
+    /** Recovery is restricted to the original eligible owner and current node/attempt. */
+    public QuestGateLedger.Gate prepareQuestRecovery(String gateId,int expectedAttempt,PlayerContext actor) {
+        return transaction(c->requireQuestRecovery(c,gateId,expectedAttempt,actor));
+    }
+    private QuestGateLedger.Gate requireQuestRecovery(Connection c,String gateId,int expectedAttempt,PlayerContext actor)throws Exception {
+        var gate=QuestGateLedger.find(c,gateId);var instance=require(c,gate.instanceId());
+        requireQuestMember(instance,actor);
+        MemberReviewLedger.requireEligible(c,instance,actor.playerId(),actor.nationId(),clock.instant());
+        if(!gate.active()||gate.completed()||!gate.playerId().equals(actor.playerId())||gate.attempt()!=expectedAttempt||gate.providerId()==null)
+            throw new SecurityException("任务不属于本人当前可恢复的轮次，请刷新任务页面");
+        var effect=instance.definition().nodes().get(instance.node()).effects().stream().filter(e->e.id().equals(gate.effectId())&&e.type().equals("quest.await")).findFirst().orElseThrow();
+        if(!actor.permitted(effect.permission())||!test(instance.definition().condition(),facts(c,actor,event(c,instance.sourceEventId()),instance)))
+            throw new SecurityException("不满足任务恢复权限或剧情条件");
+        return gate;
+    }
+    public QuestGateLedger.Gate retryQuestGate(String gateId,int expectedAttempt,String providerId,QuestTermination proof,PlayerContext actor) {
+        return transaction(c->{requireQuestRecovery(c,gateId,expectedAttempt,actor);
+            return QuestGateLedger.retry(c,gateId,expectedAttempt,providerId,proof,actor.playerId(),clock.instant());});
+    }
+
     /** Project an already committed national task gate as an epic receipt without starting a task. */
     public EpicObservation epicQuestEvidence(EpicOperation operation,String providerId,String authorityDomain) {
         Objects.requireNonNull(operation);Objects.requireNonNull(providerId);Objects.requireNonNull(authorityDomain);
@@ -909,12 +929,19 @@ public final class RuleEngine implements AutoCloseable {
     public QuestGateLedger.Mutation questUnavailable(String gateId,String message) {
         return transaction(c->QuestGateLedger.unavailable(c,gateId,message,clock.instant()));
     }
+    public QuestGateLedger.Mutation questUnavailable(String gateId,String bindingId,String message) {
+        return transaction(c->{var current=QuestGateLedger.find(c,gateId);
+            return current.bindingId().equals(bindingId)?QuestGateLedger.unavailable(c,gateId,message,clock.instant()):new QuestGateLedger.Mutation(false,current,false);});
+    }
     /** Canonical native receipt, consumption keys, history and causal inbox commit together.
      * This operation does not advance a choice or invoke native completion/rewards. */
     public QuestGateLedger.Mutation observeQuestGate(String gateId,String providerId,QuestObservation observation) {
+        return observeQuestGate(gateId,null,providerId,observation);
+    }
+    public QuestGateLedger.Mutation observeQuestGate(String gateId,String bindingId,String providerId,QuestObservation observation) {
         Objects.requireNonNull(observation);
         return transaction(c->{
-            var mutation=QuestGateLedger.observe(c,gateId,providerId,observation,clock.instant());
+            var mutation=bindingId==null?QuestGateLedger.observe(c,gateId,providerId,observation,clock.instant()):QuestGateLedger.observe(c,gateId,bindingId,providerId,observation,clock.instant());
             if(mutation.completionNewlyRecorded()) {
                 var gate=mutation.gate();var receipt=Objects.requireNonNull(gate.completion());
                 WorldEvent event=questCompletionEvent(gate,receipt);

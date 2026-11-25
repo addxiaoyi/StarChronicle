@@ -169,4 +169,66 @@ class QuestGateDriverTest {
         driver(Duration.ofSeconds(3),2,id->{fresh.incrementAndGet();return CompletableFuture.completedFuture(context(id));},false);var p=new Provider("native-a");driver.providers(List.of(p));poll();idle();
         assertEquals(Status.UNSUPPORTED,saved(gate.id()).status());assertNull(saved(gate.id()).providerId());assertNull(saved(gate.id()).providerPinnedAt());assertEquals(0,p.lookups.get());assertEquals(0,p.admissions.get());assertEquals(0,fresh.get());assertEquals(0,history());assertFalse(engine.questGateState(instanceId,context(a)).ready());
     }
+    final class RecoveryProvider implements QuestRecoveryProvider {
+        final Map<String,QuestObservation> canonical=new ConcurrentHashMap<>();
+        final AtomicInteger admits=new AtomicInteger(),reconciles=new AtomicInteger();
+        volatile Function<QuestRequest,CompletionStage<QuestTermination>> terminal;
+        volatile Function<QuestRequest,CompletionStage<QuestObservation>> reconciliation;
+        public String providerId(){return "recoverable";}
+        public CompletionStage<QuestObservation> lookup(QuestRequest r){return CompletableFuture.completedFuture(canonical.getOrDefault(r.bindingId(),observation(r,Status.NOT_STARTED)));}
+        public CompletionStage<QuestObservation> ensureStarted(QuestRequest r){admits.incrementAndGet();var active=observation(r,Status.ACTIVE);canonical.put(r.bindingId(),active);return CompletableFuture.completedFuture(active);}
+        public CompletionStage<QuestObservation> reconcile(QuestRequest r){reconciles.incrementAndGet();return reconciliation==null?lookup(r):reconciliation.apply(r);}
+        public CompletionStage<QuestTermination> termination(QuestRequest r){return terminal.apply(r);}
+    }
+    QuestGateLedger.Gate failed(RecoveryProvider provider,Status status) {
+        var gate=engine.prepareQuestGate(own(a).id(),provider.providerId(),context(a));var run=accepted(gate.request());
+        var observation=new QuestObservation(status,run,null,now,"native state");provider.canonical.put(gate.bindingId(),observation);
+        engine.observeQuestGate(gate.id(),provider.providerId(),observation);
+        provider.terminal=r->CompletableFuture.completedFuture(new QuestTermination(run,status,"terminal:"+run.runId(),now,now,"durable negative receipt"));
+        return saved(gate.id());
+    }
+    @Test void explicitRetryKeepsOldProofAndAdmitsNewBindingOnlyOnFollowingPoll()throws Exception {
+        start(1,Mode.PLAYER);driver();var provider=new RecoveryProvider();driver.providers(List.of(provider));var old=failed(provider,Status.FAILED);
+        var next=driver.recover(old.id(),a,1,true).toCompletableFuture().get(3,TimeUnit.SECONDS);
+        assertEquals(2,next.attempt());assertEquals(0,provider.admits.get());assertNotEquals(old.bindingId(),next.bindingId());
+        poll();idle();assertEquals(1,provider.admits.get());assertEquals(next.bindingId(),saved(old.id()).acceptedRun().bindingId());
+        provider.canonical.put(next.bindingId(),observation(next.request(),Status.COMMITTED));poll();idle();
+        assertEquals(1,history());assertEquals(1,provider.admits.get());assertTrue(saved(old.id()).completed());
+    }
+    @Test void unknownRetryNeverCallsNativeAndReconcileCannotInventANewAttempt()throws Exception {
+        start(1,Mode.PLAYER);driver();var provider=new RecoveryProvider();driver.providers(List.of(provider));var old=failed(provider,Status.UNKNOWN);
+        assertThrows(ExecutionException.class,()->driver.recover(old.id(),a,1,true).toCompletableFuture().get(3,TimeUnit.SECONDS));
+        assertEquals(0,provider.reconciles.get());assertEquals(0,provider.admits.get());
+        var result=driver.recover(old.id(),a,1,false).toCompletableFuture().get(3,TimeUnit.SECONDS);
+        assertEquals(Status.UNKNOWN,result.status());assertEquals(old.acceptedRun(),result.acceptedRun());assertEquals(1,result.attempt());assertEquals(1,provider.reconciles.get());
+    }
+    @Test void removedRecoveryLeaseCannotConsumeLateTerminationAndConcurrentClickIsRejected()throws Exception {
+        start(1,Mode.PLAYER);driver();var provider=new RecoveryProvider();driver.providers(List.of(provider));var old=failed(provider,Status.ABANDONED);
+        CompletableFuture<QuestTermination> pending=new CompletableFuture<>();AtomicBoolean called=new AtomicBoolean();
+        provider.terminal=r->{called.set(true);return pending;};
+        var first=driver.recover(old.id(),a,1,true).toCompletableFuture();await(called::get,"No terminal query");
+        assertThrows(ExecutionException.class,()->driver.recover(old.id(),a,1,true).toCompletableFuture().get(3,TimeUnit.SECONDS));
+        driver.providers(List.of(new RecoveryProvider()));
+        pending.complete(new QuestTermination(old.acceptedRun(),Status.ABANDONED,"terminal",now,now,"durable terminal"));
+        assertThrows(ExecutionException.class,()->first.get(3,TimeUnit.SECONDS));assertEquals(1,saved(old.id()).attempt());assertEquals(old.acceptedRun(),saved(old.id()).acceptedRun());
+    }
+    @Test void countryChangeDuringTerminalLookupPreventsNewAttempt()throws Exception {
+        start(1,Mode.NATION);AtomicReference<PlayerContext> identity=new AtomicReference<>(context(a));
+        driver(Duration.ofSeconds(3),8,id->CompletableFuture.completedFuture(identity.get()),false);
+        var provider=new RecoveryProvider();driver.providers(List.of(provider));var old=failed(provider,Status.FAILED);
+        CompletableFuture<QuestTermination> pending=new CompletableFuture<>();AtomicBoolean called=new AtomicBoolean();provider.terminal=r->{called.set(true);return pending;};
+        var first=driver.recover(old.id(),a,1,true).toCompletableFuture();await(called::get,"No terminal query");
+        identity.set(new PlayerContext(a,"other",Map.of(),Set.of("starchronicle.use","quest.admit")));
+        pending.complete(new QuestTermination(old.acceptedRun(),Status.FAILED,"terminal",now,now,"durable terminal"));
+        assertThrows(ExecutionException.class,()->first.get(3,TimeUnit.SECONDS));assertEquals(1,saved(old.id()).attempt());assertEquals(0,provider.admits.get());
+    }
+    @Test void recoveryTimeoutLeavesOriginalBindingAndIgnoresLateCompletion()throws Exception {
+        start(1,Mode.PLAYER);driver(Duration.ofMillis(100),8,id->CompletableFuture.completedFuture(context(id)),false);
+        var provider=new RecoveryProvider();driver.providers(List.of(provider));var old=failed(provider,Status.UNKNOWN);
+        CompletableFuture<QuestObservation> pending=new CompletableFuture<>();provider.reconciliation=r->pending;
+        assertThrows(ExecutionException.class,()->driver.recover(old.id(),a,1,false).toCompletableFuture().get(3,TimeUnit.SECONDS));
+        pending.complete(observation(old.request(),Status.COMMITTED));
+        assertEquals(0,history());assertEquals(Status.UNKNOWN,saved(old.id()).status());assertEquals(1,saved(old.id()).attempt());
+    }
+
 }

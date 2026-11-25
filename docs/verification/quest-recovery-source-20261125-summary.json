@@ -1,0 +1,126 @@
+{
+  "date": "2026-11-25",
+  "scope": "Source and unit tests; three-JVM task-service recovery contract with mocked Bukkit. No Minecraft server, real player action, completion/reward execution, production or full Folia certification.",
+  "chronicle": {
+    "baseline": "099c29d4c1ed36d9b3e25b3878c87411435270ea",
+    "tests": {
+      "tests": 914,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "jar_sha256": "b94cd898b779f96c9689581c619ac5c59747a62c40673cb38d1edc0ef8fa3362"
+  },
+  "starcore": {
+    "baseline": "1fca7c9912bacc39e508e948a8a5c2beb6dd2178",
+    "tests": {
+      "tests": 76,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "jar_sha256": "977ed805c5d8640abe9495372dcdd7059974ecae318453051cdd8182e46c2b98",
+    "full_suite_rerun": false
+  },
+  "class_equivalence": {
+    "tested_sha256": "b8f2000d24b277d7d9a56f6f3702725a2dc4f42b12ed49c6a02ffea439c52fc1",
+    "final_sha256": "b94cd898b779f96c9689581c619ac5c59747a62c40673cb38d1edc0ef8fa3362",
+    "class_count": 1757,
+    "identical_classes": true
+  },
+  "contract": {
+    "status": "PASS",
+    "scope": "Three fresh JVMs; real packaged quest services, file persistence, Chronicle SQLite and reflection adapter; mocked Bukkit player/scheduler; no Minecraft server, real player actions or rewards",
+    "artifacts": {
+      "QuestRecoveryContractProbe.java": "fc9a1724a04deebcf98381bbe8e12ec0dd364694d451e4303e6021b386758dc2",
+      "starchronicle.jar": "b94cd898b779f96c9689581c619ac5c59747a62c40673cb38d1edc0ef8fa3362",
+      "starcore.jar": "977ed805c5d8640abe9495372dcdd7059974ecae318453051cdd8182e46c2b98"
+    },
+    "phases": {
+      "compile": {
+        "exit_code": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "first": {
+        "exit_code": 0,
+        "log_sha256": "422252814a2f718702fede0cdfd45263b7e2e13307b9244356e75b80f29573d5"
+      },
+      "second": {
+        "exit_code": 0,
+        "log_sha256": "568224e0bc47840e6c84198144d9f9c46902e721e86aecdc7943d12a4d6bb17a"
+      },
+      "third": {
+        "exit_code": 0,
+        "log_sha256": "13b58a3fd4728c4fdc2bd4b6673b6dc6a1695047251f3551d36aa77f0be01938"
+      }
+    },
+    "files": {
+      "chronicle.db": "e2a607a78d963c97fad9538d7c0b3ecd093b1274c0c9ac92039192235952639d",
+      "chronicle.db-shm": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+      "chronicle.db-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compile.args": "42577df1108a8e0e1f618c738f6bbb92e83239921230dd3d2383fd1ac0938ac6",
+      "compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "first-binding.txt": "1891914fc066dfa4a8ebc25e09511ff214bf4f4b177159d1532d662b00fcb442",
+      "first.args": "3e6c61df49495de5dd15cc2af46d2aa990b63c55a04abd696e59c2e996f3b0d4",
+      "first.log": "422252814a2f718702fede0cdfd45263b7e2e13307b9244356e75b80f29573d5",
+      "second-binding.txt": "2f037f32518bb7be2f52384e66a8e5ad65aafcdcde903b678719dc0c687f1ba5",
+      "second.args": "bb8515a29d027e93afc6fa4eb1c463749a8c0aff6b531e1dfea8b5c6a4b8248f",
+      "second.log": "568224e0bc47840e6c84198144d9f9c46902e721e86aecdc7943d12a4d6bb17a",
+      "third.args": "6a5bb05e347d8cfa87fb724b663c0d40f961a5d674a5e78ab9b007bb2f859258",
+      "third.log": "13b58a3fd4728c4fdc2bd4b6673b6dc6a1695047251f3551d36aa77f0be01938",
+      "artifacts\\QuestRecoveryContractProbe.java": "fc9a1724a04deebcf98381bbe8e12ec0dd364694d451e4303e6021b386758dc2",
+      "artifacts\\starchronicle.jar": "b94cd898b779f96c9689581c619ac5c59747a62c40673cb38d1edc0ef8fa3362",
+      "artifacts\\starcore.jar": "977ed805c5d8640abe9495372dcdd7059974ecae318453051cdd8182e46c2b98",
+      "classes\\io\\github\\addxiaoyi\\starchronicle\\integration\\QuestRecoveryContractProbe.class": "fd7e6590f3c883f6cd65430fb1049ab11bba46d86b4d4b7fabee5d6308f34ce2",
+      "native\\quest\\commissions.properties": "ff7a29b52338672201671fccf31cf40414da2d5459b972f87efde0022df77253",
+      "native\\quest\\commissions.properties.bak": "92bbf668f9c35888810b9218946e036e3b0d6ef3b01546b10b4aa79ef90064dd",
+      "native\\quest\\daily_quests.properties": "ff7a29b52338672201671fccf31cf40414da2d5459b972f87efde0022df77253",
+      "native\\quest\\daily_quests.properties.bak": "92bbf668f9c35888810b9218946e036e3b0d6ef3b01546b10b4aa79ef90064dd",
+      "native\\quest\\evidence-authority.properties": "37ba34a0fcd1375c2c815df49cf58ed7d37cbc48587aa9b7d2ae62a0aee469c4",
+      "native\\quest\\quests.properties": "b18ecf5968fb718b0e7184817d9202e3180717a555b4132091ceb86e5292b2b9",
+      "native\\quest\\quests.properties.bak": "b18ecf5968fb718b0e7184817d9202e3180717a555b4132091ceb86e5292b2b9",
+      "native\\quest\\termination-journal\\2f205aa9-ef2d-4309-ad90-99d310157dc4.json": "f2e02a68f03aa319a84a7718b357974bf981676c285a0c019b32670491972598",
+      "native\\quest\\tracked-evidence\\1891914fc066dfa4a8ebc25e09511ff214bf4f4b177159d1532d662b00fcb442.properties": "5c99a82709d78af893cf63c84c81a7269718d8707acb40bd4ba305941f2114d4",
+      "native\\quest\\tracked-evidence\\1891914fc066dfa4a8ebc25e09511ff214bf4f4b177159d1532d662b00fcb442.properties.bak": "36177830cdcdf57aac80b9b7cf479b6300a2fdc64584d75423f4e6f07e68619e",
+      "native\\quest\\tracked-evidence\\2f037f32518bb7be2f52384e66a8e5ad65aafcdcde903b678719dc0c687f1ba5.properties": "2362231d68e6b0e9abc5bece50702fbfb4476bd34898f99f198aebcd4e809810",
+      "native\\quest\\tracked-evidence\\2f037f32518bb7be2f52384e66a8e5ad65aafcdcde903b678719dc0c687f1ba5.properties.bak": "f3d20b7a4690beb31ecaad5dfc3162fe3c4dd465a0ff9022ce2340e9f134c122"
+    }
+  },
+  "coverage": "No current JaCoCo evidence; forkCount=0 with low-memory Maven JVM.",
+  "retained_failures": [
+    "Native first run: 42 tests, two assertions expected immediate terminal publication; updated to await durability.",
+    "Chronicle first full run: 912 tests, one failure exposed exited membership being treated as corrupt quest identity; fixed using durable exit log.",
+    "One PowerShell source-edit launcher failed before editing with: Fatal error. Releasing the double mapped memory failed. Changes were subsequently applied with apply_patch."
+  ],
+  "source_hashes": {
+    "chronicle": {
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/ChronicleService.java": "01cc3c29fe5bd9a210e3aca1f47f7e14135dd7cc277c5db334593968acea4695",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/QuestGateState.java": "e2919fe52b41392dec23f3cef16a97a8c398e3be9a3a8e2e82282bbc5a3ee776",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/QuestRecoveryProvider.java": "0d2e57ee97671c88e4b654b4344011d7d515856aa7122229351f6d10eed4d5d5",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/QuestTermination.java": "4ca7dd72129e3ce74d3b357a69e24d45acf1836fc6341ab239f1aa7f2ebbd650",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/QuestGateDriver.java": "92a94dc7cd8ac78868f9b5c6570417dad0d5556fa08ea2bcd2ad0df8e739d37c",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/QuestGateLedger.java": "0700947890a856e8f36289b2cfb41d381e32fc4e09b4059020fe3c1f87d78847",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/RuleEngine.java": "0a1027955f4375032b0c5b1ecd52dad4d77dcb53d79a04b32831dd990847a199",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreQuestEvidenceProvider.java": "f83d80f4f6019295428985fb8810be6077ce8e5ca4a77caecce9600449f092b6",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/Menus.java": "6f7781858dd93bac7d7847689c1a53b9e85fc6e7155adcd202f8d0d5b2ead83a",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin.java": "d4e212aca671256412e5ec88dbc02bf710f21aba487531a171bfa8f0323f458f",
+      "src/main/resources/plugin.yml": "59c026c78b7f26a04722d237b1be42d00f5d551b998eb8b0eb54ff7ad51f5fe7",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/QuestGateDriverTest.java": "8e88cf8d509254c1bd3312485db1f87d44be2f3250bcff63bb84e70edca5f7f7",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/QuestGateEngineTest.java": "151603e1de991534c936ecc64657b409e039e8034320a147d531a2d48b513b8c",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/QuestGateLedgerTest.java": "dd515c45880fa23ce1e72fa12f7b5c5bdc28eb79824eb932176217693d266046",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreQuestEvidenceProviderTest.java": "562c311bfca5c9266cacc6989e55c8c075cc0b1d373cdebcbfe0129657ea3d07",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/QuestGateMenusTest.java": "aba3bfe2ff649261394d4ca2c63a74606f95756da1b28afc8d21f1a7b45deca1"
+    },
+    "starcore": {
+      "src/main/java/dev/starcore/starcore/quest/PlayerQuest.java": "89a5c9d3dcaa834c39ae56f87b8a6f5885913260f91808d8ff42a33bdaed95a1",
+      "src/main/java/dev/starcore/starcore/quest/QuestPersistenceHandler.java": "8c312dcb0f52b5364e5065036b018d0688b03b6de1f45a4dbbe50ebf23ba1ec4",
+      "src/main/java/dev/starcore/starcore/quest/evidence/QuestCompletionJournal.java": "c32992604ec7a7505b69063d87c1f3cbc7a6a79ce94aea9c221c763494a8411a",
+      "src/main/java/dev/starcore/starcore/quest/evidence/QuestEvidenceService.java": "6eeb9ca87f09ad3f4fde0ea2aba3b7a1c1afddaee669e09567a8b41afac62d8e",
+      "src/main/java/dev/starcore/starcore/quest/evidence/QuestTerminationJournal.java": "b7b73735bcaa5b6f3d94088805131c5df6b7297e9abdb54f05e61bcdd6993e0f",
+      "src/test/java/dev/starcore/starcore/quest/QuestEvidenceServiceTest.java": "ece4c23129c211745e727841f9e774c2100cbb1bcd495b9b4d919c8818bd65cb",
+      "src/test/java/dev/starcore/starcore/quest/QuestTrackedRunPersistenceTest.java": "786fee4d1275eb960755553e2f483e3b389c72ee452f09424ba9bba0657b6f9d"
+    }
+  },
+  "evidence_zip_sha256": "c2631a408ea65d28f2cc4513b8168c751db129dd86050a201e00182537a0404f",
+  "evidence_files": 266
+}

@@ -21,20 +21,29 @@ public record QuestGateState(String instanceId, String nodeId, boolean ready,
         List<GateSummary> summaries=view.gates().stream().map(gate->{
             if(!Objects.equals(instanceId,gate.instanceId())||!Objects.equals(nodeId,gate.nodeId()))
                 throw new IllegalArgumentException("Task gate does not belong to the projected instance/node");
-            return new GateSummary(gate.id(),gate.playerId(),gate.effectId(),gate.questId(),gate.mode(),
-                    gate.expectedNationId(),gate.status(),gate.providerId(),
-                    gate.acceptedRun()==null?"":gate.acceptedRun().runId(),
-                    gate.completion()==null?"":gate.completion().completionId(),gate.message());
+            return summary(gate);
         }).sorted(Comparator.comparing(GateSummary::effectId).thenComparing(g->g.playerId().toString())
                 .thenComparing(GateSummary::gateId)).toList();
         return new QuestGateState(instanceId,nodeId,view.ready(),view.blockedEffectIds(),summaries);
     }
 
+    public static GateSummary summary(QuestGateLedger.Gate gate) {
+        return new GateSummary(gate.id(),gate.playerId(),gate.effectId(),gate.questId(),gate.mode(),
+                    gate.expectedNationId(),gate.status(),gate.providerId(),
+                    gate.acceptedRun()==null?"":gate.acceptedRun().runId(),
+                    gate.completion()==null?"":gate.completion().completionId(),gate.message(),gate.attempt());
+    }
+
     /** IDs and human-readable status only: no native evidence, fingerprints or mutable quest objects. */
     public record GateSummary(String gateId, UUID playerId, String effectId, String questId,
                               QuestRequest.Mode mode, String nationId, QuestObservation.Status status,
-                              String providerId, String runId, String completionId, String message) {
+                              String providerId, String runId, String completionId, String message, int attempt) {
+        public GateSummary(String gateId,UUID playerId,String effectId,String questId,QuestRequest.Mode mode,
+                           String nationId,QuestObservation.Status status,String providerId,String runId,String completionId,String message) {
+            this(gateId,playerId,effectId,questId,mode,nationId,status,providerId,runId,completionId,message,1);
+        }
         public GateSummary {
+            if(attempt<1)throw new IllegalArgumentException("Invalid quest attempt");
             Objects.requireNonNull(gateId,"gateId");Objects.requireNonNull(playerId,"playerId");
             Objects.requireNonNull(effectId,"effectId");Objects.requireNonNull(questId,"questId");
             Objects.requireNonNull(mode,"mode");Objects.requireNonNull(status,"status");

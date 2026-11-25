@@ -84,27 +84,27 @@ public final class QuestGateDriver implements AutoCloseable {
 
     private CompletionStage<Void> start(QuestGateLedger.Gate gate,Set<UUID> online) {
         if(gate.mode()==QuestRequest.Mode.NATION&&gate.expectedNationId().isBlank())
-            return update(()->engine.questUnavailable(gate.id(),"原成员没有可证明的国家，国家任务保持等待且不接取"));
+            return update(()->engine.questUnavailable(gate.id(),gate.bindingId(),"原成员没有可证明的国家，国家任务保持等待且不接取"));
         Lease lease=gate.providerId()==null?providers.stream().findFirst().orElse(null):
             providers.stream().filter(l->l.id.equals(gate.providerId())).findFirst().orElse(null);
-        if(lease==null)return update(()->engine.questUnavailable(gate.id(),"未安装所需的可信原生任务完成凭证服务；保持等待"));
+        if(lease==null)return update(()->engine.questUnavailable(gate.id(),gate.bindingId(),"未安装所需的可信原生任务完成凭证服务；保持等待"));
         CompletionStage<QuestGateLedger.Gate> pinned=gate.providerId()==null?
             fresh(gate.playerId()).thenCompose(actor->state.submit(()->{
                 requireLease(lease);return engine.prepareQuestGate(gate.id(),lease.id,actor);
             })):CompletableFuture.completedFuture(gate);
         return pinned.thenCompose(current->call(lease,current.request(),false).thenCompose(observation->
             state.submit(()->{
-                requireLease(lease);return engine.observeQuestGate(current.id(),lease.id,observation);
+                requireLease(lease);return engine.observeQuestGate(current.id(),current.bindingId(),lease.id,observation);
             }).thenCompose(mutation->{
                 var latest=mutation.gate();
                 // Only canonical absence permits an idempotent admission. A previously accepted
                 // run, an uncertain result, readiness or completed-ever never does so.
-                if(!latest.active()||latest.completed()||latest.acceptedRun()!=null||observation.status()!=QuestObservation.Status.NOT_STARTED||!online.contains(latest.playerId()))
+                if(!latest.bindingId().equals(current.bindingId())||!latest.active()||latest.completed()||latest.acceptedRun()!=null||observation.status()!=QuestObservation.Status.NOT_STARTED||!online.contains(latest.playerId()))
                     return CompletableFuture.completedFuture(null);
                 return fresh(latest.playerId()).thenCompose(actor->state.submit(()->{
                     requireLease(lease);return engine.prepareQuestGate(latest.id(),lease.id,actor);
                 })).thenCompose(ready->call(lease,ready.request(),true)).thenCompose(result->update(()->{
-                    requireLease(lease);return engine.observeQuestGate(latest.id(),lease.id,result);
+                    requireLease(lease);return engine.observeQuestGate(latest.id(),latest.bindingId(),lease.id,result);
                 }));
             }))
         ).exceptionallyCompose(error->{
@@ -116,11 +116,51 @@ public final class QuestGateDriver implements AutoCloseable {
                 if(gate.providerId()==null) {
                     // Pin may have failed before any native call. Do not invent a pin.
                     var pinnedNow=engine.questGate(gate.id());
-                    if(pinnedNow==null||pinnedNow.providerId()==null)return engine.questUnavailable(gate.id(),bounded(message(error)));
+                    if(pinnedNow==null||pinnedNow.providerId()==null)return engine.questUnavailable(gate.id(),gate.bindingId(),bounded(message(error)));
                 }
-                return engine.observeQuestGate(gate.id(),lease.id,status);
+                return engine.observeQuestGate(gate.id(),gate.bindingId(),lease.id,status);
             });
         });
+    }
+
+    /** Explicit owner action; uses the same flight lock and provider lease as automatic polling. */
+    public CompletionStage<QuestGateLedger.Gate> recover(String gateId,UUID player,int expectedAttempt,boolean retry) {
+        synchronized(flights) {
+            if(closed||flights.size()>=maxFlights||!flights.add(gateId))
+                return CompletableFuture.failedFuture(new IllegalStateException("任务正在核对，请稍后刷新重试"));
+        }
+        CompletionStage<QuestGateLedger.Gate> result=fresh(player)
+            .thenCompose(actor->state.submit(()->engine.prepareQuestRecovery(gateId,expectedAttempt,actor)))
+            .thenCompose(gate->{
+                Lease lease=providers.stream().filter(p->p.id.equals(gate.providerId())).findFirst().orElseThrow(()->new IllegalStateException("原任务提供者不可用"));
+                if(!(lease.provider instanceof QuestRecoveryProvider recovery))throw new IllegalStateException("原任务提供者尚未支持安全恢复");
+                if(retry&&gate.status()!=QuestObservation.Status.FAILED&&gate.status()!=QuestObservation.Status.ABANDONED)
+                    throw new IllegalStateException("只有已确认失败或放弃的任务可重试；UNKNOWN 请先对账");
+                return invoke(lease,()->retry?recovery.lookup(gate.request()):recovery.reconcile(gate.request()))
+                    .thenCompose(observation->state.submit(()->{
+                        requireLease(lease);return engine.observeQuestGate(gate.id(),gate.bindingId(),lease.id,Objects.requireNonNull(observation)).gate();
+                    })).thenCompose(current->{
+                        if(!retry)return CompletableFuture.completedFuture(current);
+                        return invoke(lease,()->recovery.termination(gate.request())).thenCompose(proof->{
+                            if(proof==null)throw new IllegalStateException("原生任务尚无持久终止凭据，未开启新轮次");
+                            return fresh(player).thenCompose(actor->state.submit(()->{
+                                requireLease(lease);return engine.retryQuestGate(gateId,expectedAttempt,lease.id,proof,actor);
+                            }));
+                        });
+                    });
+            });
+        return result.whenComplete((value,error)->flights.remove(gateId));
+    }
+
+    private <T>CompletionStage<T> invoke(Lease lease,Supplier<CompletionStage<T>> operation) {
+        CompletableFuture<T> result=new CompletableFuture<>();
+        try {calls.execute(()->{
+            if(result.isDone())return;
+            try {requireLease(lease);CompletionStage<T> future=Objects.requireNonNull(operation.get());
+                future.whenComplete((value,error)->{if(error==null)result.complete(value);else result.completeExceptionally(error);});
+            }catch(Throwable failure){result.completeExceptionally(failure);}
+        });}catch(RejectedExecutionException full){result.completeExceptionally(full);}
+        return result.orTimeout(timeoutMillis,TimeUnit.MILLISECONDS);
     }
 
     private CompletionStage<PlayerContext> fresh(UUID player) {

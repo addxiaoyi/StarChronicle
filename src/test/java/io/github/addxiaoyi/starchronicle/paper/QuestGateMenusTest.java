@@ -43,7 +43,7 @@ class QuestGateMenusTest {
         var nation=new NationProof(NationProof.State.KNOWN_NATION,"nation-a",Instant.EPOCH,"native","secret-nation-evidence");
         var accepted=new AcceptedRun(id,"run-"+id,owner,"native-quest","a".repeat(64),Instant.EPOCH,nation,"native","secret-acceptance-evidence");
         var completion=completed?new CommittedCompletion(id,"run-"+id,"completion-"+id,owner,"native-quest","a".repeat(64),Instant.EPOCH,Instant.EPOCH,Instant.EPOCH,nation,nation,"native","secret-acceptance-evidence","secret-completion-evidence"):null;
-        return new QuestGateLedger.Gate(id,"instance","source","story","1","f".repeat(64),"world",node,"await-native",owner,"native-quest",QuestRequest.Mode.PLAYER,"nation-a",Instant.EPOCH,"native",Instant.EPOCH,completed?QuestObservation.Status.COMMITTED:QuestObservation.Status.ACTIVE,accepted,completion,Instant.EPOCH,Instant.EPOCH,1,"safe status",true);
+        return new QuestGateLedger.Gate(id,"instance","source","story","1","f".repeat(64),"world",node,"await-native",owner,"native-quest",QuestRequest.Mode.PLAYER,"nation-a",Instant.EPOCH,"native",Instant.EPOCH,completed?QuestObservation.Status.COMMITTED:QuestObservation.Status.ACTIVE,accepted,completion,Instant.EPOCH,Instant.EPOCH,1,"safe status",true,1);
     }
 
     @Test void projectionKeepsOnlyReadOnlyIdsAndDefensivelyCopiesLists(){
@@ -122,4 +122,15 @@ class QuestGateMenusTest {
         assertEquals(0,Menus.questGatePageIndex(-5,0));assertEquals(0,Menus.questGatePageIndex(8,1));
         assertEquals(0,Menus.questGatePageIndex(1,36));assertEquals(1,Menus.questGatePageIndex(99,37));assertEquals(2,Menus.questGatePageIndex(2,100));
     }
+    @Test void recoveryButtonsCarryCapturedAttemptAndRejectAnotherOwnersGate() {
+        var gate=new QuestGateState.GateSummary("gate",viewer,"effect","quest",QuestRequest.Mode.PLAYER,"nation-a",QuestObservation.Status.FAILED,"native","run","","failed",3);
+        when(service.retryQuestGate("gate",viewer,3)).thenReturn(CompletableFuture.completedFuture(gate));
+        List<QuestGateState.GateSummary> results=new ArrayList<>();
+        Menus.questGateRecoveryAction(service,viewer,gate,true,results::add,error->fail(error)).run();
+        assertEquals(List.of(gate),results);verify(service).retryQuestGate("gate",viewer,3);verifyNoMoreInteractions(service);
+        List<Throwable> errors=new ArrayList<>();
+        Menus.questGateRecoveryAction(service,UUID.randomUUID(),gate,true,results::add,errors::add).run();
+        assertEquals(1,errors.size());assertInstanceOf(SecurityException.class,errors.getFirst());verifyNoMoreInteractions(service);
+    }
+
 }

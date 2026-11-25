@@ -243,7 +243,7 @@ public final class Menus implements Listener {
                     }));
                 }
             } else put(s,31,Material.GOLD_INGOT,"此篇历史已落定",List.of("结果与效果收据已持久化。"),null);
-            if(instance.contains(viewer))put(s,50,Material.IRON_DOOR,"任务门槛状态",List.of("查看本阶段原生任务与完成记录摘要。","只读；剧情选择仍由服务端重新验证。"),()->questGates(viewer,instance.id(),instance.node(),0));
+            if(instance.contains(viewer))put(s,50,Material.IRON_DOOR,"任务门槛状态",List.of("查看本阶段原生任务与完成记录摘要。","可核对本人的任务，或重试已确认终止的任务。"),()->questGates(viewer,instance.id(),instance.node(),0));
             if(instance.contains(viewer)&&!instance.completed())put(s,48,Material.PLAYER_HEAD,"成员资格与退出",List.of("查看待复核原因、重新核验或退出此剧情。"),()->membership(viewer,instance.id()));
             put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer,0));
             p.openInventory(s.inventory);
@@ -432,6 +432,14 @@ public final class Menus implements Listener {
                     put(s,i,Material.PAPER,split<0?detail:detail.substring(0,split),wrap(split<0?"":detail.substring(split+1)),null);
                 }
                 if(current>0)put(s,45,Material.ARROW,"上一页详情",List.of(),()->questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current-1));
+                var selected=gate.get();
+                if(selected.playerId().equals(viewer)&&selected.status()!=QuestObservation.Status.COMMITTED) {
+                    put(s,46,Material.COMPASS,"核对原任务",List.of("向原任务服务核对当前轮次。","已有完成记录可恢复；不补发奖励。"),
+                            questGateRecoveryAction(plugin.service(),viewer,selected,false,updated->{plugin.message(viewer,updated.message());questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current);},error->plugin.failure(viewer,error)));
+                    if(selected.status()==QuestObservation.Status.FAILED||selected.status()==QuestObservation.Status.ABANDONED)
+                        put(s,47,Material.CLOCK,"开启新轮次",List.of("须验证原任务已持久确认失败或放弃。","旧记录永久保留，新轮次重新接取。"),
+                                questGateRecoveryAction(plugin.service(),viewer,selected,true,updated->{plugin.message(viewer,updated.message());questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current);},error->plugin.failure(viewer,error)));
+                }
                 put(s,48,Material.COMPASS,"刷新详情",List.of("完成 ID 只表示已提交的原生完成记录，不承诺奖励到账。"),()->questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current));
                 put(s,49,Material.ARROW,"返回任务门槛",List.of(),()->questGates(viewer,instanceId,expectedNode,listPage));
                 if((current+1)*PAGE<details.size())put(s,53,Material.ARROW,"下一页详情",List.of(),()->questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current+1));
@@ -449,9 +457,20 @@ public final class Menus implements Listener {
     }
 
     static int questGatePageIndex(int requested,int size){return Math.max(0,Math.min(requested,Math.max(0,(size-1)/GATE_PAGE)));}
+    static Runnable questGateRecoveryAction(ChronicleService service,UUID viewer,QuestGateState.GateSummary gate,boolean retry,
+            java.util.function.Consumer<QuestGateState.GateSummary> done,java.util.function.Consumer<Throwable> failed) {
+        return ()->{
+            if(!gate.playerId().equals(viewer)){failed.accept(new SecurityException("只能恢复本人的任务"));return;}
+            try {
+                var operation=retry?service.retryQuestGate(gate.gateId(),viewer,gate.attempt()):service.reconcileQuestGate(gate.gateId(),viewer,gate.attempt());
+                operation.whenComplete((value,error)->{if(error==null)done.accept(value);else failed.accept(error);});
+            }catch(RuntimeException failure){failed.accept(failure);}
+        };
+    }
     static List<String> questGateDetails(QuestGateState.GateSummary gate){
         List<String> details=new ArrayList<>();
         chunks("门槛 ID",gate.gateId(),details);chunks("参与者 UUID",gate.playerId().toString(),details);
+        chunks("当前轮次",Integer.toString(gate.attempt()),details);
         chunks("效果 ID",gate.effectId(),details);chunks("任务 ID",gate.questId(),details);chunks("范围",gate.mode().name(),details);
         chunks("原始国家",gate.nationId(),details);chunks("状态",questGateStatus(gate.status()),details);chunks("提供者",gate.providerId(),details);
         chunks("原生运行 ID",gate.runId(),details);chunks("已提交完成 ID",gate.completionId(),details);chunks("状态说明",gate.message(),details);
