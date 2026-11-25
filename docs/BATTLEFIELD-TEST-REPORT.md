@@ -12,7 +12,7 @@
 | StarCore | `3dcc34b00b4f4f84f945922c036822485a81fc4691803eb2aea2ac85d77c36f6` | `902fcb085d92e10c3227f3d91b21ac4c317783ff`，国家 SQLite 修复 |
 | Paper 1.21.11 | `5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba` | 所选第三方锁 |
 
-Chronicle 工具提交为 `47d14653be85836a85774c91c0a5b69520c6ec6b`，分支 `codex/battlefield-victory-runtime-20261125` 叠加完整组合史诗 PR #11。原生分支 `codex/nation-sqlite-battlefield-20261125` 的草稿 [PR #9](https://github.com/addxiaoyi/starcore/pull/9) 叠加首都 PR #8。归档前两库均干净；归档工具验证 Chronicle src／pom.xml 与继承构建一致、原生冻结 JAR 与实际运行指纹一致。后续文档提交及 CI 重建不替换上述构件。
+Chronicle 工具提交为 `47d14653be85836a85774c91c0a5b69520c6ec6b`，分支 `codex/battlefield-victory-runtime-20261125` 的草稿 [PR #12](https://github.com/addxiaoyi/StarChronicle/pull/12) 叠加完整组合史诗 PR #11。原生分支 `codex/nation-sqlite-battlefield-20261125` 的草稿 [PR #9](https://github.com/addxiaoyi/starcore/pull/9) 叠加首都 PR #8。归档前两库均干净；归档工具验证 Chronicle src／pom.xml 与继承构建一致、原生冻结 JAR 与实际运行指纹一致。后续文档提交及 CI 重建不替换上述构件。
 
 固定环境为 Java 21、Paper 1.21.11、EssentialsX 2.22.0、Vault 1.7.3-b131、FancyNpcs 2.10.1-java21+2、WorldEdit 7.4.2+7450-eb8e82c、WorldGuard 7.0.17+2370-e42d8bc。每次启动均验证七插件及 PlayerVaultEconomyService；下载和哈希见[锁文件](verification/production-stack-candidate-20261125.json)。
 
