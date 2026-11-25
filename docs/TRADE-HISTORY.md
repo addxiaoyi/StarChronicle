@@ -4,6 +4,8 @@
 
 ## 配套源码与构件
 
+草稿审阅：[Chronicle PR #5](https://github.com/addxiaoyi/StarChronicle/pull/5)、[StarCore PR #4](https://github.com/addxiaoyi/starcore/pull/4)。
+
 | 项目 | 续接分支与源码提交 | 冻结 JAR SHA-256 |
 | --- | --- | --- |
 | StarChronicle | `codex/trade-history-ingress-20261125`，`b84984e`，基于成员分支 `faf5cc0` | `cf68a5a424bdcfb3a072fb901202a9649e2d7908e479165c93c74b634e081702` |
