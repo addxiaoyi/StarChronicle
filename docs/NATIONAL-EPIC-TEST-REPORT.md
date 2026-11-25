@@ -1,57 +1,55 @@
 # 国家史诗候选版测试报告
 
-更新：2026-11-25（Asia/Shanghai）。结论：源码与构件已形成开发检查点；StarChronicle 完整测试通过，StarCore 指定测试通过。**最终候选的双插件重启、结算与国战路线实服验收尚未完成，不能视作生产版本或十阶段完成。**
+更新：2026-11-25（UTC）。**同一对候选 JAR 已完成隔离 Paper 服 DUNGEON 与 WAR 两条路线的三次启动、结算、拒绝重放和独立数据库验收。** 原生常规回归已通过；目标生产组合、战场胜利和全栈 Folia 尚未验收，十阶段整体继续推进。
 
-## 精确构件与构建测试
+## 精确构件与构建结果
 
-| 项目 | 构件 SHA-256 | 本次验证 |
+| 项目 | 构件 SHA-256 | 本轮结果 |
 | --- | --- | --- |
-| StarChronicle | `7d3b4ac7a32dc796e59bcb3004a642e20d8d87153a20ff0e2fbe76f2306395be` | `verify`：90 个测试套件、866 项测试，0 failures / errors / skipped |
-| StarCore | `4d97f0f180abcbc3910a9fdc36e308c20aa298f055d8b143797ea517a70057ae` | 7 个指定套件、59 项测试，0 failures / errors / skipped；随后 `package -DskipTests` 成功 |
+| StarChronicle | `57345b0945d1a25a97ae8f0a85f3d61efb64c4ede1e94417ce14f91ddddfc8e6` | `verify`：90 套件、866 项，0 failures / errors / skipped |
+| StarCore | `44f450eccc95590aadc54736109e012d5a52bbae459f4107afa498fd4528518d` | 国家史诗与策略持久化专项 90 项；常规 `verify` 1,435 套件、7,202 项，0 failures / errors、21 skipped；重新打包哈希未变 |
+| 独立验收检查器 | 归档中保存工具源码与逐文件 SHA-256 | 两条路线各 11 项证据回归通过，共 22 项；不以构造的成功记录替代实服证据 |
 
-使用 Java 21、低内存串行构建、`-DforkCount=0`。这次没有新的 JaCoCo 覆盖率测量。StarCore 没有在本轮执行完整回归；历史候选的全量回归曾失败，不能用 59 项专项结果覆盖该事实。精确 XML、构建日志与运行证据见 [构建清单](verification/national-epic-build-summary.json) 和 [证据包](verification/national-epic-checkpoint-evidence.zip)。清单中的 HEAD 是打包时的基线提交，源码当时含未提交增量；可续接的完整源码已纳入本次两库检查点，见 [交接报告](HANDOFF-2026-11-25.md)。
+环境为 Linux、Java 21、Paper 1.21.11、Node 22.22.2、Mineflayer 4.39.0。主项目使用正常测试 fork 与 JaCoCo；原生 `./mvnw -o -B -ntp verify` 通过格式和现有覆盖率门槛，保留 POM 已配置的测试编译／执行排除项。因此 7,202 项是该配置下的常规回归，不代表仓库全部测试源或所有生产模块均受测。原生离线 verify 跳过 SBOM 后另执行在线 CycloneDX 命令成功生成 84 组件清单；日志保留 ProtocolLib 5.3.0 POM 无法解析的警告，不把清单当作第三方生产组合验证。
 
-主项目覆盖国家报名／冻结、国家席位、各路线要求、原生提供者与存储域绑定、调用前持久 UNKNOWN 认领、并发／重启不盲重放、回执唯一性、宣战与结束配对、规范结算及同事务后续剧情。原生指定套件如下：
+StarChronicle 生产 Java 源码仍对应续接基线 `96802f2`，本轮增加的是验收工具与报告。StarCore 生产修复提交为 [`324072a5`](https://github.com/addxiaoyi/starcore/commit/324072a5)，测试及 API 基线提交为 [`c5593e0d`](https://github.com/addxiaoyi/starcore/commit/c5593e0d)。具体两库续接分支见 [交接报告](HANDOFF-2026-11-25.md)。
 
-```text
-QuestEvidenceServiceTest
-DungeonRepositoryEpicReceiptTest
-DungeonRepositoryIdempotencyTest
-NationFoundingOperationTest
-WarDeclarationOperationRestartIntegrationTest
-WarCompletionReceiptTest
-WarMenuReinforcementOwnerTest
-```
+[本轮完整清单](verification/national-epic-linux-20261125-summary.json)与[原始证据包](verification/national-epic-linux-20261125-evidence.zip)包含 7 个运行目录的记录、成功及失败测试 XML、控制器 PID／退出状态、原生数据库与任务分片、工具源码，以及 3,276 个成员的 SHA-256 清单。证据包 SHA-256：`7fa1e3ce9a4d279f93b2efbb86c0a0461378b84829230d68125166da3e73e407`。已校验 ZIP 完整性、成员哈希及地图访问密钥脱敏。两份冻结 JAR 和原生源码压缩包另存本机 `target/national-epic-linux-20261125/`，不随 Git 克隆提供；新设备重新构建后须记录自己的构件指纹。
 
-## Paper 实服进度
+## 最终候选的实际通过范围
 
-环境为隔离回环地址 Paper 1.21.11，使用两个候选插件及真实非 OP 协议客户端。以下不是同一轮全部成功的报告，失败与中断记录按构件保留。
-
-| 运行目录后缀 | 原生构件 | 观察与结论 |
+| 路线与运行目录 | 原生持久操作 | 重启与结算结果 |
 | --- | --- | --- |
-| `dungeon-1` | `9f805e67…` 旧候选 | 首次 JVM 内存崩溃；第二次真实任务、准备操作与路线推进成功。普通副本进入没有国家 ID，检查点失败；确认必须使用国家副本入口。整轮失败。 |
-| `dungeon-2` | 未完成准备 | 磁盘不足，没有完整准备清单，未启动。 |
-| `dungeon-3` | `9f805e67…` 旧候选 | 首轮完成真实任务、10 项准备操作、路线决议与两个国家副本，保存 ROUTE_APPROVED 检查点并正常停服。第二轮 StarCore 恢复任务证据失败，Chronicle 拒绝启动。未通过完整重启链。 |
-| `dungeon-4` | `4d97f0f1…` 最终候选 | 已编译并进入启动过程，用户要求转移设备时中断；日志仅确认插件初始化，没有完整场景或验收通过记录。进程现已结束，不声称正常完成停服流程。 |
-| `war-1` / `war-2` | 旧／最终候选 | 仅准备目录；国战路线未执行，`war-2` 尚未编译验收插件。 |
+| `paper-epic-57345b09-dungeon-linux-policy-1` | 12 项：两国任务证明、国库援助、资源援助、外交邀请／接受、国家副本完成 | 3 次正常启动／停服；boot 1 留下未结算检查点，boot 2 结算并拒绝重放，boot 3 重查；唯一结算、A/B/D 各一份个人后续 |
+| `paper-epic-57345b09-war-linux-policy-1` | 13 项：相同准备链，加真实离国／建国、宣战及持久结束回执 | 相同三次启动与重放链；唯一结算、A/B/D 各一份个人后续 |
 
-`dungeon-3` 的重启失败已定位并修复：`QuestEvidenceService.loadShard` 将裸文件名与包含 `tracked-evidence/` 的相对路径比较，导致合法证据分片无法恢复。最终候选改为比较正确的文件名；新增回归证明真实分片重启恢复且拒绝错误命名。该套件 14 项全部通过，计入上面的 59 项。**修复后的最终 JAR 仍须重新完成实服三次启动。**
+四个非 OP 协议客户端 A/B/C/D 真实登录；A/B 发送实际制作数据包，检查器交叉验证库存变化、任务先接受后制作，以及原生任务 shard 的 run／completion／storage domain／时间戳。国库、资源、外交、建国、战争和副本回执与 Chronicle 固定意图、主体、提供者、域及时间逐项比对。每条路线只有两笔国库援助及两笔资源援助，重放未增加记录。个人后续按合格玩家唯一，并非全服仅生成一份。
 
-10 项准备操作是两国各自的任务证明、国库援助、资源援助、外交邀请及接受。副本通过 `DungeonService.nationEnterDungeon` 获取带 nationId 的真实持久回执。单人 `tryEnterDungeon` 记录不满足国家结算条件。
+检查器还要求三份完整进程记录、服务端与客户端退出码均为 0、三个正常启停生命周期，以及结算前后夹住的重放拒绝记录；模块启动／停服错误、`SQLITE_BUSY`、缺少实际制作、错误原生回执、重复或缺失个人后续都会失败。22 项回归通过复制真实完成目录并逐项破坏证据验证这些拒绝行为。
 
-## 验收工具及范围
+测试种子仅通过原生服务提供初始国库、资源和制作材料；建国费用与新国保护只在隔离配置中关闭。副本为三秒原生生存房间，国战以 **native principal peace 原生和谈结束**，没有验证战场胜利、复杂 Boss、线上经济平衡或第三方保护组合。
 
-工具在 `tools/EpicCampaignPaperFixture.java`、`prepare-epic-paper.py`、`epic-paper-clients.cjs`、`epic-paper-session.py`、`inspect-epic-paper.py`、`archive-epic-evidence.py`。控制器支持 `scenario first/second/third`，逐项等待真实动作完成并保留控制器、客户端和服务端日志。
+## 本轮发现与修复
 
-测试初始化只通过原生服务提供起始资源、国库和制作材料；任务由实际制作数据包完成，不手写完成 DTO。副本是三秒原生生存房间，不覆盖复杂 Boss。国战脚本计划通过合法移交、离国、建国、宣战与原生和谈结束战争，不覆盖战场胜利。建国费用与新国家保护仅在隔离配置中关闭。
+- 策略持久化：旧原生构件在 WAR 停服期间出现 `PolicyStateConflictException`／`SQLITE_BUSY`。SQLite 延迟事务先读版本再升级写锁，与其他模块并发 flush 冲突。`324072a5` 在读取版本之前用 SQLite 无损写操作取得写事务预约，保留原有修订号 CAS。真实 WAL 竞争回归在旧实现失败，修复后通过；丢失提交确认和过期写者测试仍通过。
+- 验收等待：制作前等待原生任务确实接受；和谈只调用一次，随后只读轮询持久完成回执，避免把异步尚未落盘误报为业务失败。
+- 常规回归：首次 7,201 项有两项失败，已保留 XML 和日志。广播测试未设置 mock 在线状态，现分别验证在线发送和切回实体线程前离线不发送；API 基线补录之前已实现的 `WarCompletionReceipt` 与默认 `warCompletion` 方法，共 20 条新增签名，没有删除既有 API。
 
-独立检查器尚未对完整成功轮次执行，不能宣称其检查通过。证据归档已完成，保存上述 `dungeon-1/3/4` 原始记录与选定测试报告，并脱敏生成的地图访问密钥；没有把失败改写为成功。
+## 保留的旧轮次
 
-## 下一步验收门槛
+本轮所有目录前缀均为 `paper-epic-57345b09-`：
 
-1. 使用最终两库源码重新构建，记录新构件指纹，创建新的隔离 DUNGEON 目录；不要覆盖已有运行日志。
-2. 依次执行三次启动：真实任务／准备／国家副本 → 重启只读回执、结算和拒绝重放 → 再重启验证只产生一次结算与后续剧情。
-3. 在独立新目录完成 WAR 路线的建国、宣战、结束回执与相同重启链。
-4. 执行独立检查器、归档新证据，扩大原生回归并处理失败，再评估生产组合和后续阶段。
+| 后缀 | 状态与原因 |
+| --- | --- |
+| `dungeon-linux-1` | 失败：任务尚未接受即开始制作；保留实际失败与正常停服日志 |
+| `dungeon-linux-2` | 仅准备／编译，端口当时被其他运行时占用，未启动，不计通过 |
+| `dungeon-linux-3` | 原生旧构件 `4d97f0f…` 的三次启动通过；不替代新构件结果 |
+| `war-linux-1` | 失败：过早读取异步战争结束回执 |
+| `war-linux-2` | 场景运行结束，但 boot 1 存在真实策略停服保存错误，独立检查器明确拒绝，整轮不计通过 |
+| 两个 `linux-policy-1` | 使用 `44f450ec…` 修复构件，分别严格通过 |
 
-其他已知限制：被拒绝操作尚无重置／重试 API；某些操作次数只由确定性意图 ID 与计划约束限制；首次启动的 sourceEventId 依赖可信调用者，运行时传入已封存事件；通用贡献账本与成员复核仍未完成全部业务接线。
+此前 Windows 主项目 `7d3b4ac7…`／原生 `4d97f0f…` 的 866／59 项检查点与不完整 `dungeon-1/3/4` 仍保留在[旧清单](verification/national-epic-build-summary.json)和[旧证据包](verification/national-epic-checkpoint-evidence.zip)。本轮 Linux 证据不改写那些失败或未完成记录。
+
+## 后续门槛
+
+阶段 1 的上述隔离 Paper 验收已完成，下一步推进贡献账本真实来源、成员复核公开流程和精确历史接线，同时保留目标生产组合、战场胜利、全栈 Folia 与长时压力的独立验收。被拒绝操作的安全新轮次／重试 API、UNKNOWN 独立对账及第三方安装版本组合仍有缺口。完整状态见 [十阶段交接](HANDOFF-2026-11-25.md)与[剩余工作](REMAINING-WORK.md)。
