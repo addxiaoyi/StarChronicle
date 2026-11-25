@@ -9,7 +9,7 @@
 | StarChronicle | `222fbb4064a84692ee3783a525737495566f1a529c3753df2392695797a4e345` | 沿用资源历史阶段 919 项构建的冻结 JAR |
 | StarCore | `d9f296190482ef644c5b5d52c3a16b7c0d7a304bbbc5a788d5e401627c2f84da` | 沿用生产组合阶段 34 项专项和 7,261 项常规 verify 的冻结 JAR；21 项跳过，保留既有排除 |
 
-这些 Maven 数字属于已有同指纹构建，本轮没有重新执行或扩充其覆盖声明。产品 `src/` 与 `pom.xml` 已对照原构建提交，确认没有漂移。配套原生分支仍为 `codex/worldguard-production-integration-20261125`，本轮 Chronicle 分支为 `codex/memory-recipe-runtime-20261125`，验收工具提交 `e25e928`，归档报告 `ebe8c01`，草稿 [PR #9](https://github.com/addxiaoyi/StarChronicle/pull/9) 叠加生产组合 #8。
+表内 Maven 数字属于已有同指纹构建，实服阶段未重建产品或扩充其覆盖声明。产品 `src/` 与 `pom.xml` 已对照原构建提交，确认没有漂移。后续 GitHub CI 对同一产品源码另外构建，结果见下方交付检查；CI JAR 不替换实服受验指纹。配套原生分支仍为 `codex/worldguard-production-integration-20261125`，本轮 Chronicle 分支为 `codex/memory-recipe-runtime-20261125`，验收工具提交 `e25e928`，归档报告 `ebe8c01`，草稿 [PR #9](https://github.com/addxiaoyi/StarChronicle/pull/9) 叠加生产组合 #8。
 
 运行环境为 Java 21、Paper 1.21.11、Mineflayer 4.39.0；第三方冻结组合为 EssentialsX 2.22.0、Vault 1.7.3-b131、FancyNpcs 2.10.1-java21+2、WorldEdit 7.4.2、WorldGuard 7.0.17。来源、下载指纹及完整版本见[组合锁](verification/production-stack-candidate-20261125.json)和[组合报告](PRODUCTION-STACK.md)。本轮使用上述实际插件，但没有重新执行组合报告中的转账、圈地或 NPC 生命周期场景。
 
@@ -39,6 +39,14 @@
 `memory-candidate-1` 保留实际失败与正常停服记录：夹具最初错误地假设只有原探索者会收到支线，因 D 的合法同国受众而失败。修正夹具预期后使用全新目录，不改产品或覆写旧 boot。检查器开发期间修正了个人选择键的预期；首次证据回归另有三个测试辅助代码错误（把 Node 非 JSON 提示行当成 JSON），失败日志同样归档。它们不改变真实服务端通过范围。
 
 [完整汇总](verification/memory-recipes-paper-20261125-summary.json)与[证据包](verification/memory-recipes-paper-20261125-evidence.zip)包含两个成功场景和保留失败、逐次停服数据库、配置变更、真实日志、源码及原构建引用。证据包 1,906,558 字节、296 个成员哈希通过，SHA-256：`d7a83a3a10c47c5c2cc0dba536d6cad28e4dc9e1da16aff69666cfa03d1cdff5`。配置密钥已脱敏；完整双 JAR 与两库源码 tar 在本机 `target/memory-recipes-paper-20261125/`，不随 Git 提供。
+
+## CI 交付检查
+
+[CI 45660659630](https://github.com/addxiaoyi/StarChronicle/actions/runs/45660659630) 在 `47076de` 上通过了 919 项 `clean verify`，零失败／错误／跳过，但打包阶段拒绝了历史证据文件。该轮完整[失败日志](verification/memory-ci-packaging-failure-20261125.log)保留，不能将 Maven 成功称作完整 CI 成功。
+
+根因是既有探索／任务证据中的 86 个文件保存为 CRLF，而原清单记录的是 LF 字节。仅对换行恢复后大小与 SHA-256 都逐字匹配原清单的文件执行恢复，没有改写原清单或放宽检查。恢复后的 10 份清单、263 个文件通过严格检查。每项修复前后指纹见[恢复记录](verification/evidence-line-ending-recovery-20261125.json)，修复前字节保留在[备份包](verification/evidence-line-ending-recovery-20261125-before.zip)。旧失败记录的业务内容也保持不变；本轮记忆证据 ZIP 没有被修改。
+
+该修复只涉及 Git 保存的历史证据和交付说明，配方／插件代码及已验收构件保持不变。后续 CI 在修复提交上重新构建并打包，状态以 PR 检查为准。实服归档的源码 tar 固定于 `e25e928`，早于这项恢复；跨设备构建应使用当前分支。
 
 ## 复验与限制
 
