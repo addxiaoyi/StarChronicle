@@ -13,6 +13,8 @@
 
 两库续接`codex/treasury-writer-20261125`，叠加原生工厂#16与Chronicle工厂#21。Chronicle产品源码和资源未改，沿用工厂构件及988项完整构建；本轮新增验收工具和报告。后续CI重建JAR按自己的指纹记录，不继承实服JAR结论。
 
+配套草稿：[StarChronicle #22](https://github.com/addxiaoyi/StarChronicle/pull/22)叠加#21，[StarCore #17](https://github.com/addxiaoyi/starcore/pull/17)叠加#16。最终CI与交付指纹记录在PR正文，避免为记录CI再次改变被验证提交。
+
 ## 根因和实现
 
 原实现事务先SELECT revision，再尝试UPDATE。在SQLite WAL下，其他连接持有写锁时，这次读到写的升级可能立即抛SQLITE_BUSY，绕过等待时间。新实现仅在SQLite执行不改变值的revision行UPDATE，先预留写锁；即使revision行尚未存在，也会在读取快照前等待数据库写锁。MySQL不执行这条UPDATE。
