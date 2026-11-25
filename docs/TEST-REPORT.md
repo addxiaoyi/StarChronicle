@@ -1,6 +1,6 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-26T01:18:10+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T02:23:24+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
@@ -8,7 +8,7 @@
 
 - 执行命令：`.\mvnw.cmd -o -B -ntp -DforkCount=0 verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
-- 单元／集成回归：940 项，失败 0，错误 0，跳过 0。
+- 单元／集成回归：946 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
 - 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。
 - 同时生成全部 Java 源码 JAR。
@@ -34,6 +34,7 @@
 | `io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest` | 17 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest` | 12 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.DefinitionCatalogCapacityTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest` | 14 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest` | 4 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.EpicCampaignLedgerTest` | 8 | 0 | 0 | 0 |
@@ -116,8 +117,8 @@
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18099471 | `6f613084bed21d54d0f7cbdef0150a60336aafb6900c95fce04c29af804bae51` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 365125 | `5815232b6d3bedb72ecd20f3e317ac4d0670be42483e3d5c01c9bb85e3fe6674` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18100658 | `6c45fb0c01da90e1d813dcb143c9e7a22ba9fcd3b3ac3a64b60e8647e4fb35fa` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 366051 | `deb261ce4043d4779d4f9a4224870fe864f7c92d6e7736fcd78508408fe40552` |
 
 ## 真实服务器证据与构建对应
 

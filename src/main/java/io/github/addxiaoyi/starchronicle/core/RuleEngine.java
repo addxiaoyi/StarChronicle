@@ -24,7 +24,7 @@ import static io.github.addxiaoyi.starchronicle.persistence.SqliteStore.*;
  * Call on a bounded worker, never a region thread. SQLite serializes cross-player transitions. */
 public final class RuleEngine implements AutoCloseable {
     private final SqliteStore store;
-    private volatile StoryRuntime runtime;
+    private volatile List<StoryDefinition> enabledDefinitions;
     private volatile MemoryRecipeCatalog memoryRecipes=MemoryRecipeCatalog.empty();
     public static final int MAX_MEMORY_SIGNALS_PER_TRANSACTION=256;
     private final ThreadLocal<MemoryBudget> memoryBudget=new ThreadLocal<>();
@@ -71,19 +71,20 @@ public final class RuleEngine implements AutoCloseable {
         // Hold the storage monitor through publication so an in-flight transition never
         // sees a mixture of old and new consumer lists across its derived effects.
         synchronized(store) {
-            StoryRuntime next=transaction(c->{
-                validate(current,DefinitionCatalog.read(c));
+            transaction(c->{
+                validate(current,DefinitionCatalog.readReferenced(c,current));
                 MemoryRecipeLedger.archiveDefinitions(c,recipes);
                 DefinitionCatalog.archive(c,current,"ACCEPTED_CONFIGURATION");
-                return new StoryRuntime(current,DefinitionCatalog.read(c));
+                DefinitionCatalog.verify(c);
+                return null;
             });
-            runtime=next;memoryRecipes=recipes;
+            enabledDefinitions=current;memoryRecipes=recipes;
         }
     }
     public void validate(List<StoryDefinition> validatedDefinitions){synchronized(store){validate(validatedDefinitions,memoryRecipes);}}
     public void validate(List<StoryDefinition> validatedDefinitions,MemoryRecipeCatalog recipes){
         List<StoryDefinition> current=List.copyOf(validatedDefinitions);Objects.requireNonNull(recipes);
-        transaction(c->{validate(current,DefinitionCatalog.read(c));MemoryRecipeLedger.validateDefinitions(c,recipes);return null;});
+        transaction(c->{validate(current,DefinitionCatalog.readReferenced(c,current));MemoryRecipeLedger.validateDefinitions(c,recipes);return null;});
     }
     public List<MemoryEntry> memoryEntries(String region,int page,int size){return transaction(c->MemoryRecipeLedger.entries(c,region,page,size));}
     public List<MemoryRecipeLedger.Block> memoryRecipeBlocks(int limit){return transaction(c->MemoryRecipeLedger.blocks(c,limit));}
@@ -113,7 +114,7 @@ public final class RuleEngine implements AutoCloseable {
         }
         if(unique.size()>10000)throw new IllegalArgumentException("Too many trigger recipients");
         return transaction(c->{
-            List<StoryDefinition> rules=runtime.enabledDefinitions();
+            List<StoryDefinition> rules=enabledDefinitions;
             boolean fresh=recordAndQueue(c,event,unique.values(),rules,EventCausality.root(event.id()));
             Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
             return new ProcessReport(!fresh,List.copyOf(changed),fresh?"已记录事件与剧情变更":changed.isEmpty()?"事件已处理":"历史未重复，已恢复尚未交付的剧情触发");
@@ -139,7 +140,7 @@ public final class RuleEngine implements AutoCloseable {
         }
         if (unique.isEmpty()) throw new IllegalArgumentException("Aid commit requires an online or source audience");
         return transaction(c->{
-            boolean fresh=recordAndQueue(c,event,unique.values(),runtime.enabledDefinitions(),EventCausality.root(event.id()));
+            boolean fresh=recordAndQueue(c,event,unique.values(),enabledDefinitions,EventCausality.root(event.id()));
             Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
             AidLedger.commit(c,request,receipt,issuer,authorityDomain,event.id(),clock.instant());
             // The native receipt is the committed source timestamp. A fixed or slightly
@@ -172,7 +173,7 @@ public final class RuleEngine implements AutoCloseable {
                     Set.of(operation.nationId(),operation.target()),Map.of("time_basis","COMMITTED_SOURCE","aid.authority_domain",domain,
                     "aid.transaction",receipt.nativeReceiptId(),"aid.payer",operation.nationId(),"aid.receiver",operation.target(),
                     "aid.kind",operation.type().name(),"aid.quantities",operation.nativeReference(),"epic.instance",operation.instanceId()),provider,receipt.evidence());
-            recordAndQueue(c,event,List.of(),runtime.enabledDefinitions(),EventCausality.root(eventId));
+            recordAndQueue(c,event,List.of(),enabledDefinitions,EventCausality.root(eventId));
             Instant recordedAt=clock.instant().isBefore(receipt.appliedAt())?receipt.appliedAt():clock.instant();
             for(var value:EpicContributions.quantities(operation).entrySet())for(String subject:List.of("nation:"+operation.nationId(),"player:"+operation.actorId())) {
                 String key="chronicle:native-contribution:"+stable(domain,receipt.nativeReceiptId(),value.getKey());
@@ -194,7 +195,7 @@ public final class RuleEngine implements AutoCloseable {
         if(contexts.size()>10000||contexts.stream().anyMatch(context->!audience(event,context)))throw new IllegalArgumentException("Invalid contribution audience");
         final var entries=contributions;final var audience=contexts;
         return transaction(c->{
-            boolean fresh=recordAndQueue(c,event,audience,runtime.enabledDefinitions(),EventCausality.root(event.id()));
+            boolean fresh=recordAndQueue(c,event,audience,enabledDefinitions,EventCausality.root(event.id()));
             Instant at=clock.instant().isBefore(event.occurredAt())?event.occurredAt():clock.instant();
             for(var request:entries)ContributionLedger.record(c,request,at);
             var changed=drainTriggers(c,List.copyOf(audience),event.id());
@@ -231,7 +232,7 @@ public final class RuleEngine implements AutoCloseable {
                 head=entry.sequence();accepted++;
                 var event=entry.event();
                 var witnesses=online.stream().filter(ctx->audience(event,ctx)).toList();
-                if(!entry.baseline())recordAndQueue(c,event,witnesses,runtime.enabledDefinitions(),EventCausality.root(event.id()));
+                if(!entry.baseline())recordAndQueue(c,event,witnesses,enabledDefinitions,EventCausality.root(event.id()));
                 Instant at=clock.instant().isBefore(event.occurredAt())?event.occurredAt():clock.instant();
                 TradeContributionLedger.apply(c,page,entry,at);
                 for(var request:entry.contributions())ContributionLedger.recordNative(c,page.domain(),entry.operationId(),request,null,at);
@@ -290,7 +291,7 @@ public final class RuleEngine implements AutoCloseable {
     public HistoricalEvaluationReport evaluateHistorical(String sourceId,String storyId,String expectedVersion) {
         Objects.requireNonNull(sourceId);Objects.requireNonNull(storyId);Objects.requireNonNull(expectedVersion);
         return transaction(c->{
-            StoryDefinition rule=runtime.enabledDefinitions().stream().filter(d->d.id().equals(storyId)&&d.version().equals(expectedVersion)).findFirst().orElseThrow(()->new IllegalArgumentException("No enabled exact story version: "+storyId+"/"+expectedVersion));
+            StoryDefinition rule=enabledDefinitions.stream().filter(d->d.id().equals(storyId)&&d.version().equals(expectedVersion)).findFirst().orElseThrow(()->new IllegalArgumentException("No enabled exact story version: "+storyId+"/"+expectedVersion));
             WorldEvent source;
             try(var s=c.prepareStatement("SELECT json FROM events WHERE id=?")) {
                 s.setString(1,sourceId);try(var r=s.executeQuery()){if(!r.next())throw new IllegalArgumentException("No saved canonical source event: "+sourceId);source=decode(r.getString(1),WorldEvent.class);}
@@ -767,7 +768,7 @@ public final class RuleEngine implements AutoCloseable {
                         if(resultFacts.containsKey("region.id")||resultFacts.containsKey("city.id"))resultFacts.put("region.source_event",source.id());
                     }
                     WorldEvent result=new WorldEvent("chronicle:"+outcome,e.target(),clock.instant(),i.members().keySet(),new HashSet<>(i.members().values().stream().filter(n->!n.isBlank()).toList()),resultFacts,"StarChronicle","instance="+i.id()+"; action="+action+"; effect="+e.id()+"; source="+i.sourceEventId());
-                    recordAndQueue(c,result,List.of(),runtime.enabledDefinitions(),causal);
+                    recordAndQueue(c,result,List.of(),enabledDefinitions,causal);
                 }
                 continue;
             }
@@ -1028,7 +1029,7 @@ public final class RuleEngine implements AutoCloseable {
             if(mutation.completionNewlyRecorded()) {
                 var gate=mutation.gate();var receipt=Objects.requireNonNull(gate.completion());
                 WorldEvent event=questCompletionEvent(gate,receipt);
-                recordAndQueue(c,event,List.of(),runtime.enabledDefinitions(),EventCausality.derive(c,gate.sourceEventId(),gate.storyId()));
+                recordAndQueue(c,event,List.of(),enabledDefinitions,EventCausality.derive(c,gate.sourceEventId(),gate.storyId()));
             }
             return mutation;
         });

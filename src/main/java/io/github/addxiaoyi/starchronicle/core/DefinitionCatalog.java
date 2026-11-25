@@ -1,6 +1,7 @@
 package io.github.addxiaoyi.starchronicle.core;
 
 import io.github.addxiaoyi.starchronicle.config.StoryDefinition;
+import io.github.addxiaoyi.starchronicle.config.StoryDependencies;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
 import java.sql.*;
 import java.util.*;
@@ -77,10 +78,26 @@ public final class DefinitionCatalog {
     }
 
     public static DefinitionCatalog read(Connection connection)throws SQLException {
+        return read(connection,null);
+    }
+
+    /** Verify every archived row and canonical link, but only retain the exact versions used
+     * for current-content validation. Retired definitions are endpoints, not executable roots. */
+    public static DefinitionCatalog readReferenced(Connection connection,Collection<StoryDefinition> current)throws SQLException {
+        return read(connection,StoryDependencies.catalogKeys(current));
+    }
+
+    /** Full integrity pass with no retained graphs, also suitable after archive-triggered writes. */
+    public static void verify(Connection connection)throws SQLException {
+        read(connection,Set.of());
+    }
+
+    private static DefinitionCatalog read(Connection connection,Set<Key> retained)throws SQLException {
         inTransaction(connection);Map<Key,Map<String,Entry>> variants=new TreeMap<>(Comparator.comparing(Key::storyId).thenComparing(Key::version));List<Entry> evidence=new ArrayList<>();
         eachRaw(connection,raw->{
             if(raw.format()==null)throw new IllegalStateException("Missing definition canonical format: "+raw.story()+"/"+raw.version());
             Entry entry=verified(raw,raw.format());if(entry.canonicalVersion()==DefinitionCanonicalCodec.V1)verifyUpgrade(connection,entry);else noUpgrade(connection,entry);
+            if(retained!=null&&!retained.contains(entry.key()))return;
             evidence.add(entry);Map<String,Entry> byFingerprint=variants.computeIfAbsent(entry.key(),ignored->new TreeMap<>());
             byFingerprint.merge(entry.semanticFingerprint(),entry,(a,b)->Comparator.comparing(Entry::firstSeen).thenComparing(Entry::fingerprint).compare(a,b)<=0?a:b);
         });
@@ -91,7 +108,8 @@ public final class DefinitionCatalog {
      * migration link, preserving the first provenance/time and original row count. */
     public static int archive(Connection connection,Collection<StoryDefinition> definitions,String provenance)throws SQLException {
         inTransaction(connection);Objects.requireNonNull(definitions);provenance(provenance);int added=0;
-        DefinitionCatalog existing=read(connection);Map<Key,Set<String>> known=new HashMap<>();
+        Set<Key> requested=new HashSet<>();for(var definition:definitions)requested.add(new Key(definition.id(),definition.version()));
+        DefinitionCatalog existing=read(connection,requested);Map<Key,Set<String>> known=new HashMap<>();
         existing.entries.forEach((key,variants)->{Set<String> fingerprints=new HashSet<>();variants.forEach(entry->fingerprints.add(entry.semanticFingerprint()));known.put(key,fingerprints);});
         for(StoryDefinition definition:definitions) {
             String canonical=DefinitionCanonicalCodec.encodeV2(definition),fingerprint=DefinitionCanonicalCodec.sha256(canonical);Key key=new Key(definition.id(),definition.version());

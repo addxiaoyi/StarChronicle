@@ -47,6 +47,28 @@ public final class StoryDependencies {
         validate(definitions,DefinitionCatalog.empty());
     }
 
+    /** Current identities and direct exact-version references needed for directory validation.
+     * References from retired endpoints are deliberately not expanded or enabled. */
+    public static Set<DefinitionCatalog.Key> catalogKeys(Collection<StoryDefinition> definitions) {
+        if(definitions==null)throw new IllegalArgumentException("Null story definitions");
+        Set<DefinitionCatalog.Key> keys=new HashSet<>();
+        Consumer<Condition> collect=condition->parse(condition.fact()).ifPresent(reference->
+                keys.add(new DefinitionCatalog.Key(reference.storyId(),reference.version())));
+        for(var definition:definitions) {
+            if(definition==null||definition.nodes()==null)throw new IllegalArgumentException("Missing story or nodes");
+            keys.add(new DefinitionCatalog.Key(definition.id(),definition.version()));
+            walk(definition.condition(),0,collect);
+            for(var node:definition.nodes().values()) {
+                if(node==null)throw new IllegalArgumentException("Null node: "+definition.id());
+                for(var choice:node.choices().values()) {
+                    if(choice==null)throw new IllegalArgumentException("Null choice: "+definition.id());
+                    walk(choice.condition(),0,collect);
+                }
+            }
+        }
+        return Set.copyOf(keys);
+    }
+
     /** Current IDs remain unique; a retired exact version is a read endpoint, not an enabled
      * rule. Its own past dependencies, historical effects, scripts and quests are not expanded. */
     public static void validate(Collection<StoryDefinition> definitions,DefinitionCatalog catalog) {
