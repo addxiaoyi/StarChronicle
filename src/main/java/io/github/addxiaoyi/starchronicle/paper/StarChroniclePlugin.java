@@ -18,6 +18,7 @@ import io.github.addxiaoyi.starchronicle.integration.CoreContentInstaller;
 import io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapter;
 import io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournal;
 import io.github.addxiaoyi.starchronicle.history.ObservationJournal;
+import io.github.addxiaoyi.starchronicle.history.CommittedHistoryJournal;
 import io.github.addxiaoyi.starchronicle.history.FirstVisitJournal;
 import io.github.addxiaoyi.starchronicle.history.FirstVisitBuffer;
 import io.github.addxiaoyi.starchronicle.memory.*;
@@ -58,6 +59,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private Path memoryRecipesFile;
     private MemorySites memorySites;
     private ObservationJournal observations;
+    private CommittedHistoryJournal committedHistory;
+    private io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource tradeHistorySource;
     private FirstVisitJournal firstVisits;
     private List<ExplorationRegion> explorationRegions=List.of();
     private final FirstVisitBuffer explorationIngress=new FirstVisitBuffer(2048);
@@ -150,6 +153,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             nativeJournal=new NativeSceneJournal(store,Clock.systemUTC());
             memoryLedger=new MemoryLedger(store);
             observations=new ObservationJournal(store,Clock.systemUTC());
+            committedHistory=new CommittedHistoryJournal(store);
+            tradeHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource(gateway);
             snapshotCollector=new SnapshotCollector(gateway,()->getServer().getServicesManager().getRegistrations(SnapshotProvider.class).stream().map(r->r.getProvider()).toList());
             textService=new TextService(Duration.ofMillis(Math.max(1,Math.min(30000,getConfig().getLong("text-timeout-ms",1500)))));
             permissions=permissionNodes(withPendingDefinitions(definitions),engine.activeInstances());
@@ -300,6 +305,13 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             nativeJournal.isolateOrphans(nativeFlights.players());
             gateway.scanCommittedSources();
             engine.reconcileEpicContributions(25);
+            try {
+                drainCommittedHistory(contexts);
+                tradeHistorySource.poll(committedHistory);
+                drainCommittedHistory(contexts);
+            } catch(RuntimeException failure) {
+                getLogger().warning("Trade history source retained for reconciliation: "+root(failure).getMessage());
+            }
             engine.observeMemberNations(contexts);
             for(var snapshot:snapshotCollector.collect()) {
                 observations.observe(snapshot);
@@ -323,6 +335,12 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         })).exceptionally(error->{if(running.get())getLogger().warning("History scan retained pending evidence: "+root(error).getMessage());return null;});
     }
     private static List<PlayerContext> audience(WorldEvent event,List<PlayerContext> contexts){return contexts.stream().filter(c->event.globalAudience()||event.participants().contains(c.playerId())||(!c.nationId().isBlank()&&event.nations().contains(c.nationId()))).toList();}
+    private void drainCommittedHistory(List<PlayerContext> contexts){
+        for(WorldEvent event:committedHistory.pending(100)){
+            engine.accept(event,audience(event,contexts));
+            committedHistory.acknowledge(event.id());
+        }
+    }
     private List<StoryDefinition> withPendingDefinitions(List<StoryDefinition> configured){List<StoryDefinition> all=new ArrayList<>(configured);all.addAll(engine.pendingDefinitions());return all;}
     private static Set<String> permissionNodes(List<StoryDefinition> configured,List<StoryInstance> pinned) {
         Set<String> nodes=new HashSet<>(Set.of("starchronicle.use","starchronicle.admin",io.github.addxiaoyi.starchronicle.api.aid.AidRequest.PERMISSION,

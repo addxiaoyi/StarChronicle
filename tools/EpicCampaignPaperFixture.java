@@ -5,6 +5,9 @@ import dev.starcore.starcore.module.dungeon.*;
 import dev.starcore.starcore.module.nation.NationService;
 import dev.starcore.starcore.module.nation.model.NationId;
 import dev.starcore.starcore.module.resource.NationResourceTransactionService;
+import dev.starcore.starcore.module.resource.TradeHistoryService;
+import dev.starcore.starcore.module.resource.model.TradeOrder;
+import dev.starcore.starcore.module.resource.model.TradeRecord;
 import dev.starcore.starcore.module.treasury.TreasuryService;
 import dev.starcore.starcore.module.war.WarService;
 import dev.starcore.starcore.quest.QuestService;
@@ -28,8 +31,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /** Isolated acceptance: actual clients, public services and bundled story/plan.
- * Never writes a database, changes quest progress, fabricates completion records,
- * replaces providers or edits native model state. Test funds/ingredients are explicit. */
+ * Never writes a database, changes quest progress, fabricates activity completion records,
+ * replaces providers or edits native model state. Test funds/ingredients are explicit.
+ * Trade scenarios explicitly exercise history-store commits, without claiming asset movement. */
 public final class EpicCampaignPaperFixture extends JavaPlugin implements CommandExecutor {
     private static final String QUEST="chronicle_heir_records";
     private final Map<UUID,PermissionAttachment> permissions=new HashMap<>();
@@ -328,11 +332,54 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
             return api.memberReviews(uuid("D"),50).thenApply(reviews->{log("MEMBER_CHECK",Map.of("state",state,"story",story,"reviews",reviews));return null;});
         })));
     }
+    private UUID tradeId(String name){return UUID.nameUUIDFromBytes(("isolated-history-store-"+name).getBytes(StandardCharsets.UTF_8));}
+    private CompletionStage<?> tradeWrite(String name){return main(()->{
+        require(Set.of("first","late").contains(name),"Expected first or late record");
+        var history=service(TradeHistoryService.class);
+        var record=new TradeRecord(tradeId(name),TradeOrder.OrderType.BUY,TradeOrder.OrderSource.PLAYER,
+                uuid("A"),uuid("B"),country("A"),country("B"),"agricultural",2,5.0,0.5,
+                Instant.parse(name.equals("first")?"2020-01-01T00:00:00Z":"2019-01-01T00:00:00Z"),null,null,
+                "Isolated history-store fixture; no asset movement claimed");
+        history.saveRecord(record);
+        log("TRADE_WRITE",Map.of("name",name,"id",record.recordId(),"executedAt",record.executedAt(),"domain",history.historyAuthorityDomain(),"assetMovement",false));
+        return null;
+    });}
+    private CompletionStage<?> tradeDispute(){return main(()->{
+        service(TradeHistoryService.class).updateStatus(tradeId("first"),TradeRecord.TradeRecordStatus.DISPUTED,"Isolated history-store status update");
+        log("TRADE_DISPUTED",Map.of("id",tradeId("first")));return null;
+    });}
+    private CompletionStage<?> tradeClean(){return main(()->{
+        var history=service(TradeHistoryService.class);require(history.deleteOldRecords(Instant.parse("2021-01-01T00:00:00Z"))==2,"Expected exactly two history rows removed");
+        log("TRADE_CLEANED",Map.of("removed",2,"refundClaimed",false));return null;
+    });}
+    private CompletionStage<?> tradeCheck(int expected){
+        CompletableFuture<Void> result=new CompletableFuture<>();
+        tradeCheckPoll(expected,System.nanoTime()+TimeUnit.SECONDS.toNanos(30),result);return result;
+    }
+    private void tradeCheckPoll(int expected,long deadline,CompletableFuture<Void> result){
+        api.history(null,null,0,100).thenCompose(events->api.contributions(null,null,0,100).thenCompose(contributions->main(()->{
+            try {
+                var history=service(TradeHistoryService.class);UUID domain=history.historyAuthorityDomain();
+                var changes=history.changesAfter(domain,0,100);
+                var source=events.stream().filter(e->e.source().equals("StarCore.TradeHistoryService")).toList();
+                if(source.size()<expected&&System.nanoTime()<deadline){
+                    getServer().getScheduler().runTaskLater(this,()->tradeCheckPoll(expected,deadline,result),2L);return null;
+                }
+                require(changes.size()==expected&&source.size()==expected,"Native/Chronicle trade history count mismatch");
+                require(contributions.isEmpty(),"History-store fixture cannot create contributions");
+                for(var change:changes)require(source.stream().anyMatch(e->e.id().equals("starcore:trade-history:"+domain+":"+change.sequence())),"Missing source sequence");
+                log("TRADE_CHECK",Map.of("domain",domain,"expected",expected,"events",source,"contributions",contributions.size(),
+                        "native",changes.stream().map(c->Map.of("sequence",c.sequence(),"kind",c.kind(),"recordedAt",c.recordedAt(),"record",c.record().recordId(),"status",c.record().status(),"executedAt",c.record().executedAt())).toList()));
+                result.complete(null);
+            }catch(Throwable error){result.completeExceptionally(error);}return null;
+        }))).exceptionally(error->{result.completeExceptionally(error);return null;});
+    }
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!(sender instanceof ConsoleCommandSender)||args.length==0)return false;
         String action=args[0];if(!busy.compareAndSet(false,true)){fail(action,new IllegalStateException("Previous action is still pending"));return true;}
         try {
             CompletionStage<?> work=switch(action) {
+                case "trade-write"->tradeWrite(args[1]);case "trade-dispute"->tradeDispute();case "trade-clean"->tradeClean();case "trade-check"->tradeCheck(Integer.parseInt(args[1]));
                 case "members-open"->memberOpen();case "members-move"->memberMove(args[1]);case "members-check"->memberCheck(args[1],args[2]);
                 case "seed"->seed();case "open"->open();case "task-ready"->taskReady(args[1]);case "task-complete"->taskComplete(args[1]);
                 case "preparations"->preparations();case "advance"->advanceStory();case "dungeon"->dungeonEnter(args[1]);

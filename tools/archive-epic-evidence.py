@@ -17,6 +17,8 @@ NATIVE_TESTS = {'QuestEvidenceServiceTest', 'DungeonRepositoryEpicReceiptTest', 
                 'WarCompletionReceiptTest', 'WarMenuReinforcementOwnerTest'}
 NATIVE_POLICY_TESTS = {'SqlPolicyStateStorageTest', 'PolicyModuleDatabaseConflictIntegrationTest',
                        'PolicyModuleLifecycleTest', 'PolicyModuleStateTest'}
+NATIVE_TRADE_TESTS = {'SimpleTradeHistoryPagingTest', 'TradeRecordTest', 'TradeHistoryJournalTest',
+                      'PublicApiCompatibilityTest'}
 
 
 def sha(path):
@@ -49,6 +51,9 @@ def main():
     parser.add_argument('--run', type=Path, action='append', default=[])
     parser.add_argument('--label', default='checkpoint')
     parser.add_argument('--native-reports', type=Path)
+    parser.add_argument('--native-suite', choices=['epic', 'trade'], default='epic')
+    parser.add_argument('--native-log', type=Path, action='append', default=[])
+    parser.add_argument('--verification-log', type=Path, action='append', default=[])
     parser.add_argument('--starcore-jar', type=Path, help='Frozen accepted artifact, if verify has since repackaged target')
     parser.add_argument('--native-artifact-commit', help='Commit used to build the frozen accepted native JAR')
     parser.add_argument('--include-policy-tests', action='store_true')
@@ -63,10 +68,12 @@ def main():
         raise SystemExit('Invalid archive label')
     destination = ROOT / ('target/national-epic-' + args.label)
     destination.mkdir(parents=True, exist_ok=False)
-    selected = NATIVE_TESTS | (NATIVE_POLICY_TESTS if args.include_policy_tests else set())
+    if args.native_suite == 'trade' and args.include_policy_tests:
+        raise SystemExit('Trade and policy selections must be reported separately')
+    selected = NATIVE_TRADE_TESTS if args.native_suite == 'trade' else NATIVE_TESTS | (NATIVE_POLICY_TESTS if args.include_policy_tests else set())
     summary = dict(captured_utc=datetime.now(timezone.utc).isoformat(),
                    chronicle=dict(head=git(ROOT, 'rev-parse', 'HEAD'), tests=results(ROOT)),
-                   starcore=dict(head=git(native, 'rev-parse', 'HEAD'), tests=results(native, selected, args.native_reports)),
+                   starcore=dict(head=git(native, 'rev-parse', 'HEAD'), selected_suite=args.native_suite, tests=results(native, selected, args.native_reports)),
                    coverage='Consult the archived build command/log for fork and JaCoCo settings; targeted native tests are not full-project coverage.',
                    source_note='Source archive captures the current candidate worktree; Git status and source fingerprints are recorded separately. No production deployment is claimed.',
                    runs=[])
@@ -75,6 +82,8 @@ def main():
         summary[key]['source_files'] = {p: sha(root / p) for p in git(root, 'ls-files', '--', 'src', 'pom.xml').splitlines() if (root / p).is_file()}
     if args.chronicle_build_log:
         summary['chronicle']['build_log_sha256'] = sha(args.chronicle_build_log)
+    summary['starcore']['additional_logs'] = {p.name: sha(p) for p in args.native_log}
+    summary['verification_logs'] = {p.name: sha(p) for p in args.verification_log}
     if args.full_regression_log:
         summary['starcore']['full_regression'] = dict(tests=results(native), log_sha256=sha(args.full_regression_log))
     summary['starcore']['prior_regressions'] = [dict(label=path.name, tests=results(native, reports=path / 'surefire-reports'),
@@ -100,6 +109,10 @@ def main():
     summary['starcore']['source_archive'] = dict(path=str(native_zip), sha256=sha(native_zip))
     evidence_zip = destination / 'verification-evidence.zip'
     with zipfile.ZipFile(evidence_zip, 'w', zipfile.ZIP_DEFLATED) as archive:
+        for path in args.native_log:
+            archive.write(path, 'starcore/logs/' + path.name)
+        for path in args.verification_log:
+            archive.write(path, 'verification-logs/' + path.name)
         if args.chronicle_build_log:
             archive.write(args.chronicle_build_log, 'chronicle/build.log')
         for prior in args.chronicle_prior_log:
@@ -135,6 +148,7 @@ def main():
                                                             for name in ('contribution-check.json', 'contribution-upgrade-check.json')
                                                             if (run / 'evidence' / name).is_file()},
                                        member_check=json.loads((run / 'evidence/member-check.json').read_text()) if (run / 'evidence/member-check.json').is_file() else None,
+                                       trade_check=json.loads((run / 'evidence/trade-check.json').read_text()) if (run / 'evidence/trade-check.json').is_file() else None,
                                        passing_checks=[e for e in events if e['kind']=='ACCEPTANCE_PASS'],
                                        failures=[e for e in events if e['kind']=='FAILED'],
                                        fatal_jvm_logs=[path.name for path in run.glob('hs_err_*.log')]))
@@ -156,7 +170,8 @@ def main():
                 else: archive.write(path, name)
         for name in ('EpicCampaignPaperFixture.java','prepare-epic-paper.py','epic-paper-clients.cjs','epic-paper-session.py','inspect-epic-paper.py','inspect-quest-evidence-paper.py','test_epic_acceptance.py','archive-epic-evidence.py',
                      'prepare-contribution-upgrade.py','inspect-contribution-paper.py','inspect-contribution-upgrade.py','test_contribution_acceptance.py','test_contribution_upgrade.py',
-                     'prepare-member-paper.py','inspect-member-paper.py','test_member_acceptance.py'):
+                     'prepare-member-paper.py','inspect-member-paper.py','test_member_acceptance.py',
+                     'inspect-trade-paper.py','test_trade_acceptance.py'):
             archive.write(ROOT / 'tools' / name, 'tools/' + name)
         inventory = {entry.filename: hashlib.sha256(archive.read(entry.filename)).hexdigest() for entry in archive.infolist()}
         archive.writestr('evidence-manifest.json', json.dumps(inventory, indent=2) + '\n')

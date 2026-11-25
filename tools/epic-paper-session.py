@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third'])
+parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 args = parser.parse_args()
 run = args.run.resolve()
@@ -165,7 +165,23 @@ def scenario(phase):
     clients = start([str(args.node), '--max-old-space-size=192', str(client_script), str(run)], 'clients')
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
-    if phase.startswith('members-'):
+    if phase.startswith('trade-'):
+        if phase == 'trade-first':
+            server_action('trade-write first')
+            server_action('trade-check 1')
+            server_action('trade-write late')
+            server_action('trade-check 2')
+            server_action('trade-dispute')
+            server_action('trade-check 3')
+        elif phase == 'trade-second':
+            server_action('trade-check 3')
+            server_action('trade-clean')
+            server_action('trade-check 5')
+        elif phase == 'trade-third':
+            server_action('trade-check 5')
+        request = json.dumps(dict(command='/chronicle contributions', contains='本页暂无已核验贡献。'), ensure_ascii=False).encode()
+        client_action('expect A ' + base64.urlsafe_b64encode(request).decode().rstrip('='))
+    elif phase.startswith('members-'):
         member_scenario(phase)
     elif phase == 'first':
         server_action('open')
