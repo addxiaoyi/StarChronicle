@@ -1,0 +1,62 @@
+{
+  "status": "MYSQL_SETTLEMENT_STORAGE_ACCEPTED",
+  "captured_utc": "2026-11-25T20:05:07.653258+00:00",
+  "native_head": "362a02861f90de394f5bef0565208fa84862b0a9",
+  "product_baseline": "7ff849643b0b1541dacd83f8fe3962b9c2a0fdae",
+  "product_unchanged": true,
+  "verified": {
+    "status": "PASSED",
+    "started_utc": "2026-11-25T20:02:53.884242+00:00",
+    "finished_utc": "2026-11-25T20:03:29.565855+00:00",
+    "exit_code": 0,
+    "command": [
+      "./mvnw",
+      "-o",
+      "-B",
+      "-ntp",
+      "-Dstarcore.mysql.settlement.it=true",
+      "-Dtest=MySqlNationSettlementIntegrationTest",
+      "test"
+    ],
+    "tests": {
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 33316,
+      "database": "starcore_settlement_it"
+    },
+    "native_head": "7ff849643b0b1541dacd83f8fe3962b9c2a0fdae",
+    "files": {
+      "maven.log": "e9e321d4a6a65bdcf9c28bf3ccc92cf6c100ec060b23431fc82cee7d80f89368",
+      "TEST-dev.starcore.starcore.module.resource.MySqlNationSettlementIntegrationTest.xml": "333d6f574aadc3136c849e60cb5c86c034d23f9c8b38ef078c500029d45a59c9",
+      "MySqlNationSettlementIntegrationTest.java": "a09dbd2f0c2fd35089ca7c2a4d8b52d13bf62bce397e5143ec8776494d6117da"
+    }
+  },
+  "fixture": {
+    "container": "starcore-settlement-mysql-20261125",
+    "id": "cfc60a13656d73b3d88f0c4a59d3e28eed7980d77dc3103c033f2b46cab75d54",
+    "image": "public.ecr.aws/docker/library/mysql@sha256:8c233bad33d520a7aae1c1e619c3a9775f4a1ba2d463d692fada04ec7f40be00",
+    "port": 33316,
+    "database": "starcore_settlement_it",
+    "credentials": "local private file, excluded from evidence",
+    "test_configuration": {
+      "log_bin_trust_function_creators": true,
+      "reason": "Allow schema-scoped test user to create injected failure triggers; application user receives no global SUPER grant. Binary logging remains enabled."
+    }
+  },
+  "normal_shutdown": true,
+  "limitations": [
+    "Native source integration on dedicated MySQL 8.4.13 / InnoDB; not Paper with MySQL acceptance.",
+    "Clock and nation/thread authority are controlled fixtures; no real database crash or process-restart persistence test.",
+    "No new product JAR; previous frozen-pair Paper evidence remains bound to its own exact artifacts."
+  ],
+  "archive": {
+    "sha256": "ffa435388cae304ce49124f3baef3381cc344b4f6e378e650c05ed1ab163d114",
+    "bytes": 88711,
+    "members": 32
+  }
+}
