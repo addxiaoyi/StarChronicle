@@ -103,6 +103,13 @@ def main():
         with (dest/name).open('xb') as out:subprocess.run(['git','-C',str(root),'archive','--format=tar.gz','HEAD'],stdout=out,check=True)
     # Read actual generated credentials only to reject accidental inclusion; never log them.
     secrets=set()
+    secret_pattern=r'(?m)^([ \t]*(?:access-secret|password|api-key|mineskin_api_key):)[ \t]*([^\n]*)$'
+    public_defaults=set()
+    for root in (native,ROOT):
+        template=root/'src/main/resources/config.yml'
+        for match in re.finditer(secret_pattern,template.read_text()):
+            value=yaml.safe_load(match[2])
+            if isinstance(value,str) and value:public_defaults.add(value)
     for line in args.private_env.read_text().splitlines():
         if '=' not in line or line.lstrip().startswith('#'):continue
         key,value=line.split('=',1)
@@ -116,10 +123,10 @@ def main():
             require(path.is_file() and not path.is_symlink() and name not in archive.namelist(), 'Unsafe/duplicate evidence: '+name)
             raw=path.read_bytes()
             if path.suffix in ('.yml','.yaml'):
-                pattern=r'(?m)^([ \t]*(?:access-secret|password|api-key|mineskin_api_key):)[ \t]*([^\n]*)$'
+                pattern=secret_pattern
                 for match in re.finditer(pattern,raw.decode()):
                     value=yaml.safe_load(match[2])
-                    if isinstance(value,str) and len(value)>=16 and value!='REDACTED_TEST_SECRET':secrets.add(value.encode())
+                    if isinstance(value,str) and len(value)>=16 and value!='REDACTED_TEST_SECRET' and value not in public_defaults:secrets.add(value.encode())
                 text,count=re.subn(pattern,r'\1 "REDACTED_TEST_SECRET"',raw.decode());raw=text.encode()
                 if count:redactions.append(dict(path=name,fields=count))
             archive.writestr(name,raw)
@@ -173,7 +180,7 @@ def main():
             require(code==0,'Extracted '+name+' '+kind+' failed; keep unpublished attempt')
             if kind=='tests':extracted_tests.append(evidence_test(path))
     summary['extracted_inspectors']='ALL_SIX_PASSED';summary['extracted_regressions']=extracted_tests
-    summary['credential_scan']='No actual private environment or captured configuration credential bytes found'
+    summary['credential_scan']='No private environment or non-template configured credential bytes found. Public source-template defaults are redacted at credential fields; template references elsewhere are not private credentials.'
     summary['evidence_archive']=dict(sha256=sha(archive_path),bytes=archive_path.stat().st_size,members=len(inventory))
     summary['source_archives']={name:sha(dest/name) for name in ('starchronicle-source.tar.gz','starcore-source.tar.gz')}
     data=json.dumps(summary,ensure_ascii=False,indent=2)+'\n';(dest/'manifest.json').write_text(data)
