@@ -9,7 +9,7 @@
 | StarChronicle | `222fbb4064a84692ee3783a525737495566f1a529c3753df2392695797a4e345` | 沿用资源历史阶段 919 项构建的冻结 JAR |
 | StarCore | `d9f296190482ef644c5b5d52c3a16b7c0d7a304bbbc5a788d5e401627c2f84da` | 沿用生产组合阶段 34 项专项和 7,261 项常规 verify 的冻结 JAR；21 项跳过，保留既有排除 |
 
-这些 Maven 数字属于已有同指纹构建，本轮没有重新执行或扩充其覆盖声明。产品 `src/` 与 `pom.xml` 已对照原构建提交，确认没有漂移。配套原生分支仍为 `codex/worldguard-production-integration-20261125`，本轮 Chronicle 分支为 `codex/memory-recipe-runtime-20261125`，验收工具提交 `e25e928`。
+这些 Maven 数字属于已有同指纹构建，本轮没有重新执行或扩充其覆盖声明。产品 `src/` 与 `pom.xml` 已对照原构建提交，确认没有漂移。配套原生分支仍为 `codex/worldguard-production-integration-20261125`，本轮 Chronicle 分支为 `codex/memory-recipe-runtime-20261125`，验收工具提交 `e25e928`，归档报告 `ebe8c01`，草稿 [PR #9](https://github.com/addxiaoyi/StarChronicle/pull/9) 叠加生产组合 #8。
 
 运行环境为 Java 21、Paper 1.21.11、Mineflayer 4.39.0；第三方冻结组合为 EssentialsX 2.22.0、Vault 1.7.3-b131、FancyNpcs 2.10.1-java21+2、WorldEdit 7.4.2、WorldGuard 7.0.17。来源、下载指纹及完整版本见[组合锁](verification/production-stack-candidate-20261125.json)和[组合报告](PRODUCTION-STACK.md)。本轮使用上述实际插件，但没有重新执行组合报告中的转账、圈地或 NPC 生命周期场景。
 
