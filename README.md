@@ -1,6 +1,8 @@
 # StarChronicle
 
-2026-11-25 跨设备续接入口：[开发阶段与交接报告](docs/HANDOFF-2026-11-25.md)。最新国家资源转移历史已接持久收件箱，修复原生独立末尾、连续性、旧库存迁移与SQL权威回退。主项目919项、原生专项40项、常规verify 7,241项（零失败／错误、21跳过）通过；资源、科技、贸易、成员、DUNGEON／WAR六组各三次启动及118项证据回归通过。回执没有个人操作者，不猜测贡献。十阶段仍继续，精确构件与范围见[资源报告](docs/RESOURCE-HISTORY.md)。
+2026-11-25 跨设备续接入口：[开发阶段与交接报告](docs/HANDOFF-2026-11-25.md)。所选 Paper／EssentialsX／Vault／FancyNpcs／WorldEdit／WorldGuard 组合已完成三次启动与独立验收，27 项证据回归通过。原生增加 WorldGuard 保护桥、圈地所选钱包与 Essentials 精确余额读取；34 项专项、7,261 项常规 verify（零失败／错误、21 跳过）通过。Chronicle 沿用已通过 919 项构建的同一 JAR；实际范围、四次保留失败及跨插件事务边界见[生产组合报告](docs/PRODUCTION-STACK.md)。十阶段仍继续，未合并或部署生产服。
+
+上一国家资源转移增量的六组双插件实服、118 项证据回归及对应构件独立保留在[资源报告](docs/RESOURCE-HISTORY.md)。资源回执没有个人操作者，不生成个人贡献。
 
 国家史诗新增 `/chronicle epic` 报名、冻结、准备、执行、对账与路线入口；可选《帝国最后的继承人》战略包默认关闭。部署和真实回执边界见 [国家史诗契约](docs/NATIONAL-EPIC-CONTRACT.md)与[操作示例](examples/national-epic/last-heir-strategy/README.md)。
 

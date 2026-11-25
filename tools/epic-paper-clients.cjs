@@ -46,6 +46,19 @@ async function contributions(who) {
     bot.on('messagestr',onMessage);bot.chat('/chronicle contributions');
   });
 }
+async function npc(who,rawId) {
+  const bot=bots.get(who),entityId=Number(rawId);
+  if(!Number.isInteger(entityId)||entityId<0)throw Error('Invalid NPC entity ID');
+  let entity;
+  for(let i=0;i<80;i++) {entity=bot.entities[entityId];if(entity)break;await new Promise(resolve=>setTimeout(resolve,100));}
+  if(!entity)throw Error('Real NPC entity was not received by client');
+  const distance=bot.entity.position.distanceTo(entity.position);
+  if(distance>4)throw Error('NPC outside interaction reach: '+distance);
+  if(bot.currentWindow)throw Error('Close menu before NPC interaction');
+  await bot.lookAt(entity.position.offset(0,1,0),true);
+  await bot.activateEntity(entity);
+  log('NPC_CLICK',{who,entityId,distance,type:entity.name,syntheticEvents:false});
+}
 let chain=Promise.resolve();
 async function expectCommand(who,encoded) {
   const request=JSON.parse(Buffer.from(encoded,'base64url').toString('utf8')),bot=bots.get(who);
@@ -68,6 +81,7 @@ readline.createInterface({input:process.stdin}).on('line',line=>{chain=chain.the
   if(action==='quit'){quitting=true;for(const bot of bots.values())bot.quit('Epic acceptance complete');return;}
   if(action==='craft')await craft(who);
   else if(action==='contributions')await contributions(who);
+  else if(action==='npc')await npc(who,rest[0]);
   else if(action==='expect')await expectCommand(who,rest.join(' '));
   else if(action==='chat')bots.get(who).chat(rest.join(' '));
   else if(action==='close'&&bots.get(who).currentWindow)bots.get(who).closeWindow(bots.get(who).currentWindow);

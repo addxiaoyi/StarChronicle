@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third'])
+parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 args = parser.parse_args()
 run = args.run.resolve()
@@ -28,6 +28,13 @@ manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
 for name, key in [('StarChronicle', 'plugin_sha256'), ('StarCore', 'starcore_sha256'), ('EpicCampaignPaperFixture', 'fixture_sha256')]:
     if hashlib.sha256((run / f'plugins/{name}.jar').read_bytes()).hexdigest() != manifest[key]:
         raise SystemExit('Frozen artifact drift: ' + name)
+if manifest.get('production_stack'):
+    paper_hashes = {value for name, value in manifest['source_artifacts'].items() if Path(name).name == 'paper.jar'}
+    if len(paper_hashes) != 1 or hashlib.sha256((run / 'paper.jar').read_bytes()).hexdigest() not in paper_hashes:
+        raise SystemExit('Frozen Paper runtime drift')
+for artifact in manifest.get('production_stack', {}).get('artifacts', []):
+    if hashlib.sha256((run / 'plugins' / artifact['filename']).read_bytes()).hexdigest() != artifact['sha256']:
+        raise SystemExit('Frozen additional plugin drift: ' + artifact['filename'])
 probe = socket.socket()
 probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 probe.bind(('127.0.0.1', manifest['server_port']))
@@ -165,7 +172,30 @@ def scenario(phase):
     clients = start([str(args.node), '--max-old-space-size=192', str(client_script), str(run)], 'clients')
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
-    if phase.startswith('resource-'):
+    if phase.startswith('stack-'):
+        server_action('stack-check')
+        server_action('stack-economy ' + ('first' if phase == 'stack-first' else 'restore'))
+        stack_phase = 'first' if phase == 'stack-first' else 'restore'
+        server_action('stack-protection ' + stack_phase)
+        server_action('stack-geometry')
+        server_action('stack-npcs ' + stack_phase)
+        fixture = [json.loads(line) for line in (run / 'evidence/epic-fixture.jsonl').read_text().splitlines()]
+        ids = next(row['data'] for row in reversed(fixture) if row['kind'] == 'STACK_NPCS')
+        server_action(f'stack-npc-history {args.boot - 1} 0')
+        client_action('npc A ' + str(ids['boundEntity']))
+        time.sleep(2)
+        server_action(f'stack-npc-history {args.boot} 1')
+        client_action('close A')
+        client_action('npc A ' + str(ids['unboundEntity']))
+        time.sleep(2)
+        server_action(f'stack-npc-history {args.boot} 2')
+        client_action('close A')
+        server_action('stack-npc-mode cancel')
+        client_action('npc A ' + str(ids['boundEntity']))
+        time.sleep(2)
+        server_action(f'stack-npc-history {args.boot} 3')
+        if phase == 'stack-third': server_action('stack-faults')
+    elif phase.startswith('resource-'):
         server_action('resource-bind')
         if phase == 'resource-first':
             server_action('resource-check 0')
@@ -260,6 +290,10 @@ def scenario(phase):
         raise RuntimeError('Acceptance processes must exit normally')
     print('SCENARIO_COMPLETE ' + phase, flush=True)
 outcome = dict(boot=args.boot, scenario=args.scenario, contributions=args.contributions, status='INCOMPLETE')
+outcome['source_sha256'] = {
+    'controller': hashlib.sha256(Path(str(prefix) + '.controller.py').read_bytes()).hexdigest(),
+    'clients': hashlib.sha256(client_script.read_bytes()).hexdigest(),
+}
 try:
     commands = ['scenario ' + args.scenario] if args.scenario else sys.stdin
     for raw in commands:

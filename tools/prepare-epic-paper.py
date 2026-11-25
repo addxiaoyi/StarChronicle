@@ -142,19 +142,31 @@ def compile_fixture(args):
     classes.mkdir(exist_ok=True)
     paper_api = Path.home() / '.m2/repository/io/papermc/paper/paper-api/1.21.11-R0.1-SNAPSHOT/paper-api-1.21.11-R0.1-SNAPSHOT.jar'
     jars = [paper_api, run / 'plugins/StarChronicle.jar', run / 'plugins/StarCore.jar'] + sorted((run / 'libraries').rglob('*.jar'))
+    for artifact in manifest.get('production_stack', {}).get('artifacts', []):
+        extra = run / 'plugins' / artifact['filename']
+        if sha(extra) != artifact['sha256']: raise SystemExit('Frozen additional plugin SHA changed')
+        jars.append(extra)
+    sources = [source]
+    for name, expected in manifest.get('fixture_extra_sources_sha256', {}).items():
+        extra_source = run / 'fixture' / name
+        if extra_source.parent != run / 'fixture' or sha(extra_source) != expected:
+            raise SystemExit('Frozen extra fixture source changed')
+        sources.append(extra_source)
     argfile = run / 'fixture/javac.args'
     write(argfile, '--release 21\n-proc:none\n-encoding UTF-8\n-cp\n"' + os.pathsep.join(str(path) for path in jars).replace('\\', '/') +
-          '"\n-d\n"' + str(classes).replace('\\', '/') + '"\n"' + str(source).replace('\\', '/') + '"\n')
+          '"\n-d\n"' + str(classes).replace('\\', '/') + '"\n' + ''.join('"' + str(item).replace('\\', '/') + '"\n' for item in sources))
     with (run / 'evidence/fixture-compile.log').open('w', encoding='utf-8') as log:
         javac = args.java_home / 'bin' / ('javac.exe' if os.name == 'nt' else 'javac')
         result = subprocess.run([str(javac), '-J-Xmx128m', '-J-XX:+UseSerialGC', '@' + str(argfile)], stdout=log, stderr=subprocess.STDOUT)
     if result.returncode:
         print((run / 'evidence/fixture-compile.log').read_text(encoding='utf-8', errors='replace'))
         raise SystemExit(result.returncode)
+    main_class = manifest.get('fixture_main_class', FIXTURE)
+    dependencies = '[StarCore, StarChronicle, FancyNpcs, WorldGuard, WorldEdit, Essentials, Vault]' if manifest.get('production_stack') else '[StarCore, StarChronicle]'
     with zipfile.ZipFile(target, 'x', zipfile.ZIP_DEFLATED) as archive:
         for path in classes.rglob('*.class'):
             archive.write(path, path.relative_to(classes).as_posix())
-        archive.writestr('plugin.yml', f'name: {FIXTURE}\nversion: 1\nmain: smoke.{FIXTURE}\napi-version: "1.21"\ndepend: [StarCore, StarChronicle]\ncommands:\n  epicverify:\n    description: Isolated epic acceptance\n')
+        archive.writestr('plugin.yml', f'name: {FIXTURE}\nversion: 1\nmain: smoke.{main_class}\napi-version: "1.21"\ndepend: {dependencies}\ncommands:\n  epicverify:\n    description: Isolated epic acceptance\n')
     manifest.update(fixture_compiled=True, fixture_sha256=sha(target))
     write(run / 'preparation.json', json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps(dict(run=str(run), fixture_sha256=manifest['fixture_sha256'])))
@@ -165,6 +177,8 @@ def revise_fixture(args):
     if run.parent != (ROOT / 'run').resolve() or not run.name.startswith('paper-epic-'):
         raise SystemExit('Not an isolated epic run')
     manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
+    if manifest.get('production_stack'):
+        raise SystemExit('Production fixtures are frozen; prepare a new run for source changes')
     probe = socket.socket()
     probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     probe.bind(('127.0.0.1', manifest['server_port']))
