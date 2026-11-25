@@ -66,6 +66,12 @@ STARCHRONICLE_RECOVERY_RUN=RESTORED_RUN python -m unittest discover -s tools -p 
 python -m unittest discover -s tools -p test_mysql_recovery_backup.py -v
 ```
 
-本机续接工作区 `/home/add/starchronicle-mysql-recovery`，分支 `codex/mysql-recovery-20261125`；原生继续 `/home/add/starcore-mysql-settlement`，不修改 `/home/add/starcore`。完整私有备份在 `/tmp/starcore-recovery-private-20261125/`；私有实例目录 `starcore-recovery-mysql-20261125*` 中的 `mysql.env` 不得上传。公开归档由 `archive-mysql-recovery-evidence.py` 生成并在解压后再次运行五个独立检查器。
+本机续接工作区 `/home/add/starchronicle-mysql-recovery`，分支 `codex/mysql-recovery-20261125`，草稿[PR #18](https://github.com/addxiaoyi/StarChronicle/pull/18)，叠加#17；原生继续 `/home/add/starcore-mysql-settlement`，不修改 `/home/add/starcore`。完整私有备份在 `/tmp/starcore-recovery-private-20261125/`；私有实例目录 `starcore-recovery-mysql-20261125*` 中的 `mysql.env` 不得上传。公开归档由 `archive-mysql-recovery-evidence.py` 生成并在解压后再次运行五个独立检查器。
 
 后续仍需事务进行中的中断与存储介质故障窗口、运行中数据库失联策略、远端 TLS 身份验证、长期容量、旧钱包／市场与工厂迁移、其他 UNKNOWN 恢复、全栈 Folia。当前强制终止发生在已完成重放之后，不表示物理断电、任意事务窗口或跨存储系统原子恢复均已完成。
+
+## 公开证据与交付
+
+[证据ZIP](verification/mysql-recovery-20261125-evidence.zip)与[机器清单](verification/mysql-recovery-20261125-summary.json)已生成。ZIP 17,360,954 字节，2060 个带 SHA-256 的成员全部核验，摘要 `dc6dd185dbae51fb6c7adf54de97ece330a5789fe6ab71029c5d767388417127`。解压后的独立工具已离线复验五现场；公开配置的测试访问密钥被脱敏，摘要同时记录原字节和脱敏字节，不能用公开文件替代私有恢复。
+
+本机交付 `target/mysql-recovery-20261125/` 包含冻结双JAR、两个仓库源码tar和完整公开证据。工具／报告源码归档提交 `55ee095726fcb8b6f9ec94470c772c5d2e51f189`；原生源码归档 `362a02861f90de394f5bef0565208fa84862b0a9`。首失败恢复实例及两个成功恢复实例均已正常停止、exit0，无OOM，数据保留；原始MySQL的备份维护启停另有独立记录。
