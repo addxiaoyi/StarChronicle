@@ -69,7 +69,11 @@ STARCHRONICLE_LEGACY_FACTORY_RUN="$PWD/run/paper-epic-7ccb4d1f-dungeon-legacy-fa
 
 重做实服须用新attempt与空闲端口：先运行`prepare-legacy-factory-paper.py`，再依次运行`epic-paper-session.py`的`legacy-seed`、`legacy-first`、`legacy-second`、`legacy-third`；仅在第一轮正常停止后执行`stage-legacy-factory-paper.py`。提供相同锁定依赖、精确双JAR、Java21与Mineflayer模块，不覆盖旧目录。六组普通业务用`run-legacy-factory-regressions.py`；每组独立目录、正常停止后检查及证据回归。
 
-归档工具`tools/archive-legacy-factory-evidence.py`集中保存七个成功现场、两个被拒绝现场、完整构建／MySQL报告与原始工具；逐文件清单、私密凭据扫描及七组解压复验结果写入`docs/verification/legacy-factory-20261125-summary.json`。公开证据ZIP与最终摘要在归档成功后发布，源码tar和精确双JAR保留于`target/legacy-factory-20261125/`。
+公开[证据ZIP](verification/legacy-factory-20261125-evidence.zip)与[机器清单](verification/legacy-factory-20261125-summary.json)：16,073,161字节，4,645个哈希成员加清单，SHA-256 `215ac96d21c86af573a05bed5cf4edfacb875893e7286b1e7e9bd7195d7e630e`。七个检查器、250项证据测试在解压后全部复验，242通过／8场景跳过；逐成员哈希与实际私密凭据扫描通过，秘密配置字段已脱敏。
+
+归档时源码HEAD：Chronicle `f1e1c4c38ce0338fc4ca114765c543e18713f535`、原生`7ed5ad5e507fa67ad5c227f5677a7d316e16fc61`；与冻结产品源码的src／pom差异为空。归档内包含七个成功现场、两个被拒绝现场、完整构建／MySQL报告和工具；`target/legacy-factory-20261125/`另保留精确双JAR、当时源码tar、机器清单和解压复验日志。最终文档／交付检查点按配套PR正文记录；公开ZIP不含第三方二进制或运行世界，异机复验须按锁文件补齐。
+
+中间工具提交`7a50d9e2…1490`的Linux CI run45723784263／job139588356449已成功，991项测试、报告生成、交付校验及上传均通过。CI JAR `2003e4de…45b3`不同于实服冻结JAR；最终文档提交的CI以配套PR正文为准。
 
 本机工作区`/home/add/starchronicle-legacy-factory-audit`与`/home/add/starcore-legacy-factory-audit`；冻结构件及完整报告在Chronicle的`target/legacy-factory-frozen/`。第三方JAR、世界与私密配置仅本机保留。不得修改`/home/add/starcore`或停止无关服务。
 
