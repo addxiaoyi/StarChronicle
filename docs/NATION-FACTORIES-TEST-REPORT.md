@@ -9,7 +9,7 @@
 | StarCore | `5c7eb07d9aab43b80eaf83aaee3d5c5b69615b3e` | `b06b317ffe1af77162da42e301851abc9de6ccdc4aa88e2e7da546ab8f8ced3b` |
 | StarChronicle | `fc08038d5e9016ad04280552a3a641193c0971c4` | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` |
 
-两库续接`codex/nation-factories-20261125`，分别叠加原生生产配方#15和Chronicle #20。后续工具／报告提交不改变上述产品源码和实服JAR。源码归档提交记录在机器清单；CI重建产生不同指纹时，不转用本轮实服结论。
+两库续接`codex/nation-factories-20261125`：原生草稿[PR #16](https://github.com/addxiaoyi/starcore/pull/16)叠加#15，Chronicle草稿[PR #21](https://github.com/addxiaoyi/StarChronicle/pull/21)叠加#20。后续工具／报告提交不改变上述产品源码和实服JAR。源码归档提交记录在机器清单；CI重建产生不同指纹时，不转用本轮实服结论。
 
 目标组合：Java21、Paper1.21.11、EssentialsX2.22.0、Vault1.7.3-b131、FancyNpcs2.10.1-java21+2、WorldEdit7.4.2+7450-eb8e82c、WorldGuard7.0.17+2370-e42d8bc。实际提供者与JAR哈希均由现场及[锁文件](verification/production-stack-candidate-20261125.json)核验。Paper现场原生与Chronicle均为SQLite；MySQL为独立原生测试。
 
