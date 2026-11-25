@@ -142,24 +142,66 @@ public final class RuleEngine implements AutoCloseable {
             boolean fresh=recordAndQueue(c,event,unique.values(),runtime.enabledDefinitions(),EventCausality.root(event.id()));
             Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
             AidLedger.commit(c,request,receipt,issuer,authorityDomain,event.id(),clock.instant());
-            // The native receipt is the committed source timestamp. A fixed or slightly
-            // lagging Chronicle clock must not make the local audit row predate that source.
-            Instant recordedAt = clock.instant().isBefore(receipt.appliedAt())
-                    ? receipt.appliedAt() : clock.instant();
-            ContributionRequest nationContribution = new ContributionRequest(request.outcomeId(), ContributionType.RESOURCE_AID,
-                    "nation:"+request.payerId(), event.id(), request.actorId(), request.payerId(), request.amount(),
-                    "treasury", receipt.appliedAt(), "StarCore receipt issuer="+issuer+" domain="+authorityDomain+" transaction="+receipt.transactionId());
-            ContributionLedger.record(c, nationContribution, recordedAt);
-            ContributionRequest playerContribution = new ContributionRequest(request.outcomeId(), ContributionType.RESOURCE_AID,
-                    "player:"+request.actorId(), event.id(), request.actorId(), request.payerId(), request.amount(),
-                    "treasury", receipt.appliedAt(), "StarCore receipt issuer="+issuer+" domain="+authorityDomain+" transaction="+receipt.transactionId());
-            ContributionLedger.record(c, playerContribution, recordedAt);
+            recordAidContributions(c, request, receipt, issuer, authorityDomain, event.id(), clock.instant());
             return new ProcessReport(!fresh,List.copyOf(changed),fresh?"国库援助已记入世界历史并提交剧情收件箱":changed.isEmpty()?"国库援助历史已存在":"国库援助历史已存在，已恢复剧情触发");
         });
     }
 
+    static void recordAidContributions(Connection c, io.github.addxiaoyi.starchronicle.api.aid.AidRequest request,
+                                       io.github.addxiaoyi.starchronicle.api.aid.AidReceipt receipt,
+                                       String issuer, String authorityDomain, String eventId, Instant now) throws SQLException {
+        // The native receipt is the committed source timestamp. A fixed or slightly
+        // lagging Chronicle clock must not make the local audit row predate that source.
+        Instant recordedAt = now.isBefore(receipt.appliedAt())
+                ? receipt.appliedAt() : now;
+        ContributionRequest nationContribution = new ContributionRequest(request.outcomeId(), ContributionType.RESOURCE_AID,
+                "nation:"+request.payerId(), eventId, request.actorId(), request.payerId(), request.amount(),
+                "treasury", receipt.appliedAt(), "StarCore receipt issuer="+issuer+" domain="+authorityDomain+" transaction="+receipt.transactionId());
+        ContributionLedger.record(c, nationContribution, recordedAt);
+        ContributionRequest playerContribution = new ContributionRequest(request.outcomeId(), ContributionType.RESOURCE_AID,
+                "player:"+request.actorId(), eventId, request.actorId(), request.payerId(), request.amount(),
+                "treasury", receipt.appliedAt(), "StarCore receipt issuer="+issuer+" domain="+authorityDomain+" transaction="+receipt.transactionId());
+        ContributionLedger.record(c, playerContribution, recordedAt);
+    }
+
     public static String aidEventId(String issuer,String transactionId){return "chronicle:aid:"+stable(issuer,transactionId);}
-    private static WorldEvent aidEvent(io.github.addxiaoyi.starchronicle.api.aid.AidRequest request,
+
+    /** The operation receipt, source history, story inbox and resource contributions commit together. */
+    public EpicOperationState observeEpicOperation(EpicOperation operation, EpicObservation observation,
+                                                   String providerId, String authorityDomain) {
+        return transaction(c -> {
+            EpicOperationState state = EpicCampaignLedger.observe(c, operation, observation, providerId, authorityDomain, clock.instant());
+            projectEpicContribution(c, state);
+            return state;
+        });
+    }
+
+    /** Bounded upgrade recovery of already verified receipts; never calls or retries a native mutation. */
+    public int reconcileEpicContributions(int limit) {
+        return transaction(c -> {
+            List<EpicOperationState> pending = EpicContributionProjection.pending(c, limit);
+            for (EpicOperationState state : pending) projectEpicContribution(c, state);
+            return pending.size();
+        });
+    }
+
+    private void projectEpicContribution(Connection c, EpicOperationState state) throws Exception {
+        Optional<WorldEvent> source = EpicContributionProjection.event(c, state);
+        if (source.isEmpty()) return;
+        WorldEvent event = source.orElseThrow();
+        recordAndQueue(c, event, List.of(), runtime.enabledDefinitions(), EventCausality.root(event.id()));
+        EpicContributionProjection.record(c, state, event, clock.instant());
+    }
+
+    /** Public evidence projection, using the same nation:/player: subjects as the persisted ledger. */
+    public List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry> contributions(
+            String subjectId, ContributionType type, int page, int size) {
+        if (page < 0 || size < 1 || size > 100) throw new IllegalArgumentException("Invalid contribution page");
+        if (subjectId != null) ContributionRequest.token(subjectId, "subjectId", 256);
+        return transaction(c -> ContributionLedger.list(c, subjectId, type, page, size));
+    }
+
+    static WorldEvent aidEvent(io.github.addxiaoyi.starchronicle.api.aid.AidRequest request,
                                        io.github.addxiaoyi.starchronicle.api.aid.AidReceipt receipt,
                                        String issuer,String authorityDomain) {
         Map<String,String> facts=new LinkedHashMap<>();

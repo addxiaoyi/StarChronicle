@@ -48,6 +48,7 @@ class EpicServicesTest {
         });
         field("running",new AtomicBoolean(true));field("tasks",tasks);field("gateway",bridge);field("worker",worker);
         field("permissions",Set.of("starchronicle.use","starcore.resource"));field("epicCampaigns",ledger);field("epicOperationProviders",List.of(provider));
+        field("engine",new RuleEngine(store,List.of(),java.time.Clock.systemUTC()));
         field("nationalVoteAuthority",new NationalVoteAuthority(){
             public <T>T withRepresentative(UUID actor,String nation,Authorized<T> action)throws Exception {
                 return action.run(new View(){public UUID actorId(){return actor;}public String nationId(){return nation;}
@@ -66,15 +67,19 @@ class EpicServicesTest {
         assertThrows(CompletionException.class,()->service.applyEpicOperation(op.operationId(),ACTOR,1).toCompletableFuture().join());
         assertThrows(CompletionException.class,()->service.applyEpicOperation(op.operationId(),ACTOR,2).toCompletableFuture().join());
         nativeReply.complete(committed());assertEquals(EpicOperationState.Status.COMMITTED,first.join().status());
+        assertEquals(1,service.contributions("player:"+ACTOR,null,0,10).toCompletableFuture().join().size());
+        assertEquals(1,service.contributions("nation:"+NA,null,0,10).toCompletableFuture().join().size());
         verify(provider,times(1)).apply(op);
     }
     @Test void removedProviderCannotCommitALateReplyAndRecoveryOnlyLooksUp()throws Exception {
         var first=service.applyEpicOperation(op.operationId(),ACTOR,1).toCompletableFuture();
         field("epicOperationProviders",List.of());nativeReply.complete(committed());
         assertThrows(CompletionException.class,first::join);assertEquals(EpicOperationState.Status.UNKNOWN,ledger.operation(op.operationId()).status());
+        assertTrue(service.contributions(null,null,0,10).toCompletableFuture().join().isEmpty());
         field("epicOperationProviders",List.of(provider));when(provider.lookup(op)).thenReturn(CompletableFuture.completedFuture(committed()));
         var recovered=service.reconcileEpicOperation(op.operationId(),ACTOR,ledger.operation(op.operationId()).revision()).toCompletableFuture().join();
         assertEquals(EpicOperationState.Status.COMMITTED,recovered.status());verify(provider,times(1)).apply(op);verify(provider,times(1)).lookup(op);
+        assertEquals(2,service.contributions(null,null,0,10).toCompletableFuture().join().size());
     }
     @Test void lostNativeIdentityOrUsePermissionNeverClaimsOrDispatches() {
         for(PlayerContext context:List.of(new PlayerContext(ACTOR,NB,Map.of(),Set.of("starchronicle.use","starcore.resource")),

@@ -279,6 +279,22 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
             return api.applyEpicOperation(done.operation().operationId(),done.operation().actorId(),done.revision()).handle((value,error)->{
                 require(error!=null,"Committed operation was reapplied");log("REPLAY_REJECTED",Map.of("operation",done.operation().operationId(),"error",error.toString()));return null;});});
     }
+    private CompletionStage<?> contributionCheck() {
+        return api.contributions(null,null,0,100).thenApply(entries->{
+            require(entries.size()==8,"Expected treasury and resource projections for two actors and two nations");
+            require(entries.stream().map(e->e.id()).distinct().count()==8,"Contribution identity reused");
+            for(String who:List.of("A","B"))for(String subject:List.of("player:"+uuid(who),"nation:"+country(who))) {
+                var own=entries.stream().filter(e->e.request().subjectId().equals(subject)).toList();
+                require(own.size()==2,"Expected two contribution units per source subject");
+                for(String unit:List.of("treasury","resource.agricultural")) {
+                    var entry=own.stream().filter(e->e.request().unit().equals(unit)).findFirst().orElseThrow();
+                    require(entry.request().actorId().equals(uuid(who))&&entry.request().nationId().equals(country(who).toString()),"Contribution attribution changed");
+                    require(entry.request().amount().compareTo(BigDecimal.TEN)==0,"Contribution amount differs");
+                }
+            }
+            log("CONTRIBUTIONS_PASS",Map.of("entries",entries,"boot",boot));return null;
+        });
+    }
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!(sender instanceof ConsoleCommandSender)||args.length==0)return false;
         String action=args[0];if(!busy.compareAndSet(false,true)){fail(action,new IllegalStateException("Previous action is still pending"));return true;}
@@ -288,7 +304,7 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
                 case "preparations"->preparations();case "advance"->advanceStory();case "dungeon"->dungeonEnter(args[1]);
                 case "found"->founding();case "declare"->declareWar();case "end-war"->endWar();
                 case "checkpoint"->captureFinal();case "final-evidence"->finalEvidence();case "settle"->settle();
-                case "check"->check();case "replay"->replayRejection();case "state"->campaign().thenApply(s->{log("STATE",s);return s;});
+                case "check"->check();case "contributions"->contributionCheck();case "replay"->replayRejection();case "state"->campaign().thenApply(s->{log("STATE",s);return s;});
                 default->throw new IllegalArgumentException("Unknown action: "+action);
             };
             work.whenComplete((value,error)->{busy.set(false);if(error!=null)fail(action,error);else log("ACTION_DONE",Map.of("action",action));});

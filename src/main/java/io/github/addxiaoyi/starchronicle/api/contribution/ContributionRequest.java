@@ -18,7 +18,7 @@ public record ContributionRequest(String operationId, ContributionType type, Str
         Objects.requireNonNull(actorId, "actorId");
         if (nationId != null && !nationId.isBlank()) token(nationId, "nationId", 256);
         amount = amount(amount);
-        token(unit, "unit", 32);
+        token(unit, "unit", 320);
         Objects.requireNonNull(committedAt, "committedAt");
         if (evidence == null || evidence.isBlank() || evidence.length() > 4096)
             throw new IllegalArgumentException("Invalid contribution evidence");
@@ -26,8 +26,8 @@ public record ContributionRequest(String operationId, ContributionType type, Str
 
     public static BigDecimal amount(BigDecimal value) {
         if (value == null || value.signum() <= 0 || value.scale() > 6
-                || value.compareTo(new BigDecimal("1000000000000")) > 0) {
-            throw new IllegalArgumentException("Contribution amount must be positive, use at most six decimals, and not exceed 1000000000000");
+                || value.compareTo(BigDecimal.valueOf(Long.MAX_VALUE)) > 0) {
+            throw new IllegalArgumentException("Contribution amount must be positive, use at most six decimals, and not exceed Long.MAX_VALUE");
         }
         return value.stripTrailingZeros();
     }

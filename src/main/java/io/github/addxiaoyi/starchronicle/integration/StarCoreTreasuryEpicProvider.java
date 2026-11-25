@@ -3,7 +3,6 @@ package io.github.addxiaoyi.starchronicle.integration;
 import io.github.addxiaoyi.starchronicle.api.aid.*;
 import io.github.addxiaoyi.starchronicle.api.epic.*;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.concurrent.CompletionStage;
 
@@ -36,12 +35,7 @@ public final class StarCoreTreasuryEpicProvider implements EpicOperationProvider
     }
 
     private static AidRequest request(EpicOperation operation) {
-        Objects.requireNonNull(operation);
-        if(operation.type()!=EpicOperation.Type.TREASURY_AID||!AidRequest.PERMISSION.equals(operation.permission()))
-            throw new IllegalArgumentException("Treasury epic operation has an invalid type or permission");
-        return new AidRequest(operation.operationId(),operation.instanceId(),operation.sourceEventId(),
-                operation.campaignId(),AidRequest.OPERATION,operation.definitionFingerprint(),operation.actorId(),
-                operation.nationId(),operation.target(),new BigDecimal(operation.nativeReference()),operation.requestedAt());
+        return EpicContract.treasuryAidRequest(operation);
     }
 
     private EpicObservation map(EpicOperation operation,AidRequest request,AidObservation observation) {

@@ -72,6 +72,9 @@ public interface ChronicleService {
     CompletionStage<List<StoryInstance>> availableInstances(UUID playerId);
     CompletionStage<Map<String,StoryDefinition.Choice>> availableChoices(String instanceId, UUID playerId);
     CompletionStage<List<WorldEvent>> history(String nationId, UUID playerId, int page, int size);
+    /** Read-only, bounded public contribution evidence. Null subject/type selects all; pages are zero-based.
+     * A nation:UUID and player:UUID are separate projections of the same source, not additive rewards. */
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry>> contributions(String subjectId,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contribution ledger unavailable"));}
     /** Public read-only evidenced memory registrations, filtered by an optional exact logical region. */
     default CompletionStage<List<io.github.addxiaoyi.starchronicle.memory.MemoryEntry>> memoryEntries(String regionId,int page,int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Automatic memory recipes unavailable"));}
     /** At most 256 explicit past.* or history references. Identity is freshly collected by

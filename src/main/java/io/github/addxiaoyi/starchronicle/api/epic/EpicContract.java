@@ -9,6 +9,34 @@ import java.util.Objects;
 public final class EpicContract {
     private EpicContract() {}
 
+    public static io.github.addxiaoyi.starchronicle.api.aid.AidRequest treasuryAidRequest(EpicOperation operation) {
+        Objects.requireNonNull(operation);
+        if (operation.type() != EpicOperation.Type.TREASURY_AID
+                || !io.github.addxiaoyi.starchronicle.api.aid.AidRequest.PERMISSION.equals(operation.permission()))
+            throw new IllegalArgumentException("Treasury epic operation has an invalid type or permission");
+        return new io.github.addxiaoyi.starchronicle.api.aid.AidRequest(operation.operationId(), operation.instanceId(),
+                operation.sourceEventId(), operation.campaignId(), io.github.addxiaoyi.starchronicle.api.aid.AidRequest.OPERATION,
+                operation.definitionFingerprint(), operation.actorId(), operation.nationId(), operation.target(),
+                new java.math.BigDecimal(operation.nativeReference()), operation.requestedAt());
+    }
+
+    /** The same resource quantities are used for native invocation and receipt projection. */
+    public static java.util.Map<String, Long> resourceAmounts(String value) {
+        Objects.requireNonNull(value, "resource reference");
+        String raw = value.startsWith("resource=") ? value.substring("resource=".length()) : value;
+        java.util.Map<String, Long> result = new java.util.TreeMap<>();
+        for (String item : raw.split(",", -1)) {
+            String[] parts = item.split(":", 2);
+            if (parts.length != 2) throw new IllegalArgumentException("nativeReference must be resource:amount");
+            String resource = parts[0].trim().toLowerCase(java.util.Locale.ROOT);
+            if (!resource.matches("[a-z0-9_.-]{1,256}")) throw new IllegalArgumentException("Invalid resource identifier");
+            long amount = Long.parseLong(parts[1]);
+            if (amount <= 0) throw new IllegalArgumentException("Resource amount must be positive");
+            if (result.put(resource, amount) != null) throw new IllegalArgumentException("Duplicate resource");
+        }
+        return java.util.Map.copyOf(result);
+    }
+
     /** A command-safe, lossless UTF-8 nation name (including Chinese names). */
     public static String foundingReference(String name) {
         if (name == null || name.isBlank() || name.length() > 128 || name.codePoints().anyMatch(Character::isISOControl))
