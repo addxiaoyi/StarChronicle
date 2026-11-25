@@ -4,6 +4,7 @@ import io.github.addxiaoyi.starchronicle.api.WorldEvent;
 import io.github.addxiaoyi.starchronicle.api.NativeScene;
 import io.github.addxiaoyi.starchronicle.api.NationalVoteState;
 import io.github.addxiaoyi.starchronicle.api.ChronicleService;
+import io.github.addxiaoyi.starchronicle.api.HistoryPage;
 import io.github.addxiaoyi.starchronicle.api.quest.QuestGateState;
 import io.github.addxiaoyi.starchronicle.api.quest.QuestObservation;
 import io.github.addxiaoyi.starchronicle.api.quest.QuestRequest;
@@ -65,17 +66,38 @@ public final class Menus implements Listener {
         if(event.getView().getTopInventory().getHolder() instanceof Session) event.setCancelled(true);
     }
     @EventHandler public void left(PlayerQuitEvent event){nationalRequests.remove(event.getPlayer().getUniqueId());questGateRequests.remove(event.getPlayer().getUniqueId());}
-    public void history(UUID viewer, String nation, UUID person, int page) {
-        int safePage=Math.max(0,page);
-        plugin.service().history(nation,person,safePage,PAGE).whenComplete((events,error)-> {
+    /** Keep at most 128 visited anchors in one inventory session. Older back navigation and
+     * explicit numbered jumps retain the existing offset API; normal forward pages seek. */
+    record HistoryLocation(int page,String cursor,List<String> previous) {
+        HistoryLocation {if(page<0||page>1_000_000)throw new IllegalArgumentException("Invalid history page");previous=List.copyOf(previous);}
+        static HistoryLocation at(int page){return new HistoryLocation(Math.max(0,page),null,List.of());}
+        HistoryLocation next(String cursor) {
+            if(cursor==null||cursor.isBlank())throw new IllegalArgumentException("Missing next history cursor");
+            List<String> keys=new ArrayList<>(previous.subList(Math.max(0,previous.size()-127),previous.size()));keys.add(this.cursor==null?"":this.cursor);
+            return new HistoryLocation(page+1,cursor,keys);
+        }
+        HistoryLocation back() {
+            if(page==0)return this;if(previous.isEmpty())return at(page-1);
+            String last=previous.getLast();return new HistoryLocation(page-1,last.isEmpty()?null:last,previous.subList(0,previous.size()-1));
+        }
+    }
+    static CompletionStage<HistoryPage> historyQuery(ChronicleService service,String nation,UUID person,HistoryLocation location) {
+        if(location.cursor()==null&&location.page()>0)return service.history(nation,person,location.page(),PAGE)
+                .thenApply(events->new HistoryPage(events,events.size()==PAGE?events.getLast().id():null));
+        return service.historyPage(nation,person,location.cursor(),PAGE);
+    }
+    public void history(UUID viewer,String nation,UUID person,int page){history(viewer,nation,person,HistoryLocation.at(page));}
+    private void history(UUID viewer,String nation,UUID person,HistoryLocation location) {
+        historyQuery(plugin.service(),nation,person,location).whenComplete((result,error)-> {
             if(error!=null) { plugin.failure(viewer,error);return; }
+            var events=result.events();
             plugin.present(viewer,p->{
-                Session s=create(viewer,"世界编年史 · "+(safePage+1));
+                Session s=create(viewer,"世界编年史 · "+(location.page()+1));
                 for(int i=0;i<Math.min(PAGE,events.size());i++) {
                     WorldEvent e=events.get(i); int slot=i;
-                    put(s,slot,Material.WRITTEN_BOOK,e.type(),List.of(TIME.format(e.occurredAt()),"国家: "+String.join(", ",e.nations()),"来源: "+e.source(),"点击查看完整证据与事件 ID"),()->evidence(viewer,e,nation,person,safePage,0));
+                    put(s,slot,Material.WRITTEN_BOOK,e.type(),List.of(TIME.format(e.occurredAt()),"国家: "+String.join(", ",e.nations()),"来源: "+e.source(),"点击查看完整证据与事件 ID"),()->evidence(viewer,e,nation,person,location,0));
                 }
-                if(safePage>0) put(s,45,Material.ARROW,"上一页",List.of(),()->history(viewer,nation,person,safePage-1));
+                if(location.page()>0) put(s,45,Material.ARROW,"上一页",List.of(),()->history(viewer,nation,person,location.back()));
                 put(s,46,Material.CLOCK,"全服历史",List.of(),()->history(viewer,null,null,0));
                 String ownNation=plugin.gateway().context(viewer).nationId();
                 put(s,47,Material.WHITE_BANNER,"本国历史",List.of(ownNation.isBlank()?"暂无可核验国家身份":ownNation),()-> {
@@ -83,13 +105,13 @@ public final class Menus implements Listener {
                 });
                 put(s,48,Material.PLAYER_HEAD,"个人传记",List.of(),()->history(viewer,null,viewer,0));
                 put(s,49,Material.COMPASS,"我的剧情",List.of(),()->stories(viewer));
-                if(events.size()>=PAGE) put(s,53,Material.ARROW,"下一页",List.of(),()->history(viewer,nation,person,safePage+1));
+                if(result.nextCursor()!=null&&location.page()<1_000_000) put(s,53,Material.ARROW,"下一页",List.of(),()->history(viewer,nation,person,location.next(result.nextCursor())));
                 if(events.isEmpty()) put(s,22,Material.PAPER,"暂无匹配历史",List.of("已提交的真实世界事件会出现在此处。"),null);
                 p.openInventory(s.inventory);
             });
         });
     }
-    private void evidence(UUID viewer,WorldEvent event,String nation,UUID person,int historyPage,int detailPage) {
+    private void evidence(UUID viewer,WorldEvent event,String nation,UUID person,HistoryLocation historyPage,int detailPage) {
         List<String> details=new ArrayList<>();
         details.add("事件 ID\n"+event.id());details.add("类型\n"+event.type());details.add("发生时间\n"+TIME.format(event.occurredAt()));
         details.add("来源\n"+event.source());details.add("所属国家\n"+String.join(", ",event.nations()));
@@ -110,7 +132,7 @@ public final class Menus implements Listener {
             p.openInventory(s.inventory);
         });
     }
-    public void event(UUID viewer,WorldEvent event){evidence(viewer,event,null,null,0,0);}
+    public void event(UUID viewer,WorldEvent event){evidence(viewer,event,null,null,HistoryLocation.at(0),0);}
     public void book(UUID viewer,List<WorldEvent> events) {
         final List<String> pages;
         try{pages=HistoryBook.pages(events);}catch(IllegalArgumentException error){plugin.failure(viewer,error);return;}

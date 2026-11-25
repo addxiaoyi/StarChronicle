@@ -39,6 +39,7 @@ public final class SqliteStore implements AutoCloseable {
                 s.execute("CREATE TABLE IF NOT EXISTS event_nations(event_id TEXT REFERENCES events(id),nation TEXT NOT NULL,PRIMARY KEY(event_id,nation))");
                 s.execute("CREATE TABLE IF NOT EXISTS event_players(event_id TEXT REFERENCES events(id),player TEXT NOT NULL,PRIMARY KEY(event_id,player))");
                 s.execute("CREATE INDEX IF NOT EXISTS history_time ON events(time DESC,id)");
+                s.execute("CREATE INDEX IF NOT EXISTS history_cursor ON events(time DESC,id DESC)");
                 s.execute("CREATE INDEX IF NOT EXISTS history_type ON events(type,id)");
                 s.execute("CREATE INDEX IF NOT EXISTS nation_history ON event_nations(nation,event_id)");
                 s.execute("CREATE INDEX IF NOT EXISTS player_history ON event_players(player,event_id)");

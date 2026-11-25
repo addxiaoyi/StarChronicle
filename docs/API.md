@@ -159,7 +159,9 @@ try (var engine = new RuleEngine(store, definitions, Clock.systemUTC())) {
 | `reload(List<StoryDefinition>)` | 替换后续新来源匹配所用定义；调用方必须先验证，进行中实例与已排队触发保留各自旧快照 |
 | `close()` | 关闭 store；只能在请求已排空后调用 |
 
-`history` 的 page 从 0 起，size 为 1–100。GUI 使用分页而非加载全部历史。`ProcessReport` 包含 `duplicate`、变更实例 ID 和用户消息。核心数据库事务会串行化共同阶段，不能在 Folia 区域线程直接执行磁盘访问。
+`history` 的 page 从 0 起，size 为 1–100，保留编号分页。新增 `historyPage(nationId,playerId,beforeEventId,size)` 返回不可变 `HistoryPage(events,nextCursor)`；首次 beforeEventId 为 null，之后使用返回的 nextCursor，null 表示结束。游标必须是当前过滤范围内已保存的事件 ID，缺失或范围不匹配会拒绝，不能当作首页。它按数据库原始 `(time,id)` 降序续读，不重新格式化旧时间、不改写证据。新插入的较新历史在刷新首页后可见，迟到的较旧证据可能出现在后页；它不是固定时点快照或授权令牌。旧第三方服务实现可继续加载，新增默认方法明确报告不支持。
+
+历史 GUI 的顺序翻页使用游标，最多保留 128 个回退位置；显式编号跳页和更早回退保留原分页接口，证据详情返回原查询位置。`ProcessReport` 包含 `duplicate`、变更实例 ID 和用户消息。核心数据库事务会串行化共同阶段，不能在 Folia 区域线程直接执行磁盘访问。
 
 ## 外部效果、权限与崩溃窗口
 

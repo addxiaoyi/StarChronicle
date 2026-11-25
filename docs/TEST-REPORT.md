@@ -1,6 +1,6 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-26T02:23:24+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T02:36:20+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
@@ -8,7 +8,7 @@
 
 - 执行命令：`.\mvnw.cmd -o -B -ntp -DforkCount=0 verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
-- 单元／集成回归：946 项，失败 0，错误 0，跳过 0。
+- 单元／集成回归：957 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
 - 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。
 - 同时生成全部 Java 源码 JAR。
@@ -43,6 +43,7 @@
 | `io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest` | 1 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest` | 2 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest` | 18 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.HistoryPaginationTest` | 7 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.InstanceCapacityTest` | 9 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.InvocationGateTest` | 3 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.MemberReviewFlowTest` | 5 | 0 | 0 | 0 |
@@ -96,6 +97,7 @@
 | `io.github.addxiaoyi.starchronicle.paper.ExplorationRegionTest` | 3 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.FirstVisitJournalTest` | 4 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest` | 5 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.HistoryMenuNavigationTest` | 4 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.MemorySitesTest` | 16 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.MenusTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest` | 4 | 0 | 0 | 0 |
@@ -117,8 +119,8 @@
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18100658 | `6c45fb0c01da90e1d813dcb143c9e7a22ba9fcd3b3ac3a64b60e8647e4fb35fa` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 366051 | `deb261ce4043d4779d4f9a4224870fe864f7c92d6e7736fcd78508408fe40552` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18106040 | `76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 368294 | `a275028caddcd19388788c9a93bab26d72b03a9ae83742cf70fb18ddd327f780` |
 
 ## 真实服务器证据与构建对应
 

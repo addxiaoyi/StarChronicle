@@ -26,117 +26,119 @@
 [WARNING] The parameter forkCount should likely not be 0. Forking a JVM for tests improves test accuracy. Ensure to have a <forkCount> >= 1.
 [INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
 [INFO] Running io.github.addxiaoyi.starchronicle.api.epic.EpicCampaignPlanCatalogTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.550 s -- in io.github.addxiaoyi.starchronicle.api.epic.EpicCampaignPlanCatalogTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.383 s -- in io.github.addxiaoyi.starchronicle.api.epic.EpicCampaignPlanCatalogTest
 [INFO] Running io.github.addxiaoyi.starchronicle.api.epic.EpicContractTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in io.github.addxiaoyi.starchronicle.api.epic.EpicContractTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in io.github.addxiaoyi.starchronicle.api.epic.EpicContractTest
 [INFO] Running io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest
-[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.669 s -- in io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.184 s -- in io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest
 [INFO] Running io.github.addxiaoyi.starchronicle.config.ConditionLogicTest
-[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in io.github.addxiaoyi.starchronicle.config.ConditionLogicTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in io.github.addxiaoyi.starchronicle.config.ConditionLogicTest
 [INFO] Running io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest
-[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.351 s -- in io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.264 s -- in io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest
 [INFO] Running io.github.addxiaoyi.starchronicle.config.LastHeirStrategyContentTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.212 s -- in io.github.addxiaoyi.starchronicle.config.LastHeirStrategyContentTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.057 s -- in io.github.addxiaoyi.starchronicle.config.LastHeirStrategyContentTest
 [INFO] Running io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest
-[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.195 s -- in io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.171 s -- in io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest
 [INFO] Running io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.087 s -- in io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest
 [INFO] Running io.github.addxiaoyi.starchronicle.config.QuestGateConfigTest
-[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in io.github.addxiaoyi.starchronicle.config.QuestGateConfigTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in io.github.addxiaoyi.starchronicle.config.QuestGateConfigTest
 [INFO] Running io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.218 s -- in io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.145 s -- in io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest
 [INFO] Running io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest
-[INFO] Tests run: 50, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.401 s -- in io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest
+[INFO] Tests run: 50, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.352 s -- in io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest
-[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.316 s -- in io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.307 s -- in io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.CommittedSourceFlowTest
-[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.367 s -- in io.github.addxiaoyi.starchronicle.core.CommittedSourceFlowTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.374 s -- in io.github.addxiaoyi.starchronicle.core.CommittedSourceFlowTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest
-[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.733 s -- in io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.745 s -- in io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.ContributionFlowTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.403 s -- in io.github.addxiaoyi.starchronicle.core.ContributionFlowTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.319 s -- in io.github.addxiaoyi.starchronicle.core.ContributionFlowTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.ContributionLedgerTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.187 s -- in io.github.addxiaoyi.starchronicle.core.ContributionLedgerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.202 s -- in io.github.addxiaoyi.starchronicle.core.ContributionLedgerTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.770 s -- in io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.709 s -- in io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest
-[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.914 s -- in io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.671 s -- in io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest
-[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.DefinitionCatalogCapacityTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.404 s -- in io.github.addxiaoyi.starchronicle.core.DefinitionCatalogCapacityTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.347 s -- in io.github.addxiaoyi.starchronicle.core.DefinitionCatalogCapacityTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest
-[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.726 s -- in io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.529 s -- in io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.542 s -- in io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.470 s -- in io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.EpicCampaignLedgerTest
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.766 s -- in io.github.addxiaoyi.starchronicle.core.EpicCampaignLedgerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.632 s -- in io.github.addxiaoyi.starchronicle.core.EpicCampaignLedgerTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.EpicStoryProjectionTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.232 s -- in io.github.addxiaoyi.starchronicle.core.EpicStoryProjectionTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.214 s -- in io.github.addxiaoyi.starchronicle.core.EpicStoryProjectionTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.FateStoriesTest
-[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.131 s -- in io.github.addxiaoyi.starchronicle.core.FateStoriesTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.970 s -- in io.github.addxiaoyi.starchronicle.core.FateStoriesTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.356 s -- in io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.291 s -- in io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.343 s -- in io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.331 s -- in io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest
-[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.489 s -- in io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.178 s -- in io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest
+[INFO] Running io.github.addxiaoyi.starchronicle.core.HistoryPaginationTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.348 s -- in io.github.addxiaoyi.starchronicle.core.HistoryPaginationTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.InstanceCapacityTest
-[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.671 s -- in io.github.addxiaoyi.starchronicle.core.InstanceCapacityTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.556 s -- in io.github.addxiaoyi.starchronicle.core.InstanceCapacityTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.InvocationGateTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s -- in io.github.addxiaoyi.starchronicle.core.InvocationGateTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in io.github.addxiaoyi.starchronicle.core.InvocationGateTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.MemberReviewFlowTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.347 s -- in io.github.addxiaoyi.starchronicle.core.MemberReviewFlowTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.296 s -- in io.github.addxiaoyi.starchronicle.core.MemberReviewFlowTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalAidServiceTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.341 s -- in io.github.addxiaoyi.starchronicle.core.NationalAidServiceTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.266 s -- in io.github.addxiaoyi.starchronicle.core.NationalAidServiceTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest
-[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.307 s -- in io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.135 s -- in io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalRuleEngineAuthorityBoundaryTest
 [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.576 s -- in io.github.addxiaoyi.starchronicle.core.NationalRuleEngineAuthorityBoundaryTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalRuleEngineTest
-[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.910 s -- in io.github.addxiaoyi.starchronicle.core.NationalRuleEngineTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.893 s -- in io.github.addxiaoyi.starchronicle.core.NationalRuleEngineTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalVoteLedgerTest
-[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.296 s -- in io.github.addxiaoyi.starchronicle.core.NationalVoteLedgerTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.064 s -- in io.github.addxiaoyi.starchronicle.core.NationalVoteLedgerTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.NationalVotePreparationTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.055 s -- in io.github.addxiaoyi.starchronicle.core.NationalVotePreparationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.049 s -- in io.github.addxiaoyi.starchronicle.core.NationalVotePreparationTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.NativeDispatchTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.046 s -- in io.github.addxiaoyi.starchronicle.core.NativeDispatchTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s -- in io.github.addxiaoyi.starchronicle.core.NativeDispatchTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.055 s -- in io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest
-[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.100 s -- in io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.092 s -- in io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.ProductionContributionFlowTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.193 s -- in io.github.addxiaoyi.starchronicle.core.ProductionContributionFlowTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.169 s -- in io.github.addxiaoyi.starchronicle.core.ProductionContributionFlowTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.QuestGateDriverTest
-[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.127 s -- in io.github.addxiaoyi.starchronicle.core.QuestGateDriverTest
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.168 s -- in io.github.addxiaoyi.starchronicle.core.QuestGateDriverTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.QuestGateEngineTest
-[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.099 s -- in io.github.addxiaoyi.starchronicle.core.QuestGateEngineTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.084 s -- in io.github.addxiaoyi.starchronicle.core.QuestGateEngineTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.QuestGateLedgerTest
-[INFO] Tests run: 38, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.262 s -- in io.github.addxiaoyi.starchronicle.core.QuestGateLedgerTest
+[INFO] Tests run: 38, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.132 s -- in io.github.addxiaoyi.starchronicle.core.QuestGateLedgerTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.RecollectionsTest
-[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.501 s -- in io.github.addxiaoyi.starchronicle.core.RecollectionsTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.450 s -- in io.github.addxiaoyi.starchronicle.core.RecollectionsTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest
-[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.571 s -- in io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.501 s -- in io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.RuleEngineTest
-[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.634 s -- in io.github.addxiaoyi.starchronicle.core.RuleEngineTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.239 s -- in io.github.addxiaoyi.starchronicle.core.RuleEngineTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.158 s -- in io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s -- in io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest
-[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.906 s -- in io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.719 s -- in io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest
 [INFO] Running io.github.addxiaoyi.starchronicle.core.TextServiceTest
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.049 s -- in io.github.addxiaoyi.starchronicle.core.TextServiceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.045 s -- in io.github.addxiaoyi.starchronicle.core.TextServiceTest
 [INFO] Running io.github.addxiaoyi.starchronicle.history.EventCausalityTest
-[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.344 s -- in io.github.addxiaoyi.starchronicle.history.EventCausalityTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.352 s -- in io.github.addxiaoyi.starchronicle.history.EventCausalityTest
 [INFO] Running io.github.addxiaoyi.starchronicle.history.FirstVisitBufferTest
 [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in io.github.addxiaoyi.starchronicle.history.FirstVisitBufferTest
 [INFO] Running io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest
-[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.743 s -- in io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.585 s -- in io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest
 [INFO] Running io.github.addxiaoyi.starchronicle.history.ObservationJournalTest
-[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.744 s -- in io.github.addxiaoyi.starchronicle.history.ObservationJournalTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.684 s -- in io.github.addxiaoyi.starchronicle.history.ObservationJournalTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.CommittedSourceCollectorTest
-[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in io.github.addxiaoyi.starchronicle.integration.CommittedSourceCollectorTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in io.github.addxiaoyi.starchronicle.integration.CommittedSourceCollectorTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest
 Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#0.3
 WARNING: A Java agent has been loaded dynamically (C:\Users\Administrator\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.11\byte-buddy-agent-1.15.11.jar)
@@ -144,91 +146,93 @@ WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicA
 WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
 WARNING: Dynamic loading of agents will be disallowed by default in a future release
 OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
-[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.687 s -- in io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.634 s -- in io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest
-[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.350 s -- in io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.199 s -- in io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest
-[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.234 s -- in io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.956 s -- in io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest
-[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.157 s -- in io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s -- in io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest
-[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.058 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest
-[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.148 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.745 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProviderTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProviderTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.044 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProviderTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest
-[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.307 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest
-[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.089 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest
+[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryEpicProviderTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryEpicProviderTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s -- in io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryEpicProviderTest
 [INFO] Running io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest
-[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest
 [INFO] Running io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.170 s -- in io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.155 s -- in io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest
 [INFO] Running io.github.addxiaoyi.starchronicle.memory.MemoryRecipeCatalogTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.249 s -- in io.github.addxiaoyi.starchronicle.memory.MemoryRecipeCatalogTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.143 s -- in io.github.addxiaoyi.starchronicle.memory.MemoryRecipeCatalogTest
 [INFO] Running io.github.addxiaoyi.starchronicle.memory.MemoryRecipeEngineTest
-[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.419 s -- in io.github.addxiaoyi.starchronicle.memory.MemoryRecipeEngineTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.328 s -- in io.github.addxiaoyi.starchronicle.memory.MemoryRecipeEngineTest
 [INFO] Running io.github.addxiaoyi.starchronicle.memory.MemoryRecipeExampleTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.217 s -- in io.github.addxiaoyi.starchronicle.memory.MemoryRecipeExampleTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.180 s -- in io.github.addxiaoyi.starchronicle.memory.MemoryRecipeExampleTest
 [INFO] Running io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest
-[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.592 s -- in io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.360 s -- in io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest
 [INFO] Running io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.277 s -- in io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.206 s -- in io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest
 [INFO] Running io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest
-[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.420 s -- in io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.329 s -- in io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest
 [INFO] Running io.github.addxiaoyi.starchronicle.npc.NpcSystemTest
-[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.655 s -- in io.github.addxiaoyi.starchronicle.npc.NpcSystemTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.571 s -- in io.github.addxiaoyi.starchronicle.npc.NpcSystemTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.EpicServicesTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.582 s -- in io.github.addxiaoyi.starchronicle.paper.EpicServicesTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.425 s -- in io.github.addxiaoyi.starchronicle.paper.EpicServicesTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.ExplorationDiscoveriesTest
 [INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.046 s -- in io.github.addxiaoyi.starchronicle.paper.ExplorationDiscoveriesTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.ExplorationRegionTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s -- in io.github.addxiaoyi.starchronicle.paper.ExplorationRegionTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in io.github.addxiaoyi.starchronicle.paper.ExplorationRegionTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.FirstVisitJournalTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.258 s -- in io.github.addxiaoyi.starchronicle.paper.FirstVisitJournalTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.251 s -- in io.github.addxiaoyi.starchronicle.paper.FirstVisitJournalTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.141 s -- in io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.137 s -- in io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest
+[INFO] Running io.github.addxiaoyi.starchronicle.paper.HistoryMenuNavigationTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in io.github.addxiaoyi.starchronicle.paper.HistoryMenuNavigationTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.MemorySitesTest
-[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.358 s -- in io.github.addxiaoyi.starchronicle.paper.MemorySitesTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.199 s -- in io.github.addxiaoyi.starchronicle.paper.MemorySitesTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.MenusTest
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.316 s -- in io.github.addxiaoyi.starchronicle.paper.MenusTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.290 s -- in io.github.addxiaoyi.starchronicle.paper.MenusTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest
 [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.102 s -- in io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest
-[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.103 s -- in io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.102 s -- in io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.NationalMenusTest
-[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in io.github.addxiaoyi.starchronicle.paper.NationalMenusTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in io.github.addxiaoyi.starchronicle.paper.NationalMenusTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.NationalServicesTest
-[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.191 s -- in io.github.addxiaoyi.starchronicle.paper.NationalServicesTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.184 s -- in io.github.addxiaoyi.starchronicle.paper.NationalServicesTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.PlayerOwnershipConsumersTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in io.github.addxiaoyi.starchronicle.paper.PlayerOwnershipConsumersTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in io.github.addxiaoyi.starchronicle.paper.PlayerOwnershipConsumersTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.QuestGateMenusTest
 [INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.037 s -- in io.github.addxiaoyi.starchronicle.paper.QuestGateMenusTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.RegionTasksTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 s -- in io.github.addxiaoyi.starchronicle.paper.RegionTasksTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in io.github.addxiaoyi.starchronicle.paper.RegionTasksTest
 [INFO] Running io.github.addxiaoyi.starchronicle.paper.StateWorkerTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in io.github.addxiaoyi.starchronicle.paper.StateWorkerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in io.github.addxiaoyi.starchronicle.paper.StateWorkerTest
 [INFO] Running io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest
-[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.077 s -- in io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.906 s -- in io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest
 [INFO] Running io.github.addxiaoyi.starchronicle.persistence.ChoiceSchemaUpgradeTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.292 s -- in io.github.addxiaoyi.starchronicle.persistence.ChoiceSchemaUpgradeTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.273 s -- in io.github.addxiaoyi.starchronicle.persistence.ChoiceSchemaUpgradeTest
 [INFO] Running io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.278 s -- in io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.282 s -- in io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest
 [INFO] Running io.github.addxiaoyi.starchronicle.persistence.MemoryRecipeSchemaUpgradeTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.122 s -- in io.github.addxiaoyi.starchronicle.persistence.MemoryRecipeSchemaUpgradeTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.224 s -- in io.github.addxiaoyi.starchronicle.persistence.MemoryRecipeSchemaUpgradeTest
 [INFO] Running io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.392 s -- in io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.400 s -- in io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest
 [INFO] Running io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.205 s -- in io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.198 s -- in io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest
 [INFO]
 [INFO] Results:
 [INFO]
-[INFO] Tests run: 946, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 957, Failures: 0, Errors: 0, Skipped: 0
 [INFO]
 [INFO]
 [INFO] --- jar:3.4.2:jar (default-jar) @ starchronicle ---
@@ -265,6 +269,6 @@ OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader clas
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  01:14 min
-[INFO] Finished at: 2026-11-26T02:20:45+08:00
+[INFO] Total time:  01:00 min
+[INFO] Finished at: 2026-11-26T02:34:31+08:00
 [INFO] ------------------------------------------------------------------------

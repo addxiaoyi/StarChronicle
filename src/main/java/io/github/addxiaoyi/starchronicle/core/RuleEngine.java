@@ -1109,6 +1109,31 @@ public final class RuleEngine implements AutoCloseable {
             try(var s=c.prepareStatement(sql)){int p=1;if(nation!=null)s.setString(p++,nation);if(player!=null)s.setString(p++,player.toString());s.setInt(p++,size);s.setInt(p,page*size);try(var r=s.executeQuery()){while(r.next())result.add(decode(r.getString(1),WorldEvent.class));}}return List.copyOf(result);
         });
     }
+    /** Seek from the actual stored key, preserving legacy timestamp bytes and tie ordering.
+     * Scope predicates apply to both the cursor and results; no historical actors are inferred. */
+    public HistoryPage historyPage(String nation,UUID player,String beforeEventId,int size) {
+        if(size<1||size>100||beforeEventId!=null&&(beforeEventId.isBlank()||beforeEventId.length()>256))throw new IllegalArgumentException("Invalid history cursor/page size");
+        return transaction(c->{
+            String scope=(nation==null?"":" AND EXISTS(SELECT 1 FROM event_nations n WHERE n.event_id=e.id AND n.nation=?)")
+                    +(player==null?"":" AND EXISTS(SELECT 1 FROM event_players p WHERE p.event_id=e.id AND p.player=?)");
+            String beforeTime=null;
+            if(beforeEventId!=null)try(var s=c.prepareStatement("SELECT e.time FROM events e WHERE e.id=?"+scope)) {
+                s.setString(1,beforeEventId);int p=2;if(nation!=null)s.setString(p++,nation);if(player!=null)s.setString(p,player.toString());
+                try(var r=s.executeQuery()){if(!r.next())throw new IllegalArgumentException("History cursor is missing or outside the requested scope");beforeTime=r.getString(1);}
+            }
+            String sql="SELECT e.id,e.json FROM events e WHERE 1=1"+scope+(beforeEventId==null?"":" AND (e.time,e.id)<(?,?)")+" ORDER BY e.time DESC,e.id DESC LIMIT ?";
+            List<WorldEvent> result=new ArrayList<>();String last=null;boolean more=false;
+            try(var s=c.prepareStatement(sql)) {
+                int p=1;if(nation!=null)s.setString(p++,nation);if(player!=null)s.setString(p++,player.toString());
+                if(beforeEventId!=null){s.setString(p++,beforeTime);s.setString(p++,beforeEventId);}s.setInt(p,size+1);
+                try(var r=s.executeQuery()){while(r.next()) {
+                    if(result.size()==size){more=true;break;}
+                    last=r.getString(1);result.add(decode(r.getString(2),WorldEvent.class));
+                }}
+            }
+            return new HistoryPage(result,more?last:null);
+        });
+    }
     public List<Delivery> pending(){return deliveries("PENDING");}
     /** Filter recipients before LIMIT, so offline recipients cannot starve online deliveries. */
     public List<Delivery> pending(Set<UUID> onlinePlayers){
