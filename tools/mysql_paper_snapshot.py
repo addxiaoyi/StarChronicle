@@ -69,7 +69,15 @@ def capture(run, manifest, boot):
     assert not destination.exists()
     projected = run / 'plugins/StarCore/starcore.db'
     if projected.exists():
-        previous = json.loads((run / f'evidence/checkpoints/boot{boot-1}/checkpoint.json').read_text())
+        previous_boot = boot-1
+        if manifest.get('recovery_acceptance'):
+            prior_session=json.loads((run / f'evidence/boot{previous_boot}.session.json').read_text())
+            if prior_session['status']=='EXPECTED_PROCESS_INTERRUPTION':
+                interruption=prior_session['interruption']
+                assert interruption['status']=='POST_REPLAY_PROCESS_INTERRUPTION_RECOVERED'
+                assert interruption['boot']==previous_boot and interruption['projection_baseline_boot']==previous_boot-1
+                previous_boot=interruption['projection_baseline_boot']
+        previous = json.loads((run / f'evidence/checkpoints/boot{previous_boot}/checkpoint.json').read_text())
         assert sha(projected) == previous['mysql']['projection_sha256'], 'Game server wrote to the audit-only SQLite projection'
     began = time.time()
     with connect(target) as db:

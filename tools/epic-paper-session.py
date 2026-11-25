@@ -18,13 +18,21 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
+parser.add_argument('--scenario', choices=['production-recovery','production-offline-recovery','sale-recovery','production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
+parser.add_argument('--interrupt-after-replay', action='store_true', help='SIGKILL the owned restored JVM, then MySQL, after completed replay; not a hardware power-loss test')
 args = parser.parse_args()
 run = args.run.resolve()
 if run.parent != (ROOT / 'run').resolve() or not run.name.startswith('paper-epic-'):
     raise SystemExit('Require an isolated epic run')
+if (run/'restore-incomplete.json').exists():
+    raise SystemExit('Restore has not completed; retain its failure and do not start Paper')
 manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
+if args.interrupt_after_replay or (args.scenario and args.scenario.endswith('-recovery')):
+    if not manifest.get('recovery_acceptance') or not manifest.get('mysql_acceptance'):
+        raise SystemExit('Recovery scenarios require an independently restored MySQL run')
+if args.interrupt_after_replay and args.scenario not in ('production-recovery','production-offline-recovery','sale-recovery','third'):
+    raise SystemExit('Interruption requires a completed recovery replay scenario')
 for name, key in [('StarChronicle', 'plugin_sha256'), ('StarCore', 'starcore_sha256'), ('EpicCampaignPaperFixture', 'fixture_sha256')]:
     if hashlib.sha256((run / f'plugins/{name}.jar').read_bytes()).hexdigest() != manifest[key]:
         raise SystemExit('Frozen artifact drift: ' + name)
@@ -54,6 +62,9 @@ if manifest.get('mysql_acceptance'):
     spec = importlib.util.spec_from_file_location('captured_mysql_snapshot', frozen_mysql_tool)
     mysql_snapshot = importlib.util.module_from_spec(spec); spec.loader.exec_module(mysql_snapshot)
     mysql_snapshot.config(run, manifest)
+if args.interrupt_after_replay:
+    import mysql_recovery as recovery
+    shutil.copy2(recovery.__file__, Path(str(prefix) + '.recovery.py'))
 handles = []
 readers = []
 process_records = []
@@ -320,6 +331,14 @@ def sale_scenario(phase):
         for who in 'AD':command(who,'/chronicle contributions','成交资源 agricultural')
         command('B','/chronicle contributions','国库支付')
         command('D','/chronicle contributions nation me','成交资源 agricultural')
+    elif phase=='sale-recovery':
+        server_action('sale-check 3')
+        for key in ('old-founder','cancelled'):accept(key,'操作被拒绝')
+        for key in ('primary','pending','successor'):accept(key,'没有重复成交')
+        server_action('sale-check 3')
+        for who in 'AD':command(who,'/chronicle contributions','成交资源 agricultural')
+        command('B','/chronicle contributions','国库支付')
+        command('D','/chronicle contributions nation me','成交资源 agricultural')
     else: raise ValueError(phase)
 
 
@@ -367,6 +386,20 @@ def production_scenario(phase):
         ready('successor','D');collect('successor','D');collect('successor','D','没有重复扣除或发放');server_action('production-check 4')
         for who in 'AD':command(who,'/chronicle contributions','生产资源 industrial')
         command('D','/chronicle contributions nation me','生产资源 industrial')
+    elif phase in ('production-recovery','production-offline-recovery'):
+        offline=phase=='production-offline-recovery';count=1 if offline else 4
+        server_action('production-check '+str(count))
+        if offline:
+            server_action('production-status pending A RUNNING')
+            collect('primary',response='没有重复扣除或发放')
+            command('A','/chronicle contributions','生产资源 industrial')
+        else:
+            collect('cancelled','D','请求被拒绝')
+            for key,who in (('primary','A'),('pending','A'),('old-founder','D'),('successor','D')):
+                collect(key,who,'没有重复扣除或发放')
+            for who in 'AD':command(who,'/chronicle contributions','生产资源 industrial')
+            command('D','/chronicle contributions nation me','生产资源 industrial')
+        server_action('production-check '+str(count))
     else:raise ValueError(phase)
 
 
@@ -571,6 +604,11 @@ def scenario(phase):
         client_action('contributions A')
         client_action('contributions B')
     clients.stdin.write('quit\n'); clients.stdin.flush(); clients.wait(timeout=15)
+    if args.interrupt_after_replay:
+        if clients.returncode != 0:raise RuntimeError('Clients must finish replay before intentional interruption')
+        outcome['interruption'] = recovery.interrupt(run, manifest, args.boot, server)
+        print('EXPECTED_PROCESS_INTERRUPTION ' + phase, flush=True)
+        return
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:
         raise RuntimeError('Acceptance processes must exit normally')
@@ -583,6 +621,8 @@ outcome['source_sha256'] = {
 }
 if mysql_snapshot:
     outcome['source_sha256']['mysql_snapshot'] = mysql_snapshot.sha(frozen_mysql_tool)
+if args.interrupt_after_replay:
+    outcome['source_sha256']['recovery'] = mysql_snapshot.sha(Path(str(prefix) + '.recovery.py'))
 try:
     commands = ['scenario ' + args.scenario] if args.scenario else sys.stdin
     for raw in commands:
@@ -590,7 +630,7 @@ try:
         if line.startswith('scenario '):
             outcome['scenario'] = line.split()[1]
             scenario(line.split()[1])
-            outcome['status'] = 'COMPLETE'
+            outcome['status'] = 'EXPECTED_PROCESS_INTERRUPTION' if args.interrupt_after_replay else 'COMPLETE'
             break
         elif line == 'clients start':
             if clients is not None:

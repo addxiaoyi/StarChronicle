@@ -1,0 +1,407 @@
+{
+  "status": "FIVE_PAPER_MYSQL_OFFLINE_RESTORES_AND_POST_REPLAY_PROCESS_RECOVERIES_ACCEPTED",
+  "captured_utc": "2026-11-25T20:59:53.702045+00:00",
+  "chronicle_head": "55ee095726fcb8b6f9ec94470c772c5d2e51f189",
+  "native_head": "362a02861f90de394f5bef0565208fa84862b0a9",
+  "product_sources": {
+    "chronicle": "2f800988fbdd99447974e891a0623b39d7ed028a",
+    "native": "59ed52abbed5521eff6383df004985b1e13e1bbe"
+  },
+  "product_rebuilt": false,
+  "artifacts": {
+    "plugin_sha256": "549f99d9e2fca919d42263fc184e3f790d101b7f65a1c91f067eb9716ce7fc5f",
+    "starcore_sha256": "26e6fb895d0ee6422c8347b63dc442763b475ef5eb91f8c92c94702fb2ebb886"
+  },
+  "runs": [
+    {
+      "directory": "paper-epic-549f99d9-dungeon-mysql-recovery-production-2",
+      "status": "MYSQL_OFFLINE_RESTORE_AND_POST_REPLAY_PROCESS_RECOVERY_ACCEPTED",
+      "kind": "production",
+      "source_boot": 3,
+      "accepted_boots": [
+        5,
+        6,
+        7
+      ],
+      "diagnostic_boots": [
+        4
+      ],
+      "full_backup_sha256": "21d6debdb6fb2ac32be9d00f51d8ab604e198dc6f471e94de8a4a4880936ba5e",
+      "restored_files": 600,
+      "tables": 211,
+      "views": 1,
+      "actual_commands": 24,
+      "normal_process_exits": 5,
+      "killed_game_processes": 1,
+      "killed_database_processes": 1,
+      "database_restarts": 1,
+      "source_server_uuid": "0e803617-e90c-11f1-abbf-5e6f9aa2b704",
+      "recovered_server_uuid": "abcf08ec-e910-11f1-b711-66ba2a936769",
+      "artifact_bytes_verified": true,
+      "private_configuration_redacted": false,
+      "vendor_telemetry": [],
+      "limits": [
+        "Offline paired backup; public evidence omits private full archive.",
+        "Post-replay JVM then MySQL SIGKILL; no in-flight transaction, hardware power-loss, live outage, remote TLS or Folia claim."
+      ]
+    },
+    {
+      "directory": "paper-epic-549f99d9-dungeon-mysql-recovery-offline-2",
+      "status": "MYSQL_OFFLINE_RESTORE_AND_POST_REPLAY_PROCESS_RECOVERY_ACCEPTED",
+      "kind": "production-offline",
+      "source_boot": 2,
+      "accepted_boots": [
+        3,
+        4,
+        5
+      ],
+      "diagnostic_boots": [],
+      "full_backup_sha256": "c9be4cff8c78c3c289a3635fc69c6de0d083a696939fbb4d71ee7b8adc998f65",
+      "restored_files": 589,
+      "tables": 211,
+      "views": 1,
+      "actual_commands": 6,
+      "normal_process_exits": 5,
+      "killed_game_processes": 1,
+      "killed_database_processes": 1,
+      "database_restarts": 1,
+      "source_server_uuid": "0e803617-e90c-11f1-abbf-5e6f9aa2b704",
+      "recovered_server_uuid": "abcf08ec-e910-11f1-b711-66ba2a936769",
+      "artifact_bytes_verified": true,
+      "private_configuration_redacted": false,
+      "vendor_telemetry": [],
+      "limits": [
+        "Offline paired backup; public evidence omits private full archive.",
+        "Post-replay JVM then MySQL SIGKILL; no in-flight transaction, hardware power-loss, live outage, remote TLS or Folia claim."
+      ]
+    },
+    {
+      "directory": "paper-epic-549f99d9-dungeon-mysql-recovery-trade-3",
+      "status": "MYSQL_OFFLINE_RESTORE_AND_POST_REPLAY_PROCESS_RECOVERY_ACCEPTED",
+      "kind": "trade",
+      "source_boot": 3,
+      "accepted_boots": [
+        4,
+        5,
+        6
+      ],
+      "diagnostic_boots": [],
+      "full_backup_sha256": "6bf20cae0524b366c45010a53dbc7ccf2ce5e76f6c8bc070050b901bd9d61ad2",
+      "restored_files": 596,
+      "tables": 211,
+      "views": 1,
+      "actual_commands": 27,
+      "normal_process_exits": 5,
+      "killed_game_processes": 1,
+      "killed_database_processes": 1,
+      "database_restarts": 1,
+      "source_server_uuid": "0e803617-e90c-11f1-abbf-5e6f9aa2b704",
+      "recovered_server_uuid": "f2a8973b-e911-11f1-b7ec-46531977befd",
+      "artifact_bytes_verified": true,
+      "private_configuration_redacted": false,
+      "vendor_telemetry": [],
+      "limits": [
+        "Offline paired backup; public evidence omits private full archive.",
+        "Post-replay JVM then MySQL SIGKILL; no in-flight transaction, hardware power-loss, live outage, remote TLS or Folia claim."
+      ]
+    },
+    {
+      "directory": "paper-epic-549f99d9-dungeon-mysql-recovery-dungeon-2",
+      "status": "MYSQL_OFFLINE_RESTORE_AND_POST_REPLAY_PROCESS_RECOVERY_ACCEPTED",
+      "kind": "DUNGEON",
+      "source_boot": 3,
+      "accepted_boots": [
+        4,
+        5,
+        6
+      ],
+      "diagnostic_boots": [],
+      "full_backup_sha256": "36499c881b752644b41d90670c02a9c3a9fd1bce96c928431e84a5a4d6a7b659",
+      "restored_files": 620,
+      "tables": 211,
+      "views": 1,
+      "actual_commands": 6,
+      "normal_process_exits": 5,
+      "killed_game_processes": 1,
+      "killed_database_processes": 1,
+      "database_restarts": 1,
+      "source_server_uuid": "0e803617-e90c-11f1-abbf-5e6f9aa2b704",
+      "recovered_server_uuid": "abcf08ec-e910-11f1-b711-66ba2a936769",
+      "artifact_bytes_verified": true,
+      "private_configuration_redacted": false,
+      "vendor_telemetry": [],
+      "limits": [
+        "Offline paired backup; public evidence omits private full archive.",
+        "Post-replay JVM then MySQL SIGKILL; no in-flight transaction, hardware power-loss, live outage, remote TLS or Folia claim."
+      ]
+    },
+    {
+      "directory": "paper-epic-549f99d9-war-mysql-recovery-war-3",
+      "status": "MYSQL_OFFLINE_RESTORE_AND_POST_REPLAY_PROCESS_RECOVERY_ACCEPTED",
+      "kind": "WAR",
+      "source_boot": 3,
+      "accepted_boots": [
+        4,
+        5,
+        6
+      ],
+      "diagnostic_boots": [],
+      "full_backup_sha256": "2b5966e0e85b484310d72cbc833a0fcd31281253cf78e394f2cb5366f5190c01",
+      "restored_files": 611,
+      "tables": 211,
+      "views": 1,
+      "actual_commands": 6,
+      "normal_process_exits": 5,
+      "killed_game_processes": 1,
+      "killed_database_processes": 1,
+      "database_restarts": 1,
+      "source_server_uuid": "0e803617-e90c-11f1-abbf-5e6f9aa2b704",
+      "recovered_server_uuid": "f2a8973b-e911-11f1-b7ec-46531977befd",
+      "artifact_bytes_verified": true,
+      "private_configuration_redacted": false,
+      "vendor_telemetry": [],
+      "limits": [
+        "Offline paired backup; public evidence omits private full archive.",
+        "Post-replay JVM then MySQL SIGKILL; no in-flight transaction, hardware power-loss, live outage, remote TLS or Folia claim."
+      ]
+    }
+  ],
+  "regressions": [
+    {
+      "log": "mysql-recovery-production-tests-verified.log",
+      "tests": 34,
+      "sha256": "c88cd551e115259d51d08cda0db1c0abec6851e166a1a8d653fb9ae5825163c9"
+    },
+    {
+      "log": "mysql-recovery-offline-tests-verified.log",
+      "tests": 34,
+      "sha256": "8c40ecac7b69da09dcfdd7ab098d407977fce6b6d972c4c990bfb60fa79f9adf"
+    },
+    {
+      "log": "mysql-recovery-trade-tests-verified.log",
+      "tests": 34,
+      "sha256": "2ae3e1789f428fd1e2d2d86d0b65e8b0f4d591acbb7025041f7dd9e20bdf3a7f"
+    },
+    {
+      "log": "mysql-recovery-dungeon-tests-verified.log",
+      "tests": 34,
+      "sha256": "ff93fb9c33c5e76947a3f87df8bec8c1055395af0e8d7bca423df34b6d89ac03"
+    },
+    {
+      "log": "mysql-recovery-war-tests-verified.log",
+      "tests": 34,
+      "sha256": "91614d2e6599ef366dae42f069f320170cf2c83cd60c2557139c9bc1ad00a392"
+    },
+    {
+      "log": "mysql-recovery-backup-tests-verified.log",
+      "tests": 22,
+      "sha256": "cd0db39a35ddb4fd064c267d2504999f11260df9454f0af125e3d7475de0b0eb"
+    }
+  ],
+  "instances": [
+    {
+      "metadata": {
+        "container": "starcore-recovery-mysql-20261125",
+        "id": "a3b6ac430042b907e6e9492293e7934b84117ac68354f812f653f20466a74109",
+        "image": "public.ecr.aws/docker/library/mysql@sha256:8c233bad33d520a7aae1c1e619c3a9775f4a1ba2d463d692fada04ec7f40be00",
+        "host": "127.0.0.1",
+        "port": 33318,
+        "user": "starcore_paper",
+        "databases": [
+          "starcore_paper_production",
+          "starcore_paper_offline",
+          "starcore_paper_trade",
+          "starcore_paper_dungeon",
+          "starcore_paper_war",
+          "starcore_paper_production_retry2"
+        ],
+        "password_env": "STARCORE_RECOVERY_DB_PASSWORD",
+        "local_only": true
+      },
+      "shutdown": {
+        "container_id": "a3b6ac430042b907e6e9492293e7934b84117ac68354f812f653f20466a74109",
+        "before": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-11-25T20:38:56.975898572Z",
+          "FinishedAt": "2026-11-25T20:42:02.891819613Z"
+        },
+        "state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-11-25T20:38:56.975898572Z",
+          "FinishedAt": "2026-11-25T20:42:02.891819613Z"
+        },
+        "time": 1795640350.7841086,
+        "retained_data": true
+      }
+    },
+    {
+      "metadata": {
+        "container": "starcore-recovery-mysql-20261125-retry2",
+        "id": "f1fcdfeb4a83dd0e20f2010e3df0b3ee4cf061bfcad78c31ca6a4494d2d55e48",
+        "image": "public.ecr.aws/docker/library/mysql@sha256:8c233bad33d520a7aae1c1e619c3a9775f4a1ba2d463d692fada04ec7f40be00",
+        "host": "127.0.0.1",
+        "port": 33319,
+        "user": "starcore_paper",
+        "databases": [
+          "starcore_paper_production",
+          "starcore_paper_offline",
+          "starcore_paper_trade",
+          "starcore_paper_dungeon",
+          "starcore_paper_war",
+          "starcore_paper_production_retry2"
+        ],
+        "password_env": "STARCORE_RECOVERY_DB_PASSWORD",
+        "local_only": true
+      },
+      "shutdown": {
+        "container_id": "f1fcdfeb4a83dd0e20f2010e3df0b3ee4cf061bfcad78c31ca6a4494d2d55e48",
+        "before": {
+          "Status": "running",
+          "Running": true,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 3388185,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-11-25T20:54:08.999228028Z",
+          "FinishedAt": "2026-11-25T20:54:08.48619924Z"
+        },
+        "state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-11-25T20:54:08.999228028Z",
+          "FinishedAt": "2026-11-25T20:59:11.564988298Z"
+        },
+        "time": 1795640351.7863736,
+        "retained_data": true
+      }
+    },
+    {
+      "metadata": {
+        "container": "starcore-recovery-mysql-20261125-trade-retry3",
+        "id": "425924da446777b6c13e8899032ed7b354ca1fc1d91948fe3f7aafc80f64611c",
+        "image": "public.ecr.aws/docker/library/mysql@sha256:8c233bad33d520a7aae1c1e619c3a9775f4a1ba2d463d692fada04ec7f40be00",
+        "host": "127.0.0.1",
+        "port": 33320,
+        "user": "starcore_paper",
+        "databases": [
+          "starcore_paper_production",
+          "starcore_paper_offline",
+          "starcore_paper_trade",
+          "starcore_paper_dungeon",
+          "starcore_paper_war",
+          "starcore_paper_production_retry2"
+        ],
+        "password_env": "STARCORE_TRADE_RECOVERY_DB_PASSWORD",
+        "local_only": true
+      },
+      "shutdown": {
+        "container_id": "425924da446777b6c13e8899032ed7b354ca1fc1d91948fe3f7aafc80f64611c",
+        "before": {
+          "Status": "running",
+          "Running": true,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 3398724,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-11-25T20:57:41.870770862Z",
+          "FinishedAt": "2026-11-25T20:57:41.580526918Z"
+        },
+        "state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-11-25T20:57:41.870770862Z",
+          "FinishedAt": "2026-11-25T20:59:13.05118688Z"
+        },
+        "time": 1795640353.2652533,
+        "retained_data": true
+      }
+    }
+  ],
+  "failed_runs": [
+    "paper-epic-549f99d9-dungeon-mysql-recovery-production-1",
+    "paper-epic-549f99d9-dungeon-mysql-recovery-trade-2",
+    "paper-epic-549f99d9-war-mysql-recovery-war-2"
+  ],
+  "redacted_files": [
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-production-2/evidence/recovery/source-config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-production-2/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-offline-2/evidence/recovery/source-config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-offline-2/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-trade-3/evidence/recovery/source-config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-trade-3/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-dungeon-2/evidence/recovery/source-config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-dungeon-2/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-war-mysql-recovery-war-3/evidence/recovery/source-config.yml",
+    "runs/paper-epic-549f99d9-war-mysql-recovery-war-3/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-production-1/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-trade-2/evidence/recovery/source-config.yml",
+    "runs/paper-epic-549f99d9-dungeon-mysql-recovery-trade-2/plugins/StarCore/config.yml",
+    "runs/paper-epic-549f99d9-war-mysql-recovery-war-2/evidence/recovery/source-config.yml",
+    "runs/paper-epic-549f99d9-war-mysql-recovery-war-2/plugins/StarCore/config.yml"
+  ],
+  "prior_accepted_archive_sha256": "08670c71b91c4eb3038cf9f5659623ed4dfd0d15174df282544a74ea99982e82",
+  "totals": {
+    "restored_files": 3016,
+    "accepted_game_boots": 15,
+    "normal_process_exits": 25,
+    "killed_game_processes": 5,
+    "killed_database_processes": 5,
+    "database_restarts": 5,
+    "actual_commands": 69,
+    "regression_checks": 192,
+    "preflight_refusals": 3
+  },
+  "limitations": [
+    "Full backups include secrets/worlds/configuration and stay private; this public archive cannot replace them.",
+    "One normal restored replay, post-replay JVM then MySQL SIGKILL, and normal recovered replay for each scenario; no in-flight transaction, physical power loss or full filesystem durability claim.",
+    "Source/raw restored DDL are retained; only verified implicit/explicit utf8mb4 column declarations are canonicalized.",
+    "Ordinary native save revision counters and Chronicle pending-trigger scan counters may advance across gameplay; assets, actors, receipt/settlement/history content are exact.",
+    "Selected frozen Paper stack only; no Folia, remote certificate identity, old factory/wallet migration or long-term capacity acceptance."
+  ],
+  "archive": {
+    "bytes": 17360954,
+    "sha256": "dc6dd185dbae51fb6c7adf54de97ece330a5789fe6ab71029c5d767388417127",
+    "members": 2060,
+    "public_inspectors_replayed": 5
+  },
+  "source_archives": {
+    "starchronicle-source.tar.gz": "20d77faada75d9cdfa9973a8f6f53d4802bec68c093824a3c39feab89aef22d0",
+    "starcore-source.tar.gz": "b9ba4004830218a1c0829f866b2c4e699f7fb20ee4c7df8c48935a4304ec5d52"
+  }
+}
