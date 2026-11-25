@@ -1,0 +1,196 @@
+{
+  "date": "2026-11-26",
+  "baselines": {
+    "chronicle": "b7365207f607e5afed9d386c272aae9599ff184d",
+    "starcore": "3c625c4f6195dd45c1dad916b1144d5daafce4ec"
+  },
+  "scope": "Native resource-domain regression, SQLite/H2 transactional archive, frozen V2 capacity and three-JVM contract; no Minecraft or native full-suite certification",
+  "native_tests": {
+    "tests": 350,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "chronicle_tests": "Main source unchanged; previously verified 957-test JAR, baseline Linux CI #95 success",
+  "artifacts": {
+    "starcore_sha256": "fa5ad2200915c4ed6d963220c83342a5fe5cec6a0efe198438747b78605e71c7",
+    "starchronicle_sha256": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886"
+  },
+  "contracts": {
+    "capacity": {
+      "status": "PASS",
+      "scope": "Serial actual ResourceModule, SQLite, frozen V2 writer; atomic archive migration, 20 grants, exact old-ID replay, fresh-process restart; no Minecraft or long concurrent load",
+      "completed_runs": 5000,
+      "artifacts": {
+        "current.jar": "fa5ad2200915c4ed6d963220c83342a5fe5cec6a0efe198438747b78605e71c7",
+        "FactoryArchiveProbe.java": "e1642ac89275ccf6d78c08f950db9256b9a41df2b71477f2141fe45d4a9a766e",
+        "FactoryRecoveryProbe.java": "5c61452074da32b5dd19e524eb5b51af8c76787af9298f1c2399730a7657dd14",
+        "previous.jar": "b9c084e21ac5620cb95e5038a9cec289dfebd4294527596844651f693b844d53",
+        "starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886"
+      },
+      "phases": {
+        "compile": {
+          "exit_code": 0,
+          "elapsed_seconds": 7.266,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "seed": {
+          "exit_code": 0,
+          "elapsed_seconds": 4.734,
+          "log_sha256": "7b1e8f882eace07d7b9c6328003a70b011629303c6a5f32b12d6731fe9594358"
+        },
+        "previous-run": {
+          "exit_code": 0,
+          "elapsed_seconds": 17.968,
+          "log_sha256": "822d6927703f36789467e0e6708a3a20c3c4eff5b80eb3ae17a71a60b6bc5428",
+          "all_original_runs_and_receipts_preserved": true
+        },
+        "previous-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 3.468,
+          "log_sha256": "a1924851197a2952b5c8ecf95c234afda9bd01ab87877397b667e58593aa16ba",
+          "all_original_runs_and_receipts_preserved": true
+        },
+        "current-run": {
+          "exit_code": 0,
+          "elapsed_seconds": 8.343,
+          "log_sha256": "9dfb4f0fd2a132d18d097f93269fba65468eb15f14e39d4cae1a58b183e2ea1a",
+          "all_original_runs_and_receipts_preserved": true
+        },
+        "current-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 1.922,
+          "log_sha256": "8fea1614b4e9056af05b84eb12b29c0f83a0d4ae385d9bee76809608a0f878d8",
+          "all_original_runs_and_receipts_preserved": true
+        }
+      }
+    },
+    "contract": {
+      "status": "PASS",
+      "artifacts": {
+        "FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+        "starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886",
+        "starcore.jar": "fa5ad2200915c4ed6d963220c83342a5fe5cec6a0efe198438747b78605e71c7"
+      },
+      "scope": "Three sequential JVMs; packaged timed factory and Chronicle services; real SQLite; controlled clock and detached NationService fixture; no Minecraft or live player certification",
+      "phases": {
+        "compile": {
+          "exit_code": 0,
+          "log_sha256": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc"
+        },
+        "first": {
+          "exit_code": 0,
+          "log_sha256": "882fd05ab90364893bd6ddfa9377bb6d880ef8af1efa58ac8aa10193a1746e27"
+        },
+        "second": {
+          "exit_code": 0,
+          "log_sha256": "1f721f2c6293e8cb0bcf3b2d9bbd7fa9b38b188bf10de8b9bfccf94e587c1a8f"
+        },
+        "third": {
+          "exit_code": 0,
+          "log_sha256": "8df47fc8cb6f0bebc6df5c310dfbbb9794af2af380977d7e44a3876799d382f0"
+        }
+      },
+      "files": {
+        "chronicle.db": "f7a03196b4f0b80df424bac9f698afe31c56065de72f3bf84d1cf126dbe74354",
+        "chronicle.db-shm": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+        "chronicle.db-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "compile.args": "9671ac830a58eace66248f165c8c0acf5aa567f3b79a1a0d7df2eeb70724764c",
+        "compile.log": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc",
+        "factory-id.txt": "49fb03db84cf03a65da3952ee98f227ee09978701f30f7cfd873893794dafd59",
+        "first-receipt.txt": "0ed76f55ef23101eebed4ed2d289ed81742a81db5874165036da63b1782d3dae",
+        "first.args": "66a9a8bd8ab4aaf45022d30bef1c249b8a1b611ddc697603b3b2ae4a8845e53b",
+        "first.log": "882fd05ab90364893bd6ddfa9377bb6d880ef8af1efa58ac8aa10193a1746e27",
+        "native.db": "83450e4062f9f6f99fa076ae9ff30175132f5f6441ca246dc221ca2aaa115d60",
+        "ready-at.txt": "038aaa104d8888d3886f720f0ac20eddb0a1fb1260a4d49a4c90f57ecfe639ea",
+        "second.args": "eb6d7b152158f53254751eb834c874ca721ff7efafae01b1b0cf7754dfaee724",
+        "second.log": "1f721f2c6293e8cb0bcf3b2d9bbd7fa9b38b188bf10de8b9bfccf94e587c1a8f",
+        "third.args": "5b4f8f7d8f6d898c9a61a13b93656a3f9b0ec45b3f253d7e568b1bdabb695e04",
+        "third.log": "8df47fc8cb6f0bebc6df5c310dfbbb9794af2af380977d7e44a3876799d382f0",
+        "artifacts/FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+        "artifacts/starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886",
+        "artifacts/starcore.jar": "fa5ad2200915c4ed6d963220c83342a5fe5cec6a0efe198438747b78605e71c7",
+        "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe$TestClock.class": "3ece24b60871dad70981cc222c5c572009eff318c9cccf8afdd8e735c34723e6",
+        "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe.class": "10c5ee66b8fc3ad34a0e5acd4932ddebe2c4ed9fd70c0b275b436d18cc7b786f"
+      }
+    }
+  },
+  "measurements": {
+    "previous-run": {
+      "first_grant_micros": 677783,
+      "first_grant_thread_allocated_bytes": 64049232,
+      "steady_grants": 20,
+      "steady_grant_p50_micros": 674462,
+      "steady_grant_thread_allocated_bytes": 1272826984,
+      "retained_run_objects": 5001,
+      "module_load_micros": 2307529,
+      "module_live_heap_bytes": 15777760,
+      "format": "2",
+      "state_properties": 65041,
+      "completed": 5000,
+      "active": 1,
+      "max_heap_bytes": 129761280,
+      "status": "PASS"
+    },
+    "previous-restart": {
+      "retained_run_objects": 5001,
+      "module_load_micros": 2296866,
+      "module_live_heap_bytes": 20487456,
+      "format": "2",
+      "state_properties": 65041,
+      "completed": 5000,
+      "active": 1,
+      "max_heap_bytes": 129761280,
+      "status": "PASS"
+    },
+    "current-run": {
+      "first_grant_micros": 5149900,
+      "first_grant_thread_allocated_bytes": 64073528,
+      "steady_grants": 20,
+      "steady_grant_p50_micros": 15448,
+      "steady_grant_thread_allocated_bytes": 1016584,
+      "retained_run_objects": 1,
+      "module_load_micros": 2306298,
+      "module_live_heap_bytes": 15721184,
+      "format": "3",
+      "state_properties": 43,
+      "completed": 5000,
+      "active": 1,
+      "max_heap_bytes": 129761280,
+      "status": "PASS"
+    },
+    "current-restart": {
+      "retained_run_objects": 1,
+      "module_load_micros": 1367577,
+      "module_live_heap_bytes": 11719880,
+      "format": "3",
+      "state_properties": 43,
+      "completed": 5000,
+      "active": 1,
+      "max_heap_bytes": 129761280,
+      "status": "PASS"
+    }
+  },
+  "coverage": "No current native JaCoCo: forkCount=0, jacoco.skip=true",
+  "native_source_hashes": {
+    "src/main/java/dev/starcore/starcore/module/resource/DatabaseAwareResourceStateStorage.java": "9eedd23339a03b3f5cb56243e8a3057badbfee1a115edf27336bf3696df8029e",
+    "src/main/java/dev/starcore/starcore/module/resource/FactoryRunStore.java": "33930b76e1db10b1c40592f255bc2dfb84c4ad6853ba3df228ea6d38296ebe20",
+    "src/main/java/dev/starcore/starcore/module/resource/ResourceModule.java": "7604faba2a770e72333957f9400812dd82182d575ff2e219b316a5ad51e57eef",
+    "src/main/java/dev/starcore/starcore/module/resource/ResourceStateStorage.java": "4ee4314ac58a094f75be62b3a67709f63202dad6c1d897a3ffcd4090fb243f4a",
+    "src/main/java/dev/starcore/starcore/module/resource/SqlFactoryArchive.java": "3cb925d270f321794bc59c18164f0dfa74eb7eb447e2b062d1f3bfd2f5056d79",
+    "src/main/java/dev/starcore/starcore/module/resource/SqlProductionReceipts.java": "6a5106a615251ac489e7769a392dcb7c22721177aab146af5b652f8fcde0fe51",
+    "src/main/java/dev/starcore/starcore/module/resource/SqlResourceStateStorage.java": "0861f711939843470108bc6bfa5594bd4ce7298f8ab13ae10f7bed86df7970a4",
+    "src/test/java/dev/starcore/starcore/module/resource/FactorySnapshotVersionTest.java": "9c4389c118a945a7674c16a0888b915c15f3ba632b65b06f7dae444fd62f9448",
+    "src/test/java/dev/starcore/starcore/module/resource/SqlFactoryArchiveTest.java": "5d7b4793e71ffbb857b81f607b7fa88ca950d404629a489bc235c779a571bf52",
+    "src/test/java/dev/starcore/starcore/module/resource/SqlFactoryPersistenceTest.java": "67eab21a16b6b1574d182ab16c11c6ac3cf18048e61834ccc1a020adb3b33e01"
+  },
+  "limits": [
+    "First migration still reads full old snapshot; file storage retains all factory history",
+    "Archive keeps every immutable proof and retry ID; complete native database including archive and journals must be backed up together",
+    "V3 requires SQL archive and cannot be opened by prior V1/V2-only JARs or standalone file storage",
+    "Startup validates all archive rows in bounded pages; scan time and SQL counts still grow with history",
+    "No MySQL, long concurrent load, full Folia or actual third-party runtime certification"
+  ],
+  "evidence_zip_sha256": "37f70caf4faf0682d8e6175dc4d148643b8e1abd2c8859e73bcb402f8c71ce44",
+  "evidence_files": 115
+}

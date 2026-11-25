@@ -65,8 +65,11 @@ def main():
             assert chronicle.execute('PRAGMA integrity_check').fetchone() == ('ok',)
             state = dict(native.execute('SELECT property_key,property_value FROM starcore_resource_state'))
             version = state['resource.factory-runs.version']
-            assert version in ('1', '2')
-            assert state['resource.factory-runs.count'] == '2'
+            assert version in ('1', '2', '3')
+            assert state['resource.factory-runs.count'] == ('0' if version == '3' else '2')
+            if version == '3':
+                assert state['resource.factory-runs.archive-count'] == '2'
+                assert native.execute('SELECT COUNT(*) FROM starcore_resource_factory_archive').fetchone() == (2,)
             assert state['resource.production.sequence'] == '2'
             assert 'factory.0.recipe' not in state
             domain = state['resource.authority-domain']
@@ -77,11 +80,16 @@ def main():
                 run_id = operation.removeprefix('factory:')
                 row = str(index) if version == '1' else hashlib.sha256(run_id.encode('utf-8')).hexdigest()
                 key = f'resource.factory-runs.row.{row}.'
-                assert operation == 'factory:' + state[key+'id']
-                assert state[key+'inputs'] == inputs and state[key+'outputs'] == outputs
-                assert state[key+'sequence'] == str(seq)
-                assert state[key+'completed'] == str(committed_at)
-                assert int(state[key+'ready']) <= committed_at
+                if version == '3':
+                    archived = native.execute('SELECT run_id,inputs,outputs,completion_sequence,completed_at,ready_at FROM starcore_resource_factory_archive WHERE run_key=?', (row,)).fetchone()
+                    assert archived[:5] == (run_id, inputs, outputs, seq, committed_at)
+                    assert archived[5] <= committed_at
+                else:
+                    assert operation == 'factory:' + state[key+'id']
+                    assert state[key+'inputs'] == inputs and state[key+'outputs'] == outputs
+                    assert state[key+'sequence'] == str(seq)
+                    assert state[key+'completed'] == str(committed_at)
+                    assert int(state[key+'ready']) <= committed_at
                 raw = chronicle.execute('SELECT json FROM committed_source_receipts WHERE sequence=?', (seq,)).fetchone()[0]
                 entry = json.loads(raw)
                 assert entry['operationId'] == operation
