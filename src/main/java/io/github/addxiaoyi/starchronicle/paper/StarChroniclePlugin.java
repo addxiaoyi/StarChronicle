@@ -764,6 +764,13 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<ProcessReport> nationalVote(String id,UUID player,String expected,long revision,String choice){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.nationalVote(id,player,expected,revision,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> withdrawNationalVote(String id,UUID player,String expected,long revision){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.withdrawNationalVote(id,player,expected,revision,context);deliverPending();return result;}));}
         @Override public CompletionStage<QuestGateState> questGateState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.questGateSnapshot(id,context)));}
+        @Override public CompletionStage<QuestGateState> reconcileQuestGate(String gateId,UUID player,int round){return recoverQuest(gateId,player,round,false);}
+        @Override public CompletionStage<QuestGateState> retryQuestGate(String gateId,UUID player,int round){return recoverQuest(gateId,player,round,true);}
+        private CompletionStage<QuestGateState> recoverQuest(String gateId,UUID player,int round,boolean retry){
+            QuestGateDriver driver=questGates;
+            if(driver==null)return CompletableFuture.failedFuture(new IllegalStateException("任务服务未就绪"));
+            return driver.recover(gateId,player,round,retry).thenCompose(gate->questGateState(gate.instanceId(),player));
+        }
         @Override public CompletionStage<NationalVoteState> nationalState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->{NationalVoteState result=engine.nationalState(id,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> join(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.join(id,context)));}
         @Override public CompletionStage<MemberState> memberState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.memberState(id,context)));}

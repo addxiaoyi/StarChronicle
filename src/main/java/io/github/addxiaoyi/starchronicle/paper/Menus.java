@@ -406,8 +406,31 @@ public final class Menus implements Listener {
                 if(current>0)put(s,45,Material.ARROW,"上一页详情",List.of(),()->questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current-1));
                 put(s,48,Material.COMPASS,"刷新详情",List.of("完成 ID 只表示已提交的原生完成记录，不承诺奖励到账。"),()->questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current));
                 put(s,49,Material.ARROW,"返回任务门槛",List.of(),()->questGates(viewer,instanceId,expectedNode,listPage));
+                var currentGate=gate.orElseThrow();
+                if(viewer.equals(currentGate.playerId())&&!currentGate.providerId().isBlank()&&currentGate.status()!=QuestObservation.Status.COMMITTED) {
+                    put(s,46,Material.CLOCK,"核对原生任务",List.of("查询本轮任务的原生记录。","不会接取新任务或发放奖励。"),
+                            ()->recoverQuestGate(viewer,instanceId,expectedNode,currentGate,listPage,false));
+                    if(Set.of(QuestObservation.Status.ABANDONED,QuestObservation.Status.FAILED).contains(currentGate.status()))
+                        put(s,52,Material.LIME_DYE,"重新尝试任务",List.of("先确认本轮已经结束，再开启新一轮。","保留旧记录；结果未确定时继续等待。"),
+                                ()->recoverQuestGate(viewer,instanceId,expectedNode,currentGate,listPage,true));
+                }
                 if((current+1)*PAGE<details.size())put(s,53,Material.ARROW,"下一页详情",List.of(),()->questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current+1));
                 p.openInventory(s.inventory);
+        });
+    }
+
+    static CompletionStage<QuestGateState> questGateRecovery(ChronicleService service,UUID viewer,
+                                                            QuestGateState.GateSummary gate,boolean retry) {
+        if(!viewer.equals(gate.playerId()))return CompletableFuture.failedFuture(new SecurityException("只能核对本人的任务"));
+        if(gate.status()==QuestObservation.Status.COMMITTED)return CompletableFuture.failedFuture(new IllegalStateException("任务已完成"));
+        if(retry&&!Set.of(QuestObservation.Status.ABANDONED,QuestObservation.Status.FAILED).contains(gate.status()))
+            return CompletableFuture.failedFuture(new IllegalStateException("任务尚未确认结束，请先核对状态"));
+        return retry?service.retryQuestGate(gate.gateId(),viewer,gate.round()):service.reconcileQuestGate(gate.gateId(),viewer,gate.round());
+    }
+    private void recoverQuestGate(UUID viewer,String instanceId,String node,QuestGateState.GateSummary gate,int page,boolean retry) {
+        questGateRecovery(plugin.service(),viewer,gate,retry).whenComplete((updated,error)->{
+            if(error!=null)plugin.failure(viewer,error);
+            else questGateDetail(viewer,instanceId,node,gate.gateId(),page,0);
         });
     }
 
@@ -427,6 +450,7 @@ public final class Menus implements Listener {
         chunks("效果 ID",gate.effectId(),details);chunks("任务 ID",gate.questId(),details);chunks("范围",gate.mode().name(),details);
         chunks("原始国家",gate.nationId(),details);chunks("状态",questGateStatus(gate.status()),details);chunks("提供者",gate.providerId(),details);
         chunks("原生运行 ID",gate.runId(),details);chunks("已提交完成 ID",gate.completionId(),details);chunks("状态说明",gate.message(),details);
+        chunks("任务轮次",Integer.toString(gate.round()+1),details);
         return List.copyOf(details);
     }
     static String questGateStatus(QuestObservation.Status status){return switch(status){

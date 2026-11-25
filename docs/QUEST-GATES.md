@@ -23,7 +23,7 @@ effects:
 
 ## 稳定运行与国家归属
 
-每个固定实例、节点、effect ID 和原成员 UUID 产生一个稳定 gate/binding ID。成员、原国籍、来源事件、剧情版本、定义指纹、打开时间均保存。首次 native 调用前，先在 Chronicle 独立事务中固化 provider ID 和 pin 时间。该事务结束后才调用提供者。
+每个固定实例、节点、effect ID 和原成员 UUID 产生一个稳定 gate ID。第0轮沿用旧 gate/binding ID；显式重试以 gate ID＋递增 round 派生独立 binding，旧绑定与原生运行保留。成员、原国籍、来源事件、剧情版本、定义指纹、打开时间均保存。首次 native 调用前，先在 Chronicle 独立事务中固化 provider ID 和 pin 时间。该事务结束后才调用提供者。
 
 PLAYER 模式要求该成员自己的绑定运行完成。NATION 模式允许同一节点任一原成员的绑定贡献使本国准备完成，但接取及完成时都必须具有 KNOWN_NATION 证明，且等于实例保存的原国籍。UNKNOWN/UNAVAILABLE 不能当作“无国家”；无原国籍的国家门槛保持等待，不固化提供者、不接取任务。同国十名成员完成仍只是一国准备完成，国家议事的一国一席与当前持有人权限独立验证。
 
@@ -39,6 +39,8 @@ PLAYER 模式要求该成员自己的绑定运行完成。NATION 模式允许同
 String providerId();
 CompletionStage<QuestObservation> ensureStarted(QuestRequest request);
 CompletionStage<QuestObservation> lookup(QuestRequest request);
+// 默认拒绝；只有确认终止状态已持久化的提供者才能支持新轮次
+CompletionStage<QuestObservation> lookupForRetry(QuestRequest request);
 ```
 
 通过 Bukkit ServicesManager 注册可信服务。提供者必须对稳定 binding 幂等接取；lookup 必须是其自有持久权威数据的纯查询，不能接取或完成任务。玩家命令、AI 或客户端不能提交 AcceptedRun/CommittedCompletion 充当证明。
@@ -57,13 +59,25 @@ StarCore 适配器反射连接实际 `quest.evidence.QuestEvidenceService` 协�
 
 奖励的 INVOKED 只表示原生方法返回，不宣称外部经济、命令或库存已端到端 exactly once 交付。PREPARED/UNKNOWN、执行中断或丢失确认都不自动重放。Chronicle 消费任务凭证不会再次执行原生奖励；自己的剧情结果继续使用原有稳定 outcome ID/outbox。
 
-已确认的原生过期和每日重置会记录为 `FAILED`／`ABANDONED`，继续保留原始接受身份且不满足剧情门槛。当前协议没有为同一 gate 开始新一轮任务的管理API；原生 `UNKNOWN` 也没有独立对账API。两类状态都安全阻塞，不能通过更换 provider 或手工编辑存档重试。要支持恢复重试，需要后续为 attempt ID 和原子对账增加版本化协议。
+已确认的原生过期和每日重置会记录为 `FAILED`／`ABANDONED`，继续保留原始接受身份且不满足剧情门槛。schema 8 增加所有者发起的核对与安全新轮次：
+
+- `reconcileQuestGate(gateId, playerId, expectedRound)` 只读原绑定的 canonical 状态；可消费真实完成凭证，但绝不接取任务、完成目标或补发奖励。原生仍报告 UNKNOWN 时继续等待；它不修复原生未确认写入，也不人工确认奖励。
+- `retryQuestGate(gateId, playerId, expectedRound)` 调用专门的 `lookupForRetry`，只有新查询确认相同 accepted run 已持久 FAILED／ABANDONED 才保留旧轮次快照与终止证据、分配一个新 binding。新轮次先提交本地意图，由普通驱动器随后重新核验接取条件并幂等接取。UNKNOWN／ACTIVE／COMMITTED 不分配新轮次；查询发现真实完成时仍按原子消费路径记录。
+- 两个入口均在查询前后校验实际本人、原国籍、有效成员资格、剧情条件与效果权限；同国读者不能替别人重试。expectedRound 阻止旧页面和重复请求再次分配。核对与轮询共用 flight 上限，上一轮迟到回调不能修改新轮次。
+- 提供者 ID 始终不变。旧提供者默认拒绝 `lookupForRetry`。StarCore 适配器只对同一个实际服务实例确认 `durableTerminalStates()` 为 true 后读取终止记录，再复核服务与存储域；不会把旧服务的能力转移给新服务。
+- 配套 StarCore 在终止文件写入前公开 UNKNOWN，持久化确认后才公开 FAILED／ABANDONED，写失败保持 UNKNOWN。新能力不赋予未知奖励重新执行的权限。
+
+每个 gate 最多显式重试1,000次，以限制读取的审计链；达到上限保持等待。任务详情的“核对原生任务”与“重新尝试任务”调用上述入口。旧记录不可通过该 API 删除、改绑或修改。
 
 ## 本地原子消费和世界历史
 
 schema 6 仅新增 `quest_gates`、`quest_gate_completions` 及索引／约束，不重编码旧剧情 JSON 或删除旧历史、选择和奖励凭据。完成 source 同时约束 `(issuer, completion_id)` 与 `(issuer, run_id)`，不能一份原生运行满足两个不同绑定。
 
-接受身份一旦保存不可改变。完整完成 JSON、hash、消费键、gate 完成状态、`quest.completed` 世界历史、因果来源与后续触发入箱共享同一 Chronicle 事务。任一冲突或插入故障都整体回滚。消费 source 已存在但 gate 未完成属于原子状态损坏，会拒绝继续，不能静默“修好”gate 而跳过历史。已结束实例或旧节点的迟到回执不会改写剧情结果。
+同一轮接受身份一旦保存不可改变。schema 8 新增 `quest_gate_round_heads`、`quest_gate_round_history`，不重写旧表或旧凭证；旧库直接映射为第0轮。退休轮次保存原 gate 快照、canonical 终止观察、发起人、时间和下一绑定，并校验完整性摘要、连续轮次及身份。旧轮次归档、轮次头和新意图同事务提交；不能以清空 accepted 字段冒充重试。
+
+成员显式退出后，以持久 EXITED 复核记录保存原成员身份，旧门槛与已完成贡献仍可审计；未完成门槛不再轮询、核对或重试，不阻塞其他成员。没有 EXITED 证明的成员丢失仍被视为身份不一致。回到原国家也不会自动解除 PENDING 复核要求。
+
+完整完成 JSON、hash、消费键、gate 完成状态、`quest.completed` 世界历史、因果来源与后续触发入箱共享同一 Chronicle 事务。任一冲突或插入故障都整体回滚。消费 source 已存在但 gate 未完成属于原子状态损坏，会拒绝继续，不能静默“修好”gate 而跳过历史。已结束实例或旧节点的迟到回执不会改写剧情结果。
 
 历史 ID 由 issuer 和 completion ID 稳定派生；时间取原生业务完成时间，参与者是实际完成玩家；国家只取完成凭证的已知国家证明，不按查询时的国籍倒推。历史保留 quest/run/completion/定义/start/commit/gate 字段及 receipt hash，本地账本保留完整证明。证据正文不会把超长原生 JSON 塞进历史事件的 4096 字符字段。
 
@@ -77,7 +91,7 @@ SQL 与规则操作使用现有有界状态工作队列。提供者调用使用�
 
 ## 查询与运维
 
-`ChronicleService.questGateState(instanceId, playerId)` 获取服务端新身份，并返回固定实例／节点的只读摘要（ready、被阻挡的 effect ID、任务、成员、原国籍、状态、provider/run/completion ID 和诊断）。不接受 caller supplied PlayerContext，不暴露完整 proof，也不提供手动完成、改库解锁或补发奖励入口。剧情 GUI 的任务门槛按钮、列表和详情每次重新读取服务端，拒绝把旧节点文本与新阶段状态拼接。
+`ChronicleService.questGateState(instanceId, playerId)` 获取服务端新身份，并返回固定实例／节点的只读摘要（ready、被阻挡的 effect ID、任务、成员、原国籍、状态、round/revision、provider/run/completion ID 和诊断）。不接受 caller supplied PlayerContext，不暴露完整 proof，也不提供手动完成、改库解锁或补发奖励入口。剧情 GUI 的任务门槛按钮、列表和详情每次重新读取服务端，拒绝把旧节点文本与新阶段状态拼接。
 
 备份时将 Chronicle 数据库与 StarCore 的存储域文件、tracked index、原生任务状态及 completion journal 一起保存。不要只还原一边或删除 UNKNOWN 凭据来强行重试。确需修复不一致时，应先保存原始文件并独立核对原生运行和奖励，不能以替换 provider ID、数据库编辑或“曾经完成”标志绕过证据。
 

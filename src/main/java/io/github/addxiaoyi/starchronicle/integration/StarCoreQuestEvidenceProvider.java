@@ -47,10 +47,23 @@ public final class StarCoreQuestEvidenceProvider implements QuestEvidenceProvide
         return ISSUER+":"+bound;
     }
     @Override public CompletionStage<QuestObservation> lookup(QuestRequest request){
+        return canonicalLookup(request,false);
+    }
+    @Override public CompletionStage<QuestObservation> lookupForRetry(QuestRequest request){
+        return canonicalLookup(request,true);
+    }
+    private CompletionStage<QuestObservation> canonicalLookup(QuestRequest request,boolean forRetry){
         if(!valid(request))return done(QuestObservation.Status.UNKNOWN,null,null,"Invalid native quest binding");
         try{
             Native access=nativeAccess();
             if(access==null)return done(QuestObservation.Status.UNSUPPORTED,null,null,"Native durable quest evidence is unavailable");
+            if(forRetry) {
+                Method capability;
+                try {capability=access.service().getClass().getMethod("durableTerminalStates");}
+                catch(NoSuchMethodException older){return done(QuestObservation.Status.UNSUPPORTED,null,null,"Native provider cannot confirm a durable terminal run for retry");}
+                if(capability.getReturnType()!=boolean.class||!Boolean.TRUE.equals(capability.invoke(access.service())))
+                    return done(QuestObservation.Status.UNSUPPORTED,null,null,"Native provider cannot confirm a durable terminal run for retry");
+            }
             Object snapshot=access.lookup().invoke(access.service(),request.bindingId());
             if(!current(access))return done(QuestObservation.Status.UNKNOWN,null,null,"Native quest authority changed during lookup");
             return CompletableFuture.completedFuture(snapshot==null?observation(QuestObservation.Status.NOT_STARTED,null,null,"Canonical native binding is absent"):map(request,snapshot));

@@ -52,11 +52,11 @@ class QuestGateEngineTest {
     QuestGateLedger.Gate saved(String id){return store.transaction(c->QuestGateLedger.find(c,id));}
     NationProof nation(String id,Instant time){return new NationProof(NationProof.State.KNOWN_NATION,id,time,"native-country","country="+id+" at "+time);}
     AcceptedRun accepted(QuestGateLedger.Gate gate) {
-        Instant pin=gate.providerPinnedAt();return new AcceptedRun(gate.id(),"run:"+gate.id(),gate.playerId(),gate.questId(),"a".repeat(64),pin.plusMillis(1),nation(gate.expectedNationId(),pin),issuer,"native accepted binding="+gate.id());
+        Instant pin=gate.providerPinnedAt();return new AcceptedRun(gate.bindingId(),"run:"+gate.bindingId(),gate.playerId(),gate.questId(),"a".repeat(64),pin.plusMillis(1),nation(gate.expectedNationId(),pin),issuer,"native accepted binding="+gate.id());
     }
     CommittedCompletion completion(QuestGateLedger.Gate gate) {
         var run=accepted(gate);Instant pin=gate.providerPinnedAt();
-        return new CommittedCompletion(run.bindingId(),run.runId(),"completion:"+gate.id(),run.playerId(),run.questId(),run.definitionFingerprint(),run.startedAt(),pin.plusMillis(2),pin.plusMillis(3),run.acceptedNation(),nation(gate.expectedNationId(),pin.plusMillis(2)),issuer,run.evidence(),"native durable completion binding="+gate.id());
+        return new CommittedCompletion(run.bindingId(),run.runId(),"completion:"+gate.bindingId(),run.playerId(),run.questId(),run.definitionFingerprint(),run.startedAt(),pin.plusMillis(2),pin.plusMillis(3),run.acceptedNation(),nation(gate.expectedNationId(),pin.plusMillis(2)),issuer,run.evidence(),"native durable completion binding="+gate.id());
     }
     QuestGateLedger.Mutation finish(QuestGateLedger.Gate gate) {
         var receipt=completion(gate);clock.after(receipt.committedAt().plusMillis(2));
@@ -155,5 +155,104 @@ class QuestGateEngineTest {
         start(story(Mode.PLAYER));var ga=pinned(a);assertEquals(List.of(ga.id()),engine.pendingQuestGates(Set.of(),100).stream().map(QuestGateLedger.Gate::id).toList());
         var query=engine.pendingQuestGates(Set.of(b),100);assertEquals(Set.of(a,b),query.stream().map(QuestGateLedger.Gate::playerId).collect(java.util.stream.Collectors.toSet()));
         assertThrows(IllegalArgumentException.class,()->engine.pendingQuestGates(online,0));assertThrows(IllegalArgumentException.class,()->engine.pendingQuestGates(online,101));finish(ga);assertTrue(engine.pendingQuestGates(Set.of(),100).isEmpty());
+    }
+
+    QuestObservation terminal(QuestGateLedger.Gate gate,Status status) {
+        var run=accepted(gate);clock.after(run.startedAt().plusMillis(5));
+        return new QuestObservation(status,run,null,clock.instant(),"durable native terminal run");
+    }
+    @Test void abandonedAndFailedRoundsRetainTheirProofsAndOnlyTheNewRunCanComplete() {
+        String id=start(story(Mode.PLAYER));var original=pinned(a);var abandoned=terminal(original,Status.ABANDONED);
+        var next=engine.applyQuestRecovery(original,abandoned,true,context(a,"river"));
+        assertEquals(1,next.round());assertEquals(original.id(),next.id());assertNotEquals(original.bindingId(),next.bindingId());
+        assertEquals(provider,next.providerId());assertEquals(Status.NOT_STARTED,next.status());assertNull(next.acceptedRun());
+        assertEquals(1,count("quest_gate_round_history"));assertEquals(0,questHistory());assertFalse(engine.questGateState(id,context(a,"river")).ready());
+        reopen();assertEquals(next,saved(original.id()));
+        assertThrows(IllegalStateException.class,()->engine.applyQuestRecovery(original,abandoned,true,context(a,"river")));
+        var failed=terminal(next,Status.FAILED);var third=engine.applyQuestRecovery(next,failed,true,context(a,"river"));
+        assertEquals(2,third.round());assertEquals(2,count("quest_gate_round_history"));assertNotEquals(next.bindingId(),third.bindingId());
+        assertTrue(finish(third).completionNewlyRecorded());assertFalse(finish(third).completionNewlyRecorded());
+        assertEquals(1,questHistory());assertEquals(1,count("quest_gate_completions"));assertTrue(engine.questGateState(id,context(a,"river")).ready());
+        var projection=engine.questGateSnapshot(id,context(a,"river")).gates().getFirst();assertEquals(2,projection.round());assertEquals(saved(third.id()).revision(),projection.revision());
+        store.transaction(c->{try(var statement=c.createStatement();var rows=statement.executeQuery("SELECT proof_json FROM quest_gate_round_history ORDER BY round")){
+            assertTrue(rows.next());var first=SqliteStore.decode(rows.getString(1),QuestGateLedger.RetiredRound.class);assertEquals(abandoned,first.terminalProof());assertEquals(a,first.requestedBy());assertEquals(original.bindingId(),first.gate().bindingId());
+            assertTrue(rows.next());assertEquals(failed,SqliteStore.decode(rows.getString(1),QuestGateLedger.RetiredRound.class).terminalProof());assertFalse(rows.next());
+        }return null;});
+    }
+    @Test void unknownActiveAndCompletionReconciliationCannotCreateAReplacementRun() {
+        start(story(Mode.PLAYER));var gate=pinned(a);var active=terminal(gate,Status.ACTIVE);
+        engine.observeQuestGate(gate.id(),provider,active);
+        var unknown=new QuestObservation(Status.UNKNOWN,null,null,clock.instant(),"unresolved");
+        var unresolved=engine.applyQuestRecovery(gate,unknown,true,context(a,"river"));
+        assertEquals(0,unresolved.round());assertEquals(active.acceptedRun(),unresolved.acceptedRun());assertEquals(Status.UNKNOWN,unresolved.status());
+        assertEquals(Status.ACTIVE,engine.applyQuestRecovery(gate,active,true,context(a,"river")).status());
+        var completion=completion(gate);clock.after(completion.committedAt().plusMillis(10));
+        var done=engine.applyQuestRecovery(gate,new QuestObservation(Status.COMMITTED,completion.acceptedRun(),completion,clock.instant(),"recovered"),true,context(a,"river"));
+        assertTrue(done.completed());assertEquals(0,count("quest_gate_round_history"));assertEquals(1,questHistory());
+        assertThrows(IllegalStateException.class,()->engine.applyQuestRecovery(done,unknown,true,context(a,"river")));
+    }
+    @Test void oldRoundCallbacksCannotChangeANewRoundEvenWithoutAcceptanceInTheReply() {
+        start(story(Mode.PLAYER));var old=pinned(a);var next=engine.applyQuestRecovery(old,terminal(old,Status.FAILED),true,context(a,"river"));
+        var proof=completion(old);clock.after(proof.committedAt().plusMillis(10));
+        for(var observation:List.of(new QuestObservation(Status.UNKNOWN,null,null,clock.instant(),"late timeout"),new QuestObservation(Status.COMMITTED,proof.acceptedRun(),proof,clock.instant(),"late completion"))) {
+            var ignored=engine.observeQuestGate(old.id(),provider,old.round(),observation);assertFalse(ignored.changed());assertEquals(next,ignored.gate());
+        }
+        assertEquals(next,saved(old.id()));assertEquals(0,questHistory());
+    }
+    @Test void explicitRecoveryRechecksOwnerNationPermissionsAndRound() {
+        start(story(Mode.PLAYER));var gate=pinned(a);var proof=terminal(gate,Status.ABANDONED);
+        for(var actor:List.of(context(b,"river"),context(a,"hill"),context(outsider,"river"),context(a,"river","scholar",Set.of("starchronicle.use")))) {
+            assertThrows(SecurityException.class,()->engine.questGateForRecovery(gate.id(),0,actor));
+            assertThrows(SecurityException.class,()->engine.applyQuestRecovery(gate,proof,true,actor));
+        }
+        assertThrows(IllegalStateException.class,()->engine.questGateForRecovery(gate.id(),1,context(a,"river")));
+        assertEquals(0,count("quest_gate_round_history"));assertEquals(gate,saved(gate.id()));
+    }
+    @Test void retryArchiveFailureRollsBackObservedTerminalAndRoundAllocationTogether() {
+        start(story(Mode.PLAYER));var gate=pinned(a);var proof=terminal(gate,Status.FAILED);
+        sql("CREATE TRIGGER refuse_round BEFORE INSERT ON quest_gate_round_history BEGIN SELECT RAISE(ABORT,'round archive unavailable'); END");
+        assertThrows(IllegalStateException.class,()->engine.applyQuestRecovery(gate,proof,true,context(a,"river")));
+        assertEquals(gate,saved(gate.id()));assertEquals(0,count("quest_gate_round_history"));assertEquals(0,count("quest_gate_round_heads"));
+        sql("DROP TRIGGER refuse_round");assertEquals(1,engine.applyQuestRecovery(gate,proof,true,context(a,"river")).round());
+    }
+    @Test void returningToOriginalNationDoesNotBypassPendingMemberReviewForAdmissionOrRecovery() {
+        start(story(Mode.PLAYER));var gate=pinned(a);var proof=terminal(gate,Status.ABANDONED);
+        engine.observeMemberNations(List.of(context(a,"hill")));
+        assertThrows(SecurityException.class,()->engine.prepareQuestGate(gate.id(),provider,context(a,"river")));
+        assertThrows(SecurityException.class,()->engine.questGateForRecovery(gate.id(),0,context(a,"river")));
+        assertThrows(SecurityException.class,()->engine.applyQuestRecovery(gate,proof,true,context(a,"river")));
+        assertEquals(0,count("quest_gate_round_history"));assertEquals(gate,saved(gate.id()));
+    }
+    @Test void exitBetweenLookupAndRetryCommitCannotOpenANewRound() {
+        String id=start(story(Mode.PLAYER));var gate=pinned(a);var proof=terminal(gate,Status.ABANDONED);
+        assertEquals(gate,engine.questGateForRecovery(gate.id(),0,context(a,"river")));
+        engine.exitMember(id,context(a,"river"));
+        assertThrows(SecurityException.class,()->engine.applyQuestRecovery(gate,proof,true,context(a,"river")));
+        assertEquals(0,count("quest_gate_round_history"));assertEquals(0,count("quest_gate_round_heads"));
+        assertFalse(saved(gate.id()).active());
+        assertEquals(Set.of(b,foreign),engine.pendingQuestGates(online,100).stream().map(QuestGateLedger.Gate::playerId).collect(java.util.stream.Collectors.toSet()));
+        assertEquals(1,engine.pendingQuestGates(Set.of(b),1).size());
+        reopen();assertFalse(saved(gate.id()).active());assertFalse(engine.questGateState(id,context(b,"river")).ready());
+    }
+    @Test void explicitExitPreservesCompletedNationalContributionAndRetiredRounds() {
+        String id=start(story(Mode.NATION));var gate=pinned(a);
+        var next=engine.applyQuestRecovery(gate,terminal(gate,Status.ABANDONED),true,context(a,"river"));finish(next);
+        engine.exitMember(id,context(a,"river"));reopen();
+        assertTrue(saved(gate.id()).completed());assertFalse(saved(gate.id()).active());
+        assertEquals(1,count("quest_gate_round_history"));assertEquals(1,questHistory());
+        assertTrue(engine.questGateState(id,context(b,"river")).ready());
+        sql("DELETE FROM story_member_reviews WHERE player_id='"+a+"'");
+        assertThrows(IllegalStateException.class,()->saved(gate.id()));
+    }
+    @Test void missingOrChangedRoundArchiveFailsClosed() {
+        start(story(Mode.PLAYER));var gate=pinned(a);engine.applyQuestRecovery(gate,terminal(gate,Status.FAILED),true,context(a,"river"));
+        sql("UPDATE quest_gate_round_history SET proof_hash='changed'");assertThrows(IllegalStateException.class,()->saved(gate.id()));
+        sql("DELETE FROM quest_gate_round_history");assertThrows(IllegalStateException.class,()->saved(gate.id()));
+    }
+    @Test void schemaSevenUpgradePreservesActiveAndConsumedBindingsAsRoundZero() {
+        start(story(Mode.PLAYER));var ga=pinned(a);var gb=pinned(b);finish(gb);var beforeA=saved(ga.id());var beforeB=saved(gb.id());
+        sql("DROP TABLE quest_gate_round_heads");sql("DROP TABLE quest_gate_round_history");sql("PRAGMA user_version=7");
+        reopen();assertEquals(beforeA,saved(ga.id()));assertEquals(beforeB,saved(gb.id()));assertEquals(ga.id(),saved(ga.id()).bindingId());
+        assertEquals(0,count("quest_gate_round_history"));assertEquals(1,questHistory());assertFalse(finish(gb).completionNewlyRecorded());
     }
 }
