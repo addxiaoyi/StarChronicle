@@ -68,39 +68,39 @@ class QuestGateMenusTest {
     @Test void currentNodePageHidesOtherPlayersPersonalGateButKeepsServerFilteredCountryGate(){
         StoryInstance instance=instance("start");UUID other=UUID.randomUUID();
         var state=state("start",List.of(summary("own",viewer,QuestRequest.Mode.PLAYER),summary("private",other,QuestRequest.Mode.PLAYER),summary("country",other,QuestRequest.Mode.NATION)));
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of(instance)));
+        when(service.instance(viewer,"instance")).thenReturn(CompletableFuture.completedFuture(Optional.of(instance)));
         when(service.questGateState("instance",viewer)).thenReturn(CompletableFuture.completedFuture(state));
         var page=Menus.questGatePage(service,viewer,"instance","start",0).toCompletableFuture().join();
         assertEquals(List.of("own","country"),page.state().gates().stream().map(QuestGateState.GateSummary::gateId).toList());
-        verify(service,times(2)).instances(viewer);verify(service).questGateState("instance",viewer);verifyNoMoreInteractions(service);
+        verify(service,times(2)).instance(viewer,"instance");verify(service).questGateState("instance",viewer);verifyNoMoreInteractions(service);
     }
     @Test void staleDisplayedNodeCannotFetchNewNodeGateDetails(){
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of(instance("next"))));
+        when(service.instance(viewer,"instance")).thenReturn(CompletableFuture.completedFuture(Optional.of(instance("next"))));
         assertThrows(CompletionException.class,()->Menus.questGatePage(service,viewer,"instance","start",2).toCompletableFuture().join());
-        verify(service).instances(viewer);verifyNoMoreInteractions(service);
+        verify(service).instance(viewer,"instance");verifyNoMoreInteractions(service);
     }
     @Test void nodeChangeDuringReadDiscardsTheEntirePage(){
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of(instance("start"))),CompletableFuture.completedFuture(List.of(instance("next"))));
+        when(service.instance(viewer,"instance")).thenReturn(CompletableFuture.completedFuture(Optional.of(instance("start"))),CompletableFuture.completedFuture(Optional.of(instance("next"))));
         when(service.questGateState("instance",viewer)).thenReturn(CompletableFuture.completedFuture(state("start",List.of())));
         assertThrows(CompletionException.class,()->Menus.questGatePage(service,viewer,"instance","start",0).toCompletableFuture().join());
     }
     @Test void serverStateForAnotherInstanceCannotBeMixedWithPinnedText(){
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of(instance("start"))));
+        when(service.instance(viewer,"instance")).thenReturn(CompletableFuture.completedFuture(Optional.of(instance("start"))));
         when(service.questGateState("instance",viewer)).thenReturn(CompletableFuture.completedFuture(new QuestGateState("other","start",true,List.of(),List.of())));
         assertThrows(CompletionException.class,()->Menus.questGatePage(service,viewer,"instance","start",0).toCompletableFuture().join());
     }
     @Test void unjoinedPlayerCannotQueryArbitraryGateStates(){
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of()));
+        when(service.instance(viewer,"instance")).thenReturn(CompletableFuture.completedFuture(Optional.empty()));
         CompletionException failure=assertThrows(CompletionException.class,()->Menus.questGatePage(service,viewer,"instance","start",0).toCompletableFuture().join());
-        assertInstanceOf(SecurityException.class,failure.getCause());verify(service).instances(viewer);verifyNoMoreInteractions(service);
+        assertInstanceOf(SecurityException.class,failure.getCause());verify(service).instance(viewer,"instance");verifyNoMoreInteractions(service);
     }
     @Test void gateButtonOnlyReadsAndNeverCallsChooseJoinOrAnyMutation(){
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of(instance("start"))));
+        when(service.instance(viewer,"instance")).thenReturn(CompletableFuture.completedFuture(Optional.of(instance("start"))));
         when(service.questGateState("instance",viewer)).thenReturn(CompletableFuture.completedFuture(state("start",List.of(summary("own",viewer,QuestRequest.Mode.PLAYER)))));
         List<Menus.QuestGatePage> shown=new ArrayList<>();Menus.Session session=new Menus.Session(viewer);
         session.actions.put(50,Menus.questGateReadAction(service,viewer,"instance","start",shown::add,error->fail(error)));
         InventoryClickEvent event=click(session,true,false,viewer);new Menus(null).click(event);verify(event).setCancelled(true);
-        assertEquals(1,shown.size());verify(service,times(2)).instances(viewer);verify(service).questGateState("instance",viewer);verifyNoMoreInteractions(service);
+        assertEquals(1,shown.size());verify(service,times(2)).instance(viewer,"instance");verify(service).questGateState("instance",viewer);verifyNoMoreInteractions(service);
     }
     @Test void gateReadButtonRejectsForeignShiftAndRightClicks(){
         Menus.Session session=new Menus.Session(viewer);AtomicInteger calls=new AtomicInteger();

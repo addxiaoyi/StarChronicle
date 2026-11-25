@@ -38,40 +38,64 @@ public final class ChoiceLedger {
     /** Imports only surviving legacy snapshots. Original ballot timestamps and intermediate
      * revotes were not stored and are deliberately left unknown. Call inside the schema upgrade. */
     public static int migrateSnapshots(Connection connection)throws SQLException {
-        inTransaction(connection);List<StoryInstance> snapshots=new ArrayList<>();
-        try(var s=connection.createStatement();var r=s.executeQuery("SELECT id,story,scope,completed,json FROM instances")) {
-            while(r.next()) {
-                StoryInstance instance=SqliteStore.decode(r.getString("json"),StoryInstance.class);
-                metadata(instance,r.getString("id"),r.getString("story"),r.getString("scope"),r.getInt("completed")!=0);
-                snapshots.add(instance);
-            }
-        }
-        snapshots.sort(Comparator.comparing(StoryInstance::updatedAt).thenComparing(StoryInstance::id));
-        int inserted=0;
-        for(StoryInstance instance:snapshots) {
-            // National snapshots alone cannot prove an authorized state action or quorum.
-            // Only the national ledger may supply its frozen, verified collective resolution.
-            if(instance.definition().voteUnit()==StoryDefinition.VoteUnit.NATION)continue;
-            // A migration is atomic. Any prior row means this instance was already imported or
-            // is live-owned; never manufacture a legacy copy of a subsequent live operation.
-            try(var s=connection.prepareStatement("SELECT 1 FROM story_choice_log WHERE instance_id=? LIMIT 1")) {
-                s.setString(1,instance.id());try(var r=s.executeQuery()){if(r.next())continue;}
-            }
-            for(var choice:new TreeMap<>(instance.choices()).entrySet()) {
-                String key=choice.getKey();int slash=key.indexOf('/');String node=slash<0?key:key.substring(0,slash);
-                validateChoice(instance,node,choice.getValue());String kind,actor;UUID player=null;String nation="";
-                if(slash<0) {kind="RESOLUTION";actor=instance.scopeKey();}
-                else {
-                    if(slash==key.length()-1||key.indexOf('/',slash+1)>=0)throw new IllegalStateException("Malformed legacy personal choice key: "+key);
-                    try{player=UUID.fromString(key.substring(slash+1));}catch(IllegalArgumentException error){throw new IllegalStateException("Malformed legacy choice actor",error);}
-                    if(!instance.members().containsKey(player))throw new IllegalStateException("Legacy choice actor was not an instance member");
-                    kind="BALLOT";actor="player:"+player;nation=instance.members().get(player);
+        inTransaction(connection);
+        // Keep only sortable keys in SQLite, never a second in-memory copy of every pinned graph.
+        // Instant seconds/nanos preserve variable-precision legacy timestamps; UTF-16 bytes
+        // preserve Java String.compareTo even for supplementary characters in legacy IDs.
+        try(var ordering=new SnapshotOrder(connection)) {
+            try(var s=connection.createStatement();var r=s.executeQuery("SELECT id,story,scope,completed,json FROM instances")) {
+                while(r.next()) {
+                    StoryInstance instance=SqliteStore.decode(r.getString("json"),StoryInstance.class);
+                    metadata(instance,r.getString("id"),r.getString("story"),r.getString("scope"),r.getInt("completed")!=0);
+                    ordering.add(instance);
                 }
-                String id=RuleEngine.stable("legacy-choice",instance.id(),node,kind,actor);
-                insert(connection,id,instance,node,choice.getValue(),kind,actor,player,nation,1,null,null,"LEGACY_INSTANCE");inserted++;
+            }
+            int inserted=0;
+            try(var s=connection.createStatement();var r=s.executeQuery("SELECT i.json FROM temp.choice_snapshot_order o JOIN instances i ON i.id=o.id ORDER BY o.seconds,o.nanos,o.id_order")) {
+            while(r.next()) {
+                StoryInstance instance=SqliteStore.decode(r.getString(1),StoryInstance.class);
+                // National snapshots alone cannot prove an authorized state action or quorum.
+                // Only the national ledger may supply its frozen, verified collective resolution.
+                if(instance.definition().voteUnit()==StoryDefinition.VoteUnit.NATION)continue;
+                // A migration is atomic. Any prior row means this instance was already imported or
+                // is live-owned; never manufacture a legacy copy of a subsequent live operation.
+                try(var exists=connection.prepareStatement("SELECT 1 FROM story_choice_log WHERE instance_id=? LIMIT 1")) {
+                    exists.setString(1,instance.id());try(var rows=exists.executeQuery()){if(rows.next())continue;}
+                }
+                for(var choice:new TreeMap<>(instance.choices()).entrySet()) {
+                    String key=choice.getKey();int slash=key.indexOf('/');String node=slash<0?key:key.substring(0,slash);
+                    validateChoice(instance,node,choice.getValue());String kind,actor;UUID player=null;String nation="";
+                    if(slash<0) {kind="RESOLUTION";actor=instance.scopeKey();}
+                    else {
+                        if(slash==key.length()-1||key.indexOf('/',slash+1)>=0)throw new IllegalStateException("Malformed legacy personal choice key: "+key);
+                        try{player=UUID.fromString(key.substring(slash+1));}catch(IllegalArgumentException error){throw new IllegalStateException("Malformed legacy choice actor",error);}
+                        if(!instance.members().containsKey(player))throw new IllegalStateException("Legacy choice actor was not an instance member");
+                        kind="BALLOT";actor="player:"+player;nation=instance.members().get(player);
+                    }
+                    String id=RuleEngine.stable("legacy-choice",instance.id(),node,kind,actor);
+                    insert(connection,id,instance,node,choice.getValue(),kind,actor,player,nation,1,null,null,"LEGACY_INSTANCE");inserted++;
+                }
+            }}
+            return inserted;
+        }
+    }
+
+    private static final class SnapshotOrder implements AutoCloseable {
+        private final Connection connection;
+        SnapshotOrder(Connection connection)throws SQLException {
+            this.connection=connection;
+            try(var s=connection.createStatement()) {
+                s.execute("CREATE TEMP TABLE choice_snapshot_order(seconds INTEGER NOT NULL,nanos INTEGER NOT NULL,id_order BLOB NOT NULL,id TEXT NOT NULL,PRIMARY KEY(seconds,nanos,id_order)) WITHOUT ROWID");
             }
         }
-        return inserted;
+        void add(StoryInstance instance)throws SQLException {
+            byte[] order=new byte[instance.id().length()*2];
+            for(int n=0;n<instance.id().length();n++){char ch=instance.id().charAt(n);order[2*n]=(byte)(ch>>>8);order[2*n+1]=(byte)ch;}
+            try(var s=connection.prepareStatement("INSERT INTO temp.choice_snapshot_order VALUES(?,?,?,?)")) {
+                s.setLong(1,instance.updatedAt().getEpochSecond());s.setInt(2,instance.updatedAt().getNano());s.setBytes(3,order);s.setString(4,instance.id());s.executeUpdate();
+            }
+        }
+        @Override public void close()throws SQLException {try(var s=connection.createStatement()){s.execute("DROP TABLE temp.choice_snapshot_order");}}
     }
 
     /** Record before saving the vote/moved instance. An identical final ballot is a no-op;

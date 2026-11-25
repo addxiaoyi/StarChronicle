@@ -1,5 +1,9 @@
 # StarChronicle 扩展 API
 
+## 有界剧情查询（schema 8）
+
+界面列表使用 `storyPage(playerId, afterId, size)`；首次游标为 null，继续使用返回的 `nextCursor`，直到它为 null。size 为 1–100，每次最多检查 256 个候选；空列表不一定代表结束。`instance(playerId, instanceId)` 只返回本人的单个实例，`instances(playerId,page,size)` 提供成员历史分页，原无分页方法仍返回完整结果。成员索引不授予动作权限，身份在服务器端采集，详情和操作重新核验正文及权威。容量边界、索引迁移与备份见 [容量与维护](CAPACITY.md)。
+
 ## 国家史诗
 
 `ChronicleService` 提供 `epicCampaignPlans`、`openEpicSignup`、`epicSignup`、`enrollEpicSignup`、`withdrawEpicSignup`、`sealEpicSignup`、`epicCampaign`、`voteEpicRoute`、`prepareEpicOperation`、`epicOperation`、`applyEpicOperation`、`reconcileEpicOperation` 和 `epicProviders`。身份由插件重新采集，修订号来自状态查询。
@@ -22,7 +26,7 @@ if (chronicle != null) {
 }
 ```
 
-`ChronicleService` 暴露异步 `submit`、`join`、`choose`、`instances`、`activeInstances`、`availableInstances`、`availableChoices`、`history`、`questGateState(instanceId,playerId)`、`npc(playerId,npcId)`、`fate(playerId)` 和 `describe(template,publicFacts)`。运行时会自己收集在线玩家的当前权威快照；集成方不能通过该 API 注入自填国籍或权限。`activeInstances()` 是可信服务器插件的管理查询，GUI 应使用 `availableInstances(playerId)` 避免泄露其他国家或个人实例。
+`ChronicleService` 暴露异步 `submit`、`join`、`choose`、`instances`、`activeInstances`、`availableInstances`、`availableChoices`、`history`、`questGateState(instanceId,playerId)`、`npc(playerId,npcId)`、`fate(playerId)` 和 `describe(template,publicFacts)`。运行时会自己收集在线玩家的当前权威快照；集成方不能通过该 API 注入自填国籍或权限。`activeInstances()` 是可信服务器插件的管理查询，GUI 应使用 `storyPage` 或 `availableInstances(playerId)` 避免泄露其他国家或个人实例。
 
 `questGateState` 是只读投影，要求玩家已是该实例成员并仍保持实例记录的原国籍。个人模式只显示本人任务门槛；国家模式只向同一原国家成员显示。它不接受完成回执，不执行任务、不作出剧情选择，也不代表国家席位。配置使用 `quest.await` 前需有可信的 `QuestEvidenceProvider`，不能将 `quest.accept` 投递成功或目标达标解释为完成。完整 provider/run/completion 合同与 StarCore 部署边界见 [QUEST-GATES.md](QUEST-GATES.md)。
 

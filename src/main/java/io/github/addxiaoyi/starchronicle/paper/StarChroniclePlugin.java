@@ -152,7 +152,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             observations=new ObservationJournal(store,Clock.systemUTC());
             snapshotCollector=new SnapshotCollector(gateway,()->getServer().getServicesManager().getRegistrations(SnapshotProvider.class).stream().map(r->r.getProvider()).toList());
             textService=new TextService(Duration.ofMillis(Math.max(1,Math.min(30000,getConfig().getLong("text-timeout-ms",1500)))));
-            permissions=permissionNodes(withPendingDefinitions(definitions),engine.activeInstances());
+            permissions=permissionNodes(definitions);
             worker=new StateWorker(getConfig().getInt("worker-queue-capacity",2048),()->{try{explorationIngress.drain(firstVisits::observe,Integer.MAX_VALUE);}catch(RuntimeException error){getLogger().severe("Uncommitted exploration arrivals could not be saved on shutdown: "+error.getMessage());}finally{engine.close();}});
             running.set(true);
             questGates=new QuestGateDriver(engine,new QuestGateDriver.StateDispatcher(){
@@ -328,16 +328,10 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         })).exceptionally(error->{if(running.get())getLogger().warning("History scan retained pending evidence: "+root(error).getMessage());return null;});
     }
     private static List<PlayerContext> audience(WorldEvent event,List<PlayerContext> contexts){return contexts.stream().filter(c->event.globalAudience()||event.participants().contains(c.playerId())||(!c.nationId().isBlank()&&event.nations().contains(c.nationId()))).toList();}
-    private List<StoryDefinition> withPendingDefinitions(List<StoryDefinition> configured){List<StoryDefinition> all=new ArrayList<>(configured);all.addAll(engine.pendingDefinitions());return all;}
-    private static Set<String> permissionNodes(List<StoryDefinition> configured,List<StoryInstance> pinned) {
+    private Set<String> permissionNodes(List<StoryDefinition> configured) {
         Set<String> nodes=new HashSet<>(Set.of("starchronicle.use","starchronicle.admin",io.github.addxiaoyi.starchronicle.api.aid.AidRequest.PERMISSION,
                 "starcore.resource","starcore.nation.ally.add","starcore.nation.create","starcore.nation.war.declare"));
-        List<StoryDefinition> all=new ArrayList<>(configured);pinned.forEach(i->all.add(i.definition()));
-        for(StoryDefinition d:all)for(StoryDefinition.Node n:d.nodes().values()) {
-            for(StoryDefinition.Effect e:n.effects())if(e.permission()!=null&&!e.permission().isBlank())nodes.add(e.permission());
-            for(StoryDefinition.Choice c:n.choices().values()) {if(c.permission()!=null&&!c.permission().isBlank())nodes.add(c.permission());for(StoryDefinition.Effect e:c.effects())if(e.permission()!=null&&!e.permission().isBlank())nodes.add(e.permission());}
-        }
-        return Set.copyOf(nodes);
+        nodes.addAll(engine.permissionNodes(configured));return Set.copyOf(nodes);
     }
     /** The consumer runs only on the entity scheduler, and receives no offline player. */
     void present(UUID id,Consumer<Player> display) {if(!running.get())return;tasks.playerOwned(id,p->{if(running.get()&&p.isOnline()){gateway.refreshContext(p,permissions);display.accept(p);}},()->{});}
@@ -625,7 +619,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     @EventHandler public void quit(PlayerQuitEvent event) {tasks.untrack(event.getPlayer());}
     private void npcInteraction(UUID player,String npcId) {
         String logical=npcLedger.catalog().profiles().containsKey(npcId)?npcId:npcLedger.catalog().resolveExternal(npcId).orElse(null);
-        if(logical==null){menus.stories(player,0);return;}
+        if(logical==null){menus.stories(player);return;}
         snapshot(player).thenCompose(context->{
             WorldEvent event=new WorldEvent("npc:"+UUID.randomUUID(),"NPC_INTERACT",Instant.now(),Set.of(player),context.nationId().isBlank()?Set.of():Set.of(context.nationId()),Map.of("npc.id",logical,"npc.binding",npcId),"NPC_BRIDGE","Observed uncancelled interaction; player="+player+"; npc="+logical+"; binding="+npcId);
             return service.submit(event);
@@ -744,7 +738,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             NationalAidService aid=nationalAid;if(aid==null)return CompletableFuture.failedFuture(new IllegalStateException("National aid is disabled"));
             return snapshot(request.actorId()).thenCombine(snapshots(),(actor,contexts)->aid.reconcile(request,actor,contexts)).thenCompose(Function.identity());
         }
-        @Override public CompletionStage<HistoricalEvaluationReport> evaluateHistorical(String source,String story,String version){return query(()->{var report=engine.evaluateHistorical(source,story,version);permissions=permissionNodes(withPendingDefinitions(definitions),engine.activeInstances());return report;});}
+        @Override public CompletionStage<HistoricalEvaluationReport> evaluateHistorical(String source,String story,String version){return query(()->{var report=engine.evaluateHistorical(source,story,version);permissions=permissionNodes(definitions);return report;});}
         @Override public CompletionStage<ProcessReport> choose(String id,UUID player,String choice){return snapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.choose(id,player,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> choose(String id,UUID player,String expected,String choice){return snapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.choose(id,player,expected,choice,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> nationalVote(String id,UUID player,String expected,long revision,String choice){return nationalSnapshot(player).thenCompose(context->query(()->{ProcessReport result=engine.nationalVote(id,player,expected,revision,choice,context);deliverPending();return result;}));}
@@ -766,6 +760,9 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             return nationalSnapshot(player).thenCompose(context->query(()->engine.exitMember(id,expectedNode,context)));
         }
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player);}));}
+        @Override public CompletionStage<List<StoryInstance>> instances(UUID player,int page,int size){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player,page,size);}));}
+        @Override public CompletionStage<Optional<StoryInstance>> instance(UUID player,String id){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instance(player,id);}));}
+        @Override public CompletionStage<StoryPage> storyPage(UUID player,String afterId,int size){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.storyPage(context,afterId,size);}));}
         @Override public CompletionStage<List<StoryInstance>> activeInstances(){return query(engine::activeInstances);}
         @Override public CompletionStage<List<StoryInstance>> availableInstances(UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableInstances(context)));}
         @Override public CompletionStage<Map<String,StoryDefinition.Choice>> availableChoices(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableChoices(id,context)));}
@@ -791,7 +788,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         try {
             String action=args.length==0?"stories":args[0].toLowerCase(Locale.ROOT);
             switch(action) {
-                case "stories"->menus.stories(id,0);
+                case "stories"->menus.stories(id);
                 case "quest-reconcile","quest-retry"->{
                     if(args.length!=3)throw new IllegalArgumentException("用法: /chronicle "+action+" <门槛ID> <当前轮次>");
                     int attempt=Integer.parseInt(args[2]);if(attempt<1)throw new IllegalArgumentException("轮次从 1 开始");
@@ -823,14 +820,14 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                     else if(args.length>1)page=Integer.parseInt(args[1])-1;
                     menus.history(id,nation,person,page);
                 }
-                case "join"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle join <实例ID>");service.join(args[1],id).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id,0);}});}
+                case "join"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle join <实例ID>");service.join(args[1],id).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id);}});}
                 case "membership"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle membership <实例ID>");menus.membership(id,args[1]);}
                 case "reviews"->{if(args.length!=1)throw new IllegalArgumentException("用法: /chronicle reviews");service.memberReviews(id,50).whenComplete((reviews,error)->{
                     if(error!=null)failure(id,error);else message(id,reviews.isEmpty()?"暂无成员复核记录。":reviews.stream().map(r->r.instanceId()+" · "+r.status()+" · "+r.reason()).collect(java.util.stream.Collectors.joining("\n")));
                 });}
                 case "revalidate"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle revalidate <实例ID>");service.revalidateMember(args[1],id).whenComplete((report,error)->{if(error!=null)failure(id,error);else message(id,report.message());});}
-                case "leave"->{if(args.length!=3)throw new IllegalArgumentException("用法: /chronicle leave <实例ID> <当前节点ID>");service.exitMember(args[1],id,args[2]).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id,0);}});}
-                case "choose"->{if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle choose <实例ID> <当前节点ID> <选项ID>");service.choose(args[1],id,args[2],args[3]).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id,0);}});}
+                case "leave"->{if(args.length!=3)throw new IllegalArgumentException("用法: /chronicle leave <实例ID> <当前节点ID>");service.exitMember(args[1],id,args[2]).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id);}});}
+                case "choose"->{if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle choose <实例ID> <当前节点ID> <选项ID>");service.choose(args[1],id,args[2],args[3]).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id);}});}
                 case "national"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle national <实例ID>");menus.national(id,args[1]);}
                 case "vote"->{if(args.length!=5)throw new IllegalArgumentException("用法: /chronicle vote <实例ID> <当前节点ID> <国家票修订号> <选项ID>");long revision=nationalRevision(args[3]);nationalResponse(id,args[1],service.nationalVote(args[1],id,args[2],revision,args[4]));}
                 case "withdraw"->{if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle withdraw <实例ID> <当前节点ID> <国家票修订号>");long revision=nationalRevision(args[3]);nationalResponse(id,args[1],service.withdrawNationalVote(args[1],id,args[2],revision));}
@@ -970,7 +967,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         switch(args[0].toLowerCase(Locale.ROOT)) {
             case "status"->reply.accept("StarCore="+gateway.available()+", stories="+definitions.size()+", workerQueue="+worker.getQueue().size());
             case "validate"->query(()->{var valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));var plans=EpicCampaignPlanCatalog.load(getDataFolder().toPath().resolve("epic-campaigns"));validateEpicPlans(valid,plans);engine.validate(valid,MemoryRecipeCatalog.load(memoryRecipesFile));return valid;}).whenComplete((valid,error)->reply.accept(error==null?"验证通过: "+valid.size()+" 条剧情、世界记忆配方及史诗计划（未更改运行配置或版本目录）":"验证失败: "+root(error).getMessage()));
-            case "reload"->query(()->{List<StoryDefinition> valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));var plans=EpicCampaignPlanCatalog.load(getDataFolder().toPath().resolve("epic-campaigns"));validateEpicPlans(valid,plans);Set<String> nextPermissions=permissionNodes(withPendingDefinitions(valid),engine.activeInstances());engine.reload(valid,MemoryRecipeCatalog.load(memoryRecipesFile));epicPlanCatalog=plans;permissions=nextPermissions;definitions=valid;return valid.size();}).whenComplete((count,error)->reply.accept(error==null?"已重载 "+count+" 条剧情、世界记忆配方及史诗计划；已有会期保留原计划，已有实例保留原定义与权限需求。":"重载失败，原定义保留: "+root(error).getMessage()));
+            case "reload"->query(()->{List<StoryDefinition> valid=coreContent.bind(ConfigLoader.loadWithoutDirectoryValidation(getDataFolder().toPath().resolve("stories"),gateway::hasScript,gateway::hasQuest));var plans=EpicCampaignPlanCatalog.load(getDataFolder().toPath().resolve("epic-campaigns"));validateEpicPlans(valid,plans);Set<String> nextPermissions=permissionNodes(valid);engine.reload(valid,MemoryRecipeCatalog.load(memoryRecipesFile));epicPlanCatalog=plans;permissions=nextPermissions;definitions=valid;return valid.size();}).whenComplete((count,error)->reply.accept(error==null?"已重载 "+count+" 条剧情、世界记忆配方及史诗计划；已有会期保留原计划，已有实例保留原定义与权限需求。":"重载失败，原定义保留: "+root(error).getMessage()));
             case "evaluate"->{
                 if(args.length!=4){reply.accept("用法: /chronicle evaluate <已保存事件ID> <剧情ID> <精确版本>；仅登记，不立即执行");break;}
                 service.evaluateHistorical(args[1],args[2],args[3]).whenComplete((report,error)->reply.accept(error==null?report.status()+"；新增受众种子="+report.newSeeds()+"；既有同源实例="+report.matchingInstances()+"（已完成="+report.completedInstances()+"）；"+report.message():"历史评估未登记: "+root(error).getMessage()));

@@ -64,30 +64,30 @@ class NationalMenusTest {
     }
     @Test void revisionChangeDiscardsTheFirstChoiceMapAndFetchesACoherentPage(){
         StoryInstance instance=instance("council",StoryDefinition.VoteUnit.NATION);var oldChoice=instance.definition().nodes().get("council").choices();var freshChoice=Map.of("new-option",new StoryDefinition.Choice("新选项","archive",null,"",List.of()));
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of(instance)));
+        when(service.instance(viewer,"council-1")).thenReturn(CompletableFuture.completedFuture(Optional.of(instance)));
         when(service.nationalState("council-1",viewer)).thenReturn(CompletableFuture.completedFuture(state("council",7,false,true,true)),CompletableFuture.completedFuture(state("council",8,false,true,true)),CompletableFuture.completedFuture(state("council",8,false,true,true)),CompletableFuture.completedFuture(state("council",8,false,true,true)));
         when(service.availableChoices("council-1",viewer)).thenReturn(CompletableFuture.completedFuture(oldChoice),CompletableFuture.completedFuture(freshChoice));
-        Menus.NationalPage page=Menus.nationalPage(service,viewer,"council-1",1).toCompletableFuture().join();assertEquals(8,page.state().viewerRevision());assertEquals(Set.of("new-option"),page.choices().keySet());verify(service,times(2)).instances(viewer);verify(service,times(4)).nationalState("council-1",viewer);
+        Menus.NationalPage page=Menus.nationalPage(service,viewer,"council-1",1).toCompletableFuture().join();assertEquals(8,page.state().viewerRevision());assertEquals(Set.of("new-option"),page.choices().keySet());verify(service,times(2)).instance(viewer,"council-1");verify(service,times(4)).nationalState("council-1",viewer);
     }
     @Test void changedNodeNeverCombinesNewChoicesWithOldPinnedText(){
         StoryInstance old=instance("council",StoryDefinition.VoteUnit.NATION),fresh=instance("archive",StoryDefinition.VoteUnit.NATION);
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of(old)),CompletableFuture.completedFuture(List.of(fresh)));
+        when(service.instance(viewer,"council-1")).thenReturn(CompletableFuture.completedFuture(Optional.of(old)),CompletableFuture.completedFuture(Optional.of(fresh)));
         when(service.nationalState("council-1",viewer)).thenReturn(CompletableFuture.completedFuture(state("council",7,false,true,true)),CompletableFuture.completedFuture(state("archive",0,false,true,false)),CompletableFuture.completedFuture(state("archive",0,false,true,false)),CompletableFuture.completedFuture(state("archive",0,false,true,false)));
         when(service.availableChoices("council-1",viewer)).thenReturn(CompletableFuture.completedFuture(old.definition().nodes().get("council").choices()),CompletableFuture.completedFuture(fresh.definition().nodes().get("archive").choices()));
         Menus.NationalPage page=Menus.nationalPage(service,viewer,"council-1",1).toCompletableFuture().join();assertEquals("archive",page.instance().node());assertEquals("archive",page.state().nodeId());assertEquals(Set.of("read"),page.choices().keySet());
     }
     @Test void unjoinedViewerCannotInspectAnArbitraryInstance(){
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of()));
-        CompletionException error=assertThrows(CompletionException.class,()->Menus.nationalPage(service,viewer,"unknown",0).toCompletableFuture().join());assertInstanceOf(SecurityException.class,error.getCause());verify(service).instances(viewer);verifyNoMoreInteractions(service);
+        when(service.instance(viewer,"unknown")).thenReturn(CompletableFuture.completedFuture(Optional.empty()));
+        CompletionException error=assertThrows(CompletionException.class,()->Menus.nationalPage(service,viewer,"unknown",0).toCompletableFuture().join());assertInstanceOf(SecurityException.class,error.getCause());verify(service).instance(viewer,"unknown");verifyNoMoreInteractions(service);
     }
     @Test void joinedNonRepresentativeCanReadRecordedBallotsWithoutRequestingChoices(){
         StoryInstance instance=instance("council",StoryDefinition.VoteUnit.NATION);NationalVoteState spectator=new NationalVoteState("council-1","council",2,"",false,"nation-a",7,false,false,false,"not holder",Map.of("aid",1L),List.of(new NationalVoteState.Ballot("nation-b",3,"aid","RECORDED",UUID.randomUUID(),Instant.EPOCH,"native")));
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of(instance)));when(service.nationalState("council-1",viewer)).thenReturn(CompletableFuture.completedFuture(spectator));
+        when(service.instance(viewer,"council-1")).thenReturn(CompletableFuture.completedFuture(Optional.of(instance)));when(service.nationalState("council-1",viewer)).thenReturn(CompletableFuture.completedFuture(spectator));
         Menus.NationalPage page=Menus.nationalPage(service,viewer,"council-1",0).toCompletableFuture().join();assertEquals(spectator,page.state());assertTrue(page.choices().isEmpty());assertEquals(1,page.state().ballots().size());verify(service,never()).availableChoices(anyString(),any(UUID.class));verify(service,never()).nationalVote(anyString(),any(UUID.class),anyString(),anyLong(),anyString());
     }
     @Test void personalVotingIsNeverSentToTheNationalInterface(){
-        when(service.instances(viewer)).thenReturn(CompletableFuture.completedFuture(List.of(instance("council",StoryDefinition.VoteUnit.PLAYER))));
-        CompletionException error=assertThrows(CompletionException.class,()->Menus.nationalPage(service,viewer,"council-1",0).toCompletableFuture().join());assertInstanceOf(IllegalArgumentException.class,error.getCause());verify(service).instances(viewer);verifyNoMoreInteractions(service);
+        when(service.instance(viewer,"council-1")).thenReturn(CompletableFuture.completedFuture(Optional.of(instance("council",StoryDefinition.VoteUnit.PLAYER))));
+        CompletionException error=assertThrows(CompletionException.class,()->Menus.nationalPage(service,viewer,"council-1",0).toCompletableFuture().join());assertInstanceOf(IllegalArgumentException.class,error.getCause());verify(service).instance(viewer,"council-1");verifyNoMoreInteractions(service);
     }
     @Test void differentInstanceOrNationalityCannotBeMixedIntoAPage(){
         StoryInstance instance=instance("council",StoryDefinition.VoteUnit.NATION);NationalVoteState before=state("council",7,false,true,true);

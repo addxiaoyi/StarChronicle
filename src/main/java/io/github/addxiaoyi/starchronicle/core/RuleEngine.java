@@ -328,18 +328,35 @@ public final class RuleEngine implements AutoCloseable {
             observeMembers(c, unique.values());
             List<PlayerContext> current=List.copyOf(unique.values());Set<String> changed=drainTriggers(c,current,null);
             Set<String> scopes=new HashSet<>(Set.of("world"));for(var ctx:current){scopes.add("player:"+ctx.playerId());if(!ctx.nationId().isBlank())scopes.add("nation:"+ctx.nationId());}
-            String marks=String.join(",",Collections.nCopies(scopes.size(),"?"));List<StoryInstance> active=new ArrayList<>();
-            try(var s=c.prepareStatement("SELECT json FROM instances WHERE completed=0 AND scope IN ("+marks+") ORDER BY id")){int p=1;for(String key:scopes)s.setString(p++,key);try(var r=s.executeQuery()){while(r.next())active.add(decode(r.getString(1),StoryInstance.class));}}
-            for(StoryInstance instance:active) {
+            visitActive(c,null,scopes,instance->{
                 WorldEvent origin=event(c,instance.sourceEventId());
                 for(var ctx:current)if(!instance.contains(ctx.playerId())&&audience(origin,ctx)&&Objects.equals(instance.scopeKey(),scope(instance.definition(),ctx))&&eligible(c,instance,ctx,origin)){
                     instance=addMember(c,instance,ctx,origin);changed.add(instance.id());
                 }
-            }
+            });
             return new ProcessReport(false,List.copyOf(changed),"已恢复持久化剧情触发与相关参与者");
         });
     }
     public List<StoryDefinition> pendingDefinitions(){return transaction(c->{List<StoryDefinition> result=new ArrayList<>();try(var s=c.createStatement();var r=s.executeQuery("SELECT DISTINCT story_json FROM story_triggers")){while(r.next())result.add(decode(r.getString(1),StoryDefinition.class));}return List.copyOf(result);});}
+    /** Retain only unique permission strings, not every active or deferred pinned graph. */
+    public Set<String> permissionNodes(Collection<StoryDefinition> configured) {
+        Objects.requireNonNull(configured);return transaction(c->{
+            Set<String> result=new HashSet<>();configured.forEach(d->permissions(d,result));
+            try(var s=c.createStatement();var r=s.executeQuery("SELECT json_extract(json,'$.definition') FROM instances WHERE completed=0 UNION SELECT story_json FROM story_triggers")) {
+                while(r.next())permissions(decode(r.getString(1),StoryDefinition.class),result);
+            }
+            return Set.copyOf(result);
+        });
+    }
+    private static void permissions(StoryDefinition d,Set<String> result) {
+        for(var node:d.nodes().values()) {
+            for(var e:node.effects())if(e.permission()!=null&&!e.permission().isBlank())result.add(e.permission());
+            for(var choice:node.choices().values()) {
+                if(choice.permission()!=null&&!choice.permission().isBlank())result.add(choice.permission());
+                for(var e:choice.effects())if(e.permission()!=null&&!e.permission().isBlank())result.add(e.permission());
+            }
+        }
+    }
     public long pendingTriggerCount(){return transaction(c->{try(var s=c.createStatement();var r=s.executeQuery("SELECT COUNT(*) FROM story_triggers")){r.next();return r.getLong(1);}});}
     private boolean eligible(Connection c,StoryInstance instance,PlayerContext context,WorldEvent origin)throws Exception {return test(instance.definition().condition(),facts(c,context,origin,instance))&&permitted(instance.definition().nodes().get(instance.node()).effects(),context);}
     private Set<String> drainTriggers(Connection c,List<PlayerContext> contexts,String onlyEvent)throws Exception {
@@ -482,11 +499,12 @@ public final class RuleEngine implements AutoCloseable {
         Map<UUID, PlayerContext> current = new HashMap<>();
         for (var context : contexts) if (current.put(context.playerId(), context) != null)
             throw new IllegalArgumentException("Duplicate member snapshot");
-        for (var instance : allInstances(c, true)) for (var member : instance.members().entrySet()) {
+        if(current.isEmpty())return;
+        visitActive(c,current.keySet(),null,instance->{for (var member : instance.members().entrySet()) {
             var context = current.get(member.getKey());
             if (context != null && !member.getValue().equals(context.nationId()))
                 pendingMember(c, require(c, instance.id()), member.getKey(), context.nationId(), "CURRENT_NATION_CHANGED");
-        }
+        }});
     }
 
     private void pendingMember(Connection c, StoryInstance instance, UUID player, String observed, String reason) throws Exception {
@@ -613,15 +631,14 @@ public final class RuleEngine implements AutoCloseable {
         Objects.requireNonNull(currentNationIds);
         Set<String> current = Set.copyOf(currentNationIds);
         return transaction(c -> {
-            List<StoryInstance> active = allInstances(c, true);
-            int changed = 0; Instant now = clock.instant();
-            for (StoryInstance instance : active) for (var member : instance.members().entrySet()) {
+            int[] changed = {0};
+            visitActive(c,null,null,instance->{for (var member : instance.members().entrySet()) {
                 if (!member.getValue().isBlank() && !current.contains(member.getValue())) {
                     pendingMember(c, require(c, instance.id()), member.getKey(), "", "ORIGINAL_NATION_MISSING_FROM_COMPLETE_SNAPSHOT");
-                    changed++;
+                    changed[0]++;
                 }
-            }
-            return changed;
+            }});
+            return changed[0];
         });
     }
 
@@ -819,18 +836,81 @@ public final class RuleEngine implements AutoCloseable {
         return facts;
     }
 
-    public List<StoryInstance> instances(UUID player){return transaction(c->allInstances(c,false).stream().filter(i->i.contains(player)).toList());}
+    /** Complete compatibility view; callers displaying a page should use the bounded overload. */
+    public List<StoryInstance> instances(UUID player){Objects.requireNonNull(player);return transaction(c->memberInstances(c,player,null,null));}
+    public List<StoryInstance> instances(UUID player,int page,int size){
+        Objects.requireNonNull(player);pageBounds(page,size);return transaction(c->memberInstances(c,player,page,size));
+    }
+    /** Read one original snapshot and recheck actual membership; the index grants no access. */
+    public Optional<StoryInstance> instance(UUID player,String instanceId){
+        Objects.requireNonNull(player);Objects.requireNonNull(instanceId);
+        return transaction(c->{try(var s=c.prepareStatement("SELECT json FROM instances WHERE id=?")) {
+            s.setString(1,instanceId);try(var r=s.executeQuery()){if(!r.next())return Optional.empty();var i=decode(r.getString(1),StoryInstance.class);return i.contains(player)?Optional.of(i):Optional.empty();}
+        }});
+    }
     public List<StoryInstance> activeInstances(){return transaction(c->allInstances(c,true));}
     public List<StoryInstance> availableInstances(PlayerContext context){return transaction(c->{
         List<StoryInstance> visible=new ArrayList<>();
-        for(var instance:allInstances(c,true)) {
+        for(var instance:visibleCandidates(c,context)) {
             if(instance.contains(context.playerId())) {visible.add(instance);continue;}
             if(instance.definition().scope()==StoryDefinition.Scope.PLAYER)continue;
             if(instance.definition().scope()==StoryDefinition.Scope.NATION&&!instance.scopeKey().equals("nation:"+context.nationId()))continue;
-            if(test(instance.definition().condition(),facts(c,context,event(c,instance.sourceEventId()),instance)))visible.add(instance);
+            if(visibleCondition(c,context,instance))visible.add(instance);
         }
         return List.copyOf(visible);
     });}
+
+    /** Bound both returned graphs and conditional candidates, including pages with no matches.
+     * Cursor is the last examined ID; it is not an authority token or a database snapshot. */
+    public StoryPage storyPage(PlayerContext context,String afterId,int size) {
+        Objects.requireNonNull(context);if(size<1||size>100||afterId!=null&&(afterId.isBlank()||afterId.length()>512))throw new IllegalArgumentException("Invalid story page");
+        return transaction(c->{
+            List<StoryInstance> visible=new ArrayList<>();String last=null;int examined=0;
+            String sql="SELECT i.json FROM instances i JOIN (SELECT instance_id AS id FROM instance_members WHERE player_id=? UNION "+
+                    "SELECT id FROM instances WHERE completed=0 AND scope IN ('world',?)) candidates ON candidates.id=i.id "+
+                    "WHERE i.id>? ORDER BY i.id LIMIT 257";
+            try(var s=c.prepareStatement(sql)){s.setString(1,context.playerId().toString());s.setString(2,"nation:"+context.nationId());s.setString(3,afterId==null?"":afterId);
+                try(var r=s.executeQuery()){
+                    while(r.next()) {
+                        if(examined==256||visible.size()==size)return new StoryPage(visible,last);
+                        var i=decode(r.getString(1),StoryInstance.class);last=i.id();examined++;
+                        if(i.contains(context.playerId())||!i.completed()&&i.definition().scope()!=StoryDefinition.Scope.PLAYER
+                                &&(i.definition().scope()==StoryDefinition.Scope.WORLD||i.scopeKey().equals("nation:"+context.nationId()))
+                                &&visibleCondition(c,context,i))visible.add(i);
+                    }
+                }
+            }
+            return new StoryPage(visible,null);
+        });
+    }
+
+    private boolean visibleCondition(Connection c,PlayerContext context,StoryInstance instance)throws Exception {
+        WorldEvent source=event(c,instance.sourceEventId()); // Still require original source evidence.
+        var condition=instance.definition().condition();
+        return condition==null||test(condition,facts(c,context,source,instance));
+    }
+
+    private static void pageBounds(int page,int size){if(page<0||page>1_000_000||size<1||size>100)throw new IllegalArgumentException("Invalid instance page");}
+    private static List<StoryInstance> memberInstances(Connection c,UUID player,Integer page,Integer size)throws SQLException {
+        List<StoryInstance> result=new ArrayList<>();
+        String sql="SELECT i.json FROM instance_members m JOIN instances i ON i.id=m.instance_id WHERE m.player_id=? ORDER BY i.updated DESC,i.id"+(page==null?"":" LIMIT ? OFFSET ?");
+        try(var s=c.prepareStatement(sql)) {
+            s.setString(1,player.toString());if(page!=null){s.setInt(2,size);s.setLong(3,(long)page*size);}
+            try(var r=s.executeQuery()){while(r.next()){var i=decode(r.getString(1),StoryInstance.class);if(i.contains(player))result.add(i);}}
+        }
+        return List.copyOf(result);
+    }
+    private static List<StoryInstance> visibleCandidates(Connection c,PlayerContext context)throws SQLException {
+        // UNION selects only IDs first, so unrelated personal/national graphs are never decoded.
+        String sql="SELECT i.json FROM instances i JOIN ("+
+                "SELECT instance_id AS id FROM instance_members WHERE player_id=? UNION "+
+                "SELECT id FROM instances WHERE completed=0 AND scope IN ('world',?)) candidates ON candidates.id=i.id "+
+                "WHERE i.completed=0 ORDER BY i.updated DESC,i.id";
+        List<StoryInstance> result=new ArrayList<>();
+        try(var s=c.prepareStatement(sql)){s.setString(1,context.playerId().toString());s.setString(2,"nation:"+context.nationId());
+            try(var r=s.executeQuery()){while(r.next())result.add(decode(r.getString(1),StoryInstance.class));}}
+        return result;
+    }
     public Map<String,StoryDefinition.Choice> availableChoices(String instanceId,PlayerContext context){
         observeMemberNation(instanceId, context);
         boolean national=transaction(c->require(c,instanceId).definition().voteUnit()==StoryDefinition.VoteUnit.NATION);
@@ -1053,6 +1133,19 @@ public final class RuleEngine implements AutoCloseable {
     public boolean acknowledgeUnknown(String id){return transaction(c->{try(var s=c.prepareStatement("UPDATE outcomes SET status='DONE' WHERE id=? AND status='UNKNOWN'")){s.setString(1,id);return s.executeUpdate()==1;}});}
 
     private static List<StoryInstance> allInstances(Connection c,boolean active)throws Exception {List<StoryInstance> result=new ArrayList<>();try(var s=c.prepareStatement("SELECT json FROM instances"+(active?" WHERE completed=0":"")+" ORDER BY updated DESC,id");var r=s.executeQuery()){while(r.next())result.add(decode(r.getString(1),StoryInstance.class));}return List.copyOf(result);}
+    @FunctionalInterface private interface InstanceWork {void accept(StoryInstance instance)throws Exception;}
+    /** Read a bounded ID batch before mutating snapshots. No open scan observes its own writes. */
+    private static void visitActive(Connection c,Set<UUID> players,Set<String> scopes,InstanceWork work)throws Exception {
+        String after="",sql="SELECT json FROM instances WHERE completed=0 AND id>?"+
+                (players==null?"":" AND id IN (SELECT instance_id FROM instance_members WHERE player_id IN (SELECT value FROM json_each(?)))")+
+                (scopes==null?"":" AND scope IN (SELECT value FROM json_each(?))")+" ORDER BY id LIMIT 64";
+        while(true) {
+            List<StoryInstance> batch=new ArrayList<>();
+            try(var s=c.prepareStatement(sql)){s.setString(1,after);int parameter=2;if(players!=null)s.setString(parameter++,json(players));if(scopes!=null)s.setString(parameter,json(scopes));
+                try(var r=s.executeQuery()){while(r.next())batch.add(decode(r.getString(1),StoryInstance.class));}}
+            if(batch.isEmpty())return;after=batch.getLast().id();for(var i:batch)work.accept(i);
+        }
+    }
     private static StoryInstance require(Connection c,String id)throws Exception {try(var s=c.prepareStatement("SELECT json FROM instances WHERE id=?")){s.setString(1,id);try(var r=s.executeQuery()){if(!r.next())throw new IllegalArgumentException("不存在的剧情实例");return decode(r.getString(1),StoryInstance.class);}}}
     private static StoryInstance findActive(Connection c,String story,String scope)throws Exception {try(var s=c.prepareStatement("SELECT json FROM instances WHERE story=? AND scope=? AND completed=0 LIMIT 1")){s.setString(1,story);s.setString(2,scope);try(var r=s.executeQuery()){return r.next()?decode(r.getString(1),StoryInstance.class):null;}}}
     private boolean cooling(Connection c,StoryDefinition rule,String scope)throws Exception {try(var s=c.prepareStatement("SELECT updated FROM instances WHERE story=? AND scope=? ORDER BY updated DESC LIMIT 1")){s.setString(1,rule.id());s.setString(2,scope);try(var r=s.executeQuery()){return r.next()&&Instant.parse(r.getString(1)).plusSeconds(rule.cooldownSeconds()).isAfter(clock.instant());}}}

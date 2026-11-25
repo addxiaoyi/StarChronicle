@@ -61,29 +61,29 @@ public final class DefinitionCatalog {
     /** Schema 5 adds V1 evidence -> V2 semantics links without updating original JSON,
      * fingerprint, provenance or time. A failed raw hash aborts before decoding. */
     public static int migrateCanonicalV2(Connection connection)throws SQLException {
-        inTransaction(connection);List<Raw> originals=rawRows(connection);int added=0;
-        for(Raw raw:originals) {
+        inTransaction(connection);int[] added={0};
+        eachRaw(connection,raw->{
             int format=raw.format()==null?DefinitionCanonicalCodec.V1:raw.format();
             Entry entry=verified(raw,format);putFormat(connection,entry.key(),entry.fingerprint(),format);
             if(format==DefinitionCanonicalCodec.V1) {
                 String canonical=DefinitionCanonicalCodec.encodeV2(entry.definition()),fingerprint=DefinitionCanonicalCodec.sha256(canonical);
                 try(var s=connection.prepareStatement("INSERT OR IGNORE INTO story_definition_upgrades(story,version,from_fingerprint,from_canonical_version,to_canonical_version,to_fingerprint,json,algorithm) VALUES(?,?,?,1,2,?,?,?)")) {
-                    s.setString(1,entry.key().storyId());s.setString(2,entry.key().version());s.setString(3,entry.fingerprint());s.setString(4,fingerprint);s.setString(5,canonical);s.setString(6,DefinitionCanonicalCodec.V1_TO_V2);added+=s.executeUpdate();
+                    s.setString(1,entry.key().storyId());s.setString(2,entry.key().version());s.setString(3,entry.fingerprint());s.setString(4,fingerprint);s.setString(5,canonical);s.setString(6,DefinitionCanonicalCodec.V1_TO_V2);added[0]+=s.executeUpdate();
                 }
                 verifyUpgrade(connection,entry);
             }else noUpgrade(connection,entry);
-        }
-        return added;
+        });
+        return added[0];
     }
 
     public static DefinitionCatalog read(Connection connection)throws SQLException {
         inTransaction(connection);Map<Key,Map<String,Entry>> variants=new TreeMap<>(Comparator.comparing(Key::storyId).thenComparing(Key::version));List<Entry> evidence=new ArrayList<>();
-        for(Raw raw:rawRows(connection)) {
+        eachRaw(connection,raw->{
             if(raw.format()==null)throw new IllegalStateException("Missing definition canonical format: "+raw.story()+"/"+raw.version());
             Entry entry=verified(raw,raw.format());if(entry.canonicalVersion()==DefinitionCanonicalCodec.V1)verifyUpgrade(connection,entry);else noUpgrade(connection,entry);
             evidence.add(entry);Map<String,Entry> byFingerprint=variants.computeIfAbsent(entry.key(),ignored->new TreeMap<>());
             byFingerprint.merge(entry.semanticFingerprint(),entry,(a,b)->Comparator.comparing(Entry::firstSeen).thenComparing(Entry::fingerprint).compare(a,b)<=0?a:b);
-        }
+        });
         Map<Key,List<Entry>> result=new LinkedHashMap<>();variants.forEach((key,value)->result.put(key,List.copyOf(value.values())));return new DefinitionCatalog(result,evidence);
     }
 
@@ -108,24 +108,27 @@ public final class DefinitionCatalog {
      * produces the same original archive rows as 2/3 -> 4 -> 5. No snapshot is edited.
      * Run this before migrateCanonicalV2 in the enclosing schema transaction. */
     public static int migrateSnapshots(Connection connection)throws SQLException {
-        inTransaction(connection);List<Snapshot> snapshots=new ArrayList<>();
+        inTransaction(connection);int added=0;
         try(var s=connection.createStatement();var r=s.executeQuery("SELECT id,story,scope,completed,json FROM instances ORDER BY id")) {
             while(r.next()) {
                 String payload=r.getString("json");StoryInstance instance=SqliteStore.decode(payload,StoryInstance.class);
                 StoryDefinition definition=DefinitionCanonicalCodec.decode(DefinitionCanonicalCodec.V1,DefinitionCanonicalCodec.legacyDefinitionFromInstance(payload));
                 if(!instance.id().equals(r.getString("id"))||!definition.equals(instance.definition())||!definition.id().equals(r.getString("story"))||!instance.scopeKey().equals(r.getString("scope"))||instance.completed()!=(r.getInt("completed")!=0))
                     throw new IllegalStateException("Definition source instance metadata is inconsistent: "+r.getString("id"));
-                snapshots.add(new Snapshot(definition,"LEGACY_INSTANCE "+instance.id()));
+                added+=archiveLegacy(connection,definition,"LEGACY_INSTANCE "+instance.id());
             }
         }
         try(var s=connection.createStatement();var r=s.executeQuery("SELECT id,story_json FROM story_triggers ORDER BY id")) {
-            while(r.next())snapshots.add(new Snapshot(DefinitionCanonicalCodec.decode(DefinitionCanonicalCodec.V1,r.getString("story_json")),"PENDING_TRIGGER "+r.getString("id")));
+            while(r.next())added+=archiveLegacy(connection,DefinitionCanonicalCodec.decode(DefinitionCanonicalCodec.V1,r.getString("story_json")),"PENDING_TRIGGER "+r.getString("id"));
         }
-        int added=0;for(Snapshot snapshot:snapshots) {
-            String payload=DefinitionCanonicalCodec.encodeV1(snapshot.definition()),fingerprint=DefinitionCanonicalCodec.sha256(payload);Key key=new Key(snapshot.definition().id(),snapshot.definition().version());
-            added+=insertRaw(connection,key,fingerprint,payload,snapshot.provenance());Raw actual=raw(connection,key,fingerprint);
-            if(!payload.equals(actual.payload()))throw new IllegalStateException("Legacy definition payload collision: "+key);
-        }return added;
+        return added;
+    }
+
+    private static int archiveLegacy(Connection connection,StoryDefinition definition,String provenance)throws SQLException {
+        String payload=DefinitionCanonicalCodec.encodeV1(definition),fingerprint=DefinitionCanonicalCodec.sha256(payload);Key key=new Key(definition.id(),definition.version());
+        int added=insertRaw(connection,key,fingerprint,payload,provenance);Raw actual=raw(connection,key,fingerprint);
+        if(!payload.equals(actual.payload()))throw new IllegalStateException("Legacy definition payload collision: "+key);
+        return added;
     }
 
     public StoryDefinition require(String storyId,String version) {
@@ -143,10 +146,12 @@ public final class DefinitionCatalog {
         }
     }
 
-    private record Snapshot(StoryDefinition definition,String provenance){}
     private record Raw(String story,String version,String fingerprint,String payload,String provenance,String firstSeen,Integer format){}
-    private static List<Raw> rawRows(Connection connection)throws SQLException {
-        List<Raw> rows=new ArrayList<>();try(var s=connection.createStatement();var r=s.executeQuery("SELECT d.story,d.version,d.fingerprint,d.json,d.provenance,d.first_seen,f.canonical_version FROM story_definitions d LEFT JOIN story_definition_formats f ON f.story=d.story AND f.version=d.version AND f.fingerprint=d.fingerprint ORDER BY d.story,d.version,d.fingerprint")){while(r.next())rows.add(raw(r));}return rows;
+    @FunctionalInterface private interface RawConsumer {void accept(Raw row)throws SQLException;}
+    private static void eachRaw(Connection connection,RawConsumer consumer)throws SQLException {
+        // The immutable source table is ordered by its primary key. Sidecar inserts do not
+        // change that key or the scan; only this row's format/upgrade is touched by migration.
+        try(var s=connection.createStatement();var r=s.executeQuery("SELECT d.story,d.version,d.fingerprint,d.json,d.provenance,d.first_seen,f.canonical_version FROM story_definitions d LEFT JOIN story_definition_formats f ON f.story=d.story AND f.version=d.version AND f.fingerprint=d.fingerprint ORDER BY d.story,d.version,d.fingerprint")){while(r.next())consumer.accept(raw(r));}
     }
     private static Raw raw(Connection connection,Key key,String fingerprint)throws SQLException {
         try(var s=connection.prepareStatement("SELECT d.story,d.version,d.fingerprint,d.json,d.provenance,d.first_seen,f.canonical_version FROM story_definitions d LEFT JOIN story_definition_formats f ON f.story=d.story AND f.version=d.version AND f.fingerprint=d.fingerprint WHERE d.story=? AND d.version=? AND d.fingerprint=?")) {

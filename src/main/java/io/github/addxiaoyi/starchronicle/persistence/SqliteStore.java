@@ -17,7 +17,7 @@ import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    public static final int SCHEMA_VERSION=7;
+    public static final int SCHEMA_VERSION=8;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;
@@ -30,6 +30,8 @@ public final class SqliteStore implements AutoCloseable {
             opened=connection;
             try(var s=connection.createStatement()) {
                 s.execute("PRAGMA journal_mode=WAL");s.execute("PRAGMA synchronous=FULL");s.execute("PRAGMA foreign_keys=ON");s.execute("PRAGMA busy_timeout=5000");
+                // Large legacy migrations spill their sortable keys to disk, with a bounded cache.
+                s.execute("PRAGMA temp_store=FILE");s.execute("PRAGMA temp.cache_size=-2048");
                 int oldVersion;
                 try(var r=s.executeQuery("PRAGMA user_version")){oldVersion=r.next()?r.getInt(1):0;if(oldVersion>SCHEMA_VERSION) throw new IllegalStateException("Database schema newer than this plugin");}
                 connection.setAutoCommit(false);
@@ -67,6 +69,8 @@ public final class SqliteStore implements AutoCloseable {
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);
                 if(oldVersion<4)DefinitionCatalog.migrateSnapshots(connection);
                 if(oldVersion<5)DefinitionCatalog.migrateCanonicalV2(connection);
+                boolean rebuildMembership=InstanceIndex.createSchema(connection);
+                if(oldVersion<8||rebuildMembership)InstanceIndex.rebuild(connection);
                 s.execute("PRAGMA user_version="+SCHEMA_VERSION);
                 // A process may have died after a non-idempotent external call. Never replay it blindly.
                 s.execute("UPDATE outcomes SET status='UNKNOWN' WHERE status='RUNNING'");

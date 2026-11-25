@@ -83,6 +83,14 @@ public interface ChronicleService {
     /** Leave the specified active node; preserve historical evidence. Rejoining must be explicit. */
     default CompletionStage<ProcessReport> exitMember(String instanceId,UUID playerId,String expectedNode){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership exit unavailable"));}
     CompletionStage<List<StoryInstance>> instances(UUID playerId);
+    /** Bounded member history page; the full overload retains its original completeness contract. */
+    default CompletionStage<List<StoryInstance>> instances(UUID playerId,int page,int size){
+        if(page<0||page>1_000_000||size<1||size>100)return java.util.concurrent.CompletableFuture.failedFuture(new IllegalArgumentException("Invalid instance page"));
+        return instances(playerId).thenApply(items->items.stream().skip((long)page*size).limit(size).toList());
+    }
+    default CompletionStage<java.util.Optional<StoryInstance>> instance(UUID playerId,String instanceId){return instances(playerId).thenApply(items->items.stream().filter(i->i.id().equals(instanceId)&&i.contains(playerId)).findFirst());}
+    /** Member history plus eligible active shared stories. Follow nextCursor even for an empty page. */
+    default CompletionStage<StoryPage> storyPage(UUID playerId,String afterId,int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Paged story queries unavailable"));}
     CompletionStage<List<StoryInstance>> activeInstances();
     CompletionStage<List<StoryInstance>> availableInstances(UUID playerId);
     CompletionStage<Map<String,StoryDefinition.Choice>> availableChoices(String instanceId, UUID playerId);
