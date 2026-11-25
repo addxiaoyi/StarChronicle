@@ -16,7 +16,9 @@ SOURCE='starcore.nation-production.completions.v1'
 ISSUER='StarCore.NationProductionService'
 TERMS={'primary':('A',1),'pending':('A',2),'cancelled':('A',1),'old-founder':('A',1),'successor':('D',2)}
 
-def native(path,seed,players,captured,keys,completed,founder):
+def native(path,seed,players,captured,keys,completed,founder,*,terms=None,cancelled=('cancelled',)):
+    if terms is None:
+        terms={key:dict(who=who,batches=batches,recipeId='industrial_refining',inputs={'energy':batches,'mineral':3*batches},outputs={'industrial':2*batches},seconds=30*batches) for key,(who,batches) in TERMS.items()}
     with closing(connect(path)) as db:
         heads=rows(db,'select * from starcore_nation_production_head')
         check(len(heads)==1 and heads[0]['singleton']==1,'Missing production head')
@@ -35,13 +37,13 @@ def native(path,seed,players,captured,keys,completed,founder):
             check(row['event_sequence']==sequence,'Production event gap')
             run=json.loads(row['run_json']);id=run['runId'];key=next((k for k in keys if captured[k]['runId']==id),None)
             check(key is not None,'Unexpected production run')
-            who,batches=TERMS[key]
+            spec=terms[key];who,batches=spec['who'],spec['batches']
             expected=dict(format=1,runId=id,actorId=players[who],nationId=seed['A'],resourceDomain=resource_domain,
-                recipeId='industrial_refining',batches=batches,inputs={'energy':batches,'mineral':3*batches},outputs={'industrial':2*batches},
+                recipeId=spec['recipeId'],batches=batches,inputs=spec['inputs'],outputs=spec['outputs'],
                 startedAt=captured[key]['startedAt'],readyAt=captured[key]['readyAt'])
             check(run==expected and row['run_json']==compact(expected),'Frozen production terms differ')
             check({k:v for k,v in run.items() if k!='format'}==captured[key],'Observed run differs from paid SQL run')
-            check(row['run_id']==id and millis(run['readyAt'])-millis(run['startedAt'])==batches*30000,'Production duration or identity differs')
+            check(row['run_id']==id and millis(run['readyAt'])-millis(run['startedAt'])==spec['seconds']*1000,'Production duration or identity differs')
             status=row['state'];before=current.get(id)
             check(status=='RUNNING' if before is None else before=='RUNNING' and status in ('COMPLETED','CANCELLED'),'Invalid production transition')
             changed=stamp(row['changed_at']);check(row['changed_at']>=millis(run['startedAt']),'Production transition precedes start')
@@ -55,13 +57,13 @@ def native(path,seed,players,captured,keys,completed,founder):
             check(row['entry_hash']==prefix,'Production event digest mismatch');current[id]=status
         check(sequence==head['event_sequence'] and completed_sequence==head['completed_sequence']==len(completed) and prefix==head['prefix_hash'],'Production committed prefix incomplete')
         check(len(current)==len(keys) and [r['run']['runId'] for r in receipts]==[captured[k]['runId'] for k in completed],'Production run/receipt count differs')
-        for key in keys:check(current[captured[key]['runId']]==('COMPLETED' if key in completed else 'CANCELLED' if key=='cancelled' else 'RUNNING'),'Production state/restart boundary differs')
-        used=sum(TERMS[k][1] for k in keys if k!='cancelled');delivered=sum(TERMS[k][1]*2 for k in completed)
+        for key in keys:check(current[captured[key]['runId']]==('COMPLETED' if key in completed else 'CANCELLED' if key in cancelled else 'RUNNING'),'Production state/restart boundary differs')
+        used={resource:sum(terms[k]['inputs'].get(resource,0) for k in keys if k not in cancelled) for resource in ('mineral','energy')};delivered=sum(terms[k]['outputs']['industrial'] for k in completed)
         stocks={}
         for i in range(int(state['count'])):
             p=f'stockpile.{i}.';key=(state[p+'nationId'],state[p+'type']);check(key not in stocks,'Duplicate inventory entry');stocks[key]=int(state[p+'amount'])
         expected_stocks={(seed[w],'agricultural'):100 for w in 'ABC'}
-        expected_stocks.update({(seed['A'],'mineral'):100-3*used,(seed['A'],'energy'):100-used})
+        expected_stocks.update({(seed['A'],'mineral'):100-used['mineral'],(seed['A'],'energy'):100-used['energy']})
         if delivered:expected_stocks[(seed['A'],'industrial')]=delivered
         check(stocks==expected_stocks,'Production input/output conservation failed')
         check(db.execute('select count(*) from starcore_resource_transfer_receipts').fetchone()[0]==0,'Production fabricated a bilateral transfer')
@@ -83,7 +85,7 @@ def event(receipt):
     evidence=f'Native national production; authority={d}; sequence={n}; run={run["runId"]}; resource_domain={run["resourceDomain"]}; input consumption and paid run share one SQL commit; exact outputs and unique completion share one SQL commit; original initiator is frozen; no player inventory, external wallet, legacy factory attribution or extra rewards'
     return dict(id=f'starcore:nation-production:{d}:{n}',type='NATIONAL_PRODUCTION_COMMITTED',occurredAt=receipt['committedAt'],participants=[run['actorId']],nations=[run['nationId']],facts=facts,source=ISSUER,evidence=evidence)
 
-def chronicle(path,state,count):
+def chronicle(path,state,count,*,bound_empty=False):
     expected=[event(r) for r in state['receipts'][:count]];domain=state['head']['authority_domain']
     with closing(connect(path)) as db:
         check(db.execute('pragma user_version').fetchone()[0]==8,'Chronicle schema differs')
@@ -92,7 +94,7 @@ def chronicle(path,state,count):
         history=rows(db,"select * from events where type='NATIONAL_PRODUCTION_COMMITTED' or json_extract(json,'$.source')=?",(ISSUER,))
         contributions=rows(db,"select * from contributions where type='CIVILIZATION' order by id")
         check(len(ingress)==len(history)==count and len(contributions)==2*count,'Production ingress/history/contribution count differs')
-        check(cursor==([dict(source=SOURCE,authority_domain=domain,sequence=count)] if count else []),'Production source cursor differs')
+        check(cursor==([dict(source=SOURCE,authority_domain=domain,sequence=count)] if count or bound_empty else []),'Production source cursor differs')
         result=[]
         for receipt,e,inbox in zip(state['receipts'],expected,ingress):
             matches=[v for v in history if v['id']==e['id']];check(len(matches)==1,'Canonical production event missing');row=matches[0]

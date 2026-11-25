@@ -97,7 +97,13 @@ public final class NationProductionPaperFixture extends ProductionStackPaperFixt
             log("PRODUCTION_OFFLINE_BUFFERED",map("completions",1,"events",0,"contributions",0));return null;
         })));
     }
+    private CompletionStage<?> catalogCheck(boolean enabled,int maxRuns,long maxBatches,long running,long batches){return main(()->{
+        var service=service(NationProductionService.class);var c=service.capacity(uuid("A")).orElseThrow();
+        require(c.startsEnabled()==enabled&&c.maxRunningRuns()==maxRuns&&c.maxRunningBatches()==maxBatches&&c.runningRuns()==running&&c.runningBatches()==batches,"Production catalog capacity differs");
+        log("PRODUCTION_CATALOG",map("capacity",c,"recipes",service.recipes(),"maxBatches",service.recipes().stream().collect(java.util.stream.Collectors.toMap(NationProductionService.Recipe::recipeId,r->service.maxBatches(r.recipeId())))));return null;
+    });}
     @Override protected CompletionStage<?> extraAction(String action,String[] args){return switch(action){
+        case "production-catalog-check"->catalogCheck(Boolean.parseBoolean(args[1]),Integer.parseInt(args[2]),Long.parseLong(args[3]),Long.parseLong(args[4]),Long.parseLong(args[5]));
         case "production-bind"->bind();case "production-capture"->capture(args[1],args[2],Long.parseLong(args[3]));
         case "production-status"->status(args[1],args[2],args[3]);case "production-ready"->ready(args[1],args[2]);
         case "production-successor"->successor();case "production-check"->check(Integer.parseInt(args[1]));

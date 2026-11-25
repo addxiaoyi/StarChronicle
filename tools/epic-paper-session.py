@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['production-recovery','production-offline-recovery','sale-recovery','production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
+parser.add_argument('--scenario', choices=['production-catalog-first','production-catalog-second','production-catalog-third','production-recovery','production-offline-recovery','sale-recovery','production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 parser.add_argument('--interrupt-after-replay', action='store_true', help='SIGKILL the owned restored JVM, then MySQL, after completed replay; not a hardware power-loss test')
 args = parser.parse_args()
@@ -47,6 +47,9 @@ probe = socket.socket()
 probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 probe.bind(('127.0.0.1', manifest['server_port']))
 probe.close()
+# Resolve the actual client dependency before starting any game process.
+subprocess.run([str(args.node), '-e', 'require(process.argv[1])', os.environ.get('EPIC_MINEFLAYER_MODULE', 'mineflayer')],
+               cwd=run/'evidence', check=True, stdout=subprocess.DEVNULL)
 flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
 prefix = run / f'evidence/boot{args.boot}'
 if prefix.with_suffix('.server.log').exists():
@@ -342,6 +345,71 @@ def sale_scenario(phase):
     else: raise ValueError(phase)
 
 
+def production_catalog_scenario(phase):
+    if not manifest.get('production_catalog_acceptance'): raise RuntimeError('Require prepared catalog scenario')
+    server_action('stack-check');server_action('production-bind')
+    def command(cmd,contains,who='A'):
+        # Respect the server's normal spam protection during dense admin-boundary scenarios.
+        time.sleep(1.25)
+        request=json.dumps(dict(command=cmd,contains=contains),ensure_ascii=False).encode()
+        client_action('expect '+who+' '+base64.urlsafe_b64encode(request).decode().rstrip('='))
+    def identity(key):
+        rows=[json.loads(line) for line in (run/'evidence/epic-fixture.jsonl').read_text().splitlines()]
+        return next(r['data']['run']['runId'] for r in reversed(rows) if r['kind']=='PRODUCTION_RUN' and r['data']['key']==key)
+    def start(key,recipe,batches):
+        command(f'/nationproduction start {recipe} {batches}','生产已开工')
+        server_action(f'production-capture {key} A {batches}')
+    def collect(key,response='生产批次已处理'):
+        command('/nationproduction complete '+identity(key),response)
+    def capacity(enabled,runs,batches,used,used_batches):
+        server_action(f'production-catalog-check {str(enabled).lower()} {runs} {batches} {used} {used_batches}')
+    def config(variant,reload=True):
+        source=run/'fixture'/f'production-catalog-{variant}.json'
+        digest=manifest['production_catalog_acceptance']['variants_sha256'][variant]
+        if hashlib.sha256(source.read_bytes()).hexdigest()!=digest:raise RuntimeError('Frozen production catalog changed')
+        target=run/'plugins/StarCore/nation-production.json'
+        before=hashlib.sha256(target.read_bytes()).hexdigest();shutil.copy2(source,target)
+        with (run/'evidence/production-catalog-config.jsonl').open('a') as out:
+            out.write(json.dumps(dict(boot=args.boot,time=time.time(),variant=variant,before=before,after=digest))+'\n')
+        if reload:console_expect('nationproduction reload','生产配置校验失败，当前运行配置保持不变' if variant=='invalid' else '生产配置已生效')
+    if phase=='production-catalog-first':
+        command('/nationproduction reload','没有生产配置管理权限')
+        command('/nationproduction capacity','运行 0/1 个生产，占用 0/2 批')
+        command('/nationproduction capacity','需要当前国家创始人身份',who='D')
+        command('/nationproduction start custom_forge 3','请求被拒绝')
+        start('old','custom_forge',1);collect('old','尚未到领取时间');capacity(True,1,2,1,1)
+        command('/nationproduction start custom_forge 1','生产已达上限')
+        config('v2',False);console_expect('nationproduction validate','校验通过，尚未改变运行配置')
+        command('/nationproduction recipes','定制锻造');capacity(True,1,2,1,1)
+        console_expect('nationproduction reload','生产配置已生效')
+        command('/nationproduction recipes','精炼新规');capacity(True,2,2,1,1)
+        command('/nationproduction start renewed_forge 2','生产已达上限')
+        config('invalid');command('/nationproduction recipes','精炼新规');capacity(True,2,2,1,1)
+        config('disabled');command('/nationproduction start renewed_forge 1','已暂停新开工');capacity(False,1,2,1,1)
+        server_action('production-status old A RUNNING');server_action('production-check 0')
+    elif phase=='production-catalog-second':
+        capacity(False,1,2,1,1);command('/nationproduction start renewed_forge 1','已暂停新开工')
+        server_action('production-ready old A',seconds=110);collect('old');collect('old','没有重复扣除或发放');server_action('production-check 1')
+        config('v2');start('refund','renewed_forge',2)
+        command('/nationproduction cancel '+identity('refund'),'生产批次已处理')
+        command('/nationproduction cancel '+identity('refund'),'没有重复扣除或发放')
+        start('changed','renewed_forge',1);capacity(True,2,2,1,1)
+        command('/nationproduction start renewed_forge 2','生产已达上限')
+        config('v3');command('/nationproduction start renewed_forge 2','请求被拒绝')
+        server_action('production-status changed A RUNNING');capacity(True,2,3,1,1)
+        config('invalid',False);command('/nationproduction recipes','精炼再修订');server_action('production-check 1')
+    elif phase=='production-catalog-third':
+        capacity(False,16,1000,1,1);command('/nationproduction start renewed_forge 1','已暂停新开工')
+        server_action('production-ready changed A',seconds=110);collect('changed');collect('changed','没有重复扣除或发放');server_action('production-check 2')
+        config('v3');capacity(True,2,3,0,0);start('latest','renewed_forge',1)
+        server_action('production-ready latest A',seconds=110);collect('latest');collect('latest','没有重复扣除或发放');server_action('production-check 3')
+        command('/nationproduction capacity','运行 0/2 个生产，占用 0/3 批')
+        command('/chronicle contributions','生产资源 industrial')
+        command('/chronicle contributions nation me','生产资源 industrial')
+        server_action('production-status refund A CANCELLED');capacity(True,2,3,0,0)
+    else:raise ValueError(phase)
+
+
 def production_scenario(phase):
     if not manifest.get('nation_production_acceptance'): raise RuntimeError('Require prepared production scenario')
     server_action('stack-check');server_action('production-bind')
@@ -422,7 +490,9 @@ def scenario(phase):
     if manifest.get('battlefield_acceptance'):
         server_action('battle-bind')
         if phase != 'first': server_action('battle-check ended')
-    if phase.startswith('production-'):
+    if phase.startswith('production-catalog-'):
+        production_catalog_scenario(phase)
+    elif phase.startswith('production-'):
         production_scenario(phase)
     elif phase.startswith('sale-'):
         sale_scenario(phase)
