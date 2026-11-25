@@ -73,7 +73,7 @@ def inspect(run):
         check(next(r['data'] for r in rows if r['kind'] == 'CLOSED') == {'normalDisable': True}, 'Abnormal fixture shutdown')
         check(all(server_process['started_at'] <= instant(r['time']) <= server_process['exited_at'] for r in rows), 'Fixture event outside server lifetime')
         server = (evidence / f'boot{boot}.server.log').read_text(encoding='utf-8')
-        diagnostics = re.findall(r'^.*(?:ERROR\]|ERROR\]:|Failed to (?:enable|disable) STARCORE module|同步保存失败|异步保存失败|SQLITE_BUSY|startup failed|Could not pass event|Trade history source retained|History scan retained pending evidence).*$', server, re.M | re.I)
+        diagnostics = re.findall(r'^.*(?:ERROR\]|ERROR\]:|Failed to (?:enable|disable) STARCORE module|同步保存失败|异步保存失败|SQLITE_BUSY|startup failed|Could not pass event|Trade history source retained|Committed history source .* retained|History scan retained pending evidence).*$', server, re.M | re.I)
         check(not diagnostics, 'Server persistence/lifecycle diagnostic: ' + '\n'.join(diagnostics))
         check(all(word in server for word in ('Done (', 'Stopping server', 'All dimensions are saved')), 'Incomplete server startup/shutdown')
         clients = records(evidence / f'boot{boot}.clients.log')
@@ -148,9 +148,9 @@ def inspect(run):
             actual = sorted((normalized(event) for event in data['events']), key=lambda e: int(e['facts']['source.sequence']))
             check(actual == expected_events[:count], 'Live Chronicle history differs from immutable native journal')
     with closing(EPIC.connect(run / 'plugins/StarChronicle/chronicle.db')) as db:
-        cursors = [dict(r) for r in db.execute('select * from committed_history_sources')]
+        cursors = [dict(r) for r in db.execute('select * from committed_history_sources where source=?', (SOURCE,))]
         check(cursors == [dict(source=SOURCE, authority_domain=domain, sequence=5)], 'Chronicle source domain/cursor mismatch')
-        inbox = [dict(r) for r in db.execute('select * from committed_history_ingress order by sequence')]
+        inbox = [dict(r) for r in db.execute('select * from committed_history_ingress where source=? order by sequence', (SOURCE,))]
         check(len(inbox) == 5 and [r['sequence'] for r in inbox] == [1, 2, 3, 4, 5], 'Missing immutable inbox row')
         for seq, (row, expected) in enumerate(zip(inbox, expected_events), 1):
             check(row['source'] == SOURCE and row['status'] == 'ACKED' and row['event_id'] == expected['id'], 'Inbox acknowledgement or identity mismatch')

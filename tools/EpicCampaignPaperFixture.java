@@ -9,6 +9,8 @@ import dev.starcore.starcore.module.resource.TradeHistoryService;
 import dev.starcore.starcore.module.resource.model.TradeOrder;
 import dev.starcore.starcore.module.resource.model.TradeRecord;
 import dev.starcore.starcore.module.treasury.TreasuryService;
+import dev.starcore.starcore.module.technology.TechnologyService;
+import dev.starcore.starcore.module.technology.TechnologyChangeReceipt;
 import dev.starcore.starcore.module.war.WarService;
 import dev.starcore.starcore.quest.QuestService;
 import io.github.addxiaoyi.starchronicle.api.ChronicleService;
@@ -374,12 +376,62 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
             }catch(Throwable error){result.completeExceptionally(error);}return null;
         }))).exceptionally(error->{result.completeExceptionally(error);return null;});
     }
+    private String technologyKey(){return Objects.requireNonNull(getConfig().getString("technology-key"),"Technology fixture not bound");}
+    private List<Map<String,Object>> technologyReceipts(List<TechnologyChangeReceipt> changes){
+        return changes.stream().map(r->Map.<String,Object>of("domain",r.authorityDomainId().toString(),"sequence",r.sequence(),"operation",r.operationId().toString(),
+                "nation",r.nationId().toString(),"technology",r.technologyKey(),"era",r.era(),"change",r.change().name(),"committedAt",r.committedAt().toString())).toList();
+    }
+    private CompletionStage<?> technologyBind(){return main(()->{
+        var service=service(TechnologyService.class);
+        if(getConfig().getString("technology-key")==null){
+            require(service.technologyChangesAfter(0,100).isEmpty(),"Technology fixture must start with an empty journal");
+            String key=service.availableTechnologies().stream().sorted().findFirst().orElseThrow();
+            require(!service.hasTechnology(country("A"),key),"Technology fixture must start locked");
+            getConfig().set("technology-key",key);saveConfig();
+        }
+        log("TECH_BOUND",Map.of("domain",service.historyAuthorityDomainId().orElseThrow(),"nation",country("A").toString(),"technology",technologyKey()));return null;
+    });}
+    private CompletionStage<?> technologyCycle(){return main(()->{
+        var service=service(TechnologyService.class);String key=technologyKey();var nation=country("A");
+        require(service.technologyChangesAfter(0,100).isEmpty()&&!service.hasTechnology(nation,key),"Technology cycle requires original locked state");
+        require(service.unlock(nation,key),"Native unlock failed");
+        require(service.revoke(nation,key),"Native revoke failed");
+        require(service.unlock(nation,key),"Native second unlock failed");
+        log("TECH_CYCLE",Map.of("receipts",technologyReceipts(service.technologyChangesAfter(0,100)),"unlocked",service.hasTechnology(nation,key),"researchCompletionClaimed",false));return null;
+    });}
+    private CompletionStage<?> technologyRepeat(){return main(()->{
+        var service=service(TechnologyService.class);var before=service.technologyChangesAfter(0,100);
+        require(before.size()==3&&service.unlock(country("A"),technologyKey()),"Expected already unlocked technology");
+        require(before.equals(service.technologyChangesAfter(0,100)),"Repeated native unlock created a history revision");
+        log("TECH_REPEAT",Map.of("changes",3,"researchCompletionClaimed",false));return null;
+    });}
+    private CompletionStage<?> technologyRevoke(){return main(()->{
+        var service=service(TechnologyService.class);require(service.revoke(country("A"),technologyKey()),"Restarted native revoke failed");
+        log("TECH_REVOKED",Map.of("receipts",technologyReceipts(service.technologyChangesAfter(0,100)),"unlocked",service.hasTechnology(country("A"),technologyKey())));return null;
+    });}
+    private CompletionStage<?> technologyCheck(int expected){
+        CompletableFuture<Void> result=new CompletableFuture<>();technologyCheckPoll(expected,System.nanoTime()+TimeUnit.SECONDS.toNanos(30),result);return result;
+    }
+    private void technologyCheckPoll(int expected,long deadline,CompletableFuture<Void> result){
+        api.history(null,null,0,100).thenCompose(events->api.contributions(null,null,0,100).thenCompose(contributions->main(()->{
+            try {
+                var service=service(TechnologyService.class);var changes=service.technologyChangesAfter(0,100);
+                var source=events.stream().filter(e->e.source().equals("StarCore.TechnologyService")).toList();
+                if(source.size()<expected&&System.nanoTime()<deadline){getServer().getScheduler().runTaskLater(this,()->technologyCheckPoll(expected,deadline,result),2L);return null;}
+                require(changes.size()==expected&&source.size()==expected,"Technology committed history count mismatch");
+                require(contributions.isEmpty()&&source.stream().allMatch(e->e.participants().isEmpty()),"Technology fixture cannot invent contributors or researchers");
+                log("TECH_CHECK",Map.of("domain",service.historyAuthorityDomainId().orElseThrow(),"expected",expected,"events",source,
+                        "native",technologyReceipts(changes),"contributions",0,"unlocked",service.hasTechnology(country("A"),technologyKey())));result.complete(null);
+            }catch(Throwable error){result.completeExceptionally(error);}return null;
+        }))).exceptionally(error->{result.completeExceptionally(error);return null;});
+    }
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!(sender instanceof ConsoleCommandSender)||args.length==0)return false;
         String action=args[0];if(!busy.compareAndSet(false,true)){fail(action,new IllegalStateException("Previous action is still pending"));return true;}
         try {
             CompletionStage<?> work=switch(action) {
                 case "trade-write"->tradeWrite(args[1]);case "trade-dispute"->tradeDispute();case "trade-clean"->tradeClean();case "trade-check"->tradeCheck(Integer.parseInt(args[1]));
+                case "tech-bind"->technologyBind();case "tech-cycle"->technologyCycle();case "tech-repeat"->technologyRepeat();case "tech-revoke"->technologyRevoke();case "tech-check"->technologyCheck(Integer.parseInt(args[1]));
                 case "members-open"->memberOpen();case "members-move"->memberMove(args[1]);case "members-check"->memberCheck(args[1],args[2]);
                 case "seed"->seed();case "open"->open();case "task-ready"->taskReady(args[1]);case "task-complete"->taskComplete(args[1]);
                 case "preparations"->preparations();case "advance"->advanceStory();case "dungeon"->dungeonEnter(args[1]);
