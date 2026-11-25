@@ -301,7 +301,11 @@ public final class RuleEngine implements AutoCloseable {
     }
     public List<StoryDefinition> pendingDefinitions(){return transaction(c->{List<StoryDefinition> result=new ArrayList<>();try(var s=c.createStatement();var r=s.executeQuery("SELECT DISTINCT story_json FROM story_triggers")){while(r.next())result.add(decode(r.getString(1),StoryDefinition.class));}return List.copyOf(result);});}
     public long pendingTriggerCount(){return transaction(c->{try(var s=c.createStatement();var r=s.executeQuery("SELECT COUNT(*) FROM story_triggers")){r.next();return r.getLong(1);}});}
-    private boolean eligible(Connection c,StoryInstance instance,PlayerContext context,WorldEvent origin)throws Exception {return test(instance.definition().condition(),facts(c,context,origin,instance))&&permitted(instance.definition().nodes().get(instance.node()).effects(),context);}
+    private boolean eligible(Connection c,StoryInstance instance,PlayerContext context,WorldEvent origin)throws Exception {
+        var review=MemberReviewLedger.find(c,instance.id(),context.playerId());
+        if(review.isPresent()&&review.get().status()!=MemberReviewLedger.Status.APPROVED)return false;
+        return test(instance.definition().condition(),facts(c,context,origin,instance))&&permitted(instance.definition().nodes().get(instance.node()).effects(),context);
+    }
     private Set<String> drainTriggers(Connection c,List<PlayerContext> contexts,String onlyEvent)throws Exception {
         Set<String> changed=new LinkedHashSet<>();if(contexts.isEmpty())return changed;
         Set<String> seeds=audienceSeeds(contexts);List<PendingTrigger> pending=new ArrayList<>();
@@ -361,18 +365,34 @@ public final class RuleEngine implements AutoCloseable {
 
     /** Explicit opt-in to an already active shared story. Eligibility uses its original source evidence. */
     public ProcessReport join(String instanceId,PlayerContext context) {
+        Objects.requireNonNull(context);
+        var review=transaction(c->MemberReviewLedger.find(c,instanceId,context.playerId()));
+        if(review.isPresent()&&review.get().status()==MemberReviewLedger.Status.EXITED) {
+            requireMemberPermission(context);
+            return authorized(context,()->{},view->join(instanceId,context,true),false);
+        }
+        return join(instanceId,context,false);
+    }
+    private ProcessReport join(String instanceId,PlayerContext context,boolean membershipVerified) {
         return transaction(c->{
             StoryInstance instance=require(c,instanceId);
             if(instance.completed()) throw new IllegalStateException("剧情已经结束");
-            if(instance.definition().scope()==StoryDefinition.Scope.PLAYER&&!instance.contains(context.playerId())) throw new SecurityException("个人剧情不能加入");
+            var review=MemberReviewLedger.find(c,instanceId,context.playerId());
+            boolean returningOwner=membershipVerified&&instance.scopeKey().equals("player:"+context.playerId())
+                    &&review.map(r->r.status()==MemberReviewLedger.Status.EXITED).orElse(false);
+            if(instance.definition().scope()==StoryDefinition.Scope.PLAYER&&!instance.contains(context.playerId())&&!returningOwner) throw new SecurityException("个人剧情不能加入");
             if(instance.definition().scope()==StoryDefinition.Scope.NATION&&!instance.scopeKey().equals("nation:"+context.nationId())) throw new SecurityException("不属于该国家");
+            if(review.isPresent()&&review.get().status()==MemberReviewLedger.Status.EXITED) {
+                if(!membershipVerified)throw new SecurityException("退出后的重新加入需要当前权威身份，请重试");
+                if(!review.get().originalNationId().equals(context.nationId()))throw new SecurityException("重新加入须恢复原国家身份，历史归属不能改写");
+            }
             WorldEvent origin=event(c,instance.sourceEventId());
             if(!test(instance.definition().condition(),facts(c,context,origin,instance))) throw new SecurityException("不满足剧情前置条件");
             if(instance.contains(context.playerId())) {
-                MemberReviewLedger.find(c, instance.id(), context.playerId()).ifPresent(review -> {
-                    if (review.status() == MemberReviewLedger.Status.PENDING)
+                MemberReviewLedger.find(c, instance.id(), context.playerId()).ifPresent(existingReview -> {
+                    if (existingReview.status() == MemberReviewLedger.Status.PENDING)
                         throw new SecurityException("成员资格待复核，请先显式 revalidate");
-                    if (review.status() == MemberReviewLedger.Status.EXITED)
+                    if (existingReview.status() == MemberReviewLedger.Status.EXITED)
                         throw new SecurityException("成员已退出，请重新申请加入");
                 });
                 return new ProcessReport(true,List.of(instanceId),"已经加入");
@@ -384,27 +404,67 @@ public final class RuleEngine implements AutoCloseable {
 
     /** Explicitly revalidate a member after a nation change review. Historical choices remain untouched. */
     public ProcessReport revalidateMember(String instanceId, PlayerContext context) {
+        return revalidateMember(instanceId,null,context);
+    }
+    public ProcessReport revalidateMember(String instanceId,String expectedNode,PlayerContext context) {
         Objects.requireNonNull(context);
-        return transaction(c -> {
+        requireMemberPermission(context);
+        return authorized(context,()->{},view->{observeMemberNation(instanceId,context);return transaction(c -> {
             StoryInstance instance = require(c, instanceId);
             if (instance.completed()) throw new IllegalStateException("剧情已经结束");
-            MemberReviewLedger.approve(c, instance, context, clock.instant());
+            if(expectedNode!=null&&!expectedNode.equals(instance.node()))throw new IllegalStateException("剧情阶段已改变，请刷新成员状态");
+            MemberReviewLedger.approve(c, instance, context, "NATIVE_REVALIDATION; issuer="+view.issuer()+"; "+view.evidence(), clock.instant());
             return new ProcessReport(false, List.of(instanceId), "成员资格已重新核验");
-        });
+        });},false);
     }
 
     /** Exit an active instance without deleting historical choices or native receipts. */
     public ProcessReport exitMember(String instanceId, PlayerContext context) {
+        return exitMember(instanceId,null,context);
+    }
+    public ProcessReport exitMember(String instanceId,String expectedNode,PlayerContext context) {
         Objects.requireNonNull(context);
+        requireMemberPermission(context);
         return transaction(c -> {
             StoryInstance instance = require(c, instanceId);
+            if(instance.completed())throw new IllegalStateException("已完成剧情的成员属于历史记录，不能退出");
+            if(expectedNode!=null&&!expectedNode.equals(instance.node()))throw new IllegalStateException("剧情阶段已改变，请刷新成员状态");
             if (!instance.contains(context.playerId())) throw new SecurityException("请先加入剧情");
-            MemberReviewLedger.exit(c, instance, context.playerId(), "PLAYER_EXIT", clock.instant());
+            MemberReviewLedger.exit(c, instance, context.playerId(), context.nationId(), "PLAYER_EXIT", clock.instant());
             Map<UUID,String> members = new LinkedHashMap<>(instance.members()); members.remove(context.playerId());
             Map<UUID,String> votes = new LinkedHashMap<>(instance.votes()); votes.remove(context.playerId());
             save(c, new StoryInstance(instance.id(), instance.definition(), instance.scopeKey(), instance.sourceEventId(),
                     instance.node(), members, votes, instance.choices(), instance.startedAt(), clock.instant(), instance.completed()));
             return new ProcessReport(false, List.of(instanceId), "已退出剧情实例；历史选择保留");
+        });
+    }
+
+    private static void requireMemberPermission(PlayerContext context) {
+        if(!context.permitted("starchronicle.use"))throw new SecurityException("缺少剧情使用权限");
+    }
+
+    /** Project only the caller's membership; context drift becomes a pending observation. */
+    public MemberState memberState(String instanceId,PlayerContext context) {
+        requireMemberPermission(context);observeMemberNation(instanceId,context);
+        return transaction(c->{
+            StoryInstance instance=require(c,instanceId);
+            var review=MemberReviewLedger.find(c,instanceId,context.playerId());
+            if(!instance.contains(context.playerId())&&review.isEmpty())throw new SecurityException("没有该剧情的成员记录");
+            return new MemberState(instanceId,context.playerId(),instance.node(),instance.completed(),
+                    instance.members().getOrDefault(context.playerId(),review.map(MemberReviewLedger.Review::originalNationId).orElse("")),
+                    context.nationId(),review.map(r->r.status().name()).orElse("ACTIVE"),
+                    review.map(MemberReviewLedger.Review::reason).orElse(""));
+        });
+    }
+
+    public void observeMemberNations(Collection<PlayerContext> contexts) {
+        transaction(c->{
+            for(StoryInstance instance:allInstances(c,true))for(PlayerContext context:contexts) {
+                String original=instance.members().get(context.playerId());
+                if(original!=null&&!original.equals(context.nationId()))
+                    markMemberPending(c,instance,context.playerId(),context.nationId(),"CURRENT_NATION_CHANGED");
+            }
+            return null;
         });
     }
 
@@ -437,7 +497,8 @@ public final class RuleEngine implements AutoCloseable {
             var next=i.definition().nodes().get(choice.next());requirePermissions(next.effects(),context);
             Map<UUID,String> votes=new LinkedHashMap<>(i.votes());votes.put(player,choiceId);
             Map<String,String> choices=new LinkedHashMap<>(i.choices());choices.put(i.node()+"/"+player,choiceId);
-            ChoiceLedger.recordBallot(c,i,context,i.node(),choiceId,clock.instant());
+            boolean reactivated=!i.votes().containsKey(player)&&MemberReviewLedger.find(c,i.id(),player).isPresent();
+            ChoiceLedger.recordBallot(c,i,context,i.node(),choiceId,clock.instant(),reactivated);
             long count=votes.values().stream().filter(choiceId::equals).count();
             if(count<node.quorum()) {
                 save(c,new StoryInstance(i.id(),i.definition(),i.scopeKey(),i.sourceEventId(),i.node(),i.members(),votes,choices,i.startedAt(),clock.instant(),false));
@@ -515,8 +576,8 @@ public final class RuleEngine implements AutoCloseable {
         transaction(c -> {
             StoryInstance instance = require(c, instanceId);
             String original = instance.members().get(context.playerId());
-            if (original != null && !Objects.equals(original, context.nationId()))
-                MemberReviewLedger.pending(c, instance, context.playerId(), context.nationId(), "CURRENT_NATION_CHANGED", clock.instant());
+            if (!instance.completed() && original != null && !Objects.equals(original, context.nationId()))
+                markMemberPending(c, instance, context.playerId(), context.nationId(), "CURRENT_NATION_CHANGED");
             return null;
         });
     }
@@ -527,15 +588,30 @@ public final class RuleEngine implements AutoCloseable {
         Set<String> current = Set.copyOf(currentNationIds);
         return transaction(c -> {
             List<StoryInstance> active = allInstances(c, true);
-            int changed = 0; Instant now = clock.instant();
+            int changed = 0;
             for (StoryInstance instance : active) for (var member : instance.members().entrySet()) {
                 if (!member.getValue().isBlank() && !current.contains(member.getValue())) {
-                    MemberReviewLedger.pending(c, instance, member.getKey(), "", "ORIGINAL_NATION_MISSING_FROM_COMPLETE_SNAPSHOT", now);
+                    // An absent original nation does not prove that the player has no current
+                    // nation. Preserve the last observed identity so this scan cannot oscillate
+                    // with online membership observations and append two rows on every poll.
+                    String observed = MemberReviewLedger.find(c, instance.id(), member.getKey())
+                            .map(MemberReviewLedger.Review::observedNationId).orElse("");
+                    markMemberPending(c, instance, member.getKey(), observed, "ORIGINAL_NATION_MISSING_FROM_COMPLETE_SNAPSHOT");
                     changed++;
                 }
             }
             return changed;
         });
+    }
+
+    private void markMemberPending(Connection c,StoryInstance instance,UUID player,String observed,String reason)throws Exception {
+        MemberReviewLedger.pending(c,instance,player,observed,reason,clock.instant());
+        StoryInstance current=require(c,instance.id());
+        if(current.votes().containsKey(player)) {
+            Map<UUID,String> votes=new LinkedHashMap<>(current.votes());votes.remove(player);
+            save(c,new StoryInstance(current.id(),current.definition(),current.scopeKey(),current.sourceEventId(),current.node(),
+                    current.members(),votes,current.choices(),current.startedAt(),clock.instant(),current.completed()));
+        }
     }
 
     private static void nationalDefinition(StoryInstance before) {
@@ -571,6 +647,7 @@ public final class RuleEngine implements AutoCloseable {
         boolean electorate=!source.nations().isEmpty()?source.nations().contains(context.nationId()):source.globalAudience();
         boolean eligible=representative&&open&&!context.nationId().isBlank()&&Objects.equals(instance.members().get(context.playerId()),context.nationId())&&electorate
             &&(instance.definition().scope()!=StoryDefinition.Scope.NATION||instance.scopeKey().equals("nation:"+context.nationId()));
+        if(MemberReviewLedger.find(c,instance.id(),context.playerId()).map(r->r.status()!=MemberReviewLedger.Status.APPROVED).orElse(false))eligible=false;
         boolean canVote=eligible&&!visibleChoices(c,instance,context,true).isEmpty();
         boolean canWithdraw=eligible&&own.map(v->v.status().equals("ACTIVE")).orElse(false);
         String message=instance.completed()?"决议为已冻结历史；国家后续变动不会重算历史":!representative?"只读记录；国家代表资格须由原生权威服务核验":"一国一席；显示已记录票数，提交时会重新核验各国存续与席位修订";
@@ -582,9 +659,12 @@ public final class RuleEngine implements AutoCloseable {
         return authorized(context,()->{},operation);
     }
     private <T>T authorized(PlayerContext context,Runnable callbackEntered,NationalVoteAuthority.Authorized<T> operation) {
+        return authorized(context,callbackEntered,operation,true);
+    }
+    private <T>T authorized(PlayerContext context,Runnable callbackEntered,NationalVoteAuthority.Authorized<T> operation,boolean representative) {
         Thread owner=Thread.currentThread();boolean[] invoked={false},active={true};Object[] result={null};Throwable[] callbackFailure={null};
         try {
-            nationalAuthority.withRepresentative(context.playerId(),context.nationId(),nativeView->{
+            NationalVoteAuthority.Authorized<T> callback=nativeView->{
                 callbackEntered.run();
                 try {
                 if(!active[0]||Thread.currentThread()!=owner||invoked[0])throw new SecurityException("National authority callback must be synchronous, single-use and on its calling thread");
@@ -601,7 +681,9 @@ public final class RuleEngine implements AutoCloseable {
                     if(!context.playerId().equals(scoped.actorId())||!context.nationId().equals(scoped.nationId()))throw new SecurityException("National authority identity mismatch");
                     T value=operation.run(scoped);result[0]=value;return value;
                 }catch(Exception|Error failure){callbackFailure[0]=failure;throw failure;}
-            });
+            };
+            if(representative)nationalAuthority.withRepresentative(context.playerId(),context.nationId(),callback);
+            else nationalAuthority.withMembership(context.playerId(),context.nationId(),callback);
             if(callbackFailure[0]!=null)throw new IllegalStateException("National authority suppressed a failed callback",callbackFailure[0]);
             if(!invoked[0])throw new SecurityException("National authority did not provide a representative callback");
             @SuppressWarnings("unchecked") T value=(T)result[0];return value;

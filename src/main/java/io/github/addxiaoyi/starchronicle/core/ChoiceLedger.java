@@ -77,10 +77,15 @@ public final class ChoiceLedger {
     /** Record before saving the vote/moved instance. An identical final ballot is a no-op;
      * changing it appends a revision without erasing the previous committed evidence. */
     public static boolean recordBallot(Connection connection,StoryInstance before,PlayerContext actor,String node,String choice,Instant time)throws SQLException {
+        return recordBallot(connection,before,actor,node,choice,time,false);
+    }
+    /** A fresh vote after explicit member revalidation has its own revision even when
+     * its choice text matches a historical ballot that no longer counted toward quorum. */
+    static boolean recordBallot(Connection connection,StoryInstance before,PlayerContext actor,String node,String choice,Instant time,boolean reactivated)throws SQLException {
         live(connection,before,actor,node,choice,time);requirePlayerVotes(before);long revision=1;
         try(var s=connection.prepareStatement("SELECT choice_id,revision FROM story_choice_log WHERE instance_id=? AND node_id=? AND kind='BALLOT' AND actor_key=? ORDER BY seq DESC LIMIT 1")) {
             s.setString(1,before.id());s.setString(2,node);s.setString(3,"player:"+actor.playerId());
-            try(var r=s.executeQuery()){if(r.next()){if(choice.equals(r.getString("choice_id")))return false;revision=Math.addExact(r.getLong("revision"),1);}}
+            try(var r=s.executeQuery()){if(r.next()){if(choice.equals(r.getString("choice_id"))&&!reactivated)return false;revision=Math.addExact(r.getLong("revision"),1);}}
         }
         String actorKey="player:"+actor.playerId(),id=RuleEngine.stable("choice-log",before.id(),node,"BALLOT",actorKey,Long.toString(revision));
         insert(connection,id,before,node,choice,"BALLOT",actorKey,actor.playerId(),actor.nationId(),revision,time,actor.playerId(),"LIVE");return true;

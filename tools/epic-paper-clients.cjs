@@ -47,11 +47,28 @@ async function contributions(who) {
   });
 }
 let chain=Promise.resolve();
+async function expectCommand(who,encoded) {
+  const request=JSON.parse(Buffer.from(encoded,'base64url').toString('utf8')),bot=bots.get(who);
+  if(!request.command.startsWith('/chronicle ')||typeof request.contains!=='string'||!request.contains)throw Error('Require a concrete Chronicle command and response');
+  await new Promise((resolve,reject)=>{
+    let received='';
+    const timer=setTimeout(()=>{bot.removeListener('messagestr',onMessage);reject(Error('Command response missing: '+request.command+' expected '+request.contains+' received '+received));},10000);
+    function onMessage(message) {
+      received+='\n'+message;
+      if(received.includes(request.contains)) {
+        clearTimeout(timer);bot.removeListener('messagestr',onMessage);
+        log('COMMAND_RESULT',{who,...request,response:received});resolve();
+      }
+    }
+    bot.on('messagestr',onMessage);bot.chat(request.command);
+  });
+}
 readline.createInterface({input:process.stdin}).on('line',line=>{chain=chain.then(async()=>{
   const [action,who,...rest]=line.trim().split(' ');
   if(action==='quit'){quitting=true;for(const bot of bots.values())bot.quit('Epic acceptance complete');return;}
   if(action==='craft')await craft(who);
   else if(action==='contributions')await contributions(who);
+  else if(action==='expect')await expectCommand(who,rest.join(' '));
   else if(action==='chat')bots.get(who).chat(rest.join(' '));
   else if(action==='close'&&bots.get(who).currentWindow)bots.get(who).closeWindow(bots.get(who).currentWindow);
   else if(action==='inventory')log('INVENTORY',{who,items:bots.get(who).inventory.items().map(i=>({name:i.name,count:i.count}))});

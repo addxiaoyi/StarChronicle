@@ -127,6 +127,13 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 @Override public <T>T withRepresentative(UUID actor,String nation,Authorized<T> operation)throws Exception {
                     return nationalVoteAuthority.withRepresentative(actor,nation,operation);
                 }
+                @Override public <T>T withMembership(UUID actor,String nation,Authorized<T> operation)throws Exception {
+                    NationalVoteAuthority selected=nationalVoteAuthority;
+                    return selected.withMembership(actor,nation,view->{
+                        if(!running.get()||nationalVoteAuthority!=selected)throw new SecurityException("Member authority changed; retry with the current service");
+                        return operation.run(view);
+                    });
+                }
             };
             engine=new RuleEngine(store,definitions,Clock.systemUTC(),npcLedger,nationalAuthorityProxy,memoryRecipes,epicCampaigns);
             try {
@@ -293,7 +300,13 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             nativeJournal.isolateOrphans(nativeFlights.players());
             gateway.scanCommittedSources();
             engine.reconcileEpicContributions(25);
-            for(var snapshot:snapshotCollector.collect())observations.observe(snapshot);
+            engine.observeMemberNations(contexts);
+            for(var snapshot:snapshotCollector.collect()) {
+                observations.observe(snapshot);
+                if(snapshot.namespace().equals("starcore.nations")&&snapshot.complete()
+                        &&(snapshot.allowEmpty()||!snapshot.entries().isEmpty()))
+                    engine.observeMissingNations(snapshot.entries().keySet());
+            }
             explorationIngress.drain(firstVisits::observe,100);
             for(WorldEvent event:observations.pending(100)) {
                 engine.accept(event,audience(event,contexts));
@@ -728,6 +741,16 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<QuestGateState> questGateState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.questGateSnapshot(id,context)));}
         @Override public CompletionStage<NationalVoteState> nationalState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->{NationalVoteState result=engine.nationalState(id,context);deliverPending();return result;}));}
         @Override public CompletionStage<ProcessReport> join(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.join(id,context)));}
+        @Override public CompletionStage<MemberState> memberState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.memberState(id,context)));}
+        @Override public CompletionStage<List<MemberReviewLedger.Review>> memberReviews(UUID player,int limit){return nationalSnapshot(player).thenCompose(context->query(()->engine.memberReviews(player,limit)));}
+        @Override public CompletionStage<ProcessReport> revalidateMember(String id,UUID player,String node){
+            if(node==null||node.isBlank())return CompletableFuture.failedFuture(new IllegalArgumentException("必须提供当前剧情节点"));
+            return nationalSnapshot(player).thenCompose(context->query(()->engine.revalidateMember(id,node,context)));
+        }
+        @Override public CompletionStage<ProcessReport> exitMember(String id,UUID player,String node){
+            if(node==null||node.isBlank())return CompletableFuture.failedFuture(new IllegalArgumentException("必须提供当前剧情节点"));
+            return nationalSnapshot(player).thenCompose(context->query(()->engine.exitMember(id,node,context)));
+        }
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player);}));}
         @Override public CompletionStage<List<StoryInstance>> activeInstances(){return query(engine::activeInstances);}
         @Override public CompletionStage<List<StoryInstance>> availableInstances(UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableInstances(context)));}
@@ -760,6 +783,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 case "npc"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle npc <逻辑NPC ID>");menus.npc(id,args[1]);}
                 case "fate"->menus.fate(id);
                 case "contributions"->contributions(id,args);
+                case "member"->member(id,args);
                 case "past"->{
                     if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle past <剧情ID/版本/节点ID>");
                     service.recollections(id,List.of("past.player.choice."+args[1],"past.resolution.world."+args[1],"past.resolution.nation."+args[1],"past.nation.choice."+args[1])).whenComplete((facts,error)->{
@@ -934,6 +958,29 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         }
         return true;
     }
+    private void member(UUID actor,String[] args) {
+        String usage="用法: /chronicle member list | status <实例ID> | revalidate|exit <实例ID> <当前节点ID>";
+        if(args.length==2&&args[1].equals("list")) {
+            service.memberReviews(actor,50).whenComplete((reviews,error)->{
+                if(error!=null){failure(actor,error);return;}
+                message(actor,reviews.isEmpty()?"暂无成员复核记录。":reviews.stream().map(r->r.instanceId()+" · "+memberLabel(r.status().name())).collect(java.util.stream.Collectors.joining("\n")));
+            });
+        } else if(args.length==3&&args[1].equals("status")) {
+            service.memberState(args[2],actor).whenComplete((state,error)->{
+                if(error!=null){failure(actor,error);return;}
+                String guidance=state.completed()?"剧情已完成，成员记录已保留。":switch(state.status()) {
+                    case "PENDING"->"恢复原国家身份后，使用 member revalidate 重新核验。";
+                    case "EXITED"->"恢复原国家身份后，可使用 /chronicle join "+state.instanceId()+" 重新加入。";
+                    default->"继续剧情时会重新检查资格。";
+                };
+                message(actor,"成员状态: "+memberLabel(state.status())+" · 节点: "+state.nodeId()+"\n原国家: "+state.originalNationId()+" · 当前国家: "+state.observedNationId()+"\n"+guidance);
+            });
+        } else if(args.length==4&&Set.of("revalidate","exit").contains(args[1])) {
+            CompletionStage<ProcessReport> action=args[1].equals("exit")?service.exitMember(args[2],actor,args[3]):service.revalidateMember(args[2],actor,args[3]);
+            action.whenComplete((report,error)->{if(error!=null)failure(actor,error);else message(actor,report.message());});
+        } else throw new IllegalArgumentException(usage);
+    }
+    private static String memberLabel(String status){return switch(status){case "PENDING"->"待复核";case "EXITED"->"已退出";case "APPROVED"->"已核验";default->"参与中";};}
     private void contributions(UUID actor,String[] args) {
         String usage="用法: /chronicle contributions [页] 或 contributions nation|player <ID或me> [页]";
         int page;
@@ -965,7 +1012,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         });
     }
     @Override public List<String> onTabComplete(CommandSender sender,Command command,String alias,String[] args) {
-        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","contributions","memory","join","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","contributions","member","memory","join","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==2&&args[0].equalsIgnoreCase("member"))return List.of("list","status","revalidate","exit").stream().filter(s->s.startsWith(args[1])).toList();
         if(args.length==2&&args[0].equalsIgnoreCase("contributions"))return List.of("nation","player").stream().filter(s->s.startsWith(args[1])).toList();
         if(args.length==3&&args[0].equalsIgnoreCase("contributions"))return List.of("me");
         if(args.length==2&&args[0].equalsIgnoreCase("epic"))return List.of("plans","providers","open","signup","enroll","withdraw-signup","seal","status","route","prepare","apply","reconcile","founding-reference").stream().filter(s->s.startsWith(args[1].toLowerCase(Locale.ROOT))).toList();

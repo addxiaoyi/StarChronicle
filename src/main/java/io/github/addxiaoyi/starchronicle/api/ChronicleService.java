@@ -67,6 +67,13 @@ public interface ChronicleService {
      * and country visibility using freshly collected identity; this grants no completion or choice authority. */
     default CompletionStage<io.github.addxiaoyi.starchronicle.api.quest.QuestGateState> questGateState(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Quest gates unavailable"));}
     CompletionStage<ProcessReport> join(String instanceId, UUID playerId);
+    /** Only the supplied player's server-collected identity is used; no submitted nationality. */
+    default CompletionStage<MemberState> memberState(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.core.MemberReviewLedger.Review>> memberReviews(UUID playerId,int limit){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
+    /** Explicit original-nation revalidation under the native membership authority lock. */
+    default CompletionStage<ProcessReport> revalidateMember(String instanceId,UUID playerId,String expectedNode){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
+    /** Voluntary exit removes only the caller's active membership and personal vote. */
+    default CompletionStage<ProcessReport> exitMember(String instanceId,UUID playerId,String expectedNode){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
     CompletionStage<List<StoryInstance>> instances(UUID playerId);
     CompletionStage<List<StoryInstance>> activeInstances();
     CompletionStage<List<StoryInstance>> availableInstances(UUID playerId);

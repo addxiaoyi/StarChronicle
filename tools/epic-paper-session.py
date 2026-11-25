@@ -1,6 +1,7 @@
 """Run one isolated Paper boot and its clients with complete append-only evidence."""
 from pathlib import Path
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -17,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['first', 'second', 'third'])
+parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 args = parser.parse_args()
 run = args.run.resolve()
@@ -110,6 +111,53 @@ def client_action(action):
     await_lines(cursor, lambda lines: any('"kind":"ACTION_DONE"' in line and '"action":"' + name + '"' in line for _, line in lines))
 
 
+def member_scenario(phase):
+    if phase == 'members-first':
+        server_action('members-open')
+    fixture = [json.loads(line) for line in (run / 'evidence/epic-fixture.jsonl').read_text().splitlines()]
+    identity = next(row['data']['instance'] for row in fixture if row['kind'] == 'MEMBER_OPENED')
+    def command(who, tail, expected):
+        request = json.dumps(dict(command='/chronicle ' + tail, contains=expected), ensure_ascii=False).encode()
+        client_action('expect ' + who + ' ' + base64.urlsafe_b64encode(request).decode().rstrip('='))
+    if phase == 'members-first':
+        command('D', f'choose {identity} review yes', '已投票 1/2')
+        server_action('members-move B')
+        server_action('members-check PENDING review')
+        command('D', f'member revalidate {identity} review', 'Current nation does not match the original membership')
+        command('B', f'choose {identity} review yes', '已投票 1/2')
+        server_action('members-check PENDING review')
+        server_action('members-move A')
+        command('D', f'member status {identity}', '待复核')
+        command('D', f'member revalidate {identity} review', '成员资格已重新核验')
+        command('D', f'choose {identity} review yes', '已进入下一阶段')
+        server_action('members-check APPROVED closing')
+        command('D', f'member exit {identity} review', '剧情阶段已改变')
+        command('D', f'member exit {identity} closing', '已退出剧情实例')
+        server_action('members-check EXITED closing')
+        time.sleep(3)
+        server_action('members-check EXITED closing')
+    elif phase == 'members-second':
+        server_action('members-check EXITED closing')
+        command('D', f'member status {identity}', '已退出')
+        command('D', f'member revalidate {identity} closing', 'Exited membership cannot be silently restored')
+        server_action('members-move B')
+        command('D', f'join {identity}', '重新加入须恢复原国家身份')
+        server_action('members-move A')
+        command('D', f'join {identity}', '已加入共同剧情')
+        server_action('members-check APPROVED closing')
+        command('D', f'choose {identity} closing yes', '已投票 1/2')
+        command('B', f'choose {identity} closing yes', '剧情已完成')
+        command('D', f'member exit {identity} end', '已完成剧情的成员属于历史记录')
+        server_action('members-check APPROVED end')
+    elif phase == 'members-third':
+        server_action('members-check APPROVED end')
+        command('D', f'member status {identity}', '已核验')
+        command('D', f'member exit {identity} end', '已完成剧情的成员属于历史记录')
+        server_action('members-check APPROVED end')
+    else:
+        raise ValueError('Unknown member scenario')
+
+
 def scenario(phase):
     global clients
     await_lines(0, lambda lines: any('Done (' in line for _, line in lines) and any('EPIC_READY ' in line for _, line in lines), 180)
@@ -117,7 +165,9 @@ def scenario(phase):
     clients = start([str(args.node), '--max-old-space-size=192', str(client_script), str(run)], 'clients')
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
-    if phase == 'first':
+    if phase.startswith('members-'):
+        member_scenario(phase)
+    elif phase == 'first':
         server_action('open')
         for who in 'AB':
             server_action('task-ready ' + who)

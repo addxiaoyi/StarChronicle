@@ -29,6 +29,11 @@ public final class MemberReviewLedger {
                     "reason TEXT NOT NULL,checked_at TEXT NOT NULL,"+
                     "PRIMARY KEY(instance_id,player_id))");
             s.execute("CREATE INDEX IF NOT EXISTS story_member_review_status ON story_member_reviews(status,checked_at,instance_id,player_id)");
+            s.execute("CREATE TABLE IF NOT EXISTS story_member_review_log("+
+                    "seq INTEGER PRIMARY KEY AUTOINCREMENT,instance_id TEXT NOT NULL REFERENCES instances(id),"+
+                    "player_id TEXT NOT NULL,original_nation_id TEXT NOT NULL,observed_nation_id TEXT NOT NULL,"+
+                    "status TEXT NOT NULL,reason TEXT NOT NULL,checked_at TEXT NOT NULL)");
+            s.execute("CREATE INDEX IF NOT EXISTS story_member_review_log_player ON story_member_review_log(player_id,seq)");
         }
     }
 
@@ -55,23 +60,32 @@ public final class MemberReviewLedger {
     }
 
     public static void approve(Connection c, StoryInstance instance, PlayerContext context, Instant now) throws SQLException {
+        approve(c, instance, context, "Explicit member revalidation", now);
+    }
+    public static void approve(Connection c, StoryInstance instance, PlayerContext context, String evidence, Instant now) throws SQLException {
         Review review = find(c, instance.id(), context.playerId()).orElse(null);
         if (review != null && review.status() == Status.EXITED) throw new IllegalStateException("Exited membership cannot be silently restored");
         if (!instance.members().containsKey(context.playerId())) throw new SecurityException("Player is not an instance member");
         if (!instance.members().get(context.playerId()).equals(context.nationId())) throw new SecurityException("Current nation does not match the original membership");
         if (review != null && review.status() != Status.PENDING && review.status() != Status.APPROVED)
             throw new IllegalStateException("Membership review is not revalidatable: " + review.status());
-        upsert(c, instance, context.playerId(), context.nationId(), Status.APPROVED,
-                review == null ? "Initial explicit member review" : "Explicit member revalidation", now);
+        upsert(c, instance, context.playerId(), context.nationId(), Status.APPROVED, evidence, now);
     }
 
     public static void exit(Connection c, StoryInstance instance, UUID playerId, String reason, Instant now) throws SQLException {
-        upsert(c, instance, playerId, instance.members().getOrDefault(playerId, ""), Status.EXITED,
+        String observed = find(c, instance.id(), playerId).map(Review::observedNationId)
+                .orElse(instance.members().getOrDefault(playerId, ""));
+        exit(c, instance, playerId, observed, reason, now);
+    }
+
+    public static void exit(Connection c, StoryInstance instance, UUID playerId, String observedNationId, String reason, Instant now) throws SQLException {
+        upsert(c, instance, playerId, observedNationId, Status.EXITED,
                 reason == null || reason.isBlank() ? "Member left the story instance" : reason, now);
     }
 
     /** A new explicit join is a new membership decision; preserve the review row as approved evidence. */
     public static void rejoin(Connection c, StoryInstance instance, UUID playerId, String nation, Instant now) throws SQLException {
+        if (find(c, instance.id(), playerId).isEmpty()) return;
         upsert(c, instance, playerId, nation, Status.APPROVED, "Explicitly rejoined after membership review", now);
     }
 
@@ -93,9 +107,19 @@ public final class MemberReviewLedger {
         if (original == null) throw new IllegalStateException("Review target is not an instance member");
         String safeReason = reason == null ? "" : reason;
         if (safeReason.length() > 512) safeReason = safeReason.substring(0, 512);
+        Review previous = find(c, instance.id(), playerId).orElse(null);
+        if (previous != null && previous.status() == status && previous.observedNationId().equals(observed == null ? "" : observed)
+                && (status == Status.PENDING || previous.reason().equals(safeReason))) return;
+        if (previous != null && !previous.originalNationId().equals(original))
+            throw new SecurityException("Membership cannot silently change its original nation");
         try (var s = c.prepareStatement("INSERT INTO story_member_reviews(instance_id,player_id,original_nation_id,observed_nation_id,status,reason,checked_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(instance_id,player_id) DO UPDATE SET observed_nation_id=excluded.observed_nation_id,status=excluded.status,reason=excluded.reason,checked_at=excluded.checked_at")) {
             s.setString(1, instance.id()); s.setString(2, playerId.toString()); s.setString(3, original);
             s.setString(4, observed == null ? "" : observed); s.setString(5, status.name()); s.setString(6, safeReason); s.setString(7, now.toString()); s.executeUpdate();
+        }
+        try (var s = c.prepareStatement("INSERT INTO story_member_review_log(instance_id,player_id,original_nation_id,observed_nation_id,status,reason,checked_at) VALUES(?,?,?,?,?,?,?)")) {
+            s.setString(1, instance.id()); s.setString(2, playerId.toString()); s.setString(3, original);
+            s.setString(4, observed == null ? "" : observed); s.setString(5, status.name());
+            s.setString(6, safeReason); s.setString(7, now.toString()); s.executeUpdate();
         }
     }
 

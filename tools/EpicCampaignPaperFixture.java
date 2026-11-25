@@ -295,11 +295,45 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
             log("CONTRIBUTIONS_PASS",Map.of("entries",entries,"boot",boot));return null;
         });
     }
+    private String memberInstance(){return Objects.requireNonNull(getConfig().getString("member-instance"),"Member fixture not opened");}
+    private CompletionStage<?> memberOpen(){
+        require(getConfig().getString("member-instance")==null,"Member story already opened");
+        var event=new io.github.addxiaoyi.starchronicle.api.WorldEvent("fixture:member-review","MEMBER_REVIEW_FIXTURE",Instant.now(),
+                Set.of(uuid("B"),uuid("D")),Set.of(country("A").toString(),country("B").toString()),Map.of(),"isolated-member-fixture","Explicit test story source; no native activity claimed");
+        return api.submit(event).thenCompose(report->main(()->{
+            require(report.instanceIds().size()==1,"Expected one membership story");String id=report.instanceIds().getFirst();
+            getConfig().set("member-instance",id);saveConfig();log("MEMBER_OPENED",Map.of("instance",id));return id;
+        }));
+    }
+    private CompletionStage<?> memberMove(String destination){return main(()->{
+        require(Set.of("A","B").contains(destination),"Only fixture nations A or B");
+        NationService nations=service(NationService.class);UUID actor=uuid("D");
+        var previous=nations.nationOf(actor).orElseThrow().id();var next=country(destination);
+        require(!previous.equals(next)&&!nations.isFounder(actor,previous),"Ordinary member required");
+        require(nations.removeMember(previous,actor),"Native member removal failed");
+        require(nations.addMember(next,actor,player("D").getName()),"Native member admission failed");
+        require(nations.nationOf(actor).orElseThrow().id().equals(next),"Native membership did not change");
+        log("MEMBER_NATIVE_MOVE",Map.of("actor",actor,"before",previous.toString(),"after",next.toString(),"currentHolder",nations.isFounder(actor,next)));
+        return null;
+    });}
+    private CompletionStage<?> memberCheck(String status,String node){
+        String id=memberInstance();
+        return api.memberState(id,uuid("D")).thenCompose(state->api.instances(uuid("D")).thenCompose(own->api.activeInstances().thenCompose(active->{
+            var story=java.util.stream.Stream.concat(own.stream(),active.stream()).filter(i->i.id().equals(id)).findFirst().orElseThrow();
+            require(state.status().equals(status)&&state.nodeId().equals(node),"Unexpected member status/node: "+state);
+            require(story.contains(uuid("D"))!=status.equals("EXITED"),"Membership projection differs from story");
+            require(state.originalNationId().equals(country("A").toString()),"Original nation changed");
+            if(status.equals("PENDING")||status.equals("EXITED"))require(!story.votes().containsKey(uuid("D")),"Inactive member still has an active personal vote");
+            require(story.completed()==node.equals("end"),"Story completion differs");
+            return api.memberReviews(uuid("D"),50).thenApply(reviews->{log("MEMBER_CHECK",Map.of("state",state,"story",story,"reviews",reviews));return null;});
+        })));
+    }
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!(sender instanceof ConsoleCommandSender)||args.length==0)return false;
         String action=args[0];if(!busy.compareAndSet(false,true)){fail(action,new IllegalStateException("Previous action is still pending"));return true;}
         try {
             CompletionStage<?> work=switch(action) {
+                case "members-open"->memberOpen();case "members-move"->memberMove(args[1]);case "members-check"->memberCheck(args[1],args[2]);
                 case "seed"->seed();case "open"->open();case "task-ready"->taskReady(args[1]);case "task-complete"->taskComplete(args[1]);
                 case "preparations"->preparations();case "advance"->advanceStory();case "dungeon"->dungeonEnter(args[1]);
                 case "found"->founding();case "declare"->declareWar();case "end-war"->endWar();
