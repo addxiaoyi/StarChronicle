@@ -63,6 +63,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource tradeHistorySource;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistorySource technologyHistorySource;
     private io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistorySource resourceHistorySource;
+    private io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySource capitalHistorySource;
     private FirstVisitJournal firstVisits;
     private List<ExplorationRegion> explorationRegions=List.of();
     private final FirstVisitBuffer explorationIngress=new FirstVisitBuffer(2048);
@@ -159,6 +160,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             tradeHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource(gateway);
             technologyHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistorySource(gateway);
             resourceHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistorySource(gateway);
+            capitalHistorySource=new io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySource(gateway);
             snapshotCollector=new SnapshotCollector(gateway,()->getServer().getServicesManager().getRegistrations(SnapshotProvider.class).stream().map(r->r.getProvider()).toList());
             textService=new TextService(Duration.ofMillis(Math.max(1,Math.min(30000,getConfig().getLong("text-timeout-ms",1500)))));
             permissions=permissionNodes(withPendingDefinitions(definitions),engine.activeInstances());
@@ -312,6 +314,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySource.SOURCE,()->tradeHistorySource.poll(committedHistory),contexts);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistorySource.SOURCE,()->technologyHistorySource.poll(committedHistory),contexts);
             pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistorySource.SOURCE,()->resourceHistorySource.poll(committedHistory),contexts);
+            pollCommittedHistory(io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistorySource.SOURCE,()->capitalHistorySource.poll(committedHistory),contexts);
             engine.observeMemberNations(contexts);
             for(var snapshot:snapshotCollector.collect()) {
                 observations.observe(snapshot);

@@ -64,10 +64,10 @@ public final class SnapshotCollector {
             } catch(ReflectiveOperationException | RuntimeException ex) {result.add(unavailable("starcore.technologies",TECH_SOURCE,Kind.TECHNOLOGIES,ex));}
         } else result.add(ObservationSnapshot.unavailable("starcore.technologies",TECH_SOURCE,Kind.TECHNOLOGIES,"Missing complete native nation scope or audited native TechnologyModule; no partial technology baseline is advanced"));
 
-        // The registered module.city.CityService exposes no designated-capital property. Legacy
-        // city.CityManager.getNationCapital chooses the current highest-level city, and Nation's
-        // capitalLocation is recomputed cache data. Neither proves a committed capital migration.
-        result.add(ObservationSnapshot.unavailable("starcore.capitals",CAPITAL_SOURCE,Kind.CAPITALS,"No durable designated-capital getter in audited CityService; register a trusted CAPITALS SnapshotProvider rather than guessing from location caches or city levels"));
+        // Precise native capital commits use StarCoreCapitalHistorySource and its durable inbox.
+        // Keep the observation scope unavailable: a level/cache fallback could duplicate or invent
+        // migrations, and a missing committed capability must not create an empty baseline.
+        result.add(ObservationSnapshot.unavailable("starcore.capitals",CAPITAL_SOURCE,Kind.CAPITALS,"Native capital commits use the dedicated NationService history adapter; cached locations and city levels are not designation evidence"));
         Collection<SnapshotProvider> extensions=providers.get();
         if(extensions!=null)for(SnapshotProvider provider:extensions) {
             Collection<ObservationSnapshot> snapshots=provider.snapshots();
