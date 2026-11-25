@@ -1,12 +1,12 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-26T03:44:00+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T05:38:20+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
 ## 构建结果
 
-- 执行命令：`./mvnw -o -B -ntp verify`（Java 21）。
+- 执行命令：`./mvnw -o -B -ntp clean verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
 - 单元／集成回归：979 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
@@ -135,15 +135,15 @@
 | `io/github/addxiaoyi/starchronicle/history` | 360/367 (98.1%) | 319/423 (75.4%) |
 | `io/github/addxiaoyi/starchronicle/config` | 264/272 (97.1%) | 358/444 (80.6%) |
 | `io/github/addxiaoyi/starchronicle/npc` | 228/231 (98.7%) | 213/288 (74.0%) |
-| `io/github/addxiaoyi/starchronicle/core` | 2343/2496 (93.9%) | 2274/3138 (72.5%) |
+| `io/github/addxiaoyi/starchronicle/core` | 2343/2496 (93.9%) | 2273/3138 (72.4%) |
 | `io/github/addxiaoyi/starchronicle/api/epic` | 234/261 (89.7%) | 151/274 (55.1%) |
 
 ## 产物校验
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18106284 | `549f99d9e2fca919d42263fc184e3f790d101b7f65a1c91f067eb9716ce7fc5f` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 361781 | `02f6278dcb7a373dce7e695b843db2f2394236bd665a226c98dbb756266502a6` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18106284 | `835588de9c62a73c0b2828b383beb9cbaaea0e56aeff103a6e798b6828ddb24a` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 361781 | `fba52aadb6a7222f03f1e5396429c480bd52dff7dce000de83b8394d6c52e5f9` |
 
 ## 真实服务器证据与构建对应
 
