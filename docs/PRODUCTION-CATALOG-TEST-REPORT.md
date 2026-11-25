@@ -80,3 +80,5 @@ python3 tools/epic-paper-session.py --run run/paper-epic-<new-sha8>-dungeon-cata
 首工具提交`0ce0e9b`的PR CI `45707294132`／job `139532415294`已success：979测试、1478交付条目；CI JAR `6fa0bbe2fba054461eca354013fb66ab63c28461fd8fd90c5ced972c70852029`，交付ZIP `f1e112243a6b8dc740bf689f64fc39d661c6dfc0f05e06d58d78369249df9b01`，均不冒充实服冻结指纹。最终归档提交的CI／交付指纹记录到PR正文，避免为记录CI改变被验证提交。
 
 首归档解压复验发现副本`authority-domain.txt`未纳入文件筛选，前三类及配方检查通过而副本检查正确拒绝。首包SHA `3b21b2f5d0da847547d3af5605a8c948b4e7764a8e2a1ce17bccc0bb26276a2a` 与解压失败目录保留在target；首包没有发布到Git。归档工具补上该权威文件，并强制六个解压检查器全部通过后才能生成公开包。
+
+最终公开包为 14,939,752 字节，4,501 个有哈希成员加清单；SHA-256 `aeda58788242279ed3f4eef79622c97cbf92838ade877d5e87f3f3660227d845`。六个解压检查器全部通过，解压后的31项配方证据回归通过。归档源码提交Chronicle `58f6c2dbbd61c3968ddce6246487fa32aa35d7ea`、原生 `3391555e99e8a673a2adfd23fa9f3081be031583`；产品源码和双JAR仍按上表固定。
