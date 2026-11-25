@@ -1,0 +1,96 @@
+{
+  "status": "ISOLATED_PAPER_MEMORY_ACCEPTED",
+  "captured_utc": "2026-11-25T17:00:05.366652+00:00",
+  "chronicle_head": "e25e9283a3e9641ead5325d7f6f467639b9737b9",
+  "native_head": "a14684b138818971b33dc10cc436e747294a4d7b",
+  "runs": [
+    {
+      "directory": "paper-epic-222fbb40-dungeon-memory-candidate-2",
+      "status": "PASS",
+      "mode": "main",
+      "chronicle_sha256": "222fbb4064a84692ee3783a525737495566f1a529c3753df2392695797a4e345",
+      "starcore_sha256": "d9f296190482ef644c5b5d52c3a16b7c0d7a304bbbc5a788d5e401627c2f84da",
+      "boots": 3,
+      "normal_exits": 6,
+      "actual_walks": 5,
+      "gui_choices": 5,
+      "memory_entries": 3,
+      "library_instances": 5,
+      "api_checkpoints": 17,
+      "optional_vendor_telemetry_failures": []
+    },
+    {
+      "directory": "paper-epic-222fbb40-dungeon-memory-offline-candidate-1",
+      "status": "PASS",
+      "mode": "offline",
+      "chronicle_sha256": "222fbb4064a84692ee3783a525737495566f1a529c3753df2392695797a4e345",
+      "starcore_sha256": "d9f296190482ef644c5b5d52c3a16b7c0d7a304bbbc5a788d5e401627c2f84da",
+      "boots": 2,
+      "normal_exits": 4,
+      "actual_walks": 1,
+      "gui_choices": 2,
+      "memory_entries": 1,
+      "library_instances": 2,
+      "api_checkpoints": 6,
+      "optional_vendor_telemetry_failures": []
+    }
+  ],
+  "regressions": [
+    {
+      "log": "starchronicle-memory-main-regression-final-20261125.log",
+      "tests": 27,
+      "passed": 26,
+      "skipped": 1,
+      "sha256": "fb227d64865a4ba66098b558a020a35c84d16e4868053747075251bab8c9f29c"
+    },
+    {
+      "log": "starchronicle-memory-offline-regression-final-20261125.log",
+      "tests": 27,
+      "passed": 25,
+      "skipped": 2,
+      "sha256": "53909ed32253b708d54b4cbefd4ab1009dd3a89968a75f17b7c2824f19eaa48a"
+    }
+  ],
+  "failed_run": {
+    "directory": "paper-epic-222fbb40-dungeon-memory-candidate-1",
+    "failures": [
+      {
+        "boot": 1,
+        "data": {
+          "action": "memory-check",
+          "error": "java.lang.IllegalStateException: Library instance audience mismatch: D"
+        },
+        "kind": "FAILED",
+        "time": "2026-11-25T16:31:00.711418082Z"
+      }
+    ]
+  },
+  "inherited_builds": {
+    "note": "No product rebuild in this acceptance increment; reuse the frozen matching artifacts.",
+    "chronicle": {
+      "tests": 919,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "native": {
+      "tests": 7261,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 21
+    },
+    "references": {
+      "production-stack-20261125-summary.json": "ef447eade91bdae754db71c7f2f1374e0e31dd872fd593ca9df55a53409a4655",
+      "national-epic-resource-history-20261125-summary.json": "7b84358100d9ea0963d1c0221d8b40668dfce4a161ec218def4301145d6b5f27"
+    }
+  },
+  "evidence_archive": {
+    "sha256": "d7a83a3a10c47c5c2cc0dba536d6cad28e4dc9e1da16aff69666cfa03d1cdff5",
+    "bytes": 1906558,
+    "members": 296
+  },
+  "source_archives": {
+    "starchronicle-source.tar.gz": "9190c12cfe7b3ed042ee203211e163d484fd1336c1d9dae79c17ef305b990a93",
+    "starcore-source.tar.gz": "cead54b21e3b5b431b0c468a529f97e9bfde65f723b7f3ef24e6abce55a644af"
+  }
+}
