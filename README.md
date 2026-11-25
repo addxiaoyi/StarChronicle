@@ -1,5 +1,7 @@
 # StarChronicle
 
+当前续接开发已补齐[成员资格复核与退出](docs/MEMBERSHIP.md)：原生身份重检、显式退出／重加、换国后当前个人票失效及转换日志。当前阶段的测试与实服范围单独记录，不覆盖下方旧构件验收结论。
+
 2026-11-25 跨设备续接入口：[开发阶段与交接报告](docs/HANDOFF-2026-11-25.md)。当前主项目 866 项、配套 StarCore 90 项专项测试通过；原生常规回归 7,202 项零失败／错误（21 项跳过）。同一候选已完成隔离 Paper 的 DUNGEON／WAR 各三次启动、结算与重放验收，十阶段整体仍在推进，精确范围见[本轮测试报告](docs/NATIONAL-EPIC-TEST-REPORT.md)。
 
 国家史诗新增 `/chronicle epic` 报名、冻结、准备、执行、对账与路线入口；可选《帝国最后的继承人》战略包默认关闭。部署和真实回执边界见 [国家史诗契约](docs/NATIONAL-EPIC-CONTRACT.md)与[操作示例](examples/national-epic/last-heir-strategy/README.md)。

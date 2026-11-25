@@ -67,6 +67,13 @@ public interface ChronicleService {
      * and country visibility using freshly collected identity; this grants no completion or choice authority. */
     default CompletionStage<io.github.addxiaoyi.starchronicle.api.quest.QuestGateState> questGateState(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Quest gates unavailable"));}
     CompletionStage<ProcessReport> join(String instanceId, UUID playerId);
+    /** Read the player's current reviews after collecting fresh server identity. */
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.core.MemberReviewLedger.Review>> memberReviews(UUID playerId,int limit){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership reviews unavailable"));}
+    default CompletionStage<java.util.Optional<io.github.addxiaoyi.starchronicle.core.MemberReviewLedger.Review>> memberReview(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership reviews unavailable"));}
+    /** Revalidate only the original membership against current native authority and pinned story conditions. */
+    default CompletionStage<ProcessReport> revalidateMember(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership reviews unavailable"));}
+    /** Leave the specified active node; preserve historical evidence. Rejoining must be explicit. */
+    default CompletionStage<ProcessReport> exitMember(String instanceId,UUID playerId,String expectedNode){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership exit unavailable"));}
     CompletionStage<List<StoryInstance>> instances(UUID playerId);
     CompletionStage<List<StoryInstance>> activeInstances();
     CompletionStage<List<StoryInstance>> availableInstances(UUID playerId);

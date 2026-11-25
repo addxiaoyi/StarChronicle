@@ -60,4 +60,11 @@ class NationalCommandsTest {
         String reference="council/1/mandate";Map<String,String> facts=Map.of("past.nation.choice."+reference,"coordinate");when(service.recollections(eq(actor),anyCollection())).thenReturn(CompletableFuture.completedFuture(facts));
         assertTrue(command("past",reference));verify(service).recollections(actor,List.of("past.player.choice."+reference,"past.resolution.world."+reference,"past.resolution.nation."+reference,"past.nation.choice."+reference));verify(plugin).message(actor,"past.nation.choice."+reference+" = coordinate");verifyNoMoreInteractions(service);verifyNoInteractions(menus);
     }
+    @Test void membershipCommandsTakeOnlyTheCurrentPlayerAndRejectClaimedNationality(){
+        when(service.exitMember("instance",actor,"node")).thenReturn(CompletableFuture.completedFuture(new ProcessReport(false,List.of(),"left")));
+        when(service.revalidateMember("instance",actor)).thenReturn(CompletableFuture.completedFuture(new ProcessReport(false,List.of(),"reviewed")));
+        assertTrue(command("leave","instance","node"));assertTrue(command("revalidate","instance"));
+        verify(service).exitMember("instance",actor,"node");verify(service).revalidateMember("instance",actor);
+        assertTrue(command("leave","instance"));assertTrue(command("revalidate","instance","claimed-nation"));verifyNoMoreInteractions(service);
+    }
 }

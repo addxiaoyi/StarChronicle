@@ -190,6 +190,32 @@ public final class Menus implements Listener {
             });
         });
     }
+    void membership(UUID viewer,String instanceId) {
+        plugin.service().instances(viewer).thenCompose(items->{
+            StoryInstance instance=items.stream().filter(i->i.id().equals(instanceId)).findFirst()
+                    .orElseThrow(()->new SecurityException("只能管理自己已加入的剧情。"));
+            return plugin.service().memberReview(instanceId,viewer).thenAccept(review->plugin.present(viewer,p->{
+                Session s=create(viewer,"成员资格 · "+instance.title());
+                List<String> details=new ArrayList<>(List.of("实例: "+instanceId,"加入时国家: "+instance.members().get(viewer)));
+                details.add(review.map(r->switch(r.status()){case PENDING->"资格待复核";case APPROVED->"已核验";case EXITED->"已退出";}).orElse("已加入"));
+                review.ifPresent(r->{details.add("最近观察国家: "+r.observedNationId());details.add("检查时间: "+r.checkedAt());});
+                put(s,4,Material.PLAYER_HEAD,"当前成员记录",details,null);
+                if(!instance.completed()) {
+                    put(s,20,Material.EMERALD,"重新核验资格",List.of("须恢复原国家，并满足当前剧情条件。","换国后可以先退出，再显式申请加入。"),()->plugin.service().revalidateMember(instanceId,viewer).whenComplete((report,error)->{
+                        if(error!=null)plugin.failure(viewer,error);else plugin.message(viewer,report.message());membership(viewer,instanceId);
+                    }));
+                    put(s,24,Material.BARRIER,"退出此剧情…",List.of("移除当前个人票；保留历史选择和任务回执。","国家席位需由当前代表单独撤回。"),()->plugin.present(viewer,owned->{
+                        Session confirm=create(viewer,"确认退出 · "+instance.title());
+                        put(confirm,20,Material.BARRIER,"确认退出",List.of("后台不会自动将你重新加入。","重新加入仍须满足剧情条件。"),()->plugin.service().exitMember(instanceId,viewer,instance.node()).whenComplete((report,error)->{
+                            if(error!=null)plugin.failure(viewer,error);else{plugin.message(viewer,report.message());stories(viewer,0);}
+                        }));
+                        put(confirm,24,Material.ARROW,"保留成员资格",List.of(),()->membership(viewer,instanceId));owned.openInventory(confirm.inventory);
+                    }));
+                }
+                put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer,0));p.openInventory(s.inventory);
+            }));
+        }).exceptionally(error->{plugin.failure(viewer,error);return null;});
+    }
     private void story(UUID viewer,StoryInstance instance) {
         questGateRequests.remove(viewer);
         if(instance.definition().voteUnit()==StoryDefinition.VoteUnit.NATION && instance.contains(viewer)){national(viewer,instance.id());return;}
@@ -218,6 +244,7 @@ public final class Menus implements Listener {
                 }
             } else put(s,31,Material.GOLD_INGOT,"此篇历史已落定",List.of("结果与效果收据已持久化。"),null);
             if(instance.contains(viewer))put(s,50,Material.IRON_DOOR,"任务门槛状态",List.of("查看本阶段原生任务与完成记录摘要。","只读；剧情选择仍由服务端重新验证。"),()->questGates(viewer,instance.id(),instance.node(),0));
+            if(instance.contains(viewer)&&!instance.completed())put(s,48,Material.PLAYER_HEAD,"成员资格与退出",List.of("查看待复核原因、重新核验或退出此剧情。"),()->membership(viewer,instance.id()));
             put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer,0));
             p.openInventory(s.inventory);
         });
@@ -311,6 +338,7 @@ public final class Menus implements Listener {
                 if(!state.completed()&&state.canWithdraw())put(s,46,Material.BARRIER,"撤回本国当前票",List.of("仅撤回未冻结票；保留修订历史。","节点: "+state.nodeId(),"修订号: "+state.viewerRevision()),
                         nationalWithdrawAction(plugin.service(),viewer,state,report->plugin.message(viewer,report.message()),failure->plugin.failure(viewer,failure),refresh));
                 put(s,47,Material.BOOK,"各国已记录票",List.of("查看每国修订号、状态和提交者。"),()->national(viewer,instanceId,true,0));
+                if(!state.completed())put(s,45,Material.PLAYER_HEAD,"成员资格与退出",List.of("个人退出保留国家席位与已冻结决议。"),()->membership(viewer,instanceId));
                 put(s,48,Material.COMPASS,"刷新资格与票数",List.of("刷新不会自动代替旧修订号提交。"),refresh);
                 put(s,50,Material.IRON_DOOR,"任务门槛状态",List.of("本国可见的原生任务与完成记录摘要。","任务达标不会自动授予国家代表权。"),()->questGates(viewer,instanceId,page.instance().node(),0));
                 put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer,0));p.openInventory(s.inventory);

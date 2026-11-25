@@ -29,6 +29,11 @@ public final class MemberReviewLedger {
                     "reason TEXT NOT NULL,checked_at TEXT NOT NULL,"+
                     "PRIMARY KEY(instance_id,player_id))");
             s.execute("CREATE INDEX IF NOT EXISTS story_member_review_status ON story_member_reviews(status,checked_at,instance_id,player_id)");
+            s.execute("CREATE TABLE IF NOT EXISTS story_member_review_log(" +
+                    "seq INTEGER PRIMARY KEY AUTOINCREMENT,instance_id TEXT NOT NULL REFERENCES instances(id)," +
+                    "player_id TEXT NOT NULL,original_nation_id TEXT NOT NULL,observed_nation_id TEXT NOT NULL," +
+                    "status TEXT NOT NULL,reason TEXT NOT NULL,checked_at TEXT NOT NULL)");
+            s.execute("CREATE INDEX IF NOT EXISTS story_member_review_log_player ON story_member_review_log(player_id,seq)");
         }
     }
 
@@ -93,9 +98,18 @@ public final class MemberReviewLedger {
         if (original == null) throw new IllegalStateException("Review target is not an instance member");
         String safeReason = reason == null ? "" : reason;
         if (safeReason.length() > 512) safeReason = safeReason.substring(0, 512);
-        try (var s = c.prepareStatement("INSERT INTO story_member_reviews(instance_id,player_id,original_nation_id,observed_nation_id,status,reason,checked_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(instance_id,player_id) DO UPDATE SET observed_nation_id=excluded.observed_nation_id,status=excluded.status,reason=excluded.reason,checked_at=excluded.checked_at")) {
+        String current = observed == null ? "" : observed;
+        Review previous = find(c, instance.id(), playerId).orElse(null);
+        if (previous != null && previous.originalNationId().equals(original)
+                && previous.observedNationId().equals(current) && previous.status() == status
+                && previous.reason().equals(safeReason)) return;
+        try (var s = c.prepareStatement("INSERT INTO story_member_reviews(instance_id,player_id,original_nation_id,observed_nation_id,status,reason,checked_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(instance_id,player_id) DO UPDATE SET original_nation_id=excluded.original_nation_id,observed_nation_id=excluded.observed_nation_id,status=excluded.status,reason=excluded.reason,checked_at=excluded.checked_at")) {
             s.setString(1, instance.id()); s.setString(2, playerId.toString()); s.setString(3, original);
-            s.setString(4, observed == null ? "" : observed); s.setString(5, status.name()); s.setString(6, safeReason); s.setString(7, now.toString()); s.executeUpdate();
+            s.setString(4, current); s.setString(5, status.name()); s.setString(6, safeReason); s.setString(7, now.toString()); s.executeUpdate();
+        }
+        try (var s = c.prepareStatement("INSERT INTO story_member_review_log(instance_id,player_id,original_nation_id,observed_nation_id,status,reason,checked_at) VALUES(?,?,?,?,?,?,?)")) {
+            s.setString(1, instance.id()); s.setString(2, playerId.toString()); s.setString(3, original);
+            s.setString(4, current); s.setString(5, status.name()); s.setString(6, safeReason); s.setString(7, now.toString()); s.executeUpdate();
         }
     }
 

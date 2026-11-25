@@ -244,6 +244,7 @@ public final class RuleEngine implements AutoCloseable {
         if(unique.isEmpty())return new ProcessReport(false,List.of(),"暂无在线剧情受众");
         if(unique.size()>10000)throw new IllegalArgumentException("Too many trigger recipients");
         return transaction(c->{
+            observeMembers(c, unique.values());
             List<PlayerContext> current=List.copyOf(unique.values());Set<String> changed=drainTriggers(c,current,null);
             Set<String> scopes=new HashSet<>(Set.of("world"));for(var ctx:current){scopes.add("player:"+ctx.playerId());if(!ctx.nationId().isBlank())scopes.add("nation:"+ctx.nationId());}
             String marks=String.join(",",Collections.nCopies(scopes.size(),"?"));List<StoryInstance> active=new ArrayList<>();
@@ -322,7 +323,7 @@ public final class RuleEngine implements AutoCloseable {
         return transaction(c->{
             StoryInstance instance=require(c,instanceId);
             if(instance.completed()) throw new IllegalStateException("剧情已经结束");
-            if(instance.definition().scope()==StoryDefinition.Scope.PLAYER&&!instance.contains(context.playerId())) throw new SecurityException("个人剧情不能加入");
+            if(instance.definition().scope()==StoryDefinition.Scope.PLAYER&&!instance.scopeKey().equals("player:"+context.playerId())) throw new SecurityException("个人剧情不能加入");
             if(instance.definition().scope()==StoryDefinition.Scope.NATION&&!instance.scopeKey().equals("nation:"+context.nationId())) throw new SecurityException("不属于该国家");
             WorldEvent origin=event(c,instance.sourceEventId());
             if(!test(instance.definition().condition(),facts(c,context,origin,instance))) throw new SecurityException("不满足剧情前置条件");
@@ -335,7 +336,7 @@ public final class RuleEngine implements AutoCloseable {
                 });
                 return new ProcessReport(true,List.of(instanceId),"已经加入");
             }
-            addMember(c,instance,context,origin);
+            addMember(c,instance,context,origin,true);
             return new ProcessReport(false,List.of(instanceId),"已加入共同剧情");
         });
     }
@@ -346,6 +347,8 @@ public final class RuleEngine implements AutoCloseable {
         return transaction(c -> {
             StoryInstance instance = require(c, instanceId);
             if (instance.completed()) throw new IllegalStateException("剧情已经结束");
+            if (!eligible(c, instance, context, event(c, instance.sourceEventId())))
+                throw new SecurityException("当前身份、前置条件或节点权限不满足成员复核要求");
             MemberReviewLedger.approve(c, instance, context, clock.instant());
             return new ProcessReport(false, List.of(instanceId), "成员资格已重新核验");
         });
@@ -353,9 +356,15 @@ public final class RuleEngine implements AutoCloseable {
 
     /** Exit an active instance without deleting historical choices or native receipts. */
     public ProcessReport exitMember(String instanceId, PlayerContext context) {
+        return exitMember(instanceId, null, context);
+    }
+
+    public ProcessReport exitMember(String instanceId, String expectedNode, PlayerContext context) {
         Objects.requireNonNull(context);
         return transaction(c -> {
             StoryInstance instance = require(c, instanceId);
+            if (instance.completed()) throw new IllegalStateException("已完成剧情的历史成员不能改写");
+            if (expectedNode != null && !instance.node().equals(expectedNode)) throw new IllegalStateException("剧情阶段已改变，请刷新后退出");
             if (!instance.contains(context.playerId())) throw new SecurityException("请先加入剧情");
             MemberReviewLedger.exit(c, instance, context.playerId(), "PLAYER_EXIT", clock.instant());
             Map<UUID,String> members = new LinkedHashMap<>(instance.members()); members.remove(context.playerId());
@@ -369,6 +378,45 @@ public final class RuleEngine implements AutoCloseable {
     public List<MemberReviewLedger.Review> memberReviews(UUID playerId, int limit) {
         Objects.requireNonNull(playerId);
         return transaction(c -> MemberReviewLedger.forPlayer(c, playerId, limit));
+    }
+
+    public Optional<MemberReviewLedger.Review> memberReview(String instanceId, PlayerContext context) {
+        observeMemberNation(instanceId, context);
+        return transaction(c -> {
+            var instance = require(c, instanceId);
+            var review = MemberReviewLedger.find(c, instanceId, context.playerId());
+            if (!instance.contains(context.playerId()) && review.isEmpty()) throw new SecurityException("没有此剧情的成员记录");
+            return review;
+        });
+    }
+
+    /** Refresh pending reviews from server-owned identities, without restoring eligibility. */
+    public void observeMembers(Collection<PlayerContext> contexts) {
+        Objects.requireNonNull(contexts);
+        if (contexts.size() > 10000) throw new IllegalArgumentException("Too many member snapshots");
+        transaction(c -> { observeMembers(c, contexts); return null; });
+    }
+
+    private void observeMembers(Connection c, Collection<PlayerContext> contexts) throws Exception {
+        Map<UUID, PlayerContext> current = new HashMap<>();
+        for (var context : contexts) if (current.put(context.playerId(), context) != null)
+            throw new IllegalArgumentException("Duplicate member snapshot");
+        for (var instance : allInstances(c, true)) for (var member : instance.members().entrySet()) {
+            var context = current.get(member.getKey());
+            if (context != null && !member.getValue().equals(context.nationId()))
+                pendingMember(c, require(c, instance.id()), member.getKey(), context.nationId(), "CURRENT_NATION_CHANGED");
+        }
+    }
+
+    private void pendingMember(Connection c, StoryInstance instance, UUID player, String observed, String reason) throws Exception {
+        if (instance.completed()) return;
+        MemberReviewLedger.pending(c, instance, player, observed, reason, clock.instant());
+        // Only the live personal tally changes. Append-only choice evidence and national seats remain intact.
+        if (instance.votes().containsKey(player)) {
+            Map<UUID, String> votes = new LinkedHashMap<>(instance.votes()); votes.remove(player);
+            save(c, new StoryInstance(instance.id(), instance.definition(), instance.scopeKey(), instance.sourceEventId(),
+                    instance.node(), instance.members(), votes, instance.choices(), instance.startedAt(), clock.instant(), false));
+        }
     }
 
     public ProcessReport choose(String instanceId,UUID player,String choiceId,PlayerContext context) {
@@ -474,7 +522,7 @@ public final class RuleEngine implements AutoCloseable {
             StoryInstance instance = require(c, instanceId);
             String original = instance.members().get(context.playerId());
             if (original != null && !Objects.equals(original, context.nationId()))
-                MemberReviewLedger.pending(c, instance, context.playerId(), context.nationId(), "CURRENT_NATION_CHANGED", clock.instant());
+                pendingMember(c, instance, context.playerId(), context.nationId(), "CURRENT_NATION_CHANGED");
             return null;
         });
     }
@@ -488,7 +536,7 @@ public final class RuleEngine implements AutoCloseable {
             int changed = 0; Instant now = clock.instant();
             for (StoryInstance instance : active) for (var member : instance.members().entrySet()) {
                 if (!member.getValue().isBlank() && !current.contains(member.getValue())) {
-                    MemberReviewLedger.pending(c, instance, member.getKey(), "", "ORIGINAL_NATION_MISSING_FROM_COMPLETE_SNAPSHOT", now);
+                    pendingMember(c, require(c, instance.id()), member.getKey(), "", "ORIGINAL_NATION_MISSING_FROM_COMPLETE_SNAPSHOT");
                     changed++;
                 }
             }
@@ -568,8 +616,12 @@ public final class RuleEngine implements AutoCloseable {
     }
 
     private StoryInstance addMember(Connection c,StoryInstance i,PlayerContext ctx,WorldEvent origin)throws Exception {
+        return addMember(c,i,ctx,origin,false);
+    }
+    private StoryInstance addMember(Connection c,StoryInstance i,PlayerContext ctx,WorldEvent origin,boolean explicit)throws Exception {
         if(i.contains(ctx.playerId())) return i;
         if(i.completed()) return i;
+        if(!explicit && MemberReviewLedger.find(c,i.id(),ctx.playerId()).isPresent()) return i;
         requirePermissions(i.definition().nodes().get(i.node()).effects(),ctx);
         Map<UUID,String> members=new LinkedHashMap<>(i.members());members.put(ctx.playerId(),ctx.nationId());
         StoryInstance joined=new StoryInstance(i.id(),i.definition(),i.scopeKey(),i.sourceEventId(),i.node(),members,i.votes(),i.choices(),i.startedAt(),clock.instant(),false);
@@ -698,6 +750,7 @@ public final class RuleEngine implements AutoCloseable {
         return List.copyOf(visible);
     });}
     public Map<String,StoryDefinition.Choice> availableChoices(String instanceId,PlayerContext context){
+        observeMemberNation(instanceId, context);
         boolean national=transaction(c->require(c,instanceId).definition().voteUnit()==StoryDefinition.VoteUnit.NATION);
         if(national&&!nationalState(instanceId,context).canVote())return Map.of();
         return transaction(c->visibleChoices(c,require(c,instanceId),context,national));
@@ -728,6 +781,7 @@ public final class RuleEngine implements AutoCloseable {
         return transaction(c->{
             var gate=QuestGateLedger.find(c,gateId);StoryInstance instance=require(c,gate.instanceId());
             requireQuestMember(instance,actor);
+            MemberReviewLedger.requireEligible(c, instance, actor.playerId(), actor.nationId(), clock.instant());
             if(!gate.active()||gate.completed()||!gate.playerId().equals(actor.playerId()))throw new SecurityException("任务闸门不属于当前活动成员");
             var effect=instance.definition().nodes().get(instance.node()).effects().stream().filter(e->e.id().equals(gate.effectId())&&e.type().equals("quest.await")).findFirst().orElseThrow();
             if(!actor.permitted(effect.permission())||!test(instance.definition().condition(),facts(c,actor,event(c,instance.sourceEventId()),instance)))throw new SecurityException("不满足原生任务接取权限或剧情条件");
