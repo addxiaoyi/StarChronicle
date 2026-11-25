@@ -1,5 +1,7 @@
 # StarChronicle
 
+**当前增量：普通国库SQLite写锁竞争已修复并完成同构件实服复验。** 原生7,472项零失败／错误、47项跳过；真实MySQL国库2项通过；Chronicle沿用988项构建。新原生JAR配对原Chronicle完成国库、国家直售、DUNGEON、WAR各三次正常启动，共12次；125项证据检查121通过／4场景跳过，解压复验通过。相同夹具源码在旧JAR重现SQLITE_BUSY拒绝并回滚，失败现场保留。见[国库验收报告](docs/TREASURY-WRITER-TEST-REPORT.md)。十阶段仍active，未合并或生产部署。
+
 2026-11-25 国家工厂增量：付费建造、1–10级升级／启停、工厂容量与绑定生产已完成所选Paper验收。Chronicle988项、原生7,465项零失败／错误（47跳过）、独立MySQL56例通过；冻结双JAR17次正常启动，206项证据检查通过／8场景跳过。见[工厂合同](docs/NATION-FACTORIES.md)、[验收报告](docs/NATION-FACTORIES-TEST-REPORT.md)与[十阶段交接](docs/HANDOFF-2026-11-25.md)。旧工厂迁移、全栈Folia和生产部署尚未完成。
 
 2026-11-25 最新提交窗口增量：国家生产／贸易12个真实MySQL进程中断场景通过，12次数据库SIGKILL／重启、8次业务JVM SIGKILL、40次正常JVM退出；修正后31项SQL、32项证据、9项目标保护回归全通过。资产、原操作者与唯一回执恢复／重放不变；本轮为原生服务测试，未新增Paper联机或物理断电结论。见[报告](docs/MYSQL-INFLIGHT-TEST-REPORT.md)及[十阶段交接](docs/HANDOFF-2026-11-25.md)。冻结双JAR不变，目标继续推进。
