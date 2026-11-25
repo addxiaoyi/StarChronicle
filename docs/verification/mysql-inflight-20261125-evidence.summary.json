@@ -1,0 +1,19 @@
+{
+  "status": "VERIFIED",
+  "archive": "mysql-inflight-20261125-evidence.zip",
+  "bytes": 580953,
+  "members": 428,
+  "sha256": "f971cde7406b4b73524d544025951eefee428d8d57b8d12ca60e7acd5e91f43e",
+  "native_head": "ebdfacaea2132f86bc3cbaedd6cd6f438d2de0b5",
+  "native_product_head": "59ed52abbed5521eff6383df004985b1e13e1bbe",
+  "acceptance": {
+    "status": "PASSED",
+    "cases": 12,
+    "database_kills": 12,
+    "jvm_kills": 8,
+    "normal_worker_exits": 40,
+    "corrected_sql_tests": 31
+  },
+  "failed_attempts": 2,
+  "boundary": "Native services compiled from unchanged product sources; fixture identity adapters; real MySQL and process kills. No new Paper or hardware power-loss claim."
+}
