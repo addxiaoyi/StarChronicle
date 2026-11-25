@@ -4,6 +4,8 @@
 
 本轮验证实际转账、圈地、FancyNpcs 交互与所列故障。没有执行完整史诗战役、收费建国、MySQL、崩溃中的跨插件共同提交或全栈 Folia；十阶段仍在推进。
 
+配套草稿为 [Chronicle PR #8](https://github.com/addxiaoyi/StarChronicle/pull/8) 与 [StarCore PR #7](https://github.com/addxiaoyi/starcore/pull/7)，分别叠加两库资源历史分支，尚未合并。
+
 ## 固定组合与源码
 
 用户已授权自行选择。基线为 Java 21、Paper `1.21.11-132-ver/1.21.11@c5eb079`，Paper JAR SHA-256 为 `5ffef465eeeb5f2a3c23a24419d97c51afd7dbb4923ff42df9a3f58bba1ccfba`。
