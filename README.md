@@ -1,6 +1,6 @@
 # StarChronicle
 
-2026-11-25 跨设备续接入口：[开发阶段与交接报告](docs/HANDOFF-2026-11-25.md)。当前主项目 866 项、配套 StarCore 90 项专项测试通过；原生常规回归 7,202 项零失败／错误（21 项跳过）。同一候选已完成隔离 Paper 的 DUNGEON／WAR 各三次启动、结算与重放验收，十阶段整体仍在推进，精确范围见[本轮测试报告](docs/NATIONAL-EPIC-TEST-REPORT.md)。
+2026-11-25 跨设备续接入口：[开发阶段与交接报告](docs/HANDOFF-2026-11-25.md)。当前贡献接线候选通过主项目 878 项测试、隔离 Paper 的 DUNGEON／WAR 各三次启动与旧库升级两次启动；史诗国库／资源援助可查询、回填且不重复。配套原生沿用专项 90 项、常规回归 7,202 项通过的构件（21 项跳过）。十阶段整体仍在推进，精确范围见[贡献接线与测试报告](docs/CONTRIBUTIONS.md)，此前 866 项检查点见[国家史诗原报告](docs/NATIONAL-EPIC-TEST-REPORT.md)。
 
 国家史诗新增 `/chronicle epic` 报名、冻结、准备、执行、对账与路线入口；可选《帝国最后的继承人》战略包默认关闭。部署和真实回执边界见 [国家史诗契约](docs/NATIONAL-EPIC-CONTRACT.md)与[操作示例](examples/national-epic/last-heir-strategy/README.md)。
 
@@ -10,7 +10,7 @@ Minecraft 国战服务器的长期剧情编排与世界历史插件。玩家通�
 
 本仓库在第一阶段工程上增加了真实的跨剧情选择、范围历史条件与结果接续，目标为 **Java 21、Paper/Folia 1.21.11**。所有实际国家状态变更均须由 StarCore 的受信任服务完成。默认剧情只修改 StarChronicle 本地荣誉、称号、NPC 声望和逻辑记忆，不会直接扣国库、改外交、发物品或运行管理命令。
 
-当前分支另加入可选的 [自动世界记忆配方](docs/MEMORY-RECIPES.md)：schema 7、同事务记忆登记、稳定后续信号、地方支线与有界因果反馈；并新增可选的 [国家援助与国库回执](docs/NATIONAL-AID.md)，严格复用 StarCore 原生国库转账和回执。此前援助单独构建通过 831 项测试；最新国家史诗增量构建通过 866 项，真实运行范围以本轮测试报告为准，先前 schema 6／7 构件报告仍作为独立历史证据保留。
+当前分支另加入可选的 [自动世界记忆配方](docs/MEMORY-RECIPES.md)：schema 7、同事务记忆登记、稳定后续信号、地方支线与有界因果反馈；并新增可选的 [国家援助与国库回执](docs/NATIONAL-AID.md)，严格复用 StarCore 原生国库转账和回执。此前援助单独构建通过 831 项、国家史诗检查点通过 866 项；最新贡献增量通过 878 项，真实运行范围见[贡献报告](docs/CONTRIBUTIONS.md)，先前构件报告仍独立保留。
 
 ## 已实现内容
 
@@ -78,6 +78,8 @@ Paper API 为 provided，不打包入插件。Jackson 和 YAML 依赖重定位�
 | `/chronicle history [页]` | 世界历史 GUI，页码从 1 起 |
 | `/chronicle history nation <国家ID> [页]` | 国家历史 |
 | `/chronicle history player <UUID或me> [页]` | 个人传记 |
+| `/chronicle contributions [页]` | 本人已核验贡献，每页 10 条 |
+| `/chronicle contributions nation\|player <UUID或me> [页]` | 指定国家／玩家的贡献；[API 与回执边界](docs/CONTRIBUTIONS.md) |
 | `/chronicle book [卷数]` | 用原生书阅读一条真实历史及完整证据 |
 | `/chronicle npc <逻辑NPC ID>` | 当前关系、背景、阵营、成长职位与条件对话 |
 | `/chronicle fate` | 当前身份、持久荣誉、历史称号及个人剧情入口 |
