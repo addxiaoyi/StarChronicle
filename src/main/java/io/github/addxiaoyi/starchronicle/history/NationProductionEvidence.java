@@ -7,7 +7,19 @@ import java.util.*;
 /** Only native completed, paid national production runs may supply civilization contributions. */
 public record NationProductionEvidence(UUID domain, long sequence, UUID runId, UUID actor,
         String nation, UUID resourceDomain, String recipe, long batches, Map<String,Long> inputs,
-        Map<String,Long> outputs, Instant startedAt, Instant readyAt, Instant committedAt) {
+        Map<String,Long> outputs, Instant startedAt, Instant readyAt, Instant committedAt, FactoryAdmission factory) {
+    public NationProductionEvidence(UUID domain,long sequence,UUID runId,UUID actor,String nation,UUID resourceDomain,
+            String recipe,long batches,Map<String,Long> inputs,Map<String,Long> outputs,Instant startedAt,Instant readyAt,Instant committedAt){
+        this(domain,sequence,runId,actor,nation,resourceDomain,recipe,batches,inputs,outputs,startedAt,readyAt,committedAt,null);
+    }
+    public record FactoryAdmission(UUID domain,UUID factoryId,long version,String type,int level,int minimumLevel){
+        public FactoryAdmission {
+            Objects.requireNonNull(domain);Objects.requireNonNull(factoryId);
+            if(type==null||!Set.of("SMELTER","PROCESSING_PLANT","CHEMICAL_PLANT","ASSEMBLY_PLANT","REFINERY","INTEGRATED_FACTORY").contains(type)
+                    ||level<1||level>10||minimumLevel<1||minimumLevel>level||version<level)
+                throw new IllegalArgumentException("Invalid factory admission");
+        }
+    }
     public static final String SOURCE="starcore.nation-production.completions.v1";
     public static final String ISSUER="StarCore.NationProductionService";
     public NationProductionEvidence {
@@ -31,6 +43,11 @@ public record NationProductionEvidence(UUID domain, long sequence, UUID runId, U
         outputs.forEach((key,value)->facts.put("production.output."+key,Long.toString(value)));
         facts.put("production.started_at",startedAt.toString());facts.put("production.ready_at",readyAt.toString());
         facts.put("production.asset_atomicity","NATIVE_SQL_STATE_TRANSITIONS");
+        if(factory!=null){
+            facts.put("production.factory.authority_domain",factory.domain().toString());facts.put("production.factory.id",factory.factoryId().toString());
+            facts.put("production.factory.version",Long.toString(factory.version()));facts.put("production.factory.type",factory.type());
+            facts.put("production.factory.level",Integer.toString(factory.level()));facts.put("production.factory.minimum_level",Integer.toString(factory.minimumLevel()));
+        }
         return new WorldEvent("starcore:nation-production:"+domain+":"+sequence,"NATIONAL_PRODUCTION_COMMITTED",committedAt,
                 Set.of(actor),Set.of(nation),facts,ISSUER,
                 "Native national production; authority="+domain+"; sequence="+sequence+"; run="+runId+"; resource_domain="+resourceDomain
@@ -41,9 +58,15 @@ public record NationProductionEvidence(UUID domain, long sequence, UUID runId, U
         var proof=new NationProductionEvidence(NationTradeEvidence.canonicalUuid(f.get("source.authority_domain")),number(f.get("source.sequence")),
                 NationTradeEvidence.canonicalUuid(f.get("production.run_id")),NationTradeEvidence.canonicalUuid(f.get("production.actor")),f.get("production.nation"),
                 NationTradeEvidence.canonicalUuid(f.get("production.resource_domain")),f.get("production.recipe"),number(f.get("production.batches")),
-                map(f,"production.input."),map(f,"production.output."),Instant.parse(f.get("production.started_at")),Instant.parse(f.get("production.ready_at")),event.occurredAt());
+                map(f,"production.input."),map(f,"production.output."),Instant.parse(f.get("production.started_at")),Instant.parse(f.get("production.ready_at")),event.occurredAt(),factory(f));
         if(!proof.event().equals(event))throw new IllegalArgumentException("Production event is not its canonical source projection");
         return proof;
+    }
+    private static FactoryAdmission factory(Map<String,String> facts){
+        if(facts.keySet().stream().noneMatch(k->k.startsWith("production.factory.")))return null;
+        return new FactoryAdmission(NationTradeEvidence.canonicalUuid(facts.get("production.factory.authority_domain")),
+                NationTradeEvidence.canonicalUuid(facts.get("production.factory.id")),number(facts.get("production.factory.version")),
+                facts.get("production.factory.type"),Math.toIntExact(number(facts.get("production.factory.level"))),Math.toIntExact(number(facts.get("production.factory.minimum_level"))));
     }
     private static Map<String,Long> quantities(Map<String,Long> values){
         Objects.requireNonNull(values);if(values.isEmpty()||values.size()>7)throw new IllegalArgumentException("Invalid production resources");

@@ -16,7 +16,7 @@ SOURCE='starcore.nation-production.completions.v1'
 ISSUER='StarCore.NationProductionService'
 TERMS={'primary':('A',1),'pending':('A',2),'cancelled':('A',1),'old-founder':('A',1),'successor':('D',2)}
 
-def native(path,seed,players,captured,keys,completed,founder,*,terms=None,cancelled=('cancelled',)):
+def native(path,seed,players,captured,keys,completed,founder,*,terms=None,cancelled=('cancelled',),factory_bindings=None,initial=None,infrastructure_cost=None):
     if terms is None:
         terms={key:dict(who=who,batches=batches,recipeId='industrial_refining',inputs={'energy':batches,'mineral':3*batches},outputs={'industrial':2*batches},seconds=30*batches) for key,(who,batches) in TERMS.items()}
     with closing(connect(path)) as db:
@@ -41,8 +41,9 @@ def native(path,seed,players,captured,keys,completed,founder,*,terms=None,cancel
             expected=dict(format=1,runId=id,actorId=players[who],nationId=seed['A'],resourceDomain=resource_domain,
                 recipeId=spec['recipeId'],batches=batches,inputs=spec['inputs'],outputs=spec['outputs'],
                 startedAt=captured[key]['startedAt'],readyAt=captured[key]['readyAt'])
+            if factory_bindings is not None:expected.update(format=2,factory=factory_bindings[key])
             check(run==expected and row['run_json']==compact(expected),'Frozen production terms differ')
-            check({k:v for k,v in run.items() if k!='format'}==captured[key],'Observed run differs from paid SQL run')
+            check({k:v for k,v in run.items() if k not in ('format','factory')}==captured[key],'Observed run differs from paid SQL run')
             check(row['run_id']==id and millis(run['readyAt'])-millis(run['startedAt'])==spec['seconds']*1000,'Production duration or identity differs')
             status=row['state'];before=current.get(id)
             check(status=='RUNNING' if before is None else before=='RUNNING' and status in ('COMPLETED','CANCELLED'),'Invalid production transition')
@@ -51,7 +52,7 @@ def native(path,seed,players,captured,keys,completed,founder,*,terms=None,cancel
             if status=='COMPLETED':
                 completed_sequence+=1
                 check(row['completion_sequence']==completed_sequence and row['changed_at']>=millis(run['readyAt']),'Early or duplicate production completion')
-                receipts.append(dict(authorityDomain=domain,sequence=completed_sequence,run=captured[key],committedAt=changed))
+                receipts.append(dict(authorityDomain=domain,sequence=completed_sequence,run={k:v for k,v in run.items() if k!='format'},committedAt=changed))
             else:check(row['completion_sequence'] is None,'Unfinished run has completion sequence')
             prefix=hashed(f'{domain}\n{resource_domain}\n{sequence}\n{row["completion_sequence"] or 0}\n{prefix}\n{status}\n{changed}\n{row["run_json"]}')
             check(row['entry_hash']==prefix,'Production event digest mismatch');current[id]=status
@@ -63,8 +64,9 @@ def native(path,seed,players,captured,keys,completed,founder,*,terms=None,cancel
         for i in range(int(state['count'])):
             p=f'stockpile.{i}.';key=(state[p+'nationId'],state[p+'type']);check(key not in stocks,'Duplicate inventory entry');stocks[key]=int(state[p+'amount'])
         expected_stocks={(seed[w],'agricultural'):100 for w in 'ABC'}
-        expected_stocks.update({(seed['A'],'mineral'):100-used['mineral'],(seed['A'],'energy'):100-used['energy']})
-        if delivered:expected_stocks[(seed['A'],'industrial')]=delivered
+        initial=initial or dict(mineral=100,energy=100);infrastructure_cost=infrastructure_cost or {}
+        amounts={resource:initial.get(resource,0)-infrastructure_cost.get(resource,0)-used.get(resource,0)+(delivered if resource=='industrial' else 0) for resource in set(initial)|set(infrastructure_cost)|{'mineral','energy','industrial'}}
+        expected_stocks.update({(seed['A'],resource):amount for resource,amount in amounts.items() if amount})
         check(stocks==expected_stocks,'Production input/output conservation failed')
         check(db.execute('select count(*) from starcore_resource_transfer_receipts').fetchone()[0]==0,'Production fabricated a bilateral transfer')
         treasury=dict(db.execute('select property_key,property_value from starcore_treasury_state'))
@@ -82,6 +84,8 @@ def event(receipt):
         'production.asset_atomicity':'NATIVE_SQL_STATE_TRANSITIONS'}
     for side in ('input','output'):
         facts.update({f'production.{side}.{key}':str(value) for key,value in run[side+'s'].items()})
+    if 'factory' in run:
+        f=run['factory'];facts.update({'production.factory.'+key:str(f[value]) for key,value in [('authority_domain','authorityDomain'),('id','factoryId'),('version','version'),('type','type'),('level','level'),('minimum_level','minimumLevel')]})
     evidence=f'Native national production; authority={d}; sequence={n}; run={run["runId"]}; resource_domain={run["resourceDomain"]}; input consumption and paid run share one SQL commit; exact outputs and unique completion share one SQL commit; original initiator is frozen; no player inventory, external wallet, legacy factory attribution or extra rewards'
     return dict(id=f'starcore:nation-production:{d}:{n}',type='NATIONAL_PRODUCTION_COMMITTED',occurredAt=receipt['committedAt'],participants=[run['actorId']],nations=[run['nationId']],facts=facts,source=ISSUER,evidence=evidence)
 
