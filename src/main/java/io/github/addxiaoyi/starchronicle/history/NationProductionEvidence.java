@@ -12,11 +12,15 @@ public record NationProductionEvidence(UUID domain, long sequence, UUID runId, U
             String recipe,long batches,Map<String,Long> inputs,Map<String,Long> outputs,Instant startedAt,Instant readyAt,Instant committedAt){
         this(domain,sequence,runId,actor,nation,resourceDomain,recipe,batches,inputs,outputs,startedAt,readyAt,committedAt,null);
     }
-    public record FactoryAdmission(UUID domain,UUID factoryId,long version,String type,int level,int minimumLevel){
+    public record FactoryAdmission(UUID domain,UUID factoryId,long version,String type,int level,int minimumLevel,String origin){
+        public FactoryAdmission(UUID domain,UUID factoryId,long version,String type,int level,int minimumLevel){
+            this(domain,factoryId,version,type,level,minimumLevel,"BUILT");
+        }
         public FactoryAdmission {
             Objects.requireNonNull(domain);Objects.requireNonNull(factoryId);
             if(type==null||!Set.of("SMELTER","PROCESSING_PLANT","CHEMICAL_PLANT","ASSEMBLY_PLANT","REFINERY","INTEGRATED_FACTORY").contains(type)
-                    ||level<1||level>10||minimumLevel<1||minimumLevel>level||version<level)
+                    ||origin==null||!Set.of("BUILT","LEGACY_REGISTERED").contains(origin)
+                    ||level<1||level>10||minimumLevel<1||minimumLevel>level||version<1||("BUILT".equals(origin)&&version<level))
                 throw new IllegalArgumentException("Invalid factory admission");
         }
     }
@@ -47,6 +51,7 @@ public record NationProductionEvidence(UUID domain, long sequence, UUID runId, U
             facts.put("production.factory.authority_domain",factory.domain().toString());facts.put("production.factory.id",factory.factoryId().toString());
             facts.put("production.factory.version",Long.toString(factory.version()));facts.put("production.factory.type",factory.type());
             facts.put("production.factory.level",Integer.toString(factory.level()));facts.put("production.factory.minimum_level",Integer.toString(factory.minimumLevel()));
+            if(!factory.origin().equals("BUILT"))facts.put("production.factory.origin",factory.origin());
         }
         return new WorldEvent("starcore:nation-production:"+domain+":"+sequence,"NATIONAL_PRODUCTION_COMMITTED",committedAt,
                 Set.of(actor),Set.of(nation),facts,ISSUER,
@@ -66,7 +71,7 @@ public record NationProductionEvidence(UUID domain, long sequence, UUID runId, U
         if(facts.keySet().stream().noneMatch(k->k.startsWith("production.factory.")))return null;
         return new FactoryAdmission(NationTradeEvidence.canonicalUuid(facts.get("production.factory.authority_domain")),
                 NationTradeEvidence.canonicalUuid(facts.get("production.factory.id")),number(facts.get("production.factory.version")),
-                facts.get("production.factory.type"),Math.toIntExact(number(facts.get("production.factory.level"))),Math.toIntExact(number(facts.get("production.factory.minimum_level"))));
+                facts.get("production.factory.type"),Math.toIntExact(number(facts.get("production.factory.level"))),Math.toIntExact(number(facts.get("production.factory.minimum_level"))),facts.getOrDefault("production.factory.origin","BUILT"));
     }
     private static Map<String,Long> quantities(Map<String,Long> values){
         Objects.requireNonNull(values);if(values.isEmpty()||values.size()>7)throw new IllegalArgumentException("Invalid production resources");
