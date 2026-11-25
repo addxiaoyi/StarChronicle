@@ -17,7 +17,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('starcore', 'chronicle', 'runtime', 'java-home', 'output'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--heap-mb', type=int, default=96)
     args = parser.parse_args()
+    if args.heap_mb < 32:
+        parser.error('Use at least 32 MiB heap')
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     artifacts = output / 'artifacts'
@@ -32,7 +35,7 @@ def main():
     classes = output / 'classes'
     classes.mkdir()
     manifest = {'status': 'RUNNING', 'scope': 'Four sequential JVMs, packaged native trade with real SQLite, treasury and inventory commit/read failures, original-ID recovery, route/quota once and durable Chronicle resource history cursor; no Minecraft or MySQL certification',
-                'artifacts': {p.name: digest(p) for p in artifacts.iterdir()}, 'phases': {}}
+                'heap_mb': args.heap_mb, 'artifacts': {p.name: digest(p) for p in artifacts.iterdir()}, 'phases': {}}
 
     def run(label, program, arguments, launcher=()):
         argument_file = output / (label + '.args')
@@ -49,7 +52,7 @@ def main():
         run('compile', 'javac', ['-encoding', 'UTF-8', '-cp', cp, '-d', classes, artifacts / source.name],
             ['-J-Xmx96m', '-J-XX:+UseSerialGC', '-J-XX:ActiveProcessorCount=1'])
         for phase in ('first', 'second', 'third', 'fourth'):
-            run(phase, 'java', ['-Xmx96m', '-Xss512k', '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1',
+            run(phase, 'java', [f'-Xmx{args.heap_mb}m', '-Xss512k', '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1',
                                 '-XX:TieredStopAtLevel=1', '-XX:ReservedCodeCacheSize=32m', '-cp', str(classes) + os.pathsep + cp,
                                 'io.github.addxiaoyi.starchronicle.integration.TradeExecutionProbe', output, phase])
         for name in ('resources', 'treasury', 'chronicle'):

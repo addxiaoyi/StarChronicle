@@ -18,7 +18,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ['starcore', 'chronicle', 'runtime', 'java-home', 'output']:
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--heap-mb', type=int, default=96)
     args = parser.parse_args()
+    if args.heap_mb < 32:
+        parser.error('Use at least 32 MiB heap')
     source = Path(__file__).with_name('FactoryContractProbe.java').resolve()
     libraries = sorted((args.runtime / 'libraries').rglob('*.jar'))
     if not libraries:
@@ -32,7 +35,7 @@ def main():
     frozen.mkdir()
     for artifact, name in [(args.starcore, 'starcore.jar'), (args.chronicle, 'starchronicle.jar'), (source, source.name)]:
         shutil.copy2(artifact, frozen / name)
-    manifest = {'status': 'RUNNING', 'artifacts': {p.name: sha(p) for p in frozen.iterdir()},
+    manifest = {'status': 'RUNNING', 'heap_mb': args.heap_mb, 'artifacts': {p.name: sha(p) for p in frozen.iterdir()},
                 'scope': 'Three sequential JVMs; packaged timed factory and Chronicle services; real SQLite; controlled clock and detached NationService fixture; no Minecraft or live player certification',
                 'phases': {}}
     cp = os.pathsep.join(p.resolve().as_posix() for p in [frozen/'starchronicle.jar', frozen/'starcore.jar', *libraries])
@@ -55,7 +58,7 @@ def main():
         run('compile', 'javac', ['-encoding', 'UTF-8', '-cp', cp, '-d', classes, frozen/source.name],
             ['-J-Xmx96m', '-J-XX:+UseSerialGC', '-J-XX:ActiveProcessorCount=1'])
         for phase in ['first', 'second', 'third']:
-            run(phase, 'java', ['-Xmx96m', '-Xss512k', '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1',
+            run(phase, 'java', [f'-Xmx{args.heap_mb}m', '-Xss512k', '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1',
                                '-XX:TieredStopAtLevel=1', '-XX:ReservedCodeCacheSize=32m',
                                '-cp', str(classes)+os.pathsep+cp,
                                'io.github.addxiaoyi.starchronicle.integration.FactoryContractProbe', output, phase])
