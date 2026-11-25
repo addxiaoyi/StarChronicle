@@ -53,11 +53,28 @@ class NationalServicesTest {
         CompletionStage<NationalVoteState> pending=service.nationalState("instance",actor);verifyNoInteractions(engine);snapshot(current);runWorker();assertEquals(expected,pending.toCompletableFuture().join());verify(engine).nationalState("instance",current);verify(engine).pending(Set.of(actor));
     }
     @Test void freshUsePermissionDenialBlocksVoteWithdrawAndReadBeforeWorker(){
-        for(int operation=0;operation<3;operation++){
-            CompletionStage<?> pending=switch(operation){case 0->service.nationalVote("instance",actor,"council",0,"aid");case 1->service.withdrawNationalVote("instance",actor,"council",0);default->service.nationalState("instance",actor);};
+        for(int operation=0;operation<7;operation++){
+            CompletionStage<?> pending=switch(operation){case 0->service.nationalVote("instance",actor,"council",0,"aid");case 1->service.withdrawNationalVote("instance",actor,"council",0);case 2->service.nationalState("instance",actor);case 3->service.memberState("instance",actor);case 4->service.memberReviews(actor,50);case 5->service.revalidateMember("instance",actor,"council");default->service.exitMember("instance",actor,"council");};
             snapshot(context("nation",Set.of("starchronicle.admin","starchronicle.identity.monarch")));CompletionException error=assertThrows(CompletionException.class,()->pending.toCompletableFuture().join());assertInstanceOf(SecurityException.class,error.getCause());
         }
         verifyNoInteractions(engine,worker);assertTrue(stateWork.isEmpty());
+    }
+    @Test void memberReviewAndExitKeepNodeTokensAndUseFreshPlayerSnapshots(){
+        PlayerContext current=context("original-native-nation",Set.of("starchronicle.use"));
+        ProcessReport approved=new ProcessReport(false,List.of("instance"),"approved");
+        when(engine.revalidateMember("instance","saved-node",current)).thenReturn(approved);
+        var pending=service.revalidateMember("instance",actor,"saved-node");verifyNoInteractions(engine);
+        snapshot(current);runWorker();assertEquals(approved,pending.toCompletableFuture().join());
+        verify(engine).revalidateMember("instance","saved-node",current);
+        ProcessReport exited=new ProcessReport(false,List.of("instance"),"exited");
+        when(engine.exitMember("instance","saved-node",current)).thenReturn(exited);
+        var leave=service.exitMember("instance",actor,"saved-node");snapshot(current);runWorker();
+        assertEquals(exited,leave.toCompletableFuture().join());verify(engine).exitMember("instance","saved-node",current);
+    }
+    @Test void missingMemberNodeFailsBeforePlayerOrWorkerScheduling(){
+        assertThrows(CompletionException.class,()->service.exitMember("instance",actor,"").toCompletableFuture().join());
+        assertThrows(CompletionException.class,()->service.revalidateMember("instance",actor,null).toCompletableFuture().join());
+        verifyNoInteractions(engine,tasks,worker,gateway);
     }
     @Test void backendAuthorityRejectionDoesNotTriggerAnotherVoteOrChooseFallback(){
         PlayerContext current=context("nation",Set.of("starchronicle.use","starchronicle.admin","starchronicle.identity.monarch"));when(engine.nationalVote("instance",actor,"council",5,"aid",current)).thenThrow(new SecurityException("not the actual holder"));

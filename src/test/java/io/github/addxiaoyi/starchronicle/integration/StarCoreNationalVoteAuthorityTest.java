@@ -43,6 +43,23 @@ class StarCoreNationalVoteAuthorityTest {
         assertEquals(List.of("nationOf:"+MEMBER,"exists:"+OWN,"holder:"+MEMBER+":"+OWN),nativeState.calls);
     }
 
+    @Test void ordinaryMembershipCanBeRevalidatedWithoutGrantingTheNationalBallot()throws Exception {
+        var escaped=authority.withMembership(MEMBER,OWN,view->{
+            assertTrue(Thread.holdsLock(nativeState.lock));assertEquals(MEMBER,view.actorId());
+            assertEquals("StarCore.NationModule.membership",view.issuer());
+            assertFalse(view.evidence().contains("currentHolder"));return view;
+        });
+        assertEquals(List.of("nationOf:"+MEMBER,"exists:"+OWN),nativeState.calls);assertInvalidView(escaped);
+        assertThrows(SecurityException.class,()->authority.withRepresentative(MEMBER,OWN,view->null));
+    }
+
+    @Test void emptyMembershipRequiresAnActualNativeNationlessIdentity()throws Exception {
+        UUID nationless=UUID.randomUUID();
+        assertEquals("",authority.withMembership(nationless,"",NationalVoteAuthority.View::nationId));
+        assertThrows(SecurityException.class,()->authority.withMembership(MEMBER,"",view->null));
+        assertThrows(SecurityException.class,()->authority.withMembership(nationless,OWN,view->null));
+    }
+
     @Test void differentExpectedNationIsRejectedBeforeExistenceOrHolderReads(){
         AtomicInteger callbacks=new AtomicInteger();assertThrows(SecurityException.class,()->authority.withRepresentative(HOLDER,OTHER,view->callbacks.incrementAndGet()));
         assertEquals(0,callbacks.get());assertEquals(List.of("nationOf:"+HOLDER),nativeState.calls);

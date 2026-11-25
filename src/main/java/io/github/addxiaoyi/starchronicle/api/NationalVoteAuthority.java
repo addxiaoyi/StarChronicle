@@ -23,6 +23,12 @@ public interface NationalVoteAuthority {
     }
     <T>T withRepresentative(UUID actorId,String expectedNationId,Authorized<T> operation)throws Exception;
 
+    /** Verify ordinary membership (or an explicitly empty nation), under the same native
+     * mutation lock. This never grants a national ballot. Older adapters fail closed. */
+    default <T>T withMembership(UUID actorId,String expectedNationId,Authorized<T> operation)throws Exception {
+        throw new SecurityException("No authoritative membership review service is available");
+    }
+
     static NationalVoteAuthority denying(){return new NationalVoteAuthority(){
         @Override public <T>T withRepresentative(UUID actor,String nation,Authorized<T> operation){throw new SecurityException("No authoritative national representative service is available");}
     };}

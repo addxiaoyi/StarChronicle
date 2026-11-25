@@ -19,28 +19,35 @@ public final class StarCoreNationalVoteAuthority implements NationalVoteAuthorit
     public boolean available(){try{return nativeAccess.get()!=null;}catch(RuntimeException failure){return false;}}
 
     @Override public <T>T withRepresentative(UUID actor,String expectedNation,Authorized<T> operation)throws Exception {
+        return withIdentity(actor, expectedNation, operation, true);
+    }
+    @Override public <T>T withMembership(UUID actor,String expectedNation,Authorized<T> operation)throws Exception {
+        return withIdentity(actor, expectedNation, operation, false);
+    }
+    private <T>T withIdentity(UUID actor,String expectedNation,Authorized<T> operation,boolean representative)throws Exception {
         Objects.requireNonNull(actor);Objects.requireNonNull(operation);
-        if(!canonicalUuid(expectedNation))throw new SecurityException("A current native nation is required");
+        if(!canonicalUuid(expectedNation)&&(representative||!"".equals(expectedNation)))throw new SecurityException("A current native nation is required");
         NativeAccess access=nativeAccess.get();if(access==null)throw new SecurityException("Audited native national authority is unavailable");
         Object monitor=Objects.requireNonNull(access.monitor(),"Missing native nation monitor");
         synchronized(monitor) {
-            if(!expectedNation.equals(access.nationOf(actor))||!access.exists(expectedNation)||!access.currentHolder(actor,expectedNation))
-                throw new SecurityException("Only the nation's current authoritative holder may cast its ballot");
-            ScopedView view=new ScopedView(access,monitor,actor,expectedNation,clock.instant());
+            if(!expectedNation.equals(access.nationOf(actor))||!expectedNation.isEmpty()&&!access.exists(expectedNation)
+                    ||representative&&!access.currentHolder(actor,expectedNation))
+                throw new SecurityException(representative?"Only the nation's current authoritative holder may cast its ballot":"Current native membership differs from the requested identity");
+            ScopedView view=new ScopedView(access,monitor,actor,expectedNation,clock.instant(),representative);
             try{return operation.run(view);}finally{view.active=false;}
         }
     }
     private static boolean canonicalUuid(String value){try{return value!=null&&UUID.fromString(value).toString().equals(value);}catch(IllegalArgumentException failure){return false;}}
     private static final class ScopedView implements View {
         private final NativeAccess access;private final Object monitor;private final Thread owner=Thread.currentThread();
-        private final UUID actor;private final String nation;private final Instant checked;private volatile boolean active=true;
-        private ScopedView(NativeAccess access,Object monitor,UUID actor,String nation,Instant checked){this.access=access;this.monitor=monitor;this.actor=actor;this.nation=nation;this.checked=checked;}
+        private final UUID actor;private final String nation;private final Instant checked;private final boolean representative;private volatile boolean active=true;
+        private ScopedView(NativeAccess access,Object monitor,UUID actor,String nation,Instant checked,boolean representative){this.access=access;this.monitor=monitor;this.actor=actor;this.nation=nation;this.checked=checked;this.representative=representative;}
         private void check(){if(!active||Thread.currentThread()!=owner||!Thread.holdsLock(monitor))throw new IllegalStateException("National authority view is outside its synchronous locked callback");}
         @Override public UUID actorId(){check();return actor;}
         @Override public String nationId(){check();return nation;}
         @Override public Instant checkedAt(){check();return checked;}
-        @Override public String issuer(){check();return "StarCore.NationModule.current-holder";}
-        @Override public String evidence(){check();return "nationOf="+nation+"; nationById=present; isFounder(currentHolder)=true; actor="+actor+"; checkedAt="+checked;}
+        @Override public String issuer(){check();return "StarCore.NationModule."+(representative?"current-holder":"membership");}
+        @Override public String evidence(){check();return "nationOf="+nation+"; nationById="+(nation.isEmpty()?"not-applicable":"present")+(representative?"; isFounder(currentHolder)=true":"")+"; actor="+actor+"; checkedAt="+checked;}
         @Override public boolean nationExists(String id)throws Exception {check();if(!canonicalUuid(id))throw new IllegalArgumentException("Invalid native nation ID");return access.exists(id);}
     }
 

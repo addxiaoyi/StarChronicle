@@ -1,6 +1,6 @@
 # StarChronicle
 
-2026-11-25 跨设备续接入口：[开发阶段与交接报告](docs/HANDOFF-2026-11-25.md)。当前贡献接线候选通过主项目 878 项测试、隔离 Paper 的 DUNGEON／WAR 各三次启动与旧库升级两次启动；史诗国库／资源援助可查询、回填且不重复。配套原生沿用专项 90 项、常规回归 7,202 项通过的构件（21 项跳过）。十阶段整体仍在推进，精确范围见[贡献接线与测试报告](docs/CONTRIBUTIONS.md)，此前 866 项检查点见[国家史诗原报告](docs/NATIONAL-EPIC-TEST-REPORT.md)。
+2026-11-25 跨设备续接入口：[开发阶段与交接报告](docs/HANDOFF-2026-11-25.md)。当前成员复核候选通过主项目 896 项测试、47 项实服证据回归；成员专项和 DUNGEON／WAR 各三次启动通过，退出、权威复核、原国家重入及旧票历史保留已有公开流程。配套原生沿用专项 90 项、常规回归 7,202 项通过的构件（21 项跳过）。十阶段整体仍在推进，最新范围见[成员复核报告](docs/MEMBER-REVIEW.md)，史诗贡献与旧库升级的独立检查点见[贡献报告](docs/CONTRIBUTIONS.md)。
 
 国家史诗新增 `/chronicle epic` 报名、冻结、准备、执行、对账与路线入口；可选《帝国最后的继承人》战略包默认关闭。部署和真实回执边界见 [国家史诗契约](docs/NATIONAL-EPIC-CONTRACT.md)与[操作示例](examples/national-epic/last-heir-strategy/README.md)。
 
@@ -78,6 +78,8 @@ Paper API 为 provided，不打包入插件。Jackson 和 YAML 依赖重定位�
 | `/chronicle history [页]` | 世界历史 GUI，页码从 1 起 |
 | `/chronicle history nation <国家ID> [页]` | 国家历史 |
 | `/chronicle history player <UUID或me> [页]` | 个人传记 |
+| `/chronicle member list` / `status <实例ID>` | 本人的复核记录／当前成员状态 |
+| `/chronicle member revalidate\|exit <实例ID> <当前节点ID>` | 原生身份复核或退出；原国家重新加入沿用 `join`，见[成员流程](docs/MEMBER-REVIEW.md) |
 | `/chronicle contributions [页]` | 本人已核验贡献，每页 10 条 |
 | `/chronicle contributions nation\|player <UUID或me> [页]` | 指定国家／玩家的贡献；[API 与回执边界](docs/CONTRIBUTIONS.md) |
 | `/chronicle book [卷数]` | 用原生书阅读一条真实历史及完整证据 |
