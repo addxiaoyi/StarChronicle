@@ -1,0 +1,96 @@
+{
+  "date": "2026-11-26",
+  "baselines": {
+    "chronicle": "b916381433bd19fd6b2777d43a0ba1aa6daa74cc",
+    "starcore": "d9102d4bfd322dc2b1be6cc7e92595757d8a5b24"
+  },
+  "scope": "Source and resource-module unit/SQLite/H2 tests; packaged services and two SQLite databases in three sequential JVMs; controlled clock and detached nation fixture; no Minecraft, live player, full native regression or Folia certification",
+  "native_tests": {
+    "tests": 264,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "chronicle_tests": "Existing unchanged Chronicle artifact: 933 tests passed in capacity-source-20261126; no new local full run",
+  "artifacts": {
+    "FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+    "starchronicle.jar": "7338e165534c2052a9678a3842955cab645021fdbc16b8eb256b58e312fbfffd",
+    "starcore.jar": "ed9a7ccd89df7afe24b00f6da1011693baa0c8d6c526ee099705e03808e92370"
+  },
+  "contract": {
+    "status": "PASS",
+    "artifacts": {
+      "FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+      "starchronicle.jar": "7338e165534c2052a9678a3842955cab645021fdbc16b8eb256b58e312fbfffd",
+      "starcore.jar": "ed9a7ccd89df7afe24b00f6da1011693baa0c8d6c526ee099705e03808e92370"
+    },
+    "scope": "Three sequential JVMs; packaged timed factory and Chronicle services; real SQLite; controlled clock and detached NationService fixture; no Minecraft or live player certification",
+    "phases": {
+      "compile": {
+        "exit_code": 0,
+        "log_sha256": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc"
+      },
+      "first": {
+        "exit_code": 0,
+        "log_sha256": "98e0a5b39046beec43eec780e5e1f4409bf8c39c114517bf5f59be506344c58a"
+      },
+      "second": {
+        "exit_code": 0,
+        "log_sha256": "e437848a40afc6764d53998de96827eac6346c16a829bef281313be84e57c278"
+      },
+      "third": {
+        "exit_code": 0,
+        "log_sha256": "832962b041c1c8a19b38a6004411ce6c4ba1cf3a6f14d1fbe18876b762540e98"
+      }
+    },
+    "files": {
+      "chronicle.db": "dd67be0e5fa7f6ea11281be7c11177b566a6789a97521b651a476247ce4b2d68",
+      "chronicle.db-shm": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+      "chronicle.db-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compile.args": "8ef8ba984b18e61b2dc949a141d75809f7b2010e8d3742111cdb3e9b5c713ea0",
+      "compile.log": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc",
+      "factory-id.txt": "efafac48664c37ff4e329d7d39072fca211be0aeb10b26c9b7a96a5f31a0ea0f",
+      "first-receipt.txt": "37b399fa8348ca64bf9372d59e9ab8f75553aaa0a47f277a0817112bce9332a3",
+      "first.args": "7cbe77114efed36de8a68c5bf479944ae4e81177a241fec4aec22cbc0eaa1d2c",
+      "first.log": "98e0a5b39046beec43eec780e5e1f4409bf8c39c114517bf5f59be506344c58a",
+      "native.db": "5e449f6125f5d435aacbd388b1f8f1c1ae11f5417003e2169c9b50d53170f8f9",
+      "ready-at.txt": "038aaa104d8888d3886f720f0ac20eddb0a1fb1260a4d49a4c90f57ecfe639ea",
+      "second.args": "69a7654017135fada40c00413cbe5d761d264cdb55c4223f68803d5b5fe332d3",
+      "second.log": "e437848a40afc6764d53998de96827eac6346c16a829bef281313be84e57c278",
+      "third.args": "e72e6275912168908301e6aa474fc303bf0be97ef9fdf503f05898b6076c788a",
+      "third.log": "832962b041c1c8a19b38a6004411ce6c4ba1cf3a6f14d1fbe18876b762540e98",
+      "artifacts/FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+      "artifacts/starchronicle.jar": "7338e165534c2052a9678a3842955cab645021fdbc16b8eb256b58e312fbfffd",
+      "artifacts/starcore.jar": "ed9a7ccd89df7afe24b00f6da1011693baa0c8d6c526ee099705e03808e92370",
+      "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe$TestClock.class": "3ece24b60871dad70981cc222c5c572009eff318c9cccf8afdd8e735c34723e6",
+      "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe.class": "10c5ee66b8fc3ad34a0e5acd4932ddebe2c4ed9fd70c0b275b436d18cc7b786f"
+    }
+  },
+  "coverage": "No current JaCoCo data: forkCount=0 and jacoco.skip=true",
+  "retained_failures": [
+    "Initial 83 tests: 1 failure (overflow setup was rejected by existing grant limit), 2 errors (file migration with transfer receipts omitted stockpiles/factories and production rows). Setup corrected; actual SQL migration fixed atomically with rollback regressions.",
+    "Intermediate 87 tests passed; verify format check failed because further recovery/locking edits were made during that run. Final resource-module verify uses the frozen final source."
+  ],
+  "native_source_hashes": {
+    "src/main/java/dev/starcore/starcore/module/resource/FactoryRun.java": "cba62ff5ca192e5ff1a55a83f2dbce5e0ceb2dbdd3e024a73d7dfab8405aef4b",
+    "src/main/java/dev/starcore/starcore/module/resource/FactoryRunStore.java": "dd823102ab64eb07a5b35093588c09c008fa7d4b215db6ec8dc3a6fc26661a93",
+    "src/main/java/dev/starcore/starcore/module/resource/ProcessingService.java": "ce5774b382b2d9247b3de8cda0aa11035d0f23c80ac3b7fafafb6a3bca552763",
+    "src/main/java/dev/starcore/starcore/module/resource/ResourceModule.java": "7311d7cbecdd043da5b8f2eec2f5ba7ccb82e644cb600f4b5283ed8807f54c48",
+    "src/main/java/dev/starcore/starcore/module/resource/SimpleProcessingService.java": "12c8989740739dfd4eaf0cfc3224d3e7b72317b9bda743bde299ee92ed8473fe",
+    "src/main/java/dev/starcore/starcore/module/resource/SqlResourceStateStorage.java": "0ae740eeee03e7c77206519be7d73a992a6c6431c305b6c25057977ff8c0dcd9",
+    "src/main/java/dev/starcore/starcore/module/resource/command/ResourceCommand.java": "fd34f4419d5c9836c2509adf0dbb9a33213d552717bf45e5d7ba2179524aaf30",
+    "src/main/java/dev/starcore/starcore/module/resource/model/Factory.java": "e9d6899b5f4e48ce9478f0ca7da05fc64ecc8c760413faa7af676ffa43fb5d17",
+    "src/main/java/dev/starcore/starcore/module/resource/model/ProcessingRecipe.java": "39a10d392ee6b758d82fc0905d452cb9cd28bd5ba8105b990cf8143baf364e07",
+    "src/test/java/dev/starcore/starcore/module/resource/FactoryPersistenceTest.java": "c32612d206588927f0a10d351ed81fa3fb3c16f4cca5fd412c43b155b42d37a4",
+    "src/test/java/dev/starcore/starcore/module/resource/SqlFactoryPersistenceTest.java": "5232b07499550b9e0dea4a6878ef3a6ba34f6a8bf46759cdeb70a74927b95747",
+    "src/test/java/dev/starcore/starcore/module/resource/command/ResourceFactoryCommandTest.java": "4ca551854ee8318a0de5a5e22e2d69bf685ee819656b83740677e238716fc483"
+  },
+  "limits": [
+    "Old active batches without frozen evidence are retained for manual review; no fabricated outputs or automatic refunds",
+    "Factory history and retry keys remain in full snapshots; long-term capacity unverified",
+    "Factory build/upgrade are existing trusted APIs; no new player construction economy",
+    "Current artifacts need actual player, Minecraft lifecycle, full Folia and third-party stack acceptance"
+  ],
+  "evidence_zip_sha256": "e26e3738a84f233d3f24609ada989fd89dedaea1c92c6f773b7f46ae1a286a5f",
+  "evidence_files": 90
+}

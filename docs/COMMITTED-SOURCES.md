@@ -8,7 +8,7 @@ Chronicle 在有界状态工作线程中分页读取配套 StarCore 的真实持
 | 科技 | `TechnologyService.historyAuthorityDomainId/technologyChangesAfter` | `TECHNOLOGY_UNLOCKED/REVOKED`，保留国家、科技和时代；日志没有研究者，不推断玩家 |
 | 指定首都 | `NationService.authorityDomainId/capitalDesignationsAfter` | 首次为 `CAPITAL_DESIGNATED`，已有指定首都变化为 `CAPITAL_MOVED`；保留前后城市 ID 和真实操作者 |
 | 国家资源交付 | `NationResourceTransactionService.authorityDomainId/transferReceiptsAfter` | `NATIONAL_RESOURCES_TRANSFERRED`，保留付款国、收款国、资源数量、类别、描述；无操作者的回执不直接授予个人贡献 |
-| 国家即时加工 | `ProcessingService.productionAuthorityDomainId/productionReceiptsAfter` | `CIVILIZATION_PRODUCTION_COMMITTED`，保留实际扣料与产出、配方、批次、操作者和提交时间；只有已确认持久回执可生成贡献 |
+| 国家即时加工／定时工厂完成 | `ProcessingService.productionAuthorityDomainId/productionReceiptsAfter` | `CIVILIZATION_PRODUCTION_COMMITTED`，保留实际扣料与产出、配方、批次、操作者和完成提交时间；只有已确认持久回执可生成贡献 |
 
 来源缺失时保持已有游标。存储域改变、序号缺口、回执冲突、恢复后丢失锚点或插入失败均保留游标并报告错误；不得通过清空游标掩盖问题。互相独立的来源可分别追赶。原有快照观察仍明确标为 `OBSERVED`；科技解锁提交不冒充含研究者的 `TECHNOLOGY_BREAKTHROUGH` 研究完成事件。
 
@@ -34,7 +34,9 @@ Chronicle 在有界状态工作线程中分页读取配套 StarCore 的真实持
 
 没有玩家身份的系统加工只有国家历史。超出贡献数量或单位范围时保留完整历史并标记原因，不截断金额或猜测操作者。旧来源的规范化哈希不增加空字段，升级后仍可验证旧锚点。可信第三方仍可使用 `submitContributions`，但需自行提供真实持久来源。
 
-当前生产来源覆盖国家即时资源加工，未覆盖旧定时工厂、第三方工厂、普通采集或大型建筑施工。单笔加工事件不自动宣布文明里程碑；内容规则需要自行定义规模与条件，且贡献查询不会直接发奖励。
+配套原生分支还提供 `/resource factory start <工厂UUID> <配方ID> <批次数> <批次编号>`、`status <批次编号>` 和 `collect <批次编号>`。新定时批次冻结投入、产出及到期时间，开始扣料与占用原子保存；完成产出、工厂释放和 `factory:<批次编号>` 生产回执同事务提交，随后被现有生产来源采集。开始不提前记生产贡献，完成不受之后配方变化影响。继任者或定时刷新收取仍保留开始时操作者，旧编号不能收取下一轮。
+
+旧活动工厂没有冻结凭据时保留待核对，不依据当前配方补造生产事实。第三方工厂、普通采集或大型建筑施工仍不在该生产来源内。单笔加工事件不自动宣布文明里程碑；内容规则需要自行定义规模与条件，且贡献查询不会直接发奖励。定时工厂的源码验证范围见 [工厂恢复报告](FACTORY-SOURCE-20261126.md)。
 
 ## 验证与恢复
 
