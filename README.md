@@ -1,5 +1,7 @@
 # StarChronicle
 
+2026-11-25 最新恢复增量：冻结双JAR完成五现场联合备份、独立MySQL恢复与已完成重放后的进程中断恢复，共15次验收启动、5次JVM／MySQL强制终止及恢复、69条真实命令／查询。完整数据与结构、原操作者、资产、唯一结算和贡献保持一致；物理断电及进行中事务窗口仍待验证。见[恢复报告](docs/MYSQL-RECOVERY-TEST-REPORT.md)与[交接](docs/HANDOFF-2026-11-25.md)。十阶段继续推进，未合并或生产部署。
+
 2026-11-25 最新实服增量：冻结双JAR在所选Paper＋真实MySQL8.4.13组合完成生产、空服补录、国家直售、副本与据点国战，共14次游戏服启动、9次数据库重启；329次证据检查通过、8次场景跳过。原生MySQL原始数据与显式审计投影逐列比对，Chronicle仍使用SQLite。见[实服报告](docs/MYSQL-PAPER-TEST-REPORT.md)、[草稿PR #17](https://github.com/addxiaoyi/StarChronicle/pull/17)与[十阶段交接](docs/HANDOFF-2026-11-25.md)。产品源码未变，未合并或生产部署。
 
 2026-11-25 最新数据库增量：真实MySQL8.4.13／InnoDB上的国家生产与贸易31项专项测试全部通过；产品源码和冻结双JAR未改。覆盖共同事务回滚、确认丢失、并发去重、旧快照和完整删尾拒绝。见[MySQL验收](docs/MYSQL-SETTLEMENT-TEST-REPORT.md)与[最新交接](docs/HANDOFF-2026-11-25.md)。该专项之后的Paper联机和正常联合重启已由上述实服增量完成。
