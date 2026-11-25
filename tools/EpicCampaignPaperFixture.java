@@ -5,6 +5,7 @@ import dev.starcore.starcore.module.dungeon.*;
 import dev.starcore.starcore.module.nation.NationService;
 import dev.starcore.starcore.module.nation.model.NationId;
 import dev.starcore.starcore.module.resource.NationResourceTransactionService;
+import dev.starcore.starcore.module.resource.ResourceService;
 import dev.starcore.starcore.module.resource.TradeHistoryService;
 import dev.starcore.starcore.module.resource.model.TradeOrder;
 import dev.starcore.starcore.module.resource.model.TradeRecord;
@@ -425,11 +426,75 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
             }catch(Throwable error){result.completeExceptionally(error);}return null;
         }))).exceptionally(error->{result.completeExceptionally(error);return null;});
     }
+    private Map<String,Map<String,Long>> resourceStocks()throws Exception {
+        Map<String,Map<String,Long>> result=new TreeMap<>();var resources=service(ResourceService.class);
+        for(String who:List.of("A","B","C")){
+            Map<String,Long> positive=new TreeMap<>();resources.stockpile(country(who)).forEach((key,value)->{if(value>0)positive.put(key,value);});result.put(who,positive);
+        }
+        return result;
+    }
+    private List<Map<String,Object>> resourceReceipts(List<NationResourceTransactionService.TransferReceipt> receipts){
+        return receipts.stream().map(r->Map.<String,Object>of("domain",r.authorityDomainId(),"sequence",r.sequence(),"transaction",r.transactionId(),
+                "payer",r.payerNationId().toString(),"receiver",r.receiverNationId().toString(),"resources",r.resources(),"category",r.category().name(),"description",r.description(),"committedAt",r.appliedAt().toString())).toList();
+    }
+    private NationResourceTransactionService.TransferRequest resourceRequest(String name){
+        return switch(name){
+            case "first"->new NationResourceTransactionService.TransferRequest("isolated-resource-first",country("A"),country("B"),Map.of("agricultural",7L,"mineral",3L),NationResourceTransactionService.Category.OTHER,"Isolated first stockpile transfer");
+            case "second"->new NationResourceTransactionService.TransferRequest("isolated-resource-second",country("B"),country("C"),Map.of("agricultural",4L,"mineral",2L),NationResourceTransactionService.Category.OTHER,"Isolated second stockpile transfer");
+            case "restart"->new NationResourceTransactionService.TransferRequest("isolated-resource-restart",country("C"),country("A"),Map.of("agricultural",2L,"mineral",1L),NationResourceTransactionService.Category.COMPENSATION_REFUND,"Isolated restarted stockpile transfer");
+            default->throw new IllegalArgumentException(name);
+        };
+    }
+    private CompletionStage<?> resourceBind(){return main(()->{
+        var resources=service(NationResourceTransactionService.class);
+        if(!getConfig().getBoolean("resource-bound",false)){
+            require(resources.transferReceiptsAfter(0,100).isEmpty(),"Resource fixture needs an empty history");
+            require(resources.grant(new NationResourceTransactionService.TransactionRequest("isolated-resource-seed",country("A"),Map.of("mineral",50L,"energy",25L),NationResourceTransactionService.Category.OTHER,"Explicit isolated test stockpiles")).applied(),"Resource fixture seed failed");
+            getConfig().set("resource-bound",true);saveConfig();
+        }
+        log("RESOURCE_BOUND",Map.of("domain",resources.transferHistoryAuthorityDomainId().orElseThrow(),"A",country("A").toString(),"B",country("B").toString(),"C",country("C").toString()));return null;
+    });}
+    private CompletionStage<?> resourceBatch(){return main(()->{
+        var resources=service(NationResourceTransactionService.class);require(resources.transferReceiptsAfter(0,100).isEmpty(),"Batch must be new");
+        var first=resources.transfer(resourceRequest("first"));var second=resources.transfer(resourceRequest("second"));
+        require(first.status()==NationResourceTransactionService.TransferStatus.APPLIED&&second.status()==NationResourceTransactionService.TransferStatus.APPLIED,"Native resource batch failed");
+        log("RESOURCE_BATCH",Map.of("results",List.of(first,second),"receipts",resourceReceipts(resources.transferReceiptsAfter(0,100)),"stocks",resourceStocks()));return null;
+    });}
+    private CompletionStage<?> resourceRejections(){return main(()->{
+        var resources=service(NationResourceTransactionService.class);var before=resources.transferReceiptsAfter(0,100);var stocks=resourceStocks();var first=resourceRequest("first");
+        var repeated=resources.transfer(first);
+        var conflict=resources.transfer(new NationResourceTransactionService.TransferRequest(first.transactionId(),first.payerNationId(),first.receiverNationId(),Map.of("agricultural",8L),first.category(),first.description()));
+        var insufficient=resources.transfer(new NationResourceTransactionService.TransferRequest("isolated-resource-insufficient",country("A"),country("B"),Map.of("agricultural",Long.MAX_VALUE),NationResourceTransactionService.Category.OTHER,"Must not commit"));
+        require(repeated.status()==NationResourceTransactionService.TransferStatus.ALREADY_APPLIED&&conflict.status()==NationResourceTransactionService.TransferStatus.REJECTED&&insufficient.status()==NationResourceTransactionService.TransferStatus.INSUFFICIENT_RESOURCES,"Native duplicate/conflict/insufficient semantics differ");
+        require(before.equals(resources.transferReceiptsAfter(0,100))&&stocks.equals(resourceStocks())&&resources.transferReceipt("isolated-resource-insufficient").isEmpty(),"Rejected/repeated transfer changed state");
+        log("RESOURCE_REJECTIONS",Map.of("statuses",List.of(repeated.status().name(),conflict.status().name(),insufficient.status().name()),"receipts",resourceReceipts(before),"stocks",stocks));return null;
+    });}
+    private CompletionStage<?> resourceRestart(){return main(()->{
+        var resources=service(NationResourceTransactionService.class);require(resources.transferReceiptsAfter(0,100).size()==2,"Restart must retain the batch");
+        var result=resources.transfer(resourceRequest("restart"));require(result.status()==NationResourceTransactionService.TransferStatus.APPLIED,"Restarted resource transfer failed");
+        log("RESOURCE_RESTART",Map.of("result",result,"receipts",resourceReceipts(resources.transferReceiptsAfter(0,100)),"stocks",resourceStocks()));return null;
+    });}
+    private CompletionStage<?> resourceCheck(int expected){
+        CompletableFuture<Void> result=new CompletableFuture<>();resourceCheckPoll(expected,System.nanoTime()+TimeUnit.SECONDS.toNanos(30),result);return result;
+    }
+    private void resourceCheckPoll(int expected,long deadline,CompletableFuture<Void> result){
+        api.history(null,null,0,100).thenCompose(events->api.contributions(null,null,0,100).thenCompose(contributions->main(()->{
+            try {
+                var service=service(NationResourceTransactionService.class);var receipts=service.transferReceiptsAfter(0,100);
+                var source=events.stream().filter(e->e.source().equals("StarCore.NationResourceTransactionService")).toList();
+                if(source.size()<expected&&System.nanoTime()<deadline){getServer().getScheduler().runTaskLater(this,()->resourceCheckPoll(expected,deadline,result),2L);return null;}
+                require(receipts.size()==expected&&source.size()==expected,"Resource committed history count mismatch");
+                require(contributions.isEmpty()&&source.stream().allMatch(e->e.participants().isEmpty()),"Resource history cannot invent contributors");
+                log("RESOURCE_CHECK",Map.of("domain",service.transferHistoryAuthorityDomainId().orElseThrow(),"expected",expected,"events",source,"native",resourceReceipts(receipts),"stocks",resourceStocks(),"contributions",0));result.complete(null);
+            }catch(Throwable error){result.completeExceptionally(error);}return null;
+        }))).exceptionally(error->{result.completeExceptionally(error);return null;});
+    }
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!(sender instanceof ConsoleCommandSender)||args.length==0)return false;
         String action=args[0];if(!busy.compareAndSet(false,true)){fail(action,new IllegalStateException("Previous action is still pending"));return true;}
         try {
             CompletionStage<?> work=switch(action) {
+                case "resource-bind"->resourceBind();case "resource-batch"->resourceBatch();case "resource-rejections"->resourceRejections();case "resource-restart"->resourceRestart();case "resource-check"->resourceCheck(Integer.parseInt(args[1]));
                 case "trade-write"->tradeWrite(args[1]);case "trade-dispute"->tradeDispute();case "trade-clean"->tradeClean();case "trade-check"->tradeCheck(Integer.parseInt(args[1]));
                 case "tech-bind"->technologyBind();case "tech-cycle"->technologyCycle();case "tech-repeat"->technologyRepeat();case "tech-revoke"->technologyRevoke();case "tech-check"->technologyCheck(Integer.parseInt(args[1]));
                 case "members-open"->memberOpen();case "members-move"->memberMove(args[1]);case "members-check"->memberCheck(args[1],args[2]);

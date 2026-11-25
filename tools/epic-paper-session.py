@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third'])
+parser.add_argument('--scenario', choices=['first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 args = parser.parse_args()
 run = args.run.resolve()
@@ -165,7 +165,27 @@ def scenario(phase):
     clients = start([str(args.node), '--max-old-space-size=192', str(client_script), str(run)], 'clients')
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
-    if phase.startswith('tech-'):
+    if phase.startswith('resource-'):
+        server_action('resource-bind')
+        if phase == 'resource-first':
+            server_action('resource-check 0')
+            server_action('resource-batch')
+            server_action('resource-check 2')
+            server_action('resource-rejections')
+            server_action('resource-check 2')
+        elif phase == 'resource-second':
+            server_action('resource-check 2')
+            server_action('resource-rejections')
+            server_action('resource-check 2')
+            server_action('resource-restart')
+            server_action('resource-check 3')
+        else:
+            server_action('resource-check 3')
+            server_action('resource-rejections')
+            server_action('resource-check 3')
+        request = json.dumps(dict(command='/chronicle contributions', contains='本页暂无已核验贡献。'), ensure_ascii=False).encode()
+        client_action('expect A ' + base64.urlsafe_b64encode(request).decode().rstrip('='))
+    elif phase.startswith('tech-'):
         server_action('tech-bind')
         if phase == 'tech-first':
             server_action('tech-check 0')
