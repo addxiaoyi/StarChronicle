@@ -158,6 +158,7 @@ def inspect(run):
     check(manifest['fixture_main_class']=='PlayerTradePaperFixture','Wrong player trade fixture')
     with socket.socket() as probe:probe.bind(('127.0.0.1',manifest['server_port']))
     for name,key in [('StarCore','starcore_sha256'),('StarChronicle','plugin_sha256'),('EpicCampaignPaperFixture','fixture_sha256')]:check(sha(run/'plugins'/f'{name}.jar')==manifest[key],'Frozen artifact changed')
+    check(sha(run/'fixture/EpicCampaignPaperFixture.java')==manifest['fixture_source_sha256'],'Frozen base fixture source changed')
     for name,digest in manifest['fixture_extra_sources_sha256'].items():check(sha(run/'fixture'/name)==digest,'Frozen fixture source changed')
     for vendor in manifest['production_stack']['artifacts']:check(sha(run/'plugins'/vendor['filename'])==vendor['sha256'],'Frozen vendor changed')
     fixture=T.records(evidence/'epic-fixture.jsonl');check(not any(r['kind']=='FAILED' for r in fixture),'Retained player trade fixture failure')
