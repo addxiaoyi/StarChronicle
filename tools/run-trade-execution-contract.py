@@ -63,8 +63,19 @@ def main():
             assert state['transfer.count'] == '1' and state['transfer.0.amount'] == '4.00'
         with sqlite3.connect(f'file:{output.as_posix()}/resources.db?mode=ro', uri=True) as db:
             state = dict(db.execute('SELECT property_key,property_value FROM starcore_resource_state'))
-            assert state['resource.trade-executions.count'] == '1'
-            assert list(v for k, v in state.items() if k.startswith('resource.trade-executions.row.') and k.endswith('.state')) == ['COMPLETED']
+            if state['resource.trade-executions.version'] == '2':
+                assert state['resource.trade-executions.count'] == '0'
+                assert state['resource.trade-executions.archive-count'] == '1'
+                rows = db.execute('SELECT execution_id,row_data,row_hash,chain_hash FROM starcore_resource_trade_archive').fetchall()
+                assert len(rows) == 1 and rows[0][0] == 'packaged-trade'
+                identity, text, row_hash, chain_hash = rows[0]
+                assert dict(line.split('=', 1) for line in text.splitlines())['state'] == 'COMPLETED'
+                assert hashlib.sha256(text.encode()).hexdigest() == row_hash
+                assert hashlib.sha256(f':1:{row_hash}'.encode()).hexdigest() == chain_hash == state['resource.trade-executions.archive-head']
+            else:
+                assert state['resource.trade-executions.version'] == '1'
+                assert state['resource.trade-executions.count'] == '1'
+                assert list(v for k, v in state.items() if k.startswith('resource.trade-executions.row.') and k.endswith('.state')) == ['COMPLETED']
         manifest['status'] = 'PASS'
     except BaseException:
         manifest['status'] = 'FAILED'
