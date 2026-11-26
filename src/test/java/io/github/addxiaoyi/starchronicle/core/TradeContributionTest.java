@@ -207,7 +207,7 @@ class TradeContributionTest {
             assertEquals(before, SqliteStore.json(engine.contributions(null, null, 0, 100)));
             assertEquals(ContributionRevision.Status.ACTIVE, engine.contributionBalances(SUBJECT, null, 0, 10).getFirst().status());
             int version = store.transaction(c -> { try (var s = c.createStatement(); var r = s.executeQuery("PRAGMA user_version")) { return r.getInt(1); } });
-            assertEquals(10, version);
+            assertEquals(SqliteStore.SCHEMA_VERSION, version);
         }
     }
 }

@@ -25,7 +25,7 @@ class SqliteStoreTest {
         }
         try(var store=new SqliteStore(path)) {
             store.transaction(c->{try(var s=c.createStatement()){
-                try(var r=s.executeQuery("PRAGMA user_version")){assertEquals(10,r.getInt(1));}
+                try(var r=s.executeQuery("PRAGMA user_version")){assertEquals(SqliteStore.SCHEMA_VERSION,r.getInt(1));}
                 try(var r=s.executeQuery("SELECT json FROM events WHERE id='legacy:1'")){assertEquals(historical,r.getString(1));}
                 try(var r=s.executeQuery("SELECT COUNT(*) FROM resource_history_receipts")){assertEquals(0,r.getInt(1));}
                 try(var r=s.executeQuery("PRAGMA foreign_key_check")){assertFalse(r.next());}

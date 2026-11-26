@@ -1,5 +1,6 @@
 """Run one isolated Paper boot and its clients with complete append-only evidence."""
 from pathlib import Path
+from contextlib import closing
 import argparse
 import hashlib
 import json
@@ -10,6 +11,7 @@ import sys
 import threading
 import time
 import shutil
+import sqlite3
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
@@ -162,6 +164,19 @@ def combination(phase):
         chat('/chronicle memory create combo-provider-disabled ' + source, '领地保护服务暂不可用')
 
 
+def database_checkpoint():
+    destination = run / f'evidence/checkpoints/boot{args.boot}'
+    destination.mkdir(parents=True, exist_ok=False)
+    hashes = {}
+    for plugin, name in [('StarCore', 'starcore.db'), ('StarChronicle', 'chronicle.db')]:
+        source = run / 'plugins' / plugin / name
+        with closing(sqlite3.connect(source.as_uri() + '?mode=ro', uri=True)) as original:
+            with closing(sqlite3.connect(destination / name)) as copy:
+                original.backup(copy)
+        hashes[name] = hashlib.sha256((destination / name).read_bytes()).hexdigest()
+    (destination / 'checkpoint.json').write_text(json.dumps(dict(boot=args.boot, sha256=hashes), indent=2) + '\n')
+
+
 def scenario(phase):
     global clients
     await_lines(0, lambda lines: any('Done (' in line for _, line in lines) and any('EPIC_READY ' in line for _, line in lines), 180)
@@ -169,6 +184,9 @@ def scenario(phase):
     clients = start([str(args.node), '--max-old-space-size=192', str(ROOT / 'tools/epic-paper-clients.cjs'), str(run)], 'clients')
     await_lines(cursor, lambda lines: all(any('"kind":"SPAWN"' in line and '"who":"' + who + '"' in line for _, line in lines) for who in 'ABCD'))
     server_action('seed')
+    if manifest.get('battlefield_acceptance'):
+        server_action('battle-bind')
+        if phase != 'first': server_action('battle-check ended')
     if phase == 'first':
         if manifest.get('extended'):
             server_action('membership-first')
@@ -192,7 +210,29 @@ def scenario(phase):
         else:
             server_action('found')
             server_action('declare')
-            server_action('end-war')
+            if manifest.get('battlefield_acceptance'):
+                server_action('battle-prepare')
+                client_action('battle-open A')
+                client_action('battle-try A 1 blocked')
+                server_action('battle-check 0')
+                server_action('battle-start')
+                client_action('battle-open A')
+                client_action('battle-try A 1 capture')
+                server_action('battle-check 50')
+                client_action('battle-try A 1 blocked')
+                server_action('battle-check 50')
+                client_action('battle-try A 2 capture')
+                server_action('battle-check 100')
+                server_action('battle-view C')
+                client_action('battle-try C 1 blocked')
+                server_action('battle-check 100')
+                client_action('battle-end A')
+                server_action('battle-finish')
+                server_action('battle-view A')
+                client_action('battle-try A 2 blocked')
+                server_action('battle-check ended')
+            else:
+                server_action('end-war')
         server_action('checkpoint')
     elif phase == 'second':
         if manifest.get('extended'):
@@ -218,6 +258,10 @@ def scenario(phase):
         server_action('check')
     else:
         raise ValueError('first|second|third')
+    if manifest.get('battlefield_acceptance') and phase != 'first':
+        server_action('battle-view A')
+        client_action('battle-try A 1 blocked')
+        server_action('battle-check ended')
     if manifest.get('ledger_acceptance'):
         server_action('contributions')
     if manifest.get('combination_acceptance'):
@@ -226,6 +270,7 @@ def scenario(phase):
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:
         raise RuntimeError('Acceptance processes must exit normally')
+    if manifest.get('battlefield_acceptance'): database_checkpoint()
     print('SCENARIO_COMPLETE ' + phase, flush=True)
 outcome = dict(boot=args.boot, scenario=args.scenario, status='INCOMPLETE')
 try:

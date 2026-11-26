@@ -320,3 +320,16 @@ schema 7 仅在原因果表追加默认空的 `recipe_path` 并新增定义、�
 schema 10 同时保留贸易净贡献和完整资源回执，消费事务提交完整回执后才确认 ingress。两个来源的旧 schema 9 插件均拒绝打开 schema 10；升级保留已有历史／贡献，回退须恢复配套旧版备份。
 
 完整库存变动和原国家转移回执分别使用 `committed_history_sources` 与 `committed_source_cursors`；虽然 namespace 都为 `starcore.resources`，其权威域、游标和事件各自独立，两者同时采集。库存变化不再次计入生产、援助或贸易贡献。每页最多 128 条，续读会逐字段校验上一条完整回执，首次追赶的整页（含锚点）仍只归档。
+
+### 工厂生产提交历史与文明贡献
+
+兼容合并保留原 string-ID 国家生产／工厂协议及其 starcore.production 游标、域、稳定操作键、resource.<type> 单位和实时激活口径。新 UUID ProcessingRun 属于另一持久协议，使用独立 starcore.processing 游标；两类入口共享同一工厂状态并互斥，新 UUID 路径不再发旧 ProductionReceipt，旧路径不伪造新 processing 历史。两套贡献不能通过改单位或猜测编号合并，也不能将资源余额历史再计为产量。
+
+
+`ChronicleService.processingHistoryReceipt(eventId)` 返回完整 `ProcessingHistoryReceipt`，包含独立来源域、连续序号、STARTED／COMPLETED／AUTOMATIC 类型及冻结的 run：批次 UUID、工厂／原国家／原操作者、配方 ID、精确批数、全部输入（含能源）、输出、纳秒开工／到期／完成时间。没有原始玩家主体时 actor 为 null，不使用当前国主或当前国籍补录。
+
+来源 `starcore.processing` 调用原生 `ProcessingHistoryService.processingChangesAfter(after,limit)`，每页最多128条。事件 ID 为 `starcore:processing:<domain>:<run>:<kind>`；事件类型为 `PROCESSING_STARTED`、`PROCESSING_COMPLETED`、`PROCESSING_AUTOMATIC`。完整回执、历史、剧情收件箱与 CIVILIZATION 贡献在同一消费事务提交；缺完整回执不能ACK。COMPLETED 必须匹配此前 STARTED 的全部冻结字段，否则拒绝。
+
+只有带原始 actor 的 COMPLETED 工厂批次产生文明贡献：每种产出资源分别记录原玩家和原国家的精确数量，单位为原生资源名，每种资源有独立幂等操作键。两个主体行供各自查询，不能相加当作全服产量。数量支持正 signed long；系统即时加工、无主体批次和普通资源余额变化不新增文明贡献。初始补读同样建立证据与贡献，但不补发剧情效果。已有援助／贸易贡献不会重复计入。
+
+上游 schema10 与本地已有的资源回执 schema10 冲突；合并版本使用 schema11 新增完整生产回执表，schema10 及更早 Chronicle 拒绝打开升级库。原生的持久工厂恢复还依赖资源数据库、`resource/history`、`resource/processing-history`（含 `runs.sqlite`）与SQL权威标记，需要一起备份／恢复。旧原生版本不理解冻结run和生产日志，不能直接降级运行升级后的状态。

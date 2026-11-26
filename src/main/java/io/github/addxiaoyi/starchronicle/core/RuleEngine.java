@@ -149,6 +149,9 @@ public final class RuleEngine implements AutoCloseable {
      * story effects. Archive catch-up builds the same net ledger without replaying effects. */
     public ProcessReport acceptCommittedHistory(CommittedHistoryJournal.Pending pending, Collection<PlayerContext> contexts) {
         Objects.requireNonNull(pending); Objects.requireNonNull(contexts);
+        if (pending.processingReceipt() != null) return acceptProcessingHistory(pending, contexts);
+        if (io.github.addxiaoyi.starchronicle.history.ProcessingHistoryProjection.NAMESPACE.equals(pending.event().facts().get("history.namespace")))
+            throw new IllegalArgumentException("Processing history is missing its full receipt");
         if (pending.resourceReceipt() != null) return acceptResourceHistory(pending, contexts);
         if (io.github.addxiaoyi.starchronicle.history.ResourceHistoryProjection.NAMESPACE.equals(pending.event().facts().get("history.namespace")))
             throw new IllegalArgumentException("Resource history is missing its full receipt");
@@ -181,6 +184,34 @@ public final class RuleEngine implements AutoCloseable {
                     ? "贸易历史与净贡献已提交" : "贸易历史与净贡献已归档，不补发剧情效果");
         });
     }
+
+    private ProcessReport acceptProcessingHistory(CommittedHistoryJournal.Pending pending, Collection<PlayerContext> contexts) {
+        var receipt = pending.processingReceipt();
+        WorldEvent event = io.github.addxiaoyi.starchronicle.history.ProcessingHistoryProjection.event(receipt);
+        if (pending.tradeReceipt() != null || pending.resourceReceipt() != null || !event.equals(pending.event()))
+            throw new IllegalArgumentException("Processing receipt does not match staged event");
+        Map<UUID,PlayerContext> unique = new LinkedHashMap<>();
+        for (var ctx : contexts) {
+            if (!audience(event, ctx)) throw new IllegalArgumentException("Invalid processing history audience");
+            if (unique.put(ctx.playerId(), ctx) != null) throw new IllegalArgumentException("Duplicate processing context");
+        }
+        if (unique.size() > 10000) throw new IllegalArgumentException("Too many trigger recipients");
+        return transaction(c -> {
+            boolean fresh;
+            Set<String> changed = Set.of();
+            if (pending.activate()) {
+                fresh = recordAndQueue(c, event, unique.values(), enabledDefinitions, EventCausality.root(event.id()));
+                changed = drainTriggers(c, List.copyOf(unique.values()), event.id());
+            } else {
+                fresh = record(c, event, false);
+                if (fresh) EventCausality.record(c, event.id(), EventCausality.root(event.id()));
+            }
+            ProcessingContributionLedger.record(c, receipt, clock.instant());
+            return new ProcessReport(!fresh, List.copyOf(changed), pending.activate()
+                    ? "生产历史、完整回执与文明贡献已提交" : "生产历史、完整回执与文明贡献已归档，不补发剧情效果");
+        });
+    }
+
 
     private ProcessReport acceptResourceHistory(CommittedHistoryJournal.Pending pending, Collection<PlayerContext> contexts) {
         var receipt = pending.resourceReceipt();
@@ -370,6 +401,10 @@ public final class RuleEngine implements AutoCloseable {
 
     public Optional<io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt> tradeHistoryReceipt(String eventId) {
         return transaction(c -> TradeContributionLedger.receipt(c, eventId));
+    }
+
+    public Optional<io.github.addxiaoyi.starchronicle.api.processing.ProcessingHistoryReceipt> processingHistoryReceipt(String eventId) {
+        return transaction(c -> ProcessingContributionLedger.receipt(c, eventId));
     }
 
     public Optional<io.github.addxiaoyi.starchronicle.api.resource.ResourceHistoryReceipt> resourceHistoryReceipt(String eventId) {

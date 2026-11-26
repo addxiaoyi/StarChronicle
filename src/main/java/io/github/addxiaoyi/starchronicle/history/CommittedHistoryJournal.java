@@ -3,6 +3,7 @@ package io.github.addxiaoyi.starchronicle.history;
 import io.github.addxiaoyi.starchronicle.api.WorldEvent;
 import io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt;
 import io.github.addxiaoyi.starchronicle.api.resource.ResourceHistoryReceipt;
+import io.github.addxiaoyi.starchronicle.api.processing.ProcessingHistoryReceipt;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,12 +20,16 @@ public final class CommittedHistoryJournal {
             if (sequence < 0) throw new IllegalArgumentException("Negative history cursor");
         }
     }
-    public record Entry(long sequence, WorldEvent event, TradeHistoryReceipt tradeReceipt, ResourceHistoryReceipt resourceReceipt) {
+    public record Entry(long sequence, WorldEvent event, TradeHistoryReceipt tradeReceipt, ResourceHistoryReceipt resourceReceipt, ProcessingHistoryReceipt processingReceipt) {
+        public Entry(long sequence, WorldEvent event, TradeHistoryReceipt tradeReceipt, ResourceHistoryReceipt resourceReceipt) { this(sequence, event, tradeReceipt, resourceReceipt, null); }
         public Entry(long sequence, WorldEvent event, TradeHistoryReceipt tradeReceipt) { this(sequence, event, tradeReceipt, null); }
         public Entry(long sequence, WorldEvent event) { this(sequence, event, null); }
         public Entry {
             if (sequence < 1) throw new IllegalArgumentException("Nonpositive history sequence");
             Objects.requireNonNull(event);
+            if (processingReceipt != null && (tradeReceipt != null || resourceReceipt != null || processingReceipt.sequence() != sequence
+                    || !ProcessingHistoryProjection.event(processingReceipt).equals(event)))
+                throw new IllegalArgumentException("Processing receipt does not match its history event");
             if (resourceReceipt != null && (tradeReceipt != null || resourceReceipt.sequence() != sequence
                     || !ResourceHistoryProjection.event(resourceReceipt).equals(event)))
                 throw new IllegalArgumentException("Resource receipt does not match its history event");
@@ -32,7 +37,8 @@ public final class CommittedHistoryJournal {
                 throw new IllegalArgumentException("Trade receipt does not match its history event");
         }
     }
-    public record Pending(WorldEvent event, boolean activate, TradeHistoryReceipt tradeReceipt, ResourceHistoryReceipt resourceReceipt) {
+    public record Pending(WorldEvent event, boolean activate, TradeHistoryReceipt tradeReceipt, ResourceHistoryReceipt resourceReceipt, ProcessingHistoryReceipt processingReceipt) {
+        public Pending(WorldEvent event, boolean activate, TradeHistoryReceipt tradeReceipt, ResourceHistoryReceipt resourceReceipt) { this(event, activate, tradeReceipt, resourceReceipt, null); }
         public Pending(WorldEvent event, boolean activate, TradeHistoryReceipt tradeReceipt) { this(event, activate, tradeReceipt, null); }
         public Pending(WorldEvent event, boolean activate) { this(event, activate, null); }
     }
@@ -49,6 +55,7 @@ public final class CommittedHistoryJournal {
                 s.execute("CREATE TABLE IF NOT EXISTS committed_history_ingress(id TEXT PRIMARY KEY,namespace TEXT NOT NULL REFERENCES committed_history_sources(namespace),sequence INTEGER NOT NULL CHECK(sequence>0),status TEXT NOT NULL CHECK(status IN ('PENDING','ACKED')),activate INTEGER NOT NULL CHECK(activate IN (0,1)),json TEXT NOT NULL,UNIQUE(namespace,sequence))");
                 s.execute("CREATE INDEX IF NOT EXISTS committed_history_pending ON committed_history_ingress(status,namespace,sequence)");
                 s.execute("CREATE TABLE IF NOT EXISTS committed_trade_ingress(event_id TEXT PRIMARY KEY REFERENCES committed_history_ingress(id),json TEXT NOT NULL)");
+                s.execute("CREATE TABLE IF NOT EXISTS committed_processing_ingress(event_id TEXT PRIMARY KEY REFERENCES committed_history_ingress(id),json TEXT NOT NULL)");
                 s.execute("CREATE TABLE IF NOT EXISTS committed_resource_ingress(event_id TEXT PRIMARY KEY REFERENCES committed_history_ingress(id),json TEXT NOT NULL)");
             }
             return null;
@@ -79,6 +86,11 @@ public final class CommittedHistoryJournal {
             if (entry.sequence() != Math.addExact(sequence, 1)) throw new IllegalArgumentException("History sequence gap or reordering");
             if (!ids.add(entry.event().id())) throw new IllegalArgumentException("Repeated history operation ID");
             sequence = entry.sequence();
+            if (ProcessingHistoryProjection.NAMESPACE.equals(namespace) && entry.processingReceipt() == null)
+                throw new IllegalArgumentException("Processing history requires its complete receipt");
+            if (entry.processingReceipt() != null && (!ProcessingHistoryProjection.NAMESPACE.equals(namespace)
+                    || !entry.processingReceipt().authorityDomain().equals(domain)))
+                throw new IllegalArgumentException("Processing receipt authority or namespace mismatch");
             if (ResourceHistoryProjection.NAMESPACE.equals(namespace) && entry.resourceReceipt() == null)
                 throw new IllegalArgumentException("Resource history requires its complete receipt");
             if (entry.resourceReceipt() != null && (!ResourceHistoryProjection.NAMESPACE.equals(namespace)
@@ -104,6 +116,9 @@ public final class CommittedHistoryJournal {
             }
             for (Entry entry : entries) try (var s = c.prepareStatement("INSERT INTO committed_history_ingress(id,namespace,sequence,status,activate,json) VALUES(?,?,?,'PENDING',?,?)")) {
                 s.setString(1, entry.event().id()); s.setString(2, namespace); s.setLong(3, entry.sequence()); s.setBoolean(4, activate); s.setString(5, json(entry.event())); s.executeUpdate();
+                if (entry.processingReceipt() != null) try (var payload = c.prepareStatement("INSERT INTO committed_processing_ingress(event_id,json) VALUES(?,?)")) {
+                    payload.setString(1, entry.event().id()); payload.setString(2, json(entry.processingReceipt())); payload.executeUpdate();
+                }
                 if (entry.resourceReceipt() != null) try (var payload = c.prepareStatement("INSERT INTO committed_resource_ingress(event_id,json) VALUES(?,?)")) {
                     payload.setString(1, entry.event().id()); payload.setString(2, json(entry.resourceReceipt())); payload.executeUpdate();
                 }
@@ -128,10 +143,15 @@ public final class CommittedHistoryJournal {
         if (limit < 1 || limit > PAGE_SIZE) throw new IllegalArgumentException("History batch must be 1..128");
         return store.transaction(c -> {
             List<Pending> result = new ArrayList<>();
-            try (var s = c.prepareStatement("SELECT h.json,h.activate,t.json,r.json FROM committed_history_ingress h LEFT JOIN committed_trade_ingress t ON t.event_id=h.id LEFT JOIN committed_resource_ingress r ON r.event_id=h.id WHERE h.status='PENDING'"+(namespace==null?"":" AND h.namespace=?")+" ORDER BY ROW_NUMBER() OVER(PARTITION BY h.namespace ORDER BY h.sequence),h.namespace LIMIT ?")) {
+            // Interleave sources while preserving each source's own order. A busy earlier
+            // namespace must not starve another source's refunds or initial catch-up.
+            try (var s = c.prepareStatement("SELECT h.json,h.activate,t.json,r.json,p.json FROM committed_history_ingress h LEFT JOIN committed_trade_ingress t ON t.event_id=h.id LEFT JOIN committed_resource_ingress r ON r.event_id=h.id LEFT JOIN committed_processing_ingress p ON p.event_id=h.id WHERE h.status='PENDING'"+(namespace==null?"":" AND h.namespace=?")+" ORDER BY ROW_NUMBER() OVER(PARTITION BY h.namespace ORDER BY h.sequence),h.namespace LIMIT ?")) {
                 if(namespace!=null)s.setString(1,namespace);
                 s.setInt(namespace==null?1:2, limit);
-                try (var r = s.executeQuery()) { while (r.next()) result.add(new Pending(decode(r.getString(1), WorldEvent.class), r.getBoolean(2), r.getString(3)==null?null:decode(r.getString(3),TradeHistoryReceipt.class),r.getString(4)==null?null:decode(r.getString(4),ResourceHistoryReceipt.class))); }
+                try (var r = s.executeQuery()) { while (r.next()) result.add(new Pending(decode(r.getString(1), WorldEvent.class), r.getBoolean(2),
+                        r.getString(3) == null ? null : decode(r.getString(3), TradeHistoryReceipt.class),
+                        r.getString(4) == null ? null : decode(r.getString(4), ResourceHistoryReceipt.class),
+                        r.getString(5) == null ? null : decode(r.getString(5), ProcessingHistoryReceipt.class))); }
             }
             return List.copyOf(result);
         });
@@ -140,7 +160,8 @@ public final class CommittedHistoryJournal {
         return store.transaction(c -> {
             try (var s = c.prepareStatement("UPDATE committed_history_ingress SET status='ACKED' WHERE id=? AND status='PENDING' AND EXISTS(SELECT 1 FROM events WHERE events.id=committed_history_ingress.id) "
                     + "AND (namespace<>'starcore.trade' OR EXISTS(SELECT 1 FROM trade_history_receipts t JOIN committed_trade_ingress i ON i.event_id=t.event_id WHERE t.event_id=committed_history_ingress.id AND t.json=i.json)) "
-                    + "AND (namespace<>'starcore.resources' OR EXISTS(SELECT 1 FROM resource_history_receipts r JOIN committed_resource_ingress i ON i.event_id=r.event_id WHERE r.event_id=committed_history_ingress.id AND r.json=i.json))")) {
+                    + "AND (namespace<>'starcore.resources' OR EXISTS(SELECT 1 FROM resource_history_receipts r JOIN committed_resource_ingress i ON i.event_id=r.event_id WHERE r.event_id=committed_history_ingress.id AND r.json=i.json)) "
+                    + "AND (namespace<>'starcore.processing' OR EXISTS(SELECT 1 FROM processing_history_receipts p JOIN committed_processing_ingress i ON i.event_id=p.event_id WHERE p.event_id=committed_history_ingress.id AND p.json=i.json))")) {
                 s.setString(1, eventId); return s.executeUpdate() == 1;
             }
         });
@@ -149,12 +170,13 @@ public final class CommittedHistoryJournal {
     public void verifyAnchor(String namespace,Entry anchor) {
         namespace(namespace);Objects.requireNonNull(anchor);
         store.transaction(c->{
-            try(var s=c.prepareStatement("SELECT h.json,t.json,r.json FROM committed_history_ingress h LEFT JOIN committed_trade_ingress t ON t.event_id=h.id LEFT JOIN committed_resource_ingress r ON r.event_id=h.id WHERE h.namespace=? AND h.sequence=?")) {
+            try(var s=c.prepareStatement("SELECT h.json,t.json,r.json,p.json FROM committed_history_ingress h LEFT JOIN committed_trade_ingress t ON t.event_id=h.id LEFT JOIN committed_resource_ingress r ON r.event_id=h.id LEFT JOIN committed_processing_ingress p ON p.event_id=h.id WHERE h.namespace=? AND h.sequence=?")) {
                 s.setString(1,namespace);s.setLong(2,anchor.sequence());
                 try(var rows=s.executeQuery()) {
                     if(!rows.next()||!decode(rows.getString(1),WorldEvent.class).equals(anchor.event())
                             ||!Objects.equals(rows.getString(2)==null?null:decode(rows.getString(2),TradeHistoryReceipt.class),anchor.tradeReceipt())
-                            ||!Objects.equals(rows.getString(3)==null?null:decode(rows.getString(3),ResourceHistoryReceipt.class),anchor.resourceReceipt()))
+                            ||!Objects.equals(rows.getString(3)==null?null:decode(rows.getString(3),ResourceHistoryReceipt.class),anchor.resourceReceipt())
+                            ||!Objects.equals(rows.getString(4)==null?null:decode(rows.getString(4),ProcessingHistoryReceipt.class),anchor.processingReceipt()))
                         throw new IllegalStateException("Committed source changed its acknowledged receipt");
                 }
             }

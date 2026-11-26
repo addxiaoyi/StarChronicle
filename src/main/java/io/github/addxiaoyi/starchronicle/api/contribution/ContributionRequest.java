@@ -18,9 +18,9 @@ public record ContributionRequest(String operationId, ContributionType type, Str
         token(sourceEventId, "sourceEventId", 256);
         Objects.requireNonNull(actorId, "actorId");
         if (nationId != null && !nationId.isBlank()) token(nationId, "nationId", 256);
-        // Native trade quantities are positive signed longs. Preserve them exactly; do not
-        // cap/split a legitimate trade at the smaller monetary-aid limit.
-        amount = type == ContributionType.TRADE ? tradeAmount(amount) : amount(amount);
+        // Native trade/production quantities are positive signed longs. Preserve them exactly;
+        // monetary aid retains its separate limit.
+        amount = type == ContributionType.TRADE || type == ContributionType.CIVILIZATION ? nativeQuantity(amount) : amount(amount);
         token(unit, "unit", UNIT_MAX_LENGTH);
         Objects.requireNonNull(committedAt, "committedAt");
         if (evidence == null || evidence.isBlank() || evidence.length() > 4096)
@@ -35,10 +35,10 @@ public record ContributionRequest(String operationId, ContributionType type, Str
         return value.stripTrailingZeros();
     }
 
-    private static BigDecimal tradeAmount(BigDecimal value) {
+    private static BigDecimal nativeQuantity(BigDecimal value) {
         if (value == null || value.signum() <= 0 || value.scale() > 6
                 || value.compareTo(BigDecimal.valueOf(Long.MAX_VALUE)) > 0)
-            throw new IllegalArgumentException("Trade contribution must be positive, use at most six decimals, and not exceed Long.MAX_VALUE");
+            throw new IllegalArgumentException("Native resource contribution must be positive, use at most six decimals, and not exceed Long.MAX_VALUE");
         return value.stripTrailingZeros();
     }
 

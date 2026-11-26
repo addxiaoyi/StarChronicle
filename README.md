@@ -1,5 +1,7 @@
 # StarChronicle
 
+同步获取上游工厂、五插件与战场增量 92442e1／原生 4d01f64。其[工厂报告](docs/COMMITTED-PROCESSING-HISTORY.md)、[组合记录](docs/LATEST-COMBINATION-2026-11-26.md)和[战场记录](docs/BATTLEFIELD-2026-11-26.md)均保留为原构件的独立证据；当前合并正在源码与单元测试验证，不转用上游实服结果。
+
 2026-11-26 当前源码检查点：[资源历史与SQL权威兼容合并](docs/GITHUB-RESOURCE-HISTORY-MERGE-20261126.md)。**Chronicle1,139项完整构建、StarCore77套件1,488项相关测试通过**；工厂／贸易归档和生产原子回执保留，资源两来源各自游标、完整锚点与schema10旧写入保护。旧／上游副本及最终JAR跨进程重开通过。未启动Minecraft；已获取新工厂历史增量，十阶段继续进行。
 
 2026-11-26 当前源码检查点：[市场订单与托管恢复](docs/MARKET-ESCROW-SOURCE-20261126.md)。**1,384项相关测试／新增43项通过**；订单与精确余额持久化，未知扣款／退款／撮合结果重启仍隔离，管理员只读分页核对。实际JAR八个独立JVM含退款后强制退出验证通过。Chronicle产品保持1,123项检查点，未启动Minecraft；下一步合入新资源历史增量。
