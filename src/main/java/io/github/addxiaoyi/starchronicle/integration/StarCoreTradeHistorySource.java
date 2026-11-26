@@ -5,6 +5,7 @@ import io.github.addxiaoyi.starchronicle.core.RuleEngine;
 import io.github.addxiaoyi.starchronicle.history.CommittedHistoryJournal;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.*;
 import java.util.function.Supplier;
@@ -66,9 +67,16 @@ public final class StarCoreTradeHistorySource {
             Object order=optional(call(record,side+"OrderId"));
             if(order!=null)facts.put("trade."+side+"_order",uuid(order).toString());
         }
-        facts.put("trade.amount",Long.toString(positiveLong(call(record,"amount"))));
+        long amount=positiveLong(call(record,"amount"));
+        facts.put("trade.amount",Long.toString(amount));
         double price=finite(call(record,"pricePerUnit")),total=finite(call(record,"totalValue")),tax=finite(call(record,"taxAmount")),net=finite(call(record,"netValue"));
-        if(price<=0||total<=0||tax<0||tax>total||net<0||net!=total-tax)throw new IllegalArgumentException("Invalid persisted trade amounts");
+        boolean buyerFunded=buyerFunded(record);
+        if(price<=0||total<=0||tax<0||tax>total||net<0||net!=(buyerFunded?total:total-tax))throw new IllegalArgumentException("Invalid persisted trade amounts");
+        if(buyerFunded){
+            double gross=BigDecimal.valueOf(price).multiply(BigDecimal.valueOf(amount)).setScale(2,RoundingMode.HALF_UP).doubleValue();
+            if(total!=gross)throw new IllegalArgumentException("Invalid buyer-funded trade gross");
+            facts.put("trade.tax_payer","BUYER");
+        }
         facts.put("trade.price_per_unit",decimal(price));facts.put("trade.total_value",decimal(total));facts.put("trade.tax_amount",decimal(tax));facts.put("trade.net_value",decimal(net));
         facts.put("trade.record_id",identity.toString());facts.put("trade.status",status);facts.put("trade.resource",resource);
         String orderType=call(record,"orderType").toString(),orderSource=call(record,"orderSource").toString();
@@ -84,6 +92,12 @@ public final class StarCoreTradeHistorySource {
         String evidence="Native TradeHistoryService journal; domain="+domain+"; sequence="+sequence+"; kind="+kind+"; record="+identity+"; executedAt="+executed+"; recordedAt="+recorded+"; journal and history row share a commit; external assets do not; BASELINE is surviving state, DELETE is maintenance, REFUNDED status does not prove refund completion";
         WorldEvent event=new WorldEvent("starcore:trade-history:"+domain+":"+sequence,type,recorded,actors,nations,facts,"StarCore.TradeHistoryService",evidence);
         return new CommittedHistoryJournal.Entry(sequence,event);
+    }
+    private static boolean buyerFunded(Object record)throws ReflectiveOperationException {
+        Object value;
+        try{value=call(record,"buyerFunded");}catch(NoSuchMethodException legacy){return false;}
+        if(!(value instanceof Boolean funded))throw new IllegalArgumentException("Invalid trade funding capability");
+        return funded;
     }
     private static UUID uuid(Object value){if(!(value instanceof UUID id))throw new IllegalArgumentException("Expected native UUID");return id;}
     private static String uuidString(String value){if(!UUID.fromString(value).toString().equals(value))throw new IllegalArgumentException("Noncanonical nation UUID");return value;}
