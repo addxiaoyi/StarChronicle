@@ -145,6 +145,8 @@ def main():
             combination_events = [json.loads(line) for line in (run / 'evidence/combination-fixture.jsonl').read_text(encoding='utf-8').splitlines()] if (run / 'evidence/combination-fixture.jsonl').exists() else []
             summary['runs'].append(dict(path=str(run), preparation=preparation,
                                        independent_check=json.loads((run / 'evidence/independent-check.json').read_text()) if (run / 'evidence/independent-check.json').is_file() else None,
+                                       battlefield_check=json.loads((run / 'evidence/battlefield-independent-check.json').read_text()) if (run / 'evidence/battlefield-independent-check.json').is_file() else None,
+                                       current_source_check=json.loads((run / 'evidence/current-combination-independent-check.json').read_text()) if (run / 'evidence/current-combination-independent-check.json').is_file() else None,
                                        combination_check=json.loads((run / 'evidence/combination-independent-check.json').read_text()) if (run / 'evidence/combination-independent-check.json').is_file() else None,
                                        passing_checks=[e for e in events if e['kind']=='ACCEPTANCE_PASS'],
                                        failures=[e for e in events if e['kind']=='FAILED'],
@@ -172,7 +174,7 @@ def main():
                     redacted = re.sub(r'(?m)^(\s*access-secret:)\s*.*$', r'\1 "REDACTED_TEST_SECRET"', path.read_text(encoding='utf-8'))
                     archive.writestr(name, redacted)
                 else: archive.write(path, name)
-        for name in ('EpicCampaignPaperFixture.java','ContributionUpgradeProbe.java','ProductionCombinationFixture.java','prepare-production-combination.py','inspect-production-combination.py','test_production_combination.py','prepare-epic-paper.py','epic-paper-clients.cjs','epic-paper-session.py','inspect-epic-paper.py','inspect-quest-evidence-paper.py','test_epic_acceptance.py','archive-epic-evidence.py','inspect-current-combination.py','test_current_combination.py','inspect-resource-history.py'):
+        for name in ('EpicCampaignPaperFixture.java','ContributionUpgradeProbe.java','ProductionCombinationFixture.java','prepare-production-combination.py','inspect-production-combination.py','test_production_combination.py','prepare-epic-paper.py','epic-paper-clients.cjs','epic-paper-session.py','inspect-epic-paper.py','inspect-quest-evidence-paper.py','test_epic_acceptance.py','archive-epic-evidence.py','inspect-current-combination.py','test_current_combination.py','inspect-resource-history.py','BattlefieldPaperFixture.java','inspect-battlefield-paper.py','test_battlefield_acceptance.py'):
             archive.write(ROOT / 'tools' / name, 'tools/' + name)
         inventory = {entry.filename: hashlib.sha256(archive.read(entry.filename)).hexdigest() for entry in archive.infolist()}
         archive.writestr('evidence-manifest.json', json.dumps(inventory, indent=2) + '\n')

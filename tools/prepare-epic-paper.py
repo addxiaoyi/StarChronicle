@@ -26,6 +26,8 @@ def write(path, text):
 
 
 def prepare(args):
+    if args.battlefield and args.route != 'WAR':
+        raise SystemExit('Battlefield acceptance requires the WAR route')
     product, native = args.product.resolve(), args.starcore.resolve()
     product_sha, native_sha = sha(product), sha(native)
     run = ROOT / 'run' / f'paper-epic-{product_sha[:8]}-{args.route.lower()}-{args.attempt}'
@@ -120,6 +122,18 @@ motd=Isolated epic receipt acceptance
                                  'Nation creation cost and new-nation protection disabled only in this test configuration.',
                                  'Dungeon uses a three-second native survival room.',
                                  'War ending uses native principal peace, not battlefield victory.'])
+    if args.battlefield:
+        extra = ROOT / 'tools/BattlefieldPaperFixture.java'
+        shutil.copy2(extra, run / 'fixture' / extra.name)
+        manifest.update(fixture_main_class='BattlefieldPaperFixture',
+                        fixture_extra_sources_sha256={extra.name: sha(extra)},
+                        battlefield_acceptance=dict(mode='native stronghold score victory', strongholds=2,
+                                                    points_each=50, expected_winner='AGGRESSOR',
+                                                    end_reason='VICTORY_DETERMINED'))
+        manifest['limitations'][-1:] = [
+            'Fixture seeds a native battlefield and two defender-owned citadels; the native aggressor-authorized start service bypasses the preparation timer.',
+            'Real non-OP clients capture through the native GUI and use the principal end command; no score setters or synthetic completion events.',
+            'Menu-based stronghold score victory; no PvP, siege movement, army simulation, occupation duration or world-territory transfer claim.']
     write(run / 'preparation.json', json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps(dict(run=str(run), **manifest), ensure_ascii=False))
 
@@ -135,6 +149,14 @@ def compile_fixture(args):
     source = run / 'fixture' / f'{FIXTURE}.java'
     if sha(source) != manifest['fixture_source_sha256']:
         raise SystemExit('Frozen fixture source changed; prepare a new run')
+    sources = [source]
+    for name, expected in manifest.get('fixture_extra_sources_sha256', {}).items():
+        if Path(name).name != name or not name.endswith('.java'):
+            raise SystemExit('Invalid fixture source name')
+        extra = run / 'fixture' / name
+        if sha(extra) != expected:
+            raise SystemExit('Frozen additional fixture source changed: ' + name)
+        sources.append(extra)
     target = run / f'plugins/{FIXTURE}.jar'
     if target.exists():
         raise SystemExit('Fixture already compiled')
@@ -143,8 +165,10 @@ def compile_fixture(args):
     paper_api = Path.home() / '.m2/repository/io/papermc/paper/paper-api/1.21.11-R0.1-SNAPSHOT/paper-api-1.21.11-R0.1-SNAPSHOT.jar'
     jars = [paper_api, run / 'plugins/StarChronicle.jar', run / 'plugins/StarCore.jar'] + sorted((run / 'libraries').rglob('*.jar'))
     argfile = run / 'fixture/javac.args'
-    write(argfile, '--release 21\n-proc:none\n-encoding UTF-8\n-cp\n"' + os.pathsep.join(str(path) for path in jars).replace('\\', '/') +
-          '"\n-d\n"' + str(classes).replace('\\', '/') + '"\n"' + str(source).replace('\\', '/') + '"\n')
+    arguments = ['--release', '21', '-proc:none', '-encoding', 'UTF-8', '-cp',
+                 os.pathsep.join(str(path) for path in jars), '-d', str(classes),
+                 *(str(path) for path in sources)]
+    write(argfile, '\n'.join('"' + value.replace('\\', '/') + '"' for value in arguments) + '\n')
     with (run / 'evidence/fixture-compile.log').open('w', encoding='utf-8') as log:
         javac = args.java_home / 'bin' / ('javac.exe' if os.name == 'nt' else 'javac')
         result = subprocess.run([str(javac), '-J-Xmx128m', '-J-XX:+UseSerialGC', '@' + str(argfile)], stdout=log, stderr=subprocess.STDOUT)
@@ -154,7 +178,7 @@ def compile_fixture(args):
     with zipfile.ZipFile(target, 'x', zipfile.ZIP_DEFLATED) as archive:
         for path in classes.rglob('*.class'):
             archive.write(path, path.relative_to(classes).as_posix())
-        archive.writestr('plugin.yml', f'name: {FIXTURE}\nversion: 1\nmain: smoke.{FIXTURE}\napi-version: "1.21"\ndepend: [StarCore, StarChronicle]\ncommands:\n  epicverify:\n    description: Isolated epic acceptance\n')
+        archive.writestr('plugin.yml', f'name: {FIXTURE}\nversion: 1\nmain: smoke.{manifest.get("fixture_main_class", FIXTURE)}\napi-version: "1.21"\ndepend: [StarCore, StarChronicle]\ncommands:\n  epicverify:\n    description: Isolated epic acceptance\n')
     manifest.update(fixture_compiled=True, fixture_sha256=sha(target))
     write(run / 'preparation.json', json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps(dict(run=str(run), fixture_sha256=manifest['fixture_sha256'])))
@@ -202,6 +226,7 @@ if __name__ == '__main__':
     parser.add_argument('--java-home', type=Path)
     parser.add_argument('--reason')
     parser.add_argument('--ledgers', action='store_true', help='Exercise contribution and member review APIs across restart')
+    parser.add_argument('--battlefield', action='store_true', help='Real non-OP stronghold captures and native score victory')
     args = parser.parse_args()
     if args.action == 'prepare': prepare(args)
     elif args.action == 'compile': compile_fixture(args)

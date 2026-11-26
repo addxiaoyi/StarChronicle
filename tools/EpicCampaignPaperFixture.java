@@ -30,7 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 /** Isolated acceptance: actual clients, public services and bundled story/plan.
  * Never writes a database, changes quest progress, fabricates completion records,
  * replaces providers or edits native model state. Test funds/ingredients are explicit. */
-public final class EpicCampaignPaperFixture extends JavaPlugin implements CommandExecutor {
+public class EpicCampaignPaperFixture extends JavaPlugin implements CommandExecutor {
     private static final String QUEST="chronicle_heir_records";
     private final Map<UUID,PermissionAttachment> permissions=new HashMap<>();
     private final AtomicBoolean busy=new AtomicBoolean();
@@ -57,9 +57,9 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
         } catch(Throwable error) { fail("enable",error);getServer().getPluginManager().disablePlugin(this); }
     }
     @Override public void onDisable() { if(run!=null)log("CLOSED",Map.of("normalDisable",true)); }
-    private static void require(boolean ok,String message) { if(!ok)throw new IllegalStateException(message); }
+    protected static void require(boolean ok,String message) { if(!ok)throw new IllegalStateException(message); }
     private static String hash(Path path)throws Exception { return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(Files.readAllBytes(path))); }
-    private synchronized void log(String kind,Object data) {
+    protected synchronized void log(String kind,Object data) {
         String line=SqliteStore.json(Map.of("time",Instant.now().toString(),"boot",boot,"kind",kind,"data",data));
         getLogger().info("EPIC_"+kind+" "+SqliteStore.json(data));
         try { Files.writeString(run.resolve("evidence/epic-fixture.jsonl"),line+"\n",StandardCharsets.UTF_8,StandardOpenOption.CREATE,StandardOpenOption.APPEND); }
@@ -69,25 +69,25 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
         while(error.getCause()!=null)error=error.getCause();
         log("FAILED",Map.of("action",action,"error",error.toString()));error.printStackTrace();
     }
-    private <T>T service(Class<T> type)throws Exception {
+    protected <T>T service(Class<T> type)throws Exception {
         return type.cast(((Optional<?>)registry.getClass().getMethod("find",Class.class).invoke(registry,type)).orElseThrow());
     }
-    private <T>CompletionStage<T> main(Callable<T> action) {
+    protected <T>CompletionStage<T> main(Callable<T> action) {
         CompletableFuture<T> result=new CompletableFuture<>();
         Runnable task=()->{try {result.complete(action.call());}catch(Throwable error){result.completeExceptionally(error);}};
         if(Bukkit.isPrimaryThread())task.run();else getServer().getScheduler().runTask(this,task);
         return result;
     }
-    private UUID uuid(String who) {
+    protected UUID uuid(String who) {
         require(List.of("A","B","C","D").contains(who),"Expected A|B|C|D");
         return UUID.nameUUIDFromBytes(("OfflinePlayer:Epic"+who).getBytes(StandardCharsets.UTF_8));
     }
-    private Player player(String who) {
+    protected Player player(String who) {
         Player p=getServer().getPlayerExact("Epic"+who);
         require(p!=null&&p.isOnline()&&p.getUniqueId().equals(uuid(who))&&!p.isOp(),"Need actual non-OP client "+who);
         return p;
     }
-    private NationId country(String who) {return NationId.fromString(getConfig().getString("nations."+who));}
+    protected NationId country(String who) {return NationId.fromString(getConfig().getString("nations."+who));}
     private void grant(String who) {
         Player p=player(who);var a=p.addAttachment(this);permissions.put(p.getUniqueId(),a);
         for(String permission:List.of("starchronicle.use","starcore.questgui","starcore.resource","starcore.nation.create",
@@ -330,6 +330,9 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
             log("MEMBER_REJOINED",Map.of("player",uuid("D"),"instance",instance,"afterRestart",boot>1));return null;
         });
     }
+    protected CompletionStage<?> extraAction(String action,String[] args) {
+        throw new IllegalArgumentException("Unknown action: "+action);
+    }
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!(sender instanceof ConsoleCommandSender)||args.length==0)return false;
         String action=args[0];if(!busy.compareAndSet(false,true)){fail(action,new IllegalStateException("Previous action is still pending"));return true;}
@@ -341,7 +344,7 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
                 case "checkpoint"->captureFinal();case "final-evidence"->finalEvidence();case "settle"->settle();
                 case "check"->check();case "replay"->replayRejection();case "state"->campaign().thenApply(s->{log("STATE",s);return s;});
                 case "contributions"->contributions();case "member-exit"->memberExit();case "member-rejoin"->memberRejoin();
-                default->throw new IllegalArgumentException("Unknown action: "+action);
+                default->extraAction(action,args);
             };
             work.whenComplete((value,error)->{busy.set(false);if(error!=null)fail(action,error);else log("ACTION_DONE",Map.of("action",action));});
         } catch(Throwable error) {busy.set(false);fail(action,error);}return true;
