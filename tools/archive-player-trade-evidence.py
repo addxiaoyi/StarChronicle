@@ -1,7 +1,7 @@
 """Archive exact paired builds, direct player trade, six regressions and retained failed attempts."""
 from pathlib import Path
 from datetime import datetime,timezone
-import argparse,hashlib,importlib.util,json,os,re,shlex,shutil,subprocess,sys,zipfile
+import argparse,hashlib,importlib.util,json,re,shlex,shutil,subprocess,sys,zipfile
 import xml.etree.ElementTree as ET
 import yaml
 
@@ -85,6 +85,7 @@ def main():
                 if value and len(value[0])>=8:secrets.append(value[0].encode())
     require(secrets,'Actual private values required for credential scan');redactions=[]
     pattern=r'(?m)^([ \t]*(?:access-secret|password|api-key|mineskin_api_key):)[ \t]*([^\n]*)$'
+    properties_secret=r'(?m)^((?:management-server-secret|management-server-tls-keystore-password|rcon\.password)=)([^\n]*)$'
     public=set()
     for root in (ROOT,native):
         for match in re.finditer(pattern,(root/'src/main/resources/config.yml').read_text()):
@@ -100,6 +101,12 @@ def main():
                     value=yaml.safe_load(match[2])
                     if isinstance(value,str) and len(value)>=16 and value not in public and value!='REDACTED_TEST_SECRET':secrets.append(value.encode())
                 raw,n=re.subn(pattern,r'\1 "REDACTED_TEST_SECRET"',raw.decode());raw=raw.encode()
+                if n:redactions.append(dict(path=name,fields=n))
+            if path.suffix=='.properties':
+                for match in re.finditer(properties_secret,raw.decode()):
+                    value=match[2].strip()
+                    if len(value)>=8:secrets.append(value.encode())
+                raw,n=re.subn(properties_secret,r'\1REDACTED_TEST_SECRET',raw.decode());raw=raw.encode()
                 if n:redactions.append(dict(path=name,fields=n))
             require(not any(secret in raw for secret in secrets),'Private credential detected; archive rejected')
             archive.writestr(name,raw)
@@ -126,23 +133,25 @@ def main():
     with zipfile.ZipFile(archive_path) as archive:
         require(archive.testzip() is None and all(hashlib.sha256(archive.read(k)).hexdigest()==v for k,v in inventory.items()),'Archive integrity failure')
         require(all(not any(secret in archive.read(item.filename) for secret in secrets) for item in archive.infolist()),'Private credential detected during final archive scan')
-        extracted=destination/'extracted-check';extracted.mkdir();archive.extractall(extracted)
-    checks={}
-    for item,run in zip(accepted,runs):
-        name=item['kind'];copy=extracted/'runs'/run.name
-        binaries=['paper.jar','plugins/StarCore.jar','plugins/StarChronicle.jar','plugins/EpicCampaignPaperFixture.jar']+['plugins/'+v['filename'] for v in read(run/'preparation.json')['production_stack']['artifacts']]
-        for relative in binaries:
-            target=copy/relative;target.parent.mkdir(parents=True,exist_ok=True);target.symlink_to(run/relative)
-        inspector,test,variable=('inspect-player-trade-paper.py','test_player_trade_acceptance.py','STARCHRONICLE_PLAYER_TRADE_RUN') if name=='player' else cases[name][2:]
-        for kind,command,env in [('inspect',[sys.executable,str(extracted/'tools'/inspector),str(copy)],None),('tests',[sys.executable,'-m','unittest','discover','-s',str(extracted/'tools'),'-p',test,'-v'],dict(os.environ,**{variable:str(copy)}))]:
-            path=destination/(name+'-extracted-'+kind+'.log')
-            with path.open('xb') as output:code=subprocess.run(command,env=env,stdout=output,stderr=subprocess.STDOUT).returncode
-            require(code==0,'Extracted '+name+' '+kind+' failed')
-            if kind=='inspect':require(read(path)=={k:v for k,v in item.items() if k not in ('kind','directory')},'Extracted inspector result changed')
-            else:
-                checks[name]=evidence_tests(path)
-                require(all(checks[name][key]==regressions[name][key] for key in ('tests','passed','skipped')),'Extracted test counts changed')
-    summary['extracted_inspectors']='ALL_SEVEN_PASSED';summary['extracted_regressions']=checks
+    binary_path=destination/'exact-binaries.zip';binary_manifest=dict(format=1,evidence_sha256=sha(archive_path),artifacts={},runs={})
+    with zipfile.ZipFile(binary_path,'x',zipfile.ZIP_STORED) as binary_zip:
+        for run in runs:
+            binaries=['paper.jar','plugins/StarCore.jar','plugins/StarChronicle.jar','plugins/EpicCampaignPaperFixture.jar']+['plugins/'+v['filename'] for v in read(run/'preparation.json')['production_stack']['artifacts']]
+            mapping={}
+            for relative in binaries:
+                raw=(run/relative).read_bytes();digest=hashlib.sha256(raw).hexdigest();mapping[relative]=digest
+                if digest not in binary_manifest['artifacts']:
+                    binary_zip.writestr('blobs/'+digest+'.jar',raw);binary_manifest['artifacts'][digest]=len(raw)
+            binary_manifest['runs'][run.name]=mapping
+        binary_zip.writestr('binary-manifest.json',json.dumps(binary_manifest,indent=2)+'\n')
+    transferred=destination/'transferred-check'
+    with (destination/'transferred-check.log').open('xb') as output:
+        code=subprocess.run([sys.executable,str(ROOT/'tools/verify-player-trade-handoff.py'),'--evidence',str(archive_path),'--binaries',str(binary_path),'--output',str(transferred)],stdout=output,stderr=subprocess.STDOUT).returncode
+    require(code==0,'Transferred archive verification failed; original packages and logs retained')
+    portable=read(transferred/'verification.json')
+    summary['extracted_inspectors']='ALL_SEVEN_PASSED';summary['extracted_regressions']=portable['regressions']
+    summary['portable_verification']=portable
+    summary['local_binary_bundle']=dict(file=binary_path.name,sha256=sha(binary_path),bytes=binary_path.stat().st_size,unique_artifacts=len(binary_manifest['artifacts']),public=False)
     summary['credential_scan']='Actual private environment and non-template configured secret bytes absent; secret fields redacted.'
     summary['archive']=dict(sha256=sha(archive_path),bytes=archive_path.stat().st_size,members=len(inventory));summary['source_archives']={name:sha(destination/name) for name in ('starchronicle-source.tar.gz','starcore-source.tar.gz')}
     data=json.dumps(summary,ensure_ascii=False,indent=2)+'\n';(destination/'manifest.json').write_text(data)

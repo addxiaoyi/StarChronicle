@@ -1,5 +1,6 @@
 """Corrupt real stopped trade evidence to verify independently detected acceptance failures."""
 from contextlib import closing
+from datetime import datetime,timedelta
 import importlib.util
 import json
 import os
@@ -105,7 +106,11 @@ class ActualNationTradeEvidenceTest(unittest.TestCase):
     def test_rehashed_checkpoint_pending_became_settled(self):
         self.sql(lambda db:db.execute("update starcore_nation_trade_offers set status='SETTLED' where status='OPEN'"),boot=1);self.reject('Offer status/restart boundary differs')
     def test_rehashed_checkpoint_changed_contribution_time(self):
-        self.sql(lambda db:db.execute("update contributions set recorded_at='2026-11-25T23:59:59Z'"),'chronicle',1);self.reject('Contribution prefix changed across restart')
+        def change_time(db):
+            for identity,recorded in db.execute('select id,recorded_at from contributions').fetchall():
+                changed=(datetime.fromisoformat(recorded.replace('Z','+00:00'))+timedelta(seconds=1)).isoformat().replace('+00:00','Z')
+                db.execute('update contributions set recorded_at=? where id=?',(changed,identity))
+        self.sql(change_time,'chronicle',1);self.reject('Contribution prefix changed across restart')
     def test_unbound_checkpoint_file(self):
         (self.run/'evidence/checkpoints/boot1/extra').write_text('unknown');self.reject('Unexpected checkpoint files')
     def test_captured_controller_changed(self):
