@@ -9,6 +9,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class SnapshotCollectorTest {
+    @Test void committedTechnologyScopeNeverAdvancesTheLegacyObservationBaseline() {
+        StarCoreBridge bridge=mock(StarCoreBridge.class);when(bridge.committedTechnologyHistory()).thenReturn(true);
+        var scope=new SnapshotCollector(bridge).collect().stream().filter(s->s.namespace().equals("starcore.technologies")).findFirst().orElseThrow();
+        assertFalse(scope.complete());assertTrue(scope.evidence().contains("Durable native technology log"));
+    }
     @Test void missingNativeAuthoritiesReportIncompleteScopesInsteadOfEmptySuccess() {
         StarCoreBridge bridge=mock(StarCoreBridge.class);var snapshots=new SnapshotCollector(bridge).collect();
         assertEquals(3,snapshots.size());assertTrue(snapshots.stream().noneMatch(ObservationSnapshot::complete));
