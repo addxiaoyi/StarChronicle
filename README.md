@@ -1,6 +1,6 @@
 # StarChronicle
 
-2026-11-26 跨设备续接入口：[十阶段进度与交接报告](docs/HANDOFF-2026-11-26.md)。最新科技历史构件完整 905 项测试通过；139 条原生科技提交通过 Paper 三次启停及 10 项证据回归，见[科技提交历史报告](docs/COMMITTED-TECHNOLOGY-HISTORY.md)。此前 887 项构件已接通史诗贡献、普通成员复核／退出／重入和 WorldGuard 授权，并通过所选 Paper＋StarCore＋FancyNpcs＋WorldGuard／WorldEdit 双路线三次启动及 48 项证据回归，见[组合验收报告](docs/PRODUCTION-COMBINATION-TEST-REPORT.md)。不同构件的实服证据分别保留，十阶段整体仍在推进。
+2026-11-26 跨设备续接入口：[十阶段进度与交接报告](docs/HANDOFF-2026-11-26.md)。最新配套原生贸易提交／恢复已通过 7,225 项常规回归（21 项既有跳过）、134 笔真实服务交易的 Paper 三次启停及 11 项证据回归，见[原生贸易报告](docs/NATIVE-TRADE-HISTORY.md)；Chronicle 贸易贡献与冲正仍待接入。Chronicle 保持此前 905 项科技构件，139 条科技三次启停和 887 项史诗五插件双路线的旧证据分别见[科技报告](docs/COMMITTED-TECHNOLOGY-HISTORY.md)、[组合报告](docs/PRODUCTION-COMBINATION-TEST-REPORT.md)。各构件实服范围独立记录，十阶段仍在推进。
 
 国家史诗新增 `/chronicle epic` 报名、冻结、准备、执行、对账与路线入口；可选《帝国最后的继承人》战略包默认关闭。部署和真实回执边界见 [国家史诗契约](docs/NATIONAL-EPIC-CONTRACT.md)与[操作示例](examples/national-epic/last-heir-strategy/README.md)。
 
