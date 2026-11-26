@@ -62,9 +62,11 @@ class NationalCommandsTest {
     }
     @Test void membershipCommandsTakeOnlyTheCurrentPlayerAndRejectClaimedNationality(){
         when(service.exitMember("instance",actor,"node")).thenReturn(CompletableFuture.completedFuture(new ProcessReport(false,List.of(),"left")));
+        when(service.exitMember("instance",actor)).thenReturn(CompletableFuture.completedFuture(new ProcessReport(false,List.of(),"left")));
         when(service.revalidateMember("instance",actor)).thenReturn(CompletableFuture.completedFuture(new ProcessReport(false,List.of(),"reviewed")));
         assertTrue(command("leave","instance","node"));assertTrue(command("revalidate","instance"));
         verify(service).exitMember("instance",actor,"node");verify(service).revalidateMember("instance",actor);
-        assertTrue(command("leave","instance"));assertTrue(command("revalidate","instance","claimed-nation"));verifyNoMoreInteractions(service);
+        assertTrue(command("leave","instance"));verify(service).exitMember("instance",actor);
+        assertTrue(command("revalidate","instance","claimed-nation"));assertTrue(command("leave","instance","node","claimed-nation"));verifyNoMoreInteractions(service);
     }
 }

@@ -125,6 +125,32 @@ class ActualEpicEvidenceTest(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, 'Missing or duplicate aftermath'):
             INSPECTOR.inspect(self.run)
 
+    def require_ledgers(self):
+        if not INSPECTOR.read(self.run / 'preparation.json').get('ledger_acceptance'):
+            self.skipTest('Requires real contribution/member acceptance run')
+
+    def test_missing_contribution_is_rejected(self):
+        self.require_ledgers()
+        with sqlite3.connect(self.run / 'plugins/StarChronicle/chronicle.db') as database:
+            database.execute('DELETE FROM contributions WHERE id=(SELECT id FROM contributions LIMIT 1)')
+        with self.assertRaisesRegex(AssertionError, 'eight player/nation'):
+            INSPECTOR.inspect(self.run)
+
+    def test_inflated_contribution_is_rejected(self):
+        self.require_ledgers()
+        with sqlite3.connect(self.run / 'plugins/StarChronicle/chronicle.db') as database:
+            database.execute("UPDATE contributions SET amount='999999'")
+        with self.assertRaisesRegex(AssertionError, 'amount or unit'):
+            INSPECTOR.inspect(self.run)
+
+    def test_missing_member_restart_evidence_is_rejected(self):
+        self.require_ledgers()
+        path = self.run / 'evidence/epic-fixture.jsonl'
+        rows = [json.loads(line) for line in path.read_text().splitlines()]
+        path.write_text(''.join(json.dumps(r) + '\n' for r in rows if r['kind'] != 'MEMBER_REJOINED'))
+        with self.assertRaisesRegex(AssertionError, 'rejoin after restart'):
+            INSPECTOR.inspect(self.run)
+
 
 if __name__ == '__main__':
     unittest.main()

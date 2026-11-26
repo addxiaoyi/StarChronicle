@@ -40,7 +40,7 @@ class QuestGateLedgerTest {
             s.execute("CREATE TABLE events(id TEXT PRIMARY KEY)");
             s.execute("CREATE TABLE instances(id TEXT PRIMARY KEY,story TEXT NOT NULL,scope TEXT NOT NULL,completed INTEGER NOT NULL,updated TEXT NOT NULL,json TEXT NOT NULL)");
         }
-        c.setAutoCommit(false);QuestGateLedger.createSchema(c);return c;
+        c.setAutoCommit(false);MemberReviewLedger.createSchema(c);QuestGateLedger.createSchema(c);return c;
     }
     void seed(Connection c,StoryInstance i)throws SQLException {try(var s=c.prepareStatement("INSERT OR IGNORE INTO events(id) VALUES(?)")){s.setString(1,i.sourceEventId());s.executeUpdate();}save(c,i);}
     void save(Connection c,StoryInstance i)throws SQLException {
@@ -261,7 +261,7 @@ class QuestGateLedgerTest {
             proof=result.gate().completion();revision=result.gate().revision();id=g.id();c.commit();
         }
         try(var c=connect()) {
-            c.setAutoCommit(false);QuestGateLedger.createSchema(c);
+            c.setAutoCommit(false);MemberReviewLedger.createSchema(c);QuestGateLedger.createSchema(c);
             var replay=QuestGateLedger.observe(c,id,provider,committed(proof),now.plusSeconds(50));
             assertFalse(replay.changed());assertFalse(replay.completionNewlyRecorded());assertEquals(revision,replay.gate().revision());assertEquals(now.plusSeconds(5),replay.gate().lastCheckedAt());assertEquals(1,count(c,"quest_gate_completions"));assertTrue(QuestGateLedger.ready(c,i,actor(a,"river")));c.commit();
             assertThrows(IllegalArgumentException.class,()->QuestGateLedger.observe(c,id,provider,new QuestObservation(Status.COMMITTED,proof.acceptedRun(),proof,now.plusSeconds(2),"receipt observed before durable commit"),now.plusSeconds(50)));

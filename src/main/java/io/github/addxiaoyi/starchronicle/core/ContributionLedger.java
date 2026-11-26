@@ -79,33 +79,60 @@ public final class ContributionLedger {
     /** Share one native receipt across adapters without rewriting the first committed evidence row. */
     public static Result recordNative(Connection c, String domain, String nativeReceiptId,
                                       ContributionRequest request, String legacyOperationId, Instant recordedAt) throws SQLException {
-        Objects.requireNonNull(domain); Objects.requireNonNull(nativeReceiptId);
-        String key = RuleEngine.stable("contribution-receipt", domain, nativeReceiptId,
+        return recordNative(c, domain, nativeReceiptId, request, legacyOperationId, recordedAt, false);
+    }
+
+    static Result recordEpicNative(Connection c, String domain, String receipt,
+                                    ContributionRequest request, String legacyOperation, Instant at) throws SQLException {
+        return recordNative(c, domain, receipt, request, legacyOperation, at, true);
+    }
+
+    private static String receiptKey(String domain, String receipt, ContributionRequest request) {
+        return RuleEngine.stable("contribution-receipt", domain, receipt,
                 request.type().name(), request.unit(), request.subjectId());
+    }
+
+    static Optional<ContributionEntry> findEpicNative(Connection c, String domain, String receipt,
+                                                     ContributionRequest request, String legacyOperation) throws SQLException {
+        return findNative(c, domain, receipt, request, legacyOperation, true);
+    }
+
+    private static Optional<ContributionEntry> findNative(Connection c, String domain, String nativeReceiptId,
+                                                          ContributionRequest request, String legacyOperationId,
+                                                          boolean epicUnitCompatibility) throws SQLException {
+        inTransaction(c);
+        Objects.requireNonNull(domain); Objects.requireNonNull(nativeReceiptId);
         try (var s = c.prepareStatement("SELECT c.id,c.request_json,c.recorded_at FROM contribution_receipts r JOIN contributions c ON c.id=r.contribution_id WHERE r.receipt_key=?")) {
-            s.setString(1,key);
+            s.setString(1,receiptKey(domain,nativeReceiptId,request));
             try (var r=s.executeQuery()) {
                 if(r.next()) {
                     var old=new ContributionEntry(r.getString(1),decode(r.getString(2),ContributionRequest.class),Instant.parse(r.getString(3)));
-                    requireSameNativeValue(old.request(),request);
-                    return new Result(false,old);
+                    requireSameNativeValue(old.request(),request,epicUnitCompatibility);
+                    return Optional.of(old);
                 }
             }
         }
         var legacy=legacyOperationId==null?Optional.<ContributionEntry>empty():find(c,legacyOperationId,request.type(),request.subjectId());
-        Result result;
-        if(legacy.isPresent()) {requireSameNativeValue(legacy.get().request(),request);result=new Result(false,legacy.get());}
-        else result=record(c,request,recordedAt);
-        try(var s=c.prepareStatement("INSERT INTO contribution_receipts(receipt_key,contribution_id) VALUES(?,?)")) {
-            s.setString(1,key);s.setString(2,result.entry().id());s.executeUpdate();
+        if(legacy.isPresent()) requireSameNativeValue(legacy.get().request(),request,epicUnitCompatibility);
+        return legacy;
+    }
+
+    private static Result recordNative(Connection c, String domain, String receipt, ContributionRequest request,
+                                       String legacyOperation, Instant at, boolean epicUnitCompatibility) throws SQLException {
+        var existing=findNative(c,domain,receipt,request,legacyOperation,epicUnitCompatibility);
+        Result result=existing.isPresent()?new Result(false,existing.get()):record(c,request,at);
+        try(var s=c.prepareStatement("INSERT INTO contribution_receipts(receipt_key,contribution_id) VALUES(?,?) ON CONFLICT(receipt_key) DO NOTHING")) {
+            s.setString(1,receiptKey(domain,receipt,request));s.setString(2,result.entry().id());s.executeUpdate();
         }
         return result;
     }
 
-    private static void requireSameNativeValue(ContributionRequest old,ContributionRequest current) {
+    private static void requireSameNativeValue(ContributionRequest old,ContributionRequest current,boolean epicUnitCompatibility) {
+        boolean sameUnit=old.unit().equals(current.unit()) || epicUnitCompatibility
+                && current.type()==ContributionType.RESOURCE_AID && current.unit().equals("resource."+old.unit());
         if(old.type()!=current.type() || !old.subjectId().equals(current.subjectId())
                 || !old.actorId().equals(current.actorId()) || !Objects.equals(old.nationId(),current.nationId())
-                || old.amount().compareTo(current.amount())!=0 || !old.unit().equals(current.unit())
+                || old.amount().compareTo(current.amount())!=0 || !sameUnit
                 || !old.committedAt().equals(current.committedAt()))
             throw new IllegalStateException("Native contribution receipt conflicts with its recorded subject or value");
     }

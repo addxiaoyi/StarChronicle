@@ -56,18 +56,22 @@ public final class MemberReviewLedger {
 
     public static void pending(Connection c, StoryInstance instance, UUID playerId,
                                String observedNationId, String reason, Instant now) throws SQLException {
+        if (find(c, instance.id(), playerId).map(r -> r.status() == Status.EXITED).orElse(false)) return;
         upsert(c, instance, playerId, observedNationId, Status.PENDING, reason, now);
     }
 
     public static void approve(Connection c, StoryInstance instance, PlayerContext context, Instant now) throws SQLException {
+        approve(c, instance, context, "Explicit member revalidation", now);
+    }
+
+    public static void approve(Connection c, StoryInstance instance, PlayerContext context, String evidence, Instant now) throws SQLException {
         Review review = find(c, instance.id(), context.playerId()).orElse(null);
         if (review != null && review.status() == Status.EXITED) throw new IllegalStateException("Exited membership cannot be silently restored");
         if (!instance.members().containsKey(context.playerId())) throw new SecurityException("Player is not an instance member");
         if (!instance.members().get(context.playerId()).equals(context.nationId())) throw new SecurityException("Current nation does not match the original membership");
         if (review != null && review.status() != Status.PENDING && review.status() != Status.APPROVED)
             throw new IllegalStateException("Membership review is not revalidatable: " + review.status());
-        upsert(c, instance, context.playerId(), context.nationId(), Status.APPROVED,
-                review == null ? "Initial explicit member review" : "Explicit member revalidation", now);
+        upsert(c, instance, context.playerId(), context.nationId(), Status.APPROVED, evidence, now);
     }
 
     public static void exit(Connection c, StoryInstance instance, UUID playerId, String reason, Instant now) throws SQLException {

@@ -74,7 +74,6 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private ChronicleService service;
     private volatile List<StoryDefinition> definitions=List.of();
     private volatile NationalVoteAuthority nationalVoteAuthority=NationalVoteAuthority.denying();
-    private StarCoreNationalVoteAuthority membershipAuthority;
     private boolean standaloneMembership;
     private NationalAidService nationalAid;
     private EpicCampaignPlanCatalog epicPlanCatalog=EpicCampaignPlanCatalog.empty();
@@ -125,7 +124,6 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             validateEpicPlans(definitions,epicPlanCatalog);
             npcLedger=new NpcLedger(store,catalog);
             StarCoreNationalVoteAuthority builtinNationalAuthority=new StarCoreNationalVoteAuthority(gateway);
-            membershipAuthority=builtinNationalAuthority;
             standaloneMembership=!gateway.available();
             nationalVoteAuthority=builtinNationalAuthority;
             // The stable proxy reads only a volatile trusted provider. Registry/Bukkit
@@ -135,7 +133,17 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                     return nationalVoteAuthority.withRepresentative(actor,nation,operation);
                 }
             };
-            engine=new RuleEngine(store,definitions,Clock.systemUTC(),npcLedger,nationalAuthorityProxy,memoryRecipes,epicCampaigns);
+            MemberAuthority nativeMembers=new io.github.addxiaoyi.starchronicle.integration.StarCoreMemberAuthority(gateway);
+            MemberAuthority memberAuthority=new MemberAuthority(){
+                public <T>T withMember(UUID actor,String nation,Authorized<T> operation)throws Exception {
+                    if(standaloneMembership&&!gateway.available()) {
+                        if(!nation.isEmpty())throw new SecurityException("Standalone mode has no native nation authority");
+                        return operation.run(new Membership(actor,"","Chronicle.standalone","Standalone no-nation membership",Instant.now()));
+                    }
+                    return nativeMembers.withMember(actor,nation,operation);
+                }
+            };
+            engine=new RuleEngine(store,definitions,Clock.systemUTC(),npcLedger,nationalAuthorityProxy,memoryRecipes,epicCampaigns,memberAuthority);
             try {
                 nationalAid=new NationalAidService(store,engine,new StarCoreTreasuryAidProvider(gateway),Clock.systemUTC(),command->{
                     ThreadPoolExecutor state=worker;
@@ -299,6 +307,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         snapshots().thenCompose(contexts->query(()->{
             nativeJournal.isolateOrphans(nativeFlights.players());
             gateway.scanCommittedSources();
+            engine.recoverEpicContributions(50);
             var committed=new CommittedSourceCollector(gateway);
             for(var source:CommittedSourceCollector.Source.values())try {
                 var page=committed.collect(source,engine.committedSourceCursor(source.id));
@@ -463,6 +472,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             if(pin==null)throw new IllegalStateException("Epic operation has no durable provider pin");
             EpicOperationProvider provider=epicProvider(pin.providerId(),pin.authorityDomain());
             Callable<Void> reserve=()->{
+                if(!reconcile)engine.validateEpicContributionIntent(state.operation());
                 if(!reconcile)epicCampaigns.claimAttempt(operationId,expectedRevision,Instant.now());
                 return null;
             };
@@ -677,7 +687,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             Objects.requireNonNull(event);var frozen=List.copyOf(entries);
             return snapshots().thenCompose(contexts->query(()->{var report=engine.acceptContributions(event,frozen,audience(event,contexts));deliverPending();return report;}));
         }
-        @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry>> contributions(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return query(()->contributions.list(subject,type,page,size));}
+        @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry>> contributions(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return query(()->engine.contributions(subject,type,page,size));}
         @Override public CompletionStage<List<EpicCampaignPlan>> epicCampaignPlans(){return query(()->epicPlanCatalog.plans());}
         @Override public CompletionStage<EpicSignup> openEpicSignup(String planId,String sessionId,String reliefNationId,UUID actorId){
             return snapshot(actorId).thenCompose(context->query(()->{
@@ -752,6 +762,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                         permission,requested);
                 EpicContributions.quantities(operation);
                 if(!provider.supports(operation))throw new IllegalArgumentException("Epic provider does not support this operation or its native capability is unavailable");
+                engine.validateEpicContributionIntent(operation);
                 return withEpicRepresentative(context,()->epicCampaigns.prepare(operation,provider.providerId(),provider.authorityDomain()));
             }));
         }
@@ -793,18 +804,16 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<QuestGateState.GateSummary> reconcileQuestGate(String gateId,UUID player,int attempt){return questGates.recover(gateId,player,attempt,false).thenApply(QuestGateState::summary);}
         @Override public CompletionStage<QuestGateState.GateSummary> retryQuestGate(String gateId,UUID player,int attempt){return questGates.recover(gateId,player,attempt,true).thenApply(QuestGateState::summary);}
         @Override public CompletionStage<NationalVoteState> nationalState(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->{NationalVoteState result=engine.nationalState(id,context);deliverPending();return result;}));}
-        @Override public CompletionStage<ProcessReport> join(String id,UUID player){return snapshot(player).thenCompose(context->query(()->engine.join(id,context)));}
+        @Override public CompletionStage<ProcessReport> join(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.join(id,context)));}
         @Override public CompletionStage<List<MemberReviewLedger.Review>> memberReviews(UUID player,int limit){return nationalSnapshot(player).thenCompose(context->query(()->{engine.observeMembers(List.of(context));return engine.memberReviews(player,limit);}));}
         @Override public CompletionStage<Optional<MemberReviewLedger.Review>> memberReview(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.memberReview(id,context)));}
-        @Override public CompletionStage<ProcessReport> revalidateMember(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->{
-            if(standaloneMembership && context.nationId().isBlank())return engine.revalidateMember(id,context);
-            if(membershipAuthority==null)throw new SecurityException("成员权威服务不可用");
-            return membershipAuthority.withMember(player,context.nationId(),()->engine.revalidateMember(id,context));
-        }));}
+        @Override public CompletionStage<ProcessReport> revalidateMember(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.revalidateMember(id,context)));}
         @Override public CompletionStage<ProcessReport> exitMember(String id,UUID player,String expectedNode){
             if(expectedNode==null||expectedNode.isBlank())return CompletableFuture.failedFuture(new IllegalArgumentException("退出操作需要当前节点"));
             return nationalSnapshot(player).thenCompose(context->query(()->engine.exitMember(id,expectedNode,context)));
         }
+        @Override public CompletionStage<ProcessReport> exitMember(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.exitMember(id,context)));}
+        @Override public CompletionStage<java.math.BigDecimal> contributionTotal(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,String unit){return query(()->engine.contributionTotal(subject,type,unit));}
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player);}));}
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player,int page,int size){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player,page,size);}));}
         @Override public CompletionStage<Optional<StoryInstance>> instance(UUID player,String id){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instance(player,id);}));}
@@ -846,8 +855,9 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 case "npc"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle npc <逻辑NPC ID>");menus.npc(id,args[1]);}
                 case "fate"->menus.fate(id);
                 case "contributions"->{
-                    if(args.length>3||args.length>1&&!Set.of("player","nation").contains(args[1].toLowerCase(Locale.ROOT)))throw new IllegalArgumentException("用法: /chronicle contributions [player|nation] [页]");
-                    int page=args.length==3?Integer.parseInt(args[2])-1:0;if(page<0)throw new IllegalArgumentException("页码从 1 开始");
+                    boolean named=args.length>1&&Set.of("player","nation").contains(args[1].toLowerCase(Locale.ROOT));
+                    if(args.length>3||args.length==3&&!named)throw new IllegalArgumentException("用法: /chronicle contributions [player|nation] [页]");
+                    int page=args.length==3?Integer.parseInt(args[2])-1:args.length==2&&!named?Integer.parseInt(args[1])-1:0;if(page<0)throw new IllegalArgumentException("页码从 1 开始");
                     boolean nation=args.length>1&&args[1].equalsIgnoreCase("nation");
                     nationalSnapshot(id).thenCompose(context->{
                         if(nation&&context.nationId().isBlank())throw new IllegalArgumentException("当前没有国家");
@@ -872,13 +882,13 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 case "reviews"->{if(args.length!=1)throw new IllegalArgumentException("用法: /chronicle reviews");service.memberReviews(id,50).whenComplete((reviews,error)->{
                     if(error!=null)failure(id,error);else message(id,reviews.isEmpty()?"暂无成员复核记录。":reviews.stream().map(r->r.instanceId()+" · "+r.status()+" · "+r.reason()).collect(java.util.stream.Collectors.joining("\n")));
                 });}
-                case "revalidate"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle revalidate <实例ID>");service.revalidateMember(args[1],id).whenComplete((report,error)->{if(error!=null)failure(id,error);else message(id,report.message());});}
-                case "leave"->{if(args.length!=3)throw new IllegalArgumentException("用法: /chronicle leave <实例ID> <当前节点ID>");service.exitMember(args[1],id,args[2]).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id);}});}
+                case "revalidate","review"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle revalidate <实例ID>");service.revalidateMember(args[1],id).whenComplete((report,error)->{if(error!=null)failure(id,error);else message(id,report.message());});}
+                case "leave"->{if(args.length!=2&&args.length!=3)throw new IllegalArgumentException("用法: /chronicle leave <实例ID> [当前节点ID]");(args.length==3?service.exitMember(args[1],id,args[2]):service.exitMember(args[1],id)).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id);}});}
                 case "choose"->{if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle choose <实例ID> <当前节点ID> <选项ID>");service.choose(args[1],id,args[2],args[3]).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id);}});}
                 case "national"->{if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle national <实例ID>");menus.national(id,args[1]);}
                 case "vote"->{if(args.length!=5)throw new IllegalArgumentException("用法: /chronicle vote <实例ID> <当前节点ID> <国家票修订号> <选项ID>");long revision=nationalRevision(args[3]);nationalResponse(id,args[1],service.nationalVote(args[1],id,args[2],revision,args[4]));}
                 case "withdraw"->{if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle withdraw <实例ID> <当前节点ID> <国家票修订号>");long revision=nationalRevision(args[3]);nationalResponse(id,args[1],service.withdrawNationalVote(args[1],id,args[2],revision));}
-                default->message(id,"/chronicle stories | history [nation 国家ID|player UUID/me] [页] | join 实例ID | choose 实例ID 节点ID 选项ID | national 实例ID | vote 实例ID 节点ID 修订号 选项ID | withdraw 实例ID 节点ID 修订号 | epic");
+                default->message(id,"/chronicle stories | history [nation 国家ID|player UUID/me] [页] | join 实例ID | review 实例ID | leave 实例ID | reviews | contributions [页] | choose 实例ID 节点ID 选项ID | national 实例ID | vote 实例ID 节点ID 修订号 选项ID | withdraw 实例ID 节点ID 修订号 | epic");
             }
         } catch(IllegalArgumentException error){message(id,error.getMessage());}
         return true;
@@ -1035,7 +1045,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return true;
     }
     @Override public List<String> onTabComplete(CommandSender sender,Command command,String alias,String[] args) {
-        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","membership","reviews","revalidate","leave","contributions","quest-reconcile","quest-retry","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","membership","reviews","revalidate","review","leave","contributions","quest-reconcile","quest-retry","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
         if(args.length==2&&args[0].equalsIgnoreCase("epic"))return List.of("plans","providers","open","signup","enroll","withdraw-signup","seal","status","route","prepare","apply","reconcile","founding-reference").stream().filter(s->s.startsWith(args[1].toLowerCase(Locale.ROOT))).toList();
         if(args.length==4&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("prepare"))return Arrays.stream(EpicOperation.Type.values()).map(Enum::name).filter(s->s.startsWith(args[3].toUpperCase(Locale.ROOT))).toList();
         if(args.length==5&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("route"))return List.of("WAR","DUNGEON").stream().filter(s->s.startsWith(args[4].toUpperCase(Locale.ROOT))).toList();

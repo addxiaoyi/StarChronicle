@@ -127,6 +127,9 @@ def scenario(phase):
         server_action('preparations')
         if manifest.get('extended'):
             server_action('contributions-check')
+        if manifest.get('ledger_acceptance'):
+            server_action('contributions')
+            server_action('member-exit')
         server_action('advance')
         if manifest['route'] == 'DUNGEON':
             for who in 'AB':
@@ -143,6 +146,9 @@ def scenario(phase):
             client_action('membership D')
             server_action('membership-finish')
             server_action('contributions-check')
+        if manifest.get('ledger_acceptance'):
+            server_action('contributions')
+            server_action('member-rejoin')
         server_action('final-evidence')
         server_action('settle')
         time.sleep(3)
@@ -158,6 +164,8 @@ def scenario(phase):
         server_action('check')
     else:
         raise ValueError('first|second|third')
+    if manifest.get('ledger_acceptance'):
+        server_action('contributions')
     clients.stdin.write('quit\n'); clients.stdin.flush(); clients.wait(timeout=15)
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:

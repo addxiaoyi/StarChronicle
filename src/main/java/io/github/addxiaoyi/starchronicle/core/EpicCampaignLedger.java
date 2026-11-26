@@ -54,6 +54,8 @@ public final class EpicCampaignLedger {
             s.execute("CREATE TABLE IF NOT EXISTS epic_operation_providers("+
                     "operation_id TEXT PRIMARY KEY REFERENCES epic_operations(operation_id),provider_id TEXT NOT NULL,"+
                     "authority_domain TEXT NOT NULL,pinned_at TEXT NOT NULL)");
+            s.execute("CREATE TABLE IF NOT EXISTS epic_contribution_projections("+
+                    "operation_id TEXT PRIMARY KEY REFERENCES epic_operations(operation_id),receipt_json TEXT NOT NULL)");
             s.execute("CREATE TABLE IF NOT EXISTS epic_route_votes("+
                     "instance_id TEXT NOT NULL,nation_id TEXT NOT NULL,choice TEXT NOT NULL,revision INTEGER NOT NULL,"+
                     "cast_at TEXT NOT NULL,PRIMARY KEY(instance_id,nation_id))");
@@ -241,7 +243,12 @@ public final class EpicCampaignLedger {
             ProviderPin pin = findProviderPin(c, operation.operationId());
             if (pin != null && (!pin.providerId().equals(providerId) || !pin.authorityDomain().equals(authorityDomain)))
                 throw new SecurityException("Epic observation came from a provider outside the pinned authority");
-            if (existing.status() == EpicOperationState.Status.COMMITTED) return existing;
+            if (existing.status() == EpicOperationState.Status.COMMITTED) {
+                if (observation.status() == EpicObservation.Status.COMMITTED
+                        && !existing.receipt().equals(EpicContract.requireCommitted(operation, observation, providerId, authorityDomain)))
+                    throw new SecurityException("Committed epic receipt cannot be replaced");
+                return existing;
+            }
             EpicOperationState.Status status; EpicReceipt receipt = null; String detail = observation.detail();
             if (observation.status() == EpicObservation.Status.COMMITTED) { receipt = EpicContract.requireCommitted(operation, observation, providerId, authorityDomain); status = EpicOperationState.Status.COMMITTED; }
             else if (observation.status() == EpicObservation.Status.REJECTED) status = EpicOperationState.Status.REJECTED;

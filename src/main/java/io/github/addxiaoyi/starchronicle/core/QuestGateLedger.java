@@ -106,7 +106,7 @@ public final class QuestGateLedger {
     public static List<Gate> pending(Connection c,Set<UUID> onlineOwners,int limit)throws SQLException {
         transaction(c);Objects.requireNonNull(onlineOwners);if(limit<1)return List.of();
         List<String> online=onlineOwners.stream().map(UUID::toString).sorted().toList();List<String> ids=new ArrayList<>();
-        String sql="SELECT g.id FROM quest_gates g JOIN instances i ON i.id=g.instance_id WHERE g.status<>'COMMITTED' AND i.completed=0 AND json_extract(i.json,'$.completed')=0 AND json_extract(i.json,'$.node')=g.node_id AND EXISTS(SELECT 1 FROM json_each(i.json,'$.members') m WHERE m.key=g.player_id AND m.value=g.expected_nation_id) AND (g.provider_id IS NOT NULL OR g.player_id IN (SELECT value FROM json_each(?))) ORDER BY g.last_checked_at,g.updated_at,g.id LIMIT ?";
+        String sql="SELECT g.id FROM quest_gates g JOIN instances i ON i.id=g.instance_id WHERE g.status<>'COMMITTED' AND i.completed=0 AND json_extract(i.json,'$.completed')=0 AND json_extract(i.json,'$.node')=g.node_id AND EXISTS(SELECT 1 FROM json_each(i.json,'$.members') m WHERE m.key=g.player_id AND m.value=g.expected_nation_id) AND NOT EXISTS(SELECT 1 FROM story_member_reviews m WHERE m.instance_id=g.instance_id AND m.player_id=g.player_id AND m.status<>'APPROVED') AND (g.provider_id IS NOT NULL OR g.player_id IN (SELECT value FROM json_each(?))) ORDER BY g.last_checked_at,g.updated_at,g.id LIMIT ?";
         try(var s=c.prepareStatement(sql)){s.setString(1,SqliteStore.json(online));s.setInt(2,limit);try(var r=s.executeQuery()){while(r.next())ids.add(r.getString(1));}}
         List<Gate> result=new ArrayList<>();for(String id:ids){Gate gate=load(c,id);if(gate.active()&&!gate.completed())result.add(gate);}return List.copyOf(result);
     }
@@ -278,7 +278,8 @@ public final class QuestGateLedger {
             }
         }
         StoryInstance instance=stored(c,gate.instanceId());validateIdentity(c,gate,instance);verifyAttempts(c,gate);
-        boolean active=!instance.completed()&&instance.node().equals(gate.nodeId())&&Objects.equals(gate.expectedNationId(),instance.members().get(gate.playerId()));
+        boolean active=!instance.completed()&&instance.node().equals(gate.nodeId())&&Objects.equals(gate.expectedNationId(),instance.members().get(gate.playerId()))
+                &&MemberReviewLedger.find(c,instance.id(),gate.playerId()).map(r->r.status()==MemberReviewLedger.Status.APPROVED).orElse(true);
         if(gate.providerId()!=null)text(gate.providerId(),"stored provider");
         if(gate.acceptedRun()!=null){if(gate.providerId()==null)throw new IllegalStateException("Unpinned quest gate has acceptance");validateAccepted(gate,gate.acceptedRun(),gate.lastCheckedAt());requireUnterminated(c,gate.acceptedRun());}
         if(gate.completed()) {
@@ -286,6 +287,17 @@ public final class QuestGateLedger {
             validateCompletion(gate,gate.completion(),gate.lastCheckedAt());verifyConsumed(c,gate);
         } else if(gate.completion()!=null)throw new IllegalStateException("Incomplete gate contains a completion");
         return new Gate(gate.id(),gate.instanceId(),gate.sourceEventId(),gate.storyId(),gate.storyVersion(),gate.storyFingerprint(),gate.scopeKey(),gate.nodeId(),gate.effectId(),gate.playerId(),gate.questId(),gate.mode(),gate.expectedNationId(),gate.openedAt(),gate.providerId(),gate.providerPinnedAt(),gate.status(),gate.acceptedRun(),gate.completion(),gate.updatedAt(),gate.lastCheckedAt(),gate.revision(),gate.message(),active,gate.attempt());
+    }
+
+    private static boolean personalScope(Connection c,StoryInstance instance)throws SQLException {
+        if(instance.members().size()==1)return instance.scopeKey().equals("player:"+instance.members().keySet().iterator().next());
+        if(!instance.members().isEmpty()||!instance.scopeKey().startsWith("player:"))return false;
+        UUID player;
+        try {player=UUID.fromString(instance.scopeKey().substring(7));}catch(IllegalArgumentException invalid){return false;}
+        if(MemberReviewLedger.find(c,instance.id(),player).map(r->r.status()==MemberReviewLedger.Status.EXITED).orElse(false))return true;
+        try(var s=c.prepareStatement("SELECT 1 FROM story_member_review_log WHERE instance_id=? AND player_id=? AND status='EXITED' LIMIT 1")) {
+            s.setString(1,instance.id());s.setString(2,player.toString());try(var r=s.executeQuery()){return r.next();}
+        }
     }
 
     private static void validateIdentity(Connection c,Gate gate,StoryInstance instance)throws SQLException {
@@ -305,6 +317,9 @@ public final class QuestGateLedger {
     /** Exiting or rejoining does not invalidate the immutable original membership evidence. */
     private static boolean knownMembership(Connection c,Gate gate,StoryInstance instance)throws SQLException {
         if(Objects.equals(gate.expectedNationId(),instance.members().get(gate.playerId())))return true;
+        var review=MemberReviewLedger.find(c,instance.id(),gate.playerId());
+        if(review.filter(r->r.status()==MemberReviewLedger.Status.EXITED && r.originalNationId().equals(gate.expectedNationId())
+                && !millis(r.checkedAt()).isBefore(gate.openedAt())).isPresent())return true;
         try(var s=c.prepareStatement("SELECT checked_at FROM story_member_review_log WHERE instance_id=? AND player_id=? AND original_nation_id=? AND status='EXITED' ORDER BY seq DESC LIMIT 1")) {
             s.setString(1,gate.instanceId());s.setString(2,gate.playerId().toString());s.setString(3,gate.expectedNationId());
             try(var r=s.executeQuery()){return r.next()&&!millis(Instant.parse(r.getString(1))).isBefore(gate.openedAt());}
@@ -388,7 +403,7 @@ public final class QuestGateLedger {
                 boolean valid=switch(instance.definition().scope()) {
                     case WORLD->instance.scopeKey().equals("world");
                     case NATION->instance.scopeKey().startsWith("nation:")&&instance.scopeKey().length()>7&&instance.members().values().stream().allMatch(n->instance.scopeKey().equals("nation:"+n));
-                    case PLAYER->instance.scopeKey().startsWith("player:")&&(instance.members().isEmpty()||instance.members().size()==1&&instance.scopeKey().equals("player:"+instance.members().keySet().iterator().next()));
+                    case PLAYER->personalScope(c,instance);
                 };
                 if(!valid)throw new IllegalStateException("Stored quest instance scope is inconsistent");return instance;
             }

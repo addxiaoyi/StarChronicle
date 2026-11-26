@@ -82,6 +82,9 @@ public interface ChronicleService {
     default CompletionStage<ProcessReport> revalidateMember(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership reviews unavailable"));}
     /** Leave the specified active node; preserve historical evidence. Rejoining must be explicit. */
     default CompletionStage<ProcessReport> exitMember(String instanceId,UUID playerId,String expectedNode){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership exit unavailable"));}
+    /** Compatibility exit of the active instance; explicit-node callers can reject stale requests. */
+    default CompletionStage<ProcessReport> exitMember(String instanceId, UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
+    default CompletionStage<java.math.BigDecimal> contributionTotal(String subjectId, io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type, String unit){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contributions unavailable"));}
     CompletionStage<List<StoryInstance>> instances(UUID playerId);
     /** Bounded member history page; the full overload retains its original completeness contract. */
     default CompletionStage<List<StoryInstance>> instances(UUID playerId,int page,int size){

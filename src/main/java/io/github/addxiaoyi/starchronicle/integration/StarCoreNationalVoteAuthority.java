@@ -17,6 +17,7 @@ public final class StarCoreNationalVoteAuthority implements NationalVoteAuthorit
     public StarCoreNationalVoteAuthority(StarCoreBridge bridge){this(()->Native.find(Objects.requireNonNull(bridge)),Clock.systemUTC());}
     StarCoreNationalVoteAuthority(Supplier<NativeAccess> access,Clock clock){this.nativeAccess=Objects.requireNonNull(access);this.clock=Objects.requireNonNull(clock);}
     public boolean available(){try{return nativeAccess.get()!=null;}catch(RuntimeException failure){return false;}}
+    static NativeAccess nativeAccess(StarCoreBridge bridge) { return Native.find(bridge); }
 
     /** Ordinary member revalidation uses the same native mutation monitor, without granting a national seat. */
     public <T> T withMember(UUID actor, String expectedNation, java.util.concurrent.Callable<T> operation) throws Exception {

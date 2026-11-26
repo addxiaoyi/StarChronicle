@@ -132,7 +132,7 @@ generate-structures=false
 spawn-monsters=false
 motd=Isolated epic receipt acceptance
 ''')
-    manifest = dict(plugin_sha256=product_sha, starcore_sha256=native_sha, route=args.route, extended=args.extended,
+    manifest = dict(plugin_sha256=product_sha, starcore_sha256=native_sha, route=args.route, extended=args.extended, ledger_acceptance=args.ledgers,
                     server_port=args.port, server_ip='127.0.0.1', fixture_source_sha256=sha(run / 'fixture' / f'{FIXTURE}.java'),
                     players={who: str(uuid.UUID(bytes=hashlib.md5(('OfflinePlayer:Epic' + who).encode()).digest(), version=3)) for who in 'ABCD'},
                     source_artifacts=retained, fixture_compiled=False,
@@ -223,6 +223,7 @@ if __name__ == '__main__':
     parser.add_argument('--run', type=Path)
     parser.add_argument('--java-home', type=Path)
     parser.add_argument('--reason')
+    parser.add_argument('--ledgers', action='store_true', help='Exercise contribution and member review APIs across restart')
     args = parser.parse_args()
     if args.action == 'prepare': prepare(args)
     elif args.action == 'compile': compile_fixture(args)

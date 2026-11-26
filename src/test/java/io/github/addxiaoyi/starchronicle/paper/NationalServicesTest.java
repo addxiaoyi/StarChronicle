@@ -68,15 +68,13 @@ class NationalServicesTest {
         when(player.isOnline()).thenReturn(false);CompletionStage<?> pending=service.nationalState("instance",actor);assertEquals(1,playerWork.size());playerWork.removeFirst().run();assertThrows(CompletionException.class,()->pending.toCompletableFuture().join());verifyNoInteractions(engine,worker,gateway);
     }
 
-    @Test void membershipReviewUsesNewSnapshotAndNativeMemberCallbackBeforeLocalApproval() throws Exception {
-        var authority=mock(StarCoreNationalVoteAuthority.class);field("membershipAuthority",authority);
+    @Test void membershipReviewUsesNewSnapshotBeforeEnginePerformsNativeMemberApproval() {
         var current=context("current-native-nation",Set.of("starchronicle.use"));
         var expected=new ProcessReport(false,List.of("instance"),"reviewed");
         when(engine.revalidateMember("instance",current)).thenReturn(expected);
-        doAnswer(invocation->invocation.getArgument(2,Callable.class).call()).when(authority).withMember(eq(actor),eq(current.nationId()),any());
-        var pending=service.revalidateMember("instance",actor);verifyNoInteractions(engine,authority);
-        snapshot(current);verifyNoInteractions(engine,authority);runWorker();
-        assertEquals(expected,pending.toCompletableFuture().join());verify(authority).withMember(eq(actor),eq(current.nationId()),any());verify(engine).revalidateMember("instance",current);
+        var pending=service.revalidateMember("instance",actor);verifyNoInteractions(engine);
+        snapshot(current);verifyNoInteractions(engine);runWorker();
+        assertEquals(expected,pending.toCompletableFuture().join());verify(engine).revalidateMember("instance",current);
     }
 
     @Test void memberExitUsesExplicitNodeAndFreshIdentityEvenAfterNationalityChanged(){
