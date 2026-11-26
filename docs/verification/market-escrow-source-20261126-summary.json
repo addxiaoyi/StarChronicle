@@ -1,0 +1,705 @@
+{
+  "status": "VERIFIED",
+  "totals": {
+    "tests": 1384,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "suites": {
+    "dev.starcore.starcore.module.resource.command.ResourceCommandSafetyTest": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.MarketOrderJournalTest": {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.MarketOrderPersistenceTest": {
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.MarketOrderBookTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.TradeOrderTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SimpleMarketOrderBookServiceTest": {
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.TradeSettlementRecoveryTest": {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.security.ResourceCommandRoleMatrixTest": {
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.command.ResourceFactoryCommandTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.command.ResourceObjectIdResolverTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.command.ResourceProductionCommandTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.command.ResourceTradeExecutionCommandTest": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.command.TradeCommandArgumentsTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.command.TradeCommandSafetyTest": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.command.TradeOfferIdResolverTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.FactoryCanonicalRecoveryTest": {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.FactoryPersistenceTest": {
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.FactoryReceiptValidationTest": {
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.FactorySnapshotVersionTest": {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.gui.ResourceMenuListenerInventorySafetyTest": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.InventoryCommitRecoveryTest": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.InventorySnapshotValidationTest": {
+      "tests": 132,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.LegacyResourceImportValidationTest": {
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.FactoryTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.NationalReserveTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.ProcessingRecipeTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.ResourceDistributionTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.ResourceEmbargoTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.ResourceMonopolyTest": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.ResourcePriceTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.ResourceQuotaTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.TradeAgreementTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.TradeRecordTest": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.model.TradeRouteTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.NationResourceTransactionDescriptionLimitTest": {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.NativeTradeExecutionRecoveryTest": {
+      "tests": 106,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.NativeTradeExecutionValidationTest": {
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.PlayerTradeAuthorizationBoundaryTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.PlayerTradeCompensationRecoveryTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.PlayerTradeGuiContractTest": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.PlayerTradeOfferTest": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ProductionPersistenceTest": {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ResourceModuleNpcMarketRestartTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ResourceQuotaRenewalTest": {
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ResourceStateCodecTest": {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ResourceTariffTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ResourceTradeLockingTest": {
+      "tests": 32,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ResourceTradeOwnershipTest": {
+      "tests": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ResourceTradeTermsTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ResourceTransactionPersistenceTest": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ResourceTransferReceiptStoreTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.ResourceTransferRecoveryTest": {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SimplePlayerQuickTradeTaxTest": {
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SimpleResourceMonopolyServiceTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SimpleResourcePriceServiceTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SimpleResourceTradeAuthorizationTest": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SimpleResourceTradeExecutionTest": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SimpleTradeHistoryCommitTest": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SimpleTradeHistoryPagingTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SimpleTradeTaxServiceTransactionTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SimpleTradeTaxServiceValidationTest": {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SqlFactoryArchiveTest": {
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SqlFactoryPersistenceTest": {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SqlProductionPersistenceTest": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SqlResourceSnapshotDiffTest": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.SqlResourceTransferMigrationTest": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.TradeCommitJournalTest": {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.TradeExecutionArchiveTest": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.TradeExecutionReceiptValidationTest": {
+      "tests": 49,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.TradeJournalCompatibilityTest": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dev.starcore.starcore.module.resource.TradeSnapshotValidationTest": {
+      "tests": 376,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "new_tests": 43,
+  "artifacts": {
+    "status": "VERIFIED",
+    "starcore_sha256": "ee3ee6d33298ff3d4b1efadc46cadf0b5aefa9e564686740deb82648ceeabc30",
+    "old_sha256": "2e802d62483a81882c0565c18b483d5cf36d0edfeb54fef1ee03639bdd08bf09",
+    "class_hashes": {
+      "dev/starcore/starcore/module/resource/MarketOrderBookService.class": "cc6d968bc0c90dc6e316d81e1560ce39cd3db74180ba709016c9e953b5c2a061",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$BuyEscrow.class": "84fefc0bb9150189034eab944f38b608249bb5b91a464981f8cf08d6636c73ee",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$ExpiredOrdersCleanedEvent.class": "0c738decb27d069ab4375416ce1e89e8a48a3277c274456cf22ce71ea0e4bcec",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$OrderCancelledEvent.class": "4eae0b414acddaefe283294ac47364c06f957989be14f8a76d9f3021cd82eaf6",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$OrderRejectedEvent.class": "322991c462095c4004ae2a3c9d5f6db6e24efe5ba2e059c569a56b2ac2e3416d",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$OrderSubmittedEvent.class": "a0729a9bccd2686e216f78b9fd26c9b500d03f224647c90b8385d7411146d95f",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$TradeExecutedEvent.class": "99ac639f416f6f4e74e6d40751eee5fd2763ece46d7bb71c59ab1b42d1a9e21a",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService.class": "f9afb73dc9882159e4b61f234f962f88f43154fdb51df92559a671b7d112076d",
+      "dev/starcore/starcore/module/resource/model/TradeOrder$OrderSnapshot.class": "7f425c81c613ee3605628ebe41cdceddf64fd6f6d5960991182d955a526a3b13",
+      "dev/starcore/starcore/module/resource/model/TradeOrder$OrderSource.class": "6db7ff32adf7ffa9b55854b270bac9fccb9433e773abaa9588dedaa792b208c7",
+      "dev/starcore/starcore/module/resource/model/TradeOrder$OrderStatus.class": "8c1f055874780ed65b571e135c2b6b73bab2f41f50e35ef2c320a656d76995f2",
+      "dev/starcore/starcore/module/resource/model/TradeOrder$OrderType.class": "4428a61017aa728e92c85e20995e845c4a46564bfb5e83802652bb5e53801c76",
+      "dev/starcore/starcore/module/resource/model/TradeOrder.class": "e86c614a1bab300dfd6c22b21ca7befd3c96bb2fb7148d10048dc9b1ec3710d7",
+      "dev/starcore/starcore/module/resource/ResourceModule.class": "207064bc7dbef0f89152fcdf8ce4afec24a3c7a0b921125580d8355ca986946f",
+      "dev/starcore/starcore/module/resource/command/ResourceCommand$1.class": "9052a1414c991e325b8e034fc4c956939dcdc75c9d17397c50fcf554b960d369",
+      "dev/starcore/starcore/module/resource/command/ResourceCommand.class": "2ba34cddbe67e23bb48aeb7fa7cadf2eae510b9b0c4d5a50952373085674173b",
+      "dev/starcore/starcore/module/resource/TradeHistoryService$TradeStatistics.class": "abc2a54823da83931edd3482786688f87c77360c31a9a85ded3cfafd3e1d1fc0",
+      "dev/starcore/starcore/module/resource/TradeHistoryService.class": "d843eb30c9f699e933bf398f9ca696293ad6b5cd343ec56403f43e57d039f9dd",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$Category.class": "df19b9d7730a32206a8f5830ab0232ed8084238dd50d4a4266c550e8ed42b8f0",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$Operation.class": "b188ab657850bfa4d4ce84ee00d78bf7569e3003b504032242c51b8c9396cd2b",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$Status.class": "adf21548614a0885de8278a7f6953bfb6a220c704f59c55fe1523d7569a1263a",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransactionReceipt.class": "ee69b4a023fab816d46144b0cd0c581a0c858dab829d7098127d097be9d0742c",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransactionRequest.class": "c91fc31c11e2fa600ed69e51a0c51a63a7b58222cd29ea1b8200c5ead9df4492",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransactionResult.class": "d4db27c25d36e177e1d7e89c6e51a31aa3553ba74232f7c2c4288fc0cb3e2c18",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransferReceipt.class": "6480e4f90a532a1cf3b959cc5ac59000713f7b7856b38571aefcbdb0327b300a",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransferRequest.class": "a202864237c4ed0c79c23c65d1a3556385b7045cdef2903452e47bbc073b20ad",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransferResult.class": "93781c4b087caeb359e07fe78e6502b029a3859bba1cb48c54b70bae65296ab7",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransferStatus.class": "5e4e73a38a5cd65a77e90bac4970439be4ea73272cae9fc890370950c05b1e00",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService.class": "cb793bf0d5ffe03de68bcf025ef882301970e89abb405336436cfa0823b899b9",
+      "dev/starcore/starcore/module/resource/MarketOrderJournal$SqlWork.class": "b68f59e2a2e5a3e8c0cebd627e1ed3e0cfa141b4c3dfaddb85f6961ef53cb368",
+      "dev/starcore/starcore/module/resource/MarketOrderJournal.class": "6a748fa69d5bd0cfd54bfb057b376ed8d296da3e789948e035de8e7db1af482d",
+      "dev/starcore/starcore/module/resource/MarketOrderCodec.class": "d2c41e007dd232d8c809556509c2f2f962b89470244bb2a331c4063d56fa75d3",
+      "dev/starcore/starcore/module/resource/model/MarketEscrowSnapshot$Phase.class": "11a1b8c9eee27027f952e6a895abd33431b41fc0650863b412c213b2bf67e1a1",
+      "dev/starcore/starcore/module/resource/model/MarketEscrowSnapshot.class": "5ee35188f19de356a03b93c803114ecd15a630924d8df62fd4d9f0cba4247c8f"
+    },
+    "api": {
+      "module/resource/MarketOrderBookService": {
+        "preserved": 22,
+        "added": [
+          [
+            "public default boolean requiresReconciliation(java.util.UUID);",
+            "(Ljava/util/UUID;)Z"
+          ],
+          [
+            "public default java.util.List<dev.starcore.starcore.module.resource.model.MarketEscrowSnapshot> escrowReviews(java.util.UUID, int);",
+            "(Ljava/util/UUID;I)Ljava/util/List;"
+          ],
+          [
+            "public default java.util.Optional<dev.starcore.starcore.module.resource.model.MarketEscrowSnapshot> escrowSnapshot(java.util.UUID);",
+            "(Ljava/util/UUID;)Ljava/util/Optional;"
+          ]
+        ]
+      },
+      "module/resource/SimpleMarketOrderBookService": {
+        "preserved": 33,
+        "added": [
+          [
+            "public boolean requiresReconciliation(java.util.UUID);",
+            "(Ljava/util/UUID;)Z"
+          ],
+          [
+            "public java.util.List<dev.starcore.starcore.module.resource.model.MarketEscrowSnapshot> escrowReviews(java.util.UUID, int);",
+            "(Ljava/util/UUID;I)Ljava/util/List;"
+          ],
+          [
+            "public java.util.Optional<dev.starcore.starcore.module.resource.model.MarketEscrowSnapshot> escrowSnapshot(java.util.UUID);",
+            "(Ljava/util/UUID;)Ljava/util/Optional;"
+          ],
+          [
+            "public void initializeOrderStorage(java.nio.file.Path);",
+            "(Ljava/nio/file/Path;)V"
+          ]
+        ]
+      },
+      "module/resource/model/TradeOrder": {
+        "preserved": 30,
+        "added": [
+          [
+            "public static dev.starcore.starcore.module.resource.model.TradeOrder restore(dev.starcore.starcore.module.resource.model.TradeOrder$OrderSnapshot);",
+            "(Ldev/starcore/starcore/module/resource/model/TradeOrder$OrderSnapshot;)Ldev/starcore/starcore/module/resource/model/TradeOrder;"
+          ]
+        ]
+      },
+      "module/resource/model/TradeOrder$OrderSnapshot": {
+        "preserved": 19,
+        "added": []
+      },
+      "module/resource/ResourceModule": {
+        "preserved": 31,
+        "added": []
+      },
+      "module/resource/command/ResourceCommand": {
+        "preserved": 7,
+        "added": []
+      },
+      "module/resource/TradeHistoryService": {
+        "preserved": 26,
+        "added": []
+      },
+      "module/resource/NationResourceTransactionService": {
+        "preserved": 9,
+        "added": []
+      }
+    },
+    "source_hashes": {
+      "src/main/java/dev/starcore/starcore/module/resource/MarketOrderBookService.java": "af6c44a27360156edc539d0fc12d58527cee806bb283f718fbbbf409ead89703",
+      "src/main/java/dev/starcore/starcore/module/resource/MarketOrderCodec.java": "6112f5730f3d97fb00f926b6732e46c387bfd25cbba51c944616b28a1541055d",
+      "src/main/java/dev/starcore/starcore/module/resource/MarketOrderJournal.java": "278de375a5f38038103650ec0992debcf3165e96e7a2a518e3a49185c87b8f86",
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceModule.java": "dd921cb19f7859b390d1f0e51b712efbd03bf1038bf2aad011065f28777aeead",
+      "src/main/java/dev/starcore/starcore/module/resource/SimpleMarketOrderBookService.java": "8731d44d31e9118717fca876f949a0faa4a1351f0b1ce135b587d6283c56bca8",
+      "src/main/java/dev/starcore/starcore/module/resource/command/ResourceCommand.java": "554affc40230e5752561c3ea3f05833eb3b1bbc48556ed4cca234b0b40dfc01b",
+      "src/main/java/dev/starcore/starcore/module/resource/model/MarketEscrowSnapshot.java": "342c930914ea69ebb47257a460681b10543a7a145d45f01fdebebcfe028d03d3",
+      "src/main/java/dev/starcore/starcore/module/resource/model/TradeOrder.java": "96bcb89ff613c53cee2af1a14205b9fac51ab989e6ca96c4a3384ec540302373",
+      "src/test/java/dev/starcore/starcore/module/resource/MarketOrderJournalTest.java": "2dbba4059333efd56df838e0230cdd8dd44b43710f6368f9c5392c7b1cee6356",
+      "src/test/java/dev/starcore/starcore/module/resource/MarketOrderPersistenceTest.java": "b14604afa6aa2d35d7a43d521e5cfa3ed25f012da83f9a2a375e1289bc3fef56",
+      "src/test/java/dev/starcore/starcore/module/resource/SimpleMarketOrderBookServiceTest.java": "a7898d6264a55bbdc11e600f245ef3e37bb13898a53093fc976ffc7d6d557b7f",
+      "src/test/java/dev/starcore/starcore/module/resource/TradeSettlementRecoveryTest.java": "60ba64660578e7732f3963670b06429214ad72b289e90ee08c82be833b3f973f",
+      "src/test/java/dev/starcore/starcore/module/resource/command/ResourceCommandSafetyTest.java": "b0a953f79a163fde727ac86319610b9b16a53c5afe396fa45a91ffb624d6f263"
+    },
+    "sbom_sha256": "77cec8e7f5d94df019f06fadfe4444e2aae797e4821755fe6135a6dc4c181515",
+    "sbom_components": 36
+  },
+  "process_probe": {
+    "status": "VERIFIED",
+    "jar_sha256": "ee3ee6d33298ff3d4b1efadc46cadf0b5aefa9e564686740deb82648ceeabc30",
+    "runs": [
+      {
+        "phase": "seed",
+        "exit_code": 0,
+        "seconds": 1.9849999999860302
+      },
+      {
+        "phase": "match",
+        "exit_code": 0,
+        "seconds": 1.562000000034459
+      },
+      {
+        "phase": "cancel",
+        "exit_code": 0,
+        "seconds": 1.5
+      },
+      {
+        "phase": "verify",
+        "exit_code": 0,
+        "seconds": 1.4689999999245629
+      },
+      {
+        "phase": "crash-seed",
+        "exit_code": 0,
+        "seconds": 1.875
+      },
+      {
+        "phase": "crash-refund",
+        "exit_code": 23,
+        "seconds": 1.5
+      },
+      {
+        "phase": "crash-verify",
+        "exit_code": 0,
+        "seconds": 1.4060000000754371
+      },
+      {
+        "phase": "crash-verify",
+        "exit_code": 0,
+        "seconds": 1.4059999999590218
+      }
+    ],
+    "facts": {
+      "normal": {
+        "orders": [
+          [
+            "446fcb56-a59a-4e88-8bbf-b255c8eed1b7",
+            10,
+            "CLOSED",
+            "{\"version\":1,\"id\":\"446fcb56-a59a-4e88-8bbf-b255c8eed1b7\",\"type\":\"BUY\",\"source\":\"PLAYER\",\"player\":\"00000000-0000-0001-0000-000000000001\",\"nation\":\"00000000-0000-0002-0000-000000000001\",\"resource\":\"iron\",\"price\":\"8.0\",\"total\":10,\"remaining\":6,\"created\":\"2026-11-26T09:25:42.758662Z\",\"expiry\":\"2030-01-01T00:00:00.123456789Z\",\"status\":\"CANCELLED\",\"market\":false,\"fillPrice\":\"7.0\",\"filled\":4,\"escrow\":\"0\",\"phase\":\"CLOSED\",\"operation\":\"446fcb56-a59a-4e88-8bbf-b255c8eed1b7\",\"detail\":\"escrow return confirmed\",\"updated\":\"2026-11-26T09:25:45.954460200Z\",\"revision\":10}"
+          ],
+          [
+            "de33237a-34e1-4b43-b51d-2447ecdcec0d",
+            8,
+            "CLOSED",
+            "{\"version\":1,\"id\":\"de33237a-34e1-4b43-b51d-2447ecdcec0d\",\"type\":\"SELL\",\"source\":\"PLAYER\",\"player\":\"00000000-0000-0001-0000-000000000002\",\"nation\":\"00000000-0000-0002-0000-000000000002\",\"resource\":\"iron\",\"price\":\"7.0\",\"total\":4,\"remaining\":0,\"created\":\"2026-11-26T09:25:42.865531Z\",\"expiry\":\"2030-01-01T00:00:00.123456789Z\",\"status\":\"FILLED\",\"market\":false,\"fillPrice\":\"7.0\",\"filled\":4,\"escrow\":\"0\",\"phase\":\"CLOSED\",\"operation\":\"0d5eed06-eb14-3384-9ee7-efaac9f9f5df\",\"detail\":\"match committed\",\"updated\":\"2026-11-26T09:25:44.453389200Z\",\"revision\":8}"
+          ]
+        ],
+        "events": 10
+      },
+      "interrupted": {
+        "orders": [
+          [
+            "f43cc7fe-124d-4ddc-8d88-4cd483167bef",
+            3,
+            "CANCELLING",
+            "{\"version\":1,\"id\":\"f43cc7fe-124d-4ddc-8d88-4cd483167bef\",\"type\":\"BUY\",\"source\":\"PLAYER\",\"player\":\"00000000-0000-0001-0000-000000000001\",\"nation\":\"00000000-0000-0002-0000-000000000001\",\"resource\":\"iron\",\"price\":\"8.0\",\"total\":5,\"remaining\":5,\"created\":\"2026-11-26T09:25:49.058990700Z\",\"expiry\":\"2030-01-01T00:00:00Z\",\"status\":\"PENDING\",\"market\":false,\"fillPrice\":\"0.0\",\"filled\":0,\"escrow\":\"44.00\",\"phase\":\"CANCELLING\",\"operation\":\"f43cc7fe-124d-4ddc-8d88-4cd483167bef\",\"detail\":\"return remaining escrow\",\"updated\":\"2026-11-26T09:25:50.775328200Z\",\"revision\":3}"
+          ]
+        ],
+        "events": 3
+      }
+    },
+    "files": {
+      "1-seed.args": "6f29f94743686e176abd19198a594f38ef6c1f15d44419e3614ed8769d3a69b5",
+      "1-seed.log": "31497cdc4d2327cd8af2b9892564f699564e90e273879c7bf98fb67c0f205d88",
+      "2-match.args": "616d10bfe308441cf2254386d6d1f62acf0eb83cdaf9254df23d1a7624793026",
+      "2-match.log": "d7ee7ff4429842c09ca77803c457345ce39f9136fca6f380e88f5aeb257b9ffc",
+      "3-cancel.args": "911cf3c53c5f94a3c0db21c302cdeb7eb582ba1f1b6a1a4dbd8bbb10c00d1690",
+      "3-cancel.log": "f521d344b5a92cdcfd20e4d3e8a508a376a70b1b72f78c5a4b8e385ebcd534ba",
+      "4-verify.args": "4af28445a607a62fd2ca980b62af49ad02a33c14d89a2a3d333755af33317891",
+      "4-verify.log": "eb1a30084a095dda166d872757f23c184b6436e8f5a9a60693c070da7d3579b9",
+      "5-crash-seed.args": "6228b8e5671c2fadf037ef4f5cc95caf5cc97afd0ec154f5999e627ce1400851",
+      "5-crash-seed.log": "d088f74be0b4a333e1701d0b2eb11f126046e4b5b470b8ea606581dc4a23b563",
+      "6-crash-refund.args": "515cc6e1f8679750b90a3871de39c7593f76f5eaa0724bbb1dabcff5acf73fa0",
+      "6-crash-refund.log": "9ffac841e85ab2c5b8e4ef59082233057dbb0de700f8c8bce20a994e63eeee61",
+      "7-crash-verify.args": "4be7eaac28cb06b11631699f8e5d3d09b4586773bc41ce2207b1b41d49144bd0",
+      "7-crash-verify.log": "28ef3b1674e849f5c5f5db26b41e3e49b5429931ff81bcbdb8c592929ba21bb3",
+      "8-crash-verify.args": "4be7eaac28cb06b11631699f8e5d3d09b4586773bc41ce2207b1b41d49144bd0",
+      "8-crash-verify.log": "54c03af1124e0a48eab6304c15d939f6dd29688e5e8c1b92d716b325e5fa873e",
+      "compile.args": "adfdf17001c2d4c967f26a0413400e08748da355657b97c8bb6545f52e90f15c",
+      "compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "MarketEscrowProbe.java": "e7b9140fbd47277c4e5f990911bad67090eb5e2628785ce164386665388b981b",
+      "interrupted/assets.properties": "f3ec5fcd29edd36438835a9c49dfadc2af512683ef44be12fbf15625e608ec1c",
+      "interrupted/orders.sqlite": "d285107fb8be7b8e160eb6f1367018a20fdf679abe9042067063bc9a41fc7983",
+      "interrupted/orders.sqlite.authority": "65f70dabd24a504e71538bf21faca2b76f168c7baed917bb5f513b7ce91be61e",
+      "interrupted/orders.sqlite.authority.bak": "2da33adc6c67c53f48fa9f4f76fe8d0e5fbe52ed35bec5df6e387d76724347bc",
+      "interrupted/orders.sqlite.authority.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "interrupted/trades.sqlite": "121e5504f02fd4c456acc733da2e742f429bd351885a3aa227ec65f28e3de663",
+      "normal/assets.properties": "24e23ad5cefb23cc0394bdc0aef7b0db54c091270d98222f5d27c9d385f81674",
+      "normal/fabric.properties": "8e355e21e6ca569ab05ca75a54e1fb2980ee1c54a3ea02ce3f8aa766fba65b05",
+      "normal/orders.sqlite": "e17187d2a1042a3cbcb64d7cdde77fc7a3388c6e99f081a735907a2b70f04984",
+      "normal/orders.sqlite.authority": "5106a95e61e74eb0ee1491f7556361339392944e02dffe77febaa0e08318f5d4",
+      "normal/orders.sqlite.authority.bak": "506a4ad4ee6f79fb8bd85dcb857155d04e30aea70bac1aefde30cdbaae8df6df",
+      "normal/orders.sqlite.authority.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normal/trades.sqlite": "b5408d45257db94d83b315b58d2e17f59f1c3c22fc5608aea3ea6500635d26ad",
+      "dev/starcore/starcore/module/resource/MarketEscrowProbe$1.class": "d93dac0999e16ae103903159442c8af1442b72d081fd14409915a78fd33fcd41",
+      "dev/starcore/starcore/module/resource/MarketEscrowProbe$Handler.class": "3f4e49d3de79f4819d690de3049bed1d85cf93dd32c644fff8c1d7f21b222ef4",
+      "dev/starcore/starcore/module/resource/MarketEscrowProbe.class": "cb8049314e9fc63d663c6d198fb39a9016bf7d2deb6554f88a410619ceb268ff"
+    },
+    "scope": "Actual packaged service and SQLite/fabric/history with deterministic test-double external providers; no Minecraft server."
+  },
+  "chronicle": {
+    "status": "UNCHANGED",
+    "baseline": "b30743dd7280bd0b1b6886d9d4a2d93b0c45bf4e",
+    "source_resource_test_files": 271,
+    "jar_sha256": "53844b0d1c78b014325fd483001ee0406cb9053204786144acfe8aa0d325f5a9",
+    "prior_local_tests": 1123,
+    "prior_ci": "https://github.com/addxiaoyi/StarChronicle/actions/runs/45784421331"
+  },
+  "scope": [
+    "1384 tests in the resource tree and resource role matrix, not the complete StarCore suite.",
+    "Eight serial actual-JAR JVM processes with durable deterministic test-double external assets; one intentional Runtime.halt(23), no Minecraft server.",
+    "Uncertain reservation, refund and match results remain quarantined. Administrative inspection is read-only; evidence-based resolution is still pending.",
+    "The old order book had no durable open orders to import. Pre-upgrade lost escrows cannot be inferred; stop/refund on the old version before deployment.",
+    "Backup escrow SQLite/fence, national inventory, trade history, transaction fabric and economy as one stopped/consistent set. Domain checks cannot detect an arbitrary coordinated rollback.",
+    "Old JARs do not understand the new escrow journal; do not downgrade with outstanding or unresolved orders.",
+    "Closed records/events remain on disk; live filled-order and rate-tracker capacity, all resource/economy provider guarantees and full Folia combinations remain work."
+  ],
+  "retained_failures": [
+    "test-recovery: 3 failures + 6 errors from Mockito restubbing callbacks and a corruption injector that changed no bytes; corrected fixtures.",
+    "test-final: 1 error from a new precision fixture below the existing minimum total; corrected legal terms without relaxing production validation."
+  ],
+  "evidence": {
+    "members": 390,
+    "bytes": 2043415,
+    "sha256": "f42cc5660b8001770702415c1dc53c5db9e042a638d9d327d4e53fc1f8fd9051"
+  }
+}
