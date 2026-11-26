@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['player-trade-first','player-trade-second','player-trade-third','legacy-seed','legacy-first','legacy-second','legacy-third','treasury-first','treasury-second','treasury-third','factory-first','factory-second','factory-third','production-catalog-first','production-catalog-second','production-catalog-third','production-recovery','production-offline-recovery','sale-recovery','production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
+parser.add_argument('--scenario', choices=['audit-seed','audit-interrupt','audit-recover','player-trade-first','player-trade-second','player-trade-third','legacy-seed','legacy-first','legacy-second','legacy-third','treasury-first','treasury-second','treasury-third','factory-first','factory-second','factory-third','production-catalog-first','production-catalog-second','production-catalog-third','production-recovery','production-offline-recovery','sale-recovery','production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 parser.add_argument('--interrupt-after-replay', action='store_true', help='SIGKILL the owned restored JVM, then MySQL, after completed replay; not a hardware power-loss test')
 args = parser.parse_args()
@@ -237,8 +237,8 @@ def database_checkpoint():
             before = hashlib.sha256(source.read_bytes()).hexdigest(); shutil.copy2(source,target)
             if hashlib.sha256(target.read_bytes()).hexdigest() != before: raise RuntimeError('Capital checkpoint drift')
             hashes[str(relative)] = before
-    if manifest.get('player_trade_acceptance'):
-        for who in ('A','B','D'):
+    if manifest.get('player_trade_acceptance') or manifest.get('player_trade_audit_acceptance'):
+        for who in (('A','B') if manifest.get('player_trade_audit_acceptance') else ('A','B','D')):
             name=manifest['players'][who]+'.yml'
             source=run/'plugins/Essentials/userdata'/name
             target=directory/'Essentials'/name;target.parent.mkdir(parents=True,exist_ok=True)
@@ -293,6 +293,103 @@ def member_scenario(phase):
         server_action('members-check APPROVED end')
     else:
         raise ValueError('Unknown member scenario')
+
+
+def audit_interrupted_checkpoint():
+    """Preserve raw killed files first, then read their committed SQLite view from copies."""
+    import sqlite3
+    directory = run/'evidence/checkpoints'/f'boot{args.boot}'
+    directory.mkdir(parents=True, exist_ok=False)
+    raw = directory/'interrupted-raw'
+    raw.mkdir()
+    for plugin, name in (('StarChronicle', 'chronicle.db'), ('StarCore', 'starcore.db')):
+        for suffix in ('', '-wal', '-shm', '-journal'):
+            source = run/'plugins'/plugin/(name+suffix)
+            if source.exists(): shutil.copy2(source, raw/(name+suffix))
+        # Use a separate copy for SQLite recovery so interrupted-raw remains byte-exact.
+        view = directory/'recovery-copy'/name
+        view.parent.mkdir(exist_ok=True)
+        for source in raw.glob(name+'*'): shutil.copy2(source, view.parent/source.name)
+        with sqlite3.connect(view.as_uri()+'?mode=ro', uri=True) as source:
+            with sqlite3.connect(directory/name) as target: source.backup(target)
+    for who in ('A', 'B'):
+        name = manifest['players'][who]+'.yml'
+        target = directory/'Essentials'/name
+        target.parent.mkdir(exist_ok=True)
+        shutil.copy2(run/'plugins/Essentials/userdata'/name, target)
+    hashes = {str(p.relative_to(directory)): hashlib.sha256(p.read_bytes()).hexdigest()
+              for p in sorted(directory.rglob('*')) if p.is_file()}
+    (directory/'checkpoint.json').write_text(json.dumps(dict(boot=args.boot, time=time.time(),
+        interrupted=True, sha256=hashes), indent=2)+'\n')
+
+
+def audit_scenario(phase):
+    import decimal
+    import yaml
+    plan = manifest.get('player_trade_audit_acceptance')
+    if not plan: raise RuntimeError('Require prepared audit interruption scenario')
+    server_action('stack-check')
+    server_action('audit-bind')
+    def rows():
+        return [json.loads(line) for line in (run/'evidence/epic-fixture.jsonl').read_text().splitlines()]
+    def identity(): return next(r['data']['id'] for r in reversed(rows()) if r['kind']=='AUDIT_OFFER')
+    def command(who, cmd, contains):
+        time.sleep(1.25)
+        request = json.dumps(dict(command=cmd, contains=contains), ensure_ascii=False).encode()
+        client_action('expect '+who+' '+base64.urlsafe_b64encode(request).decode().rstrip('='))
+    if phase == 'audit-seed':
+        command('A', '/trade offer EpicB agricultural 20 2.50 600000', '交易请求已发送给')
+        server_action('audit-capture')
+        command('B', '/trade audit '+identity(), '无调用意图记录')
+        command('C', '/trade audit '+identity(), '找不到你参与的交易')
+        server_action('audit-check seed')
+    elif phase == 'audit-interrupt':
+        server_action('audit-check seed')
+        server_action('audit-arm')
+        cursor = len(observed)
+        client_action('chat B /trade accept '+identity())
+        await_lines(cursor, lambda lines: any('EPIC_AUDIT_PAUSED ' in line for _, line in lines))
+        deadline = time.monotonic()+5
+        while True:
+            pauses = [r['data'] for r in rows() if r['kind']=='AUDIT_PAUSED' and r['boot']==args.boot]
+            if pauses: break
+            if time.monotonic() >= deadline: raise RuntimeError('Pause evidence was not appended')
+            time.sleep(.01)
+        pause = pauses[-1]
+        expected_buyer = '1000.00' if plan['window']=='before' or plan['leg']==3 else '947.00'
+        expected_seller = '60.00' if plan['leg']==2 else next(r['data']['sellerInitial'] for r in reversed(rows()) if r['kind']=='AUDIT_BOUND')
+        wanted = {'A': expected_buyer, 'B': expected_seller}
+        actual = {}
+        try:
+            deadline = time.monotonic()+15
+            while time.monotonic()<deadline:
+                actual = {who: str(yaml.safe_load((run/'plugins/Essentials/userdata'/(manifest['players'][who]+'.yml')).read_text())['money']) for who in 'AB'}
+                if all(decimal.Decimal(actual[who])==decimal.Decimal(wanted[who]) for who in 'AB'): break
+                time.sleep(.1)
+            else: raise RuntimeError('Actual provider file balance was not observed before interruption')
+        finally:
+            # Only the Popen handle created by this controller is ever terminated.
+            clients.stdin.write('quit\n'); clients.stdin.flush(); clients.wait(timeout=15)
+            server.kill(); server.wait(timeout=15)
+            audit_interrupted_checkpoint()
+        if server.returncode != -9 or clients.returncode != 0:
+            raise RuntimeError('Expected owned JVM SIGKILL and normal client exit')
+        outcome['wallet_interruption'] = dict(pause=pause, observed_file_balances=actual,
+            expected_file_balances=wanted, server_pid=server.pid, server_exit=server.returncode,
+            physical_power_loss=False)
+        print('EXPECTED_WALLET_INTERRUPTION '+str(plan), flush=True)
+        return True
+    elif phase == 'audit-recover':
+        server_action('audit-check recovered-before')
+        for who in 'AB': command(who, '/trade audit '+identity(), '结果未记录')
+        for who in 'CD': command(who, '/trade audit '+identity(), '找不到你参与的交易')
+        command('A', '/trade resume '+identity(), '仅原卖方')
+        command('B', '/trade resume '+identity(), '付款结果待人工核对')
+        command('B', '/trade accept '+identity(), '付款结果待人工核对')
+        command('B', '/trade audit '+identity(), '需要原钱包提供者的独立付款证据')
+        server_action('audit-check recovered-after')
+    else: raise ValueError(phase)
+    return False
 
 
 def player_trade_scenario(phase):
@@ -688,7 +785,9 @@ def scenario(phase):
     if manifest.get('battlefield_acceptance'):
         server_action('battle-bind')
         if phase != 'first': server_action('battle-check ended')
-    if phase.startswith('player-trade-'):
+    if phase.startswith('audit-'):
+        if audit_scenario(phase): return
+    elif phase.startswith('player-trade-'):
         player_trade_scenario(phase)
     elif phase.startswith('legacy-'):
         legacy_factory_scenario(phase)
@@ -897,7 +996,7 @@ def scenario(phase):
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:
         raise RuntimeError('Acceptance processes must exit normally')
-    if manifest.get('player_trade_acceptance') or manifest.get('treasury_writer_acceptance') or manifest.get('memory_acceptance') or manifest.get('capital_acceptance') or manifest.get('production_campaign') or manifest.get('nation_trade_acceptance') or manifest.get('nation_production_acceptance'): database_checkpoint()
+    if manifest.get('player_trade_audit_acceptance') or manifest.get('player_trade_acceptance') or manifest.get('treasury_writer_acceptance') or manifest.get('memory_acceptance') or manifest.get('capital_acceptance') or manifest.get('production_campaign') or manifest.get('nation_trade_acceptance') or manifest.get('nation_production_acceptance'): database_checkpoint()
     print('SCENARIO_COMPLETE ' + phase, flush=True)
 outcome = dict(boot=args.boot, scenario=args.scenario, contributions=args.contributions, status='INCOMPLETE')
 outcome['source_sha256'] = {
@@ -915,7 +1014,7 @@ try:
         if line.startswith('scenario '):
             outcome['scenario'] = line.split()[1]
             scenario(line.split()[1])
-            outcome['status'] = 'EXPECTED_PROCESS_INTERRUPTION' if args.interrupt_after_replay else 'COMPLETE'
+            outcome['status'] = 'EXPECTED_PROCESS_INTERRUPTION' if args.interrupt_after_replay or outcome.get('wallet_interruption') else 'COMPLETE'
             break
         elif line == 'clients start':
             if clients is not None:

@@ -12,6 +12,8 @@
 
 `/trade status <完整ID>`只查询。`/trade resume <完整ID>`仅从已证明安全的下一步继续；不会因等待时间经过而判断付款成功或失败。命令与GUI在创建结果不明时仍显示原ID，便于核对。资产写入限定Paper主线程，Folia保持拒绝写入。
 
+后续审计增量提供`/trade audit <完整ID>`与原参与者API，返回经过SQL日志验证的完整步骤和冻结钱包操作；查询不调用钱包或推进状态。详见[只读审计合同](PLAYER-TRADE-AUDIT.md)。该能力没有解除Vault永久UNKNOWN的限制。
+
 ## 持久状态与资产
 
 正常路径为`OFFERED → RESERVED → DEBIT_INTENT → DEBIT_ACKNOWLEDGED → CREDIT_INTENT → CREDIT_ACKNOWLEDGED → SETTLED → PROJECTED`。
