@@ -61,7 +61,7 @@ class HistoricalFactsTest {
         }
     }
 
-    @Test void oneParameterizedGroupingQueryReadsAllRequestedCounts() {
+    @Test void oneParameterizedIndexQueryReadsAllRequestedCounts() {
         try(var store=new SqliteStore(temp.resolve("query.db"))) {
             seed(store);AtomicInteger queries=new AtomicInteger();List<String> sql=new ArrayList<>();
             Map<String,String> facts=store.transaction(connection->{
@@ -71,7 +71,9 @@ class HistoricalFactsTest {
                 });
                 return HistoricalFacts.read(counted,A,"north",Set.of("chronicle.history.world.X","chronicle.history.nation.X","chronicle.history.player.X"));
             });
-            assertEquals(1,queries.get());assertTrue(sql.getFirst().contains("WHERE n.nation=?"));assertTrue(sql.getFirst().contains("WHERE p.player=?"));
+            assertEquals(1,queries.get());assertTrue(sql.getFirst().contains("history_event_counts"));
+            assertTrue(sql.getFirst().contains("scope='nation' AND subject=?"));assertTrue(sql.getFirst().contains("scope='player' AND subject=?"));
+            assertFalse(sql.getFirst().contains("COUNT("));assertFalse(sql.getFirst().contains("JOIN"));
             assertFalse(sql.getFirst().contains("north"));assertFalse(sql.getFirst().contains(A.toString()));
             assertEquals("2",facts.get("chronicle.history.player.WAR"));assertEquals("0",facts.get("chronicle.history.player.X"));
         }
@@ -99,7 +101,7 @@ class HistoricalFactsTest {
         }
     }
 
-    @Test void readsSeeTheCurrentTransactionAndSurviveReopenWithoutMaterializedCounts() {
+    @Test void readsSeeTheCurrentTransactionAndSurviveReopenWithoutCopiedFacts() {
         Path file=temp.resolve("restart.db");
         try(var store=new SqliteStore(file)) {
             store.transaction(c->{insert(c,"one","WAR",Set.of(A),Set.of("north"));assertEquals("1",HistoricalFacts.read(c,A,"north",Set.of()).get("chronicle.history.player.WAR"));assertFalse(c.getAutoCommit());return null;});
@@ -211,7 +213,34 @@ class HistoricalFactsTest {
                 assertTrue(plan.stream().anyMatch(p->p.contains("history_type")&&p.contains("SEARCH")),plan.toString());
                 assertFalse(plan.stream().anyMatch(p->p.contains("TEMP B-TREE")),plan.toString());
             }return null;});
+            store.transaction(c->{try(var s=c.prepareStatement("EXPLAIN QUERY PLAN SELECT type,total FROM history_event_counts WHERE scope=? AND subject=? AND type IN (?,?)")) {
+                s.setString(1,"world");s.setString(2,"");s.setString(3,"WAR");s.setString(4,"TECH");List<String> plan=new ArrayList<>();
+                try(var r=s.executeQuery()){while(r.next())plan.add(r.getString(4));}
+                assertTrue(plan.stream().anyMatch(p->p.contains("history_event_counts")&&p.contains("SEARCH")),plan.toString());
+                assertFalse(plan.stream().anyMatch(p->p.contains("SCAN")||p.contains("TEMP B-TREE")),plan.toString());
+            }return null;});
             assertEquals(Map.of("history.WAR","2"),store.transaction(c->HistoricalFacts.readRequested(c,null,null,Set.of("history.WAR"))));
+        }
+    }
+
+    @Test void completeAndSelectiveViewsReadOnlyCountRowsEvenForRepeatedTypes() {
+        try(var store=new SqliteStore(temp.resolve("count-rows.db"))) {
+            store.transaction(c->{for(int i=0;i<12;i++)insert(c,"repeat-"+i,"WAR",Set.of(A),Set.of("north"));return null;});
+            List<String> queries=new ArrayList<>();
+            store.transaction(connection->{
+                Connection indexed=(Connection)Proxy.newProxyInstance(Connection.class.getClassLoader(),new Class<?>[]{Connection.class},(proxy,method,args)->{
+                    if(method.getName().equals("prepareStatement")) {
+                        String sql=(String)args[0];queries.add(sql);
+                        assertTrue(sql.contains("history_event_counts"),sql);assertFalse(sql.matches("(?s).*\\b(events|event_nations|event_players)\\b.*"),sql);
+                    }
+                    try{return method.invoke(connection,args);}catch(InvocationTargetException error){throw error.getCause();}
+                });
+                Set<String> wanted=Set.of("history.WAR","chronicle.history.nation.WAR","chronicle.history.player.WAR");
+                assertEquals("12",HistoricalFacts.read(indexed,A,"north",wanted).get("history.WAR"));
+                assertEquals(Map.of("history.WAR","12","chronicle.history.nation.WAR","12","chronicle.history.player.WAR","12"),HistoricalFacts.readRequested(indexed,A,"north",wanted));
+                return null;
+            });
+            assertEquals(4,queries.size());
         }
     }
 

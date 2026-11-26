@@ -46,6 +46,7 @@ public final class SqliteStore implements AutoCloseable {
                 s.execute("CREATE INDEX IF NOT EXISTS history_type ON events(type,id)");
                 s.execute("CREATE INDEX IF NOT EXISTS nation_history ON event_nations(nation,event_id)");
                 s.execute("CREATE INDEX IF NOT EXISTS player_history ON event_players(player,event_id)");
+                HistoryCountIndex.initialize(connection);
                 s.execute("CREATE TABLE IF NOT EXISTS instances(id TEXT PRIMARY KEY,story TEXT NOT NULL,scope TEXT NOT NULL,completed INTEGER NOT NULL,updated TEXT NOT NULL,json TEXT NOT NULL)");
                 s.execute("CREATE INDEX IF NOT EXISTS active_instances ON instances(story,scope,completed)");
                 s.execute("CREATE INDEX IF NOT EXISTS instance_origin ON instances(story,scope,json_extract(json,'$.definition.version'),json_extract(json,'$.sourceEventId'))");

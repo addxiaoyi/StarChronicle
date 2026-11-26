@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 /** Read-only canonical history projection within the caller's transaction.
- * Counts come from events and its subject indexes, never from supplied contexts or copied facts.
+ * Counts come from the transactionally maintained canonical-event index, never supplied facts.
  * Legacy history.TYPE aliases are preserved verbatim; chronicle.history scopes use a separate
  * namespace so no existing event type can be mistaken for an identity-scoped count. */
 public final class HistoricalFacts {
@@ -29,20 +29,16 @@ public final class HistoricalFacts {
         Map<String,String> facts=new LinkedHashMap<>();
         for(var group:requested.entrySet()) {
             String scope=group.getKey();
-            String subject=switch(scope){case "nation"->nationId==null||nationId.isBlank()?null:nationId;case "player"->playerId==null?null:playerId.toString();default->"world";};
+            String subject=switch(scope){case "nation"->nationId==null||nationId.isBlank()?null:nationId;case "player"->playerId==null?null:playerId.toString();default->"";};
             if(subject==null||group.getValue().isEmpty())continue;
             List<String> types=new ArrayList<>(group.getValue().keySet());
             // Keep parameter count bounded even for a catalog with many different event types.
             for(int offset=0;offset<types.size();offset+=256) {
                 List<String> batch=types.subList(offset,Math.min(types.size(),offset+256));
                 String marks=String.join(",",Collections.nCopies(batch.size(),"?"));
-                String sql=switch(scope) {
-                    case "nation"->"SELECT e.type,COUNT(*) FROM event_nations n JOIN events e ON e.id=n.event_id WHERE n.nation=? AND e.type IN ("+marks+") GROUP BY e.type";
-                    case "player"->"SELECT e.type,COUNT(*) FROM event_players p JOIN events e ON e.id=p.event_id WHERE p.player=? AND e.type IN ("+marks+") GROUP BY e.type";
-                    default->"SELECT type,COUNT(*) FROM events WHERE type IN ("+marks+") GROUP BY type";
-                };
+                String sql="SELECT type,total FROM history_event_counts WHERE scope=? AND subject=? AND type IN ("+marks+")";
                 try(var query=connection.prepareStatement(sql)) {
-                    int parameter=1;if(!scope.equals("world"))query.setString(parameter++,subject);
+                    query.setString(1,scope);query.setString(2,subject);int parameter=3;
                     for(String type:batch)query.setString(parameter++,type);
                     try(var rows=query.executeQuery()) {
                         while(rows.next())for(String key:group.getValue().get(rows.getString(1)))facts.put(key,Long.toString(rows.getLong(2)));
@@ -66,9 +62,9 @@ public final class HistoricalFacts {
         Objects.requireNonNull(connection,"connection");
         if(requestedFacts!=null)for(String fact:requestedFacts)accepts(fact);
         String nation=nationId==null||nationId.isBlank()?null:nationId;
-        StringBuilder sql=new StringBuilder("SELECT 'world' AS scope,type,COUNT(*) AS total FROM events GROUP BY type");
-        if(nation!=null)sql.append(" UNION ALL SELECT 'nation',e.type,COUNT(*) FROM event_nations n JOIN events e ON e.id=n.event_id WHERE n.nation=? GROUP BY e.type");
-        if(playerId!=null)sql.append(" UNION ALL SELECT 'player',e.type,COUNT(*) FROM event_players p JOIN events e ON e.id=p.event_id WHERE p.player=? GROUP BY e.type");
+        StringBuilder sql=new StringBuilder("SELECT scope,type,total FROM history_event_counts WHERE (scope='world' AND subject='')");
+        if(nation!=null)sql.append(" OR (scope='nation' AND subject=?)");
+        if(playerId!=null)sql.append(" OR (scope='player' AND subject=?)");
         Map<String,String> worldCounts=new TreeMap<>(),nationCounts=new TreeMap<>(),playerCounts=new TreeMap<>();
         try(var query=connection.prepareStatement(sql.toString())) {
             int parameter=1;

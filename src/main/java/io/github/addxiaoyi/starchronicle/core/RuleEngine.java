@@ -1352,7 +1352,7 @@ public final class RuleEngine implements AutoCloseable {
             refs.add(ref);
         }
         return transaction(c->{Map<String,String> result=new LinkedHashMap<>();
-            var history=HistoricalFacts.read(c,context.playerId(),context.nationId(),refs);
+            var history=HistoricalFacts.readRequested(c,context.playerId(),context.nationId(),refs);
             for(String ref:refs)if(history.containsKey(ref))result.put(ref,history.get(ref));
             result.putAll(ChoiceLedger.read(c,context.playerId(),context.nationId(),refs));return Map.copyOf(result);
         });

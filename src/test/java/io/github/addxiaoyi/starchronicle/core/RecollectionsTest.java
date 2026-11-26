@@ -130,6 +130,14 @@ class RecollectionsTest {
         assertTrue(engine.recollections(context(C,"south",Map.of(PERSONAL,"yes")),Set.of(PERSONAL)).isEmpty());
     }
 
+    @Test void choiceOnlyAndEmptyRequestsNeverAccessTheHistoryProjection() {
+        open();complete(A,"north","yes","choice-only");
+        store.transaction(connection->{try(var statement=connection.createStatement()){statement.execute("DROP TABLE history_event_counts");}return null;});
+        assertTrue(engine.recollections(context(A,"north"),Set.of()).isEmpty());
+        assertEquals(Map.of(PERSONAL,"yes"),engine.recollections(context(A,"north"),Set.of(PERSONAL)));
+        assertThrows(IllegalStateException.class,()->engine.recollections(context(A,"north"),Set.of("history.BEGIN")));
+    }
+
     @Test void validatesReferenceCountNullsAndSupportedNamespacesBeforeProjection() {
         open();
         List<String> limit=new ArrayList<>();for(int i=0;i<256;i++)limit.add("chronicle.history.world.MISSING_"+i);
