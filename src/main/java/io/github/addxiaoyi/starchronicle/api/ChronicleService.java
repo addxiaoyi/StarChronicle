@@ -78,9 +78,11 @@ public interface ChronicleService {
     /** Original entries with their current net state; totals exclude suspended/refunded/cancelled entries. */
     default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionBalance>> contributionBalances(String subjectId, io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type, int page, int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contribution balances unavailable"));}
     default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionRevision>> contributionRevisions(String contributionId, int page, int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contribution revisions unavailable"));}
-    /** Full committed trade receipt, including notes that exceed the world-event fact limit. */
+    /** Frozen native production proof, committed atomically with history and civilization contributions. */
+    default CompletionStage<java.util.Optional<io.github.addxiaoyi.starchronicle.api.processing.ProcessingHistoryReceipt>> processingHistoryReceipt(String eventId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Processing history unavailable"));}
     /** Complete native before/after balances, committed atomically with their historical event. */
     default CompletionStage<java.util.Optional<io.github.addxiaoyi.starchronicle.api.resource.ResourceHistoryReceipt>> resourceHistoryReceipt(String eventId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Resource history unavailable"));}
+    /** Full committed trade receipt, including notes that exceed the world-event fact limit. */
     default CompletionStage<java.util.Optional<io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt>> tradeHistoryReceipt(String eventId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Trade history unavailable"));}
     CompletionStage<List<StoryInstance>> instances(UUID playerId);
     CompletionStage<List<StoryInstance>> activeInstances();

@@ -302,3 +302,13 @@ schema 8 新增贸易回执与只追加的贡献修订表。原始贡献与历�
 普通增减库存不是生产证明。资源历史不新增贡献，不重复计入已由援助或贸易回执建立的贡献，也不推定当前国主为原始操作人。`resource.kind/reference/category/description/balance_count/receipt_sha256` 保留检索与核对信息；详细余额通过完整回执查询。
 
 schema 9 增加完整资源回执表并要求消费事务提交该回执后才确认 ingress。版本 8 及更早插件拒绝打开 schema 9，避免旧消费者跳过完整资源证据；升级保留已有历史／贡献，回退须恢复配套备份。
+
+### 工厂生产提交历史与文明贡献
+
+`ChronicleService.processingHistoryReceipt(eventId)` 返回完整 `ProcessingHistoryReceipt`，包含独立来源域、连续序号、STARTED／COMPLETED／AUTOMATIC 类型及冻结的 run：批次 UUID、工厂／原国家／原操作者、配方 ID、精确批数、全部输入（含能源）、输出、纳秒开工／到期／完成时间。没有原始玩家主体时 actor 为 null，不使用当前国主或当前国籍补录。
+
+来源 `starcore.processing` 调用原生 `ProcessingHistoryService.processingChangesAfter(after,limit)`，每页最多128条。事件 ID 为 `starcore:processing:<domain>:<run>:<kind>`；事件类型为 `PROCESSING_STARTED`、`PROCESSING_COMPLETED`、`PROCESSING_AUTOMATIC`。完整回执、历史、剧情收件箱与 CIVILIZATION 贡献在同一消费事务提交；缺完整回执不能ACK。COMPLETED 必须匹配此前 STARTED 的全部冻结字段，否则拒绝。
+
+只有带原始 actor 的 COMPLETED 工厂批次产生文明贡献：每种产出资源分别记录原玩家和原国家的精确数量，单位为原生资源名，每种资源有独立幂等操作键。两个主体行供各自查询，不能相加当作全服产量。数量支持正 signed long；系统即时加工、无主体批次和普通资源余额变化不新增文明贡献。初始补读同样建立证据与贡献，但不补发剧情效果。已有援助／贸易贡献不会重复计入。
+
+schema10新增完整生产回执表；schema9及更早Chronicle拒绝打开升级库。原生的持久工厂恢复还依赖资源数据库、`resource/history`、`resource/processing-history`（含 `runs.sqlite`）与SQL权威标记，需要一起备份／恢复。旧原生版本不理解冻结run和生产日志，不能直接降级运行升级后的状态。
