@@ -3,6 +3,8 @@ package io.github.addxiaoyi.starchronicle.core;
 import io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry;
 import io.github.addxiaoyi.starchronicle.api.contribution.ContributionRequest;
 import io.github.addxiaoyi.starchronicle.api.contribution.ContributionType;
+import io.github.addxiaoyi.starchronicle.api.contribution.ContributionRevision;
+import io.github.addxiaoyi.starchronicle.api.contribution.ContributionBalance;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
 
 import java.math.BigDecimal;
@@ -50,7 +52,7 @@ public final class ContributionLedger {
 
     public BigDecimal total(String subjectId, ContributionType type, String unit) {
         ContributionRequest.token(subjectId, "subjectId", 256);
-        ContributionRequest.token(unit, "unit", 32);
+        ContributionRequest.token(unit, "unit", ContributionRequest.UNIT_MAX_LENGTH);
         Objects.requireNonNull(type, "type");
         return store.transaction(c -> total(c, subjectId, type, unit));
     }
@@ -73,6 +75,11 @@ public final class ContributionLedger {
             s.execute("CREATE INDEX IF NOT EXISTS contributions_source ON contributions(source_event_id,id)");
             s.execute("CREATE TABLE IF NOT EXISTS contribution_receipts(receipt_key TEXT PRIMARY KEY," +
                     "contribution_id TEXT NOT NULL UNIQUE REFERENCES contributions(id))");
+            s.execute("CREATE TABLE IF NOT EXISTS contribution_revisions(revision INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "contribution_id TEXT NOT NULL REFERENCES contributions(id),source_event_id TEXT NOT NULL REFERENCES events(id),"
+                    + "status TEXT NOT NULL CHECK(status IN ('ACTIVE','SUSPENDED','REFUNDED','CANCELLED')),"
+                    + "committed_at TEXT NOT NULL,recorded_at TEXT NOT NULL,UNIQUE(contribution_id,source_event_id))");
+            s.execute("CREATE INDEX IF NOT EXISTS contribution_revision_latest ON contribution_revisions(contribution_id,revision DESC)");
         }
     }
 
@@ -174,12 +181,36 @@ public final class ContributionLedger {
 
     public static BigDecimal total(Connection c, String subjectId, ContributionType type, String unit) throws SQLException {
         inTransaction(c);
-        try (var s = c.prepareStatement("SELECT c.amount FROM contributions c LEFT JOIN native_trade_contributions t ON t.contribution_id=c.id LEFT JOIN native_trade_states s ON s.source=t.source AND s.domain=t.domain AND s.record_id=t.record_id WHERE c.subject_id=? AND c.type=? AND c.unit=? AND (t.contribution_id IS NULL OR s.status='COMPLETED') ORDER BY c.id")) {
+        try (var s = c.prepareStatement("SELECT c.amount FROM contributions c LEFT JOIN native_trade_contributions t ON t.contribution_id=c.id LEFT JOIN native_trade_states s ON s.source=t.source AND s.domain=t.domain AND s.record_id=t.record_id WHERE c.subject_id=? AND c.type=? AND c.unit=? AND (t.contribution_id IS NULL OR s.status='COMPLETED') AND COALESCE((SELECT r.status FROM contribution_revisions r WHERE r.contribution_id=c.id ORDER BY r.revision DESC LIMIT 1),'ACTIVE')='ACTIVE' ORDER BY c.id")) {
             s.setString(1, subjectId); s.setString(2, type.name()); s.setString(3, unit);
             BigDecimal total = BigDecimal.ZERO;
             try (var r = s.executeQuery()) { while (r.next()) total = total.add(new BigDecimal(r.getString(1))); }
             return total.stripTrailingZeros();
         }
+    }
+
+    public static List<ContributionBalance> balances(Connection c, String subjectId, ContributionType type, int page, int size) throws SQLException {
+        List<ContributionBalance> result = new ArrayList<>();
+        for (var entry : list(c, subjectId, type, page, size)) {
+            var latest = revisions(c, entry.id(), 0, 1);
+            result.add(latest.isEmpty()
+                    ? TradeContributionLedger.legacyBalance(c, entry)
+                    : new ContributionBalance(entry, latest.getFirst().status(), latest.getFirst().sourceEventId(), latest.getFirst().committedAt()));
+        }
+        return List.copyOf(result);
+    }
+
+    public static List<ContributionRevision> revisions(Connection c, String contributionId, int page, int size) throws SQLException {
+        inTransaction(c);
+        ContributionRequest.token(contributionId, "contributionId", 256);
+        if (page < 0 || size < 1 || size > 100) throw new IllegalArgumentException("Invalid contribution revision page");
+        List<ContributionRevision> result = new ArrayList<>();
+        try (var s = c.prepareStatement("SELECT revision,source_event_id,status,committed_at,recorded_at FROM contribution_revisions WHERE contribution_id=? ORDER BY revision DESC LIMIT ? OFFSET ?")) {
+            s.setString(1, contributionId); s.setInt(2, size); s.setInt(3, Math.multiplyExact(page, size));
+            try (var r = s.executeQuery()) { while (r.next()) result.add(new ContributionRevision(r.getLong(1), contributionId,
+                    r.getString(2), ContributionRevision.Status.valueOf(r.getString(3)), Instant.parse(r.getString(4)), Instant.parse(r.getString(5)))); }
+        }
+        return List.copyOf(result);
     }
 
     public static List<ContributionEntry> list(Connection c, String subjectId, ContributionType type, int page, int size) throws SQLException {

@@ -85,6 +85,11 @@ public interface ChronicleService {
     /** Compatibility exit of the active instance; explicit-node callers can reject stale requests. */
     default CompletionStage<ProcessReport> exitMember(String instanceId, UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
     default CompletionStage<java.math.BigDecimal> contributionTotal(String subjectId, io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type, String unit){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contributions unavailable"));}
+    /** Original entries with their current net state; totals exclude suspended/refunded/cancelled entries. */
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionBalance>> contributionBalances(String subjectId, io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type, int page, int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contribution balances unavailable"));}
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionRevision>> contributionRevisions(String contributionId, int page, int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contribution revisions unavailable"));}
+    /** Full committed trade receipt, including notes that exceed the world-event fact limit. */
+    default CompletionStage<java.util.Optional<io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt>> tradeHistoryReceipt(String eventId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Trade history unavailable"));}
     CompletionStage<List<StoryInstance>> instances(UUID playerId);
     /** Bounded member history page; the full overload retains its original completeness contract. */
     default CompletionStage<List<StoryInstance>> instances(UUID playerId,int page,int size){

@@ -10,6 +10,7 @@ import io.github.addxiaoyi.starchronicle.integration.StarCoreBridge;
 import io.github.addxiaoyi.starchronicle.integration.SnapshotCollector;
 import io.github.addxiaoyi.starchronicle.integration.CommittedSourceCollector;
 import io.github.addxiaoyi.starchronicle.integration.TechnologyHistoryCoordinator;
+import io.github.addxiaoyi.starchronicle.integration.TradeHistoryCoordinator;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryAidProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProvider;
@@ -63,6 +64,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private ObservationJournal observations;
     private CommittedHistoryJournal committedHistory;
     private TechnologyHistoryCoordinator technologyHistory;
+    private TradeHistoryCoordinator tradeHistory;
     private FirstVisitJournal firstVisits;
     private List<ExplorationRegion> explorationRegions=List.of();
     private final FirstVisitBuffer explorationIngress=new FirstVisitBuffer(2048);
@@ -164,6 +166,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             observations=new ObservationJournal(store,Clock.systemUTC());
             committedHistory=new CommittedHistoryJournal(store);
             technologyHistory=new TechnologyHistoryCoordinator(engine,gateway,committedHistory);
+            tradeHistory=new TradeHistoryCoordinator(engine,gateway,committedHistory);
             gateway.setCommittedTechnologyHistory(technologyHistory::usesCommittedHistory);
             snapshotCollector=new SnapshotCollector(gateway,()->getServer().getServicesManager().getRegistrations(SnapshotProvider.class).stream().map(r->r.getProvider()).toList());
             textService=new TextService(Duration.ofMillis(Math.max(1,Math.min(30000,getConfig().getLong("text-timeout-ms",1500)))));
@@ -317,9 +320,11 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             engine.recoverEpicContributions(50);
             try { technologyHistory.poll(contexts); }
             catch (ReflectiveOperationException|RuntimeException failure) { getLogger().warning("Technology history retained its original ledger: "+root(failure).getMessage()); }
+            try { tradeHistory.poll(contexts); }
+            catch (ReflectiveOperationException|RuntimeException failure) { getLogger().warning("Trade history retained its original ledger: "+historyFailure(failure)); }
             var committed=new CommittedSourceCollector(gateway);
             for(var source:CommittedSourceCollector.Source.values())try {
-                if(source==CommittedSourceCollector.Source.TECHNOLOGY)continue;
+                if(source==CommittedSourceCollector.Source.TECHNOLOGY||source==CommittedSourceCollector.Source.TRADE)continue;
                 var page=committed.collect(source,engine.committedSourceCursor(source.id));
                 if(page.isPresent())engine.acceptCommittedSource(page.get(),contexts);
             } catch(ReflectiveOperationException|RuntimeException failure) {
@@ -344,7 +349,14 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             deliverPending();for(PlayerContext context:contexts)resumeNativeOnWorker(context.playerId());
             if(questGates!=null)questGates.poll(tasks.onlineIds()).exceptionally(error->{if(running.get())getLogger().warning("Quest evidence scan retained: "+root(error).getMessage());return null;});
             return null;
-        })).exceptionally(error->{if(running.get())getLogger().warning("History scan retained pending evidence: "+root(error).getMessage());return null;});
+        })).exceptionally(error->{if(running.get())getLogger().warning("History scan retained pending evidence: "+historyFailure(error));return null;});
+    }
+    /** Preserve the concrete storage/source cause in operational logs instead of reporting
+     * every failed transaction as the same generic wrapper message. */
+    private static String historyFailure(Throwable error) {
+        Set<Throwable> seen=Collections.newSetFromMap(new IdentityHashMap<>());
+        while(error.getCause()!=null&&seen.add(error))error=error.getCause();
+        return error.getClass().getSimpleName()+": "+Objects.toString(error.getMessage(),"");
     }
     private static List<PlayerContext> audience(WorldEvent event,List<PlayerContext> contexts){return contexts.stream().filter(c->event.globalAudience()||event.participants().contains(c.playerId())||(!c.nationId().isBlank()&&event.nations().contains(c.nationId()))).toList();}
     private Set<String> permissionNodes(List<StoryDefinition> configured) {
@@ -824,6 +836,9 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         }
         @Override public CompletionStage<ProcessReport> exitMember(String id,UUID player){return nationalSnapshot(player).thenCompose(context->query(()->engine.exitMember(id,context)));}
         @Override public CompletionStage<java.math.BigDecimal> contributionTotal(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,String unit){return query(()->engine.contributionTotal(subject,type,unit));}
+        @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionBalance>> contributionBalances(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return query(()->engine.contributionBalances(subject,type,page,size));}
+        @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionRevision>> contributionRevisions(String contributionId,int page,int size){return query(()->engine.contributionRevisions(contributionId,page,size));}
+        @Override public CompletionStage<Optional<io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt>> tradeHistoryReceipt(String eventId){return query(()->engine.tradeHistoryReceipt(eventId));}
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player);}));}
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player,int page,int size){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player,page,size);}));}
         @Override public CompletionStage<Optional<StoryInstance>> instance(UUID player,String id){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instance(player,id);}));}
@@ -871,8 +886,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                     boolean nation=args.length>1&&args[1].equalsIgnoreCase("nation");
                     nationalSnapshot(id).thenCompose(context->{
                         if(nation&&context.nationId().isBlank())throw new IllegalArgumentException("当前没有国家");
-                        return service.contributions(nation?"nation:"+context.nationId():"player:"+id,null,page,10);
-                    }).whenComplete((entries,error)->{if(error!=null)failure(id,error);else message(id,entries.isEmpty()?"此页暂无已核验贡献。":entries.stream().map(e->e.request().type()+" · "+e.request().amount().toPlainString()+" "+e.request().unit()+" · "+e.sourceStatus()+" · "+e.request().committedAt()+" · 来源 "+e.request().sourceEventId()).collect(java.util.stream.Collectors.joining("\n")));});
+                        return service.contributionBalances(nation?"nation:"+context.nationId():"player:"+id,null,page,10);
+                    }).whenComplete((entries,error)->{if(error!=null)failure(id,error);else message(id,entries.isEmpty()?"此页暂无已核验贡献。":entries.stream().map(e->e.entry().request().type()+" · 当前计入 "+e.netAmount().toPlainString()+" / 原始 "+e.entry().request().amount().toPlainString()+" "+e.entry().request().unit()+" · "+e.status()+" · "+e.entry().request().committedAt()+" · 来源 "+e.entry().request().sourceEventId()).collect(java.util.stream.Collectors.joining("\n")));});
                 }
                 case "past"->{
                     if(args.length!=2)throw new IllegalArgumentException("用法: /chronicle past <剧情ID/版本/节点ID>");

@@ -1,6 +1,6 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-26T13:46:17+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T15:37:17+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
@@ -8,7 +8,7 @@
 
 - 执行命令：`.\mvnw.cmd -o -B -ntp -DforkCount=0 -Djacoco.skip=true clean verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
-- 单元／集成回归：1076 项，失败 0，错误 0，跳过 0。
+- 单元／集成回归：1105 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
 - 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。
 - 同时生成全部 Java 源码 JAR。
@@ -71,7 +71,8 @@
 | `io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest` | 1 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest` | 22 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.TextServiceTest` | 8 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.history.CommittedHistoryJournalTest` | 7 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.TradeContributionTest` | 12 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.history.CommittedHistoryJournalTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.history.EventCausalityTest` | 10 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.history.FirstVisitBufferTest` | 2 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest` | 15 | 0 | 0 | 0 |
@@ -89,9 +90,11 @@
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest` | 19 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest` | 27 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistoryTest` | 7 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistoryTest` | 7 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryEpicProviderTest` | 1 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest` | 7 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.TechnologyHistoryCoordinatorTest` | 8 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.TradeHistoryCoordinatorTest` | 9 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest` | 5 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryRecipeCatalogTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryRecipeEngineTest` | 16 | 0 | 0 | 0 |
@@ -131,8 +134,8 @@
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18156649 | `42c0e27b7726548faf8f2bf330af3de44e44225632645824ccf3ad102c22f071` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 388355 | `f48e8b325b1c086880eccadff4eb8d1f7eb160fd7c4a972d614e7d305b9f8c87` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18190281 | `e634ba8815b9f67a6de416b90293f381757201716fc10154340f4ae0d0d76e19` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 402096 | `d04337e2d842c623aabe412d630a3b00646a663bc39048642d4d9e6cb94c83c4` |
 
 ## 真实服务器证据与构建对应
 

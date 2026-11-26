@@ -280,6 +280,14 @@ schema 7 仅在原因果表追加默认空的 `recipe_path` 并新增定义、�
 
 `ChronicleService.contributions(subjectId, type, page, size)` 返回已核验的贡献记录；主体可为 `player:<UUID>`／`nation:<UUID>`，主体与类型传 `null` 表示不过滤。页码从 0 开始，页大小为 1..100。`contributionTotal(subjectId, type, unit)` 使用精确十进制按单位汇总，国库 `treasury` 单独统计；RESOURCE_AID 的 `agricultural` 与 `resource.agricultural` 等新旧单位作为查询别名合计。原始行、单位和证据不改写；底层 `ContributionLedger.total` 仍按精确单位查询。公开服务没有直接写入贡献的入口。
 
+`contributionBalances(subjectId, type, page, size)` 返回原始条目、当前状态、该状态的来源事件／提交时间与 `netAmount()`；只有 ACTIVE 计入净值。`contributionRevisions(contributionId, page, size)` 按追加顺序倒序返回状态凭据。`tradeHistoryReceipt(eventId)` 返回专用贸易来源的完整原生回执，包括超过历史事实长度限制的备注。上述方法均异步只读，分页大小为 1..100；`/chronicle contributions [player|nation] [页]` 显示当前计入／原始数量和状态。
+
+贸易协调器保留已安装格式：存在旧 `committed_source_cursors` 时继续原来源、操作 ID、`resource.<资源>` 单位、baseline 与剧情激活语义，不重复接入专用 journal；新安装或既有上游 journal 使用 `tradeChangesAfter`，首次追赶只归档、建立净贡献，追上后才激活新剧情。两套贸易游标同时存在时隔离贸易读取并保留数据。原生 UUID getter 优先使用 `tradeHistoryAuthorityDomainId`，兼容上游原 UUID getter，但不会把旧 Optional getter 的序号当作专用流。数据库升级到 schema 9，阻止会忽略新修订或运行另一套采集器的 schema 8 旧 JAR 打开；回退必须使用配套旧版备份。
+
+旧贡献的原行和既有历史不改写。旧库升级前没有独立修订表，其当前净状态从原始提交凭据读取；新修订表只追加升级后的变化，不能据此声称它列出了升级前的全部修订。旧原始回执仍在 `committed_source_receipts`，不会伪造为缺少字段的完整 `TradeHistoryReceipt`。旧公开 `ContributionEntry.sourceStatus` 投影保持原行为；专用来源的原始条目保持不变，通过余额／修订接口读取当前状态。退款、争议和取消只改变本地有效合计，不调用资产接口或撤回已经发出的奖励。
+
+专用来源支持原生 64 字符资源和 `Long.MAX_VALUE` 数量；国库／资源援助保留原金额上限。旧来源的数量／单位准入规则保持原样，避免重新读取锚点时改写已经固定的凭据。查询单位仍需使用该条目保存的准确单位，贸易的有前缀／无前缀单位不自动合并。
+
 史诗 `TREASURY_AID`／`RESOURCE_AID` 的提供者回执、历史事件、剧情收件箱和每个资源的两条主体贡献在同一事务提交；UNKNOWN、拒绝、准备或选项投票不会产生贡献。旧候选的已提交回执由有界恢复任务补入，只读已有 provider/domain 固定回执。原生回执绑定兼容两分支的旧操作编号与资源单位，保存 `epic_contribution_projections` 恢复标记并核对原回执；已有行及事件保持原值，缺失主体才补录。新国库援助与史诗援助复用规范事件，同一转账按原生回执去重；旧分支已保存的其他历史事件不删除。
 
 `revalidateMember(instanceId, playerId)` 在 StarCore 当前成员变更锁内重新核验原国籍、国家存续及剧情条件；普通成员也可复核，不需要国王身份。缺失权威服务、换国未恢复、无使用权限、退出或已结束剧情均拒绝。`exitMember(instanceId, playerId)` 显式退出活动剧情，保留历史选择与原生任务证明。后台恢复不会自动重新加入；`join` 对退出玩家要求原国籍及当前权威核验。
