@@ -1,0 +1,30 @@
+{
+  "selected_by": "Codex under user authorization: 你自己决定",
+  "platform": "Paper 1.21.11",
+  "java": 21,
+  "economy": "StarCore native treasury/resource authority, paired artifact 44f450eccc95590aadc54736109e012d5a52bbae459f4107afa498fd4528518d",
+  "artifacts": [
+    {
+      "file": "FancyNpcs-2.10.1-java21.jar",
+      "sha256": "f5b52209cfa28b7b453d75340c8568dbb3eaaabfcd10e3ff91e74a1435aa4c61",
+      "bytes": 6424649,
+      "descriptor": "api-version: \"1.19\"\nname: FancyNpcs\nversion: 2.10.1-java21\nmain: de.oliver.fancynpcs.FancyNpcs\nbootstrapper: de.oliver.fancynpcs.loaders.FancyNpcsBootstrapper\nloader: de.oliver.fancynpcs.loaders.FancyNpcsLoader\ndescription: \"Simple, lightweight and fast NPC plugin using packets\"\nfolia-supported: true\ndependencies:\n  server:\n    Citizens:\n      load: BEFORE\n      required: false\n      join-classpath: true\n    MiniPlaceholders:\n      load: BEFORE\n      required: false\n      join-classpath: true\n    PlaceholderAPI:\n      load: BEFORE\n      required: false\n      join-classpath: true\n    PlotSquared:\n      load: BEFORE\n      required: false\n      join-classpath: true\n",
+      "status": "SELECTED_NOT_RUNTIME_VALIDATED"
+    },
+    {
+      "file": "worldguard-bukkit-7.0.17.jar",
+      "sha256": "3f14562509bf01e7680571b6f56932239157ff938f257c3226df3b4088ae54f2",
+      "bytes": 1177934,
+      "descriptor": "name: WorldGuard\nmain: com.sk89q.worldguard.bukkit.WorldGuardPlugin\nversion: \"7.0.17+2370-e42d8bc\"\ndepend: [WorldEdit]\napi-version: \"1.21.11\"\nfolia-supported: true",
+      "status": "SELECTED_NOT_RUNTIME_VALIDATED"
+    },
+    {
+      "file": "worldedit-bukkit-7.4.2.jar",
+      "sha256": "0ee152b1be5dfb51500505e2bf5a8c9d66f09c7fa484bf9aea384d7e7b459b06",
+      "bytes": 7510632,
+      "descriptor": "name: WorldEdit\nmain: com.sk89q.worldedit.bukkit.WorldEditPlugin\nversion: \"7.4.2+7450-eb8e82c\"\nload: STARTUP\napi-version: 1.21.4\nfolia-supported: true\nsoftdepend: [Vault]\nauthor: EngineHub\nwebsite: https://enginehub.org/worldedit\n",
+      "status": "SELECTED_NOT_RUNTIME_VALIDATED"
+    }
+  ],
+  "scope": "Selected exact installed artifacts for a future isolated compatibility run; production systems were read only. Folia full-stack is a separate gate."
+}

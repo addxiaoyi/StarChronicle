@@ -265,3 +265,13 @@ schema 5 的版本目录迁移保留原始 JSON／SHA 与来源，新增格式 s
 schema 7 仅在原因果表追加默认空的 `recipe_path` 并新增定义、条目与配方拦截表。`EventCausality.Trace(parent, root, depth, stories)` 仍兼容；五参形式增加真实 recipes 路径，depth 是两个路径长度之和。源事件 facts 无权设定此路径。故事／配方重复 ID（跨版本）与总深度 32 均拦截；每个顶层 SQL 操作最多生成 256 条配方信号，所有分支共享预算。拦截保留真实源历史与可查询原因，不自动在后续轮询补发。
 
 信号按来源事件的真实 actors／nations 和显式 GLOBAL 受众继承，不添加旁观国民。只有存在 recipe 因果路径的故事结果才可沿 canonical 来源复制已存在的 region.id／city.id，并附 region.source_event；旧无 recipe 的故事 payload 不变。完整配置、线程、时间、字段上限与生产边界见 [MEMORY-RECIPES.md](MEMORY-RECIPES.md)。这项本地叙事登记不代表已经部署上游国家权威能力或取得全栈 Folia 验收。
+
+## 贡献查询与成员复核
+
+`ChronicleService.contributions(subjectId, type, page, size)` 返回已核验的贡献记录；主体可为 `player:<UUID>`／`nation:<UUID>`，主体与类型传 `null` 表示不过滤。页码从 0 开始，页大小为 1..100。`contributionTotal(subjectId, type, unit)` 使用精确十进制按单位汇总，国库 `treasury` 与资源 `agricultural` 等分别统计。公开服务没有直接写入贡献的入口。
+
+史诗 `TREASURY_AID`／`RESOURCE_AID` 的提供者回执、历史事件、剧情收件箱和两条主体贡献在同一事务提交；UNKNOWN、拒绝、准备或选项投票不会产生贡献。旧候选的已提交回执由有界恢复任务补入，只读已有 provider/domain 固定回执。国库援助与史诗国库援助使用相同的事件和贡献键，同一转账不会因入口不同被计入两次。
+
+`revalidateMember(instanceId, playerId)` 在 StarCore 当前成员变更锁内重新核验原国籍、国家存续及剧情条件；普通成员也可复核，不需要国王身份。缺失权威服务、换国未恢复、无使用权限、退出或已结束剧情均拒绝。`exitMember(instanceId, playerId)` 显式退出活动剧情，保留历史选择与原生任务证明。后台恢复不会自动重新加入；`join` 对退出玩家要求原国籍及当前权威核验。
+
+`memberReviews(playerId, limit)` 返回本人的复核状态，`limit` 为 1..1000。玩家入口为 `/chronicle review <实例ID>`、`leave <实例ID>`、`reviews` 与 `contributions [页]`。插件 API 自行收集实时玩家快照，调用者不能提供国籍或审批标志。已退出成员的任务闸门保持可读且不再主动执行，已经提交的同国任务证明仍属于历史国家；缺少退出证据的成员数据丢失仍按损坏拒绝。

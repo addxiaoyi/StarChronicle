@@ -87,6 +87,51 @@ def connect(path):
     return connection
 
 
+def verify_ledgers(run, manifest, chronicle, operations, campaign_id):
+    entries = [dict(row) for row in chronicle.execute('SELECT * FROM contributions')]
+    check(len(entries) == 8, 'Expected eight player/nation contributions for four native transfers')
+    aid = [row for row in operations if json.loads(row['operation_json'])['type'] in ('TREASURY_AID', 'RESOURCE_AID')]
+    check(len(aid) == 4, 'Expected four provider-backed aid operations')
+    for row in aid:
+        op, receipt = json.loads(row['operation_json']), json.loads(row['receipt_json'])
+        matches = [entry for entry in entries if entry['operation_id'] == op['operationId']]
+        check(len(matches) == 2, 'Each native transfer needs one player and one national attribution')
+        check({entry['subject_id'] for entry in matches} == {'player:' + op['actorId'], 'nation:' + op['nationId']}, 'Contribution subjects differ from authorized intent')
+        unit, amount = ('treasury', op['nativeReference']) if op['type'] == 'TREASURY_AID' else op['nativeReference'].split(':')
+        for entry in matches:
+            request = json.loads(entry['request_json'])
+            check(entry['type'] == 'RESOURCE_AID' and entry['actor_id'] == op['actorId'] and entry['nation_id'] == op['nationId'], 'Wrong contribution attribution')
+            check(entry['unit'] == unit and Decimal(entry['amount']) == Decimal(amount), 'Contribution amount or unit mismatch')
+            check(request['operationId'] == op['operationId'] and request['sourceEventId'] == entry['source_event_id'], 'Contribution payload differs from indexed source')
+            check(request['actorId'] == entry['actor_id'] and request['nationId'] == entry['nation_id']
+                  and request['subjectId'] == entry['subject_id'] and request['type'] == entry['type']
+                  and request['unit'] == unit and Decimal(str(request['amount'])) == Decimal(amount)
+                  and request['committedAt'] == entry['committed_at'] and request['evidence'] == entry['evidence'], 'Contribution JSON differs from indexed receipt')
+            check(entry['committed_at'] == receipt['appliedAt'], 'Contribution timestamp must be the native commit')
+            event_row = chronicle.execute('SELECT json FROM events WHERE id=?', (entry['source_event_id'],)).fetchone()
+            check(event_row is not None, 'Contribution lacks canonical history')
+            event = json.loads(event_row[0])
+            check(event['occurredAt'] == receipt['appliedAt'] and event['facts']['time_basis'] == 'COMMITTED_SOURCE', 'Aid event lost source time')
+            check(event['facts']['aid.authority_domain'] == receipt['authorityDomain'] and event['source'] == receipt['issuer'], 'Aid source authority mismatch')
+            check(event['type'] == ('NATIONAL_AID_COMMITTED' if unit == 'treasury' else 'NATIONAL_RESOURCE_AID_COMMITTED')
+                  and Decimal(event['facts']['aid.amount']) == Decimal(amount), 'Aid history type or amount mismatch')
+            check(set(event['participants']) == {op['actorId']} and set(event['nations']) == {op['nationId'], op['target']}, 'Aid event audience mismatch')
+    fixture = [json.loads(line) for line in (run / 'evidence/epic-fixture.jsonl').read_text().splitlines()]
+    for boot in (1, 2, 3):
+        checks = [row for row in fixture if row['boot'] == boot and row['kind'] == 'CONTRIBUTIONS']
+        check(bool(checks) and all(len(row['data']) == 8 for row in checks), 'Missing public contribution check across restart')
+        expected = {entry['id']: json.loads(entry['request_json']) for entry in entries}
+        check(all({entry['id']: entry['request'] for entry in row['data']} == expected for row in checks), 'Public contributions changed across restart/replay')
+    def evidence(kind, boot):
+        return [row for row in fixture if row['kind'] == kind and row['boot'] == boot]
+    check(len(evidence('MEMBER_NATIVE_MOVED', 1)) == 2, 'Missing real native membership round trip')
+    check({row['data']['reason'] for row in evidence('MEMBER_REVIEW_REJECTED', 1)} == {'changed nation', 'missing permission'}, 'Missing member review rejection boundaries')
+    check(len(evidence('MEMBER_REVALIDATED', 1)) == 1 and len(evidence('MEMBER_EXITED', 1)) == 1, 'Missing native revalidation and explicit exit')
+    check(len(evidence('MEMBER_REJOINED', 2)) == 1 and evidence('MEMBER_REJOINED', 2)[0]['data']['afterRestart'], 'Missing explicit rejoin after restart')
+    review = chronicle.execute('SELECT status,original_nation_id,observed_nation_id FROM story_member_reviews WHERE instance_id=? AND player_id=?', (campaign_id, manifest['players']['D'])).fetchone()
+    check(review and review['status'] == 'APPROVED' and review['original_nation_id'] == review['observed_nation_id'], 'Rejoined member changed original historical nation')
+
+
 def inspect(run):
     run = run.resolve()
     manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
@@ -205,10 +250,12 @@ def inspect(run):
         check(len(aftermath) == len(expected_players) and {row['scope'] for row in aftermath} == {'player:' + player for player in expected_players}, 'Missing or duplicate aftermath per player')
         check(all(json.loads(row['json'])['sourceEventId'] == event['id'] for row in aftermath), 'Aftermath has unrelated source')
         check(chronicle.execute("select count(*) from story_nation_resolutions where instance_id=? and node_id=? and choice_id='settle'", (campaign['instance_id'], 'war-await' if manifest['route'] == 'WAR' else 'dungeon-await')).fetchone()[0] == 1, 'Missing unique canonical settle resolution')
+        if manifest.get('ledger_acceptance'):
+            verify_ledgers(run, manifest, chronicle, rows, campaign['instance_id'])
         result = dict(status='PASS', route=campaign['route'], instance=campaign['instance_id'],
                       chronicle_sha256=manifest['plugin_sha256'], starcore_sha256=manifest['starcore_sha256'],
                       committed_operations=len(rows), treasury_transfers=2, resource_transfers=2, settlement_events=1,
-                      verified_boots=3, aftermath_instances=len(aftermath),
+                      verified_boots=3, aftermath_instances=len(aftermath), ledger_acceptance=bool(manifest.get('ledger_acceptance')),
                       verification='Three normal server/client exits, live craft/restart/replay evidence and independent native/Chronicle receipt cross-check; server port unbound.')
         return result
 

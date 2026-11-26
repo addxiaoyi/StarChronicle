@@ -10,7 +10,7 @@ commands:
     description: World history, collaborative stories and administrative diagnostics
     aliases: [scchronicle]
     permission: starchronicle.use
-    usage: /chronicle [stories|scene|history|book|npc|fate|past|memory|join|choose|national|vote|withdraw|epic|status|validate|reload|blocked|evaluate]
+    usage: /chronicle [stories|scene|history|book|npc|fate|past|memory|join|review|leave|reviews|contributions|choose|national|vote|withdraw|epic|status|validate|reload|blocked|evaluate]
 permissions:
   starchronicle.use:
     description: Read histories and participate in eligible stories; national ballots additionally require native holder authority

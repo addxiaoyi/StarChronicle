@@ -279,6 +279,57 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
             return api.applyEpicOperation(done.operation().operationId(),done.operation().actorId(),done.revision()).handle((value,error)->{
                 require(error!=null,"Committed operation was reapplied");log("REPLAY_REJECTED",Map.of("operation",done.operation().operationId(),"error",error.toString()));return null;});});
     }
+    private CompletionStage<?> contributions() {
+        return api.contributions(null,null,0,100).thenCompose(entries->{
+            require(entries.size()==8,"Two treasury and two resource transfers must yield eight attributed contributions");
+            require(entries.stream().map(e->e.request().sourceEventId()).distinct().count()==4,"Expected four canonical aid events");
+            log("CONTRIBUTIONS",entries);
+            CompletionStage<?> chain=CompletableFuture.completedFuture(null);
+            for(String who:List.of("A","B"))for(String unit:List.of("treasury","agricultural"))
+                chain=chain.thenCompose(x->api.contributionTotal("player:"+uuid(who),io.github.addxiaoyi.starchronicle.api.contribution.ContributionType.RESOURCE_AID,unit))
+                        .thenApply(total->{require(total.compareTo(BigDecimal.TEN)==0,"Incorrect contribution total");return null;});
+            return chain;
+        });
+    }
+    private CompletionStage<?> rejected(CompletionStage<?> work,String reason) {
+        return work.handle((value,error)->{require(error!=null,"Expected rejection: "+reason);
+            log("MEMBER_REVIEW_REJECTED",Map.of("reason",reason,"error",error.toString()));return null;});
+    }
+    private CompletionStage<?> moveMember(String from,String to) {return main(()->{
+        var nations=service(NationService.class);
+        require(nations.removeMember(country(from),uuid("D")),"Native member removal rejected");
+        require(nations.addMember(country(to),uuid("D"),player("D").getName()),"Native member admission rejected");
+        log("MEMBER_NATIVE_MOVED",Map.of("player",uuid("D"),"from",country(from),"to",country(to)));return null;
+    });}
+    private CompletionStage<?> memberExit() {
+        return moveMember("A","B")
+                .thenCompose(x->rejected(api.revalidateMember(instance,uuid("D")),"changed nation"))
+                .thenCompose(x->moveMember("B","A"))
+                .thenCompose(x->main(()->{permissions.get(uuid("D")).setPermission("starchronicle.use",false);player("D").recalculatePermissions();return null;}))
+                .thenCompose(x->rejected(api.revalidateMember(instance,uuid("D")),"missing permission"))
+                .thenCompose(x->main(()->{permissions.get(uuid("D")).setPermission("starchronicle.use",true);player("D").recalculatePermissions();return null;}))
+                .thenCompose(x->api.revalidateMember(instance,uuid("D")))
+                .thenCompose(x->api.memberReviews(uuid("D"),100)).thenApply(reviews->{
+                    require(reviews.stream().anyMatch(r->r.instanceId().equals(instance)&&r.status().name().equals("APPROVED")&&r.reason().contains("StarCore.NationModule.membership")),"Ordinary member requires real authority proof");
+                    log("MEMBER_REVALIDATED",reviews);return null;
+                }).thenCompose(x->api.exitMember(instance,uuid("D")))
+                .thenCompose(x->api.instances(uuid("D"))).thenApply(items->{
+                    require(items.stream().noneMatch(i->i.id().equals(instance)),"Background resume restored an exited member");
+                    log("MEMBER_EXITED",Map.of("player",uuid("D"),"instance",instance));return null;
+                });
+    }
+    private CompletionStage<?> memberRejoin() {
+        return api.memberReviews(uuid("D"),100).thenCompose(reviews->{
+            require(reviews.stream().anyMatch(r->r.instanceId().equals(instance)&&r.status().name().equals("EXITED")),"Exit was not durable across restart");
+            return api.instances(uuid("D"));
+        }).thenCompose(items->{
+            require(items.stream().noneMatch(i->i.id().equals(instance)),"Restart resume restored exited member");
+            return api.join(instance,uuid("D"));
+        }).thenCompose(x->api.instances(uuid("D"))).thenApply(items->{
+            require(items.stream().anyMatch(i->i.id().equals(instance)),"Explicit native-checked rejoin did not succeed");
+            log("MEMBER_REJOINED",Map.of("player",uuid("D"),"instance",instance,"afterRestart",boot>1));return null;
+        });
+    }
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!(sender instanceof ConsoleCommandSender)||args.length==0)return false;
         String action=args[0];if(!busy.compareAndSet(false,true)){fail(action,new IllegalStateException("Previous action is still pending"));return true;}
@@ -289,6 +340,7 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
                 case "found"->founding();case "declare"->declareWar();case "end-war"->endWar();
                 case "checkpoint"->captureFinal();case "final-evidence"->finalEvidence();case "settle"->settle();
                 case "check"->check();case "replay"->replayRejection();case "state"->campaign().thenApply(s->{log("STATE",s);return s;});
+                case "contributions"->contributions();case "member-exit"->memberExit();case "member-rejoin"->memberRejoin();
                 default->throw new IllegalArgumentException("Unknown action: "+action);
             };
             work.whenComplete((value,error)->{busy.set(false);if(error!=null)fail(action,error);else log("ACTION_DONE",Map.of("action",action));});

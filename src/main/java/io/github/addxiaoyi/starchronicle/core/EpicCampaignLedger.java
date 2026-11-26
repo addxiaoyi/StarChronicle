@@ -229,14 +229,25 @@ public final class EpicCampaignLedger {
     /** Store a provider observation. Only a matching committed receipt satisfies a phase. */
     public EpicOperationState observe(EpicOperation operation, EpicObservation observation, String providerId, String authorityDomain, Instant now) {
         Objects.requireNonNull(operation); Objects.requireNonNull(observation); Objects.requireNonNull(providerId); Objects.requireNonNull(authorityDomain); Objects.requireNonNull(now);
-        return store.transaction(c -> {
+        return store.transaction(c -> observe(c, operation, observation, providerId, authorityDomain, now));
+    }
+
+    /** Allows the engine to commit native evidence, history and contributions atomically. */
+    EpicOperationState observe(Connection c, EpicOperation operation, EpicObservation observation,
+                               String providerId, String authorityDomain, Instant now) throws SQLException {
+            if (c.getAutoCommit()) throw new IllegalStateException("Epic observation requires a transaction");
             EpicOperationState existing = findOperation(c, operation.operationId());
             if (existing == null) throw new IllegalStateException("Operation must be prepared before observation");
             if (!json(existing.operation()).equals(json(operation))) throw new IllegalStateException("Observed operation differs from prepared request");
             ProviderPin pin = findProviderPin(c, operation.operationId());
             if (pin != null && (!pin.providerId().equals(providerId) || !pin.authorityDomain().equals(authorityDomain)))
                 throw new SecurityException("Epic observation came from a provider outside the pinned authority");
-            if (existing.status() == EpicOperationState.Status.COMMITTED) return existing;
+            if (existing.status() == EpicOperationState.Status.COMMITTED) {
+                if (observation.status() == EpicObservation.Status.COMMITTED
+                        && !existing.receipt().equals(EpicContract.requireCommitted(operation, observation, providerId, authorityDomain)))
+                    throw new SecurityException("Committed epic receipt cannot be replaced");
+                return existing;
+            }
             EpicOperationState.Status status; EpicReceipt receipt = null; String detail = observation.detail();
             if (observation.status() == EpicObservation.Status.COMMITTED) { receipt = EpicContract.requireCommitted(operation, observation, providerId, authorityDomain); status = EpicOperationState.Status.COMMITTED; }
             else if (observation.status() == EpicObservation.Status.REJECTED) status = EpicOperationState.Status.REJECTED;
@@ -248,7 +259,6 @@ public final class EpicCampaignLedger {
             }
             if(status==EpicOperationState.Status.COMMITTED)advanceCampaign(c,operation.instanceId(),now);
             return findOperation(c, operation.operationId());
-        });
     }
     public EpicOperationState commitOperation(EpicOperation operation, EpicObservation observation, String providerId, String authorityDomain, Instant now) { return observe(operation, observation, providerId, authorityDomain, now); }
 

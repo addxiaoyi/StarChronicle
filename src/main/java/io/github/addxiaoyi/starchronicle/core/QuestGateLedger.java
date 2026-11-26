@@ -87,7 +87,7 @@ public final class QuestGateLedger {
     public static List<Gate> pending(Connection c,Set<UUID> onlineOwners,int limit)throws SQLException {
         transaction(c);Objects.requireNonNull(onlineOwners);if(limit<1)return List.of();
         List<String> online=onlineOwners.stream().map(UUID::toString).sorted().toList();List<String> ids=new ArrayList<>();
-        String sql="SELECT g.id FROM quest_gates g JOIN instances i ON i.id=g.instance_id WHERE g.status<>'COMMITTED' AND i.completed=0 AND json_extract(i.json,'$.completed')=0 AND json_extract(i.json,'$.node')=g.node_id AND (g.provider_id IS NOT NULL OR g.player_id IN (SELECT value FROM json_each(?))) ORDER BY g.last_checked_at,g.updated_at,g.id LIMIT ?";
+        String sql="SELECT g.id FROM quest_gates g JOIN instances i ON i.id=g.instance_id WHERE g.status<>'COMMITTED' AND i.completed=0 AND json_extract(i.json,'$.completed')=0 AND json_extract(i.json,'$.node')=g.node_id AND NOT EXISTS(SELECT 1 FROM story_member_reviews m WHERE m.instance_id=g.instance_id AND m.player_id=g.player_id AND m.status<>'APPROVED') AND (g.provider_id IS NOT NULL OR g.player_id IN (SELECT value FROM json_each(?))) ORDER BY g.last_checked_at,g.updated_at,g.id LIMIT ?";
         try(var s=c.prepareStatement(sql)){s.setString(1,SqliteStore.json(online));s.setInt(2,limit);try(var r=s.executeQuery()){while(r.next())ids.add(r.getString(1));}}
         List<Gate> result=new ArrayList<>();for(String id:ids){Gate gate=load(c,id);if(gate.active()&&!gate.completed())result.add(gate);}return List.copyOf(result);
     }
@@ -179,8 +179,9 @@ public final class QuestGateLedger {
                 gate=new Gate(r.getString("id"),r.getString("instance_id"),r.getString("source_event_id"),r.getString("story_id"),r.getString("story_version"),r.getString("story_fingerprint"),r.getString("scope_key"),r.getString("node_id"),r.getString("effect_id"),UUID.fromString(r.getString("player_id")),r.getString("quest_id"),Mode.valueOf(r.getString("mode")),r.getString("expected_nation_id"),Instant.ofEpochMilli(r.getLong("opened_at")),r.getString("provider_id"),pinnedAt,Status.valueOf(r.getString("status")),accepted==null?null:SqliteStore.decode(accepted,AcceptedRun.class),completion==null?null:SqliteStore.decode(completion,CommittedCompletion.class),Instant.ofEpochMilli(r.getLong("updated_at")),Instant.ofEpochMilli(r.getLong("last_checked_at")),r.getLong("revision"),r.getString("message"),false);
             }
         }
-        StoryInstance instance=stored(c,gate.instanceId());validateIdentity(gate,instance);
-        boolean active=!instance.completed()&&instance.node().equals(gate.nodeId());
+        StoryInstance instance=stored(c,gate.instanceId());validateIdentity(c,gate,instance);
+        boolean active=!instance.completed()&&instance.node().equals(gate.nodeId())&&instance.contains(gate.playerId())
+                &&MemberReviewLedger.find(c,instance.id(),gate.playerId()).map(r->r.status()==MemberReviewLedger.Status.APPROVED).orElse(true);
         if(gate.providerId()!=null)text(gate.providerId(),"stored provider");
         if(gate.acceptedRun()!=null){if(gate.providerId()==null)throw new IllegalStateException("Unpinned quest gate has acceptance");validateAccepted(gate,gate.acceptedRun(),gate.lastCheckedAt());}
         if(gate.completed()) {
@@ -190,11 +191,25 @@ public final class QuestGateLedger {
         return new Gate(gate.id(),gate.instanceId(),gate.sourceEventId(),gate.storyId(),gate.storyVersion(),gate.storyFingerprint(),gate.scopeKey(),gate.nodeId(),gate.effectId(),gate.playerId(),gate.questId(),gate.mode(),gate.expectedNationId(),gate.openedAt(),gate.providerId(),gate.providerPinnedAt(),gate.status(),gate.acceptedRun(),gate.completion(),gate.updatedAt(),gate.lastCheckedAt(),gate.revision(),gate.message(),active);
     }
 
-    private static void validateIdentity(Gate gate,StoryInstance instance) {
+    private static boolean originalMember(Connection c,Gate gate,StoryInstance instance)throws SQLException {
+        if(instance.contains(gate.playerId()))return Objects.equals(gate.expectedNationId(),instance.members().get(gate.playerId()));
+        return MemberReviewLedger.find(c,instance.id(),gate.playerId())
+                .map(r->r.status()==MemberReviewLedger.Status.EXITED&&r.originalNationId().equals(gate.expectedNationId())).orElse(false);
+    }
+
+    private static boolean personalScope(Connection c,StoryInstance instance)throws SQLException {
+        if(instance.members().size()==1)return instance.scopeKey().equals("player:"+instance.members().keySet().iterator().next());
+        if(!instance.members().isEmpty()||!instance.scopeKey().startsWith("player:"))return false;
+        UUID player;
+        try {player=UUID.fromString(instance.scopeKey().substring(7));}catch(IllegalArgumentException invalid){return false;}
+        return MemberReviewLedger.find(c,instance.id(),player).map(r->r.status()==MemberReviewLedger.Status.EXITED).orElse(false);
+    }
+
+    private static void validateIdentity(Connection c,Gate gate,StoryInstance instance)throws SQLException {
         if(!gate.id().equals(RuleEngine.stable("quest-gate",instance.id(),gate.nodeId(),gate.effectId(),gate.playerId().toString()))
                 ||!gate.sourceEventId().equals(instance.sourceEventId())||!gate.storyId().equals(instance.definition().id())||!gate.storyVersion().equals(instance.definition().version())
                 ||!gate.storyFingerprint().equals(DefinitionCanonicalCodec.fingerprintV2(instance.definition()))||!gate.scopeKey().equals(instance.scopeKey())
-                ||!instance.contains(gate.playerId())||!Objects.equals(gate.expectedNationId(),instance.members().get(gate.playerId()))
+                ||!originalMember(c,gate,instance)
                 ||gate.openedAt().isBefore(millis(instance.startedAt()))||gate.updatedAt().isBefore(gate.openedAt())||gate.lastCheckedAt().isBefore(gate.openedAt())||gate.revision()<1)
             throw new IllegalStateException("Stored quest gate identity does not match its pinned instance");
         if(gate.providerId()==null?gate.providerPinnedAt()!=null:gate.providerPinnedAt()==null||gate.providerPinnedAt().isBefore(gate.openedAt())||gate.providerPinnedAt().isAfter(gate.updatedAt()))throw new IllegalStateException("Stored quest provider pin time is inconsistent");
@@ -279,7 +294,7 @@ public final class QuestGateLedger {
                 boolean valid=switch(instance.definition().scope()) {
                     case WORLD->instance.scopeKey().equals("world");
                     case NATION->instance.scopeKey().startsWith("nation:")&&instance.scopeKey().length()>7&&instance.members().values().stream().allMatch(n->instance.scopeKey().equals("nation:"+n));
-                    case PLAYER->instance.members().size()==1&&instance.scopeKey().equals("player:"+instance.members().keySet().iterator().next());
+                    case PLAYER->personalScope(c,instance);
                 };
                 if(!valid)throw new IllegalStateException("Stored quest instance scope is inconsistent");return instance;
             }

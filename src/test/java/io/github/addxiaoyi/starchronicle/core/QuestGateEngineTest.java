@@ -68,6 +68,34 @@ class QuestGateEngineTest {
     StoryInstance instance(String id){return engine.instances(a).stream().filter(i->i.id().equals(id)).findFirst().orElseThrow();}
     @AfterEach void close(){if(engine!=null)engine.close();}
 
+    @Test void anExitedMembersUnfinishedGateDoesNotCorruptOrStarveRemainingMembers() {
+        String id=start(story(Mode.NATION));var exited=gate(b);var keeper=pinned(a);
+        engine.exitMember(id,context(b,"river"));
+        assertFalse(saved(exited.id()).active());
+        assertTrue(engine.pendingQuestGates(online,100).stream().noneMatch(g->g.playerId().equals(b)));
+        finish(keeper);assertTrue(engine.questGateState(id,context(a,"river")).ready());
+        engine.choose(id,a,"yes",context(a,"river"));assertTrue(instance(id).completed());
+        assertFalse(saved(exited.id()).active());assertEquals(1,questHistory());
+    }
+    @Test void exitedMembersCommittedNationalEvidenceRemainsHistoricalAfterRestart() {
+        String id=start(story(Mode.NATION));var completed=pinned(a);finish(completed);
+        var receipt=saved(completed.id()).completion();engine.exitMember(id,context(a,"river"));reopen();
+        assertEquals(receipt,saved(completed.id()).completion());assertFalse(saved(completed.id()).active());
+        assertTrue(engine.questGateState(id,context(b,"river")).ready());
+        assertThrows(SecurityException.class,()->engine.prepareQuestGate(completed.id(),provider,context(a,"river")));
+        assertEquals(1,questHistory());
+        sql("DELETE FROM story_member_reviews WHERE player_id='"+a+"'");
+        assertThrows(IllegalStateException.class,()->saved(completed.id()),"Missing historical membership evidence must still be treated as corruption");
+    }
+    @Test void personalTaskRemainsReadableButInactiveAfterItsOnlyMemberExits() {
+        var template=story(Mode.PLAYER);
+        var personal=new StoryDefinition(template.id(),template.version(),template.title(),Scope.PLAYER,template.triggers(),template.condition(),template.start(),template.cooldownSeconds(),template.nodes());
+        start(personal);String id=engine.instances(a).getFirst().id();var gate=pinned(a);
+        engine.exitMember(id,context(a,"river"));reopen();
+        assertFalse(saved(gate.id()).active());assertEquals(gate.acceptedRun(),saved(gate.id()).acceptedRun());
+        assertTrue(engine.instances(a).isEmpty());
+    }
+
     @Test void awaitCreatesNativeEvidenceGatesAndBlocksChoiceUntilCommittedReceipt() {
         String id=start(story(Mode.PLAYER));assertEquals(3,engine.pendingQuestGates(online,100).size());assertTrue(engine.pending().isEmpty());assertEquals(0,count("outcomes"));
         assertThrows(SecurityException.class,()->engine.choose(id,a,"yes",context(a,"river")));assertTrue(engine.availableChoices(id,context(a,"river")).isEmpty());
