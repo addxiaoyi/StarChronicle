@@ -142,12 +142,19 @@ def main():
                 probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                 probe.bind(('127.0.0.1', preparation['server_port']))
             events = [json.loads(line) for line in (run / 'evidence/epic-fixture.jsonl').read_text(encoding='utf-8').splitlines()] if (run / 'evidence/epic-fixture.jsonl').exists() else []
+            combination_events = [json.loads(line) for line in (run / 'evidence/combination-fixture.jsonl').read_text(encoding='utf-8').splitlines()] if (run / 'evidence/combination-fixture.jsonl').exists() else []
             summary['runs'].append(dict(path=str(run), preparation=preparation,
                                        independent_check=json.loads((run / 'evidence/independent-check.json').read_text()) if (run / 'evidence/independent-check.json').is_file() else None,
+                                       combination_check=json.loads((run / 'evidence/combination-independent-check.json').read_text()) if (run / 'evidence/combination-independent-check.json').is_file() else None,
                                        passing_checks=[e for e in events if e['kind']=='ACCEPTANCE_PASS'],
                                        failures=[e for e in events if e['kind']=='FAILED'],
+                                       combination_failures=[e for e in combination_events if e['kind']=='FAILED'],
                                        fatal_jvm_logs=[path.name for path in run.glob('hs_err_*.log')]))
             files = [run / 'preparation.json', run / 'server.properties']
+            if preparation.get('combination_acceptance'):
+                files += [run / 'combination.json', run / 'plugins/FancyAnalytics/config.json', run / 'plugins/StarChronicle/npcs.yml']
+                files += list((run / 'plugins/FancyNpcs').glob('*.yml'))
+                files += list((run / 'plugins/WorldGuard/worlds').rglob('*.yml'))
             files += list((run / 'evidence').rglob('*')) + list(run.glob('hs_err_*.log'))
             files += list((run / 'fixture').glob('*.java'))
             files += list((run / 'plugins').glob('*/config.yml')) + list((run / 'plugins/StarCore').glob('dungeons.yml'))
@@ -163,7 +170,7 @@ def main():
                     redacted = re.sub(r'(?m)^(\s*access-secret:)\s*.*$', r'\1 "REDACTED_TEST_SECRET"', path.read_text(encoding='utf-8'))
                     archive.writestr(name, redacted)
                 else: archive.write(path, name)
-        for name in ('EpicCampaignPaperFixture.java','ContributionUpgradeProbe.java','prepare-epic-paper.py','epic-paper-clients.cjs','epic-paper-session.py','inspect-epic-paper.py','inspect-quest-evidence-paper.py','test_epic_acceptance.py','archive-epic-evidence.py'):
+        for name in ('EpicCampaignPaperFixture.java','ContributionUpgradeProbe.java','ProductionCombinationFixture.java','prepare-production-combination.py','inspect-production-combination.py','test_production_combination.py','prepare-epic-paper.py','epic-paper-clients.cjs','epic-paper-session.py','inspect-epic-paper.py','inspect-quest-evidence-paper.py','test_epic_acceptance.py','archive-epic-evidence.py'):
             archive.write(ROOT / 'tools' / name, 'tools/' + name)
         inventory = {entry.filename: hashlib.sha256(archive.read(entry.filename)).hexdigest() for entry in archive.infolist()}
         archive.writestr('evidence-manifest.json', json.dumps(inventory, indent=2) + '\n')

@@ -6,7 +6,7 @@ if(!path.basename(run).startsWith('paper-epic-'))throw Error('Only isolated epic
 const mineflayer=require(process.env.EPIC_MINEFLAYER_MODULE || 'mineflayer');
 const log=(kind,data={})=>{const line=JSON.stringify({time:new Date().toISOString(),kind,data});fs.appendFileSync(path.join(run,'evidence/epic-clients.jsonl'),line+'\n');console.log(line);};
 const bots=new Map();let quitting=false;
-for(const who of ['A','B','C','D']) {
+function connect(who) {
   const bot=mineflayer.createBot({host:'127.0.0.1',port:manifest.server_port,username:'Epic'+who,auth:'offline',version:'1.21.11'});bots.set(who,bot);
   bot.on('spawn',()=>{if(bot.player.uuid!==manifest.players[who])throw Error('Client UUID mismatch');log('SPAWN',{who,uuid:bot.player.uuid});});
   bot.on('messagestr',message=>log('MESSAGE',{who,message}));
@@ -14,6 +14,7 @@ for(const who of ['A','B','C','D']) {
   bot.on('kicked',reason=>log('FAILED',{who,reason}));
   bot.on('end',reason=>{log('ENDED',{who,reason});if(quitting&&[...bots.values()].every(b=>b._client.ended))process.exit(0);});
 }
+for(const who of ['A','B','C','D'])connect(who);
 const count=(bot,name)=>bot.inventory.items().filter(i=>i.name===name).reduce((n,i)=>n+i.count,0);
 async function craft(who) {
   const bot=bots.get(who);if(bot.currentWindow)throw Error('Close menu before craft');
@@ -46,6 +47,16 @@ readline.createInterface({input:process.stdin}).on('line',line=>{chain=chain.the
     });
     if(window.slots[20]?.name!=='emerald'||window.slots[24]?.name!=='barrier')throw Error('Missing membership review/exit controls');
     log('MEMBERSHIP_GUI',{who,instance:id,title:window.title,review:window.slots[20].name,exit:window.slots[24].name});bot.closeWindow(window);
+  }
+  else if(action==='disconnect') {for(const bot of bots.values())bot.quit('Controlled provider maintenance');}
+  else if(action==='connect') {if(!bots.has(who)||!bots.get(who)._client.ended)throw Error('Existing client must be disconnected');connect(who);}
+  else if(action==='npc') {
+    const bot=bots.get(who),target=JSON.parse(fs.readFileSync(path.join(run,'evidence/combination-target.json'),'utf8')).npc;
+    for(let i=0;i<80&&!bot.entities[target];i++)await bot.waitForTicks(1);
+    const entity=bot.entities[target];if(!entity)throw Error('Provider NPC not visible to real client');
+    if(bot.entity.position.distanceTo(entity.position)>4)throw Error('NPC beyond actual interaction reach');
+    await bot.lookAt(entity.position.offset(0,1,0),true);bot.activateEntity(entity);
+    log('NPC_CLICK',{who,entityId:target,syntheticEvents:false});
   }
   else if(action==='chat')bots.get(who).chat(rest.join(' '));
   else if(action==='close'&&bots.get(who).currentWindow)bots.get(who).closeWindow(bots.get(who).currentWindow);

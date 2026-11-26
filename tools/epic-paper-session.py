@@ -26,6 +26,10 @@ manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
 for name, key in [('StarChronicle', 'plugin_sha256'), ('StarCore', 'starcore_sha256'), ('EpicCampaignPaperFixture', 'fixture_sha256')]:
     if hashlib.sha256((run / f'plugins/{name}.jar').read_bytes()).hexdigest() != manifest[key]:
         raise SystemExit('Frozen artifact drift: ' + name)
+if manifest.get('combination_acceptance'):
+    for name, entry in json.loads((run / 'combination.json').read_text())['artifacts'].items():
+        if hashlib.sha256((run / f'plugins/{name}.jar').read_bytes()).hexdigest() != entry['sha256']:
+            raise SystemExit('Frozen combination artifact drift: ' + name)
 probe = socket.socket()
 probe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 probe.bind(('127.0.0.1', manifest['server_port']))
@@ -58,7 +62,7 @@ def start(command, name):
                 with condition:
                     observed.append((name, line))
                     condition.notify_all()
-                if (name == 'clients' and '"kind":"MESSAGE"' not in line) or any(word in line for word in ('EPIC_', 'Done (', 'ERROR', 'Exception', 'Stopping server')):
+                if (name == 'clients' and '"kind":"MESSAGE"' not in line) or any(word in line for word in ('EPIC_', 'COMBO_', 'Done (', 'ERROR', 'Exception', 'Stopping server')):
                     print(name + ': ' + (line.rstrip()[:700] + (' [full record retained in log]' if len(line)>700 else '')), flush=True)
         record.update(exit_code=process.wait(), exited_at=time.time())
         print(f'{name}: EXIT {record["exit_code"]}', flush=True)
@@ -69,7 +73,7 @@ def start(command, name):
 
 
 java = args.java_home / 'bin' / ('java.exe' if os.name == 'nt' else 'java')
-server = start([str(java), '-Xms64m', '-Xmx384m', '-Xss512k',
+server = start([str(java), '-Xms64m', '-Xmx768m' if manifest.get('combination_acceptance') else '-Xmx384m', '-Xss512k',
                 '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1', '-XX:TieredStopAtLevel=1',
                 '-XX:ReservedCodeCacheSize=64m', '-XX:CompressedClassSpaceSize=64m', '-Dfile.encoding=UTF-8',
                 '-Dterminal.jline=false', '-Dterminal.ansi=false', '-jar', 'paper.jar', 'nogui'], 'server')
@@ -82,7 +86,7 @@ def await_lines(cursor, predicate, seconds=45):
     with condition:
         while True:
             fresh = observed[cursor:]
-            failures = [line for name, line in fresh if 'EPIC_FAILED ' in line or '"kind":"FAILED"' in line]
+            failures = [line for name, line in fresh if 'EPIC_FAILED ' in line or 'COMBO_FAILED ' in line or '"kind":"FAILED"' in line]
             if failures:
                 raise RuntimeError('Observed failure: ' + failures[-1])
             if predicate(fresh):
@@ -106,6 +110,56 @@ def client_action(action):
     clients.stdin.write(action + '\n'); clients.stdin.flush()
     name = action.split()[0]
     await_lines(cursor, lambda lines: any('"kind":"ACTION_DONE"' in line and '"action":"' + name + '"' in line for _, line in lines))
+
+
+def combination(phase):
+    def action(value):
+        cursor = len(observed)
+        server.stdin.write('comboverify ' + value + '\n'); server.stdin.flush()
+        await_lines(cursor, lambda lines: any('COMBO_ACTION_DONE ' in line and '"action":"' + value.split()[0] + '"' in line for _, line in lines))
+    def chat(value, expected):
+        cursor = len(observed)
+        client_action('chat A ' + value)
+        await_lines(cursor, lambda lines: any(name == 'clients' and expected in line for name, line in lines))
+    action('setup')
+    source = json.loads((run / 'evidence/combination-target.json').read_text())['source']
+    if phase == 'first':
+        action('move denied')
+        chat('/chronicle memory create combo-no-permission ' + source, '没有管理权限')
+        action('admin true')
+        chat('/chronicle memory create combo-denied ' + source, 'WorldGuard 不允许')
+        action('move edge')
+        chat('/chronicle memory create combo-edge ' + source, 'WorldGuard 不允许')
+        action('move allowed')
+        chat('/chronicle memory create combo-allowed ' + source, '纪念点已保存')
+        time.sleep(1)
+        action('memory true')
+        action('cancel-npc true')
+        cursor = len(observed); client_action('npc A')
+        await_lines(cursor, lambda lines: any('COMBO_NPC_PACKET ' in line and '"cancelled":true' in line for _, line in lines))
+        time.sleep(1); action('npc-history 0')
+        action('cancel-npc false')
+    else:
+        action('move allowed'); action('memory true')
+        action('npc-history ' + str(args.boot - 1))
+    cursor = len(observed); client_action('npc A')
+    await_lines(cursor, lambda lines: any('COMBO_MENU_OPEN ' in line for _, line in lines))
+    action('npc-history ' + str(args.boot)); client_action('close A')
+    if phase == 'third':
+        action('admin true')
+        chat('/chronicle memory remove combo-allowed', '纪念点已停用')
+        time.sleep(1); action('memory false')
+        if manifest.get('combination_maintenance_offline'):
+            cursor = len(observed); client_action('disconnect')
+            await_lines(cursor, lambda lines: all(any(name == 'server' and 'Epic' + who + ' left the game' in line for name, line in lines) for who in 'ABCD'))
+            action('offline')
+        action('disable-npc')
+        action('disable-protection')
+        if manifest.get('combination_maintenance_offline'):
+            cursor = len(observed); client_action('connect A')
+            await_lines(cursor, lambda lines: any('"kind":"SPAWN"' in line and '"who":"A"' in line for _, line in lines))
+            action('admin true')
+        chat('/chronicle memory create combo-provider-disabled ' + source, '领地保护服务暂不可用')
 
 
 def scenario(phase):
@@ -166,6 +220,8 @@ def scenario(phase):
         raise ValueError('first|second|third')
     if manifest.get('ledger_acceptance'):
         server_action('contributions')
+    if manifest.get('combination_acceptance'):
+        combination(phase)
     clients.stdin.write('quit\n'); clients.stdin.flush(); clients.wait(timeout=15)
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:

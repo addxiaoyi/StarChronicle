@@ -1,14 +1,14 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-26T12:58:18+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T13:10:18+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
 ## 构建结果
 
-- 执行命令：`mvnw.cmd -o -B -ntp -DforkCount=0 -Djacoco.skip=true clean verify; followed by documentation-only -DskipTests verify`（Java 21）。
+- 执行命令：`mvnw.cmd -o -B -ntp -DforkCount=0 -Djacoco.skip=true clean verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
-- 单元／集成回归：1045 项，失败 0，错误 0，跳过 0。
+- 单元／集成回归：1050 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
 - 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。
 - 同时生成全部 Java 源码 JAR。
@@ -102,6 +102,7 @@
 | `io.github.addxiaoyi.starchronicle.paper.FirstVisitJournalTest` | 4 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest` | 5 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.HistoryMenuNavigationTest` | 4 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.MemoryProtectionTest` | 5 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.MemorySitesTest` | 17 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.MenusTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest` | 4 | 0 | 0 | 0 |
@@ -126,8 +127,8 @@
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18131370 | `688c9a8e5c28353e84c372cc62c0acc85a2b275381f0953db975e14fe3e9e732` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 378292 | `a0751e66e6783769c64c8e30ddf8665627a4fa56cb0c93cf4f7d0e6b88489b9b` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18135480 | `10135139ddc6332ece286d16a5567da5e78fd527493789bc63cb1488ac851b77` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 380180 | `1cad1823cc57ab99270140a3ebadd2f3bf25de005db0fd8896cb0763b375ecb9` |
 
 ## 真实服务器证据与构建对应
 
