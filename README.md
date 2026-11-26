@@ -1,5 +1,9 @@
 # StarChronicle
 
+2026-11-26 当前合并检查点：[原生贸易日志与兼容恢复](docs/GITHUB-NATIVE-TRADE-MERGE-20261126.md)。合入 StarCore `a645272`／Chronicle `78b227f`，保留旧账本和 API，并加入持久准备及失败补录。**1,929 项相关测试分批完成**；旧库 131 提交和上游 134 成交的独立 JVM 重开保持原数据。StarCore `e690d492…2fb41e`，Chronicle 产品保持 1,076 项检查点。未启动 Minecraft，十阶段继续进行。
+
+已同步上游原生贸易提交 `a645272` 及[独立验收记录](docs/NATIVE-TRADE-HISTORY.md)（Chronicle 文档基线 `78b227f`）：7,225 项原生常规回归、21 项既有跳过，134 笔真实服务成交与三次 Paper 启停属于 StarCore `b0eacd9f…89bbe4`／Chronicle `e53a35d8…8c04f2`。当前分支已有自己的贸易贡献来源；本次合并须保留已安装账本／游标并验证新结算协议，不能将上游记录替代当前构件验收。
+
 2026-11-26 当前 GUI 检查点：[排行榜与会话隔离](docs/BALTOP-GUI-SOURCE-20261126.md)。固定显示／点击快照，按原 owner 读取名字并构建界面，旧 quit、书本与停用清理不消费新会话。新增 56 项，**607 项相关回归通过**；StarCore `08816853…553183` 打包／36 组件 SBOM／API／类字节通过。Chronicle 保持 1,076 项；继续合入上游新贸易增量，未启动 Minecraft。
 
 2026-11-26 StarCore 当前检查点：[昵称所有权、并发索引与恢复保护](docs/NICKNAME-OWNER-SOURCE-20261126.md)。查名在目标 owner／异步资料线程采集，回复复核原会话与昵称归属；双向昵称索引原子更新，拒绝加载的玩家文件保持隔离。新增 32 项，**549 项相关回归通过**；StarCore `12b67965…bc3aa9` 打包／36 组件 SBOM／API／类字节通过。Chronicle 保持 1,076 项与 Linux CI #194 通过。继续 GUI 与剩余源码工作，不启动 Minecraft。
