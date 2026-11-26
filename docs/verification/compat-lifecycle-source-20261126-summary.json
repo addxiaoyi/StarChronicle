@@ -1,0 +1,71 @@
+{
+  "date": "2026-11-26",
+  "scope": "Per-instance compatibility scheduler cancellation and Essentials periodic lifecycle; no Minecraft.",
+  "baseline_commits": {
+    "starchronicle": "ef35b4cce3873496c8f4bf9bd5cf394d03b3e28a",
+    "starcore": "181591e693e956d1d3182f0108303e0b89b0b9a8"
+  },
+  "new_tests": 28,
+  "tests": {
+    "tests": 302,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "baseline_tests": {
+    "tests": 22,
+    "failures": 21,
+    "errors": 1,
+    "skipped": 0
+  },
+  "baseline_environment_error": "Paper cross-thread cancellation used Bukkit outside the thread-local Mockito static mock. Corrected for the final test, not counted as a product defect.",
+  "artifacts": {
+    "starchronicle_sha256": "1c7b8b010c9d330c15b0882753d54095fb906e42caedb926a81055d643cd78ce",
+    "sources_sha256": "8a9634b60a7b256e228e5c96b62eb525824083d83cffb590828934d93dd2547c",
+    "starcore_sha256": "3c8b69aea67cfa25847c9522afa20ae4972def607b1fabcbb7d0ae69621fae77"
+  },
+  "source_hashes": {
+    "src/main/java/dev/starcore/starcore/core/scheduler/FoliaCompatScheduler.java": "b52c24ea2cbd1089c2e5886f2cf028c91451256a9872d918ae4220689c12925f",
+    "src/main/java/dev/starcore/starcore/essentials/EssentialsModule.java": "2689f977cfb26af1f396fe8ce80dcbc16e428251f2703c111565908e533f5c55",
+    "src/test/java/dev/starcore/starcore/core/scheduler/FoliaCompatSchedulerLifecycleTest.java": "d8c5e3dec3b404b765bc90c32868f77775106e10462f56f806d3fce7265a473d",
+    "src/test/java/dev/starcore/starcore/essentials/EssentialsModuleLifecycleTest.java": "102252eec82e10dfea988a7dff58c027e83f0157bd9f92be297d07b1137525aa",
+    "docs/COMPAT-SCHEDULER-LIFECYCLE.md": "0d92c6fa529afb64bfa0464e7bff0be279624ee058bc79a635c149fb28f8a44b"
+  },
+  "artifact_verification": {
+    "status": "VERIFIED",
+    "starcore_sha256": "3c8b69aea67cfa25847c9522afa20ae4972def607b1fabcbb7d0ae69621fae77",
+    "baseline_sha256": "2e472300295588e34144475c0520fcf321a9d31a9ba3a0b73b6dd3f6828a5ba1",
+    "class_hashes": {
+      "dev/starcore/starcore/core/scheduler/FoliaCompatScheduler$TrackedTask.class": "45aa075850496d07b168e2b999dc299c53320f881f7af9d7f8c04a1c7ccc6bc6",
+      "dev/starcore/starcore/core/scheduler/FoliaCompatScheduler.class": "1e8a3876957cb500ce66db8fea30bc19ee987c137a0846a723508a95a42bb928",
+      "dev/starcore/starcore/essentials/EssentialsModule.class": "be01f5608e34b39dcb3c2182520cdcf70e0361aba9be3468ed030c8174434df4"
+    },
+    "compiled_source_hashes": {
+      "src/main/java/dev/starcore/starcore/core/scheduler/FoliaCompatScheduler.java": "b52c24ea2cbd1089c2e5886f2cf028c91451256a9872d918ae4220689c12925f",
+      "src/test/java/dev/starcore/starcore/core/scheduler/FoliaCompatSchedulerLifecycleTest.java": "d8c5e3dec3b404b765bc90c32868f77775106e10462f56f806d3fce7265a473d",
+      "src/main/java/dev/starcore/starcore/essentials/EssentialsModule.java": "2689f977cfb26af1f396fe8ce80dcbc16e428251f2703c111565908e533f5c55",
+      "src/test/java/dev/starcore/starcore/essentials/EssentialsModuleLifecycleTest.java": "102252eec82e10dfea988a7dff58c027e83f0157bd9f92be297d07b1137525aa"
+    },
+    "public_api_hashes": {
+      "FoliaCompatScheduler": "ea60246f32b331b40cbfd834d7b3035a30ec35cd7cfc4a577568c1d7d416ecc5",
+      "EssentialsModule": "9b6dda280d9b248fc441e8be0c993639cc9adb1b835827ef907cc0cc5bb2ffff"
+    },
+    "api_comparison": "Public descriptors and declarations match; synchronized modifier added to Essentials lifecycle is normalized for comparison.",
+    "sbom_components": 36,
+    "limits": [
+      "No live platform compatibility claim.",
+      "Previous shared-periodic regression and multi-JVM contracts retain their original artifact identities."
+    ]
+  },
+  "limits": [
+    "Mockito schedulers and constructed data-writer doubles; no live Paper/Folia or third-party binaries.",
+    "302 selected tests, not the whole native suite; existing POM exclusions are retained.",
+    "Single 256 MiB JVM per operation, forkCount=0 and jacoco.skip=true; no local coverage result.",
+    "cancelAll cancels a snapshot of this instance, permits new work and does not roll back admitted work.",
+    "Full hot reload, command teardown, asynchronous continuation/teleport recovery and owner migration remain separate.",
+    "Existing delay conversions, global teleport notifications and legacy runSync/runNextTick still require review.",
+    "Chronicle main artifacts and prior 1021-test local result are unchanged; previous 1131-test periodic result retains its own native JAR."
+  ],
+  "evidence_files": 80,
+  "evidence_zip_sha256": "ce52ae2a5692899193dcd164b5c5b23b94effcfe01623197e47379222e735a23"
+}

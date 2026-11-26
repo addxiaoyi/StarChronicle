@@ -1,6 +1,8 @@
 # StarChronicle
 
-2026-11-26 最新检查点：[共享周期任务生命周期](docs/PERIODIC-LIFECYCLE-SOURCE-20261126.md)。实体／全局周期任务补齐关闭、退休、迟到句柄与异常清理；新增 27 项，1,131 项相关回归零失败／错误、9 项既有跳过。最终 StarCore `2e472300…8a5ba1` 已打包，公开签名与 5 个调度器类字节核对通过；Chronicle 主构件保持 `1c7b8b01…cd78ce`。旧同步调度、全栈 Folia 与真实插件组合继续待验，不启动 Minecraft。
+2026-11-26 最新检查点：[兼容调度取消与 Essentials 周期生命周期](docs/COMPAT-LIFECYCLE-SOURCE-20261126.md)。Paper／Folia 按调度器实例取消，不误伤其他模块；Essentials 停用前失效旧回调并停止计时器。新增 28 项，302 项相关回归零失败／错误／跳过；StarCore `3c8b69ae…1fae77` 已打包并核对。旧同步入口、完整热重载及全栈 Folia 继续审计，不启动 Minecraft。
+
+2026-11-26 上一周期检查点：[共享周期任务生命周期](docs/PERIODIC-LIFECYCLE-SOURCE-20261126.md)。实体／全局周期任务补齐关闭、退休、迟到句柄与异常清理；新增 27 项，1,131 项相关回归零失败／错误、9 项既有跳过。最终 StarCore `2e472300…8a5ba1` 已打包，公开签名与 5 个调度器类字节核对通过；Chronicle 主构件保持 `1c7b8b01…cd78ce`。旧同步调度、全栈 Folia 与真实插件组合继续待验，不启动 Minecraft。
 
 2026-11-26 上一 NPC 检查点：[NPC 生命周期与玩家会话](docs/NPC-LIFECYCLE-SOURCE-20261126.md)。三种 NPC 桥接按插件实例失效，原玩家、观察时间与直接采集上下文保留，纪念点和异步菜单显示复核同一会话。新增 64 项、Chronicle 1,021 项完整回归通过，当前 JAR `1c7b8b01…cd78ce`；StarCore 保持 `92863720…83e87b`。原始 26 项失败保留；实际 NPC／保护组合与全栈 Folia 继续待验，不启动 Minecraft。
 配套 StarCore 新增[SQL 国库完整凭据归档](docs/TREASURY-ARCHIVE-SOURCE-20261126.md)：三类原凭据完整保留，退款追加记录，活动快照只保存余额及归档头；1,558 项回归、1,500 条冻结旧凭据迁移／低堆重启及三套构件契约通过。当前实服继续待验。
