@@ -161,7 +161,9 @@ def main():
             files += list((run / 'plugins/StarChronicle/stories').glob('*')) + list((run / 'plugins/StarChronicle/epic-campaigns').glob('*'))
             # Only stopped, local fixture data. Exclude generated plugin config secrets.
             files += [run / 'plugins/StarChronicle/chronicle.db', run / 'plugins/StarCore/starcore.db']
-            for folder in ('dungeon', 'quest', 'wars', 'war'):
+            # Newer candidates require these authority markers and durable receipt pages
+            # alongside starcore.db; omitting them makes the archived database incomplete.
+            for folder in ('dungeon', 'quest', 'wars', 'war', 'resource', 'technology', 'nation'):
                 files += list((run / 'plugins/StarCore' / folder).rglob('*'))
             for path in sorted(set(files)):
                 if not path.is_file() or path.is_symlink(): continue
@@ -170,7 +172,7 @@ def main():
                     redacted = re.sub(r'(?m)^(\s*access-secret:)\s*.*$', r'\1 "REDACTED_TEST_SECRET"', path.read_text(encoding='utf-8'))
                     archive.writestr(name, redacted)
                 else: archive.write(path, name)
-        for name in ('EpicCampaignPaperFixture.java','ContributionUpgradeProbe.java','ProductionCombinationFixture.java','prepare-production-combination.py','inspect-production-combination.py','test_production_combination.py','prepare-epic-paper.py','epic-paper-clients.cjs','epic-paper-session.py','inspect-epic-paper.py','inspect-quest-evidence-paper.py','test_epic_acceptance.py','archive-epic-evidence.py'):
+        for name in ('EpicCampaignPaperFixture.java','ContributionUpgradeProbe.java','ProductionCombinationFixture.java','prepare-production-combination.py','inspect-production-combination.py','test_production_combination.py','prepare-epic-paper.py','epic-paper-clients.cjs','epic-paper-session.py','inspect-epic-paper.py','inspect-quest-evidence-paper.py','test_epic_acceptance.py','archive-epic-evidence.py','inspect-current-combination.py','test_current_combination.py','inspect-resource-history.py'):
             archive.write(ROOT / 'tools' / name, 'tools/' + name)
         inventory = {entry.filename: hashlib.sha256(archive.read(entry.filename)).hexdigest() for entry in archive.infolist()}
         archive.writestr('evidence-manifest.json', json.dumps(inventory, indent=2) + '\n')
