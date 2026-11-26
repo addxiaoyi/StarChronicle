@@ -131,6 +131,25 @@ class ActualResourceHistoryEvidenceTest(unittest.TestCase):
         path.write_text(''.join(json.dumps(row) + '\n' for row in rows))
         self.reject()
 
+    def rewrite_public_nations(self, duplicate=False):
+        path = self.run / 'evidence/fixture.jsonl'
+        rows = [json.loads(line) for line in path.read_text().splitlines()]
+        for row in rows:
+            if row['kind'] == 'CHECK':
+                for event in row['data']['events']:
+                    event['nations'].reverse()
+                    if duplicate:
+                        event['nations'].append(event['nations'][0])
+        path.write_text(''.join(json.dumps(row) + '\n' for row in rows))
+
+    def test_public_nation_sets_may_reorder_across_java_processes(self):
+        self.rewrite_public_nations()
+        self.assertEqual(INSPECTOR.inspect(self.run), self.original)
+
+    def test_public_nation_sets_cannot_contain_duplicate_members(self):
+        self.rewrite_public_nations(duplicate=True)
+        self.reject()
+
 
 if __name__ == '__main__':
     unittest.main()

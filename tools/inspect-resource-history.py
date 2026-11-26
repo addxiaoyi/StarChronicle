@@ -37,6 +37,15 @@ def decode(raw):
     return result
 
 
+def canonical_event(event):
+    check(isinstance(event, dict), 'Missing event')
+    result = dict(event)
+    for key in ('participants', 'nations'):
+        check(len(event[key]) == len(set(event[key])), 'Repeated event set member')
+        result[key] = sorted(event[key])
+    return result
+
+
 def expected_step(sequence, payer, receiver):
     if sequence <= 3:
         return 'GRANT', {(payer if sequence < 3 else receiver, 'energy' if sequence == 2 else 'mineral'): 10000}
@@ -155,7 +164,7 @@ def inspect(run, schema=9):
                             'resource.receipt_sha256': hashlib.sha256(full[seq][1].encode()).hexdigest(),
                             'contribution.omission': 'BALANCE_CHANGE_IS_NOT_PRODUCTION_OR_NEW_AID_OR_TRADE'}
                 check(all(event['facts'].get(k) == v for k, v in expected.items()), 'Resource event facts changed')
-                check(json.loads(ingress[seq - 1][3]) == event, 'Pending and canonical event disagree')
+                check(canonical_event(json.loads(ingress[seq - 1][3])) == canonical_event(event), 'Pending and canonical event disagree')
                 check(seq not in all_events or all_events[seq] == event, 'Event changed after restart')
                 all_events[seq] = event
             triggers = [r[0] for r in chronicle.execute("SELECT event_id FROM story_triggers WHERE json_extract(story_json,'$.id')='resource-history-test'")]
@@ -167,7 +176,7 @@ def inspect(run, schema=9):
             check(len(checkpoint['events']) == len(checkpoint['receipts']) == checkpoint['count'], 'Live API omitted source events or receipts')
             check(sorted(r['sequence'] for r in checkpoint['receipts']) == list(range(1, checkpoint['count'] + 1)), 'Public receipt sequence repeated or missing')
             for event in checkpoint['events']:
-                check(event == exact.get(int(event['facts']['history.sequence'])), 'Public event API differs from storage')
+                check(canonical_event(event) == canonical_event(exact.get(int(event['facts']['history.sequence']))), 'Public event API differs from storage')
             for receipt in checkpoint['receipts']:
                 check(receipt == records.get(receipt['sequence']), 'Public receipt API differs from native evidence')
         boot_counts.append(dict(boot=boot, native_head=head, imported=imported, initial_archive=3, story_inbox=inbox(imported)))

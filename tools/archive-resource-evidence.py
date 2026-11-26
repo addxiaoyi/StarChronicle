@@ -69,8 +69,8 @@ def main():
     packaging = native / 'target/resource-native-verify-20261126-1.log'
     if any('BUILD SUCCESS' not in p.read_text() for p in (verify, packaging)):
         raise RuntimeError('Missing successful build log')
-    evidence_test = ROOT / 'target/resource-evidence-tests-20261126-1.log'
-    if not re.search(r'Ran 16 tests in .*\n\nOK\s*$', evidence_test.read_text()):
+    evidence_test = ROOT / 'target/resource-evidence-tests-20261126-2.log'
+    if not re.search(r'Ran 18 tests in .*\n\nOK\s*$', evidence_test.read_text()):
         raise RuntimeError('Missing successful evidence regression log')
     upgrade = json.loads((ROOT / 'target/resource-schema-upgrade/inspection.json').read_text())
     if upgrade.get('status') != 'PASS' or upgrade.get('new_jar_sha256') != manifest['product_sha256'] or not upgrade.get('old_plugin_rejected'):
@@ -146,7 +146,7 @@ def main():
             raise RuntimeError('Evidence archive integrity failed')
     summary = dict(captured_utc=datetime.now(timezone.utc).isoformat(), chronicle_commit=git(ROOT, 'rev-parse', 'HEAD'),
         native_commit=git(native, 'rev-parse', 'HEAD'), accepted=accepted, failed_attempts=[p.name for p in failed], intermediate_schema8_attempts=[p.name for p in prior],
-        tests=dict(totals=totals, suites=suites, evidence_regressions=16), source_files={name: sha(ROOT / name) for name in source_files},
+        tests=dict(totals=totals, suites=suites, evidence_regressions=18), source_files={name: sha(ROOT / name) for name in source_files},
         native_tests=dict(totals=native_totals, suites=native_suites), schema_upgrade=upgrade,
         native_source_files={name: sha(native / name) for name in native_sources},
         build_note='Chronicle final verify passed 945 tests and all source files/API.md match its artifacts. Native full verify passed 7251 tests (21 existing skips), API baseline and Spotless. Earlier schema8 verify passed 944; first schema9 verify failed one old hard-coded schema assertion, corrected without weakening its data-preservation checks; failed reports retained.',
