@@ -1,0 +1,339 @@
+{
+  "profile": "player-trade-audit-v1",
+  "status": "READ_ONLY_AUDIT_AND_REAL_WALLET_INTERRUPTION_ACCEPTED",
+  "frozen_pair": {
+    "StarCore": {
+      "sha256": "7dcb5f11e53e287a895ab83fcc56e3bbc845489f36267a1af1f4c58f191e35b6",
+      "source": "61db75125721c5097c8c7c7fa3f4e8d0745e532d",
+      "tests": {
+        "tests": 7626,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 82
+      },
+      "reused_verified_build": false
+    },
+    "StarChronicle": {
+      "sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "source": "47cdf354358c9b6a0103c9c7ee10b9c1090d4227",
+      "tests": {
+        "tests": 1017,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "reused_verified_build": true
+    }
+  },
+  "runs": [
+    {
+      "kind": "debit-before",
+      "directory": "paper-epic-d4ff800e-dungeon-audit-3-debit-before",
+      "status": "VERIFIED_READ_ONLY_AUDIT_AND_EXPECTED_PROCESS_INTERRUPTION",
+      "leg": 1,
+      "window": "before",
+      "boots": 4,
+      "normal_server_exits": 3,
+      "expected_kills": 1,
+      "commands": 20,
+      "state": "DEBIT_INTENT",
+      "wallet_evidence": "INTENT_WITHOUT_RESULT",
+      "settlements": 0,
+      "contributions": 0,
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "7dcb5f11e53e287a895ab83fcc56e3bbc845489f36267a1af1f4c58f191e35b6"
+    },
+    {
+      "kind": "debit-after",
+      "directory": "paper-epic-d4ff800e-dungeon-audit-3-debit-after",
+      "status": "VERIFIED_READ_ONLY_AUDIT_AND_EXPECTED_PROCESS_INTERRUPTION",
+      "leg": 1,
+      "window": "after",
+      "boots": 4,
+      "normal_server_exits": 3,
+      "expected_kills": 1,
+      "commands": 20,
+      "state": "DEBIT_INTENT",
+      "wallet_evidence": "INTENT_WITHOUT_RESULT",
+      "settlements": 0,
+      "contributions": 0,
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "7dcb5f11e53e287a895ab83fcc56e3bbc845489f36267a1af1f4c58f191e35b6"
+    },
+    {
+      "kind": "credit-after",
+      "directory": "paper-epic-d4ff800e-dungeon-audit-3-credit-after",
+      "status": "VERIFIED_READ_ONLY_AUDIT_AND_EXPECTED_PROCESS_INTERRUPTION",
+      "leg": 2,
+      "window": "after",
+      "boots": 4,
+      "normal_server_exits": 3,
+      "expected_kills": 1,
+      "commands": 20,
+      "state": "CREDIT_INTENT",
+      "wallet_evidence": "INTENT_WITHOUT_RESULT",
+      "settlements": 0,
+      "contributions": 0,
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "7dcb5f11e53e287a895ab83fcc56e3bbc845489f36267a1af1f4c58f191e35b6"
+    },
+    {
+      "kind": "refund-after",
+      "directory": "paper-epic-d4ff800e-dungeon-audit-3-refund-after",
+      "status": "VERIFIED_READ_ONLY_AUDIT_AND_EXPECTED_PROCESS_INTERRUPTION",
+      "leg": 3,
+      "window": "after",
+      "boots": 4,
+      "normal_server_exits": 3,
+      "expected_kills": 1,
+      "commands": 20,
+      "state": "REFUND_INTENT",
+      "wallet_evidence": "INTENT_WITHOUT_RESULT",
+      "settlements": 0,
+      "contributions": 0,
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "7dcb5f11e53e287a895ab83fcc56e3bbc845489f36267a1af1f4c58f191e35b6"
+    },
+    {
+      "kind": "player",
+      "directory": "paper-epic-d4ff800e-dungeon-audit-normal-1",
+      "status": "SELECTED_PAPER_PLAYER_TRADE_ACCEPTED",
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "7dcb5f11e53e287a895ab83fcc56e3bbc845489f36267a1af1f4c58f191e35b6",
+      "boots": 3,
+      "normal_process_exits": 6,
+      "actual_commands": 30,
+      "settlements": 3,
+      "contributions": 12,
+      "quantity": 29,
+      "gross": "75.00",
+      "tax": "6.30",
+      "buyer_total": "81.30",
+      "authority_domain": "b8356f74-e5f7-441f-8093-42ad4f8c6145",
+      "limitations": [
+        "Selected isolated Paper stack, explicit test funds and nations, actual non-OP trade commands.",
+        "Wallet effects are acknowledged by Essentials/Vault. Normal restart is not proof of atomic external payment or provider disk durability.",
+        "Resource inventory is national stockpile; player backpacks, order book and quick trades are outside this protocol.",
+        "SQL rollback and call-intent ambiguity are separate product tests, not physical power-loss acceptance.",
+        "Legacy live trade notifications remain best effort; durable consumers use the independent settlement journal."
+      ]
+    }
+  ],
+  "regressions": {
+    "debit-before": {
+      "tests": 15,
+      "passed": 15,
+      "skipped": 0,
+      "sha256": "0e9fa7d7602ace38a12c98c72e62903b713c0cdfb29aeda39fe594b7d0fcc269"
+    },
+    "debit-after": {
+      "tests": 15,
+      "passed": 15,
+      "skipped": 0,
+      "sha256": "083b16f085a8c09df9d63189350bb0c95dfbb207996321642da3a39d0a4749da"
+    },
+    "credit-after": {
+      "tests": 15,
+      "passed": 15,
+      "skipped": 0,
+      "sha256": "7ea9deabbe0d0418ece798970cf06fa693b34fb28a6f7b3a16a8eb1781c7f1f4"
+    },
+    "refund-after": {
+      "tests": 15,
+      "passed": 15,
+      "skipped": 0,
+      "sha256": "02b6b4654cf3117023a6db69c7dd3563f86d2aadab32792e7446319a9eeb67b1"
+    },
+    "player": {
+      "tests": 24,
+      "passed": 24,
+      "skipped": 0,
+      "sha256": "1583a9d7c1262980e34263c2d7dfe1f8c521c639735efc565cc1425c79b27c74"
+    }
+  },
+  "mysql": {
+    "exit_code": 0,
+    "tests": {
+      "tests": 51,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "source_head": "61db75125721c5097c8c7c7fa3f4e8d0745e532d",
+    "files": {
+      "TEST-dev.starcore.starcore.module.resource.MySqlPlayerTradeRecoveryTest.xml": "01132b9517caa91105fedee007b5d78cee7e17459b6b086489ecffd037546bc0",
+      "MySqlPlayerTradeRecoveryTest.java": "682e40a195b7aa8518839791bff77405212259a9244c59446a3f98087ee62f4b",
+      "PlayerTradeRecoveryTest.java": "68968642df879d7ae070a41924e67100166c37f4efd471949e8df37a1ead2d5b",
+      "mysql-stopped.json": "700cebb424f6c818014a4f24017210dc60583e1250f358da96d79faa15581fbc",
+      "dev.starcore.starcore.module.resource.MySqlPlayerTradeRecoveryTest.txt": "2e71b4a61c843746c66cec033c69597bb041450aee4dbff2a3acc63dd77de5cf",
+      "maven.log": "2e86f8b9f43ec30f1a7ecdc86c25c569b17e9fb81549f58ac5428d966653d24b",
+      "server-readonly.txt": "59b636c79a9f811eedc124d9135d24bf178dcdedbbf08402f826db6e5adc1f15"
+    }
+  },
+  "failed_runs": [
+    {
+      "directory": "paper-epic-d4ff800e-dungeon-audit-debit-before-1",
+      "sessions": [
+        {
+          "boot": 1,
+          "scenario": "audit-seed",
+          "contributions": false,
+          "status": "FAILED",
+          "source_sha256": {
+            "controller": "92211952abe66b23293183816a733ad5a4ffaf170c1119da1a4915d12dc23b0e",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "error": "Observed failure: {\"time\":\"2026-11-26T02:09:10.162Z\",\"kind\":\"FAILED\",\"data\":{\"command\":\"expect A eyJjb21tYW5kIjogIi90cmFkZSBvZmZlciBFcGljQiBhZ3JpY3VsdHVyYWwgMjAgMi41MCA2MDAwMDAiLCAiY29udGFpbnMiOiAi5Lqk5piT6K-35rGC5bey5Y-R6YCB57uZIn0\",\"error\":\"Error: Require a concrete prepared command and response\"}}\n",
+          "processes": [
+            {
+              "name": "server",
+              "pid": 131642,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795658889.4810517,
+              "exit_code": 0,
+              "exited_at": 1795658955.1992955
+            },
+            {
+              "name": "clients",
+              "pid": 133146,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-audit/run/paper-epic-d4ff800e-dungeon-audit-debit-before-1/evidence/boot1.clients.cjs",
+                "/home/add/starchronicle-player-trade-audit/run/paper-epic-d4ff800e-dungeon-audit-debit-before-1"
+              ],
+              "started_at": 1795658943.0235198,
+              "exit_code": 0,
+              "exited_at": 1795658950.172283
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "directory": "paper-epic-d4ff800e-dungeon-audit-2-debit-before",
+      "sessions": [
+        {
+          "boot": 1,
+          "scenario": "audit-seed",
+          "contributions": false,
+          "status": "FAILED",
+          "source_sha256": {
+            "controller": "92211952abe66b23293183816a733ad5a4ffaf170c1119da1a4915d12dc23b0e",
+            "clients": "0bebe967f05058f33164a3faee62999cdb9e607c9260cb46b92ca2fbe6b81bf2"
+          },
+          "error": "Observed failure: {\"time\":\"2026-11-26T02:11:07.873Z\",\"kind\":\"FAILED\",\"data\":{\"command\":\"expect B eyJjb21tYW5kIjogIi90cmFkZSBhdWRpdCAzMjA1MjE1YS1hOGEyLTQ5ZDgtOTA4MC0yZTUwNmNjMjI0ZWQiLCAiY29udGFpbnMiOiAi5peg6LCD55So5oSP5Zu-6K6w5b2VIn0\",\"error\":\"Error: Command response missing: /trade audit 3205215a-a8a2-49d8-9080-2e506cc224ed expected 无调用意图记录 received \\n执行命令失败，请稍后重试。\"}}\n",
+          "processes": [
+            {
+              "name": "server",
+              "pid": 137803,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795658997.4959133,
+              "exit_code": 0,
+              "exited_at": 1795659072.5983703
+            },
+            {
+              "name": "clients",
+              "pid": 139391,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-audit/run/paper-epic-d4ff800e-dungeon-audit-2-debit-before/evidence/boot1.clients.cjs",
+                "/home/add/starchronicle-player-trade-audit/run/paper-epic-d4ff800e-dungeon-audit-2-debit-before"
+              ],
+              "started_at": 1795659048.8989742,
+              "exit_code": 0,
+              "exited_at": 1795659067.8829062
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_heads": {
+    "chronicle": "7b22825f81c92bb27b324805e06913e0eb5e914f",
+    "native": "638d01db3604c1f4adfe04a1c8d4ffe7410c603f"
+  },
+  "limitations": [
+    "Vault lacks queryable idempotent payment receipts; UNKNOWN remains unresolved.",
+    "Four real-call JVM interruptions, with observed Essentials file balances, are not physical power-loss or general external durability proof.",
+    "Chronicle product/build is reused byte-for-byte; this increment has no Chronicle product changes.",
+    "Selected Paper/SQLite runtime and separate actual MySQL tests; no new Folia, production deployment or complete ten-stage claim."
+  ],
+  "archive": {
+    "sha256": "eabbb9b43639dd3b5c2df384869d0eb3bd35d6831d8b87b3a2172675d680f8ab",
+    "bytes": 19551940,
+    "members": 6625
+  },
+  "binary_bundle": {
+    "sha256": "0a5169694aa9432357a5948bb31986bc992773ccf6726c57919c2dda46133320",
+    "bytes": 113475508,
+    "public": false
+  },
+  "portable_verification": {
+    "status": "TRANSFERRED_BYTES_AND_AUDIT_SCENARIOS_VERIFIED",
+    "evidence_sha256": "eabbb9b43639dd3b5c2df384869d0eb3bd35d6831d8b87b3a2172675d680f8ab",
+    "binaries_sha256": "0a5169694aa9432357a5948bb31986bc992773ccf6726c57919c2dda46133320",
+    "regressions": {
+      "debit-before": {
+        "tests": 15,
+        "passed": 15,
+        "skipped": 0
+      },
+      "debit-after": {
+        "tests": 15,
+        "passed": 15,
+        "skipped": 0
+      },
+      "credit-after": {
+        "tests": 15,
+        "passed": 15,
+        "skipped": 0
+      },
+      "refund-after": {
+        "tests": 15,
+        "passed": 15,
+        "skipped": 0
+      },
+      "player": {
+        "tests": 24,
+        "passed": 24,
+        "skipped": 0
+      }
+    },
+    "limitation": "Offline inspection of transferred stopped evidence on this machine; no new game server, physical power loss or another device execution claimed."
+  },
+  "credential_scan": "Actual private environment/config secret bytes absent; configurations omitted."
+}
