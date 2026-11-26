@@ -30,7 +30,7 @@
 
 数据库工作在单状态线程；实体创建、所属实体清理、区块查询均在对应区域线程；书和 GUI 在玩家实体线程展示。生成前后会检查最新注册表，延迟任务不能复活已经停用的纪念点。
 
-`MemoryLedgerTest` 覆盖来源约束、重复点防覆盖、重启恢复、删除墓碑、坐标和书籍证据；`MemorySitesTest` 验证区域调度与所有权。真实服务器检查的具体构建 hash 和范围以 `TEST-REPORT.md` 及 `verification/` 的原始证据为准；单测不等于全部第三方保护插件和 NPC 插件组合已验收。
+`MemoryLedgerTest` 覆盖来源约束、重复点防覆盖、重启恢复、删除墓碑、坐标和书籍证据；`MemorySitesTest` 验证区域调度与所有权。所选 WorldGuard／FancyNpcs 组合的当前实服范围见[组合报告](PRODUCTION-COMBINATION-TEST-REPORT.md)，其他历史构件以其各自报告及 `verification/` 原始证据为准；单测不等于全部第三方保护插件和 NPC 插件组合已验收。
 
 ## 自动事件配方
 

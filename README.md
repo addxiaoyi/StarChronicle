@@ -1,6 +1,6 @@
 # StarChronicle
 
-2026-11-26 跨设备续接入口：[十阶段进度与交接报告](docs/HANDOFF-2026-11-26.md)。本轮主项目 882 项测试通过，新增史诗贡献查询与普通成员复核／退出／重新加入；同一候选在隔离 Paper 的 DUNGEON／WAR 各三次启动、结算和重放中通过。配套 StarCore 沿用此前 90 项专项及 7,202 项常规回归证据（21 项跳过），十阶段整体仍在推进，精确范围见[本轮测试报告](docs/CONTRIBUTION-MEMBER-TEST-REPORT.md)。
+2026-11-26 跨设备续接入口：[十阶段进度与交接报告](docs/HANDOFF-2026-11-26.md)。最新完整构建 887 项测试通过；已接通史诗贡献、普通成员复核／退出／重入和 WorldGuard 创建授权。所选 Paper＋StarCore＋FancyNpcs＋WorldGuard／WorldEdit 组合的 DUNGEON／WAR 各三次启动及 48 项证据回归通过。十阶段整体仍在推进，精确指纹、失败和维护边界见[组合验收报告](docs/PRODUCTION-COMBINATION-TEST-REPORT.md)。
 
 国家史诗新增 `/chronicle epic` 报名、冻结、准备、执行、对账与路线入口；可选《帝国最后的继承人》战略包默认关闭。部署和真实回执边界见 [国家史诗契约](docs/NATIONAL-EPIC-CONTRACT.md)与[操作示例](examples/national-epic/last-heir-strategy/README.md)。
 
@@ -10,7 +10,7 @@ Minecraft 国战服务器的长期剧情编排与世界历史插件。玩家通�
 
 本仓库在第一阶段工程上增加了真实的跨剧情选择、范围历史条件与结果接续，目标为 **Java 21、Paper/Folia 1.21.11**。所有实际国家状态变更均须由 StarCore 的受信任服务完成。默认剧情只修改 StarChronicle 本地荣誉、称号、NPC 声望和逻辑记忆，不会直接扣国库、改外交、发物品或运行管理命令。
 
-当前分支另加入可选的 [自动世界记忆配方](docs/MEMORY-RECIPES.md)：schema 7、同事务记忆登记、稳定后续信号、地方支线与有界因果反馈；并新增可选的 [国家援助与国库回执](docs/NATIONAL-AID.md)，严格复用 StarCore 原生国库转账和回执。此前援助单独构建通过 831 项测试；最新贡献与成员增量构建通过 882 项，真实运行范围以本轮测试报告为准，先前 schema 6／7 构件报告仍作为独立历史证据保留。
+当前分支另加入可选的 [自动世界记忆配方](docs/MEMORY-RECIPES.md)：schema 7、同事务记忆登记、稳定后续信号、地方支线与有界因果反馈；并新增可选的 [国家援助与国库回执](docs/NATIONAL-AID.md)，严格复用 StarCore 原生国库转账和回执。此前援助单独构建通过 831 项测试；贡献与成员增量通过 882 项，最新保护与组合构建通过 887 项，真实运行范围以本轮测试报告为准，先前 schema 6／7 构件报告仍作为独立历史证据保留。
 
 ## 已实现内容
 

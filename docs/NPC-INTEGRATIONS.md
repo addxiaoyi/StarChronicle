@@ -1,5 +1,7 @@
 # NPC integrations — source audit 2026-11-19
 
+The exact Java 21 FancyNpcs 2.10.1 artifact now has [isolated Paper combination evidence](PRODUCTION-COMBINATION-TEST-REPORT.md), including real clicks, cancellation, restart and offline maintenance. The source audit below remains separate from that tested artifact.
+
 StarChronicle has optional, interaction-only adapters. No NPC dependency is shaded, required to compile, or instantiated on absence. Relationships remain StarChronicle facts and storyline outcomes. Existing third-party NPCs are never spawned, renamed, removed or otherwise owned by this plugin.
 
 ## Verified providers

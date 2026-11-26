@@ -1,5 +1,7 @@
 # 贡献账本与成员复核验收报告
 
+后续保护增量的 887 项及所选五插件组合验收见[组合报告](PRODUCTION-COMBINATION-TEST-REPORT.md)。本文保留 882 项贡献／成员检查点。
+
 更新：2026-11-26（UTC）。本轮接通国家史诗的国库／资源贡献、公开查询和普通成员复核／退出／重新加入流程。同一对构件在隔离 Paper 上完成 DUNGEON／WAR 各三次正常启停、唯一结算和重放核验；十阶段整体仍未完成。
 
 ## 构件与构建
@@ -60,4 +62,4 @@ boot 2：后台恢复后 D 仍为 EXITED；显式重新加入成功。完成唯�
 
 归档同时保留旧的固定名称构建日志和原生专项 XML，它们的时间戳与旧来源仍可见，不计为本轮重新执行。两个冻结 JAR 及原生源码包在本机 `target/national-epic-ledgers-linux-20261126/`，不随 Git 分发；新设备重建须记录新哈希并另开运行目录。
 
-阶段 4 的史诗援助来源和公开查询、阶段 5 的 Paper 普通成员流程已获本轮证据；真实贸易／文明生产来源、原生精确历史接线、全栈 Folia、第三方组合和长期容量仍需推进。第三方版本已由代理按用户授权选定为 FancyNpcs 2.10.1-java21、WorldGuard 7.0.17、WorldEdit 7.4.2，固定哈希见[选择清单](verification/production-combination-selection-20261126.json)，当前仅选定，尚未功能验收。
+阶段 4 的史诗援助来源和公开查询、阶段 5 的 Paper 普通成员流程已获本轮证据；真实贸易／文明生产来源、原生精确历史接线、全栈 Folia、第三方组合和长期容量仍需推进。第三方版本已由代理按用户授权选定为 FancyNpcs 2.10.1-java21、WorldGuard 7.0.17、WorldEdit 7.4.2，固定哈希见[选择清单](verification/production-combination-selection-20261126.json)，在此检查点仅选定；后续功能验收见组合报告。
