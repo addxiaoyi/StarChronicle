@@ -1,6 +1,8 @@
 # StarChronicle
 
-2026-11-26 最新检查点：[兼容调度取消与 Essentials 周期生命周期](docs/COMPAT-LIFECYCLE-SOURCE-20261126.md)。Paper／Folia 按调度器实例取消，不误伤其他模块；Essentials 停用前失效旧回调并停止计时器。新增 28 项，302 项相关回归零失败／错误／跳过；StarCore `3c8b69ae…1fae77` 已打包并核对。旧同步入口、完整热重载及全栈 Folia 继续审计，不启动 Minecraft。
+2026-11-26 最新检查点：[玩家线程与原会话传送](docs/TELEPORT-OWNER-SOURCE-20261126.md)。TPA 邀请／过期／接受分派到各玩家 owner，目标位置复制后使用异步传送，重连与旧延迟回调失效，补齐退休清理和时间边界。新增 37 项，339 项相关回归全部通过；StarCore `a82d8eac…3a59c3` 已打包核对。其余所有权迁移、完整热重载与实服继续待办，不启动 Minecraft。
+
+2026-11-26 上一兼容调度检查点：[兼容调度取消与 Essentials 周期生命周期](docs/COMPAT-LIFECYCLE-SOURCE-20261126.md)。Paper／Folia 按调度器实例取消，不误伤其他模块；Essentials 停用前失效旧回调并停止计时器。新增 28 项，302 项相关回归零失败／错误／跳过；StarCore `3c8b69ae…1fae77` 已打包并核对。旧同步入口、完整热重载及全栈 Folia 继续审计，不启动 Minecraft。
 
 2026-11-26 上一周期检查点：[共享周期任务生命周期](docs/PERIODIC-LIFECYCLE-SOURCE-20261126.md)。实体／全局周期任务补齐关闭、退休、迟到句柄与异常清理；新增 27 项，1,131 项相关回归零失败／错误、9 项既有跳过。最终 StarCore `2e472300…8a5ba1` 已打包，公开签名与 5 个调度器类字节核对通过；Chronicle 主构件保持 `1c7b8b01…cd78ce`。旧同步调度、全栈 Folia 与真实插件组合继续待验，不启动 Minecraft。
 

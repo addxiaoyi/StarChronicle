@@ -1,0 +1,117 @@
+{
+  "date": "2026-11-26",
+  "scope": "Original-session player-owned TPA, asynchronous teleport outcomes, pending-attempt identity, caller retirement and delay boundaries. No Minecraft.",
+  "baseline_commits": {
+    "starchronicle": "6478dd28e586809d60bbc1da3dac3bb4962bf904",
+    "starcore": "e15b5e743984cd6ffb4ac2acfcf34a2d950f323f"
+  },
+  "packaging_initial_failure": "First Maven Wrapper/JVM launch exhausted native memory before Maven. Original crash logs retained; final retry uses the same 256 MiB options after memory recovered. The Wrapper native-access probe also failed during SBOM startup, but Maven and the 36-component BOM completed successfully; that probe log is retained separately.",
+  "new_tests": 37,
+  "tests": {
+    "tests": 339,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "baseline_tests": {
+    "tests": 19,
+    "failures": 19,
+    "errors": 0,
+    "skipped": 0
+  },
+  "intermediate_tests": {
+    "tests": 339,
+    "failures": 0,
+    "errors": 3,
+    "skipped": 0
+  },
+  "intermediate_errors": "Three pre-existing concurrency cases had nested Mockito stubbing introduced while adapting their player/server fixtures. Fixed test setup only; main sources did not change after compile.",
+  "artifacts": {
+    "starchronicle_sha256": "1c7b8b010c9d330c15b0882753d54095fb906e42caedb926a81055d643cd78ce",
+    "sources_sha256": "8a9634b60a7b256e228e5c96b62eb525824083d83cffb590828934d93dd2547c",
+    "starcore_sha256": "a82d8eacc99beabe97eec89c47f5343f637c1d95eac5854f8e6149d7073a59c3"
+  },
+  "artifact_verification": {
+    "status": "VERIFIED",
+    "starcore_sha256": "a82d8eacc99beabe97eec89c47f5343f637c1d95eac5854f8e6149d7073a59c3",
+    "baseline_sha256": "3c8b69aea67cfa25847c9522afa20ae4972def607b1fabcbb7d0ae69621fae77",
+    "class_hashes": {
+      "dev/starcore/starcore/core/scheduler/FoliaCompatScheduler$TrackedTask.class": "226ef81b19d711a1bfa504ce9e2e373ec5659be83bdfaaf3113f4169fd4cebc3",
+      "dev/starcore/starcore/core/scheduler/FoliaCompatScheduler.class": "9a05fa6d406aa922953966bdf2d659b3e82a36684f89d8b11a368767d14fd2fa",
+      "dev/starcore/starcore/essentials/EssentialsModule.class": "cbe013efbae96af8dc34f9fab44226cd896c9639977bc7376fea56ea0e000f0f",
+      "dev/starcore/starcore/essentials/teleport/TeleportService$PendingTeleport.class": "fe30d27fac60367d95429c22825ca9b895aba7bb7383bbe96b5b86c362f11b79",
+      "dev/starcore/starcore/essentials/teleport/TeleportService$TeleportRequest.class": "494c11c56a37f69258f3eeddc457586c1724107b0750c19ec3f87c1794ed8341",
+      "dev/starcore/starcore/essentials/teleport/TeleportService.class": "447368ca3b4b54584dca48edc5c8c0d7953d3128ee2e699e42a448562621962e",
+      "dev/starcore/starcore/essentials/command/TpaCommand.class": "8432be8dcbf1ce92d0016551f7292907a4d060339f75b8bfb9ddf3734991040e"
+    },
+    "compiled_source_hashes": {
+      "src/main/java/dev/starcore/starcore/core/scheduler/FoliaCompatScheduler.java": "7d38ba51e6af0a0754b6af3a4a3f9ccd3a4abedf51f673abaa49e592123e41c3",
+      "src/main/java/dev/starcore/starcore/essentials/EssentialsModule.java": "750320ce6302c29debe3f572d1fcdce680634b08d53b8f316453b82c5a50751b",
+      "src/main/java/dev/starcore/starcore/essentials/teleport/TeleportService.java": "ca7dec7173a2985d1b8a7be2995732c15a263530c3e35e9dc9638bc35d8d66e0",
+      "src/main/java/dev/starcore/starcore/essentials/command/TpaCommand.java": "24bd94eb9805185f541645a0653e3328c393397103f43a28a3411aecc93fad23",
+      "src/test/java/dev/starcore/starcore/essentials/teleport/TeleportOwnershipTest.java": "58f5ea8084533545023a15ff80b06c112aa98fd287027672a6fd402266890a85",
+      "src/test/java/dev/starcore/starcore/core/scheduler/FoliaCompatSchedulerBoundaryTest.java": "58537564d91dfb652d653f9dab727539ff119f5f3d4e73412ac134312171836f",
+      "src/test/java/dev/starcore/starcore/essentials/teleport/TeleportServiceComprehensiveTest.java": "f473ee30ef330709acab5f20be6de8c5e050db7dcb829074c1e98359b564bdc3"
+    },
+    "public_api": {
+      "dev/starcore/starcore/core/scheduler/FoliaCompatScheduler": {
+        "preserved_methods": 15,
+        "added_methods": [
+          [
+            "public void runAtEntity(org.bukkit.entity.Entity, java.util.function.Consumer<java.lang.Object>, java.lang.Runnable);",
+            "(Lorg/bukkit/entity/Entity;Ljava/util/function/Consumer;Ljava/lang/Runnable;)V"
+          ],
+          [
+            "public void runEntityDelayed(org.bukkit.entity.Entity, java.lang.Runnable, java.lang.Runnable, long);",
+            "(Lorg/bukkit/entity/Entity;Ljava/lang/Runnable;Ljava/lang/Runnable;J)V"
+          ]
+        ]
+      },
+      "dev/starcore/starcore/essentials/EssentialsModule": {
+        "preserved_methods": 15,
+        "added_methods": []
+      },
+      "dev/starcore/starcore/essentials/teleport/TeleportService": {
+        "preserved_methods": 25,
+        "added_methods": [
+          [
+            "public void shutdown();",
+            "()V"
+          ]
+        ]
+      },
+      "dev/starcore/starcore/essentials/command/TpaCommand": {
+        "preserved_methods": 3,
+        "added_methods": []
+      }
+    },
+    "sbom_components": 36,
+    "limits": [
+      "Bytecode and API checks are not live Paper/Folia acceptance.",
+      "Additional retirement overloads and TeleportService.shutdown preserve existing public descriptors."
+    ]
+  },
+  "source_hashes": {
+    "src/main/java/dev/starcore/starcore/core/scheduler/FoliaCompatScheduler.java": "7d38ba51e6af0a0754b6af3a4a3f9ccd3a4abedf51f673abaa49e592123e41c3",
+    "src/main/java/dev/starcore/starcore/essentials/EssentialsModule.java": "750320ce6302c29debe3f572d1fcdce680634b08d53b8f316453b82c5a50751b",
+    "src/main/java/dev/starcore/starcore/essentials/command/TpaCommand.java": "24bd94eb9805185f541645a0653e3328c393397103f43a28a3411aecc93fad23",
+    "src/main/java/dev/starcore/starcore/essentials/teleport/TeleportService.java": "ca7dec7173a2985d1b8a7be2995732c15a263530c3e35e9dc9638bc35d8d66e0",
+    "src/test/java/dev/starcore/starcore/essentials/teleport/TeleportServiceComprehensiveTest.java": "f473ee30ef330709acab5f20be6de8c5e050db7dcb829074c1e98359b564bdc3",
+    "src/test/java/dev/starcore/starcore/essentials/teleport/TeleportOwnershipTest.java": "58f5ea8084533545023a15ff80b06c112aa98fd287027672a6fd402266890a85",
+    "src/test/java/dev/starcore/starcore/core/scheduler/FoliaCompatSchedulerBoundaryTest.java": "58537564d91dfb652d653f9dab727539ff119f5f3d4e73412ac134312171836f",
+    "docs/TELEPORT-OWNERSHIP.md": "fa83558c8867d18b038d3cdab08ab1d182868a37aec2eddb3967bac5f82afa26",
+    "docs/COMPAT-SCHEDULER-LIFECYCLE.md": "4e77f05ac09c969da2607e34eb78eb81236a9dace11b9f3fbc604f8d79f417d1"
+  },
+  "limits": [
+    "No real Minecraft, Paper/Folia teleport transport or third-party binaries.",
+    "TeleportService public player entry points require the initiating player owner; no global-thread permission is granted.",
+    "Destination is a detached snapshot on its owner, not an atomic transaction across player regions.",
+    "Already admitted/submitted teleports may finish; shutdown suppresses feedback and does not undo movement.",
+    "339 selected tests, existing POM exclusions retained, not the complete native suite.",
+    "Single 256 MiB JVM per operation; forkCount=0, jacoco.skip=true; no local coverage result.",
+    "Chronicle main JAR and prior 1021-test local result are unchanged. Earlier native contracts and regressions retain their own JAR identities.",
+    "Full module command teardown, other legacy scheduler/owner migrations and production server acceptance remain."
+  ],
+  "evidence_files": 157,
+  "evidence_zip_sha256": "dec692e0c1c9f616182b08af9c58aa30e9fab4fed9a928089bc3fa7ec29f96ab"
+}
