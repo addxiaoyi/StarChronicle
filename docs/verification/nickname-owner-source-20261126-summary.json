@@ -1,0 +1,367 @@
+{
+  "status": "VERIFIED",
+  "baseline": {
+    "chronicle": "233f33632adcd4fd5e505d87a0336d8f87a48974",
+    "starcore": "6d361fdabdb062d2924cf3bbcce14384cb5f182f"
+  },
+  "tests": {
+    "tests": 549,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "new_tests": 32,
+  "runs": {
+    "baseline": {
+      "exit_code": 1,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 107.40600000007544,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.main.skip=true",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "baseline-final": {
+      "exit_code": 1,
+      "totals": {
+        "tests": 27,
+        "failures": 25,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 46.25,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.compiler.useIncrementalCompilation=false",
+        "-Dmaven.main.skip=true",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "compile": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 243.40600000007544,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "spotless:apply",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "test-initial": {
+      "exit_code": 1,
+      "totals": {
+        "tests": 75,
+        "failures": 0,
+        "errors": 1,
+        "skipped": 0
+      },
+      "seconds": 8.547000000020489,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=NicknameOwnershipTest,NicknameStateConcurrencyTest,NicknameCommandTest,NicknameServiceTest,NicknameServiceComprehensiveTest",
+        "surefire:test"
+      ]
+    },
+    "compile-final": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 15.422000000020489,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.compiler.useIncrementalCompilation=false",
+        "spotless:apply",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "test-final": {
+      "exit_code": 1,
+      "totals": {
+        "tests": 548,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 15.094000000040978,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=dev.starcore.starcore.core.scheduler.**,dev.starcore.starcore.essentials.**,InternalEconomyServiceTest,PlayerVaultEconomyServiceTest,TransactionFabricTest",
+        "surefire:test"
+      ]
+    },
+    "compile-final-recovery": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 9.375,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.compiler.useIncrementalCompilation=false",
+        "spotless:apply",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "test-final-recovery": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 548,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 12.921999999904074,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=dev.starcore.starcore.core.scheduler.**,dev.starcore.starcore.essentials.**,InternalEconomyServiceTest,PlayerVaultEconomyServiceTest,TransactionFabricTest",
+        "surefire:test"
+      ]
+    },
+    "package": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 65.34399999992456,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.main.skip=true",
+        "-Dmaven.test.skip=true",
+        "verify"
+      ]
+    },
+    "sbom": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 15.077999999979511,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "cyclonedx:makeAggregateBom@generate-sbom"
+      ]
+    },
+    "compile-final-removal": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 15.358999999938533,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.compiler.useIncrementalCompilation=false",
+        "spotless:apply",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "test-final-removal": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 549,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 14.062000000034459,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=dev.starcore.starcore.core.scheduler.**,dev.starcore.starcore.essentials.**,InternalEconomyServiceTest,PlayerVaultEconomyServiceTest,TransactionFabricTest",
+        "surefire:test"
+      ]
+    },
+    "package-final": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 35.60899999993853,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.main.skip=true",
+        "-Dmaven.test.skip=true",
+        "verify"
+      ]
+    }
+  },
+  "artifacts": {
+    "starcore": "12b67965da136caad5fb0ee06b50611e7d454ed8f074be746ef9f147a8bc3aa9",
+    "chronicle": "42c0e27b7726548faf8f2bf330af3de44e44225632645824ccf3ad102c22f071"
+  },
+  "api": {
+    "dev/starcore/starcore/essentials/data/EssentialsDataManager": {
+      "preserved_methods": 8,
+      "added_methods": []
+    },
+    "dev/starcore/starcore/essentials/EssentialsModule": {
+      "preserved_methods": 15,
+      "added_methods": []
+    },
+    "dev/starcore/starcore/essentials/command/NicknameCommand": {
+      "preserved_methods": 4,
+      "added_methods": [
+        [
+          "public dev.starcore.starcore.essentials.command.NicknameCommand(dev.starcore.starcore.essentials.nickname.NicknameService, dev.starcore.starcore.essentials.EssentialsPermissions, org.bukkit.plugin.Plugin, dev.starcore.starcore.core.scheduler.FoliaCompatScheduler, java.util.function.BooleanSupplier);",
+          "(Ldev/starcore/starcore/essentials/nickname/NicknameService;Ldev/starcore/starcore/essentials/EssentialsPermissions;Lorg/bukkit/plugin/Plugin;Ldev/starcore/starcore/core/scheduler/FoliaCompatScheduler;Ljava/util/function/BooleanSupplier;)V"
+        ]
+      ]
+    },
+    "dev/starcore/starcore/essentials/nickname/NicknameService": {
+      "preserved_methods": 10,
+      "added_methods": []
+    }
+  },
+  "class_hashes": {
+    "dev/starcore/starcore/essentials/data/EssentialsDataManager$LocationSnapshot.class": "286287c7f3d57ebaa9e05e0008ac77cbc5e6249a36a99ad28d306a0d54a3dc64",
+    "dev/starcore/starcore/essentials/data/EssentialsDataManager$PlayerSnapshot.class": "f11c24383fe99f9758289beed9addfac91c0f9dad37aece5e97b1b018fbca1d0",
+    "dev/starcore/starcore/essentials/data/EssentialsDataManager$SaveSnapshot.class": "898ec6544de176b2dcdffa1f82ba4089f2c7741aade02b3f862a0ecff330dbd4",
+    "dev/starcore/starcore/essentials/data/EssentialsDataManager.class": "09f6e5f34976d6dd0f55ee12f4958b00f8105d14b65e37d442284e60e4de7501",
+    "dev/starcore/starcore/essentials/EssentialsModule$CommandBinding.class": "6b149542817b2b42c8292788a6b01df167ce6371b044cb7178264caba8944350",
+    "dev/starcore/starcore/essentials/EssentialsModule$LifecycleCommand.class": "6b9db1c0675972bc7845c7f11886efa921f7dc29415f5d42b7f69c4d3d139a18",
+    "dev/starcore/starcore/essentials/EssentialsModule.class": "3d47052f56a5ded5bb64b198044dd75eb285a372615ef83607102851747dded2",
+    "dev/starcore/starcore/essentials/command/NicknameCommand$Audience.class": "47777cd1a6256e01c9d5d2c110b77bad6f11d0f4582d9d599c5059c91e7184a7",
+    "dev/starcore/starcore/essentials/command/NicknameCommand.class": "3974adc98ccf629ec81ba355bc0cc1570574f89da8305078a321d35e2d4d3719",
+    "dev/starcore/starcore/essentials/nickname/NicknameService.class": "92fa547a4cf3c9c79d046c47ce7190e3e353f9e1de49f6c235e071a00ab570b7"
+  },
+  "sbom_components": 36,
+  "limits": [
+    "No Minecraft, live Paper/Folia, third-party combination or full hot-reload acceptance.",
+    "549 related tests, not the whole StarCore suite; existing POM exclusions remain. One 256 MiB JVM, forkCount=0, jacoco.skip=true.",
+    "Nickname index is committed in memory before display callbacks; display failure does not roll it back. Existing asynchronous persistence contract remains.",
+    "Legacy synchronous NicknameCommand constructors require caller ownership and permit synchronous offline profile IO. The runtime module uses the scheduler-aware constructor.",
+    "Player-file load failure quarantines writes for the lifetime of that manager, including previously queued writes. Shutdown logs write failure and drains the executor; this is not full-module atomic reload.",
+    "Compiled all 2267 main and 1096 test sources, followed by Maven stale-source compilation for recovery changes. Final source count is 1097 tests. Selected frozen sources and packaged classes match.",
+    "Chronicle Java unchanged: 1076 local tests and Linux CI #194 belong to 233f336; prior live evidence is not applicable to these artifacts."
+  ],
+  "evidence_files": 266,
+  "evidence_sha256": "f26287025069b8b93f17764d608f7095cbb91d1b64502786856926e6437a570a"
+}
