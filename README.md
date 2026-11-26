@@ -1,6 +1,6 @@
 # StarChronicle
 
-2026-11-26 跨设备续接入口：[十阶段进度与交接报告](docs/HANDOFF-2026-11-26.md)。最新工厂原子加工、完整回执与原操作者文明贡献已接通：Chronicle 956项、原生7,281项（21项既有跳过）、137条加工／139条资源的Paper三启及28项证据回归通过，见[工厂生产报告](docs/COMMITTED-PROCESSING-HISTORY.md)。资源、首都、贸易、科技和史诗五插件双路线按各自指纹保留；最新完整组合、全栈Folia等仍待完成，十阶段继续推进。
+2026-11-26 跨设备续接入口：[十阶段进度与交接报告](docs/HANDOFF-2026-11-26.md)。最新工厂原子加工、完整回执与原操作者文明贡献已接通：Chronicle 956项、原生7,281项（21项既有跳过）、137条加工／139条资源的Paper三启及28项证据回归通过，见[工厂生产报告](docs/COMMITTED-PROCESSING-HISTORY.md)。资源、首都、贸易、科技和史诗五插件双路线按各自指纹保留；同组构件的[五插件双路线三启](docs/LATEST-COMBINATION-2026-11-26.md)与60项证据回归也已通过；真实战场胜利、全栈Folia及其他剩余目标继续推进。
 
 国家史诗新增 `/chronicle epic` 报名、冻结、准备、执行、对账与路线入口；可选《帝国最后的继承人》战略包默认关闭。部署和真实回执边界见 [国家史诗契约](docs/NATIONAL-EPIC-CONTRACT.md)与[操作示例](examples/national-epic/last-heir-strategy/README.md)。
 
