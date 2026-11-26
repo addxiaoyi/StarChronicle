@@ -18,7 +18,7 @@ parser.add_argument('--run', type=Path, required=True)
 parser.add_argument('--java-home', type=Path, required=True)
 parser.add_argument('--node', type=Path, required=True)
 parser.add_argument('--boot', type=int, required=True)
-parser.add_argument('--scenario', choices=['legacy-seed','legacy-first','legacy-second','legacy-third','treasury-first','treasury-second','treasury-third','factory-first','factory-second','factory-third','production-catalog-first','production-catalog-second','production-catalog-third','production-recovery','production-offline-recovery','sale-recovery','production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
+parser.add_argument('--scenario', choices=['player-trade-first','player-trade-second','player-trade-third','legacy-seed','legacy-first','legacy-second','legacy-third','treasury-first','treasury-second','treasury-third','factory-first','factory-second','factory-third','production-catalog-first','production-catalog-second','production-catalog-third','production-recovery','production-offline-recovery','sale-recovery','production-first','production-second','production-third','production-offline-first','production-offline-second','sale-offline-first','sale-offline-second','sale-first','sale-second','sale-third','quest-first', 'first', 'second', 'third', 'members-first', 'members-second', 'members-third', 'trade-first', 'trade-second', 'trade-third', 'tech-first', 'tech-second', 'tech-third', 'resource-first', 'resource-second', 'resource-third', 'stack-first', 'stack-second', 'stack-third', 'memory-first', 'memory-second', 'memory-third', 'memory-offline-first', 'memory-offline-second', 'capital-first', 'capital-second', 'capital-third', 'capital-offline-first', 'capital-offline-second'])
 parser.add_argument('--contributions', action='store_true', help='Verify resource/treasury contribution projections and actual client queries')
 parser.add_argument('--interrupt-after-replay', action='store_true', help='SIGKILL the owned restored JVM, then MySQL, after completed replay; not a hardware power-loss test')
 args = parser.parse_args()
@@ -237,6 +237,14 @@ def database_checkpoint():
             before = hashlib.sha256(source.read_bytes()).hexdigest(); shutil.copy2(source,target)
             if hashlib.sha256(target.read_bytes()).hexdigest() != before: raise RuntimeError('Capital checkpoint drift')
             hashes[str(relative)] = before
+    if manifest.get('player_trade_acceptance'):
+        for who in ('A','B','D'):
+            name=manifest['players'][who]+'.yml'
+            source=run/'plugins/Essentials/userdata'/name
+            target=directory/'Essentials'/name;target.parent.mkdir(parents=True,exist_ok=True)
+            before=hashlib.sha256(source.read_bytes()).hexdigest();shutil.copy2(source,target)
+            if hashlib.sha256(target.read_bytes()).hexdigest()!=before:raise RuntimeError('Essentials checkpoint drift')
+            hashes['Essentials/'+name]=before
     (directory/'checkpoint.json').write_text(json.dumps(dict(boot=args.boot,time=time.time(),sha256=hashes,**({'mysql':mysql_evidence} if mysql_evidence else {})),indent=2)+'\n')
 
 
@@ -285,6 +293,57 @@ def member_scenario(phase):
         server_action('members-check APPROVED end')
     else:
         raise ValueError('Unknown member scenario')
+
+
+def player_trade_scenario(phase):
+    if not manifest.get('player_trade_acceptance'): raise RuntimeError('Require prepared player trade scenario')
+    server_action('stack-check');server_action('player-trade-bind')
+    def command(who,cmd,contains):
+        time.sleep(1.25)
+        request=json.dumps(dict(command=cmd,contains=contains),ensure_ascii=False).encode()
+        client_action('expect '+who+' '+base64.urlsafe_b64encode(request).decode().rstrip('='))
+    def identity(key):
+        rows=[json.loads(line) for line in (run/'evidence/epic-fixture.jsonl').read_text().splitlines()]
+        return next(r['data']['offer']['offerId'] for r in reversed(rows) if r['kind']=='PLAYER_TRADE_OFFER' and r['data']['key']==key)
+    def offer(key,seller,amount,price):
+        command('A',f'/trade offer Epic{seller} agricultural {amount} {price} 3600','交易请求已发送给')
+        server_action(f'player-trade-capture {key} {seller} {amount}')
+    def accept(key,who='B',text='交易已结算'):
+        command(who,'/trade accept '+identity(key),text)
+    if phase=='player-trade-first':
+        server_action('player-trade-check 0')
+        offer('primary','B',20,'2.50')
+        for who in 'CD':accept('primary',who,'仅原卖方')
+        command('C','/trade status '+identity('primary'),'找不到你参与的交易')
+        command('B','/trade status '+identity('primary'),'买方费用: 3.00')
+        accept('primary');server_action('player-trade-check 1')
+        accept('primary');server_action('player-trade-check 1')
+        offer('pending','B',5,'4.00');server_action('player-trade-status pending OFFERED')
+    elif phase=='player-trade-second':
+        server_action('player-trade-check 1');server_action('player-trade-status pending OFFERED')
+        server_action('player-trade-taxes')
+        command('B','/trade status '+identity('pending'),'买方费用: 1.20')
+        accept('pending');server_action('player-trade-check 2')
+        offer('cancelled','B',1,'1.00')
+        command('A','/trade cancel '+identity('cancelled'),'交易请求已取消')
+        accept('cancelled',text='报价已关闭');server_action('player-trade-status cancelled CANCELLED')
+        offer('rejected','B',2,'1.00')
+        command('B','/trade reject '+identity('rejected'),'已拒绝交易请求')
+        accept('rejected',text='报价已关闭');server_action('player-trade-status rejected REJECTED')
+        server_action('player-trade-successor')
+        accept('primary');accept('primary','D','仅原卖方')
+        offer('successor','D',4,'1.25');server_action('player-trade-check 2')
+    elif phase=='player-trade-third':
+        server_action('player-trade-check 2');server_action('player-trade-status successor OFFERED')
+        accept('primary');accept('pending');accept('primary','D','仅原卖方')
+        accept('successor','D');accept('successor','D');server_action('player-trade-check 3')
+        command('B','/trade resume '+identity('primary'),'交易已结算')
+        command('A','/trade resume '+identity('primary'),'仅原卖方')
+        for who in 'BD':command(who,'/chronicle contributions','玩家贸易交付 agricultural')
+        command('A','/chronicle contributions','钱包付款（提供者已确认）')
+        command('D','/chronicle contributions nation me','玩家贸易交付 agricultural')
+        server_action('player-trade-check 3')
+    else:raise ValueError(phase)
 
 
 def sale_scenario(phase):
@@ -629,7 +688,9 @@ def scenario(phase):
     if manifest.get('battlefield_acceptance'):
         server_action('battle-bind')
         if phase != 'first': server_action('battle-check ended')
-    if phase.startswith('legacy-'):
+    if phase.startswith('player-trade-'):
+        player_trade_scenario(phase)
+    elif phase.startswith('legacy-'):
         legacy_factory_scenario(phase)
     elif phase.startswith('treasury-'):
         if not manifest.get('treasury_writer_acceptance'): raise RuntimeError('Treasury writer fixture required')
@@ -836,7 +897,7 @@ def scenario(phase):
     server.stdin.write('stop\n'); server.stdin.flush(); server.wait(timeout=60)
     if clients.returncode != 0 or server.returncode != 0:
         raise RuntimeError('Acceptance processes must exit normally')
-    if manifest.get('treasury_writer_acceptance') or manifest.get('memory_acceptance') or manifest.get('capital_acceptance') or manifest.get('production_campaign') or manifest.get('nation_trade_acceptance') or manifest.get('nation_production_acceptance'): database_checkpoint()
+    if manifest.get('player_trade_acceptance') or manifest.get('treasury_writer_acceptance') or manifest.get('memory_acceptance') or manifest.get('capital_acceptance') or manifest.get('production_campaign') or manifest.get('nation_trade_acceptance') or manifest.get('nation_production_acceptance'): database_checkpoint()
     print('SCENARIO_COMPLETE ' + phase, flush=True)
 outcome = dict(boot=args.boot, scenario=args.scenario, contributions=args.contributions, status='INCOMPLETE')
 outcome['source_sha256'] = {

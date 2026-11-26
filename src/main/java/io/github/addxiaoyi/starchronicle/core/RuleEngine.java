@@ -138,6 +138,24 @@ public final class RuleEngine implements AutoCloseable {
         });
     }
 
+    /** Commit exact native player-sale history and both parties' contribution views together. */
+    public ProcessReport commitPlayerTrade(WorldEvent event,Collection<PlayerContext> contexts) {
+        Objects.requireNonNull(event);Objects.requireNonNull(contexts);
+        Map<UUID,PlayerContext> unique=new LinkedHashMap<>();
+        for(var ctx:contexts){
+            if(!audience(event,ctx))throw new IllegalArgumentException("Invalid player trade audience");
+            if(unique.put(ctx.playerId(),ctx)!=null)throw new IllegalArgumentException("Duplicate trade audience");
+        }
+        if(unique.size()>10000)throw new IllegalArgumentException("Too many trade recipients");
+        return transaction(c->{
+            var proof=PlayerTradeContributionProjection.requireSource(c,event);
+            boolean fresh=recordAndQueue(c,event,unique.values(),runtime.enabledDefinitions(),EventCausality.root(event.id()));
+            Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
+            PlayerTradeContributionProjection.record(c,proof,clock.instant());
+            return new ProcessReport(!fresh,List.copyOf(changed),fresh?"玩家贸易与贡献已记录":"玩家贸易已记录，重复投递未增加贡献");
+        });
+    }
+
     /** Commit exact native production history and its civilization contribution views together. */
     public ProcessReport commitNationalProduction(WorldEvent event,Collection<PlayerContext> contexts) {
         Objects.requireNonNull(event);Objects.requireNonNull(contexts);

@@ -15,7 +15,12 @@ class StarCoreTradeHistorySourceTest {
     public record NativeRecord(UUID recordId,String orderType,String orderSource,Optional<UUID> sellerPlayerId,Optional<UUID> buyerPlayerId,
             Optional<UUID> sellerNationId,Optional<UUID> buyerNationId,String resourceId,long amount,double pricePerUnit,double totalValue,double taxAmount,double netValue,
             Instant executedAt,Optional<UUID> buyOrderId,Optional<UUID> sellOrderId,String status,Optional<String> notes){}
-    public record Change(UUID authorityDomain,long sequence,String kind,Instant recordedAt,NativeRecord record){}
+    public record FundedRecord(UUID recordId,String orderType,String orderSource,Optional<UUID> sellerPlayerId,Optional<UUID> buyerPlayerId,
+            Optional<UUID> sellerNationId,Optional<UUID> buyerNationId,String resourceId,long amount,double pricePerUnit,double totalValue,double taxAmount,double netValue,
+            Instant executedAt,Optional<UUID> buyOrderId,Optional<UUID> sellOrderId,String status,Optional<String> notes,Object buyerFunded){
+        public Object buyerFunded(){if(buyerFunded instanceof RuntimeException failure)throw failure;return buyerFunded;}
+    }
+    public record Change(UUID authorityDomain,long sequence,String kind,Instant recordedAt,Object record){}
     public static class Source {
         UUID domain;List<Change> rows;int reads;
         Source(UUID domain,List<Change> rows){this.domain=domain;this.rows=rows;}
@@ -25,6 +30,49 @@ class StarCoreTradeHistorySourceTest {
     NativeRecord record(String status,boolean actor){return new NativeRecord(recordId,"BUY","EVENT",Optional.empty(),actor?Optional.of(player):Optional.empty(),Optional.empty(),Optional.of(nation),
             "agricultural",Long.MAX_VALUE,0.5,Long.MAX_VALUE*0.5,0,Long.MAX_VALUE*0.5,Instant.parse("2020-01-01T00:00:00Z"),Optional.empty(),Optional.empty(),status,Optional.of("x".repeat(10000)));}
     Change change(long sequence,String kind,String status,boolean actor){return new Change(domain,sequence,kind,Instant.EPOCH.plusSeconds(sequence),record(status,actor));}
+    NativeRecord sale(double price,double total,double tax,double net){return new NativeRecord(recordId,"BUY","PLAYER",Optional.of(UUID.fromString("00000000-0000-0000-0000-000000000001")),Optional.of(player),Optional.of(nation),Optional.of(nation),
+            "agricultural",20,price,total,tax,net,Instant.EPOCH,Optional.empty(),Optional.empty(),"COMPLETED",Optional.empty());}
+    FundedRecord funding(NativeRecord r,Object value){return new FundedRecord(r.recordId(),r.orderType(),r.orderSource(),r.sellerPlayerId(),r.buyerPlayerId(),r.sellerNationId(),r.buyerNationId(),r.resourceId(),r.amount(),r.pricePerUnit(),r.totalValue(),r.taxAmount(),r.netValue(),r.executedAt(),r.buyOrderId(),r.sellOrderId(),r.status(),r.notes(),value);}
+    Change withRecord(Object record){return new Change(domain,1,"UPSERT",Instant.EPOCH,record);}
+
+    @Test void absentAndFalseFundingCapabilityPreserveExactLegacyEvent()throws Exception{
+        var legacy=sale(2.5,50,3,47);
+        var before=StarCoreTradeHistorySource.convert(domain,withRecord(legacy)).event();
+        var after=StarCoreTradeHistorySource.convert(domain,withRecord(funding(legacy,false))).event();
+        assertEquals(before,after);assertFalse(after.facts().containsKey("trade.tax_payer"));
+        assertEquals("47.0",after.facts().get("trade.net_value"));
+    }
+    @Test void buyerPaysExtraTaxWithoutUpgradingHistoryToSettlementEvidence()throws Exception{
+        var event=StarCoreTradeHistorySource.convert(domain,withRecord(funding(sale(2.5,50,3,50),true))).event();
+        assertEquals("BUYER",event.facts().get("trade.tax_payer"));
+        assertEquals("50.0",event.facts().get("trade.net_value"));assertEquals("3.0",event.facts().get("trade.tax_amount"));
+        assertEquals("TRADE_HISTORY_RECORDED",event.type());assertEquals("StarCore.TradeHistoryService",event.source());
+        assertEquals("NOT_PROVEN_BY_HISTORY_JOURNAL",event.facts().get("trade.asset_atomicity"));
+        assertFalse(event.facts().containsKey("trade.wallet_evidence"));
+    }
+    @Test void fundingFlagCannotHideIncorrectNetOrMalformedAmounts(){
+        for(var bad:List.of(sale(2.5,50,3,47),sale(2.5,50,-1,50),sale(2.5,50,51,50),sale(2.5,50,Double.NaN,50),sale(2.5,50,3,Double.POSITIVE_INFINITY),sale(0,50,3,50),sale(2.5,0,0,0)))
+            assertThrows(IllegalArgumentException.class,()->StarCoreTradeHistorySource.convert(domain,withRecord(funding(bad,true))));
+        assertThrows(IllegalArgumentException.class,()->StarCoreTradeHistorySource.convert(domain,withRecord(sale(2.5,50,3,50))));
+        assertThrows(IllegalArgumentException.class,()->StarCoreTradeHistorySource.convert(domain,withRecord(funding(sale(2.5,50,3,50),false))));
+    }
+    @Test void buyerFundedGrossUsesNativeCentRounding()throws Exception{
+        assertEquals("50.01",StarCoreTradeHistorySource.convert(domain,withRecord(funding(sale(2.50025,50.01,3,50.01),true))).event().facts().get("trade.total_value"));
+        assertThrows(IllegalArgumentException.class,()->StarCoreTradeHistorySource.convert(domain,withRecord(funding(sale(2.50025,50.005,3,50.005),true))));
+    }
+    @Test void malformedFundingCapabilityIsNotTreatedAsAnOldProvider(){
+        for(Object value:Arrays.asList(null,"true",1))
+            assertThrows(IllegalArgumentException.class,()->StarCoreTradeHistorySource.convert(domain,withRecord(funding(sale(2.5,50,3,47),value))));
+    }
+    @Test void brokenAdvertisedFundingCapabilityCannotCommitPartOfPage(){
+        var valid=withRecord(funding(sale(2.5,50,3,50),true));
+        var broken=new Change(domain,2,"UPSERT",Instant.EPOCH,funding(sale(2.5,50,3,47),new IllegalStateException("unavailable")));
+        try(var store=new SqliteStore(directory.resolve("funding.db"))){
+            var journal=new CommittedHistoryJournal(store);var adapter=new StarCoreTradeHistorySource(()->new Source(domain,List.of(valid,broken)));
+            assertThrows(IllegalStateException.class,()->adapter.poll(journal));
+            assertTrue(journal.cursor(StarCoreTradeHistorySource.SOURCE).isEmpty());assertTrue(journal.pending(100).isEmpty());
+        }
+    }
 
     @Test void projectsJournalSemanticsWithoutInventingContributionActorOrRefundCompletion()throws Exception{
         var event=StarCoreTradeHistorySource.convert(domain,change(1,"UPSERT","REFUNDED",false)).event();
