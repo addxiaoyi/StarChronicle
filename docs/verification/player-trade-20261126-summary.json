@@ -1,0 +1,1147 @@
+{
+  "status": "PLAYER_TRADE_AND_PAIRED_SELECTED_STACK_ACCEPTED",
+  "captured_utc": "2026-11-26T01:53:26.366749+00:00",
+  "frozen_pair": {
+    "StarCore": {
+      "source": "03c827868f0221b11a3478af42adf82233300a63",
+      "sha256": "db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874",
+      "tests": {
+        "tests": 7604,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 76
+      },
+      "suites": 1458,
+      "build_log": "/tmp/player-trade-native-full-3/maven.log"
+    },
+    "StarChronicle": {
+      "source": "47cdf354358c9b6a0103c9c7ee10b9c1090d4227",
+      "sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "tests": {
+        "tests": 1017,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "suites": 102,
+      "build_log": "/tmp/chronicle-player-trade-full-2.log"
+    }
+  },
+  "builds": {
+    "native": {
+      "tests": 7604,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 76
+    },
+    "chronicle": {
+      "tests": 1017,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "mysql": {
+    "exit_code": 0,
+    "source_head": "03c827868f0221b11a3478af42adf82233300a63",
+    "tests": {
+      "tests": 146,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "sqlite_cases": 41,
+    "mysql_cases": 105,
+    "files": {
+      "TEST-dev.starcore.starcore.module.resource.MySqlPlayerTradeRecoveryTest.xml": "c1158fbf6ded47212796afa234b7513b99a60feb7ee4db962d614b8a8e0ad9e9",
+      "MySqlPlayerTradeRecoveryTest.java": "682e40a195b7aa8518839791bff77405212259a9244c59446a3f98087ee62f4b",
+      "PlayerTradeRecoveryTest.java": "6e57523542b77393ac04ab329d7ef835f40684a649be5ab344addbfd1525572e",
+      "dev.starcore.starcore.module.resource.MySqlNationSettlementIntegrationTest.txt": "d3bd416078f6ac2eca2057b0a25b826abeac991e6aa7a983a7bb74afdbda6fa9",
+      "dev.starcore.starcore.module.resource.PlayerTradeRecoveryTest.txt": "2912b02ae6adecf65335de1dec017f65126605778fe25c0de7169dd2c1c6ff98",
+      "dev.starcore.starcore.module.resource.MySqlPlayerTradeRecoveryTest.txt": "89d5ae50dfc4f03c8928f32d614c25cf8366d8c3ad5ce50b8222b93485f7f6d4",
+      "maven.log": "133c9fa4b16ab83d05a9f78f74a700796f4ee6a596c41ebe65c03e2753ed4f6b",
+      "TEST-dev.starcore.starcore.module.resource.MySqlNationSettlementIntegrationTest.xml": "67c0171981daaa3db56ac395056028b4c18de6db5dc1a0e77213be7d92ebda13",
+      "MySqlNationSettlementIntegrationTest.java": "a7b2dba5337eb0f87512aec6d2dece0f2db78bf925b1324b0286683d53e7febf",
+      "TEST-dev.starcore.starcore.module.resource.PlayerTradeRecoveryTest.xml": "d3e2837328db6d7fd74e413b5f3b112d066ed57f04316bbc04e8edd2d8765c6f"
+    }
+  },
+  "mysql_shutdown": {
+    "name": "starcore-player-trade-mysql-20261126",
+    "image": "public.ecr.aws/docker/library/mysql:8.4",
+    "status": "exited",
+    "exit_code": 0,
+    "oom_killed": false,
+    "started_at": "2026-11-26T00:37:59.723354029Z",
+    "finished_at": "2026-11-26T00:46:01.521992358Z",
+    "retained": true
+  },
+  "source_heads": {
+    "chronicle": "9eac7dabbeb92e85f0d16e3a3af357d3e92e1fc7",
+    "native": "03c827868f0221b11a3478af42adf82233300a63"
+  },
+  "runs": [
+    {
+      "kind": "player",
+      "directory": "paper-epic-d4ff800e-dungeon-player-trade-4",
+      "status": "SELECTED_PAPER_PLAYER_TRADE_ACCEPTED",
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874",
+      "boots": 3,
+      "normal_process_exits": 6,
+      "actual_commands": 30,
+      "settlements": 3,
+      "contributions": 12,
+      "quantity": 29,
+      "gross": "75.00",
+      "tax": "6.30",
+      "buyer_total": "81.30",
+      "authority_domain": "403bd29e-2dd6-45fc-a8cc-330b55a653ae",
+      "limitations": [
+        "Selected isolated Paper stack, explicit test funds and nations, actual non-OP trade commands.",
+        "Wallet effects are acknowledged by Essentials/Vault. Normal restart is not proof of atomic external payment or provider disk durability.",
+        "Resource inventory is national stockpile; player backpacks, order book and quick trades are outside this protocol.",
+        "SQL rollback and call-intent ambiguity are separate product tests, not physical power-loss acceptance.",
+        "Legacy live trade notifications remain best effort; durable consumers use the independent settlement journal."
+      ]
+    },
+    {
+      "kind": "dungeon",
+      "directory": "paper-epic-d4ff800e-dungeon-player-reg-3-dungeon",
+      "status": "SELECTED_PAPER_STACK_EPIC_ACCEPTED",
+      "route": "DUNGEON",
+      "instance": "6f5cf05121887b794a4398fd84b88525324a1bd4f588e6e63712f47437a37fcc",
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874",
+      "committed_operations": 12,
+      "treasury_transfers": 2,
+      "resource_transfers": 2,
+      "settlement_events": 1,
+      "verified_boots": 3,
+      "aftermath_instances": 3,
+      "verification": "Normal server/client exits, required live scenario evidence and independent native/Chronicle receipt cross-check; server port unbound.",
+      "contribution_entries": 8,
+      "aid_source_events": 4,
+      "contribution_query_boots": [
+        1,
+        2,
+        3
+      ],
+      "subjects": [
+        "player:35e02d6d-1111-3ff6-bd41-91cad584563c",
+        "player:5a2a1989-08f3-3f65-a906-299ff19592c8"
+      ],
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "business_economy": "dev.starcore.starcore.foundation.economy.PlayerVaultEconomyService",
+      "database_checkpoint_boots": [
+        1,
+        2,
+        3
+      ],
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[01:36:03 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitation": "War completion is native principal peace; this does not demonstrate battlefield victory, paid founding, Folia or production deployment."
+    },
+    {
+      "kind": "war",
+      "directory": "paper-epic-d4ff800e-war-player-reg-3-war",
+      "status": "NATIVE_STRONGHOLD_VICTORY_ACCEPTED",
+      "route": "WAR",
+      "instance": "49a2adb5d06fd2e50acd9d965120ac0d88e3edcffe27fa2bb2b9df7aac605929",
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874",
+      "committed_operations": 13,
+      "treasury_transfers": 2,
+      "resource_transfers": 2,
+      "settlement_events": 1,
+      "verified_boots": 3,
+      "aftermath_instances": 3,
+      "verification": "Normal server/client exits, required live scenario evidence and independent native/Chronicle receipt cross-check; server port unbound.",
+      "contribution_entries": 8,
+      "aid_source_events": 4,
+      "contribution_query_boots": [
+        1,
+        2,
+        3
+      ],
+      "subjects": [
+        "player:35e02d6d-1111-3ff6-bd41-91cad584563c",
+        "player:5a2a1989-08f3-3f65-a906-299ff19592c8"
+      ],
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "business_economy": "dev.starcore.starcore.foundation.economy.PlayerVaultEconomyService",
+      "database_checkpoint_boots": [
+        1,
+        2,
+        3
+      ],
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[01:38:44 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitation": "Native GUI stronghold capture with explicit fixture objects and native start service; no PvP, siege movement, army simulation, territory transfer, occupation-duration or production deployment claim.",
+      "war_id": "5fc318a4-95c7-3424-87b5-4a530d43e908",
+      "strongholds": 2,
+      "aggressor_score": 100,
+      "defender_score": 0,
+      "native_end_reason": "VICTORY_DETERMINED",
+      "native_winner": "AGGRESSOR",
+      "capture_clicks": 2,
+      "blocked_attempts": 6
+    },
+    {
+      "kind": "trade",
+      "directory": "paper-epic-d4ff800e-dungeon-player-reg-3-trade",
+      "status": "SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED",
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874",
+      "boots": 3,
+      "normal_process_exits": 6,
+      "actual_command_results": 24,
+      "settlements": 3,
+      "resource_receipts": 3,
+      "treasury_receipts": 3,
+      "contributions": 12,
+      "assets": {
+        "quantity": 29,
+        "value": "75.00",
+        "sellerResources": 71,
+        "buyerResources": 129,
+        "sellerTreasury": "1000075.00",
+        "buyerTreasury": "999925.00"
+      },
+      "authority_domain": "ff46c5d3-f671-4a20-9792-a05a1116aa59",
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[01:41:17 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitations": [
+        "Selected isolated Paper stack; no production deployment or full Folia acceptance.",
+        "Test nations, treasury funds and inventory are explicitly seeded through public native APIs; nation creation is free in this fixture.",
+        "Offers, acceptance, cancellation and replays are actual non-OP player commands. Founder handover uses the real native authorization service.",
+        "This protocol pays from national treasuries and delivers national inventory. It makes no claim for Vault wallets, player inventory, legacy market orders or taxes.",
+        "SQL rollback and lost commit acknowledgements are product tests; these real boots validate normal persisted recovery."
+      ]
+    },
+    {
+      "kind": "factory",
+      "directory": "paper-epic-d4ff800e-dungeon-player-reg-4-factory",
+      "status": "SELECTED_PAPER_NATION_FACTORIES_ACCEPTED",
+      "boots": 3,
+      "normal_process_exits": 6,
+      "actual_command_results": 45,
+      "factory_changes": 6,
+      "completions": 3,
+      "cancellations": 1,
+      "contributions": 6,
+      "construction_and_upgrade_cost": {
+        "energy": 56,
+        "industrial": 70,
+        "mineral": 280
+      },
+      "production_inputs": {
+        "mineral": 12,
+        "energy": 4
+      },
+      "industrial_output": 8,
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874",
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[01:44:17 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitations": [
+        "Selected isolated Paper stack and SQLite; MySQL atomicity is a separate native integration test.",
+        "Nations and inventory are explicit fixture seeds; factory and production mutations are real non-OP player commands.",
+        "Factory records do not place world blocks or claim land. Legacy factory fields are retained but never become paid production or contribution evidence.",
+        "Three normal boots are not physical power-loss, Folia or production deployment evidence."
+      ]
+    },
+    {
+      "kind": "production",
+      "directory": "paper-epic-d4ff800e-dungeon-player-reg-4-production",
+      "status": "SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED",
+      "mode": "main",
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874",
+      "boots": 3,
+      "normal_process_exits": 6,
+      "actual_command_results": 24,
+      "completions": 4,
+      "contributions": 8,
+      "industrial_output": 12,
+      "authority_domain": "49729ccf-9e35-4f86-a72f-27ea6c5f597e",
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[01:47:50 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitations": [
+        "Selected isolated Paper stack; no production deployment or full Folia acceptance.",
+        "Test nations and initial national resources are explicitly seeded through public native APIs; nation creation is free in this fixture.",
+        "Production start, collection, cancellation and replays are actual non-OP player commands. Succession uses the real native authorization service.",
+        "Paid production runs use national inventory, fixed recipe terms and original initiators. Legacy actorless factory writes are disabled; no migration invents old contributors.",
+        "SQL rollback and lost commit acknowledgements are product tests; real boots validate normal persisted recovery."
+      ]
+    },
+    {
+      "kind": "offline",
+      "directory": "paper-epic-d4ff800e-dungeon-player-reg-4-offline",
+      "status": "SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED",
+      "mode": "offline",
+      "chronicle_sha256": "d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793",
+      "starcore_sha256": "db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874",
+      "boots": 2,
+      "normal_process_exits": 4,
+      "actual_command_results": 11,
+      "completions": 1,
+      "contributions": 2,
+      "industrial_output": 2,
+      "authority_domain": "b2e55093-8309-4d67-b50d-4268dca67eb5",
+      "plugins": {
+        "Essentials": "2.22.0",
+        "FancyNpcs": "2.10.1-java21+2",
+        "StarChronicle": "0.1.0-SNAPSHOT",
+        "StarCore": "1.0.0",
+        "Vault": "1.7.3-b131",
+        "WorldEdit": "7.4.2+7450-eb8e82c",
+        "WorldGuard": "7.0.17+2370-e42d8bc"
+      },
+      "vendor_telemetry": [
+        {
+          "boot": 1,
+          "message": "[01:51:25 ERROR]: [FancyAnalytics] Failed to create event (status 200): "
+        }
+      ],
+      "limitations": [
+        "Selected isolated Paper stack; no production deployment or full Folia acceptance.",
+        "Test nations and initial national resources are explicitly seeded through public native APIs; nation creation is free in this fixture.",
+        "Production start, collection, cancellation and replays are actual non-OP player commands. Succession uses the real native authorization service.",
+        "Paid production runs use national inventory, fixed recipe terms and original initiators. Legacy actorless factory writes are disabled; no migration invents old contributors.",
+        "SQL rollback and lost commit acknowledgements are product tests; real boots validate normal persisted recovery."
+      ]
+    }
+  ],
+  "regressions": {
+    "player": {
+      "tests": 24,
+      "passed": 24,
+      "skipped": 0,
+      "sha256": "49a458427efc43fadab8e691526de06bee15e000bc72a84679f7252d02b7bece"
+    },
+    "dungeon": {
+      "tests": 29,
+      "passed": 27,
+      "skipped": 2,
+      "sha256": "c47f492954eb40f42efc1a1e8a2ffb0b157d2ddd1e3521d2960ca32c6dba0f08"
+    },
+    "war": {
+      "tests": 41,
+      "passed": 39,
+      "skipped": 2,
+      "sha256": "48cf653bf8b50a1fb010d36d5d568b582db68bd67d79c7fc4e5fdca55638faa3"
+    },
+    "trade": {
+      "tests": 38,
+      "passed": 38,
+      "skipped": 0,
+      "sha256": "50b367ec980db4b42588abc138c9095df153aa74925e1a0cc236859e3b35bdb7"
+    },
+    "factory": {
+      "tests": 32,
+      "passed": 32,
+      "skipped": 0,
+      "sha256": "93c287a98afe3951c06a0af2833195e0bfcca1db4ec1a749cc5d10b8bbfb4692"
+    },
+    "production": {
+      "tests": 37,
+      "passed": 33,
+      "skipped": 4,
+      "sha256": "9d97b466af7aacd18ace52e818ce2da6f7bf9da1da68e74f19bf8652fcce7c0d"
+    },
+    "offline": {
+      "tests": 37,
+      "passed": 37,
+      "skipped": 0,
+      "sha256": "eae38f550386bcd1bb373cf394a501aaf53752789364936f60b86481b7c06aa1"
+    }
+  },
+  "failed_runs": [
+    {
+      "directory": "paper-epic-f7568087-dungeon-player-trade-2",
+      "sessions": [
+        {
+          "boot": 1,
+          "scenario": "player-trade-first",
+          "contributions": false,
+          "status": "FAILED",
+          "source_sha256": {
+            "controller": "fb55e0864b891cbc1e2fb627764976c6b99df18a92b443f302eb349a557c6505",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "error": "Observed failure: {\"time\":\"2026-11-26T00:36:13.382Z\",\"kind\":\"FAILED\",\"data\":{\"command\":\"expect B eyJjb21tYW5kIjogIi90cmFkZSBzdGF0dXMgMGQ4ZjM3Y2YtNzg1Zi00MzMzLTljZmItMGVlMThkYTQ1ZjE0IiwgImNvbnRhaW5zIjogIuS5sOaWuei0ueeUqDogMy4wMCJ9\",\"error\":\"Error: Command response missing: /trade status 0d8f37cf-785f-4333-9cfb-0ee18da45f14 expected 买方费用: 3.00 received \\n交易ID: 0d8f37cf-785f-4333-9cfb-0ee18da45f14\\n状态: 等待卖方接受 · 2026-11-26T00:35:58.350Z\\n资源: agricultural x20\\n卖方应收: 50.00 · 买方费用: 1.00\"}}\n",
+          "processes": [
+            {
+              "name": "server",
+              "pid": 4082214,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795653301.4748082,
+              "exit_code": 0,
+              "exited_at": 1795653377.8688822
+            },
+            {
+              "name": "clients",
+              "pid": 4083906,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-trade-2/evidence/boot1.clients.cjs",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-trade-2"
+              ],
+              "started_at": 1795653351.9342499,
+              "exit_code": 0,
+              "exited_at": 1795653373.3944414
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "directory": "paper-epic-f7568087-dungeon-player-reg-1-dungeon",
+      "sessions": [
+        {
+          "boot": 1,
+          "scenario": "first",
+          "contributions": true,
+          "status": "COMPLETE",
+          "source_sha256": {
+            "controller": "fb55e0864b891cbc1e2fb627764976c6b99df18a92b443f302eb349a557c6505",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "processes": [
+            {
+              "name": "server",
+              "pid": 4084306,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795653366.8978074,
+              "exit_code": 0,
+              "exited_at": 1795653447.0403197
+            },
+            {
+              "name": "clients",
+              "pid": 4085112,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-reg-1-dungeon/evidence/boot1.clients.cjs",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-reg-1-dungeon"
+              ],
+              "started_at": 1795653414.063549,
+              "exit_code": 0,
+              "exited_at": 1795653442.7064703
+            }
+          ]
+        },
+        {
+          "boot": 2,
+          "scenario": "second",
+          "contributions": true,
+          "status": "FAILED",
+          "source_sha256": {
+            "controller": "fb55e0864b891cbc1e2fb627764976c6b99df18a92b443f302eb349a557c6505",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "error": "",
+          "processes": [
+            {
+              "name": "server",
+              "pid": 4085662,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795653447.2729845,
+              "exit_code": 0,
+              "exited_at": 1795653477.6099105
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "directory": "paper-epic-f7568087-war-player-reg-2-war",
+      "sessions": [
+        {
+          "boot": 1,
+          "scenario": "first",
+          "contributions": true,
+          "status": "FAILED",
+          "source_sha256": {
+            "controller": "fb55e0864b891cbc1e2fb627764976c6b99df18a92b443f302eb349a557c6505",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "error": "",
+          "processes": [
+            {
+              "name": "server",
+              "pid": 9026,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795656526.0950828,
+              "exit_code": 0,
+              "exited_at": 1795656607.7895856
+            },
+            {
+              "name": "clients",
+              "pid": 12919,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-war-player-reg-2-war/evidence/boot1.clients.cjs",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-war-player-reg-2-war"
+              ],
+              "started_at": 1795656580.416078,
+              "exit_code": 0,
+              "exited_at": 1795656602.8065424
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "directory": "paper-epic-f7568087-dungeon-player-trade-1",
+      "status": "FIXTURE_COMPILE_FAILED_BEFORE_SERVER_START"
+    },
+    {
+      "directory": "paper-epic-f7568087-dungeon-player-trade-3",
+      "status": "COMPLETED_SESSIONS_REJECTED_BY_INDEPENDENT_INSPECTION",
+      "reason": "Committed history source starcore.trade.history.v1 retained for reconciliation: Invalid persisted trade amounts",
+      "sessions": [
+        {
+          "boot": 1,
+          "scenario": "player-trade-first",
+          "contributions": false,
+          "status": "COMPLETE",
+          "source_sha256": {
+            "controller": "fb55e0864b891cbc1e2fb627764976c6b99df18a92b443f302eb349a557c6505",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "processes": [
+            {
+              "name": "server",
+              "pid": 4192044,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795656366.7548773,
+              "exit_code": 0,
+              "exited_at": 1795656443.438758
+            },
+            {
+              "name": "clients",
+              "pid": 1647,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-trade-3/evidence/boot1.clients.cjs",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-trade-3"
+              ],
+              "started_at": 1795656421.0304892,
+              "exit_code": 0,
+              "exited_at": 1795656438.2725031
+            }
+          ]
+        },
+        {
+          "boot": 2,
+          "scenario": "player-trade-second",
+          "contributions": false,
+          "status": "COMPLETE",
+          "source_sha256": {
+            "controller": "fb55e0864b891cbc1e2fb627764976c6b99df18a92b443f302eb349a557c6505",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "processes": [
+            {
+              "name": "server",
+              "pid": 5113,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795656471.8978822,
+              "exit_code": 0,
+              "exited_at": 1795656517.3064487
+            },
+            {
+              "name": "clients",
+              "pid": 7401,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-trade-3/evidence/boot2.clients.cjs",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-trade-3"
+              ],
+              "started_at": 1795656498.187172,
+              "exit_code": 0,
+              "exited_at": 1795656515.3485084
+            }
+          ]
+        },
+        {
+          "boot": 3,
+          "scenario": "player-trade-third",
+          "contributions": false,
+          "status": "COMPLETE",
+          "source_sha256": {
+            "controller": "fb55e0864b891cbc1e2fb627764976c6b99df18a92b443f302eb349a557c6505",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "processes": [
+            {
+              "name": "server",
+              "pid": 9531,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795656533.0163212,
+              "exit_code": 0,
+              "exited_at": 1795656578.1268966
+            },
+            {
+              "name": "clients",
+              "pid": 11458,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-trade-3/evidence/boot3.clients.cjs",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-trade-3"
+              ],
+              "started_at": 1795656559.4993706,
+              "exit_code": 0,
+              "exited_at": 1795656576.1138294
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "directory": "paper-epic-f7568087-dungeon-player-reg-2-dungeon",
+      "status": "CANDIDATE_SUPERSEDED",
+      "reason": {
+        "status": "CANDIDATE_SUPERSEDED",
+        "reason": "Generic StarCoreTradeHistorySource rejects buyer-funded history net=gross; direct trade independent inspector rejected diagnostics. Original sessions and databases are retained. Requires a new Chronicle product and all acceptance runs.",
+        "chronicle_sha256": "f7568087e5c35d13e4cb66738eaae8d526ff9d69975120082224d60746069d5c",
+        "starcore_sha256": "db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874"
+      },
+      "sessions": [
+        {
+          "boot": 1,
+          "scenario": "first",
+          "contributions": true,
+          "status": "COMPLETE",
+          "source_sha256": {
+            "controller": "fb55e0864b891cbc1e2fb627764976c6b99df18a92b443f302eb349a557c6505",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "processes": [
+            {
+              "name": "server",
+              "pid": 4192299,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795656369.00879,
+              "exit_code": 0,
+              "exited_at": 1795656459.337277
+            },
+            {
+              "name": "clients",
+              "pid": 1960,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-reg-2-dungeon/evidence/boot1.clients.cjs",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-reg-2-dungeon"
+              ],
+              "started_at": 1795656424.2702594,
+              "exit_code": 0,
+              "exited_at": 1795656454.560477
+            }
+          ]
+        },
+        {
+          "boot": 2,
+          "scenario": "second",
+          "contributions": true,
+          "status": "COMPLETE",
+          "source_sha256": {
+            "controller": "fb55e0864b891cbc1e2fb627764976c6b99df18a92b443f302eb349a557c6505",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "processes": [
+            {
+              "name": "server",
+              "pid": 4539,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795656459.5971458,
+              "exit_code": 0,
+              "exited_at": 1795656493.6867
+            },
+            {
+              "name": "clients",
+              "pid": 6443,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-reg-2-dungeon/evidence/boot2.clients.cjs",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-reg-2-dungeon"
+              ],
+              "started_at": 1795656485.6470206,
+              "exit_code": 0,
+              "exited_at": 1795656491.7951524
+            }
+          ]
+        },
+        {
+          "boot": 3,
+          "scenario": "third",
+          "contributions": true,
+          "status": "COMPLETE",
+          "source_sha256": {
+            "controller": "fb55e0864b891cbc1e2fb627764976c6b99df18a92b443f302eb349a557c6505",
+            "clients": "b5e43e56dddf6b10e5b3bb5565989197ace44f7516cd6f197480e09d77f208e6"
+          },
+          "processes": [
+            {
+              "name": "server",
+              "pid": 7277,
+              "command": [
+                "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
+                "-Xms64m",
+                "-Xmx384m",
+                "-Xss512k",
+                "-XX:+UseSerialGC",
+                "-XX:ActiveProcessorCount=1",
+                "-XX:TieredStopAtLevel=1",
+                "-XX:ReservedCodeCacheSize=64m",
+                "-XX:CompressedClassSpaceSize=64m",
+                "-Dfile.encoding=UTF-8",
+                "-Dterminal.jline=false",
+                "-Dterminal.ansi=false",
+                "-jar",
+                "paper.jar",
+                "nogui"
+              ],
+              "started_at": 1795656493.941492,
+              "exit_code": 0,
+              "exited_at": 1795656522.9674728
+            },
+            {
+              "name": "clients",
+              "pid": 8706,
+              "command": [
+                "/usr/bin/node",
+                "--max-old-space-size=192",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-reg-2-dungeon/evidence/boot3.clients.cjs",
+                "/home/add/starchronicle-player-trade-recovery/run/paper-epic-f7568087-dungeon-player-reg-2-dungeon"
+              ],
+              "started_at": 1795656518.9909384,
+              "exit_code": 0,
+              "exited_at": 1795656521.3321774
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "External Vault responses are provider acknowledgements, not durable external payment receipts or a shared wallet/native transaction.",
+    "Direct player-wallet trades deliver national stockpile resources; order book, quick trade, player backpacks and permanent UNKNOWN disposition remain separate.",
+    "Exact pair uses isolated Paper with SQLite; actual MySQL product tests are separate. No full Folia, physical power-loss or production deployment claim."
+  ],
+  "redactions": [
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-trade-4/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-trade-4/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-reg-3-dungeon/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-reg-3-dungeon/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-war-player-reg-3-war/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-war-player-reg-3-war/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-reg-3-trade/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-reg-3-trade/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-reg-4-factory/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-reg-4-factory/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-reg-4-production/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-reg-4-production/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-reg-4-offline/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-d4ff800e-dungeon-player-reg-4-offline/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-dungeon-player-trade-2/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-dungeon-player-trade-2/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-dungeon-player-reg-1-dungeon/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-dungeon-player-reg-1-dungeon/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-war-player-reg-2-war/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-war-player-reg-2-war/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-dungeon-player-trade-3/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-dungeon-player-trade-3/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-dungeon-player-reg-2-dungeon/plugins/StarCore/config.yml",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-dungeon-player-reg-2-dungeon/server.properties",
+      "fields": 3
+    },
+    {
+      "path": "runs/paper-epic-f7568087-dungeon-player-trade-1/plugins/StarCore/config.yml",
+      "fields": 3
+    }
+  ],
+  "extracted_inspectors": "ALL_SEVEN_PASSED",
+  "extracted_regressions": {
+    "player": {
+      "tests": 24,
+      "passed": 24,
+      "skipped": 0
+    },
+    "dungeon": {
+      "tests": 29,
+      "passed": 27,
+      "skipped": 2
+    },
+    "war": {
+      "tests": 41,
+      "passed": 39,
+      "skipped": 2
+    },
+    "trade": {
+      "tests": 38,
+      "passed": 38,
+      "skipped": 0
+    },
+    "factory": {
+      "tests": 32,
+      "passed": 32,
+      "skipped": 0
+    },
+    "production": {
+      "tests": 37,
+      "passed": 33,
+      "skipped": 4
+    },
+    "offline": {
+      "tests": 37,
+      "passed": 37,
+      "skipped": 0
+    }
+  },
+  "portable_verification": {
+    "status": "TRANSFERRED_BYTES_AND_SEVEN_SCENARIOS_VERIFIED",
+    "evidence_sha256": "9e38e48041888824673dbdba6ef43836097306285488e33b9665da0d9672d89d",
+    "binaries_sha256": "e24f850314bc89795853fb7d3920471027bab194332e153d73da0bbd473b329e",
+    "regressions": {
+      "player": {
+        "tests": 24,
+        "passed": 24,
+        "skipped": 0
+      },
+      "dungeon": {
+        "tests": 29,
+        "passed": 27,
+        "skipped": 2
+      },
+      "war": {
+        "tests": 41,
+        "passed": 39,
+        "skipped": 2
+      },
+      "trade": {
+        "tests": 38,
+        "passed": 38,
+        "skipped": 0
+      },
+      "factory": {
+        "tests": 32,
+        "passed": 32,
+        "skipped": 0
+      },
+      "production": {
+        "tests": 37,
+        "passed": 33,
+        "skipped": 4
+      },
+      "offline": {
+        "tests": 37,
+        "passed": 37,
+        "skipped": 0
+      }
+    },
+    "limitation": "Offline inspection of transferred stopped evidence on this machine; no new game server, physical power loss or another device execution claimed."
+  },
+  "local_binary_bundle": {
+    "file": "exact-binaries.zip",
+    "sha256": "e24f850314bc89795853fb7d3920471027bab194332e153d73da0bbd473b329e",
+    "bytes": 113572736,
+    "unique_artifacts": 15,
+    "public": false
+  },
+  "credential_scan": "Actual private environment and non-template configured secret bytes absent; secret fields redacted.",
+  "archive": {
+    "sha256": "9e38e48041888824673dbdba6ef43836097306285488e33b9665da0d9672d89d",
+    "bytes": 33077504,
+    "members": 10988
+  },
+  "source_archives": {
+    "starchronicle-source.tar.gz": "a1329ec8f2344530e82afefa7557401efb3470aaed1482ae1ae8d8b023666116",
+    "starcore-source.tar.gz": "8924b43413e4160dc902134f60fd2218f98f6cfb53cccf0a7ab7078a6232c9af"
+  }
+}

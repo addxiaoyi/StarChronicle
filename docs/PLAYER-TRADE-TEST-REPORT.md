@@ -1,6 +1,6 @@
 # 玩家钱包直售恢复验收（2026-11-26）
 
-直接`/trade offer`／`accept`已接入持久分步协议，Chronicle从独立成交来源生成原操作者贡献。玩家专项三次正常Paper启动、30条非OP命令、独立SQL／钱包文件核对及24项证据检查通过；六组同构件业务回归仍在执行。协议详见[玩家直售恢复合同](PLAYER-TRADE-RECOVERY.md)。十阶段整体保持active。
+直接`/trade offer`／`accept`已接入持久分步协议，Chronicle从独立成交来源生成原操作者贡献。玩家专项三次正常Paper启动、30条非OP命令、独立SQL／钱包文件核对及24项证据检查通过；六组同构件业务回归也通过，共20次正常启动、40次正常进程退出；238项证据测试230通过／8场景跳过，归档迁移复验通过。协议详见[玩家直售恢复合同](PLAYER-TRADE-RECOVERY.md)。十阶段整体保持active。
 
 ## 冻结源码与构件
 
@@ -51,7 +51,20 @@ MySQL8.4.13／InnoDB／REPEATABLE-READ，flush_log=1、sync_binlog=1、binlog=1�
 
 ## 同构件回归
 
-六组回归按DUNGEON、真实两据点WAR、国家直售、付费工厂、默认生产、空服生产补录依次执行。当前仅已完成组可以作为验收证据；最终结果将由`target/player-trade-regressions-player-reg-3/completed.json`和各检查器日志填入。
+七组均使用表中精确双JAR，独立目录与数据库，正常停止后检查。汇总保留原runner与修复后的测试日志，没有覆盖失败文件。
+
+| 场景 | 正常启动／进程退出 | 证据通过／跳过 | 实际结果 |
+| --- | --- | --- | --- |
+| 玩家直售 | 3／6 | 24／0 | 30命令、3成交、12贡献、钱包／库存／税款及双历史一致 |
+| DUNGEON | 3／6 | 27／2 | 国家副本结算、4条援助来源、8贡献与重放 |
+| WAR | 3／6 | 39／2 | 真实两据点100∶0，VICTORY_DETERMINED；唯一结算及重放 |
+| 国家直售 | 3／6 | 38／0 | 24命令、3成交、12贡献，国库／库存共同回执 |
+| 付费工厂 | 3／6 | 32／0 | 45命令、6工厂变更、3生产完成／1取消、6贡献 |
+| 默认生产 | 3／6 | 33／4 | 24命令、4完成、8贡献，跨重启原批次与原操作者 |
+| 空服生产补录 | 2／4 | 37／0 | 11命令、1完成、2贡献，恢复轮询后无人在线时入库 |
+| 合计 | 20／40 | 230／8 | 238项证据测试，跳过均为场景不适用 |
+
+本轮WAR仅覆盖原生菜单据点积分胜利，不包含PvP、完整攻城或领地转移。FancyAnalytics外部遥测错误按既有明确规则单独保留；原生持久化／Chronicle来源错误不被忽略。全部自有Paper服务已正常停止。
 
 ## 保留失败与修正
 
@@ -70,6 +83,20 @@ STARCHRONICLE_PLAYER_TRADE_RUN="$PWD/run/paper-epic-d4ff800e-dungeon-player-trad
 
 重做实服须新attempt及空闲端口，以`prepare-player-trade-paper.py`准备后，按`epic-paper-session.py`的`player-trade-first/second/third`运行。六组业务使用`run-player-trade-regressions.py --frozen-dir ...`，每组独立世界／数据库。不得覆盖旧目录，实际参数和锁定依赖见工具帮助与各现场preparation.json。
 
-本机工作区为`/home/add/starchronicle-player-trade-recovery`和`/home/add/starcore-player-trade-recovery`；冻结双JAR与完整构建报告在前者`target/player-trade-frozen-3/`。本轮归档和跨设备解压复验尚待六组回归完成。私密MySQL环境文件禁止输出或上传；不修改`/home/add/starcore`或停止无关服务。
+本机工作区为`/home/add/starchronicle-player-trade-recovery`和`/home/add/starcore-player-trade-recovery`；冻结双JAR与完整构建报告在前者`target/player-trade-frozen-3/`。本轮归档、凭据扫描和可迁移包的解压复验均已通过。私密MySQL环境文件禁止输出或上传；不修改`/home/add/starcore`或停止无关服务。
+
+公开[证据ZIP](verification/player-trade-20261126-evidence.zip)与[机器清单](verification/player-trade-20261126-summary.json)：33,077,504字节，10,988个哈希成员加清单，SHA-256 `9e38e48041888824673dbdba6ef43836097306285488e33b9665da0d9672d89d`。保留七个接受现场、六个失败／替换现场、全量构建、MySQL、原失败测试与runner记录。公开包不含世界或第三方二进制；原世界和全部现场继续留在本机。
+
+`target/player-trade-20261126/exact-binaries.zip`另保存15个去重后的精确构件：双产品、Paper、五个第三方插件与七个实际夹具。大小113,572,736字节，SHA-256 `e24f850314bc89795853fb7d3920471027bab194332e153d73da0bbd473b329e`。该包只保存在本机，未上传GitHub。25份配置中的所列秘密字段已脱敏，包括自动生成的Paper管理密钥；实际私密值扫描通过。原私密配置不修改。
+
+迁移复验从这两个包恢复所有文件并逐一校验哈希，七个检查器和238项测试结果与原停止现场一致。复验在本机全新目录完成，不声称已在另一台设备启动游戏服。把包和工具复制到另一设备后可执行：
+
+```bash
+python3 tools/verify-player-trade-handoff.py --evidence player-trade-20261126-evidence.zip --binaries exact-binaries.zip --output /new/path/player-trade-check
+```
+
+需要Python3与PyYAML；输出目录必须不存在。工具只检查停止证据，不启动服务器。归档源码HEAD为Chronicle `9eac7dabbeb92e85f0d16e3a3af357d3e92e1fc7`、原生`03c827868f0221b11a3478af42adf82233300a63`；后续文档提交不改变冻结src／pom。最终源码tar、精确构件包和交付清单位于`target/player-trade-final-handoff/`，最终HEAD／CI／交付指纹见配套草稿正文。
+
+中间提交`5c03bd45…fa3`的Linux CI [run45737308999](https://github.com/addxiaoyi/StarChronicle/actions/runs/45737308999)／job139633543221成功，1,017项测试、报告生成、交付校验和上传均通过。CI JAR为`6c184cfa…9568`，与实服冻结JAR分别计证。原生工作流只触发main目标，本叠加分支没有远端CI结论，采用保留的本地完整日志。
 
 剩余工作包括市场订单簿／快捷买卖、其他内部钱包入口、个人背包、永久UNKNOWN的可信处置、长期全日志核对成本、Paper实际调用中断／物理断电、旧工厂未明资产、完整Folia、真实建筑／领地和战斗。具体十阶段状态见[本轮交接](HANDOFF-2026-11-26.md)。

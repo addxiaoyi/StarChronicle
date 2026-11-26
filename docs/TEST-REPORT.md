@@ -1,6 +1,6 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-26T07:56:44+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T09:55:39+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
@@ -8,7 +8,7 @@
 
 - 执行命令：`mvn -o clean verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
-- 单元／集成回归：991 项，失败 0，错误 0，跳过 0。
+- 单元／集成回归：1017 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
 - 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。
 - 同时生成全部 Java 源码 JAR。
@@ -79,10 +79,11 @@
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationProductionSourceTest` | 29 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationTradeSourceTest` | 15 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest` | 19 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCorePlayerTradeSourceTest` | 20 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest` | 25 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistorySourceTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistorySourceTest` | 6 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySourceTest` | 5 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistorySourceTest` | 11 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryEpicProviderTest` | 1 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest` | 7 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest` | 5 | 0 | 0 | 0 |
@@ -125,25 +126,25 @@
 |---|---:|---:|
 | `io/github/addxiaoyi/starchronicle/api/aid` | 34/34 (100.0%) | 35/62 (56.5%) |
 | `io/github/addxiaoyi/starchronicle/api/quest` | 37/37 (100.0%) | 13/18 (72.2%) |
-| `io/github/addxiaoyi/starchronicle/paper` | 423/1333 (31.7%) | 477/1599 (29.8%) |
-| `io/github/addxiaoyi/starchronicle/integration` | 961/1418 (67.8%) | 980/1724 (56.8%) |
+| `io/github/addxiaoyi/starchronicle/paper` | 423/1337 (31.6%) | 477/1605 (29.7%) |
+| `io/github/addxiaoyi/starchronicle/integration` | 1008/1464 (68.9%) | 1022/1772 (57.7%) |
 | `io/github/addxiaoyi/starchronicle/persistence` | 59/59 (100.0%) | 15/18 (83.3%) |
 | `io/github/addxiaoyi/starchronicle/narrative` | 88/88 (100.0%) | 113/150 (75.3%) |
 | `io/github/addxiaoyi/starchronicle/api` | 27/67 (40.3%) | 25/42 (59.5%) |
 | `io/github/addxiaoyi/starchronicle/memory` | 136/136 (100.0%) | 136/188 (72.3%) |
 | `io/github/addxiaoyi/starchronicle/api/contribution` | 31/35 (88.6%) | 14/28 (50.0%) |
-| `io/github/addxiaoyi/starchronicle/history` | 378/387 (97.7%) | 341/451 (75.6%) |
+| `io/github/addxiaoyi/starchronicle/history` | 423/433 (97.7%) | 373/507 (73.6%) |
 | `io/github/addxiaoyi/starchronicle/config` | 264/272 (97.1%) | 358/444 (80.6%) |
 | `io/github/addxiaoyi/starchronicle/npc` | 228/231 (98.7%) | 213/288 (74.0%) |
-| `io/github/addxiaoyi/starchronicle/core` | 2343/2496 (93.9%) | 2274/3138 (72.5%) |
+| `io/github/addxiaoyi/starchronicle/core` | 2370/2526 (93.8%) | 2288/3164 (72.3%) |
 | `io/github/addxiaoyi/starchronicle/api/epic` | 234/261 (89.7%) | 151/274 (55.1%) |
 
 ## 产物校验
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18109627 | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 362644 | `1a1482d87229cec251bf8ac7050b562ff14631f940fe3148e6adcbc56ff11fd6` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18122815 | `d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 368360 | `def14d2d9b98bdf54e466c26a277e1abea3e0f4b0022df7d2bf5a6789b5a4cb2` |
 
 ## 真实服务器证据与构建对应
 
@@ -178,17 +179,24 @@
 | [国库写锁及同构件回归：trade](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
 | [国库写锁及同构件回归：dungeon](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | SELECTED_PAPER_STACK_EPIC_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
 | [国库写锁及同构件回归：war](TREASURY-WRITER-TEST-REPORT.md) | `d49927067fea2e787d24f1be6127a59287352a9a53402d780943b9829276c17f` | 否，不能覆盖当前构建 | NATIVE_STRONGHOLD_VICTORY_ACCEPTED；配套原生 `cf7a39d820ac08c959d2fc71415e10214e6b269fc71d2915163e3bb0f4c05781` |
-| [旧工厂登记及同构件回归：legacy](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_LEGACY_FACTORY_REGISTRATION_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
-| [旧工厂登记及同构件回归：factory](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_NATION_FACTORIES_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
-| [旧工厂登记及同构件回归：production](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
-| [旧工厂登记及同构件回归：offline](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
-| [旧工厂登记及同构件回归：trade](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
-| [旧工厂登记及同构件回归：dungeon](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | SELECTED_PAPER_STACK_EPIC_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
-| [旧工厂登记及同构件回归：war](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 是 | NATIVE_STRONGHOLD_VICTORY_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：legacy](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 否，不能覆盖当前构建 | SELECTED_PAPER_LEGACY_FACTORY_REGISTRATION_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：factory](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 否，不能覆盖当前构建 | SELECTED_PAPER_NATION_FACTORIES_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：production](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 否，不能覆盖当前构建 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：offline](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 否，不能覆盖当前构建 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：trade](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 否，不能覆盖当前构建 | SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：dungeon](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 否，不能覆盖当前构建 | SELECTED_PAPER_STACK_EPIC_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [旧工厂登记及同构件回归：war](LEGACY-FACTORY-TEST-REPORT.md) | `7ccb4d1fa111e87e9f9bd5e9b5ccd80d456790797e989942885d1d78a4916778` | 否，不能覆盖当前构建 | NATIVE_STRONGHOLD_VICTORY_ACCEPTED；配套原生 `5cf4f203861ce7aace423da359986c14c29f219801aba79b55197b1e5c7fb1c2` |
+| [玩家直售恢复及同构件回归：player](PLAYER-TRADE-TEST-REPORT.md) | `d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793` | 是 | SELECTED_PAPER_PLAYER_TRADE_ACCEPTED；配套原生 `db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874` |
+| [玩家直售恢复及同构件回归：dungeon](PLAYER-TRADE-TEST-REPORT.md) | `d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793` | 是 | SELECTED_PAPER_STACK_EPIC_ACCEPTED；配套原生 `db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874` |
+| [玩家直售恢复及同构件回归：war](PLAYER-TRADE-TEST-REPORT.md) | `d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793` | 是 | NATIVE_STRONGHOLD_VICTORY_ACCEPTED；配套原生 `db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874` |
+| [玩家直售恢复及同构件回归：trade](PLAYER-TRADE-TEST-REPORT.md) | `d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793` | 是 | SELECTED_PAPER_NATIONAL_TRADE_ACCEPTED；配套原生 `db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874` |
+| [玩家直售恢复及同构件回归：factory](PLAYER-TRADE-TEST-REPORT.md) | `d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793` | 是 | SELECTED_PAPER_NATION_FACTORIES_ACCEPTED；配套原生 `db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874` |
+| [玩家直售恢复及同构件回归：production](PLAYER-TRADE-TEST-REPORT.md) | `d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793` | 是 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；配套原生 `db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874` |
+| [玩家直售恢复及同构件回归：offline](PLAYER-TRADE-TEST-REPORT.md) | `d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793` | 是 | SELECTED_PAPER_NATIONAL_PRODUCTION_ACCEPTED；配套原生 `db46f7d885d1901e69c3556791803a3c0650848e2c09963efe00f95f6436a874` |
 
 ## 早期原生任务候选的历史边界
 
-以下为早期任务候选的独立历史记录，不覆盖后续产品构件；当前原生完整构建、真实MySQL及配套实服结果见[旧工厂登记报告](LEGACY-FACTORY-TEST-REPORT.md)。
+以下为早期任务候选的独立历史记录，不覆盖后续产品构件；当前原生完整构建、真实MySQL及配套实服结果见[玩家直售恢复报告](PLAYER-TRADE-TEST-REPORT.md)。
 
 StarCore 候选 JAR SHA-256：`c6fb0e5e00d05b5545e515bd67596fed1af05ea644f20c996aeae98c809f197a`。
 聚焦测试：44 项，失败 0，错误 0，跳过 0；该次证据为六份实际 Surefire XML，未保留统一原始控制台日志。
