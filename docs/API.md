@@ -291,3 +291,14 @@ schema 8 新增贸易回执与只追加的贡献修订表。原始贡献与历�
 首次追赶仅归档，后续新提交／离线补读才进入正常剧情收件箱。每次最多128条，来源域与游标同 ingress 事务；消费完成才 ACK。源缺失、换域、游标超前、非连续页和写入失败保留游标，不回退到缓存首都或重建旧 OBSERVED 历史。新记录保留纳秒，旧原生日志只具毫秒精度，迁移不补造精度。
 
 原生在 `nation/capital-designations.log.sqlite` 同事务保存日志与提交位置；原 `.log` 成为迁移标记、`.log.legacy` 保留迁移前完整字节（包含未提交尾部）。旧插件遇到标记会拒绝读取；回退需整套匹配旧备份，不可删标记重新初始化。首次迁移与启动完整校验，日常查询使用序号／国家索引；不支持运行中手改或单独替换来源文件。部署／备份范围见首都专项报告。
+
+
+### 国家资源提交历史
+
+`ChronicleService.resourceHistoryReceipt(eventId)` 返回完整 `ResourceHistoryReceipt`：来源域、连续序号、操作 UUID、原生原因、引用、分类、说明、可空真实主体、纳秒提交时间，以及最多 128 项国家／资源的提交前后余额。查询不存在的事件返回空；存储失败返回失败阶段。
+
+原生 `ResourceHistoryService` 的 128 条分页接入 `starcore.resources`。事件类型 `RESOURCE_BALANCE_CHANGED`，稳定 ID 为 `starcore:resource:<domain>:<operation>`；完整回执与事件、剧情收件箱在同一 SQLite 事务提交。首次追赶仅归档，后续变动可触发剧情。来源回退、损坏、换域或缺失不会推进游标。
+
+普通增减库存不是生产证明。资源历史不新增贡献，不重复计入已由援助或贸易回执建立的贡献，也不推定当前国主为原始操作人。`resource.kind/reference/category/description/balance_count/receipt_sha256` 保留检索与核对信息；详细余额通过完整回执查询。
+
+schema 9 增加完整资源回执表并要求消费事务提交该回执后才确认 ingress。版本 8 及更早插件拒绝打开 schema 9，避免旧消费者跳过完整资源证据；升级保留已有历史／贡献，回退须恢复配套备份。

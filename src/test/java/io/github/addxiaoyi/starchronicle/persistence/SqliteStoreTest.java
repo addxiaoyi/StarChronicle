@@ -13,6 +13,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SqliteStoreTest {
     @TempDir Path directory;
+    @Test void schemaEightUpgradePreservesHistoricalBytesAndAddsReceiptCommitBoundary() throws Exception {
+        Path path=directory.resolve("schema-eight.db");
+        String historical;
+        try(var store=new SqliteStore(path)) {
+            var engine=new RuleEngine(store,List.of(),Clock.systemUTC());
+            engine.archiveCommittedHistory(new WorldEvent("legacy:1","LEGACY",Instant.parse("2026-11-26T00:00:00.123456789Z"),
+                    Set.of(),Set.of("native-nation"),Map.of("old","preserve"),"fixture","committed before resource history"));
+            historical=store.transaction(c->{try(var s=c.createStatement();var r=s.executeQuery("SELECT json FROM events WHERE id='legacy:1'")){return r.getString(1);}});
+            store.transaction(c->{try(var s=c.createStatement()){s.execute("DROP TABLE resource_history_receipts");s.execute("PRAGMA user_version=8");}return null;});
+        }
+        try(var store=new SqliteStore(path)) {
+            store.transaction(c->{try(var s=c.createStatement()){
+                try(var r=s.executeQuery("PRAGMA user_version")){assertEquals(9,r.getInt(1));}
+                try(var r=s.executeQuery("SELECT json FROM events WHERE id='legacy:1'")){assertEquals(historical,r.getString(1));}
+                try(var r=s.executeQuery("SELECT COUNT(*) FROM resource_history_receipts")){assertEquals(0,r.getInt(1));}
+                try(var r=s.executeQuery("PRAGMA foreign_key_check")){assertFalse(r.next());}
+            }return null;});
+        }
+    }
     @Test void failedTransactionRollsBackAnAlreadyWrittenFact() {
         try(var store=new SqliteStore(directory.resolve("rollback.db"))) {
             assertThrows(IllegalStateException.class,()->store.transaction(c->{
