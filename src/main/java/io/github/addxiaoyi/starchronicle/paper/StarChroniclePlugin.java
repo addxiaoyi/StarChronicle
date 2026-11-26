@@ -10,6 +10,7 @@ import io.github.addxiaoyi.starchronicle.integration.StarCoreBridge;
 import io.github.addxiaoyi.starchronicle.integration.SnapshotCollector;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistory;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistory;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistory;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryAidProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProvider;
@@ -64,6 +65,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private CommittedHistoryJournal committedHistory;
     private StarCoreTechnologyHistory technologyHistory;
     private StarCoreTradeHistory tradeHistory;
+    private StarCoreCapitalHistory capitalHistory;
     private FirstVisitJournal firstVisits;
     private List<ExplorationRegion> explorationRegions=List.of();
     private final FirstVisitBuffer explorationIngress=new FirstVisitBuffer(2048);
@@ -152,6 +154,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             committedHistory=new CommittedHistoryJournal(store);
             technologyHistory=new StarCoreTechnologyHistory(gateway,committedHistory);
             tradeHistory=new StarCoreTradeHistory(gateway,committedHistory);
+            capitalHistory=new StarCoreCapitalHistory(gateway,committedHistory);
+            gateway.setCommittedCapitalHistory(capitalHistory::usesCommittedHistory);
             gateway.setCommittedTechnologyHistory(technologyHistory::usesCommittedHistory);
             snapshotCollector=new SnapshotCollector(gateway,()->getServer().getServicesManager().getRegistrations(SnapshotProvider.class).stream().map(r->r.getProvider()).toList());
             textService=new TextService(Duration.ofMillis(Math.max(1,Math.min(30000,getConfig().getLong("text-timeout-ms",1500)))));
@@ -305,6 +309,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             engine.recoverEpicContributions(50);
             try { technologyHistory.scan(); }
             catch (RuntimeException failure) { getLogger().warning("Technology history scan retained its cursor: "+historyFailure(failure)); }
+            try { capitalHistory.scan(); }
+            catch (RuntimeException failure) { getLogger().warning("Capital history scan retained its cursor: "+historyFailure(failure)); }
             try { tradeHistory.scan(); }
             catch (RuntimeException failure) { getLogger().warning("Trade history scan retained its cursor: "+historyFailure(failure)); }
             for(var pending:committedHistory.pending(CommittedHistoryJournal.PAGE_SIZE)) {

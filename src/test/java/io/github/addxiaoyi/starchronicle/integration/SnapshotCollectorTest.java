@@ -14,6 +14,11 @@ class SnapshotCollectorTest {
         var scope=new SnapshotCollector(bridge).collect().stream().filter(s->s.namespace().equals("starcore.technologies")).findFirst().orElseThrow();
         assertFalse(scope.complete());assertTrue(scope.evidence().contains("Durable native technology log"));
     }
+    @Test void committedCapitalScopeKeepsSnapshotBaselineWithoutASecondMigrationEvent() {
+        StarCoreBridge bridge=mock(StarCoreBridge.class);when(bridge.committedCapitalHistory()).thenReturn(true);
+        var scope=new SnapshotCollector(bridge).collect().stream().filter(s->s.namespace().equals("starcore.capitals")).findFirst().orElseThrow();
+        assertFalse(scope.complete());assertTrue(scope.evidence().contains("Durable native capital log"));
+    }
     @Test void missingNativeAuthoritiesReportIncompleteScopesInsteadOfEmptySuccess() {
         StarCoreBridge bridge=mock(StarCoreBridge.class);var snapshots=new SnapshotCollector(bridge).collect();
         assertEquals(3,snapshots.size());assertTrue(snapshots.stream().noneMatch(ObservationSnapshot::complete));

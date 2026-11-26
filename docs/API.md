@@ -231,7 +231,7 @@ NPC 提供者是可选展示扩展点。注册方必须记录自己创建／附�
 
 schema 3 的选择迁移在保留 V1/V2 原数据的基础上，同事务创建选择日志及派生因果表，并将旧实例仍保存的选择导入为 `LEGACY_INSTANCE`；未知原投票时间／提交人保持NULL，中间改投不可重建。迁移失败会回滚版本和局部导入，重开不重复；较新 schema 会拒绝由旧程序打开。升级仍不能倒推出已消费来源的旧规则／资格，或补造原生 Request/checkpoint，不自动 backfill 这些触发或奖励。升级前正常停服并备份。详情见 [CONTINUOUS-NARRATIVE.md](CONTINUOUS-NARRATIVE.md)。
 
-`ObservationJournal` 为缺少提交后事件的权威快照提供同事务基线与持久ingress，成功accept后才ack；重启重投保持原ID和证据。原生完整国家列表用于观察国家消失，真实技术集合用于观察新解锁。首都迁移必须有可信 `SnapshotProvider` 的CAPITALS完整集合：审计CityService无持久指定首都getter，默认不猜迁都。重要战役取真实战争记录；探索／大型事件需要有稳定提交证据的服内集成。SenLuoPlugin 实际是 CraftEngine 内容插件，它的烹饪预提交事件不能当作国家历史权威来源。见 [HISTORY-OBSERVATION.md](HISTORY-OBSERVATION.md)。
+`ObservationJournal` 为缺少提交后事件的权威快照提供同事务基线与持久ingress，成功accept后才ack；重启重投保持原ID和证据。原生完整国家列表用于观察国家消失，真实技术集合用于观察新解锁。新 StarCore `NationService.capitalChangesAfter` 提供指定首都的连续提交日志；内置适配器保留真实指定人、原／新城市与提交时间。旧版本可由可信 `SnapshotProvider` 提供 CAPITALS 完整集合；不按城市等级或缓存位置猜迁都。重要战役取真实战争记录；探索／大型事件需要有稳定提交证据的服内集成。SenLuoPlugin 实际是 CraftEngine 内容插件，它的烹饪预提交事件不能当作国家历史权威来源。见 [HISTORY-OBSERVATION.md](HISTORY-OBSERVATION.md)。
 
 审计版本的 StarCore 缺少 `folia-supported: true`，且 NarrativeModule 仍使用 Bukkit 主线程定时器。未修改的上游不能据此宣称在 Folia 生产可用。`require-starcore: true` 时其服务不可用会使本插件安全停用；Folia 下显式 standalone 可以运行独立编排／历史，但不会得到真实国家身份或上游任务／剧情执行能力。即使另有可加载的上游适配构建，StarChronicle 仍会在 Folia 拒绝 `narrative.start`，直到完成单独线程兼容审计。
 
@@ -283,3 +283,11 @@ schema 8 新增贸易回执与只追加的贡献修订表。原始贡献与历�
 `revalidateMember(instanceId, playerId)` 在 StarCore 当前成员变更锁内重新核验原国籍、国家存续及剧情条件；普通成员也可复核，不需要国王身份。缺失权威服务、换国未恢复、无使用权限、退出或已结束剧情均拒绝。`exitMember(instanceId, playerId)` 显式退出活动剧情，保留历史选择与原生任务证明。后台恢复不会自动重新加入；`join` 对退出玩家要求原国籍及当前权威核验。
 
 `memberReviews(playerId, limit)` 返回本人的复核状态，`limit` 为 1..1000。玩家入口为 `/chronicle review <实例ID>`、`leave <实例ID>`、`reviews` 与 `contributions [页]`。插件 API 自行收集实时玩家快照，调用者不能提供国籍或审批标志。已退出成员的任务闸门保持可读且不再主动执行，已经提交的同国任务证明仍属于历史国家；缺少退出证据的成员数据丢失仍按损坏拒绝。
+
+## 首都指定与迁移提交历史
+
+内置 `StarCoreCapitalHistory` 读取独立 `capitalHistoryAuthorityDomainId()` 与 `capitalChangesAfter(sequence,128)`，固定 `starcore.capitals` 来源域。每条 `CapitalChangeReceipt` 包含域和完整 `CapitalDesignation`；连续序号、稳定 operation UUID、国家、原／新城市、真实 actor 与 `Instant` 都进入规范历史。首条是 `CAPITAL_DESIGNATED`，后续是 `CAPITAL_MOVED`；`capital.city`／`city.id`、可选 `capital.previous`、`capital.change`、`actor.id`、`nation.id`、`history.*` 与 `time_basis=COMMITTED` 可供规则使用。参与者只含原指定人，之后转让国主不会改写旧记录；不额外推定贡献。
+
+首次追赶仅归档，后续新提交／离线补读才进入正常剧情收件箱。每次最多128条，来源域与游标同 ingress 事务；消费完成才 ACK。源缺失、换域、游标超前、非连续页和写入失败保留游标，不回退到缓存首都或重建旧 OBSERVED 历史。新记录保留纳秒，旧原生日志只具毫秒精度，迁移不补造精度。
+
+原生在 `nation/capital-designations.log.sqlite` 同事务保存日志与提交位置；原 `.log` 成为迁移标记、`.log.legacy` 保留迁移前完整字节（包含未提交尾部）。旧插件遇到标记会拒绝读取；回退需整套匹配旧备份，不可删标记重新初始化。首次迁移与启动完整校验，日常查询使用序号／国家索引；不支持运行中手改或单独替换来源文件。部署／备份范围见首都专项报告。
