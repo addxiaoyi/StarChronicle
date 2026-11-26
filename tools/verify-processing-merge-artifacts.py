@@ -276,7 +276,7 @@ def compile_fixtures(args, chronicle_jar, native_jar, out):
     argfile = out / 'fixtures.args'
     argfile.write_text('\n'.join(['-encoding', 'UTF-8', '-proc:none', '--release', '21', '-classpath', quote(classpath),
                                    '-d', quote(fixture_out.resolve())] + [quote(path.resolve()) for path in paths]) + '\n', encoding='utf-8')
-    command = [str(args.java_home / 'bin' / ('javac.exe' if os.name == 'nt' else 'javac')), '-J-Xmx128m', '-J-Xss512k', '-J-XX:+UseSerialGC',
+    command = [str(args.java_home / 'bin' / ('javac.exe' if os.name == 'nt' else 'javac')), '-J-Xms8m', '-J-Xmx96m', '-J-Xss512k', '-J-XX:+UseSerialGC',
                '-J-XX:ActiveProcessorCount=1', '-J-XX:TieredStopAtLevel=1', '@' + str(argfile.resolve())]
     result = subprocess.run(command, cwd=ROOT, capture_output=True, timeout=180)
     (out / 'fixtures.log').write_bytes(result.stdout + result.stderr)

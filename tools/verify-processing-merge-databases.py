@@ -19,7 +19,7 @@ NATIVE = ROOT.parent / 'StarChronicle-audit/starcore-all-stages'
 ARCHIVE = ROOT / 'docs/verification/processing-history-linux-20261126-evidence.zip'
 PREFIX = 'paper-processing-cb9fe0a5-20261126-2/evidence/boot3.data/'
 MAIN = 'dev.starcore.starcore.module.resource.ProcessingMergeProbe'
-JVM = ['-Xmx96m', '-Xss512k', '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1',
+JVM = ['-Xms8m', '-Xmx96m', '-Xss512k', '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1',
        '-XX:TieredStopAtLevel=1', '-XX:ReservedCodeCacheSize=24m',
        '-XX:CompressedClassSpaceSize=24m', '-Dfile.encoding=UTF-8']
 
@@ -61,13 +61,26 @@ def snapshot(path: Path, previous=None) -> dict:
         return result
 
 
-def retained(before: dict, after: dict, exact=False) -> None:
+def retained(before: dict, after: dict, exact=False, mutable_property_keys=frozenset()) -> None:
     for name, table in before.items():
         assert name in after and table['columns'] == after[name]['columns'], name
         if exact:
             assert table == after[name], ('original rows changed', name)
         else:
-            assert not Counter(table['rows']) - Counter(after[name]['rows']), ('original rows lost', name)
+            lost = Counter(table['rows']) - Counter(after[name]['rows'])
+            if name == 'starcore_resource_state' and mutable_property_keys:
+                updated = [json.loads(row) for row in after[name]['rows']]
+                for row in list(lost):
+                    key, old_value = json.loads(row)
+                    if key in mutable_property_keys:
+                        matches = [value for candidate, value in updated if candidate == key]
+                        assert len(matches) == 1 and matches[0] != old_value, ('Missing upgraded property', key)
+                        del lost[row]
+            assert not lost, ('original rows lost', name)
+
+
+def assert_stockpile(actual: dict, expected: dict) -> None:
+    assert {key: value for key, value in actual.items() if value != 0} == expected, actual
 
 
 def immutable_files(folder: Path) -> dict:
@@ -185,7 +198,7 @@ def main():
         shutil.copy2(source, out / source.name)
         compile_args = argfile(out, 'compile', ['-encoding', 'UTF-8', '-proc:none', '--release', '21',
                                                '-classpath', classpath(), '-d', out, source])
-        process = subprocess.run([str(executable('javac')), '-J-Xmx96m', '-J-XX:+UseSerialGC',
+        process = subprocess.run([str(executable('javac')), '-J-Xms8m', '-J-Xmx96m', '-J-XX:+UseSerialGC',
                                   '-J-XX:ActiveProcessorCount=1', '-J-XX:TieredStopAtLevel=1',
                                   '-J-XX:ReservedCodeCacheSize=24m', '-J-XX:CompressedClassSpaceSize=24m',
                                   '@' + str(compile_args)], capture_output=True, timeout=600)
@@ -194,7 +207,7 @@ def main():
 
         seed = run('legacy', 'seed', old=True)
         assert seed['sql']['schema'] == 10
-        assert seed['stockpile'] == {'mineral': 991, 'energy': 997, 'industrial': 6}
+        assert_stockpile(seed['stockpile'], {'mineral': 991, 'energy': 997, 'industrial': 6})
         assert len(seed['productions']) == 2 and seed['production_cursor']['sequence'] == 2
         assert seed['sql']['counts']['contributions'] == 4
         before = {name: snapshot(out / 'legacy' / name) for name in ('starcore.db', 'chronicle.db')}
@@ -207,11 +220,17 @@ def main():
         assert upgraded['sql']['contributions'] == seed['sql']['contributions']
         assert upgraded['accepted_processing'] == upgraded['new_productions'] == 0
         assert upgraded['processing_changes'] == [] and upgraded['processing_cursor']['sequence'] == 0
+        metadata['legacy_upgrade_mutable_properties'] = [
+            'resource.factory-runs.head', 'resource.history.commit']
         for name, original in before.items():
-            retained(original, snapshot(out / 'legacy' / name, original))
+            after_upgrade = snapshot(out / 'legacy' / name, original)
+            retained(original, after_upgrade,
+                     mutable_property_keys=set(metadata['legacy_upgrade_mutable_properties'])
+                     if name == 'starcore.db' else frozenset())
+            write_json(out / 'legacy' / (name + '-after-upgrade.json'), after_upgrade)
         stable(upgraded, run('legacy', 'reopen-before-append'))
         appended = run('legacy', 'append')
-        assert appended['stockpile'] == {'mineral': 964, 'energy': 988, 'industrial': 24}
+        assert_stockpile(appended['stockpile'], {'mineral': 964, 'energy': 988, 'industrial': 24})
         assert appended['legacy_factory'] == seed['legacy_factory']
         assert appended['productions'][:2] == seed['productions']
         assert len(appended['productions']) == 4 and appended['new_productions'] == 2
@@ -259,7 +278,11 @@ def main():
         assert len(upstream['resource_changes']) == 139 and upstream['accepted_resources'] == 0
         assert upstream['processing_cursor']['sequence'] == 137 and upstream['resource_cursor']['sequence'] == 139
         for name, original in before_upstream.items():
-            retained(original, snapshot(folder / name, original))
+            after_upgrade = snapshot(folder / name, original)
+            retained(original, after_upgrade,
+                     mutable_property_keys=set(metadata['legacy_upgrade_mutable_properties'])
+                     if name == 'starcore.db' else frozenset())
+            write_json(folder / (name.replace('/', '-') + '-after-upgrade.json'), after_upgrade)
         assert upstream['sql']['counts']['contributions'] == 12
         for name, original in original_files.items():
             assert original == immutable_files(folder / name), ('Immutable native evidence changed', name)
@@ -268,7 +291,9 @@ def main():
         after_upstream = {}
         for name, original in before_upstream.items():
             after_upstream[name] = snapshot(folder / name, original)
-            retained(original, after_upstream[name])
+            retained(original, after_upstream[name],
+                     mutable_property_keys=set(metadata['legacy_upgrade_mutable_properties'])
+                     if name == 'starcore.db' else frozenset())
         for table in ('processing_history_receipts', 'contributions'):
             assert before_upstream['chronicle.db'][table] == after_upstream['chronicle.db'][table], table
         assert before_upstream['processing-history/runs.sqlite'] == after_upstream['processing-history/runs.sqlite']

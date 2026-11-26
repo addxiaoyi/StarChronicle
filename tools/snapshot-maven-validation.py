@@ -16,6 +16,8 @@ import subprocess
 import time
 import xml.etree.ElementTree as ET
 
+BUILD_INPUT_NAMES = ('pom.xml', 'docs/API.md')
+
 
 def digest(path: Path) -> str:
     with path.open('rb') as stream:
@@ -24,6 +26,22 @@ def digest(path: Path) -> str:
 
 def write_json(path: Path, value) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+
+def find_source_drift(repo: Path, source_hashes: dict, inputs: dict) -> list[str]:
+    current_sources = {
+        path.relative_to(repo).as_posix(): path
+        for tree in ('src/main', 'src/test')
+        for path in (repo / tree).rglob('*') if path.is_file()
+    }
+    current_inputs = {name: repo / name for name in BUILD_INPUT_NAMES
+                      if (repo / name).is_file()}
+    drift = set(current_sources) ^ set(source_hashes)
+    drift.update(set(current_inputs) ^ set(inputs))
+    for previous, current in ((source_hashes, current_sources), (inputs, current_inputs)):
+        drift.update(name for name, value in previous.items()
+                     if name in current and digest(current[name]) != value)
+    return sorted(drift)
 
 
 def main() -> int:
@@ -44,7 +62,7 @@ def main() -> int:
     if not (repo / 'pom.xml').is_file():
         parser.error('--repo must contain pom.xml')
     out.mkdir(parents=True, exist_ok=False)
-    options = [f'-Xmx{args.heap}', f'-XX:MaxMetaspaceSize={args.metaspace}', '-Xss512k',
+    options = ['-Xms16m', f'-Xmx{args.heap}', f'-XX:MaxMetaspaceSize={args.metaspace}', '-Xss512k',
                '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1', '-XX:TieredStopAtLevel=1',
                '-XX:ReservedCodeCacheSize=24m', '-XX:CompressedClassSpaceSize=16m',
                '-Dfile.encoding=UTF-8']
@@ -81,7 +99,7 @@ def main() -> int:
                 shutil.copy2(path, target)
                 source_hashes[name.as_posix()] = digest(path)
     inputs = {}
-    for name in ('pom.xml', 'docs/API.md'):
+    for name in BUILD_INPUT_NAMES:
         path = repo / name
         if path.is_file():
             target = out / 'source' / name
@@ -116,8 +134,7 @@ def main() -> int:
         suites.append({'name': name, **counts})
         for key in totals:
             totals[key] += counts[key]
-    drift = [name for name, value in source_hashes.items() if digest(repo / name) != value]
-    drift += [name for name, value in inputs.items() if digest(repo / name) != value]
+    drift = find_source_drift(repo, source_hashes, inputs)
     result = {'exit_code': code, 'seconds': time.monotonic() - started, 'totals': totals,
               'suites': suites, 'args': command, 'build_success': 'BUILD SUCCESS' in log,
               'source_drift': drift, 'server_started': False}
