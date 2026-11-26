@@ -31,4 +31,4 @@
 
 任何后续`clean`前保留target里的冻结构件、完整报告及交接包；优先新建worktree。四个中断场景保留原始SQL和WAL，每组仅本任务自有JVM被SIGKILL。失败目录和测试反例的修复说明见报告。十阶段继续推进，不将本轮里程碑误记为整体完成。
 
-最终本机交付目录为`target/player-trade-audit-final-handoff/`。证据包SHA-256 `eabbb9b43639dd3b5c2df384869d0eb3bd35d6831d8b87b3a2172675d680f8ab`；本地二进制包`0a5169694aa9432357a5948bb31986bc992773ccf6726c57919c2dda46133320`。原生草稿[PR #20](https://github.com/addxiaoyi/starcore/pull/20)，最终配套Chronicle草稿及CI见报告／PR。所有本任务服务已停止。
+最终本机交付目录为`target/player-trade-audit-final-handoff/`。证据包SHA-256 `eabbb9b43639dd3b5c2df384869d0eb3bd35d6831d8b87b3a2172675d680f8ab`；本地二进制包`0a5169694aa9432357a5948bb31986bc992773ccf6726c57919c2dda46133320`。配套草稿为[Chronicle PR #25](https://github.com/addxiaoyi/StarChronicle/pull/25)与[Native PR #20](https://github.com/addxiaoyi/starcore/pull/20)，最终HEAD及CI见PR正文。所有本任务服务已停止。

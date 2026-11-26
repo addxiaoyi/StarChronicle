@@ -9,7 +9,7 @@
 | StarCore | `61db75125721c5097c8c7c7fa3f4e8d0745e532d` | `7dcb5f11e53e287a895ab83fcc56e3bbc845489f36267a1af1f4c58f191e35b6` |
 | StarChronicle | 沿用`47cdf354358c9b6a0103c9c7ee10b9c1090d4227` | `d4ff800e0503c513948cc61d66100de141f8c1de99b68880a9e9f55e4b785793` |
 
-本轮两库分支均为`codex/player-trade-audit-20261126`，分别叠加原生玩家恢复#19与Chronicle#24。冻结包在`target/audit-frozen-2/`。Chronicle产品代码及POM未修改，沿用已验收构件及其1,017项构建报告；本轮工具或文档的CI构件另记指纹。
+本轮两库分支均为`codex/player-trade-audit-20261126`，草稿为[Chronicle #25](https://github.com/addxiaoyi/StarChronicle/pull/25)和[Native #20](https://github.com/addxiaoyi/starcore/pull/20)，分别叠加Chronicle#24与原生玩家恢复#19。冻结包在`target/audit-frozen-2/`。Chronicle产品代码及POM未修改，沿用已验收构件及其1,017项构建报告；本轮工具或文档的CI构件另记指纹。
 
 固定组合继续为Java21／Paper1.21.11、EssentialsX2.22.0／Vault1.7.3-b131、FancyNpcs2.10.1-java21+2、WorldEdit7.4.2、WorldGuard7.0.17。所有测试均为隔离服，显式种入初始国家、国库、国家库存和玩家余额。
 
