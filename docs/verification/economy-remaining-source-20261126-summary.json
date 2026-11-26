@@ -1,0 +1,110 @@
+{
+  "date": "2026-11-26",
+  "scope": "Remaining Essentials balance/admin ownership, provider routing, original-session name directory/completion, and periodic ranking admission/lifetime. No Minecraft.",
+  "baseline_commits": {
+    "starchronicle": "2d1510ccfd61a5a95c24e2b74f05f501e33ada6c",
+    "starcore": "6c8decfd93b83474fa039882712f6284e1b1fec2"
+  },
+  "new_tests": 52,
+  "new_test_groups": {
+    "account_commands": 27,
+    "names": 18,
+    "periodic_ranking": 7
+  },
+  "tests": {
+    "tests": 484,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "test_groups": {
+    "scheduler_and_essentials": 441,
+    "foundation_economy": 43
+  },
+  "baseline_tests": {
+    "tests": 22,
+    "failures": 22,
+    "errors": 0,
+    "skipped": 0
+  },
+  "intermediate_tests": {
+    "tests": 482,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "artifacts": {
+    "starchronicle_sha256": "1c7b8b010c9d330c15b0882753d54095fb906e42caedb926a81055d643cd78ce",
+    "sources_sha256": "8a9634b60a7b256e228e5c96b62eb525824083d83cffb590828934d93dd2547c",
+    "starcore_sha256": "e321d2d7cc3c05ef5b30395b58b98f613824fdefdcdc113772159f91e092b5e0"
+  },
+  "artifact_verification": {
+    "status": "VERIFIED",
+    "starcore_sha256": "e321d2d7cc3c05ef5b30395b58b98f613824fdefdcdc113772159f91e092b5e0",
+    "baseline_sha256": "2a8ec8b73d0fa2aaf6c5bb5f8e2f4a05116e98f0eae95d07cef9cb46d092e77b",
+    "class_hashes": {
+      "dev/starcore/starcore/essentials/EssentialsModule$CommandBinding.class": "1a48ecd6b1c61c5c6cd241db3321de47e626d1852456d48a123d4b309d2b7655",
+      "dev/starcore/starcore/essentials/EssentialsModule$LifecycleCommand.class": "c7f312f184e56efcd438773199e2107a6e0c667fc589a2ba51e01ca281c1a3d0",
+      "dev/starcore/starcore/essentials/EssentialsModule.class": "55a71e9efb44af42d992717f6df8f49c19a4318b31a402b1465e5c345de80231",
+      "dev/starcore/starcore/essentials/command/EconomyCommand$Audience.class": "08d3abad90975619a66c16d26fe18b360e96091d4251c16f25c85dbc9fe1a23b",
+      "dev/starcore/starcore/essentials/command/EconomyCommand.class": "85698d9d93d54223837aadc025fdb8890e96bf6b6e2a23ba1bd10922ee41dd69",
+      "dev/starcore/starcore/essentials/player/PlayerNameDirectory$CapturedName.class": "601cd665a93419b9a3ad3dec3de2160be96f3dad4c6fbc33610020e379089b1e",
+      "dev/starcore/starcore/essentials/player/PlayerNameDirectory$PendingName.class": "ae2b42426c58c6a70769ef9e8b73c65994d7fa31061bcab1ba02137b4b50df56",
+      "dev/starcore/starcore/essentials/player/PlayerNameDirectory.class": "f68b9bbf675850ccc3471f04fbea8a9caf9a0e6e2bd5d11fdb14862927c8dfc8"
+    },
+    "compiled_source_hashes": {
+      "src/main/java/dev/starcore/starcore/essentials/EssentialsModule.java": "9f1c96a6e80404f98ea528475fdb389bf781989bb55da0c505544fb87788c5d5",
+      "src/main/java/dev/starcore/starcore/essentials/command/EconomyCommand.java": "30bab8a4d47ca1a3c68d657dccd9600f840d22e5a1c19a8fd85d5af5ccbb6164",
+      "src/main/java/dev/starcore/starcore/essentials/player/PlayerNameDirectory.java": "3cfd678a60e769d03a7b8d490caf118de3fb837011153761aa82560d9dde630d",
+      "src/test/java/dev/starcore/starcore/essentials/command/EconomyRemainingOwnershipTest.java": "d80d2d0e84f3ace3d4ca6c8e92c0e43e6817c2f10fb26acec8524519fb3cb2b8",
+      "src/test/java/dev/starcore/starcore/essentials/command/EconomyCommandThreadingTest.java": "a745e57705bc0e0235af7ad5931138ff89afd501933c0f5869d07f5fae62ce1c",
+      "src/test/java/dev/starcore/starcore/essentials/EssentialsRankingLifecycleTest.java": "b724cbe89832703170efc374d785aee85cad950f7e8542f7a33462a02a378962",
+      "src/test/java/dev/starcore/starcore/essentials/player/PlayerNameDirectoryTest.java": "fd62957de3a81aff73b7be1a487ff273867aa73c869ec91b9ead831c68b4375e"
+    },
+    "public_api": {
+      "dev/starcore/starcore/essentials/EssentialsModule": {
+        "preserved_methods": 15,
+        "added_methods": []
+      },
+      "dev/starcore/starcore/essentials/command/EconomyCommand": {
+        "preserved_methods": 7,
+        "added_methods": [
+          [
+            "public dev.starcore.starcore.essentials.command.EconomyCommand(org.bukkit.plugin.Plugin, dev.starcore.starcore.foundation.economy.EconomyService, dev.starcore.starcore.essentials.baltop.BalTopService, dev.starcore.starcore.foundation.economy.transaction.TransactionFabric, dev.starcore.starcore.core.scheduler.FoliaCompatScheduler, dev.starcore.starcore.essentials.EssentialsPermissions, java.util.function.BooleanSupplier, dev.starcore.starcore.essentials.player.PlayerNameDirectory);",
+            "(Lorg/bukkit/plugin/Plugin;Ldev/starcore/starcore/foundation/economy/EconomyService;Ldev/starcore/starcore/essentials/baltop/BalTopService;Ldev/starcore/starcore/foundation/economy/transaction/TransactionFabric;Ldev/starcore/starcore/core/scheduler/FoliaCompatScheduler;Ldev/starcore/starcore/essentials/EssentialsPermissions;Ljava/util/function/BooleanSupplier;Ldev/starcore/starcore/essentials/player/PlayerNameDirectory;)V"
+          ]
+        ]
+      }
+    },
+    "sbom_components": 36,
+    "limits": [
+      "Bytecode and API checks are not live Paper/Folia acceptance.",
+      "Existing public descriptors are preserved; one shared-name-directory constructor and the name directory API are additive."
+    ]
+  },
+  "source_hashes": {
+    "src/main/java/dev/starcore/starcore/essentials/EssentialsModule.java": "9f1c96a6e80404f98ea528475fdb389bf781989bb55da0c505544fb87788c5d5",
+    "src/main/java/dev/starcore/starcore/essentials/command/EconomyCommand.java": "30bab8a4d47ca1a3c68d657dccd9600f840d22e5a1c19a8fd85d5af5ccbb6164",
+    "src/main/java/dev/starcore/starcore/essentials/player/PlayerNameDirectory.java": "3cfd678a60e769d03a7b8d490caf118de3fb837011153761aa82560d9dde630d",
+    "src/test/java/dev/starcore/starcore/essentials/command/EconomyRemainingOwnershipTest.java": "d80d2d0e84f3ace3d4ca6c8e92c0e43e6817c2f10fb26acec8524519fb3cb2b8",
+    "src/test/java/dev/starcore/starcore/essentials/command/EconomyCommandThreadingTest.java": "a745e57705bc0e0235af7ad5931138ff89afd501933c0f5869d07f5fae62ce1c",
+    "src/test/java/dev/starcore/starcore/essentials/EssentialsRankingLifecycleTest.java": "b724cbe89832703170efc374d785aee85cad950f7e8542f7a33462a02a378962",
+    "src/test/java/dev/starcore/starcore/essentials/player/PlayerNameDirectoryTest.java": "fd62957de3a81aff73b7be1a487ff273867aa73c869ec91b9ead831c68b4375e",
+    "docs/ECONOMY-ACCOUNT-LIFECYCLE.md": "84f150dcb912ad0aedca0b3abb647e7015252d2f1f1465eb0eb7206c780deb33",
+    "docs/ECONOMY-COMMAND-OWNERSHIP.md": "f8f3741b6c9ea024850cc3a2dd9d1102be168369ee793ef1cd078465e65f7c86"
+  },
+  "limits": [
+    "No real Minecraft, MySQL, external Vault/NPC/protection binaries or live Paper/Folia reload.",
+    "Built-in operations are async; external providers retain Paper main-thread calls. Unverified external Folia account operations and periodic refresh are not invoked.",
+    "In-memory admission guards do not provide durable request IDs, provider idempotency or recovery of uncertain player-money mutations after process failure.",
+    "After admission, the captured UUID operation may finish despite reconnect/stop. Responses require the original audience; no rollback is promised.",
+    "Legacy constructors populate name snapshots lazily; initial completion may be empty/partial until owner captures finish.",
+    "Names are sampled snapshots. Module startup/joins populate the shared directory, quits/close invalidate original objects.",
+    "484 selected tests (441 scheduler/Essentials plus 43 foundation economy), existing POM exclusions retained, not the complete native suite.",
+    "Single 256 MiB JVM per operation; forkCount=0, jacoco.skip=true; no local coverage result.",
+    "Chronicle main JAR and prior 1021-test local result unchanged. Earlier contracts and regressions retain their own JAR identities.",
+    "Social/GUI/NPC and other business ownership, provider certainty, full hot reload and production acceptance remain."
+  ],
+  "evidence_files": 158,
+  "evidence_zip_sha256": "85a42ed16dfd02d60d31116eff5cb84823fac08f034306e8dbc4bfc10b035a34"
+}
