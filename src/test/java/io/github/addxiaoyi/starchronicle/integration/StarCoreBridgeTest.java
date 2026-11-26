@@ -31,6 +31,15 @@ class StarCoreBridgeTest {
     }
     StarCoreBridge bridge() { return new StarCoreBridge(plugin,(id,operation,retired)->operation.accept(player),false); }
 
+    @Test void committedTechnologySourceSuppressesResearchCallbackBeforeReadingItsPayload() throws Exception {
+        StarCoreBridge bridge=bridge();bridge.setCommittedTechnologyHistory(()->true);
+        var receive=StarCoreBridge.class.getDeclaredMethod("receive",Object.class);receive.setAccessible(true);
+        receive.invoke(bridge,new ResearchCompleteEvent());
+    }
+    public static class ResearchCompleteEvent {
+        public String researchId(){throw new AssertionError("Durable source must own technology history");}
+    }
+
     @Test void missingCoreFailsClosedAndUnknownFactsAreAbsent() {
         StarCoreBridge bridge=bridge(); assertFalse(bridge.available()); assertFalse(bridge.hasScript("missing")); assertFalse(bridge.hasQuest("missing"));
         bridge.refreshContext(player,List.of("allowed","denied"));

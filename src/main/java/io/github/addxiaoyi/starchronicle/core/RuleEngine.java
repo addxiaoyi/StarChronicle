@@ -130,6 +130,19 @@ public final class RuleEngine implements AutoCloseable {
         });
     }
 
+    /** Initial committed-source catch-up preserves exact history without replaying earlier
+     * story/NPC/memory effects. Subsequent accept calls cannot activate an archived event. */
+    public ProcessReport archiveCommittedHistory(WorldEvent event) {
+        Objects.requireNonNull(event);
+        if(event.facts().keySet().stream().anyMatch(EpicCampaignLedger.STORY_FACTS::contains))
+            throw new SecurityException("Epic completion facts require a committed campaign transition");
+        return transaction(c -> {
+            boolean fresh = record(c, event, false);
+            if (fresh) EventCausality.record(c, event.id(), EventCausality.root(event.id()));
+            return new ProcessReport(!fresh, List.of(), fresh ? "已归档原生历史，不补发剧情效果" : "原生历史已归档");
+        });
+    }
+
     /** Commit a verified native national-aid receipt together with its canonical
      * history event, derived effects and durable story inbox.  The provider call
      * has already completed before entering this transaction; this method only
@@ -1365,12 +1378,15 @@ public final class RuleEngine implements AutoCloseable {
     public List<EventCausality.Block> triggerBlocks(int limit){return transaction(c->EventCausality.blocks(c,limit));}
     public EventCausality.Trace causality(String eventId){return transaction(c->EventCausality.read(c,eventId));}
     private boolean record(Connection c,WorldEvent e)throws Exception {
+        return record(c,e,true);
+    }
+    private boolean record(Connection c,WorldEvent e,boolean applyNpcEffects)throws Exception {
         Map<String,Object> canonical=new TreeMap<>();canonical.put("id",e.id());canonical.put("type",e.type());canonical.put("time","OBSERVED".equals(e.facts().get("time_basis"))?"OBSERVED":e.occurredAt().toString());canonical.put("players",e.participants().stream().map(UUID::toString).sorted().toList());canonical.put("nations",new TreeSet<>(e.nations()));canonical.put("facts",new TreeMap<>(e.facts()));canonical.put("source",e.source());canonical.put("evidence",e.evidence());
         String hash=stable(json(canonical));
         try(var s=c.prepareStatement("SELECT hash FROM events WHERE id=?")){s.setString(1,e.id());try(var r=s.executeQuery()){if(r.next()){if(!r.getString(1).equals(hash)) throw new IllegalArgumentException("Source event ID collision: "+e.id());return false;}}}
         try(var s=c.prepareStatement("INSERT INTO events VALUES(?,?,?,?,?)")){s.setString(1,e.id());s.setString(2,e.type());s.setString(3,SORTABLE_TIME.format(e.occurredAt()));s.setString(4,hash);s.setString(5,json(e));s.executeUpdate();}
         try(var n=c.prepareStatement("INSERT INTO event_nations VALUES(?,?)");var p=c.prepareStatement("INSERT INTO event_players VALUES(?,?)")){for(String nation:e.nations()){n.setString(1,e.id());n.setString(2,nation);n.addBatch();}for(UUID player:e.participants()){p.setString(1,e.id());p.setString(2,player.toString());p.addBatch();}n.executeBatch();p.executeBatch();}
-        if(npcs!=null)npcs.applyEvent(c,e);
+        if(applyNpcEffects&&npcs!=null)npcs.applyEvent(c,e);
         return true;
     }
     private static boolean receipt(Connection c,String id,String status,String payload)throws Exception {try(var s=c.prepareStatement("INSERT OR IGNORE INTO outcomes VALUES(?,?,?)")){s.setString(1,id);s.setString(2,status);s.setString(3,payload);return s.executeUpdate()==1;}}

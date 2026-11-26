@@ -9,6 +9,7 @@ import io.github.addxiaoyi.starchronicle.core.*;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreBridge;
 import io.github.addxiaoyi.starchronicle.integration.SnapshotCollector;
 import io.github.addxiaoyi.starchronicle.integration.CommittedSourceCollector;
+import io.github.addxiaoyi.starchronicle.integration.TechnologyHistoryCoordinator;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryAidProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProvider;
@@ -19,6 +20,7 @@ import io.github.addxiaoyi.starchronicle.integration.CoreContentInstaller;
 import io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapter;
 import io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournal;
 import io.github.addxiaoyi.starchronicle.history.ObservationJournal;
+import io.github.addxiaoyi.starchronicle.history.CommittedHistoryJournal;
 import io.github.addxiaoyi.starchronicle.history.FirstVisitJournal;
 import io.github.addxiaoyi.starchronicle.history.FirstVisitBuffer;
 import io.github.addxiaoyi.starchronicle.memory.*;
@@ -59,6 +61,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private Path memoryRecipesFile;
     private MemorySites memorySites;
     private ObservationJournal observations;
+    private CommittedHistoryJournal committedHistory;
+    private TechnologyHistoryCoordinator technologyHistory;
     private FirstVisitJournal firstVisits;
     private List<ExplorationRegion> explorationRegions=List.of();
     private final FirstVisitBuffer explorationIngress=new FirstVisitBuffer(2048);
@@ -158,6 +162,9 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             nativeJournal=new NativeSceneJournal(store,Clock.systemUTC());
             memoryLedger=new MemoryLedger(store);
             observations=new ObservationJournal(store,Clock.systemUTC());
+            committedHistory=new CommittedHistoryJournal(store);
+            technologyHistory=new TechnologyHistoryCoordinator(engine,gateway,committedHistory);
+            gateway.setCommittedTechnologyHistory(technologyHistory::usesCommittedHistory);
             snapshotCollector=new SnapshotCollector(gateway,()->getServer().getServicesManager().getRegistrations(SnapshotProvider.class).stream().map(r->r.getProvider()).toList());
             textService=new TextService(Duration.ofMillis(Math.max(1,Math.min(30000,getConfig().getLong("text-timeout-ms",1500)))));
             permissions=permissionNodes(definitions);
@@ -308,8 +315,11 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             nativeJournal.isolateOrphans(nativeFlights.players());
             gateway.scanCommittedSources();
             engine.recoverEpicContributions(50);
+            try { technologyHistory.poll(contexts); }
+            catch (ReflectiveOperationException|RuntimeException failure) { getLogger().warning("Technology history retained its original ledger: "+root(failure).getMessage()); }
             var committed=new CommittedSourceCollector(gateway);
             for(var source:CommittedSourceCollector.Source.values())try {
+                if(source==CommittedSourceCollector.Source.TECHNOLOGY)continue;
                 var page=committed.collect(source,engine.committedSourceCursor(source.id));
                 if(page.isPresent())engine.acceptCommittedSource(page.get(),contexts);
             } catch(ReflectiveOperationException|RuntimeException failure) {

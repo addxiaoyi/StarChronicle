@@ -45,7 +45,9 @@ public final class SnapshotCollector {
 
         boolean nationScanComplete=result.getFirst().complete();
         Object technology=bridge.service("module.technology.TechnologyService");
-        if(nationScanComplete&&technology!=null&&technology.getClass().getName().equals("dev.starcore.starcore.module.technology.TechnologyModule")) {
+        if (bridge.committedTechnologyHistory()) {
+            result.add(ObservationSnapshot.unavailable("starcore.technologies",TECH_SOURCE,Kind.TECHNOLOGIES,"Durable native technology log owns this scope; retain any legacy baseline without generating duplicate observations"));
+        } else if(nationScanComplete&&technology!=null&&technology.getClass().getName().equals("dev.starcore.starcore.module.technology.TechnologyModule")) {
             try {
                 Map<String,Entry> entries=new TreeMap<>();
                 synchronized(technology) {

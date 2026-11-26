@@ -1,16 +1,24 @@
 # 持久提交来源
 
-Chronicle 在有界状态工作线程中分页读取配套 StarCore 的真实持久日志。每个来源每轮最多读取 100 条，包含上一条已确认回执作为恢复锚点，因此追赶时每轮最多新增 99 条。来源存储域、提交序号、操作 ID 和规范化证据持久保存；新游标与本地历史、剧情触发、贡献或贸易状态投影在同一 SQLite 事务提交。
+Chronicle 在有界状态工作线程中分页读取配套 StarCore 的真实持久日志。通用来源每轮最多读取 100 条，包含上一条已确认回执作为恢复锚点，因此追赶时每轮最多新增 99 条。来源存储域、提交序号、操作 ID 和规范化证据持久保存；新游标与本地历史、剧情触发、贡献或贸易状态投影在同一 SQLite 事务提交。科技来源按已安装账本选择下文的兼容路径，始终只启用一种消费格式。
 
 | 来源 | 原生协议 | 历史事件与边界 |
 | --- | --- | --- |
 | 贸易 | `TradeHistoryService.historyAuthorityDomainId/committedChangesAfter` | `TRADE_COMPLETED/REFUNDED/DISPUTED/CANCELLED`，包含交易发生时间和原生状态提交时间；不使用发生时间游标替代提交顺序 |
-| 科技 | `TechnologyService.historyAuthorityDomainId/technologyChangesAfter` | `TECHNOLOGY_UNLOCKED/REVOKED`，保留国家、科技和时代；日志没有研究者，不推断玩家 |
+| 科技 | `TechnologyService.historyAuthorityDomainId/technologyChangesAfter` | 原通用账本保留 `TECHNOLOGY_UNLOCKED/REVOKED`；新安装／上游科技账本为 `TECHNOLOGY_BREAKTHROUGH/REVOKED`，解锁标题明确为原生提交；两者只含国家、科技和时代，不推断研究者 |
 | 指定首都 | `NationService.authorityDomainId/capitalDesignationsAfter` | 首次为 `CAPITAL_DESIGNATED`，已有指定首都变化为 `CAPITAL_MOVED`；保留前后城市 ID 和真实操作者 |
 | 国家资源交付 | `NationResourceTransactionService.authorityDomainId/transferReceiptsAfter` | `NATIONAL_RESOURCES_TRANSFERRED`，保留付款国、收款国、资源数量、类别、描述；无操作者的回执不直接授予个人贡献 |
 | 国家即时加工／定时工厂完成 | `ProcessingService.productionAuthorityDomainId/productionReceiptsAfter` | `CIVILIZATION_PRODUCTION_COMMITTED`，保留实际扣料与产出、配方、批次、操作者和完成提交时间；只有已确认持久回执可生成贡献 |
 
-来源缺失时保持已有游标。存储域改变、序号缺口、回执冲突、恢复后丢失锚点或插入失败均保留游标并报告错误；不得通过清空游标掩盖问题。互相独立的来源可分别追赶。原有快照观察仍明确标为 `OBSERVED`；科技解锁提交不冒充含研究者的 `TECHNOLOGY_BREAKTHROUGH` 研究完成事件。
+来源缺失时保持已有游标。存储域改变、序号缺口、回执冲突、恢复后丢失锚点或插入失败均保留游标并报告错误；不得通过清空游标掩盖问题。互相独立的来源可分别追赶。原有快照观察仍明确标为 `OBSERVED`；科技解锁没有研究者，不代表玩家完成了研究计时／消耗流程。
+
+## 科技账本兼容与初始归档
+
+已有 `committed_source_cursors` 中 `starcore.technology` 游标的数据库继续使用通用来源及原事件格式、激活语义和锚点。已有 `committed_history_sources` 科技游标或全新安装使用科技专用日志。两个账本都存在、运行中出现竞争写入或旧游标消失时只隔离科技推进，保留两边证据，不清空或自动选择其中一个；应恢复匹配的备份。其他四类来源仍可继续。
+
+专用科技日志每次读取最多 128 条原生回执；有游标后包含上一条锚点，因此最多新增 127 条。初次追赶只归档历史和因果根，不补发 NPC、记忆、剧情或奖励；以原始页面是否满页判断追赶完成，去掉锚点不能提前进入正常激活。以后新增记录正常触发，重启保持模式。游标和待处理页先同事务保存，引擎消费成功后才确认；已保存的页未处理前不再读取新页。每次空闲读取也校验完整锚点，源静默回退、同序号替换或内容变化都拒绝。
+
+两种模式都抑制新的科技快照／ResearchCompleteEvent 副本；旧 OBSERVED、研究回调、历史事件 ID、原 JSON 和触发记录不改写。上游专用日志待处理页可以跨升级续办，不重新激活已归档事件。固定来源不可用时保留待处理页，等待原来源恢复。
 
 ## 贸易原生迁移
 

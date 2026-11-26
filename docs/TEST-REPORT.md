@@ -1,14 +1,14 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-26T13:10:18+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T13:46:17+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
 ## 构建结果
 
-- 执行命令：`mvnw.cmd -o -B -ntp -DforkCount=0 -Djacoco.skip=true clean verify`（Java 21）。
+- 执行命令：`.\mvnw.cmd -o -B -ntp -DforkCount=0 -Djacoco.skip=true clean verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
-- 单元／集成回归：1050 项，失败 0，错误 0，跳过 0。
+- 单元／集成回归：1076 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
 - 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。
 - 同时生成全部 Java 源码 JAR。
@@ -27,6 +27,7 @@
 | `io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest` | 50 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest` | 15 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.CommittedHistoryArchiveTest` | 2 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.CommittedSourceFlowTest` | 7 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest` | 9 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.ContributionFlowTest` | 4 | 0 | 0 | 0 |
@@ -70,6 +71,7 @@
 | `io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest` | 1 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest` | 22 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.TextServiceTest` | 8 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.history.CommittedHistoryJournalTest` | 7 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.history.EventCausalityTest` | 10 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.history.FirstVisitBufferTest` | 2 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest` | 15 | 0 | 0 | 0 |
@@ -79,15 +81,17 @@
 | `io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest` | 12 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest` | 9 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest` | 21 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest` | 3 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest` | 4 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest` | 16 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest` | 22 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest` | 23 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProviderTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreMemberAuthorityTest` | 3 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest` | 19 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest` | 27 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistoryTest` | 7 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryEpicProviderTest` | 1 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest` | 7 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.TechnologyHistoryCoordinatorTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest` | 5 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryRecipeCatalogTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryRecipeEngineTest` | 16 | 0 | 0 | 0 |
@@ -127,8 +131,8 @@
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18135480 | `10135139ddc6332ece286d16a5567da5e78fd527493789bc63cb1488ac851b77` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 380180 | `1cad1823cc57ab99270140a3ebadd2f3bf25de005db0fd8896cb0763b375ecb9` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18156649 | `42c0e27b7726548faf8f2bf330af3de44e44225632645824ccf3ad102c22f071` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 388355 | `f48e8b325b1c086880eccadff4eb8d1f7eb160fd7c4a972d614e7d305b9f8c87` |
 
 ## 真实服务器证据与构建对应
 
