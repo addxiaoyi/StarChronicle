@@ -18,9 +18,9 @@ import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    // Older schema-8 writers ignore committed trade revisions and can introduce a second
-    // collector. Even an additive upgrade must reject those writers after net-state adoption.
-    public static final int SCHEMA_VERSION=9;
+    // The two schema-9 branches support different receipt ledgers. Neither old writer may
+    // open the combined database and acknowledge history without its complete receipt.
+    public static final int SCHEMA_VERSION=10;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;
@@ -69,6 +69,7 @@ public final class SqliteStore implements AutoCloseable {
                 ContributionLedger.createSchema(connection);
                 io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.createSchema(connection);
                 io.github.addxiaoyi.starchronicle.core.TradeContributionLedger.createSchema(connection);
+                io.github.addxiaoyi.starchronicle.core.ResourceHistoryLedger.createSchema(connection);
                 EpicCampaignLedger.createSchema(connection);
                 DefinitionCatalog.createSchema(connection);
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);

@@ -282,7 +282,7 @@ schema 7 仅在原因果表追加默认空的 `recipe_path` 并新增定义、�
 
 `contributionBalances(subjectId, type, page, size)` 返回原始条目、当前状态、该状态的来源事件／提交时间与 `netAmount()`；只有 ACTIVE 计入净值。`contributionRevisions(contributionId, page, size)` 按追加顺序倒序返回状态凭据。`tradeHistoryReceipt(eventId)` 返回专用贸易来源的完整原生回执，包括超过历史事实长度限制的备注。上述方法均异步只读，分页大小为 1..100；`/chronicle contributions [player|nation] [页]` 显示当前计入／原始数量和状态。
 
-贸易协调器保留已安装格式：存在旧 `committed_source_cursors` 时继续原来源、操作 ID、`resource.<资源>` 单位、baseline 与剧情激活语义，不重复接入专用 journal；新安装或既有上游 journal 使用 `tradeChangesAfter`，首次追赶只归档、建立净贡献，追上后才激活新剧情。两套贸易游标同时存在时隔离贸易读取并保留数据。原生 UUID getter 优先使用 `tradeHistoryAuthorityDomainId`，兼容上游原 UUID getter，但不会把旧 Optional getter 的序号当作专用流。数据库升级到 schema 9，阻止会忽略新修订或运行另一套采集器的 schema 8 旧 JAR 打开；回退必须使用配套旧版备份。
+贸易协调器保留已安装格式：存在旧 `committed_source_cursors` 时继续原来源、操作 ID、`resource.<资源>` 单位、baseline 与剧情激活语义，不重复接入专用 journal；新安装或既有上游 journal 使用 `tradeChangesAfter`，首次追赶只归档、建立净贡献，追上后才激活新剧情。两套贸易游标同时存在时隔离贸易读取并保留数据。原生 UUID getter 优先使用 `tradeHistoryAuthorityDomainId`，兼容上游原 UUID getter，但不会把旧 Optional getter 的序号当作专用流。合并后的数据库升级到 schema 10，阻止会忽略新修订、完整资源回执或运行另一套采集器的 schema 9 及更早旧 JAR 打开；回退必须使用配套旧版备份。
 
 旧贡献的原行和既有历史不改写。旧库升级前没有独立修订表，其当前净状态从原始提交凭据读取；新修订表只追加升级后的变化，不能据此声称它列出了升级前的全部修订。旧原始回执仍在 `committed_source_receipts`，不会伪造为缺少字段的完整 `TradeHistoryReceipt`。旧公开 `ContributionEntry.sourceStatus` 投影保持原行为；专用来源的原始条目保持不变，通过余额／修订接口读取当前状态。退款、争议和取消只改变本地有效合计，不调用资产接口或撤回已经发出的奖励。
 
@@ -307,3 +307,16 @@ schema 7 仅在原因果表追加默认空的 `recipe_path` 并新增定义、�
 续读包含上一条已读回执并核对完整事件；来源在同一序号更改原指定人、城市、国家或时间也会拒绝继续。是否追赶完成由包含锚点的原始页长度决定；满页除去锚点后的127条不能提前开启剧情。各来源只消费自己的待处理记录。
 
 原生在 `nation/capital-designations.log.sqlite` 同事务保存日志与提交位置；原 `.log` 成为迁移标记、`.log.legacy` 保留迁移前完整字节（包含未提交尾部）。旧插件遇到标记会拒绝读取；回退需整套匹配旧备份，不可删标记重新初始化。首次迁移与启动完整校验，日常查询使用序号／国家索引；不支持运行中手改或单独替换来源文件。部署／备份范围见首都专项报告。
+
+
+### 国家资源提交历史
+
+`ChronicleService.resourceHistoryReceipt(eventId)` 返回完整 `ResourceHistoryReceipt`：来源域、连续序号、操作 UUID、原生原因、引用、分类、说明、可空真实主体、纳秒提交时间，以及最多 128 项国家／资源的提交前后余额。查询不存在的事件返回空；存储失败返回失败阶段。
+
+原生 `ResourceHistoryService` 的 128 条分页接入 `starcore.resources`。事件类型 `RESOURCE_BALANCE_CHANGED`，稳定 ID 为 `starcore:resource:<domain>:<operation>`；完整回执与事件、剧情收件箱在同一 SQLite 事务提交。首次追赶仅归档，后续变动可触发剧情。来源回退、损坏、换域或缺失不会推进游标。
+
+普通增减库存不是生产证明。资源历史不新增贡献，不重复计入已由援助或贸易回执建立的贡献，也不推定当前国主为原始操作人。`resource.kind/reference/category/description/balance_count/receipt_sha256` 保留检索与核对信息；详细余额通过完整回执查询。
+
+schema 10 同时保留贸易净贡献和完整资源回执，消费事务提交完整回执后才确认 ingress。两个来源的旧 schema 9 插件均拒绝打开 schema 10；升级保留已有历史／贡献，回退须恢复配套旧版备份。
+
+完整库存变动和原国家转移回执分别使用 `committed_history_sources` 与 `committed_source_cursors`；虽然 namespace 都为 `starcore.resources`，其权威域、游标和事件各自独立，两者同时采集。库存变化不再次计入生产、援助或贸易贡献。每页最多 128 条，续读会逐字段校验上一条完整回执，首次追赶的整页（含锚点）仍只归档。

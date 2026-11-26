@@ -12,6 +12,7 @@ import io.github.addxiaoyi.starchronicle.integration.CommittedSourceCollector;
 import io.github.addxiaoyi.starchronicle.integration.TechnologyHistoryCoordinator;
 import io.github.addxiaoyi.starchronicle.integration.TradeHistoryCoordinator;
 import io.github.addxiaoyi.starchronicle.integration.CapitalHistoryCoordinator;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistory;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryAidProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProvider;
@@ -67,6 +68,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private TechnologyHistoryCoordinator technologyHistory;
     private TradeHistoryCoordinator tradeHistory;
     private CapitalHistoryCoordinator capitalHistory;
+    private StarCoreResourceHistory resourceHistory;
     private FirstVisitJournal firstVisits;
     private List<ExplorationRegion> explorationRegions=List.of();
     private final FirstVisitBuffer explorationIngress=new FirstVisitBuffer(2048);
@@ -170,6 +172,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             technologyHistory=new TechnologyHistoryCoordinator(engine,gateway,committedHistory);
             tradeHistory=new TradeHistoryCoordinator(engine,gateway,committedHistory);
             capitalHistory=new CapitalHistoryCoordinator(engine,gateway,committedHistory);
+            resourceHistory=new StarCoreResourceHistory(gateway,committedHistory);
             gateway.setCommittedCapitalHistory(capitalHistory::usesCommittedHistory);
             gateway.setCommittedTechnologyHistory(technologyHistory::usesCommittedHistory);
             snapshotCollector=new SnapshotCollector(gateway,()->getServer().getServicesManager().getRegistrations(SnapshotProvider.class).stream().map(r->r.getProvider()).toList());
@@ -328,6 +331,16 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             catch (ReflectiveOperationException|RuntimeException failure) { getLogger().warning("Trade history retained its original ledger: "+historyFailure(failure)); }
             try { capitalHistory.poll(contexts); }
             catch (ReflectiveOperationException|RuntimeException failure) { getLogger().warning("Capital history retained its original ledger: "+historyFailure(failure)); }
+            try {
+                resourceHistory.scan();
+                for(var pending:committedHistory.pending(StarCoreResourceHistory.NAMESPACE,CommittedHistoryJournal.PAGE_SIZE)) {
+                    WorldEvent event=pending.event();
+                    engine.acceptCommittedHistory(pending,audience(event,contexts));
+                    if(!committedHistory.acknowledge(event.id()))throw new IllegalStateException("Resource history was not acknowledged: "+event.id());
+                }
+            } catch(RuntimeException failure) { getLogger().warning("Resource history retained its original ledger: "+historyFailure(failure)); }
+            // Full balance changes and national transfer receipts have independent domains and
+            // ledgers, despite sharing a namespace string. Both streams must keep their cursors.
             var committed=new CommittedSourceCollector(gateway);
             for(var source:CommittedSourceCollector.Source.values())try {
                 if(source==CommittedSourceCollector.Source.TECHNOLOGY||source==CommittedSourceCollector.Source.TRADE||source==CommittedSourceCollector.Source.CAPITAL)continue;
@@ -844,6 +857,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<java.math.BigDecimal> contributionTotal(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,String unit){return query(()->engine.contributionTotal(subject,type,unit));}
         @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionBalance>> contributionBalances(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return query(()->engine.contributionBalances(subject,type,page,size));}
         @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionRevision>> contributionRevisions(String contributionId,int page,int size){return query(()->engine.contributionRevisions(contributionId,page,size));}
+        @Override public CompletionStage<Optional<io.github.addxiaoyi.starchronicle.api.resource.ResourceHistoryReceipt>> resourceHistoryReceipt(String eventId){return query(()->engine.resourceHistoryReceipt(eventId));}
         @Override public CompletionStage<Optional<io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt>> tradeHistoryReceipt(String eventId){return query(()->engine.tradeHistoryReceipt(eventId));}
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player);}));}
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player,int page,int size){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player,page,size);}));}

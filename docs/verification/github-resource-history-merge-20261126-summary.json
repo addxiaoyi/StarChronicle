@@ -1,0 +1,1630 @@
+{
+  "status": "SOURCE_AND_COPY_VERIFIED",
+  "native_tests": {
+    "totals": {
+      "tests": 1488,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "suites": {
+      "dev.starcore.starcore.module.resource.command.ResourceCommandSafetyTest": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.MarketOrderJournalTest": {
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.MarketOrderPersistenceTest": {
+        "tests": 29,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.MarketOrderBookTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.TradeOrderTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceHistoryCompatibilityTest": {
+        "tests": 23,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceHistoryStorageTest": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceSqlAuthorityTest": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SimpleMarketOrderBookServiceTest": {
+        "tests": 25,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.TradeSettlementRecoveryTest": {
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.command.ResourceFactoryCommandTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.command.ResourceObjectIdResolverTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.command.ResourceProductionCommandTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.command.ResourceTradeExecutionCommandTest": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.command.TradeCommandArgumentsTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.command.TradeCommandSafetyTest": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.command.TradeOfferIdResolverTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.FactoryCanonicalRecoveryTest": {
+        "tests": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.FactoryPersistenceTest": {
+        "tests": 28,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.FactoryReceiptValidationTest": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.FactorySnapshotVersionTest": {
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.gui.ResourceMenuListenerInventorySafetyTest": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.InventoryCommitRecoveryTest": {
+        "tests": 50,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.InventorySnapshotValidationTest": {
+        "tests": 132,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.LegacyResourceImportValidationTest": {
+        "tests": 22,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.FactoryTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.NationalReserveTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.ProcessingRecipeTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.ResourceDistributionTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.ResourceEmbargoTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.ResourceMonopolyTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.ResourcePriceTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.ResourceQuotaTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.TradeAgreementTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.TradeRecordTest": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.model.TradeRouteTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.NationResourceTransactionDescriptionLimitTest": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.NativeTradeExecutionRecoveryTest": {
+        "tests": 106,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.NativeTradeExecutionValidationTest": {
+        "tests": 34,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.PlayerTradeAuthorizationBoundaryTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.PlayerTradeCompensationRecoveryTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.PlayerTradeGuiContractTest": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.PlayerTradeOfferTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ProductionPersistenceTest": {
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceModuleNpcMarketRestartTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceQuotaRenewalTest": {
+        "tests": 24,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceStateCodecTest": {
+        "tests": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceTariffTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceTradeLockingTest": {
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceTradeOwnershipTest": {
+        "tests": 47,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceTradeTermsTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceTransactionPersistenceTest": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceTransferReceiptStoreTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.ResourceTransferRecoveryTest": {
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SimplePlayerQuickTradeTaxTest": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SimpleResourceMonopolyServiceTest": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SimpleResourcePriceServiceTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SimpleResourceTradeAuthorizationTest": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SimpleResourceTradeExecutionTest": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SimpleTradeHistoryCommitTest": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SimpleTradeHistoryPagingTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SimpleTradeTaxServiceTransactionTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SimpleTradeTaxServiceValidationTest": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SqlFactoryArchiveTest": {
+        "tests": 28,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SqlFactoryPersistenceTest": {
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SqlProductionPersistenceTest": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SqlResourceSnapshotDiffTest": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.SqlResourceTransferMigrationTest": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.TradeCommitJournalTest": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.TradeExecutionArchiveTest": {
+        "tests": 50,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.TradeExecutionReceiptValidationTest": {
+        "tests": 49,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.TradeJournalCompatibilityTest": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.resource.TradeSnapshotValidationTest": {
+        "tests": 376,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.gui.LocalizedInventoryDragProtectionTest": {
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.module.ResourceWeatherPvpLifecycleTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.security.ResourceCommandRoleMatrixTest": {
+        "tests": 19,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "dev.starcore.starcore.StarCorePluginRegistrationTest": {
+        "tests": 53,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "new_tests": 41
+  },
+  "chronicle_tests": {
+    "exit_code": 0,
+    "seconds": 108.39000000001397,
+    "totals": {
+      "tests": 1139,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "args": [
+      "cmd.exe",
+      "/d",
+      "/c",
+      "C:\\Users\\Administrator\\Documents\\StarChronicle\\mvnw.cmd",
+      "-o",
+      "-B",
+      "-ntp",
+      "-DforkCount=0",
+      "-Djacoco.skip=true",
+      "clean",
+      "verify"
+    ],
+    "artifacts": {
+      "original-starchronicle-0.1.0-SNAPSHOT.jar": "48da953eb569fd32c9dabf764dab6119a53b8d01b22234b9a19b6a8e45b509c0",
+      "starchronicle-0.1.0-SNAPSHOT-sources.jar": "1f943fec3daca880035ebc8fd1e6d2002a439b784cae00cda05ae913f7ca8bad",
+      "starchronicle-0.1.0-SNAPSHOT.jar": "c0dc9cf69dbf757c5f23e1b41a16e2f57b6b5b33141698acf81f743a9d026a92"
+    }
+  },
+  "chronicle_artifacts": {
+    "status": "VERIFIED",
+    "jar_sha256": "c0dc9cf69dbf757c5f23e1b41a16e2f57b6b5b33141698acf81f743a9d026a92",
+    "sources_jar_sha256": "1f943fec3daca880035ebc8fd1e6d2002a439b784cae00cda05ae913f7ca8bad",
+    "compiled_classes": {
+      "io/github/addxiaoyi/starchronicle/api/ChronicleService.class": "8f0de2f828532220f4e15e8c040d87148fcb551d60e58cbf0a632b98a295059e",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine$1.class": "133bbe84c40ddf6cf9c0fa762b5480dbe7b6966cce9418adb01c0d612578c935",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine$2.class": "f66b3b2b4d1d918abc7136e1af48996485170eb5e211db0bafc3e8037d764fa1",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine$InstanceWork.class": "b6e9d9404ed20ee8dc9eb83e6d18f67b4d94317b48236d74ee1c776ffca9e81e",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine$MemoryBudget.class": "477180e7742aa9aedfec241957954a62ddbc583a8a8936ef6d917a6fb0f91e25",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine$PendingTrigger.class": "9c65d46b913b5ba6d478a995c8766e57db210f363f4dea7b8d38934607a2f767",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine.class": "efd7f7d9fc3b14a034a5f5ac0fbeb16693a3941dfa8bb63a81fba7e48ecdd5bc",
+      "io/github/addxiaoyi/starchronicle/core/ContributionLedger$Result.class": "52f32e54884d367c632c8604e4749687f305b5d1151f5c3b125905c1e3ca50c3",
+      "io/github/addxiaoyi/starchronicle/core/ContributionLedger.class": "a521e91db11aa049faa16804af5e27d8b8d077bb109d7b202a7ac5b3bba5654c",
+      "io/github/addxiaoyi/starchronicle/core/EpicCampaignLedger$ProviderPin.class": "afa9f0232a39e28e4f6ee7fce5a6885eb87b041136b2345cc74b05b38a170f50",
+      "io/github/addxiaoyi/starchronicle/core/EpicCampaignLedger.class": "0abd6d42fb8e7fd8fa9cafa0457d8b150877623fed6763fc5ea563e1890a80d7",
+      "io/github/addxiaoyi/starchronicle/core/QuestGateLedger$1.class": "52d58c1c978996ee7db9563cb2cb663895a7a19425202364cd81713c84d8de93",
+      "io/github/addxiaoyi/starchronicle/core/QuestGateLedger$Gate.class": "48f70f44d68f0b8df022a7d06677fd3ede76a54181143d005ad4bd6b6f367c3b",
+      "io/github/addxiaoyi/starchronicle/core/QuestGateLedger$Mutation.class": "ce0573dddedc70a0baf9104ab9fd1201f46a39aa11b09dc9061eb8f44ed659f6",
+      "io/github/addxiaoyi/starchronicle/core/QuestGateLedger$View.class": "7c7c2bb7c810b0ad67315a6e5fc5358bae4d41d4827a6f80f0b4677fb40b644b",
+      "io/github/addxiaoyi/starchronicle/core/QuestGateLedger.class": "8e0f575f5eb82c828fb86c829597406d84f118df30fbf9b3dc7688e61271d82a",
+      "io/github/addxiaoyi/starchronicle/core/MemberReviewLedger$Review.class": "27b8c15fd673b04d8af9380d08e9c6f391c708c5ff231a0ca2d991c27a52bb9b",
+      "io/github/addxiaoyi/starchronicle/core/MemberReviewLedger$Status.class": "246e60083e25b705e6de6332bed2767c3b9de1447be2756965e7d447ccdca10b",
+      "io/github/addxiaoyi/starchronicle/core/MemberReviewLedger.class": "025eb3684efd049af71639d97aae5ac8f6b771c2e4234344b7e853c09c0151d2",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$1.class": "fe5204edaeace1d8a57577761fb3fd975e298623e79a7869a61f363db905aa45",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$2.class": "ac1ee160218fdfb098273ea6ce15b5cb74f95f1731fb172f8cf68e498a69cad5",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$3.class": "9ddf05cc643fe57aa7e1fdd10905061764aa0d661a61035b3ad8f2c5b349b4b1",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$4.class": "c507755f596b3501ad00f458935ba3c90f12b98a0eaea7ccdc170fe0942f5d08",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$EpicProviderCall.class": "6f1bf766ef1c3eaf9763541ea2818baa776a37200d33dee4a32cc2f85320583e",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$NativeAction.class": "8aab2ee4094d8947f4e12e4e5287c3ad1676cae16a7b749385bd9b05765f991f",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$PlayerWork.class": "bde55c083b83be8b460b5ecf057cebeeab50ce990381ee5212e40092cd3ba85c",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$Service.class": "b0ede49432beeacf65ca30898f0b4e4112ef222246133ddfe827bf73a5179d66",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin.class": "69663f67912e90be0e65946e7d47bf632ee6196da41d6300f37f1ed524dc0817",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthority$Native.class": "e24dd4efbf901e58df0984b61ab88160b4a005a8ee52cc9edcdca0a39a6367aa",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthority$NativeAccess.class": "c0014de0358595e0de85edf665b5a73e62691ed277ff8274c3ca720cb66e30df",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthority$ScopedView.class": "e0a646635ae6764f7b42298c44ff3dc4b9d226f5476a9f802f20dc8e5c613cd2",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthority.class": "241cdbd7843b42a16883883bf89948f7945af75d77c3f734f6cbd56b986fdda0",
+      "io/github/addxiaoyi/starchronicle/api/MemberAuthority$1.class": "9f0e73a4396b1b282c491406a189eef82dfe55c6b6f3dd3e674cd7d494fa726d",
+      "io/github/addxiaoyi/starchronicle/api/MemberAuthority$Authorized.class": "4dbfd160c0f47d4c5c801889c89159a501b1dbd011ed4d283729ad64e3767dc0",
+      "io/github/addxiaoyi/starchronicle/api/MemberAuthority$Membership.class": "d8444464bf0c600472231de79ca6ee6695ee15df7e2432f329af5cd0bc0a809c",
+      "io/github/addxiaoyi/starchronicle/api/MemberAuthority.class": "59f71f3a9cc95454098c49ae0e4ec554bd0a65da23fddb395752db9a6dc22c67",
+      "io/github/addxiaoyi/starchronicle/core/EpicContributionProjection$Projection.class": "d294af8ea6ab343f103212d917058fe84474b859b41084c8726777be4d065e2f",
+      "io/github/addxiaoyi/starchronicle/core/EpicContributionProjection.class": "511b2374bc65894208965723131aa8bdae121112a8cd903d4bf9b4c86fb78310",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreMemberAuthority.class": "1dcbf93e5281d4109bebedad1cd697b2d042f87f03d3ec8ff8f31ae3ed3c5929",
+      "io/github/addxiaoyi/starchronicle/paper/MemoryProtection$Access.class": "93b4cae70a646be3e05a8881ca786080ff4d2457e9a1c24aeaa38ecbe16073f4",
+      "io/github/addxiaoyi/starchronicle/paper/MemoryProtection.class": "0ed48eeffc80fb3ff2168c7cb51034aede4b9525f8a3679b1b21901863ebc7bb",
+      "io/github/addxiaoyi/starchronicle/history/CommittedHistoryJournal$Cursor.class": "42cd28b33d5c0f5e82f93e259ab792df9136d3286213deba48bec7f35531c53a",
+      "io/github/addxiaoyi/starchronicle/history/CommittedHistoryJournal$Entry.class": "5eb69478f3cb871391989e8dddb763f0fd2743178d690d6e31ae2728891a6059",
+      "io/github/addxiaoyi/starchronicle/history/CommittedHistoryJournal$Pending.class": "5c0a67e1b536c818385c745da9f2eb800f3313b34a9300e6292888e75293fe39",
+      "io/github/addxiaoyi/starchronicle/history/CommittedHistoryJournal.class": "357ed9cd896fa7d2bae741967920332e73c16598a5aed07fecf5a770178601eb",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreTechnologyHistory.class": "bd46495236cd81a6f35cf69042d003fc45b1e4541a22392319a6262d47d46a61",
+      "io/github/addxiaoyi/starchronicle/integration/TechnologyHistoryCoordinator$Mode.class": "74aa9501dec3eeab0691c4e9e77b93c2bb9169ca5b7d65b08ca086f380b2f79a",
+      "io/github/addxiaoyi/starchronicle/integration/TechnologyHistoryCoordinator.class": "0440939ab156107e5874d8b5b3789e9f0d06d65bacd17f45a77e3f6e730db842",
+      "io/github/addxiaoyi/starchronicle/integration/TradeHistoryCoordinator$Mode.class": "61482d8da8c0bec1f5fb51e968cf2b1b444080cc908f3faf6e331c248332aadd",
+      "io/github/addxiaoyi/starchronicle/integration/TradeHistoryCoordinator.class": "9e3454eb73e59b761fc43455de6550d2d487c259d10a2903c77e2d6ccfb7ec2d",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreTradeHistory.class": "872cf2f234e3a95397c52a8714caf40cdb255e0215b658608b6abc3d71ef85c4",
+      "io/github/addxiaoyi/starchronicle/core/TradeContributionLedger$1.class": "50f63cf303acd4eccd9ca62db93d16f6811fa219750f789343f3874fd3c4f24a",
+      "io/github/addxiaoyi/starchronicle/core/TradeContributionLedger.class": "4c2ae562c72c366637380b6bd80a54af3755ecb0d1a6caa46b46b12f529ddd7a",
+      "io/github/addxiaoyi/starchronicle/history/TradeHistoryProjection$1.class": "330f8fd29a6cf24f0ba226d35116ebf13316fb65c7a74d86b4545a84fa699561",
+      "io/github/addxiaoyi/starchronicle/history/TradeHistoryProjection.class": "dd112ea121663847ab4c78731590d92ac8022181bdd5108128551fd4d6c7d4c8",
+      "io/github/addxiaoyi/starchronicle/api/trade/TradeHistoryReceipt$Status.class": "cc7ee08f0dd5b69b522021abbc84c596527e3f36ab1012c47dae11d87c74fb75",
+      "io/github/addxiaoyi/starchronicle/api/trade/TradeHistoryReceipt$Trade.class": "52fe33518160a8ddd90e89e78ab0f15109c613efba0d45ddf520c3b71d29fd85",
+      "io/github/addxiaoyi/starchronicle/api/trade/TradeHistoryReceipt.class": "e5551e53a912372b729863a8c98460a63c722951cae63b87a05d887db891b4d6",
+      "io/github/addxiaoyi/starchronicle/api/contribution/ContributionBalance.class": "5161407fe14c8001dae6691ba1ed0d5147fd98e1716d4408830c70052b78496a",
+      "io/github/addxiaoyi/starchronicle/api/contribution/ContributionRevision$Status.class": "2a5f321928cb84b320e86337c7b5c7add83f0d1f80b398a1bee0a979657c1809",
+      "io/github/addxiaoyi/starchronicle/api/contribution/ContributionRevision.class": "17cfaf5cc020fc294ee9cb7a2bb8c90e7511074d78e64e35c38334742aeb9496",
+      "io/github/addxiaoyi/starchronicle/integration/CapitalHistoryCoordinator$Mode.class": "10f1cc32358f09c4b0b6339b6263b8892b2d1225bbd512d99d61091622f7a6b1",
+      "io/github/addxiaoyi/starchronicle/integration/CapitalHistoryCoordinator.class": "83a0ae8c7c983638142f1c0045b81a9b832b2e3959231efa9d95ce556242f820",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreCapitalHistory.class": "ed19fde5efd693e9152e9527cac5456441204216608d8807e21fa23e6e7c537a",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreBridge$1.class": "5a19c781e1d1a1dfa10ef604552ff7d52b6dbc1913357591930a6c7c8fbafd3f",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreBridge$PlayerOwnerScheduler.class": "30b2e29e750ec3b2cd2814fb4c47ab895741f5fd4035544e9a6a9772d294892a",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreBridge.class": "281fcb0ebec95af5dedfc6f39206961e424c3e71b19b3c0a55f18249d7440275",
+      "io/github/addxiaoyi/starchronicle/integration/SnapshotCollector.class": "73196594b57383dac7e14442578d5f6ca4b922c410640f4e04c1d8af32d42434",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreResourceHistory.class": "a5da6b8720bac65d5e7636ebd03ae6221779eebc6f47bd93f5b7a9aef14f1c4a",
+      "io/github/addxiaoyi/starchronicle/history/ResourceHistoryProjection.class": "217bdbeb307a91f7c87e3d2973e4e1ac1d9dbde3dfddf6d1acffee40db7188c8",
+      "io/github/addxiaoyi/starchronicle/core/ResourceHistoryLedger.class": "fd9d5cd50d405a777b36b1dc59ce1956a59833f960c8354c29d74dfe3c4cde9e",
+      "io/github/addxiaoyi/starchronicle/api/resource/ResourceHistoryReceipt$BalanceChange.class": "8083a0caa7aba95c78c2fc0a030bb9ac043ae5893b34cc211f50d97e0eb4b829",
+      "io/github/addxiaoyi/starchronicle/api/resource/ResourceHistoryReceipt$Kind.class": "060204bbd559d150f5244e83d4f28b131544a66efe6cb59925ed20d731546ae2",
+      "io/github/addxiaoyi/starchronicle/api/resource/ResourceHistoryReceipt.class": "a40f2d7b02cee2dd5cb7b9f1457c23422fad2a3962a0eda0d0eedfcdb79060d2"
+    },
+    "packaged_classes": {
+      "io/github/addxiaoyi/starchronicle/api/ChronicleService.class": "8f0de2f828532220f4e15e8c040d87148fcb551d60e58cbf0a632b98a295059e",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine$1.class": "133bbe84c40ddf6cf9c0fa762b5480dbe7b6966cce9418adb01c0d612578c935",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine$2.class": "f66b3b2b4d1d918abc7136e1af48996485170eb5e211db0bafc3e8037d764fa1",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine$InstanceWork.class": "b6e9d9404ed20ee8dc9eb83e6d18f67b4d94317b48236d74ee1c776ffca9e81e",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine$MemoryBudget.class": "477180e7742aa9aedfec241957954a62ddbc583a8a8936ef6d917a6fb0f91e25",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine$PendingTrigger.class": "9c65d46b913b5ba6d478a995c8766e57db210f363f4dea7b8d38934607a2f767",
+      "io/github/addxiaoyi/starchronicle/core/RuleEngine.class": "efd7f7d9fc3b14a034a5f5ac0fbeb16693a3941dfa8bb63a81fba7e48ecdd5bc",
+      "io/github/addxiaoyi/starchronicle/core/ContributionLedger$Result.class": "52f32e54884d367c632c8604e4749687f305b5d1151f5c3b125905c1e3ca50c3",
+      "io/github/addxiaoyi/starchronicle/core/ContributionLedger.class": "a521e91db11aa049faa16804af5e27d8b8d077bb109d7b202a7ac5b3bba5654c",
+      "io/github/addxiaoyi/starchronicle/core/EpicCampaignLedger$ProviderPin.class": "afa9f0232a39e28e4f6ee7fce5a6885eb87b041136b2345cc74b05b38a170f50",
+      "io/github/addxiaoyi/starchronicle/core/EpicCampaignLedger.class": "0abd6d42fb8e7fd8fa9cafa0457d8b150877623fed6763fc5ea563e1890a80d7",
+      "io/github/addxiaoyi/starchronicle/core/QuestGateLedger$1.class": "52d58c1c978996ee7db9563cb2cb663895a7a19425202364cd81713c84d8de93",
+      "io/github/addxiaoyi/starchronicle/core/QuestGateLedger$Gate.class": "48f70f44d68f0b8df022a7d06677fd3ede76a54181143d005ad4bd6b6f367c3b",
+      "io/github/addxiaoyi/starchronicle/core/QuestGateLedger$Mutation.class": "ce0573dddedc70a0baf9104ab9fd1201f46a39aa11b09dc9061eb8f44ed659f6",
+      "io/github/addxiaoyi/starchronicle/core/QuestGateLedger$View.class": "7c7c2bb7c810b0ad67315a6e5fc5358bae4d41d4827a6f80f0b4677fb40b644b",
+      "io/github/addxiaoyi/starchronicle/core/QuestGateLedger.class": "8e0f575f5eb82c828fb86c829597406d84f118df30fbf9b3dc7688e61271d82a",
+      "io/github/addxiaoyi/starchronicle/core/MemberReviewLedger$Review.class": "27b8c15fd673b04d8af9380d08e9c6f391c708c5ff231a0ca2d991c27a52bb9b",
+      "io/github/addxiaoyi/starchronicle/core/MemberReviewLedger$Status.class": "246e60083e25b705e6de6332bed2767c3b9de1447be2756965e7d447ccdca10b",
+      "io/github/addxiaoyi/starchronicle/core/MemberReviewLedger.class": "025eb3684efd049af71639d97aae5ac8f6b771c2e4234344b7e853c09c0151d2",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$1.class": "fe5204edaeace1d8a57577761fb3fd975e298623e79a7869a61f363db905aa45",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$2.class": "ac1ee160218fdfb098273ea6ce15b5cb74f95f1731fb172f8cf68e498a69cad5",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$3.class": "9ddf05cc643fe57aa7e1fdd10905061764aa0d661a61035b3ad8f2c5b349b4b1",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$4.class": "c507755f596b3501ad00f458935ba3c90f12b98a0eaea7ccdc170fe0942f5d08",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$EpicProviderCall.class": "6f1bf766ef1c3eaf9763541ea2818baa776a37200d33dee4a32cc2f85320583e",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$NativeAction.class": "8aab2ee4094d8947f4e12e4e5287c3ad1676cae16a7b749385bd9b05765f991f",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$PlayerWork.class": "bde55c083b83be8b460b5ecf057cebeeab50ce990381ee5212e40092cd3ba85c",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin$Service.class": "b0ede49432beeacf65ca30898f0b4e4112ef222246133ddfe827bf73a5179d66",
+      "io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin.class": "69663f67912e90be0e65946e7d47bf632ee6196da41d6300f37f1ed524dc0817",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthority$Native.class": "e24dd4efbf901e58df0984b61ab88160b4a005a8ee52cc9edcdca0a39a6367aa",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthority$NativeAccess.class": "c0014de0358595e0de85edf665b5a73e62691ed277ff8274c3ca720cb66e30df",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthority$ScopedView.class": "e0a646635ae6764f7b42298c44ff3dc4b9d226f5476a9f802f20dc8e5c613cd2",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthority.class": "241cdbd7843b42a16883883bf89948f7945af75d77c3f734f6cbd56b986fdda0",
+      "io/github/addxiaoyi/starchronicle/api/MemberAuthority$1.class": "9f0e73a4396b1b282c491406a189eef82dfe55c6b6f3dd3e674cd7d494fa726d",
+      "io/github/addxiaoyi/starchronicle/api/MemberAuthority$Authorized.class": "4dbfd160c0f47d4c5c801889c89159a501b1dbd011ed4d283729ad64e3767dc0",
+      "io/github/addxiaoyi/starchronicle/api/MemberAuthority$Membership.class": "d8444464bf0c600472231de79ca6ee6695ee15df7e2432f329af5cd0bc0a809c",
+      "io/github/addxiaoyi/starchronicle/api/MemberAuthority.class": "59f71f3a9cc95454098c49ae0e4ec554bd0a65da23fddb395752db9a6dc22c67",
+      "io/github/addxiaoyi/starchronicle/core/EpicContributionProjection$Projection.class": "d294af8ea6ab343f103212d917058fe84474b859b41084c8726777be4d065e2f",
+      "io/github/addxiaoyi/starchronicle/core/EpicContributionProjection.class": "511b2374bc65894208965723131aa8bdae121112a8cd903d4bf9b4c86fb78310",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreMemberAuthority.class": "1dcbf93e5281d4109bebedad1cd697b2d042f87f03d3ec8ff8f31ae3ed3c5929",
+      "io/github/addxiaoyi/starchronicle/paper/MemoryProtection$Access.class": "93b4cae70a646be3e05a8881ca786080ff4d2457e9a1c24aeaa38ecbe16073f4",
+      "io/github/addxiaoyi/starchronicle/paper/MemoryProtection.class": "0ed48eeffc80fb3ff2168c7cb51034aede4b9525f8a3679b1b21901863ebc7bb",
+      "io/github/addxiaoyi/starchronicle/history/CommittedHistoryJournal$Cursor.class": "42cd28b33d5c0f5e82f93e259ab792df9136d3286213deba48bec7f35531c53a",
+      "io/github/addxiaoyi/starchronicle/history/CommittedHistoryJournal$Entry.class": "5eb69478f3cb871391989e8dddb763f0fd2743178d690d6e31ae2728891a6059",
+      "io/github/addxiaoyi/starchronicle/history/CommittedHistoryJournal$Pending.class": "5c0a67e1b536c818385c745da9f2eb800f3313b34a9300e6292888e75293fe39",
+      "io/github/addxiaoyi/starchronicle/history/CommittedHistoryJournal.class": "357ed9cd896fa7d2bae741967920332e73c16598a5aed07fecf5a770178601eb",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreTechnologyHistory.class": "bd46495236cd81a6f35cf69042d003fc45b1e4541a22392319a6262d47d46a61",
+      "io/github/addxiaoyi/starchronicle/integration/TechnologyHistoryCoordinator$Mode.class": "74aa9501dec3eeab0691c4e9e77b93c2bb9169ca5b7d65b08ca086f380b2f79a",
+      "io/github/addxiaoyi/starchronicle/integration/TechnologyHistoryCoordinator.class": "0440939ab156107e5874d8b5b3789e9f0d06d65bacd17f45a77e3f6e730db842",
+      "io/github/addxiaoyi/starchronicle/integration/TradeHistoryCoordinator$Mode.class": "61482d8da8c0bec1f5fb51e968cf2b1b444080cc908f3faf6e331c248332aadd",
+      "io/github/addxiaoyi/starchronicle/integration/TradeHistoryCoordinator.class": "9e3454eb73e59b761fc43455de6550d2d487c259d10a2903c77e2d6ccfb7ec2d",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreTradeHistory.class": "872cf2f234e3a95397c52a8714caf40cdb255e0215b658608b6abc3d71ef85c4",
+      "io/github/addxiaoyi/starchronicle/core/TradeContributionLedger$1.class": "50f63cf303acd4eccd9ca62db93d16f6811fa219750f789343f3874fd3c4f24a",
+      "io/github/addxiaoyi/starchronicle/core/TradeContributionLedger.class": "4c2ae562c72c366637380b6bd80a54af3755ecb0d1a6caa46b46b12f529ddd7a",
+      "io/github/addxiaoyi/starchronicle/history/TradeHistoryProjection$1.class": "330f8fd29a6cf24f0ba226d35116ebf13316fb65c7a74d86b4545a84fa699561",
+      "io/github/addxiaoyi/starchronicle/history/TradeHistoryProjection.class": "dd112ea121663847ab4c78731590d92ac8022181bdd5108128551fd4d6c7d4c8",
+      "io/github/addxiaoyi/starchronicle/api/trade/TradeHistoryReceipt$Status.class": "cc7ee08f0dd5b69b522021abbc84c596527e3f36ab1012c47dae11d87c74fb75",
+      "io/github/addxiaoyi/starchronicle/api/trade/TradeHistoryReceipt$Trade.class": "52fe33518160a8ddd90e89e78ab0f15109c613efba0d45ddf520c3b71d29fd85",
+      "io/github/addxiaoyi/starchronicle/api/trade/TradeHistoryReceipt.class": "e5551e53a912372b729863a8c98460a63c722951cae63b87a05d887db891b4d6",
+      "io/github/addxiaoyi/starchronicle/api/contribution/ContributionBalance.class": "5161407fe14c8001dae6691ba1ed0d5147fd98e1716d4408830c70052b78496a",
+      "io/github/addxiaoyi/starchronicle/api/contribution/ContributionRevision$Status.class": "2a5f321928cb84b320e86337c7b5c7add83f0d1f80b398a1bee0a979657c1809",
+      "io/github/addxiaoyi/starchronicle/api/contribution/ContributionRevision.class": "17cfaf5cc020fc294ee9cb7a2bb8c90e7511074d78e64e35c38334742aeb9496",
+      "io/github/addxiaoyi/starchronicle/integration/CapitalHistoryCoordinator$Mode.class": "10f1cc32358f09c4b0b6339b6263b8892b2d1225bbd512d99d61091622f7a6b1",
+      "io/github/addxiaoyi/starchronicle/integration/CapitalHistoryCoordinator.class": "83a0ae8c7c983638142f1c0045b81a9b832b2e3959231efa9d95ce556242f820",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreCapitalHistory.class": "ed19fde5efd693e9152e9527cac5456441204216608d8807e21fa23e6e7c537a",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreBridge$1.class": "5a19c781e1d1a1dfa10ef604552ff7d52b6dbc1913357591930a6c7c8fbafd3f",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreBridge$PlayerOwnerScheduler.class": "30b2e29e750ec3b2cd2814fb4c47ab895741f5fd4035544e9a6a9772d294892a",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreBridge.class": "281fcb0ebec95af5dedfc6f39206961e424c3e71b19b3c0a55f18249d7440275",
+      "io/github/addxiaoyi/starchronicle/integration/SnapshotCollector.class": "73196594b57383dac7e14442578d5f6ca4b922c410640f4e04c1d8af32d42434",
+      "io/github/addxiaoyi/starchronicle/integration/StarCoreResourceHistory.class": "a5da6b8720bac65d5e7636ebd03ae6221779eebc6f47bd93f5b7a9aef14f1c4a",
+      "io/github/addxiaoyi/starchronicle/history/ResourceHistoryProjection.class": "217bdbeb307a91f7c87e3d2973e4e1ac1d9dbde3dfddf6d1acffee40db7188c8",
+      "io/github/addxiaoyi/starchronicle/core/ResourceHistoryLedger.class": "fd9d5cd50d405a777b36b1dc59ce1956a59833f960c8354c29d74dfe3c4cde9e",
+      "io/github/addxiaoyi/starchronicle/api/resource/ResourceHistoryReceipt$BalanceChange.class": "8083a0caa7aba95c78c2fc0a030bb9ac043ae5893b34cc211f50d97e0eb4b829",
+      "io/github/addxiaoyi/starchronicle/api/resource/ResourceHistoryReceipt$Kind.class": "060204bbd559d150f5244e83d4f28b131544a66efe6cb59925ed20d731546ae2",
+      "io/github/addxiaoyi/starchronicle/api/resource/ResourceHistoryReceipt.class": "a40f2d7b02cee2dd5cb7b9f1457c23422fad2a3962a0eda0d0eedfcdb79060d2"
+    },
+    "source_files": 276,
+    "source_hashes": {
+      "src/main/resources/config.yml": "b9dfb0ac987473d3edaa909c4a5f2808bdd4a77afe9e1f7a0e9f2e08ff82f46d",
+      "src/main/resources/memory-recipes.yml": "652291e46c354985f87c042dfba821b21e03195180062fa53fe5cc28efa07e22",
+      "src/main/resources/npcs.yml": "694cdfc38a1e1ff16a92503b7435f7eea45d4dcb4816e7a3f27770ba195d097b",
+      "src/main/resources/plugin.yml": "6c9d768a42c3d8927125af53531e64f32afafc7ec656362032bf1df312d295b7",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/AuthorityProvider.java": "50d3c6e83b43a7b50c2537fdd4e9d2227dd7a2b2815abfb480fc4a38071bc298",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/ChronicleService.java": "51d89a11f4c186db2aff4db16881930720b7bd28c069a256329a275337816655",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/ContextContributor.java": "70c30c905fa1a3d03070d5c285a4b5f2ff10903169bbebd873590bd28004e5cf",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/CoreGateway.java": "4338e21bedd1b1c8b6cbf4eb70108884dd391928358293075523ef34bfd569d4",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/Delivery.java": "bc42cdb31b3baad007ccc8e602112e163beff7c749ce81bc7658415f6524e19d",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/HistoricalEvaluationReport.java": "3213ec6972fa63cdd31d813e2bb989a699ed93b75ac539c5f3f263d474af8527",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/HistoryPage.java": "8340d8653525624994bd326fe380b3f078ebb395bdbeb7972e5c61a42c6904d2",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/MemberAuthority.java": "7e4264ad60f1760d5e2f0daec9ddb53be4ca8be9f372f4d0de74f380263aa3a3",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/NationalVoteAuthority.java": "008ea9153b69caf5f4ebc826949601ca231941fe884e40b187ed9ecdc0414322",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/NationalVoteState.java": "5b5695601aa17db9e426b089b8243914ca40064bc9270bfd22ab98d715d5c9b1",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/NativeScene.java": "d249c11f63f639a34e4b25727d24e4979353a7e6656a29907374576c490ceabe",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/NpcProvider.java": "5f8319894ea25b997f46b5a097e578a768b1450f9cb88aac03398eca378d52e6",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/PlayerContext.java": "4f14e05b3e06df677443619f625227a8cfae5e3864cbe8090733669e733c5959",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/SnapshotProvider.java": "b820b5b4b55fc1eee00b17eed58afe98543d3168a726e551bb5a7e4e6bbc30af",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/StoryPage.java": "5e2a652e6052ace1e66b91cd9242cdc3e45a95529707a1e77001fa01549fcccf",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/TextProvider.java": "eca054aa5659dd5ab66b33459e51c71cb8e5169edb1079e594df7f9235a4f50a",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/WorldEvent.java": "ccf2f33cdeff5476065c407e4449e0adfcae669980029fab92586a2e275e6314",
+      "src/main/java/io/github/addxiaoyi/starchronicle/config/Condition.java": "6ace783192e7e063cdc22de6a5c127552ea3a8201b7f700144e31ca8670bf586",
+      "src/main/java/io/github/addxiaoyi/starchronicle/config/ConfigLoader.java": "20729ce98c6ca66cba8da47e8d72ed02022a438a8dd0fd6b0c3081660f5796c9",
+      "src/main/java/io/github/addxiaoyi/starchronicle/config/StoryDefinition.java": "ad5f302dc384d75597061b11cf3bc731c1b600df3abd5e740fe306227c98c849",
+      "src/main/java/io/github/addxiaoyi/starchronicle/config/StoryDependencies.java": "d24a7abe873788b1ff1bda08586639e327f2291582bc18e4c1b42453cf840236",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/AidLedger.java": "3f57841bcb4cbcc25ca8ff7b6087800eb0b8723af432cc63db34a58a67ac8a7c",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/ChoiceLedger.java": "c74fbaecc56f116fc556297af13f197b422adfb33f9fccd963b1892790ccd256",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/ContributionLedger.java": "57ee0ee625584be1c6838f29923176d0a7405b79e363a070e4be5101c5d04cb0",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/DefinitionCanonicalCodec.java": "600ab631284d9d5d29e9bf40036d9e5733c5ad6ce69594209743ca06ab05292b",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/DefinitionCatalog.java": "ab74d7080c82cc4898ee8fafdbb9ef56ce65a7cb873f9135bf00b9937232b200",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/EpicCampaignLedger.java": "e6077599581af75eedad42dc61e249162df7cea7f6d26c61f7c745a79847ea3b",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/EpicContributionProjection.java": "27b1a44432a9498b13277100150d98d6aa049ed34c60c475b876b6ce26c112d8",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/EpicContributions.java": "d9eb19b71d942eeb0d1ae201ef36d44ac2d8321ad36a3fd60505cc1701770914",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/InvocationGate.java": "d1dc84f2d503a09e5ba9afcf36c4a7dad09e0a3261175843939f15941dbc56ac",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/MemberReviewLedger.java": "e958e735f4f6587d66574b5feba54a2816ac911a9d0430636847504379d987f3",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/NationalAidService.java": "2e979a6fc502e329aa9ca61a94376a925ae0d5f2f4084651d6da5d01a1697d0a",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/NationalVoteLedger.java": "0be951bc30e7db23dc59def8ab86f2c56e81ba42cd3912687541d877c536f9c1",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/NativeSceneFlights.java": "64a3842f41801f1f7819951439dc286958af01e346330d77871fb3e816117ccc",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/ProcessReport.java": "35a6abf9d1aee52a199ceb94f7675465b2161d4290ecd7bdd4267a6aba11a31d",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/QuestGateDriver.java": "92a94dc7cd8ac78868f9b5c6570417dad0d5556fa08ea2bcd2ad0df8e739d37c",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/QuestGateLedger.java": "e30870b69fdf6488b960aa68996b834a37af7050ab21988d277a85c7b62f7e99",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/ResourceHistoryLedger.java": "bb5f002da0ee32698b3bc56ed31807b07d6f8f62a63529f7041bb4f31601f558",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/RuleEngine.java": "db8dbf73601577f46001c75ce01a8082ecbdc1b7f0bb475b309191d57d4dfde8",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/StoryInstance.java": "8dd389d0407c91245560250402912aa7387ef1414d3d53f8f5582171bc7529dd",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/StoryRuntime.java": "a04953bcc93eb6c2acae7d8b602498163e5bbde9314529f30cdffe836789cd1f",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/TextService.java": "2d3de77999a1ccb7cb3b2240af5025fad4af56cbb73f3e877f978e912d9e99c3",
+      "src/main/java/io/github/addxiaoyi/starchronicle/core/TradeContributionLedger.java": "35893665c2b96a28a096ec6e16f351a661d5033c27499e2e7f80343dd4eb5607",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/CommittedHistoryJournal.java": "62b8013d7e1fdf386ddd8af360146bb1c6a98808e0b9033e212ea6f797beba34",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/CommittedSourceLedger.java": "e0edc911b0284f91a5e38e03ddf2dee4a1c627522b8704df1e91a9443a83d107",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/CommittedSourcePage.java": "f23b7bdabbd701106be536c024e13a6afff1934d283e1d0a9d25980a78c57eec",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/EventCausality.java": "8668c277398d10bfdccd64cde4c156df98e19f7ea98f31b2c91d8d552c10bda1",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/FirstVisitBuffer.java": "6ee9358cc4bafbbb00e85096c5648655bcb309b634c6fdfc2ef80799a2723e0b",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/FirstVisitJournal.java": "a46522cb7c294a9481a523fd21683bfc7b3765946243cc5b6405a8ec923c79a7",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/HistoricalFacts.java": "64ff758259c6e34716e54d65fa5aafcf0c48e1259f4ad1c25d5a5db26e035038",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/ObservationJournal.java": "6f77c54cc856b9db6cbb36186ada0b21f3ec3bafb69511ababbac9fdba61c4ae",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/ObservationSnapshot.java": "f71f15f22429ea1c35ae5160afe17cf707ee51f066e299bd9c65cdb616efad7a",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/ResourceHistoryProjection.java": "7df31c0c5930109ba52be67bf5812182c5da1e9c868f556a561cf380425feff1",
+      "src/main/java/io/github/addxiaoyi/starchronicle/history/TradeHistoryProjection.java": "f72ba106ed76b68ce85c53ea1128a63b3fdef680857c5265858c9b1ca9129be4",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/CapitalHistoryCoordinator.java": "f5d2b5b8743347beef7fecb787d10ada3a84567681ba3de93c50ff9692626379",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/CommittedSourceCollector.java": "c5ba338425566a5830a882945cef34620e323515a085be0dbc8dd44c8d2c524f",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/CoreContentInstaller.java": "40898a7bb96e377b4bf91b25b6bc1423574c9f6d154ce9f61c701b3e406cf5cd",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/NativeSceneAdapter.java": "bc38c9579f0656c40f208a959806a0aea66d20b8209130110a886edb6774138c",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/NativeSceneRecoveryAdapter.java": "209532fd378820e5f88e275854cfbcc65271cdc796e2222324d49d7729d40dfc",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/SnapshotCollector.java": "bef52c3373209dee851d6bc7f61bdac7ee2aed5d24f077145377bb384ec5b120",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreAuthorityProvider.java": "774721a6703ae63259f95abf226f0ccd42273e660ce71e47d8c0dff14248dea2",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreBridge.java": "6cc24997e515559eceb972cb8a55af771f1a0deebf4dd855992ecc383927c143",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreCapitalHistory.java": "418c4b381ded47084ba762a0ad3291a7e8d6a5d71721a092e9ef4dccf45c2ec8",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreEpicOperationProvider.java": "501bbe13ea6bdb67c4cfd42f7bd4c37d0dc29e2117db9f3c211a7c488bb092cc",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreMemberAuthority.java": "657e31049fccf19d22d8c26eecdd10f4fd7d921386bc2ea76ac3efbc3194c7ec",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthority.java": "694eedee355e8a3355d330df4f007e783e561c8ac2a10c41896d9b57cf8e1f2e",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreQuestEvidenceProvider.java": "f83d80f4f6019295428985fb8810be6077ce8e5ca4a77caecce9600449f092b6",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreQuestGateEpicProvider.java": "05e84f28f2a6e68ce297bb37f52aa5a3ada5382d51cb10cf8cf0179c7f0623a0",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreResourceHistory.java": "a60a8a998f8d4208ab5027e234698aff5999cc9b095b4ea9cca8fd858658feea",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreTechnologyHistory.java": "76b5acbc35590823ab68dc5dc12a19439bb7769b37e84a184c2bea2ad638b03b",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreTradeHistory.java": "25d16f793ffba4b01efeee9bbdf18e0bc21ac407d536995d7960f5b4f96a7439",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreTreasuryAidProvider.java": "7b33f7eb33848e7db5358fe7514d7344fc73500b649c952491e3db0f165d079f",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/StarCoreTreasuryEpicProvider.java": "44a77707939cc1dc1c749b8277738d0dd8112ee95371b1dfc8c6e9bcfe1f7530",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/TechnologyFacts.java": "480e2f59ab7816275cbe195a20084ef728ad988f2704c5eb49b6042d1eed5841",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/TechnologyHistoryCoordinator.java": "f9d73a427f761fda294e0f02d14858aa428c257ebf392d60b45cd059e412fae7",
+      "src/main/java/io/github/addxiaoyi/starchronicle/integration/TradeHistoryCoordinator.java": "24eeca121c707d58c95e9e3424aa4244f52cad42243415af6cb59c95ce45c71b",
+      "src/main/java/io/github/addxiaoyi/starchronicle/memory/HistoryBook.java": "2c8cc02bede2d121f4f428dbb2fcac9ea77dd446fa5433e8387a729de3097561",
+      "src/main/java/io/github/addxiaoyi/starchronicle/memory/MemoryEntry.java": "7add68d3f132f7e08f606023cdf78ca4506aeef6cfa0e1b7d2790acf427faeef",
+      "src/main/java/io/github/addxiaoyi/starchronicle/memory/MemoryLedger.java": "d07ad1bc409a051657a655f33cf96762b1c51ee34937920d393d4cac88c90115",
+      "src/main/java/io/github/addxiaoyi/starchronicle/memory/MemoryRecipeCatalog.java": "67e1984ea1acae5da9891681d43c41f86211953a5b17722b9ee344b7887b0f87",
+      "src/main/java/io/github/addxiaoyi/starchronicle/memory/MemoryRecipeLedger.java": "2ac6289cec22ddc15e4779a790334bb14192fe200ad9edc163f54c797e044e6d",
+      "src/main/java/io/github/addxiaoyi/starchronicle/memory/MemorySite.java": "aeb969f8527cc615839fb21f981f3288f55324715e555f94770cee9df0ba5960",
+      "src/main/java/io/github/addxiaoyi/starchronicle/narrative/NativeSceneJournal.java": "782d7f86a98705f871490fcd8b6b897068b6e5feab0072d085bb3a2905f3af66",
+      "src/main/java/io/github/addxiaoyi/starchronicle/npc/NpcCatalog.java": "40aee996afa41396fa0c349fb43e3f47d55936b983247e34346cfd2b29f36a54",
+      "src/main/java/io/github/addxiaoyi/starchronicle/npc/NpcLedger.java": "ce8619fa6248d4a2d9e3bd8ec69730b293dec89fdcbd205344eba5e898b7e1d8",
+      "src/main/java/io/github/addxiaoyi/starchronicle/npc/NpcView.java": "e796a1fee5ffd4693a77e962b2defaabd5a89323d9c07c74fcc00a5057fa22de",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/ConfiguredRegionFirstVisit.java": "bae56e99129f80032a28c5725cbb9c4aab08aaead9af46fc9cfb6156bfb4176b",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/ExplorationDiscoveries.java": "809cdd6216d2b7af455f623cd807180de6b9d32b47803c033a9c5a23191e7389",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/ExplorationRegion.java": "624f1af820ebf262fe2067b023405a1eac7667e2eba506813139a6cb1d77c111",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/MemoryProtection.java": "323b5a64716980f62faa2179b78ef574e39b9b3c9f3fb16fdc5725fa5ab1aff2",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/MemorySites.java": "400e13ea4ff0f019170996a2179527db8066480a2ad9441860881e9df3d0a2f9",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/Menus.java": "51bcfe631cc416f26e9aefeaef8f0adddaf07b5c963a8bf795e67922dcd084cb",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/NpcHooks.java": "a1acfb3aeedf41cd5774fd2eb83b6dcb42f574ad2419e5777b6ed99b067f4683",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/RegionTasks.java": "43e1211ccc637d77d137de8f151f4b54a1b70445cf6d19d7d1dbff5feece153e",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin.java": "fd2bcab52b4a85399503c6ba7b0b8a8923eff1ca25c6b0a5c8936b29e9c56f27",
+      "src/main/java/io/github/addxiaoyi/starchronicle/paper/StateWorker.java": "788ee9261bfbe807bdacae3c1469fa907d28e0941dda32a9e129726911345230",
+      "src/main/java/io/github/addxiaoyi/starchronicle/persistence/InstanceIndex.java": "01bf12eea9ee94e59b5ecef2d1e91ad297c56a2ad72b026a6697096444f3bb5d",
+      "src/main/java/io/github/addxiaoyi/starchronicle/persistence/SqliteStore.java": "3fef1480c1975d1fa82ce03f19d10015969f09d903572ca080d2ade391fafb63",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/aid/AidObservation.java": "ef079f7845ff65c919d6eabe82e23df89eebe743454dc2053fe46a532a60efd8",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/aid/AidProvider.java": "8f87810a59531630c4ebfda6e5384d88a11d61d50ef4f669069ddc7335e500a2",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/aid/AidReceipt.java": "c2d067f2ef86931e3555dbb1bd899d21f09ee0b505f947bc73f7b702b25ada2c",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/aid/AidRequest.java": "afae6a492ce032068213d714ef42155e23719726c1ef19224e35c5f9d6777d1e",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/aid/Contribution.java": "0bc474cbb7e53e2ca4a8df899f2157a2ebc4588c631bfc19529372d0702eb82d",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/contribution/ContributionBalance.java": "096bdd7196b72a92251da42b9a2568e3dff7d73df9a6831222133380c8f9b2e2",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/contribution/ContributionEntry.java": "08b807cfa0a929fc57f840587f79ad690a57b8f61dffcafa8f9b660d54c00d52",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/contribution/ContributionRequest.java": "b889dd947d059983e3446f0f243b2fec47fe2eeeda0fc06d4b2b9314e8c8eeab",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/contribution/ContributionRevision.java": "8fb540f56c04bb39f64714c98b24c6af8ab027da52e5cc3a8d3cf0c2dd24f199",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/contribution/ContributionType.java": "04a90469f9eabbcc8822c40e94567af681382aa6b69435fbe27260878e10ffce",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicCampaignPlan.java": "6a18a6bd387ff900f791eee768e2001a27dffa25d678589400e8ad412308a91d",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicCampaignPlanCatalog.java": "718387cd682f6f1eb00e7b8cd21b886c10b6bfb07236fec647ac6269b6f46aa3",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicCampaignState.java": "b2840f61977d0e45b2d8806e3550940762ea346f65b935dcb859f3c6ba119603",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicContract.java": "090cd9ca4c7773374611d2ce683de4c91fe161d3a87a55fa1e63dd68e54d9689",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicObservation.java": "d1733f1298bfccc7e51bfd49570668b7510e3e750f92b1c35879efa0b0447245",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicOperation.java": "a21ef00880895d12486dc51478758b7703172f327e1e0f11ffeadfcc73c14567",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicOperationProvider.java": "3a7d0c2d3934b633d23d20a0095e535c97687f97ea3b0f87412ae1c596150553",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicOperationState.java": "a4d3fa8b64136abd65c67cebefc3808605efb27b7fc34f8992eb6ff257e2f65e",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicPhasePolicy.java": "1e7b707e7119f2f412af120e38fe95d4c176fd6f51ad9abfc1a616f68552b8d3",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicReceipt.java": "8158531de3b47c1fae6baaaeeb613431649901b5d7a7a6ae68e9c75a2c9baf13",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicRequirement.java": "5503aa4fed4b2384b97687fe84b822cf37f20ca6a56b43a3824b881438337869",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/epic/EpicSignup.java": "7f5cabbc7ad355e6a18c108010bfa3d60658699391f355c1a24fa842c0ab510b",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/AcceptedRun.java": "44b0058e075ede1145ff121972e2a6eebbbabd1e19addf4e2f5633679afe2750",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/CommittedCompletion.java": "27a8c0e9944d8676a063f6045bb61c4127b5b41c30929bf3cd9ac13378d3aefc",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/NationProof.java": "ff576c7ee6a243d8171704e65979894f19634ef9c37d360b850361693716687b",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/QuestEvidenceProvider.java": "bf9ff85b93a8f535701470169764266e015474838e386c5105e19654bf93cfad",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/QuestGateState.java": "e2919fe52b41392dec23f3cef16a97a8c398e3be9a3a8e2e82282bbc5a3ee776",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/QuestObservation.java": "04212498898644df13af89d4f80c26a0f41afae3ca18fe8d94e90ce1ec1892a3",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/QuestRecoveryProvider.java": "0d2e57ee97671c88e4b654b4344011d7d515856aa7122229351f6d10eed4d5d5",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/QuestRequest.java": "48340f1dad3cc4169d954e37401d0098a73fc76d72fac5045817db3975e29593",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/quest/QuestTermination.java": "4ca7dd72129e3ce74d3b357a69e24d45acf1836fc6341ab239f1aa7f2ebbd650",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/resource/ResourceHistoryReceipt.java": "c153c227fddf3a749ae11d3513fe24769fcd1e7c38f576fc7bb2c7c9be57f5c3",
+      "src/main/java/io/github/addxiaoyi/starchronicle/api/trade/TradeHistoryReceipt.java": "97857092ba48e3ced35f5e0f08bd938c5240e88e8716fc4347e91ae306bcc981",
+      "src/main/resources/epic-campaigns/heir-strategy.yml": "31cd2524966d1aeac0d9eb1d154c4718a89f2e8ce897f8ea1fe31579e6cc0c75",
+      "src/main/resources/starcore-scenes/chronicle_last_heir.yml": "8235107f6200baed9555638376827bb8af2e27c1cafd7fa26d811e796a57f161",
+      "src/main/resources/starcore-scenes/chronicle_siege_embers.yml": "9cab7f873e890a70c3ea6161a86a6384491e06f861395267d11c4baa9e5be851",
+      "src/main/resources/starcore-scenes/chronicle_silk_road.yml": "4bc21dc2bd8a1fe847bb1ae86dac58b84e30d396e6e0847d028a92ddb1eb07b0",
+      "src/main/resources/stories/fate-diplomat.yml": "cdccb1ff306366f60f4bf33768e244f866aa20ef50175b9ca0acd5f7ea2f9bdc",
+      "src/main/resources/stories/fate-explorer.yml": "9fc0c27a29261491e0b0c55a14c221a9b873bf5e0f5cd2eede763fa8daa1a099",
+      "src/main/resources/stories/fate-general.yml": "f47e877905b62784aa0298e37893abf7ccb0a9849e2ac54593b470cb260c0a5d",
+      "src/main/resources/stories/fate-mayor.yml": "a5080206e727597f539f68db08e8c980cb83ddf06c179c6390b3185d74499397",
+      "src/main/resources/stories/fate-merchant.yml": "4a0a8667bc1596c7b7c015f6840497cc46ea242cc400dfa29431b21d07dc5e83",
+      "src/main/resources/stories/fate-monarch.yml": "10aa1e265023d6411a21761e1aad619e38e9f6ec7e0d8a248364bc4fd526411f",
+      "src/main/resources/stories/fate-scholar.yml": "9534cc3785ba64b21c552dd0ac9097a5e75a6681c7c9d74b907b313ca548c8a6",
+      "src/main/resources/stories/fate-soldier.yml": "fc31becc543fa8795b174d263740841f754d232cdb23ced54a6e85882a072dd8",
+      "src/main/resources/stories/heir-legacy.yml": "6d4060374728b03fff1b735f191191e9f6cbf73829b920bf89f3ed27e95e084c",
+      "src/main/resources/stories/integration-example.json.disabled": "9dc2792da309fb0445d27493a6f1268deda2efae8294036c15adf753a262afe0",
+      "src/main/resources/stories/last-heir-strategy-aftermath.yml": "27c6166966395c854cd8d92cf99dfeb929e678bb7207e76818b14535be7867bc",
+      "src/main/resources/stories/last-heir-strategy.yml": "5a82638098b5413a1118949de1880fbe9493c461a35f137bc9c1da2ce1ac2e99",
+      "src/main/resources/stories/last-heir.yml": "a1135bd6a60ec53293026c8e0d7a91147820aa049315a21ad94b4a445fc086d6",
+      "src/main/resources/stories/siege-embers.yml": "7c5442d73427cb19e901b00321d9b3ffdeb5ed5ffac64be75682cb2eca2acfe4",
+      "src/main/resources/stories/silk-road-scholar.yml": "d9d01943917a868b308131d3f635dbf1ecd1aadfcad6ec7d9f1207267f160bdc",
+      "src/test/java/de/oliver/fancynpcs/api/events/NpcInteractEvent.java": "a579b4e8d61e98c513007ea56fd8a0b4498f4a78f5ab35f5badd31a1f71e0ba6",
+      "src/test/java/ink/ptms/adyeshach/core/event/AdyeshachEntityInteractEvent.java": "a888a2d06dc3c5d06280d9e69f7979bf76f492758e4b6cc7ad0f42812b56d2cc",
+      "src/test/java/io/github/addxiaoyi/starchronicle/config/ArchivedStoryDependenciesTest.java": "e2ab78f57cee4a7bcbc135c26a56ffafc2b51986996bf71f61378f94e9fabb31",
+      "src/test/java/io/github/addxiaoyi/starchronicle/config/ConditionLogicTest.java": "44a7a08c5619e53f5193cfc2f54e362e00a4895bcaca63c0eb982607a06b50cb",
+      "src/test/java/io/github/addxiaoyi/starchronicle/config/ConfigLoaderTest.java": "1aff5d91cef248842d03cfb09cf4b4a9aa001122d635621e8542c4fc5e4bda5e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/config/LastHeirStrategyContentTest.java": "ae9cd3159dec3005f5ff039d807bf98a543bd3e27a3493f86c5161544227fd59",
+      "src/test/java/io/github/addxiaoyi/starchronicle/config/NationalChoiceDependenciesTest.java": "4dec29418d8568f2fcd9d6162f9d52f3b04edb440856c39efccb8001eb1a041b",
+      "src/test/java/io/github/addxiaoyi/starchronicle/config/NationalCouncilExampleTest.java": "c81b7d2effcdd73e461166f2d876c9c1dce5d23c7209e5ebe3a19f5009610a45",
+      "src/test/java/io/github/addxiaoyi/starchronicle/config/QuestGateConfigTest.java": "8596c9f93335294a34c6fc89438e19178427a9e019622d3d2cbe7420ac94a235",
+      "src/test/java/io/github/addxiaoyi/starchronicle/config/SampleStoryContractTest.java": "da1be3255d83d126e9b8b6958c8676e87919e09334751b9da7843f1f6a67f128",
+      "src/test/java/io/github/addxiaoyi/starchronicle/config/StoryDependenciesTest.java": "3297080c9dd28b8517048dfb4a23251335ba9f3d48aadc071c32fba94361b984",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/ChoiceLedgerTest.java": "d8cee532feb72d8a85a1e09cf7449676d55ae9194d1dfe9deaeb25a5272cd4a1",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/CommittedHistoryArchiveTest.java": "26c29551dcbb1b7e1a600d648712c782af15c88beb3a33d7d82129202cf3704b",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/CommittedSourceFlowTest.java": "1e0a247bfe8fa10fa9958cfc56d9bfe4c24f0717e4b6489047955da547e26025",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/CompletedInstanceSafetyTest.java": "68faab91f6b2e76a5b31bc08e12aa6a6da94b5170f7264da6d1b7cd27b57e981",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/ContributionFlowTest.java": "d318ca092d7d05ca2fd9e16f7fd3cd1ca163854753780bc371a0e6b43de162d3",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/ContributionLedgerTest.java": "ff09d740fcd417ee7304a6a6df3436ab6956aacd8a8cfebf9583b966bcd9f437",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/CrossStoryEngineTest.java": "0ac62567e4747a0816844b337d10747d6a1601e5d52bfc6f64a3d8cb36b3c3bc",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/DeferredTriggerTest.java": "508dad2bf6d09679e4ed0133e7d4e1a2267adce3853cc25fb9060a2e1bd3f060",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/DefinitionCanonicalCodecTest.java": "db412ebbb2f6aa5851bbfec1f612d3167ab7be11c6e879ae746d652c79f68641",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/DefinitionCatalogCapacityTest.java": "63500020f308986f92faa19ca6e40fc4d38130812ca39a8d6b43ee1a4fdd9094",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/DefinitionCatalogTest.java": "9ac0b01400354cd7c57d3eda99aed7e0afdd7c078444f1738004adb0fb9e0453",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/DerivedCausalityTest.java": "7716659b7c63ce9d5f629e921d3e3e52476c9864c48a17ac5d35193977334186",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/EpicCampaignLedgerTest.java": "2821dc73254763e448054ce3717f9937d60ee7624fd3cda2eb5f5e6b35694d3e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/EpicContributionMergeTest.java": "657695bc4e1a4472459353c6212405cd409f57cfb1651d8de0e80080880b2e9f",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/EpicContributionTest.java": "6940009f93d826958568d048444ca7a5e03342a729edf40d43c69b7a7caf50b4",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/EpicStoryProjectionTest.java": "ebd061a51f6b060b22622cfcb86ab11abb0820c68b565e4f2df53fb77d66d2cc",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/FateStoriesTest.java": "fa05429db0994b2641a42b8f2140439b92811749d19f510b072ee2437a6e9ee0",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/HeirLegacyPlaythroughTest.java": "5ccca3f9e396aaadfbcd6013ca210a9e54dab31efb7104756676ac4a349eb496",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/HistoricalCodexExampleTest.java": "62ad49629bff16a3bc0a5acb729eb8d6ff24262cff64b095f92308de800c93fd",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/HistoricalEvaluationTest.java": "5f502bf58eed719d22956a3176710210233102b34ed54fd2cbd78db03b3b437e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/HistoryPaginationTest.java": "c8b6a093f39922dd398b2936484691aeebdbf7a84ccc5f48ec64406b2f0940d2",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/InstanceCapacityTest.java": "7380159a15ff03a58e7b0f80614f80ab65d4f19b9e468fba1ab470b5198ce7b0",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/InvocationGateTest.java": "e57a53e97b794c8d20f8db9ad60af53a5e1c40aa50985809616c3855cfeb60c5",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/MemberReviewFlowTest.java": "12f02360523387f01abb74ecde5a00f5298006c80224bd9b0adadc9bfe532b7a",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/MemberReviewTest.java": "2bc81e4341bce0387a72d797f9c313e0bf1eb407bc50bb0c8c9926407c826fa5",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalAidServiceTest.java": "6383bdf1b9ba74d868365da664a45087aac7ccfae486bd4974f43d23b4b04b11",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalChoiceLedgerTest.java": "86c68992ccea2a9626609b1d7a22f313cc924fb8cebe1cb323c3c96ea7a8ae77",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalRuleEngineAuthorityBoundaryTest.java": "e38f6a2cf9e78f1b14d5ddc955e94666fab731aceb5c76df6749ed2553d49a32",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalRuleEngineTest.java": "1f7148ec617d2dbaba1c776f2160854a0eb4c33a7564fc182d4765fb4bb548c4",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalVoteLedgerTest.java": "19c015d8b6c6377f506d9b72af2eedec1b24b827f67daab98757a2d92b7f7808",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/NationalVotePreparationTest.java": "a614437e287f63fcce6e35cb8d21d2c80e92abe22a0e554f02c4ef8d200b46cb",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/NativeDispatchTest.java": "133af1439ed181f3a2ae009ed0b433658d64c443db4556ac8f9b6c89b85024b1",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/NativeSceneDeliveryTest.java": "bf17b36fa0bfa426f82bdeb1a6790299aa5a1846c4e4515c38ed16a944b2112f",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/NativeSceneFlightsTest.java": "2b7551bfa4a65a0322569add715233882aea89763ea2b788dc82ed6fa60e38cf",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/OrchestrationRegressionTest.java": "57a830c4d4ebb9cba9d11a75205cf375644b99e05cb709cb825277d2b97325d0",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/ProductionContributionFlowTest.java": "0dd3257824c2e5985ad47f084017ad704fbcc67333aeb7f8360ef4ea53cc410e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/QuestGateDriverTest.java": "8e88cf8d509254c1bd3312485db1f87d44be2f3250bcff63bb84e70edca5f7f7",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/QuestGateEngineTest.java": "ea7de86aa4c5e9974f6c32780f9fff5e3c247b5a798baa0185425d9a970b5ee9",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/QuestGateLedgerTest.java": "bb37ce10403b8b3708dd697917d1a4a78215a785668bcf1cf362f0b767f3da82",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/RecollectionsTest.java": "8199684fa4b27efc2c7150b21c6da7d70224c0b692130a6fc50c7b761038f7c3",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/RetiredStoryRuntimeTest.java": "f7a79655847e0bc960c4121e8f43e451c46588b49627e5057eb9f8300da88453",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/RuleEngineTest.java": "30013955ed70837e2338684cc84dcb30f970b8097a9f494750aa1df2d4833db2",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/RuntimePublicationTest.java": "7a77270ba939e3485ee630e6001acb0e63aca0d09a1fa07021aa6ea80124ce89",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/SampleStoryPlaythroughTest.java": "c0114349d2e56bdb561aa19b0db6fee240c03168c588e4b897ebef1788f22fc2",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/TextServiceTest.java": "7e055de1487e288931ece788f8aeba00478c693ecc165d82e800284b2f1c6f77",
+      "src/test/java/io/github/addxiaoyi/starchronicle/core/TradeContributionTest.java": "93b16e1260cca5212a37bb55152a3b409f71966d3a3c9dbc01aca268b5eb2cda",
+      "src/test/java/io/github/addxiaoyi/starchronicle/history/CommittedHistoryJournalTest.java": "6ce09345d17076a67093ba15c72f27a897ac815275cef37fef0296ef846ad241",
+      "src/test/java/io/github/addxiaoyi/starchronicle/history/EventCausalityTest.java": "cf98ab04b8fe945037b4934d806dbbeffee77871e97679b4a878469bf88f5546",
+      "src/test/java/io/github/addxiaoyi/starchronicle/history/FirstVisitBufferTest.java": "897c2323912531071935291ad20ab9ad393407cad5b623ec004ea6832286ac14",
+      "src/test/java/io/github/addxiaoyi/starchronicle/history/HistoricalFactsTest.java": "bcbd9dcaef4bf1094be0e64e7ea76416bf5dbef1e384d21d84416e7034da14d9",
+      "src/test/java/io/github/addxiaoyi/starchronicle/history/ObservationJournalTest.java": "49c5ae5893f22a18ffa58e40055d36b6939fabacc1f5ff277dfc2fd0973c41f0",
+      "src/test/java/io/github/addxiaoyi/starchronicle/history/TradeHistoryFixtures.java": "910e561078ee1265a94cdc1249105d6cb23029f0e8b7da5438c435c4dc2b7173",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/CapitalHistoryCoordinatorTest.java": "4ea2c5eecb365ffa2c14cb41d73464a878ee7786e67db3a4a24185e7684423ac",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/CommittedSourceCollectorTest.java": "246d0e07a66e6eb8174ef0c6b147712b4bea5c1c9f073ee2a491af33846f7156",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/CoreContentInstallerTest.java": "75b9d8f11af844588285c3a1f78e4b1a32f51f6f5ae2bff553cc88bd72f9722e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/NativeRecoverySafetyTest.java": "f1da330ee1252011c042987e57314f5315cc8553ef841b84934a8b3987fccb4c",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/NativeSceneAdapterTest.java": "7f42fd37b847192abc90456dd0985ae207378137ad406baceb04dddc8a7788aa",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/NativeSceneRecoveryAdapterTest.java": "9cf3cb2d20a39146239ef3d1d2949bb41755739b1b9193401ed1254558e6c94e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/SnapshotCollectorTest.java": "624ad68d369523fef4c7e86bf17202a12b3d7013808564037b822302872863e0",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreAuthorityProviderTest.java": "d40d43383f87efc2dc997fc7845f5ef91303142ba6414ef196c3f5e24175fc5f",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreBridgeTest.java": "9a47406695ae5ebfbe3de97892273b8c839f440e3f829d015b64919886040935",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreCapitalHistoryTest.java": "bdf181948365f0d3cb2fa88165cfe6964c86385c589ef96ef131e24b51e41f0a",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreEpicOperationProviderTest.java": "f46546cb0387a8d125e55057e34968103385a0d5e1059e001adb7bf8db2d0344",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreMemberAuthorityTest.java": "408fac15f486bcdccd7c5f39287b73316b499d931a84d8b9c180226b530037dc",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreNationalVoteAuthorityTest.java": "cd5302fcc1f890c17cd32335c1bd4cf8f193ea02f5a7dc969783dae2c2c7bfb3",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreQuestEvidenceProviderTest.java": "562c311bfca5c9266cacc6989e55c8c075cc0b1d373cdebcbfe0129657ea3d07",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreResourceHistoryTest.java": "c996b2224554e8d52885434f19b0179517379bf820f14fa13db904df73767f61",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreTechnologyHistoryTest.java": "6e8caaae259d408dbc4ac4ffa6f2972a64e4e7166e03cb3a89725632ffda9f41",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreTradeHistoryTest.java": "04677bd7fcb68649e94b1f43fac049e3a687632408f6d5f3a626b2ec8f3d4f51",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/StarCoreTreasuryEpicProviderTest.java": "011db332a0006c38306621d85bbed350ee2892db8d3874c724a6f04f2183f914",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/TechnologyFactsTest.java": "d09ce16327c2245bce39027a94406e5e008c622b50441dec376dc8dc5cdab4f3",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/TechnologyHistoryCoordinatorTest.java": "1715675a7c26be7643a11eb56de743c4805d7a7277121c5dd6e410f3403af8d2",
+      "src/test/java/io/github/addxiaoyi/starchronicle/integration/TradeHistoryCoordinatorTest.java": "86a5be6f8a5c5738fafcabeacc066087bb311f96175502f19674292eb5ac08da",
+      "src/test/java/io/github/addxiaoyi/starchronicle/memory/MemoryLedgerTest.java": "1d9a2b047c44fd5a28cf096d3a0965ea297cc299814b9d5cbae313bbf787657b",
+      "src/test/java/io/github/addxiaoyi/starchronicle/memory/MemoryRecipeCatalogTest.java": "3d879520eef1420a7bf4878af86da77f3b6d9a7a8f186f10c1cace0add68ab17",
+      "src/test/java/io/github/addxiaoyi/starchronicle/memory/MemoryRecipeEngineTest.java": "f68622b299b99c7722b8ba7ddef1c85444a6803d41642facec3cbaf96efbcaa0",
+      "src/test/java/io/github/addxiaoyi/starchronicle/memory/MemoryRecipeExampleTest.java": "2169fd0bfce721102dab511968af63d592f7415cbe941a5ad754c060c034c637",
+      "src/test/java/io/github/addxiaoyi/starchronicle/narrative/NativeSceneJournalTest.java": "9fc581789fbc121e0ffa2ea993d0a056799bb4ac09912fe80ef170cc6bd2e030",
+      "src/test/java/io/github/addxiaoyi/starchronicle/npc/NpcEngineTransactionTest.java": "7de5f00b69ee534ae643910b37a65327c006e34e16fbde1c34d3ad1914aeabd0",
+      "src/test/java/io/github/addxiaoyi/starchronicle/npc/NpcScopedHistoryTest.java": "147f12b50b0601745bf129cecbdc6dc1fb1f013ef28b00f290264b3516ec9923",
+      "src/test/java/io/github/addxiaoyi/starchronicle/npc/NpcSystemTest.java": "d05a1bc6da0ee197baecfe42ca440d87ffb0517abd1085dfd9a6d0c145c89788",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/EpicServicesTest.java": "45d89b51b00ce420f7aa462910fc8f8e992443f83de0b229b4a2e0d86a0869d6",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/ExplorationDiscoveriesTest.java": "d69fa8bbec1c9609af08481a634d5d08fff00a91cca316a3f7f14b8a52327497",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/ExplorationRegionTest.java": "bcf77daf8dfbb41cc83796b4f1e8e3f4763abbf887f4fb2186159ef4c7f5f458",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/FirstVisitJournalTest.java": "8139b510934b5f48eb59dcf4418f88d785e5323ef86196cc055fa13cc7f4d744",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/HistoricalCommandsTest.java": "f4de515f521ced3d36e4aa567bc37fbdeadfed73ff4ac3d39b84867ae4d06df6",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/HistoryMenuNavigationTest.java": "daa2b1b88948cd3c41422e12935607a9e0d5c7245273e41762ea0d15e75b07a3",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/MemoryProtectionTest.java": "f54d9ff2a61c4aed67c77573e30a7ce67ccd83dbaada6629bea5899b4e9a99e8",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/MemorySitesTest.java": "88dfc40e923b97e5146403d2dd066596740b6cea189d6ec844c83b54986c95b3",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/MenusTest.java": "d9160ae7f6e1ec25064408b56204ecc04f9f7264a18f57fb2089a8796e2e1430",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalAuthorityServicesTest.java": "a2800a07d0d4557390839f1c2c76e82d3eb515c202412250c92c53c45e4b935c",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalCommandsTest.java": "762988aa6a016f570a9a10b091bcad5cdb0240b2794b3945c3d2704c5f9e2b9d",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalMenusTest.java": "0a25aa1744e71855acbddde70ea6304fc3a52c8f9a339f4febf6ba5a2b08f9c6",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalServicesTest.java": "fbb9f05198df47c4c9e18a494c5cd143903f2fa850509d62e5208fec485f88ba",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/NpcHooksTest.java": "b9914a38621687a2e37f35b15457afc2a5724d0152c71fc932e077d0d37e8fc2",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/NpcInteractionLifecycleTest.java": "48e35280de4995cf125b77b61e4fa23ce9ce31a6badc841cffdf06e529249f2e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/NpcMenuLifecycleTest.java": "7bc64fb42a7085ed8e9f15561c857a7da0417584831b2dd08cdd9d1e412c2616",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/PlayerOwnershipConsumersTest.java": "e5ece293f02dc4ea6c058f97751fc22f85fa491ad45ba660bfed701c338c761e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/QuestGateMenusTest.java": "89f31bdcd9a8561309ad774f2f93ac091c8a44a52bd5855409ee85de55de0e8e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/RegionTasksTest.java": "9de134c2b1a62ddc692aae565669114aa7a697cd1424dba9e8631af64b4867ad",
+      "src/test/java/io/github/addxiaoyi/starchronicle/paper/StateWorkerTest.java": "06fbbd29aa2c1ce012d7a7bc483f6bff98ec6bda436e34d6d46699e3da0a60a8",
+      "src/test/java/io/github/addxiaoyi/starchronicle/persistence/CanonicalDefinitionSchemaUpgradeTest.java": "89c9a4639171c3f05a02517b203d5432b167b9f23c466cea60fe3250cb642000",
+      "src/test/java/io/github/addxiaoyi/starchronicle/persistence/ChoiceSchemaUpgradeTest.java": "a59200f25a258fb7776a9f7de27c9a99ba4810f171c561a88754ce4b6b1ee2c6",
+      "src/test/java/io/github/addxiaoyi/starchronicle/persistence/DefinitionSchemaUpgradeTest.java": "64427ec5cc56c014806396a512a2a926e24bfcfcbfbabec743b527061109ca7b",
+      "src/test/java/io/github/addxiaoyi/starchronicle/persistence/MemoryRecipeSchemaUpgradeTest.java": "e81d45c6a162eb00aedcdee43f424cbb9cc4ff7b5cd1e6f86f1437acc7253be6",
+      "src/test/java/io/github/addxiaoyi/starchronicle/persistence/SchemaMigrationTest.java": "e6ef2be7cfd91ac31e8724f4ae54c5a50d272180f29ff2bb3ac41d812bcb9071",
+      "src/test/java/io/github/addxiaoyi/starchronicle/persistence/SqliteStoreTest.java": "567e83320495903e918eb429cd931cdc27b3807b406f486959f1a07ada44924e",
+      "src/test/java/io/github/addxiaoyi/starchronicle/api/epic/EpicCampaignPlanCatalogTest.java": "6248bf2e69a7542e7aed86df8824978132c2df194c795140d8336cb444685d6f",
+      "src/test/java/io/github/addxiaoyi/starchronicle/api/epic/EpicContractTest.java": "ead715e6e91d6cb2f7e405aa0625bde8a3b0262984b778af550e4e610cdd63b3",
+      "src/test/java/net/citizensnpcs/api/event/NPCRightClickEvent.java": "958fc53abdfdb99ad26200fc7a9c69a1565aaedf5ea940eeb8d6ad666d527a10",
+      "src/test/resources/schema/f2a4344-schema6.sql": "34f3bed8283b2713ac520f6feb99b858e6c9da9fc8e83a4180241f52e9834581"
+    },
+    "api": {
+      "api/ChronicleService": {
+        "preserved": 54,
+        "added": 1
+      },
+      "core/RuleEngine": {
+        "preserved": 85,
+        "added": 1
+      },
+      "core/ContributionLedger": {
+        "preserved": 13,
+        "added": 0
+      },
+      "core/EpicCampaignLedger": {
+        "preserved": 28,
+        "added": 0
+      },
+      "core/QuestGateLedger": {
+        "preserved": 12,
+        "added": 0
+      },
+      "core/MemberReviewLedger": {
+        "preserved": 9,
+        "added": 0
+      },
+      "paper/StarChroniclePlugin": {
+        "preserved": 15,
+        "added": 0
+      },
+      "integration/StarCoreNationalVoteAuthority": {
+        "preserved": 4,
+        "added": 0
+      },
+      "history/CommittedHistoryJournal": {
+        "preserved": 10,
+        "added": 0
+      },
+      "core/TradeContributionLedger": {
+        "preserved": 3,
+        "added": 0
+      },
+      "api/contribution/ContributionEntry": {
+        "preserved": 9,
+        "added": 0
+      },
+      "api/contribution/ContributionRequest": {
+        "preserved": 18,
+        "added": 0
+      },
+      "history/CommittedHistoryJournal$Entry": {
+        "preserved": 8,
+        "added": 2
+      },
+      "history/CommittedHistoryJournal$Pending": {
+        "preserved": 8,
+        "added": 2
+      }
+    },
+    "fixture_compiled": true,
+    "limits": "All selected classes equal tested pre-shade bytes; production shade relocates Jackson/YAML references. Final Java 21 descriptors verified. No live server."
+  },
+  "native_artifacts": {
+    "status": "VERIFIED",
+    "starcore_sha256": "7dedd11c80256dc2e3ac846b4287105ff9981d2230cd7ffea5484dd5f12fcd25",
+    "old_sha256": "ee3ee6d33298ff3d4b1efadc46cadf0b5aefa9e564686740deb82648ceeabc30",
+    "class_hashes": {
+      "dev/starcore/starcore/module/resource/MarketOrderBookService.class": "cc6d968bc0c90dc6e316d81e1560ce39cd3db74180ba709016c9e953b5c2a061",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$BuyEscrow.class": "84fefc0bb9150189034eab944f38b608249bb5b91a464981f8cf08d6636c73ee",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$ExpiredOrdersCleanedEvent.class": "0c738decb27d069ab4375416ce1e89e8a48a3277c274456cf22ce71ea0e4bcec",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$OrderCancelledEvent.class": "4eae0b414acddaefe283294ac47364c06f957989be14f8a76d9f3021cd82eaf6",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$OrderRejectedEvent.class": "322991c462095c4004ae2a3c9d5f6db6e24efe5ba2e059c569a56b2ac2e3416d",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$OrderSubmittedEvent.class": "a0729a9bccd2686e216f78b9fd26c9b500d03f224647c90b8385d7411146d95f",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$TradeExecutedEvent.class": "99ac639f416f6f4e74e6d40751eee5fd2763ece46d7bb71c59ab1b42d1a9e21a",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService.class": "f9afb73dc9882159e4b61f234f962f88f43154fdb51df92559a671b7d112076d",
+      "dev/starcore/starcore/module/resource/model/TradeOrder$OrderSnapshot.class": "7f425c81c613ee3605628ebe41cdceddf64fd6f6d5960991182d955a526a3b13",
+      "dev/starcore/starcore/module/resource/model/TradeOrder$OrderSource.class": "6db7ff32adf7ffa9b55854b270bac9fccb9433e773abaa9588dedaa792b208c7",
+      "dev/starcore/starcore/module/resource/model/TradeOrder$OrderStatus.class": "8c1f055874780ed65b571e135c2b6b73bab2f41f50e35ef2c320a656d76995f2",
+      "dev/starcore/starcore/module/resource/model/TradeOrder$OrderType.class": "4428a61017aa728e92c85e20995e845c4a46564bfb5e83802652bb5e53801c76",
+      "dev/starcore/starcore/module/resource/model/TradeOrder.class": "e86c614a1bab300dfd6c22b21ca7befd3c96bb2fb7148d10048dc9b1ec3710d7",
+      "dev/starcore/starcore/module/resource/ResourceModule.class": "d01e7bc25f5c476a2e765051920e4f179a3a1383736dab5ecdd65f0c60ff2825",
+      "dev/starcore/starcore/module/resource/command/ResourceCommand$1.class": "9052a1414c991e325b8e034fc4c956939dcdc75c9d17397c50fcf554b960d369",
+      "dev/starcore/starcore/module/resource/command/ResourceCommand.class": "2ba34cddbe67e23bb48aeb7fa7cadf2eae510b9b0c4d5a50952373085674173b",
+      "dev/starcore/starcore/module/resource/TradeHistoryService$TradeStatistics.class": "abc2a54823da83931edd3482786688f87c77360c31a9a85ded3cfafd3e1d1fc0",
+      "dev/starcore/starcore/module/resource/TradeHistoryService.class": "d843eb30c9f699e933bf398f9ca696293ad6b5cd343ec56403f43e57d039f9dd",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$Category.class": "df19b9d7730a32206a8f5830ab0232ed8084238dd50d4a4266c550e8ed42b8f0",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$Operation.class": "b188ab657850bfa4d4ce84ee00d78bf7569e3003b504032242c51b8c9396cd2b",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$Status.class": "adf21548614a0885de8278a7f6953bfb6a220c704f59c55fe1523d7569a1263a",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransactionReceipt.class": "ee69b4a023fab816d46144b0cd0c581a0c858dab829d7098127d097be9d0742c",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransactionRequest.class": "c91fc31c11e2fa600ed69e51a0c51a63a7b58222cd29ea1b8200c5ead9df4492",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransactionResult.class": "d4db27c25d36e177e1d7e89c6e51a31aa3553ba74232f7c2c4288fc0cb3e2c18",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransferReceipt.class": "6480e4f90a532a1cf3b959cc5ac59000713f7b7856b38571aefcbdb0327b300a",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransferRequest.class": "a202864237c4ed0c79c23c65d1a3556385b7045cdef2903452e47bbc073b20ad",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransferResult.class": "93781c4b087caeb359e07fe78e6502b029a3859bba1cb48c54b70bae65296ab7",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService$TransferStatus.class": "5e4e73a38a5cd65a77e90bac4970439be4ea73272cae9fc890370950c05b1e00",
+      "dev/starcore/starcore/module/resource/NationResourceTransactionService.class": "cb793bf0d5ffe03de68bcf025ef882301970e89abb405336436cfa0823b899b9",
+      "dev/starcore/starcore/module/resource/ResourceService.class": "843f7264fb6315a676645099296ee8447dfa5db3a7eae254509754aa3c475302",
+      "dev/starcore/starcore/module/resource/ProcessingService$FactoryRequest.class": "8c81cd63767e81a8e635bc515f61a319edb7999f2c929f6ae0ebc76c81a917f2",
+      "dev/starcore/starcore/module/resource/ProcessingService$FactoryResult.class": "4f17f007d1768afa526603c1740bc1d1e80af4ec2e33e196f22042bca97415ce",
+      "dev/starcore/starcore/module/resource/ProcessingService$FactoryStatus.class": "865d5ceb239eb2c6f33a7c1e75b00a16b851d0e796cf79586a6720f8cb78ef81",
+      "dev/starcore/starcore/module/resource/ProcessingService$ProductionRequest.class": "f34d54cd97ed2881b0291dae727595111c47987243ef0d2b993ea100f9dea083",
+      "dev/starcore/starcore/module/resource/ProcessingService$ProductionResult.class": "3f1c4d32e9b907b7d0ef3b841d9bce12433160fbfc96c5a4a052de5a87597e71",
+      "dev/starcore/starcore/module/resource/ProcessingService$ProductionStatus.class": "f718d526263ca8b4df3ac7e9322276344b9fd7e3521d227ff6d1c98cc74ba210",
+      "dev/starcore/starcore/module/resource/ProcessingService.class": "d851af66cb4365cdb56d3b691788c9f4d58d14df674be5eb0319337cf992e3dd",
+      "dev/starcore/starcore/module/resource/MarketOrderJournal$SqlWork.class": "b68f59e2a2e5a3e8c0cebd627e1ed3e0cfa141b4c3dfaddb85f6961ef53cb368",
+      "dev/starcore/starcore/module/resource/MarketOrderJournal.class": "6a748fa69d5bd0cfd54bfb057b376ed8d296da3e789948e035de8e7db1af482d",
+      "dev/starcore/starcore/module/resource/MarketOrderCodec.class": "d2c41e007dd232d8c809556509c2f2f962b89470244bb2a331c4063d56fa75d3",
+      "dev/starcore/starcore/module/resource/model/MarketEscrowSnapshot$Phase.class": "11a1b8c9eee27027f952e6a895abd33431b41fc0650863b412c213b2bf67e1a1",
+      "dev/starcore/starcore/module/resource/model/MarketEscrowSnapshot.class": "5ee35188f19de356a03b93c803114ecd15a630924d8df62fd4d9f0cba4247c8f",
+      "dev/starcore/starcore/module/resource/ResourceHistoryStorage$BalanceKey.class": "b6e137b3dc38dc95aa58b0a08eb9171822d290b094ada09031fe15d9a15ea7d5",
+      "dev/starcore/starcore/module/resource/ResourceHistoryStorage.class": "83adcff21cfcc98694197da5f131dae77b4847b66ce99fa35b78fa6faa82bd4c",
+      "dev/starcore/starcore/module/resource/ResourceHistoryService.class": "e58c66137ce9cc5b83bab5ba0dcf027148c1eac2aa72f9664d2422662d7af892",
+      "dev/starcore/starcore/module/resource/ResourceChangeReceipt$BalanceChange.class": "5c4eaffa6c389a1a3de836502c83947c2433d15b3f7998bc483c2eadbbc6dd14",
+      "dev/starcore/starcore/module/resource/ResourceChangeReceipt$Kind.class": "466b315357ce32c1c86195ffd30e71b6e0b131817d6295d998493b1eacf1e26b",
+      "dev/starcore/starcore/module/resource/ResourceChangeReceipt.class": "f7d5c72601bdb736004aeed9a9888e7fe2b27ea356cd274b3026fa091b154325",
+      "dev/starcore/starcore/module/resource/ResourceChangeCause.class": "f592b09bdb7ed0f5e022c8d2f02c65cdd0a585605743795373124a972ed65452",
+      "dev/starcore/starcore/module/resource/SqlResourceStateStorage$1.class": "bcd78d0c54ff8593cbe8276bb67e1e1e4a1c3f31a7fca8bae3baf91a27e76a57",
+      "dev/starcore/starcore/module/resource/SqlResourceStateStorage$2.class": "5c0595e5a3f103b5004905e295937dfa252eaf1bf6979cbf9ef498ad57a8cab9",
+      "dev/starcore/starcore/module/resource/SqlResourceStateStorage$3.class": "d1b1ace1b931d8950334ac0efde6a3db14707a1e8561ce700f8c9af5634834d7",
+      "dev/starcore/starcore/module/resource/SqlResourceStateStorage$4.class": "37bf1f93b45833f5db308cb8a15c9f28d8ca519f5379806f76220a4e66c5f491",
+      "dev/starcore/starcore/module/resource/SqlResourceStateStorage$5.class": "714e7629db2616c33627707af7e89bab6c73c56995e97340a12b490561e3f615",
+      "dev/starcore/starcore/module/resource/SqlResourceStateStorage$TradeSelection.class": "eeeee8282e2d58dae6ed9d7342b7e643a1f02211713778f617fa86a57fc730fa",
+      "dev/starcore/starcore/module/resource/SqlResourceStateStorage.class": "3903846f29e28ab5bd69337785972b748b1022131320b9388242993601224f05",
+      "dev/starcore/starcore/module/resource/DatabaseAwareResourceStateStorage.class": "6df38061c4bcd8d21a0e2d7f48c4458319da661510a0f0499c2c18516f1ec597",
+      "dev/starcore/starcore/module/resource/InventorySnapshotValidator.class": "0782831856f6792df093ad82583086ac1114f4aa565cef207a75ae6a223b60e8",
+      "dev/starcore/starcore/module/resource/ResourceStateCodec$Snapshot.class": "56b6c3779b0691655af42140864cc85ce8eedd2fedd12517ac5ea55720347949",
+      "dev/starcore/starcore/module/resource/ResourceStateCodec.class": "2d7b812aef46ab959e33e324050b32c17a5593391b60a6bf5b7fa0683f73add9"
+    },
+    "api": {
+      "module/resource/MarketOrderBookService": {
+        "preserved": 25,
+        "added": []
+      },
+      "module/resource/SimpleMarketOrderBookService": {
+        "preserved": 37,
+        "added": []
+      },
+      "module/resource/model/TradeOrder": {
+        "preserved": 31,
+        "added": []
+      },
+      "module/resource/model/TradeOrder$OrderSnapshot": {
+        "preserved": 19,
+        "added": []
+      },
+      "module/resource/ResourceModule": {
+        "preserved": 31,
+        "added": [
+          [
+            "public java.util.List<dev.starcore.starcore.module.resource.ResourceChangeReceipt> resourceChangesAfter(long, int);",
+            "(JI)Ljava/util/List;"
+          ],
+          [
+            "public java.util.Optional<java.util.UUID> historyAuthorityDomainId();",
+            "()Ljava/util/Optional;"
+          ]
+        ]
+      },
+      "module/resource/command/ResourceCommand": {
+        "preserved": 7,
+        "added": []
+      },
+      "module/resource/TradeHistoryService": {
+        "preserved": 26,
+        "added": []
+      },
+      "module/resource/NationResourceTransactionService": {
+        "preserved": 9,
+        "added": []
+      },
+      "module/resource/ResourceService": {
+        "preserved": 6,
+        "added": []
+      },
+      "module/resource/ProcessingService": {
+        "preserved": 25,
+        "added": []
+      }
+    },
+    "source_hashes": {
+      "src/main/java/dev/starcore/starcore/module/resource/DatabaseAwareResourceStateStorage.java": "c38e0c59aa29e5c521276a3294cc57b0886612d59b6b3cac331324a29e03830e",
+      "src/main/java/dev/starcore/starcore/module/resource/InventorySnapshotValidator.java": "f4b1dc20b3caafeaf9abf141319dbd95723c605ef1c1181e02d5beb3bb3785d8",
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceChangeCause.java": "aad330c8fd5d32dbe3c4810ae4e7c12fc72f0f55bd8d35c8310d7275df8104d9",
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceChangeReceipt.java": "a08cf80ef0a603d56b8b0f7e2f4df47d55c143a4e593fc9aa8c97c86e18e4435",
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceHistoryService.java": "d51d09c8938e7d5120237c2c321cc39e59394593763ece1d03188631d7ce0cf4",
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceHistoryStorage.java": "61e0d544208e099dbaab279a9c65b3e9f366f4b024a4e89dd96296d207e52db3",
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceModule.java": "9b517d6b83a63782ceab540b39c46be974bb7b12769b2b9281a4db61679cf9de",
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceStateCodec.java": "94703e6d0c5820d5822c2f6b5f5cc7c4e112673453e57f457824235475996241",
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceStateStorage.java": "49d87156d2c84640970f955053806348518745551a3d62692f1ac01d81747b2e",
+      "src/main/java/dev/starcore/starcore/module/resource/SqlResourceStateStorage.java": "b221921f2d66bf5779cec8c8914fb28a787c5c5e69af882e724b8622db62a280",
+      "src/test/java/dev/starcore/starcore/module/resource/InventorySnapshotValidationTest.java": "cc4a26a55c8438f5babf5d4d1fa84985e38c30cb53146dbb0fad629c6c3b5aec",
+      "src/test/java/dev/starcore/starcore/module/resource/MarketOrderPersistenceTest.java": "016dba6798d928825c90802f8110f7be88e343056c70fcd3d16b164ddf68eb5e",
+      "src/test/java/dev/starcore/starcore/module/resource/ResourceHistoryCompatibilityTest.java": "db39422b1493dff07b47802f730a3c6b39115f9b4b3bd845785c27dcf7180048",
+      "src/test/java/dev/starcore/starcore/module/resource/ResourceHistoryStorageTest.java": "bd9d1cf3379d224be29f15b98dc20b740f6d6019d2b8332fe2718571617e0416",
+      "src/test/java/dev/starcore/starcore/module/resource/ResourceSqlAuthorityTest.java": "7f0bc2dc6c33c2cf93c95f975fc9c770e91eae59b0bf343d50136195065a41ca",
+      "src/test/java/dev/starcore/starcore/module/resource/SqlFactoryPersistenceTest.java": "7beb2cb2729a53d5a121e3e4568c7574037494ec5db37948c52606d532abfe62",
+      "src/test/java/dev/starcore/starcore/module/resource/TradeExecutionReceiptValidationTest.java": "1cafdf789e3da4e7c57c056bf5dde5dcdedbd4c86d0150601ad867d3a21d4d96"
+    },
+    "sbom_sha256": "77cec8e7f5d94df019f06fadfe4444e2aae797e4821755fe6135a6dc4c181515",
+    "sbom_components": 36
+  },
+  "database_copies": {
+    "status": "VERIFIED",
+    "chronicle_sha256": "c0dc9cf69dbf757c5f23e1b41a16e2f57b6b5b33141698acf81f743a9d026a92",
+    "starcore_sha256": "7dedd11c80256dc2e3ac846b4287105ff9981d2230cd7ffea5484dd5f12fcd25",
+    "upstream_archive_sha256": "b6f8e7785640c2e9b8d19822be2fcffb83c9b358e461e1feb48f0273af4800c6",
+    "manifest_files": 7511,
+    "runs": [
+      {
+        "case": "legacy",
+        "phase": "seed",
+        "exit_code": 0
+      },
+      {
+        "case": "legacy",
+        "phase": "upgrade",
+        "exit_code": 0
+      },
+      {
+        "case": "legacy",
+        "phase": "reopen",
+        "exit_code": 0
+      },
+      {
+        "case": "legacy",
+        "phase": "append",
+        "exit_code": 0
+      },
+      {
+        "case": "legacy",
+        "phase": "reopen-after-append",
+        "exit_code": 0
+      },
+      {
+        "case": "upstream",
+        "phase": "upgrade",
+        "exit_code": 0
+      },
+      {
+        "case": "upstream",
+        "phase": "reopen",
+        "exit_code": 0
+      }
+    ],
+    "legacy": {
+      "seed": {
+        "accepted": 0,
+        "counts": {
+          "committed_history_ingress": 0,
+          "contributions": 0,
+          "events": 4
+        },
+        "current_factory": null,
+        "legacy_factory": {
+          "runId": "legacy:factory",
+          "authorityDomainId": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+          "factoryId": "345b3c05-af96-44c8-9d36-469e9d31b1c4",
+          "nationId": {
+            "value": "00000000-0000-0001-0000-000000000001"
+          },
+          "actorId": null,
+          "recipeId": "merge_recipe",
+          "batches": 1,
+          "inputs": {
+            "energy": 1,
+            "mineral": 3
+          },
+          "outputs": {
+            "industrial": 2
+          },
+          "startedAt": "2026-11-26T00:00:00Z",
+          "readyAt": "2026-11-26T00:00:01Z",
+          "completedAt": "2026-11-26T00:01:00Z",
+          "completionSequence": 2
+        },
+        "native_domain": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+        "new_productions": 2,
+        "new_transfers": 2,
+        "payer": {
+          "agricultural": 0,
+          "chemical": 0,
+          "energy": 997,
+          "industrial": 6,
+          "luxury": 0,
+          "mineral": 995,
+          "strategic": 0
+        },
+        "phase": "seed",
+        "production_cursor": {
+          "domain": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+          "sequence": 2
+        },
+        "receiver": {
+          "agricultural": 0,
+          "chemical": 0,
+          "energy": 0,
+          "industrial": 0,
+          "luxury": 0,
+          "mineral": 2,
+          "strategic": 0
+        },
+        "transfer_cursor": {
+          "domain": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+          "sequence": 2
+        },
+        "changes_count": 0,
+        "transactions_count": 4,
+        "productions_count": 2,
+        "transfers_count": 2
+      },
+      "upgrade": {
+        "accepted": 0,
+        "counts": {
+          "committed_history_ingress": 0,
+          "contributions": 0,
+          "events": 4,
+          "resource_history_receipts": 0
+        },
+        "current_factory": null,
+        "history_cursor": {
+          "authorityDomain": "f4180c45-fec4-4c79-ad85-9ab1aba26efe",
+          "sequence": 0,
+          "live": true
+        },
+        "legacy_factory": {
+          "runId": "legacy:factory",
+          "authorityDomainId": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+          "factoryId": "345b3c05-af96-44c8-9d36-469e9d31b1c4",
+          "nationId": {
+            "value": "00000000-0000-0001-0000-000000000001"
+          },
+          "actorId": null,
+          "recipeId": "merge_recipe",
+          "batches": 1,
+          "inputs": {
+            "energy": 1,
+            "mineral": 3
+          },
+          "outputs": {
+            "industrial": 2
+          },
+          "startedAt": "2026-11-26T00:00:00Z",
+          "readyAt": "2026-11-26T00:00:01Z",
+          "completedAt": "2026-11-26T00:01:00Z",
+          "completionSequence": 2
+        },
+        "native_domain": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+        "new_productions": 0,
+        "new_transfers": 0,
+        "payer": {
+          "agricultural": 0,
+          "chemical": 0,
+          "energy": 997,
+          "industrial": 6,
+          "luxury": 0,
+          "mineral": 995,
+          "strategic": 0
+        },
+        "phase": "upgrade",
+        "production_cursor": {
+          "domain": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+          "sequence": 2
+        },
+        "receiver": {
+          "agricultural": 0,
+          "chemical": 0,
+          "energy": 0,
+          "industrial": 0,
+          "luxury": 0,
+          "mineral": 2,
+          "strategic": 0
+        },
+        "transfer_cursor": {
+          "domain": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+          "sequence": 2
+        },
+        "changes_count": 0,
+        "transactions_count": 4,
+        "productions_count": 2,
+        "transfers_count": 2
+      },
+      "append": {
+        "accepted": 263,
+        "counts": {
+          "committed_history_ingress": 263,
+          "contributions": 0,
+          "events": 321,
+          "resource_history_receipts": 263
+        },
+        "current_factory": {
+          "runId": "current:factory",
+          "authorityDomainId": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+          "factoryId": "5f841885-57fa-499d-9989-0c2d7fa3da04",
+          "nationId": {
+            "value": "00000000-0000-0001-0000-000000000001"
+          },
+          "actorId": null,
+          "recipeId": "merge_recipe",
+          "batches": 1,
+          "inputs": {
+            "energy": 1,
+            "mineral": 3
+          },
+          "outputs": {
+            "industrial": 2
+          },
+          "startedAt": "2026-11-26T00:00:00Z",
+          "readyAt": "2026-11-26T00:00:01Z",
+          "completedAt": "2026-11-26T00:02:00Z",
+          "completionSequence": 4
+        },
+        "history_cursor": {
+          "authorityDomain": "f4180c45-fec4-4c79-ad85-9ab1aba26efe",
+          "sequence": 263,
+          "live": true
+        },
+        "legacy_factory": {
+          "runId": "legacy:factory",
+          "authorityDomainId": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+          "factoryId": "345b3c05-af96-44c8-9d36-469e9d31b1c4",
+          "nationId": {
+            "value": "00000000-0000-0001-0000-000000000001"
+          },
+          "actorId": null,
+          "recipeId": "merge_recipe",
+          "batches": 1,
+          "inputs": {
+            "energy": 1,
+            "mineral": 3
+          },
+          "outputs": {
+            "industrial": 2
+          },
+          "startedAt": "2026-11-26T00:00:00Z",
+          "readyAt": "2026-11-26T00:00:01Z",
+          "completedAt": "2026-11-26T00:01:00Z",
+          "completionSequence": 2
+        },
+        "native_domain": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+        "new_productions": 2,
+        "new_transfers": 52,
+        "payer": {
+          "agricultural": 0,
+          "chemical": 0,
+          "energy": 994,
+          "industrial": 12,
+          "luxury": 0,
+          "mineral": 1090,
+          "strategic": 0
+        },
+        "phase": "append",
+        "production_cursor": {
+          "domain": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+          "sequence": 4
+        },
+        "receiver": {
+          "agricultural": 0,
+          "chemical": 0,
+          "energy": 0,
+          "industrial": 0,
+          "luxury": 0,
+          "mineral": 54,
+          "strategic": 0
+        },
+        "transfer_cursor": {
+          "domain": "9e6de46e-7794-45c1-9c10-e47f01322eaf",
+          "sequence": 54
+        },
+        "changes_count": 263,
+        "transactions_count": 108,
+        "productions_count": 4,
+        "transfers_count": 54
+      },
+      "original_tables": {
+        "starcore.db": 6,
+        "chronicle.db": 47
+      }
+    },
+    "upstream": {
+      "accepted": 0,
+      "counts": {
+        "committed_history_ingress": 139,
+        "contributions": 0,
+        "events": 169,
+        "resource_history_receipts": 139
+      },
+      "current_factory": null,
+      "history_cursor": {
+        "authorityDomain": "70c3bad4-5244-46d0-9e0f-310282f98c15",
+        "sequence": 139,
+        "live": true
+      },
+      "legacy_factory": null,
+      "native_domain": "fb5f705c-74bd-4727-8c92-1e4b34da8ed6",
+      "new_productions": 0,
+      "new_transfers": 28,
+      "payer": {
+        "agricultural": 0,
+        "chemical": 0,
+        "energy": 0,
+        "industrial": 0,
+        "luxury": 0,
+        "mineral": 0,
+        "strategic": 0
+      },
+      "phase": "upgrade",
+      "production_cursor": {
+        "domain": "fb5f705c-74bd-4727-8c92-1e4b34da8ed6",
+        "sequence": 0
+      },
+      "receiver": {
+        "agricultural": 0,
+        "chemical": 0,
+        "energy": 0,
+        "industrial": 0,
+        "luxury": 0,
+        "mineral": 0,
+        "strategic": 0
+      },
+      "transfer_cursor": {
+        "domain": "fb5f705c-74bd-4727-8c92-1e4b34da8ed6",
+        "sequence": 28
+      },
+      "changes_count": 139,
+      "transactions_count": 54,
+      "productions_count": 0,
+      "transfers_count": 28,
+      "original_tables": {
+        "starcore.db": 124,
+        "chronicle.db": 45
+      }
+    },
+    "old_writer_refused": [
+      "legacy",
+      "upstream"
+    ],
+    "scope": "Actual packaged native storage and Chronicle consumers in serialized disposable JVM/database copies; no Minecraft, native actor authorization or production upgrade claim."
+  },
+  "market_processes": {
+    "status": "VERIFIED",
+    "jar_sha256": "7dedd11c80256dc2e3ac846b4287105ff9981d2230cd7ffea5484dd5f12fcd25",
+    "runs": [
+      {
+        "phase": "seed",
+        "exit_code": 0,
+        "seconds": 1.9540000000270084
+      },
+      {
+        "phase": "match",
+        "exit_code": 0,
+        "seconds": 1.437000000034459
+      },
+      {
+        "phase": "cancel",
+        "exit_code": 0,
+        "seconds": 1.3589999999385327
+      },
+      {
+        "phase": "verify",
+        "exit_code": 0,
+        "seconds": 1.297000000020489
+      },
+      {
+        "phase": "crash-seed",
+        "exit_code": 0,
+        "seconds": 1.452999999979511
+      },
+      {
+        "phase": "crash-refund",
+        "exit_code": 23,
+        "seconds": 1.375
+      },
+      {
+        "phase": "crash-verify",
+        "exit_code": 0,
+        "seconds": 1.2660000000614673
+      },
+      {
+        "phase": "crash-verify",
+        "exit_code": 0,
+        "seconds": 1.2339999999385327
+      }
+    ],
+    "facts": {
+      "normal": {
+        "orders": [
+          [
+            "b8af664f-4488-4640-8cb7-f9ef5c0b136f",
+            10,
+            "CLOSED",
+            "{\"version\":1,\"id\":\"b8af664f-4488-4640-8cb7-f9ef5c0b136f\",\"type\":\"BUY\",\"source\":\"PLAYER\",\"player\":\"00000000-0000-0001-0000-000000000001\",\"nation\":\"00000000-0000-0002-0000-000000000001\",\"resource\":\"iron\",\"price\":\"8.0\",\"total\":10,\"remaining\":6,\"created\":\"2026-11-26T12:30:44.034923400Z\",\"expiry\":\"2030-01-01T00:00:00.123456789Z\",\"status\":\"CANCELLED\",\"market\":false,\"fillPrice\":\"7.0\",\"filled\":4,\"escrow\":\"0\",\"phase\":\"CLOSED\",\"operation\":\"b8af664f-4488-4640-8cb7-f9ef5c0b136f\",\"detail\":\"escrow return confirmed\",\"updated\":\"2026-11-26T12:30:46.945241800Z\",\"revision\":10}"
+          ],
+          [
+            "fd327807-895f-442e-8b54-270c78a597e8",
+            8,
+            "CLOSED",
+            "{\"version\":1,\"id\":\"fd327807-895f-442e-8b54-270c78a597e8\",\"type\":\"SELL\",\"source\":\"PLAYER\",\"player\":\"00000000-0000-0001-0000-000000000002\",\"nation\":\"00000000-0000-0002-0000-000000000002\",\"resource\":\"iron\",\"price\":\"7.0\",\"total\":4,\"remaining\":0,\"created\":\"2026-11-26T12:30:44.130587900Z\",\"expiry\":\"2030-01-01T00:00:00.123456789Z\",\"status\":\"FILLED\",\"market\":false,\"fillPrice\":\"7.0\",\"filled\":4,\"escrow\":\"0\",\"phase\":\"CLOSED\",\"operation\":\"9fbb52b3-f525-3055-8ee8-369cf5f742d6\",\"detail\":\"match committed\",\"updated\":\"2026-11-26T12:30:45.563067900Z\",\"revision\":8}"
+          ]
+        ],
+        "events": 10
+      },
+      "interrupted": {
+        "orders": [
+          [
+            "bd031a14-5cfd-4564-8d29-f8d2a68959ab",
+            3,
+            "CANCELLING",
+            "{\"version\":1,\"id\":\"bd031a14-5cfd-4564-8d29-f8d2a68959ab\",\"type\":\"BUY\",\"source\":\"PLAYER\",\"player\":\"00000000-0000-0001-0000-000000000001\",\"nation\":\"00000000-0000-0002-0000-000000000001\",\"resource\":\"iron\",\"price\":\"8.0\",\"total\":5,\"remaining\":5,\"created\":\"2026-11-26T12:30:49.619398300Z\",\"expiry\":\"2030-01-01T00:00:00Z\",\"status\":\"PENDING\",\"market\":false,\"fillPrice\":\"0.0\",\"filled\":0,\"escrow\":\"44.00\",\"phase\":\"CANCELLING\",\"operation\":\"bd031a14-5cfd-4564-8d29-f8d2a68959ab\",\"detail\":\"return remaining escrow\",\"updated\":\"2026-11-26T12:30:51.040435Z\",\"revision\":3}"
+          ]
+        ],
+        "events": 3
+      }
+    },
+    "files": {
+      "1-seed.args": "0021dace7c58ddc4110b9798c465558bc86fa09dcd0e78e37bbd3fe963201306",
+      "1-seed.log": "d7260348fcaa9b03d85fe832ac02c5738d026f80501029cd0f9680ce4f6038e0",
+      "2-match.args": "8559af24cec0a5669c357bb0075bb03fa15f3e23f88b2ab9889a1cb6681dca03",
+      "2-match.log": "095d0ad65532d29667e64fef7bba12d7e90e775673d282a28a72288c877cd8cf",
+      "3-cancel.args": "abc52b0ca1220a71c61ffb0e5c3b59aa8f7ecefef1fa9b03e21cb0b0ad95b8ac",
+      "3-cancel.log": "792e94f9c6ead0179ed85696744963bf46c818d146ec977e889befb4bede6a57",
+      "4-verify.args": "f00f7724de4baa7f3bbbc6ad64ae9259e0ddea9b1e9c2696bdf50508bd54e535",
+      "4-verify.log": "19820729fd75241320f0a232f375539c48cf731bf59fa7aea44e7d3f61e7373d",
+      "5-crash-seed.args": "62436a98bd424d2e50942a77836090f54430f121d7e2359bd353a1115b31c423",
+      "5-crash-seed.log": "53573b3655589dc56ce5f1f8469a6b671a272b9785b8c8ffe27e0fd2565ce98e",
+      "6-crash-refund.args": "08777c86615eabf2917f98ead44135685a83b06e1424c33cb3151ee755dd737b",
+      "6-crash-refund.log": "9e4cbf4da783f11ee32a05328185b8086972c465c3e71e53cef5f231fd151102",
+      "7-crash-verify.args": "1b21f044a74d2dff20c9e9f3024c2f18f54d5ba75b1224989552ebd4993cff25",
+      "7-crash-verify.log": "e47f069e41c7841eb4484adc8ac710ef07ef2dd266b372fb8a7c792045db1acc",
+      "8-crash-verify.args": "1b21f044a74d2dff20c9e9f3024c2f18f54d5ba75b1224989552ebd4993cff25",
+      "8-crash-verify.log": "b58cfbeb2e273ae8bbec271c86dee6361bb6677beab35fec1814679f247f017d",
+      "compile.args": "cc61996b6a6848dead20c2d9bcf5360267649d365f1ff59c3b8a8ba54a5c415f",
+      "compile.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "MarketEscrowProbe.java": "e7b9140fbd47277c4e5f990911bad67090eb5e2628785ce164386665388b981b",
+      "interrupted/assets.properties": "9232b29d40c30eccd4dc72052887d2c41b1df57a58760668f17450002918f6cf",
+      "interrupted/orders.sqlite": "f14c5cd7c87d50a6cbf2fbb524d054369520f4de5cf4b875a5abd5c0a057285a",
+      "interrupted/orders.sqlite.authority": "1836edfd898ef8b17522d5b157bf2b14e4abdc568e4447acd2f36eaaa923914e",
+      "interrupted/orders.sqlite.authority.bak": "aee5ec3f025c2294a50f1111d252bc198dc5e64ac0346995ca39fc63fb346a5d",
+      "interrupted/orders.sqlite.authority.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "interrupted/trades.sqlite": "215b0776b737673c2af445dd3b64e49a37898b8f7136c0e73f9e909b23dd7f50",
+      "normal/assets.properties": "56a93d4beba0ade2d996ac507335421045a79d923eb4d63fc6118e78d3aee8ec",
+      "normal/fabric.properties": "0316c7f104feb6d5d4e00144461348e92c147793a9350c7bfaf79153a7c27b80",
+      "normal/orders.sqlite": "c77cf66a58b92a0c97ec98fbf4c14f72d0d34ea5a35e1502c17298d06bde604f",
+      "normal/orders.sqlite.authority": "031beabdfc0ae1f5ba23ced330639b6093e97f1cbc908818d6c6aba19b48ca1d",
+      "normal/orders.sqlite.authority.bak": "db813698eba1582e6339e7c08c987502a4ee283fa0bb7f5ee627d7e49f6404ef",
+      "normal/orders.sqlite.authority.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normal/trades.sqlite": "2d177b2625d4d81e300a183b6cc9373558e8247fe2b71a4e5c038abbc154a7f6",
+      "dev/starcore/starcore/module/resource/MarketEscrowProbe$1.class": "d93dac0999e16ae103903159442c8af1442b72d081fd14409915a78fd33fcd41",
+      "dev/starcore/starcore/module/resource/MarketEscrowProbe$Handler.class": "3f4e49d3de79f4819d690de3049bed1d85cf93dd32c644fff8c1d7f21b222ef4",
+      "dev/starcore/starcore/module/resource/MarketEscrowProbe.class": "cb8049314e9fc63d663c6d198fb39a9016bf7d2deb6554f88a410619ceb268ff"
+    },
+    "scope": "Actual packaged service and SQLite/fabric/history with deterministic test-double external providers; no Minecraft server."
+  },
+  "parents": {
+    "chronicle": {
+      "head": "ed897f0c8931f551bb8b06e55f4bb18c46dcc00c",
+      "merging": "110f8e823339fe05a2de273c1b87b38f27cd204a",
+      "fetched_upstream": "92442e10ce47e4432267ca8a8d127e7e34aafb25"
+    },
+    "starcore": {
+      "head": "7850efac96ce0721979c370d0ca8d4f4765c0935",
+      "merging": "3da33a00a226c0fff118ebbd4acdec63b7822365",
+      "fetched_upstream": "4d01f6430e5ee4bce02627602bee0f30bad29aff"
+    },
+    "baseline_jars": {
+      "starchronicle-0.1.0-SNAPSHOT-sources.jar": "9bffee5664099bdb39415c85ca6de1bff72c1322df7d5a4a9bade3799bf4bad6",
+      "starchronicle-0.1.0-SNAPSHOT.jar": "53844b0d1c78b014325fd483001ee0406cb9053204786144acfe8aa0d325f5a9",
+      "starcore-1.0.0.jar": "ee3ee6d33298ff3d4b1efadc46cadf0b5aefa9e564686740deb82648ceeabc30"
+    }
+  },
+  "limits": [
+    "77 completed native-related suites, 1488 tests: 1425 resource/role-matrix and 63 registration/lifecycle/GUI. Not the full native suite.",
+    "No Minecraft, current-jar third-party combination, full Folia or production upgrade. Disposable copies and serialized JVMs only.",
+    "Upstream 945/7251 tests and three-boot report retain their original JAR scope.",
+    "All original columns/rows are retained; additive columns and new source rows are allowed. Original upstream native tables and history bytes are unchanged.",
+    "Both resource streams retain independent domains, cursors and events. Balance changes do not award production, aid or trade credit.",
+    "Schema10 fences schema9 writers. Native old writers may not recognize the protocol; downgrade requires matching backups.",
+    "Domain/high-water checks cannot detect arbitrary coordinated rollback. Back up coupled native and external assets consistently.",
+    "Factory history and nation SQL writer commits at 92442e1/4d01f64 are fetched, not part of this merge."
+  ],
+  "retained_failures": [
+    "First native run: 159 tests / 15 failures. Restored bounded SQL count validation; legacy fixture removed the new exact timestamp field.",
+    "First compatibility run: 208 tests / 4 failures. Archive assertions now perform the required initial business save.",
+    "First batch4: 585 tests / 2 failures / 2 errors. Recreated empty SQL including the new initialization sentinel; routing fixture switches authority only at restart.",
+    "Compile: upstream runtime.enabledDefinitions replaced with existing atomic runtime fields; one fixture needed a checked exception declaration.",
+    "Probes: stdout decoding, native-memory failure, then original-column check corrected to permit the existing quest_gates.attempt additive migration. Final probes use explicit UTF8 and bounded 96MiB JVMs.",
+    "Report rejected stale embedded API documentation. The first rebuild was interrupted by tool runtime replacement; process absence and incomplete log confirmed stop. Complete full-final-2 and final JAR probes supersede it."
+  ],
+  "evidence": {
+    "sha256": "026681ff325268db268165bf234e58cdb523b1c86c87f49e8b3ef500f12b8266",
+    "members": 4293,
+    "bytes": 11011514
+  }
+}
