@@ -200,7 +200,7 @@ async function questGate(who,action,status,rawRound){
 let chain=Promise.resolve();
 async function expectCommand(who,encoded) {
   const request=JSON.parse(Buffer.from(encoded,'base64url').toString('utf8')),bot=bots.get(who);
-  const allowed=request.command.startsWith('/chronicle ')||(manifest.nation_trade_acceptance&&request.command.startsWith('/nationtrade '))||(manifest.nation_production_acceptance&&request.command.startsWith('/nationproduction '))||((manifest.nation_factory_acceptance||manifest.legacy_factory_acceptance)&&request.command.startsWith('/nationfactory '));
+  const allowed=request.command.startsWith('/chronicle ')||(manifest.player_trade_acceptance&&request.command.startsWith('/trade '))||(manifest.nation_trade_acceptance&&request.command.startsWith('/nationtrade '))||(manifest.nation_production_acceptance&&request.command.startsWith('/nationproduction '))||((manifest.nation_factory_acceptance||manifest.legacy_factory_acceptance)&&request.command.startsWith('/nationfactory '));
   if(!allowed||typeof request.contains!=='string'||!request.contains)throw Error('Require a concrete prepared command and response');
   await new Promise((resolve,reject)=>{
     let received='';

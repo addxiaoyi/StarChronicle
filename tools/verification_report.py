@@ -147,6 +147,11 @@ for summary in sorted((root/"docs/verification").glob("legacy-factory-*-summary.
     for run in data.get("runs",[]):
         tested=run["chronicle_sha256"]
         lines.append(f"| [旧工厂登记及同构件回归：{run['kind']}](LEGACY-FACTORY-TEST-REPORT.md) | `{tested}` | {'是' if tested==current_hash else '否，不能覆盖当前构建'} | {run['status']}；配套原生 `{run['starcore_sha256']}` |")
+for summary in sorted((root/"docs/verification").glob("player-trade-*-summary.json")):
+    data=json.loads(summary.read_text(encoding="utf-8"))
+    for run in data.get("runs",[]):
+        tested=run["chronicle_sha256"]
+        lines.append(f"| [玩家直售恢复及同构件回归：{run['kind']}](PLAYER-TRADE-TEST-REPORT.md) | `{tested}` | {'是' if tested==current_hash else '否，不能覆盖当前构建'} | {run['status']}；配套原生 `{run['starcore_sha256']}` |")
 handoff=root/"patches/quest-evidence/static-handoff-report.json"
 if handoff.is_file():
     upstream=json.loads(handoff.read_text(encoding="utf-8-sig"))
@@ -154,7 +159,7 @@ if handoff.is_file():
     full=upstream.get("latestFullUpstreamRun",{})
     candidate=upstream.get("currentNativePackage",{})
     lines += ["", "## 早期原生任务候选的历史边界", "",
-              "以下为早期任务候选的独立历史记录，不覆盖后续产品构件；当前原生完整构建、真实MySQL及配套实服结果见[旧工厂登记报告](LEGACY-FACTORY-TEST-REPORT.md)。", "",
+              "以下为早期任务候选的独立历史记录，不覆盖后续产品构件；当前原生完整构建、真实MySQL及配套实服结果见[玩家直售恢复报告](PLAYER-TRADE-TEST-REPORT.md)。", "",
               f"StarCore 候选 JAR SHA-256：`{candidate.get('sha256','未记录')}`。",
               f"聚焦测试：{focused.get('tests','未记录')} 项，失败 {focused.get('failures','未记录')}，错误 {focused.get('errors','未记录')}，跳过 {focused.get('skipped','未记录')}；该次证据为六份实际 Surefire XML，未保留统一原始控制台日志。",
               f"StarCore 完整回归：{full.get('tests','未记录')} 项，失败 {full.get('failures','未记录')}，错误 {full.get('errors','未记录')}，跳过 {full.get('skipped','未记录')}，`BUILD {full.get('build','未记录')}`。不能用聚焦测试或 Paper 功能验收覆盖该失败。",
