@@ -121,4 +121,16 @@ class CommittedHistoryJournalTest {
             assertThrows(IllegalArgumentException.class, () -> journal.cursor(""));
         }
     }
+
+    @Test void busyNamespacesAreInterleavedWithoutReorderingTheirOwnSequences() {
+        try (var store = new SqliteStore(db())) {
+            var journal = new CommittedHistoryJournal(store);
+            journal.stage(SOURCE, DOMAIN, 0, LongStream.rangeClosed(1,128).mapToObj(this::entry).toList());
+            var trade = TradeHistoryFixtures.receipt(1, null, io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt.Status.REFUNDED);
+            journal.stage(TradeHistoryProjection.NAMESPACE, TradeHistoryFixtures.DOMAIN, 0, List.of(TradeHistoryFixtures.entry(trade)));
+            var pending = journal.pending(128);
+            assertEquals(TradeHistoryProjection.event(trade), pending.getFirst().event());
+            assertEquals(LongStream.rangeClosed(1,127).mapToObj(n -> entry(n).event()).toList(), pending.subList(1,128).stream().map(CommittedHistoryJournal.Pending::event).toList());
+        }
+    }
 }

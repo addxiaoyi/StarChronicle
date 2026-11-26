@@ -10,6 +10,8 @@ import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
 import io.github.addxiaoyi.starchronicle.npc.NpcLedger;
 import io.github.addxiaoyi.starchronicle.history.HistoricalFacts;
 import io.github.addxiaoyi.starchronicle.history.EventCausality;
+import io.github.addxiaoyi.starchronicle.history.CommittedHistoryJournal;
+import io.github.addxiaoyi.starchronicle.history.TradeHistoryProjection;
 import io.github.addxiaoyi.starchronicle.memory.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -140,6 +142,40 @@ public final class RuleEngine implements AutoCloseable {
         });
     }
 
+    /** Consume staged native evidence atomically with history, contribution state and live
+     * story effects. Archive catch-up builds the same net ledger without replaying effects. */
+    public ProcessReport acceptCommittedHistory(CommittedHistoryJournal.Pending pending, Collection<PlayerContext> contexts) {
+        Objects.requireNonNull(pending); Objects.requireNonNull(contexts);
+        var receipt = pending.tradeReceipt();
+        if (receipt == null) {
+            if (TradeHistoryProjection.NAMESPACE.equals(pending.event().facts().get("history.namespace")))
+                throw new IllegalArgumentException("Trade history is missing its full receipt");
+            return pending.activate() ? accept(pending.event(), contexts) : archiveCommittedHistory(pending.event());
+        }
+        WorldEvent event = TradeHistoryProjection.event(receipt);
+        if (!event.equals(pending.event())) throw new IllegalArgumentException("Trade receipt does not match staged event");
+        Map<UUID,PlayerContext> unique = new LinkedHashMap<>();
+        for (var ctx : contexts) {
+            if (!audience(event, ctx)) throw new IllegalArgumentException("Invalid trade history audience");
+            if (unique.put(ctx.playerId(), ctx) != null) throw new IllegalArgumentException("Duplicate trade context");
+        }
+        if (unique.size() > 10000) throw new IllegalArgumentException("Too many trigger recipients");
+        return transaction(c -> {
+            boolean fresh;
+            Set<String> changed = Set.of();
+            if (pending.activate()) {
+                fresh = recordAndQueue(c, event, unique.values(), runtime.enabledDefinitions(), EventCausality.root(event.id()));
+                changed = drainTriggers(c, List.copyOf(unique.values()), event.id());
+            } else {
+                fresh = record(c, event, false);
+                if (fresh) EventCausality.record(c, event.id(), EventCausality.root(event.id()));
+            }
+            TradeContributionLedger.record(c, receipt, clock.instant());
+            return new ProcessReport(!fresh, List.copyOf(changed), pending.activate()
+                    ? "贸易历史与净贡献已提交" : "贸易历史与净贡献已归档，不补发剧情效果");
+        });
+    }
+
     /** Commit a verified native national-aid receipt together with its canonical
      * history event, derived effects and durable story inbox.  The provider call
      * has already completed before entering this transaction; this method only
@@ -232,8 +268,24 @@ public final class RuleEngine implements AutoCloseable {
 
     public java.math.BigDecimal contributionTotal(String subject, ContributionType type, String unit) {
         ContributionRequest.token(subject, "subject", 256); Objects.requireNonNull(type);
-        ContributionRequest.token(unit, "unit", 32);
+        ContributionRequest.token(unit, "unit", ContributionRequest.UNIT_MAX_LENGTH);
         return transaction(c -> ContributionLedger.total(c, subject, type, unit));
+    }
+
+    public List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionBalance> contributionBalances(
+            String subject, ContributionType type, int page, int size) {
+        if (page < 0 || size < 1 || size > 100) throw new IllegalArgumentException("Invalid contribution page");
+        if (subject != null) ContributionRequest.token(subject, "subject", 256);
+        return transaction(c -> ContributionLedger.balances(c, subject, type, page, size));
+    }
+
+    public List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionRevision> contributionRevisions(
+            String contributionId, int page, int size) {
+        return transaction(c -> ContributionLedger.revisions(c, contributionId, page, size));
+    }
+
+    public Optional<io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt> tradeHistoryReceipt(String eventId) {
+        return transaction(c -> TradeContributionLedger.receipt(c, eventId));
     }
 
     public static String aidEventId(String issuer,String transactionId){return "chronicle:aid:"+stable(issuer,transactionId);}

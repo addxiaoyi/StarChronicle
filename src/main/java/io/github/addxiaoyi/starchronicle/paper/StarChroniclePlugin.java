@@ -9,6 +9,7 @@ import io.github.addxiaoyi.starchronicle.core.*;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreBridge;
 import io.github.addxiaoyi.starchronicle.integration.SnapshotCollector;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistory;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistory;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryAidProvider;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProvider;
@@ -62,6 +63,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     private ObservationJournal observations;
     private CommittedHistoryJournal committedHistory;
     private StarCoreTechnologyHistory technologyHistory;
+    private StarCoreTradeHistory tradeHistory;
     private FirstVisitJournal firstVisits;
     private List<ExplorationRegion> explorationRegions=List.of();
     private final FirstVisitBuffer explorationIngress=new FirstVisitBuffer(2048);
@@ -149,6 +151,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             observations=new ObservationJournal(store,Clock.systemUTC());
             committedHistory=new CommittedHistoryJournal(store);
             technologyHistory=new StarCoreTechnologyHistory(gateway,committedHistory);
+            tradeHistory=new StarCoreTradeHistory(gateway,committedHistory);
             gateway.setCommittedTechnologyHistory(technologyHistory::usesCommittedHistory);
             snapshotCollector=new SnapshotCollector(gateway,()->getServer().getServicesManager().getRegistrations(SnapshotProvider.class).stream().map(r->r.getProvider()).toList());
             textService=new TextService(Duration.ofMillis(Math.max(1,Math.min(30000,getConfig().getLong("text-timeout-ms",1500)))));
@@ -301,12 +304,13 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             gateway.scanCommittedSources();
             engine.recoverEpicContributions(50);
             try { technologyHistory.scan(); }
-            catch (RuntimeException failure) { getLogger().warning("Technology history scan retained its cursor: "+root(failure).getMessage()); }
+            catch (RuntimeException failure) { getLogger().warning("Technology history scan retained its cursor: "+historyFailure(failure)); }
+            try { tradeHistory.scan(); }
+            catch (RuntimeException failure) { getLogger().warning("Trade history scan retained its cursor: "+historyFailure(failure)); }
             for(var pending:committedHistory.pending(CommittedHistoryJournal.PAGE_SIZE)) {
                 WorldEvent event=pending.event();
-                if(pending.activate())engine.accept(event,audience(event,contexts));
-                else engine.archiveCommittedHistory(event);
-                committedHistory.acknowledge(event.id());
+                engine.acceptCommittedHistory(pending,audience(event,contexts));
+                if(!committedHistory.acknowledge(event.id()))throw new IllegalStateException("Committed history consumer did not acknowledge "+event.id());
             }
             for(var snapshot:snapshotCollector.collect())observations.observe(snapshot);
             explorationIngress.drain(firstVisits::observe,100);
@@ -322,7 +326,14 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             deliverPending();for(PlayerContext context:contexts)resumeNativeOnWorker(context.playerId());
             if(questGates!=null)questGates.poll(tasks.onlineIds()).exceptionally(error->{if(running.get())getLogger().warning("Quest evidence scan retained: "+root(error).getMessage());return null;});
             return null;
-        })).exceptionally(error->{if(running.get())getLogger().warning("History scan retained pending evidence: "+root(error).getMessage());return null;});
+        })).exceptionally(error->{if(running.get())getLogger().warning("History scan retained pending evidence: "+historyFailure(error));return null;});
+    }
+    /** Preserve the concrete storage/source cause in operational logs instead of reporting
+     * every failed transaction as the same generic wrapper message. */
+    private static String historyFailure(Throwable error) {
+        Set<Throwable> seen=Collections.newSetFromMap(new IdentityHashMap<>());
+        while(error.getCause()!=null&&seen.add(error))error=error.getCause();
+        return error.getClass().getSimpleName()+": "+Objects.toString(error.getMessage(),"");
     }
     private static List<PlayerContext> audience(WorldEvent event,List<PlayerContext> contexts){return contexts.stream().filter(c->event.globalAudience()||event.participants().contains(c.playerId())||(!c.nationId().isBlank()&&event.nations().contains(c.nationId()))).toList();}
     private List<StoryDefinition> withPendingDefinitions(List<StoryDefinition> configured){List<StoryDefinition> all=new ArrayList<>(configured);all.addAll(engine.pendingDefinitions());return all;}
@@ -750,6 +761,9 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<List<MemberReviewLedger.Review>> memberReviews(UUID player,int limit){return nationalSnapshot(player).thenCompose(context->query(()->engine.memberReviews(context.playerId(),limit)));}
         @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry>> contributions(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return query(()->engine.contributions(subject,type,page,size));}
         @Override public CompletionStage<java.math.BigDecimal> contributionTotal(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,String unit){return query(()->engine.contributionTotal(subject,type,unit));}
+        @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionBalance>> contributionBalances(String subject,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return query(()->engine.contributionBalances(subject,type,page,size));}
+        @Override public CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionRevision>> contributionRevisions(String contributionId,int page,int size){return query(()->engine.contributionRevisions(contributionId,page,size));}
+        @Override public CompletionStage<Optional<io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt>> tradeHistoryReceipt(String eventId){return query(()->engine.tradeHistoryReceipt(eventId));}
         @Override public CompletionStage<List<StoryInstance>> instances(UUID player){return snapshot(player).thenCompose(context->query(()->{engine.resumeTriggers(List.of(context));return engine.instances(player);}));}
         @Override public CompletionStage<List<StoryInstance>> activeInstances(){return query(engine::activeInstances);}
         @Override public CompletionStage<List<StoryInstance>> availableInstances(UUID player){return snapshot(player).thenCompose(context->query(()->engine.availableInstances(context)));}
@@ -809,9 +823,9 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 case "contributions"->{
                     if(args.length>2)throw new IllegalArgumentException("用法: /chronicle contributions [页]");
                     int page=args.length==2?Integer.parseInt(args[1])-1:0;
-                    service.contributions("player:"+id,null,page,10).whenComplete((entries,error)->{
+                    service.contributionBalances("player:"+id,null,page,10).whenComplete((entries,error)->{
                         if(error!=null)failure(id,error);else message(id,entries.isEmpty()?"本页没有已核验贡献。":entries.stream()
-                                .map(e->e.request().committedAt()+" | "+e.request().amount().toPlainString()+" "+e.request().unit()+" | "+e.request().type()+" | "+e.request().sourceEventId()).collect(java.util.stream.Collectors.joining("\n")));
+                                .map(e->e.entry().request().committedAt()+" | 当前计入 "+e.netAmount().toPlainString()+" / 原始 "+e.entry().request().amount().toPlainString()+" "+e.entry().request().unit()+" | "+switch(e.status()){case ACTIVE->"有效";case SUSPENDED->"争议暂停";case REFUNDED->"已退款";case CANCELLED->"已取消";}+" | "+e.entry().request().type()).collect(java.util.stream.Collectors.joining("\n")));
                     });
                 }
                 case "choose"->{if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle choose <实例ID> <当前节点ID> <选项ID>");service.choose(args[1],id,args[2],args[3]).whenComplete((report,error)->{if(error!=null)failure(id,error);else{message(id,report.message());menus.stories(id,0);}});}

@@ -270,7 +270,13 @@ schema 7 仅在原因果表追加默认空的 `recipe_path` 并新增定义、�
 
 ## 贡献查询与成员复核
 
-`ChronicleService.contributions(subjectId, type, page, size)` 返回已核验的贡献记录；主体可为 `player:<UUID>`／`nation:<UUID>`，主体与类型传 `null` 表示不过滤。页码从 0 开始，页大小为 1..100。`contributionTotal(subjectId, type, unit)` 使用精确十进制按单位汇总，国库 `treasury` 与资源 `agricultural` 等分别统计。公开服务没有直接写入贡献的入口。
+`ChronicleService.contributions(subjectId, type, page, size)` 返回不可变的原始贡献记录；主体可为 `player:<UUID>`／`nation:<UUID>`，主体与类型传 `null` 表示不过滤。页码从 0 开始，页大小为 1..100。`contributionTotal(subjectId, type, unit)` 使用精确十进制返回当前有效净值，排除争议暂停、已退款和已取消的条目；国库 `treasury` 与资源 `agricultural` 等分别统计。原始条目的金额不代表仍然有效，展示当前贡献请使用 `contributionBalances(subjectId, type, page, size)`，读取 `status`、`netAmount()`、`statusEventId` 与 `statusCommittedAt`。`contributionRevisions(contributionId, page, size)` 按追加修订号倒序返回完整状态轨迹。公开服务没有直接写入贡献或状态的入口。
+
+schema 8 新增贸易回执与只追加的贡献修订表。原始贡献与历史行不改写；没有修订的旧援助／文明／贸易条目按 ACTIVE 统计。版本 7 插件不能打开升级后的数据库，回退需恢复配套备份。`ContributionRequest` 的单位支持原生 64 字符资源标识；TRADE 数量支持正值至 `Long.MAX_VALUE`（至多六位小数，原生投影使用整数），其他类别仍保留原先 `10^12` 金额上限，不截断或拆分合法原生成交。
+
+贸易从配套 StarCore 的 `TradeHistoryService.tradeChangesAfter(sequence, 128)` 读取，固定 authority-domain，提交序号与完整收件箱原子落库。`tradeHistoryReceipt(eventId)` 返回无损原生回执，包括完整备注、原始双方／国籍、成交时间、事务发生时间和日志提交时间；WorldEvent 使用 occurredAt，另存 executedAt／committedAt。事件 ID 包含 domain 与 sequence；首次成交为 `TRADE_COMPLETED`，争议为 `TRADE_DISPUTED`，退款／取消为 `TRADE_REFUNDED`／`TRADE_CANCELLED`，恢复为 `TRADE_RESTORED`，同状态备注修订为 `TRADE_UPDATED`。恢复和备注修订不会再次触发 `TRADE_COMPLETED`。
+
+每笔贸易按资源数量为不同参与玩家和国家分别计一条贡献；同国双方的国家合计只计一次，不应把各主体合计视为全服贸易量。只使用回执中的真实玩家和当时国籍；没有该侧玩家主体的国家交易保留历史，不推定创始人。首次连续追赶补齐历史与净贡献，不补发旧剧情、NPC、纪念点或奖励。已有正贡献的争议、退款、取消只追加状态，明确恢复后重新计入原条目；安装日志协议前的旧退款如果没有正贡献，不生成负数。已发出的剧情奖励不因后续退款自动撤销。历史、贡献、状态和正常剧情收件箱同事务，提交后才 ACK；异常保持待处理，重启只补本地账本，不调用原生资产操作。
 
 史诗 `TREASURY_AID`／`RESOURCE_AID` 的提供者回执、历史事件、剧情收件箱和两条主体贡献在同一事务提交；UNKNOWN、拒绝、准备或选项投票不会产生贡献。旧候选的已提交回执由有界恢复任务补入，只读已有 provider/domain 固定回执。国库援助与史诗国库援助使用相同的事件和贡献键，同一转账不会因入口不同被计入两次。
 
