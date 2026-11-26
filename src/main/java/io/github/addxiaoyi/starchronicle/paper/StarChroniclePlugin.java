@@ -170,8 +170,8 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
             registerBuiltinEpicProviders(builtinQuestEvidence,folia);
             PluginCommand command=Objects.requireNonNull(getCommand("chronicle"));command.setExecutor(this);command.setTabCompleter(this);
             gateway.start(event->service.submit(event).exceptionally(error->{getLogger().warning("Source event was not accepted: "+error.getMessage());return null;}));
-            npcs=new NpcHooks(this,this::npcInteraction);if(getConfig().getBoolean("npc-hooks",true))npcs.start();
-            memorySites=new MemorySites(this,(id,eventId)->query(()->memoryLedger.source(eventId)).whenComplete((event,error)->{if(error!=null)failure(id,error);else menus.event(id,event);}),this::npcInteraction);
+            npcs=new NpcHooks(this,observed->npcInteraction(observed));if(getConfig().getBoolean("npc-hooks",true))npcs.start();
+            memorySites=new MemorySites(this,(id,eventId)->query(()->memoryLedger.source(eventId)).whenComplete((event,error)->{if(error!=null)failure(id,error);else menus.event(id,event);}),observed->npcInteraction(observed));
             getServer().getPluginManager().registerEvents(memorySites,this);memorySites.refresh(memoryLedger.sites());
             exploration=new ExplorationDiscoveries(explorationRegions,(id,action)->tasks.playerOwned(id,p->{if(running.get())action.accept(p);},()->{}),p->{gateway.refreshContext(p,permissions);return gateway.context(p.getUniqueId());},this::captureExploration,Clock.systemUTC());
             getServer().getPluginManager().registerEvents(exploration,this);
@@ -335,6 +335,15 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     }
     /** The consumer runs only on the entity scheduler, and receives no offline player. */
     void present(UUID id,Consumer<Player> display) {if(!running.get())return;tasks.playerOwned(id,p->{if(running.get()&&p.isOnline()){gateway.refreshContext(p,permissions);display.accept(p);}},()->{});}
+    /** Observation-driven views must survive both the query wait and the final display queue. */
+    void present(Player expected,BooleanSupplier current,Consumer<Player> display) {
+        if(!running.get()||!current.getAsBoolean())return;
+        tasks.playerOwned(expected.getUniqueId(),p->{
+            if(p!=expected||!running.get()||!current.getAsBoolean()||!p.isOnline()||!p.hasPermission("starchronicle.use"))return;
+            gateway.refreshContext(p,permissions);
+            if(running.get()&&current.getAsBoolean())display.accept(p);
+        },()->{});
+    }
     void message(UUID id,String text){present(id,p->p.sendMessage(Component.text("[编年史] "+text)));}
     void failure(UUID id,Throwable error){getLogger().warning("Player operation failed: "+root(error).getMessage());message(id,"操作未完成："+Objects.toString(root(error).getMessage(),"内部错误"));}
     private static Throwable root(Throwable error){while(error.getCause()!=null&&(error instanceof CompletionException||error instanceof ExecutionException))error=error.getCause();return error;}
@@ -345,18 +354,30 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return future;
     }
     private CompletionStage<PlayerContext> snapshot(UUID id) {
+        return snapshot(id,null,()->true);
+    }
+    private CompletionStage<PlayerContext> snapshot(UUID id,Player expected,BooleanSupplier current) {
         CompletableFuture<PlayerContext> result=new CompletableFuture<>();
         if(!running.get()){result.completeExceptionally(new IllegalStateException("Plugin is stopping"));return result;}
         try{tasks.playerOwned(id,p->{
             if(result.isDone())return;
+            if(expected!=null&&p!=expected||!current.getAsBoolean()){result.completeExceptionally(new CancellationException("Interaction session or provider changed"));return;}
             if(!running.get()){result.completeExceptionally(new IllegalStateException("Plugin is stopping"));return;}
             if(!p.isOnline()){result.completeExceptionally(new IllegalStateException("Player is offline"));return;}
-            try{gateway.refreshContext(p,permissions);if(exploration!=null)exploration.observe(p);result.complete(gateway.context(id));}catch(Throwable error){result.completeExceptionally(error);}
+            try{
+                PlayerContext captured;
+                if(expected!=null)captured=gateway.captureContext(p,permissions);
+                else {gateway.refreshContext(p,permissions);captured=gateway.context(id);}
+                if(exploration!=null)exploration.observe(p);result.complete(captured);
+            }catch(Throwable error){result.completeExceptionally(error);}
         },()->result.completeExceptionally(new IllegalStateException("Player scheduler retired")));}catch(RuntimeException scheduling){result.completeExceptionally(scheduling);}
         return result.orTimeout(5,TimeUnit.SECONDS);
     }
     private CompletionStage<List<PlayerContext>> snapshots() {
-        List<CompletableFuture<PlayerContext>> all=tasks.onlineIds().stream().map(id->snapshot(id).exceptionally(error->null).toCompletableFuture()).toList();
+        return snapshotsExcept(null);
+    }
+    private CompletionStage<List<PlayerContext>> snapshotsExcept(UUID excluded) {
+        List<CompletableFuture<PlayerContext>> all=tasks.onlineIds().stream().filter(id->!id.equals(excluded)).map(id->snapshot(id).exceptionally(error->null).toCompletableFuture()).toList();
         return CompletableFuture.allOf(all.toArray(CompletableFuture[]::new)).thenApply(ignored->all.stream().map(CompletableFuture::join).filter(Objects::nonNull).toList());
     }
     private CompletionStage<PlayerContext> nationalSnapshot(UUID player){return snapshot(player).thenApply(context->{
@@ -617,13 +638,38 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         return true;
     }
     @EventHandler public void quit(PlayerQuitEvent event) {tasks.untrack(event.getPlayer());}
-    private void npcInteraction(UUID player,String npcId) {
+    private void npcInteraction(NpcHooks.Interaction observed) {
+        UUID id=observed.player().getUniqueId();
+        observeNpcInteraction(observed).whenComplete((logical,error)->{
+            if(!running.get()||!observed.current().getAsBoolean())return;
+            tasks.playerOwned(id,player->{
+                if(player!=observed.player()||!player.isOnline()||!player.hasPermission("starchronicle.use")||!observed.current().getAsBoolean())return;
+                if(error!=null){if(!(root(error) instanceof CancellationException)){
+                    getLogger().warning("NPC interaction failed: "+root(error).getClass().getSimpleName());
+                    player.sendMessage(Component.text("[编年史] NPC 交互未完成，请重试。"));
+                }}
+                else if(logical==null)menus.stories(observed);else menus.npc(observed,logical);
+            },()->{});
+        });
+    }
+    /** An observed interaction is admitted only while its provider lease and captured player are valid. */
+    CompletionStage<String> observeNpcInteraction(NpcHooks.Interaction observed) {
+        UUID player=observed.player().getUniqueId();
+        String npcId=observed.npcId();Instant observedAt=observed.observedAt();
+        BooleanSupplier current=observed.current();
+        if(!running.get()||!current.getAsBoolean())return CompletableFuture.failedFuture(new CancellationException("NPC bridge is no longer active"));
         String logical=npcLedger.catalog().profiles().containsKey(npcId)?npcId:npcLedger.catalog().resolveExternal(npcId).orElse(null);
-        if(logical==null){menus.stories(player);return;}
-        snapshot(player).thenCompose(context->{
-            WorldEvent event=new WorldEvent("npc:"+UUID.randomUUID(),"NPC_INTERACT",Instant.now(),Set.of(player),context.nationId().isBlank()?Set.of():Set.of(context.nationId()),Map.of("npc.id",logical,"npc.binding",npcId),"NPC_BRIDGE","Observed uncancelled interaction; player="+player+"; npc="+logical+"; binding="+npcId);
-            return service.submit(event);
-        }).whenComplete((report,error)->{if(error!=null)failure(player,error);else menus.npc(player,logical);});
+        return snapshot(player,observed.player(),current).thenCompose(context->{
+            if(!context.permitted("starchronicle.use"))return CompletableFuture.failedFuture(new SecurityException("缺少编年史使用权限"));
+            if(logical==null)return CompletableFuture.completedFuture(null);
+            WorldEvent event=new WorldEvent("npc:"+UUID.randomUUID(),"NPC_INTERACT",observedAt,Set.of(player),context.nationId().isBlank()?Set.of():Set.of(context.nationId()),Map.of("npc.id",logical,"npc.binding",npcId,"time_basis","OBSERVED"),"NPC_BRIDGE","Observed uncancelled interaction; player="+player+"; npc="+logical+"; binding="+npcId);
+            // Preserve the original actor context; an audience refresh must not substitute a reconnect.
+            return snapshotsExcept(player).thenCompose(contexts->query(()->{
+                if(!running.get()||!current.getAsBoolean())throw new CancellationException("NPC bridge changed before admission");
+                List<PlayerContext> captured=new ArrayList<>(contexts);captured.add(context);
+                engine.accept(event,audience(event,captured));deliverPending();return logical;
+            }));
+        });
     }
     private final class Service implements ChronicleService {
         @Override public CompletionStage<ProcessReport> submit(WorldEvent event){Objects.requireNonNull(event);return snapshots().thenCompose(contexts->query(()->{ProcessReport result=engine.accept(event,audience(event,contexts));deliverPending();return result;}));}

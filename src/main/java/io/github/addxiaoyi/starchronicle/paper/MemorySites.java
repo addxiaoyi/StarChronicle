@@ -19,13 +19,16 @@ public final class MemorySites implements Listener,AutoCloseable {
     private final JavaPlugin plugin;
     private final NamespacedKey siteKey,kindKey;
     private final BiConsumer<UUID,String> library;
-    private final BiConsumer<UUID,String> dialogue;
+    private final Consumer<NpcHooks.Interaction> dialogue;
     private volatile Map<String,MemorySite> sites=Map.of();
     private volatile boolean closed;
     public MemorySites(JavaPlugin plugin,Consumer<UUID> library,BiConsumer<UUID,String> dialogue) {
         this(plugin,(viewer,event)->library.accept(viewer),dialogue);
     }
     public MemorySites(JavaPlugin plugin,BiConsumer<UUID,String> library,BiConsumer<UUID,String> dialogue) {
+        this(plugin,library,observed->dialogue.accept(observed.player().getUniqueId(),observed.npcId()));
+    }
+    public MemorySites(JavaPlugin plugin,BiConsumer<UUID,String> library,Consumer<NpcHooks.Interaction> dialogue) {
         this.plugin=plugin;this.library=library;this.dialogue=dialogue;
         siteKey=new NamespacedKey(plugin,"memory-site");kindKey=new NamespacedKey(plugin,"memory-kind");
     }
@@ -69,11 +72,12 @@ public final class MemorySites implements Listener,AutoCloseable {
     private void tag(Entity entity,MemorySite site,String kind){entity.setPersistent(true);entity.getPersistentDataContainer().set(siteKey,PersistentDataType.STRING,site.id());entity.getPersistentDataContainer().set(kindKey,PersistentDataType.STRING,kind);}
     @EventHandler(priority=EventPriority.HIGHEST,ignoreCancelled=true) public void interact(PlayerInteractEntityEvent event) {
         if(closed||event.getHand()!=EquipmentSlot.HAND)return;
+        Map<String,MemorySite> observedSites=sites;
         String id=event.getRightClicked().getPersistentDataContainer().get(siteKey,PersistentDataType.STRING);
-        MemorySite site=id==null?null:sites.get(id);if(site==null||!site.enabled())return;
+        MemorySite site=id==null?null:observedSites.get(id);if(site==null||!site.enabled())return;
         event.setCancelled(true);
         if(!event.getPlayer().hasPermission("starchronicle.use"))return;
-        if("veteran".equals(event.getRightClicked().getPersistentDataContainer().get(kindKey,PersistentDataType.STRING)))dialogue.accept(event.getPlayer().getUniqueId(),site.npcId());
+        if("veteran".equals(event.getRightClicked().getPersistentDataContainer().get(kindKey,PersistentDataType.STRING)))dialogue.accept(new NpcHooks.Interaction(event.getPlayer(),site.npcId(),java.time.Instant.now(),()->!closed&&sites==observedSites));
         else library.accept(event.getPlayer().getUniqueId(),site.eventId());
     }
     @Override public void close(){closed=true;HandlerList.unregisterAll(this);/* persistent owned entities reconcile at the next enable/chunk load */}

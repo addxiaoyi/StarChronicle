@@ -112,6 +112,10 @@ public final class StarCoreBridge implements CoreGateway, AutoCloseable {
 
     /** Capture current trusted facts on the player's owning entity thread. */
     public void refreshContext(Player player, Collection<String> requestedPermissions) {
+        captureContext(player,requestedPermissions);
+    }
+    /** Return this capture directly; the UUID cache may already belong to another login on return. */
+    public PlayerContext captureContext(Player player, Collection<String> requestedPermissions) {
         Map<String,String> facts=new HashMap<>(); Set<String> permissions=new HashSet<>();
         for(String node:requestedPermissions) if(node!=null && !node.isBlank() && player.hasPermission(node)) permissions.add(node);
         facts.put("player.name",player.getName()); facts.put("player.world",player.getWorld().getName());
@@ -148,7 +152,9 @@ public final class StarCoreBridge implements CoreGateway, AutoCloseable {
                 });
             } catch(RuntimeException ex) { plugin.getLogger().log(Level.WARNING,"Context contributor failed",ex); }
         }
-        contexts.put(player.getUniqueId(),new PlayerContext(player.getUniqueId(),nationId,facts,permissions));
+        PlayerContext captured=new PlayerContext(player.getUniqueId(),nationId,facts,permissions);
+        contexts.put(player.getUniqueId(),captured);
+        return captured;
     }
 
     @Override public CompletionStage<DeliveryResult> deliver(Delivery delivery) {

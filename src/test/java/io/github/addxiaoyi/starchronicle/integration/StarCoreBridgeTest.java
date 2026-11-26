@@ -60,6 +60,18 @@ class StarCoreBridgeTest {
             bukkit.verifyNoInteractions();
         }
     }
+    @Test void directCaptureKeepsTheOriginalPlayerWhenAnotherLoginReplacesTheCache() {
+        StarCoreBridge bridge=bridge();
+        PlayerContext observed=bridge.captureContext(player,List.of("starchronicle.use"));
+        Player replacement=mock(Player.class);World nextWorld=mock(World.class);
+        when(replacement.getUniqueId()).thenReturn(playerId);when(replacement.getName()).thenReturn("Reconnected");
+        when(replacement.getWorld()).thenReturn(nextWorld);when(nextWorld.getName()).thenReturn("other-world");
+        PlayerContext next=bridge.captureContext(replacement,List.of("starchronicle.use"));
+        assertSame(next,bridge.context(playerId));assertNotSame(next,observed);
+        assertEquals("Witness",observed.facts().get("player.name"));assertEquals("world",observed.facts().get("player.world"));
+        assertTrue(observed.permitted("starchronicle.use"));assertFalse(next.permitted("starchronicle.use"));
+        assertEquals("Reconnected",next.facts().get("player.name"));
+    }
     @Test void unavailableAuthorityProviderRejectsBeforeAnyMutation() {
         try(MockedStatic<Bukkit> bukkit=mockStatic(Bukkit.class)) {
             Delivery delivery=new Delivery("outcome","instance","authority.diplomacy","nation","ALLY",playerId,"","");

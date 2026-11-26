@@ -141,10 +141,12 @@ public final class Menus implements Listener {
             meta.title(Component.text("世界编年史"));meta.author(Component.text("StarChronicle"));meta.pages(pages.stream().<Component>map(Component::text).toList());book.setItemMeta(meta);p.openBook(book);
         });
     }
-    public void npc(UUID viewer,String npcId) {
+    public void npc(UUID viewer,String npcId) {npc(viewer,npcId,null);}
+    void npc(NpcHooks.Interaction observed,String npcId) {npc(observed.player().getUniqueId(),npcId,observed);}
+    private void npc(UUID viewer,String npcId,NpcHooks.Interaction observed) {
         plugin.service().npc(viewer,npcId).whenComplete((npc,error)->{
-            if(error!=null){plugin.failure(viewer,error);return;}
-            plugin.present(viewer,p->{
+            if(error!=null){observationFailure(viewer,observed,error);return;}
+            observationPresent(viewer,observed,p->{
                 Session s=create(viewer,"人物档案 · "+npc.name());
                 put(s,4,Material.PLAYER_HEAD,npc.name(),List.of("阵营: "+npc.faction(),"职位: "+npc.position(),"成长: "+npc.growth()),null);
                 put(s,10,Material.BOOK,"人物背景",wrap(npc.background()),null);
@@ -190,13 +192,17 @@ public final class Menus implements Listener {
         });
     }
     public void stories(UUID viewer) {stories(viewer,List.of(""),0);}
+    void stories(NpcHooks.Interaction observed) {stories(observed.player().getUniqueId(),List.of(""),0,observed);}
     private void stories(UUID viewer,List<String> cursors,int page) {
+        stories(viewer,cursors,page,null);
+    }
+    private void stories(UUID viewer,List<String> cursors,int page,NpcHooks.Interaction observed) {
         nationalRequests.remove(viewer);
         questGateRequests.remove(viewer);
         plugin.service().storyPage(viewer,cursors.get(page).isEmpty()?null:cursors.get(page),PAGE).whenComplete((result,error)->{
-            if(error!=null){plugin.failure(viewer,error);return;}
+            if(error!=null){observationFailure(viewer,observed,error);return;}
             var items=result.instances();
-            plugin.present(viewer,p->{
+            observationPresent(viewer,observed,p->{
                 Session s=create(viewer,"共同书写历史 · "+(page+1));
                 for(int i=0;i<items.size();i++) {
                     StoryInstance story=items.get(i);
@@ -212,6 +218,14 @@ public final class Menus implements Listener {
                 p.openInventory(s.inventory);
             });
         });
+    }
+    private void observationPresent(UUID viewer,NpcHooks.Interaction observed,Consumer<Player> display) {
+        if(observed==null)plugin.present(viewer,display);
+        else plugin.present(observed.player(),observed.current(),display);
+    }
+    private void observationFailure(UUID viewer,NpcHooks.Interaction observed,Throwable error) {
+        if(observed==null)plugin.failure(viewer,error);
+        else observationPresent(viewer,observed,p->p.sendMessage(Component.text("[编年史] NPC 交互未完成，请重试。")));
     }
     void membership(UUID viewer,String instanceId) {
         plugin.service().instance(viewer,instanceId).thenCompose(item->{
