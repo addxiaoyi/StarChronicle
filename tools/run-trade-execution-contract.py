@@ -1,6 +1,7 @@
 """Verify packaged national trade recovery and Chronicle ingestion in four sequential JVMs."""
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -26,7 +27,8 @@ def main():
     artifacts = output / 'artifacts'
     artifacts.mkdir()
     source = Path(__file__).with_name('TradeExecutionProbe.java')
-    for original, name in ((args.starcore, 'starcore.jar'), (args.chronicle, 'starchronicle.jar'), (source, source.name)):
+    for original, name in ((args.starcore, 'starcore.jar'), (args.chronicle, 'starchronicle.jar'), (source, source.name),
+                           (Path(__file__).with_name('verify-treasury-archive.py'), 'verify-treasury-archive.py')):
         shutil.copy2(original, artifacts / name)
     libraries = sorted((args.runtime / 'libraries').rglob('*.jar'))
     if not libraries:
@@ -60,7 +62,14 @@ def main():
                 assert db.execute('PRAGMA integrity_check').fetchone() == ('ok',)
         with sqlite3.connect(f'file:{output.as_posix()}/treasury.db?mode=ro', uri=True) as db:
             state = dict(db.execute('SELECT property_key,property_value FROM starcore_treasury_state'))
-            assert state['transfer.count'] == '1' and state['transfer.0.amount'] == '4.00'
+            if state.get('receipt-archive.version') == '1':
+                spec = importlib.util.spec_from_file_location('treasury_archive', artifacts / 'verify-treasury-archive.py')
+                verifier = importlib.util.module_from_spec(spec); spec.loader.exec_module(verifier)
+                receipts = verifier.read_archive(db, state)
+                transfers = [value for (kind, identity), value in receipts.items() if kind == 'transfer']
+                assert len(transfers) == 1 and transfers[0]['amount'] == '4.00'
+            else:
+                assert state['transfer.count'] == '1' and state['transfer.0.amount'] == '4.00'
         with sqlite3.connect(f'file:{output.as_posix()}/resources.db?mode=ro', uri=True) as db:
             state = dict(db.execute('SELECT property_key,property_value FROM starcore_resource_state'))
             if state['resource.trade-executions.version'] == '2':

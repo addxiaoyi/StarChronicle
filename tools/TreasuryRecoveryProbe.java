@@ -60,9 +60,14 @@ public final class TreasuryRecoveryProbe {
             } else throw new IllegalArgumentException(phase);
             try(Connection connection=DriverManager.getConnection(url);Statement statement=connection.createStatement();ResultSet result=statement.executeQuery("SELECT property_key,property_value FROM starcore_treasury_state")) {
                 var state=new Properties();while(result.next())state.setProperty(result.getString(1),result.getString(2));
-                var persisted=TreasuryStateValidation.read(state);
-                check(persisted.transferReceipts().size()==1,"one durable transfer");
-                check(persisted.creditReceipts().size()==2,"internal deposit receipts");
+                var persisted=state.containsKey("receipt-archive.version")?storage.readState(state):TreasuryStateValidation.read(state);
+                if(state.containsKey("receipt-archive.version")) {
+                    check(persisted.transferReceipts().isEmpty()&&persisted.creditReceipts().isEmpty(),"no resident durable receipts");
+                    check(state.getProperty("receipt-archive.count").equals("3"),"three complete archived receipts");
+                } else {
+                    check(persisted.transferReceipts().size()==1,"one durable transfer");
+                    check(persisted.creditReceipts().size()==2,"internal deposit receipts");
+                }
                 check(persisted.balances().get(PAYER).equals(new BigDecimal("80.00")),"durable payer");
                 check(persisted.balances().get(RECEIVER).equals(new BigDecimal("30.00")),"durable receiver");
             }

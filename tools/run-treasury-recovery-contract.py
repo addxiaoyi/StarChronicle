@@ -1,6 +1,7 @@
 """Run packaged treasury commit recovery in three small sequential JVMs, without Minecraft."""
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -17,13 +18,17 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('starcore', 'runtime', 'java-home', 'output'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--heap-mb', type=int, default=96)
     args = parser.parse_args()
+    if args.heap_mb < 32:
+        parser.error('Use at least 32 MiB heap')
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     artifacts = output / 'artifacts'
     artifacts.mkdir()
     source = Path(__file__).with_name('TreasuryRecoveryProbe.java')
-    for original, name in ((args.starcore, 'starcore.jar'), (source, source.name)):
+    for original, name in ((args.starcore, 'starcore.jar'), (source, source.name),
+                           (Path(__file__).with_name('verify-treasury-archive.py'), 'verify-treasury-archive.py')):
         shutil.copy2(original, artifacts / name)
     libraries = sorted((args.runtime / 'libraries').rglob('*.jar'))
     if not libraries:
@@ -32,7 +37,7 @@ def main():
     classes = output / 'classes'
     classes.mkdir()
     manifest = {'status': 'RUNNING', 'scope': 'Packaged TreasuryModule and real SQLite, commit then response/read failure, quarantine flush, original-ID replay in two subsequent JVMs; no Minecraft, Chronicle adapter or MySQL certification',
-                'artifacts': {p.name: digest(p) for p in artifacts.iterdir()}, 'phases': {}}
+                'heap_mb': args.heap_mb, 'artifacts': {p.name: digest(p) for p in artifacts.iterdir()}, 'phases': {}}
 
     def run(label, program, arguments, launcher=()):
         argument_file = output / (label + '.args')
@@ -49,16 +54,24 @@ def main():
         run('compile', 'javac', ['-encoding', 'UTF-8', '-cp', cp, '-d', classes, artifacts / source.name],
             ['-J-Xmx96m', '-J-XX:+UseSerialGC', '-J-XX:ActiveProcessorCount=1'])
         for phase in ('first', 'second', 'third'):
-            run(phase, 'java', ['-Xmx96m', '-Xss512k', '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1',
+            run(phase, 'java', [f'-Xmx{args.heap_mb}m', '-Xss512k', '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1',
                                 '-XX:TieredStopAtLevel=1', '-XX:ReservedCodeCacheSize=32m', '-cp', str(classes) + os.pathsep + cp,
                                 'dev.starcore.starcore.module.treasury.TreasuryRecoveryProbe', output, phase])
         with sqlite3.connect(f'file:{output.as_posix()}/treasury.db?mode=ro', uri=True) as database:
             assert database.execute('PRAGMA integrity_check').fetchone() == ('ok',)
             state = dict(database.execute('SELECT property_key,property_value FROM starcore_treasury_state'))
             assert state['authorityDomainId'] == (output / 'domain.txt').read_text()
-            assert state['transfer.count'] == '1' and state['credit.count'] == '2'
-            assert state['transfer.0.transactionId'] == 'contract-transfer'
-            assert state['transfer.0.amount'] == '20.00'
+            if state.get('receipt-archive.version') == '1':
+                spec = importlib.util.spec_from_file_location('treasury_archive', artifacts / 'verify-treasury-archive.py')
+                verifier = importlib.util.module_from_spec(spec); spec.loader.exec_module(verifier)
+                receipts = verifier.read_archive(database, state)
+                assert len(receipts) == 3
+                assert sum(kind == 'credit' for kind, identity in receipts) == 2
+                assert receipts['transfer', 'contract-transfer']['amount'] == '20.00'
+            else:
+                assert state['transfer.count'] == '1' and state['credit.count'] == '2'
+                assert state['transfer.0.transactionId'] == 'contract-transfer'
+                assert state['transfer.0.amount'] == '20.00'
             balances = {state[f'treasury.{i}.nationId']: state[f'treasury.{i}.balance'] for i in range(int(state['count']))}
             assert balances == {'00000000-0000-0000-0000-000000000001': '80.00', '00000000-0000-0000-0000-000000000002': '30.00'}
         manifest['status'] = 'PASS'
