@@ -41,6 +41,7 @@ public final class StarCoreBridge implements CoreGateway, AutoCloseable {
     private volatile Consumer<WorldEvent> receiver = event -> {};
     private volatile BiFunction<String,Map<String,String>,Map<String,String>> observer;
     private volatile BooleanSupplier committedTechnologyHistory = () -> false;
+    private volatile BooleanSupplier committedCapitalHistory = () -> false;
 
     public StarCoreBridge(JavaPlugin plugin, PlayerOwnerScheduler playerScheduler, boolean folia) {
         this.plugin=Objects.requireNonNull(plugin); this.playerScheduler=Objects.requireNonNull(playerScheduler); this.folia=folia;
@@ -244,6 +245,8 @@ public final class StarCoreBridge implements CoreGateway, AutoCloseable {
 
     public void setCommittedTechnologyHistory(BooleanSupplier capability) { committedTechnologyHistory=Objects.requireNonNull(capability); }
     public boolean committedTechnologyHistory() { return committedTechnologyHistory.getAsBoolean(); }
+    public void setCommittedCapitalHistory(BooleanSupplier capability) { committedCapitalHistory=Objects.requireNonNull(capability); }
+    public boolean committedCapitalHistory() { return committedCapitalHistory.getAsBoolean(); }
 
     /** Replay durable entities with stable IDs; safe to run repeatedly on the persistence worker. */
     public void scanCommittedSources() {
