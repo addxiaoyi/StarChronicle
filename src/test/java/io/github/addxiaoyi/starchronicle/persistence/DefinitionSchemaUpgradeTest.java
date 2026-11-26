@@ -101,7 +101,7 @@ class DefinitionSchemaUpgradeTest {
         List<List<String>> firstArchive;
         try(var store=new SqliteStore(database())) {
             firstArchive=store.transaction(connection->{
-                assertEquals(Integer.toString(SqliteStore.SCHEMA_VERSION),scalar(connection,"PRAGMA user_version"));assertEquals(7,SqliteStore.SCHEMA_VERSION);assertEquals(recovered(old),snapshot(connection));assertPayloadBytes(old,snapshot(connection));oldSchema.forEach((name,ddl)->{try{if(!name.equals("event_causes"))assertEquals(ddl,schema(connection).get(name),name);}catch(SQLException error){throw new IllegalStateException(error);}});
+                assertEquals(Integer.toString(SqliteStore.SCHEMA_VERSION),scalar(connection,"PRAGMA user_version"));assertEquals(10,SqliteStore.SCHEMA_VERSION);assertEquals(recovered(old),snapshot(connection));assertPayloadBytes(old,snapshot(connection));oldSchema.forEach((name,ddl)->{try{if(!name.equals("event_causes"))assertEquals(ddl,schema(connection).get(name),name);}catch(SQLException error){throw new IllegalStateException(error);}});
                 var catalog=DefinitionCatalog.read(connection);assertEquals(2,catalog.keys().size());assertEquals(3,Integer.parseInt(scalar(connection,"SELECT COUNT(*) FROM story_definitions")));
                 assertThrows(IllegalArgumentException.class,()->catalog.require("retired-a","1"));assertEquals(pending(),catalog.require("retired-pending","7"));
                 assertEquals(Set.of("LEGACY_INSTANCE old:active","LEGACY_INSTANCE old:completed","PENDING_TRIGGER old:pending"),new HashSet<>(rows(connection,"SELECT provenance FROM story_definitions").stream().map(row->row.getFirst()).toList()));

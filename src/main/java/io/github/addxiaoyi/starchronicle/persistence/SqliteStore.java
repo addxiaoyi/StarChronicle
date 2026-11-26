@@ -6,6 +6,7 @@ import io.github.addxiaoyi.starchronicle.core.ChoiceLedger;
 import io.github.addxiaoyi.starchronicle.core.AidLedger;
 import io.github.addxiaoyi.starchronicle.core.MemberReviewLedger;
 import io.github.addxiaoyi.starchronicle.core.ContributionLedger;
+import io.github.addxiaoyi.starchronicle.core.TradeContributionLedger;
 import io.github.addxiaoyi.starchronicle.core.DefinitionCatalog;
 import io.github.addxiaoyi.starchronicle.core.NationalVoteLedger;
 import io.github.addxiaoyi.starchronicle.core.QuestGateLedger;
@@ -17,7 +18,7 @@ import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    public static final int SCHEMA_VERSION=7;
+    public static final int SCHEMA_VERSION=10;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;
@@ -60,6 +61,9 @@ public final class SqliteStore implements AutoCloseable {
                 AidLedger.createSchema(connection);
                 MemberReviewLedger.createSchema(connection);
                 ContributionLedger.createSchema(connection);
+                TradeContributionLedger.createSchema(connection);
+                io.github.addxiaoyi.starchronicle.core.ResourceHistoryLedger.createSchema(connection);
+                io.github.addxiaoyi.starchronicle.core.ProcessingContributionLedger.createSchema(connection);
                 EpicCampaignLedger.createSchema(connection);
                 DefinitionCatalog.createSchema(connection);
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);

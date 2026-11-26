@@ -67,6 +67,23 @@ public interface ChronicleService {
      * and country visibility using freshly collected identity; this grants no completion or choice authority. */
     default CompletionStage<io.github.addxiaoyi.starchronicle.api.quest.QuestGateState> questGateState(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Quest gates unavailable"));}
     CompletionStage<ProcessReport> join(String instanceId, UUID playerId);
+    /** Recheck the caller's original membership under current native authority. */
+    default CompletionStage<ProcessReport> revalidateMember(String instanceId, UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
+    /** Explicit opt-out; durable historical choices and native receipts remain intact. */
+    default CompletionStage<ProcessReport> exitMember(String instanceId, UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.core.MemberReviewLedger.Review>> memberReviews(UUID playerId, int limit){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
+    /** Read-only, evidenced contributions. No public API accepts contribution claims. */
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry>> contributions(String subjectId, io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type, int page, int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contributions unavailable"));}
+    default CompletionStage<java.math.BigDecimal> contributionTotal(String subjectId, io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type, String unit){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contributions unavailable"));}
+    /** Original entries with their current net state; totals exclude suspended/refunded/cancelled entries. */
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionBalance>> contributionBalances(String subjectId, io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type, int page, int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contribution balances unavailable"));}
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionRevision>> contributionRevisions(String contributionId, int page, int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contribution revisions unavailable"));}
+    /** Frozen native production proof, committed atomically with history and civilization contributions. */
+    default CompletionStage<java.util.Optional<io.github.addxiaoyi.starchronicle.api.processing.ProcessingHistoryReceipt>> processingHistoryReceipt(String eventId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Processing history unavailable"));}
+    /** Complete native before/after balances, committed atomically with their historical event. */
+    default CompletionStage<java.util.Optional<io.github.addxiaoyi.starchronicle.api.resource.ResourceHistoryReceipt>> resourceHistoryReceipt(String eventId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Resource history unavailable"));}
+    /** Full committed trade receipt, including notes that exceed the world-event fact limit. */
+    default CompletionStage<java.util.Optional<io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt>> tradeHistoryReceipt(String eventId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Trade history unavailable"));}
     CompletionStage<List<StoryInstance>> instances(UUID playerId);
     CompletionStage<List<StoryInstance>> activeInstances();
     CompletionStage<List<StoryInstance>> availableInstances(UUID playerId);

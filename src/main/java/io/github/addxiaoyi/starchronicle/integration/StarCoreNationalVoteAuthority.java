@@ -17,6 +17,7 @@ public final class StarCoreNationalVoteAuthority implements NationalVoteAuthorit
     public StarCoreNationalVoteAuthority(StarCoreBridge bridge){this(()->Native.find(Objects.requireNonNull(bridge)),Clock.systemUTC());}
     StarCoreNationalVoteAuthority(Supplier<NativeAccess> access,Clock clock){this.nativeAccess=Objects.requireNonNull(access);this.clock=Objects.requireNonNull(clock);}
     public boolean available(){try{return nativeAccess.get()!=null;}catch(RuntimeException failure){return false;}}
+    static NativeAccess nativeAccess(StarCoreBridge bridge) { return Native.find(bridge); }
 
     @Override public <T>T withRepresentative(UUID actor,String expectedNation,Authorized<T> operation)throws Exception {
         Objects.requireNonNull(actor);Objects.requireNonNull(operation);

@@ -1,5 +1,7 @@
 # NPC integrations — source audit 2026-11-19
 
+The exact Java 21 FancyNpcs 2.10.1 artifact now has [isolated Paper combination evidence](PRODUCTION-COMBINATION-TEST-REPORT.md), including real clicks, cancellation, restart and offline maintenance. The source audit below remains separate from that tested artifact.
+
 StarChronicle has optional, interaction-only adapters. No NPC dependency is shaded, required to compile, or instantiated on absence. Relationships remain StarChronicle facts and storyline outcomes. Existing third-party NPCs are never spawned, renamed, removed or otherwise owned by this plugin.
 
 ## Verified providers
@@ -10,7 +12,7 @@ StarChronicle has optional, interaction-only adapters. No NPC dependency is shad
 | Citizens | `net.citizensnpcs.api.event.NPCRightClickEvent`: `getClicker()`, `getNPC().getUniqueId()` | Citizens2 commit `e81fdf7f0027f023d7e22e5ea0746b4601ae87f1`: plugin descriptor declares `folia-supported: true`. Older statements that Citizens never supports Folia are no longer reliable. |
 | Adyeshach | `ink.ptms.adyeshach.core.event.AdyeshachEntityInteractEvent`: `getPlayer()`, `getEntity().getUniqueId()` | Branch 2.1 commit `e3a9a09d8c1840dcca74fa72799aad944fab35a3`; `EntityBase.uniqueId` is a stable String, while `id` is a mutable name. Includes FoliaSupport and FoliaEntityTicker. Do not mix its new core API with old `ink.ptms.adyeshach.api.*` classes. |
 
-The adapters inspect event classes and methods when providers are enabled and register normal Bukkit listeners at MONITOR with `ignoreCancelled=true`. An uncancelled interaction becomes an evidenced `NPC_INTERACT` event with fact `npc.id=provider:stable-id`. Narrative GUI actions and context reads are dispatched to the player's entity scheduler. Disabling a provider unregisters only its bridge listeners; StarChronicle disable unregisters all its bridge listeners. Missing/incompatible APIs produce a warning while the core history engine continues running.
+The adapters inspect event classes and methods when providers are enabled and register normal Bukkit listeners at MONITOR with `ignoreCancelled=true`. An uncancelled interaction becomes an evidenced `NPC_INTERACT` event with the configured logical `npc.id` and the original `npc.binding=provider:stable-id`. Narrative GUI actions and context reads are dispatched to the player's entity scheduler. Disabling a provider unregisters only its bridge listeners; StarChronicle disable unregisters all its bridge listeners. Missing/incompatible APIs produce a warning while the core history engine continues running.
 
 This is source-level API compatibility, not a claim of completed end-to-end testing on all provider/server combinations. Install the correct Java/Minecraft/provider build and run the manual matrix in TEST-REPORT before production.
 

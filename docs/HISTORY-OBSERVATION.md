@@ -1,5 +1,7 @@
 # Transactional history observation
 
+The 2026-11-26 candidate adds [committed native technology replay](COMMITTED-TECHNOLOGY-HISTORY.md). When StarCore exposes that durable protocol, its contiguous log owns technology history and the fallback snapshot/research callbacks below do not emit duplicates. Initial catch-up archives old records without replaying story effects. The following snapshot contract continues to describe older authorities and the other observation scopes.
+
 StarCore does not publish every committed national change. `SnapshotCollector` and `ObservationJournal` recover selected changes from complete, detached authority snapshots without treating missing services as an empty world. This supplements the stable-ID committed event/source bridge; it does not manufacture exact dates or actors from present state.
 
 ## Actual source coverage
@@ -7,12 +9,12 @@ StarCore does not publish every committed national change. `SnapshotCollector` a
 | Scope | Native source | Derived history |
 | --- | --- | --- |
 | `starcore.nations` | Audited `NationModule.nations()`, copied under its native mutation monitor | A previously present nation that disappears produces `NATION_DESTROYED`, explicitly described as authority disappearance with unknown cause and actor. |
-| `starcore.technologies` | Audited `TechnologyModule.unlockedTechnologies()` plus real definition era | A newly observed unlocked key produces `TECHNOLOGY_BREAKTHROUGH`. The record says observed unlock, not necessarily research completion. |
-| `starcore.capitals` | Unavailable in the audited upstream public designated-capital API | No native event is invented. A trusted `CAPITALS` `SnapshotProvider` can supply committed designated-city IDs. |
+| `starcore.technologies` | Legacy fallback: audited `TechnologyModule.unlockedTechnologies()` plus real definition era | Used only without the durable technology log. A newly observed unlocked key produces `TECHNOLOGY_BREAKTHROUGH`; observed unlock is not necessarily research completion. |
+| `starcore.capitals` | Legacy snapshot unavailable; new candidate has a separate committed capital log | The committed adapter records real actors and designated cities. Snapshot mode never guesses from city levels or cache locations. |
 
 The collector accepts native nation/technology implementations only when their exact audited concrete class is present. Native nation membership lists are copied while holding `NationModule`'s monitor. Technology snapshots use the same monitor as synchronized unlock/revoke and their synchronous save, so a failed write's intermediate unlock is not observed. Failure to obtain a full native nation scope also makes its dependent technology scope incomplete; it never silently deletes technologies from omitted nations.
 
-`Nation.capitalLocation()` is a mutable derived cache and `city.CityManager.getNationCapital` chooses the currently highest-level city. Neither proves a committed designated-capital migration. The registered `module.city.CityService` has no durable designated-capital getter, so the built-in capital scope deliberately remains unavailable.
+`Nation.capitalLocation()` is a mutable derived cache and `city.CityManager.getNationCapital` chooses the currently highest-level city. Neither proves a committed designated-capital migration. The registered `module.city.CityService` has no durable designated-capital getter, so the built-in snapshot scope deliberately remains unavailable. The newer candidate now exposes an independent transactional `NationService.capitalChangesAfter` authority connected through `StarCoreCapitalHistory`; see [committed capital history](COMMITTED-CAPITAL-HISTORY.md). Its built-in snapshot scope remains unavailable to avoid duplicate observations, including when the pinned source fails.
 
 Nation foundations still use the actual available `Nation.foundedAt()` through the stable committed-source bridge, rather than assigning the installation date as the nation's founding date. War lifecycle, battle and territory outcomes use their committed upstream IDs/timestamps. The observation journal does not replace these stronger sources. Claim and split callbacks lack source timestamps and are separately marked observed by the bridge.
 

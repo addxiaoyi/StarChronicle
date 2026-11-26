@@ -45,7 +45,9 @@ public final class SnapshotCollector {
 
         boolean nationScanComplete=result.getFirst().complete();
         Object technology=bridge.service("module.technology.TechnologyService");
-        if(nationScanComplete&&technology!=null&&technology.getClass().getName().equals("dev.starcore.starcore.module.technology.TechnologyModule")) {
+        if (bridge.committedTechnologyHistory()) {
+            result.add(ObservationSnapshot.unavailable("starcore.technologies",TECH_SOURCE,Kind.TECHNOLOGIES,"Durable native technology log owns this scope; retain any legacy baseline without generating duplicate observations"));
+        } else if(nationScanComplete&&technology!=null&&technology.getClass().getName().equals("dev.starcore.starcore.module.technology.TechnologyModule")) {
             try {
                 Map<String,Entry> entries=new TreeMap<>();
                 synchronized(technology) {
@@ -67,7 +69,9 @@ public final class SnapshotCollector {
         // The registered module.city.CityService exposes no designated-capital property. Legacy
         // city.CityManager.getNationCapital chooses the current highest-level city, and Nation's
         // capitalLocation is recomputed cache data. Neither proves a committed capital migration.
-        result.add(ObservationSnapshot.unavailable("starcore.capitals",CAPITAL_SOURCE,Kind.CAPITALS,"No durable designated-capital getter in audited CityService; register a trusted CAPITALS SnapshotProvider rather than guessing from location caches or city levels"));
+        result.add(ObservationSnapshot.unavailable("starcore.capitals",CAPITAL_SOURCE,Kind.CAPITALS,bridge.committedCapitalHistory()
+                ? "Durable native capital log owns this scope; retain legacy observations without generating duplicate snapshots"
+                : "No supported native capital history; register a trusted CAPITALS SnapshotProvider rather than guessing from location caches or city levels"));
         Collection<SnapshotProvider> extensions=providers.get();
         if(extensions!=null)for(SnapshotProvider provider:extensions) {
             Collection<ObservationSnapshot> snapshots=provider.snapshots();

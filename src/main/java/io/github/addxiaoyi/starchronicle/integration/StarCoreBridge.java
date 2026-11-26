@@ -40,6 +40,8 @@ public final class StarCoreBridge implements CoreGateway, AutoCloseable {
     private volatile boolean closed;
     private volatile Consumer<WorldEvent> receiver = event -> {};
     private volatile BiFunction<String,Map<String,String>,Map<String,String>> observer;
+    private volatile BooleanSupplier committedTechnologyHistory = () -> false;
+    private volatile BooleanSupplier committedCapitalHistory = () -> false;
 
     public StarCoreBridge(JavaPlugin plugin, PlayerOwnerScheduler playerScheduler, boolean folia) {
         this.plugin=Objects.requireNonNull(plugin); this.playerScheduler=Objects.requireNonNull(playerScheduler); this.folia=folia;
@@ -222,6 +224,7 @@ public final class StarCoreBridge implements CoreGateway, AutoCloseable {
                 Object merged=call(event,"getResult"); String id=string(call(merged,"id")); Set<String> nations=new HashSet<>(strings(collection(call(merged,"mergedNationIds")).toArray())); nations.add(string(call(merged,"resultNationId")));
                 emit("starcore:merge:"+id,"NATIONS_MERGED",instant(call(merged,"mergedAt")),uuids(call(merged,"initiatorId")),nations,Map.of("title","诸国统一","resultNation",string(call(merged,"resultNationId"))),"NationsMergedEvent MergeResult.id="+id+"; mergedAt from persisted result");
             } else if(type.equals("ResearchCompleteEvent")) {
+                if (committedTechnologyHistory()) return;
                 String id=string(call(event,"researchId")), nation=string(call(event,"nationId")), tech=string(call(event,"techId"));
                 Object nationId=nationId(nation); Object technologies=service("module.technology.TechnologyService");
                 if(nationId==null || !Boolean.TRUE.equals(safe(technologies,"hasTechnology",nationId,tech))) return;
@@ -233,6 +236,11 @@ public final class StarCoreBridge implements CoreGateway, AutoCloseable {
 
     /** Hook reserved for transactional observation adapters. No unsafe diff event is emitted. */
     public void setObserver(BiFunction<String,Map<String,String>,Map<String,String>> observer) { this.observer=observer; }
+
+    public void setCommittedTechnologyHistory(BooleanSupplier capability) { committedTechnologyHistory=Objects.requireNonNull(capability); }
+    public boolean committedTechnologyHistory() { return committedTechnologyHistory.getAsBoolean(); }
+    public void setCommittedCapitalHistory(BooleanSupplier capability) { committedCapitalHistory=Objects.requireNonNull(capability); }
+    public boolean committedCapitalHistory() { return committedCapitalHistory.getAsBoolean(); }
 
     /** Replay durable entities with stable IDs; safe to run repeatedly on the persistence worker. */
     public void scanCommittedSources() {

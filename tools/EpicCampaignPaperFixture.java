@@ -30,7 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 /** Isolated acceptance: actual clients, public services and bundled story/plan.
  * Never writes a database, changes quest progress, fabricates completion records,
  * replaces providers or edits native model state. Test funds/ingredients are explicit. */
-public final class EpicCampaignPaperFixture extends JavaPlugin implements CommandExecutor {
+public class EpicCampaignPaperFixture extends JavaPlugin implements CommandExecutor {
     private static final String QUEST="chronicle_heir_records";
     private final Map<UUID,PermissionAttachment> permissions=new HashMap<>();
     private final AtomicBoolean busy=new AtomicBoolean();
@@ -57,9 +57,9 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
         } catch(Throwable error) { fail("enable",error);getServer().getPluginManager().disablePlugin(this); }
     }
     @Override public void onDisable() { if(run!=null)log("CLOSED",Map.of("normalDisable",true)); }
-    private static void require(boolean ok,String message) { if(!ok)throw new IllegalStateException(message); }
+    protected static void require(boolean ok,String message) { if(!ok)throw new IllegalStateException(message); }
     private static String hash(Path path)throws Exception { return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(Files.readAllBytes(path))); }
-    private synchronized void log(String kind,Object data) {
+    protected synchronized void log(String kind,Object data) {
         String line=SqliteStore.json(Map.of("time",Instant.now().toString(),"boot",boot,"kind",kind,"data",data));
         getLogger().info("EPIC_"+kind+" "+SqliteStore.json(data));
         try { Files.writeString(run.resolve("evidence/epic-fixture.jsonl"),line+"\n",StandardCharsets.UTF_8,StandardOpenOption.CREATE,StandardOpenOption.APPEND); }
@@ -69,25 +69,25 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
         while(error.getCause()!=null)error=error.getCause();
         log("FAILED",Map.of("action",action,"error",error.toString()));error.printStackTrace();
     }
-    private <T>T service(Class<T> type)throws Exception {
+    protected <T>T service(Class<T> type)throws Exception {
         return type.cast(((Optional<?>)registry.getClass().getMethod("find",Class.class).invoke(registry,type)).orElseThrow());
     }
-    private <T>CompletionStage<T> main(Callable<T> action) {
+    protected <T>CompletionStage<T> main(Callable<T> action) {
         CompletableFuture<T> result=new CompletableFuture<>();
         Runnable task=()->{try {result.complete(action.call());}catch(Throwable error){result.completeExceptionally(error);}};
         if(Bukkit.isPrimaryThread())task.run();else getServer().getScheduler().runTask(this,task);
         return result;
     }
-    private UUID uuid(String who) {
+    protected UUID uuid(String who) {
         require(List.of("A","B","C","D").contains(who),"Expected A|B|C|D");
         return UUID.nameUUIDFromBytes(("OfflinePlayer:Epic"+who).getBytes(StandardCharsets.UTF_8));
     }
-    private Player player(String who) {
+    protected Player player(String who) {
         Player p=getServer().getPlayerExact("Epic"+who);
         require(p!=null&&p.isOnline()&&p.getUniqueId().equals(uuid(who))&&!p.isOp(),"Need actual non-OP client "+who);
         return p;
     }
-    private NationId country(String who) {return NationId.fromString(getConfig().getString("nations."+who));}
+    protected NationId country(String who) {return NationId.fromString(getConfig().getString("nations."+who));}
     private void grant(String who) {
         Player p=player(who);var a=p.addAttachment(this);permissions.put(p.getUniqueId(),a);
         for(String permission:List.of("starchronicle.use","starcore.questgui","starcore.resource","starcore.nation.create",
@@ -130,6 +130,25 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
                 .thenCompose(s->main(()->{instance=s.instanceId();getConfig().set("instance",instance);saveConfig();
                     permissions.get(uuid("A")).setPermission("starchronicle.admin",false);player("A").recalculatePermissions();
                     log("OPENED",s);return s;}));
+    }
+    private CompletionStage<?> taskReady(String who) {
+        CompletableFuture<Void> result=new CompletableFuture<>();
+        long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(30);
+        new org.bukkit.scheduler.BukkitRunnable() {
+            @Override public void run() {
+                try {
+                    var quest=service(QuestService.class).getPlayerQuest(player(who).getUniqueId()).getActiveQuest(QUEST);
+                    if(quest!=null) {
+                        require(!quest.isAllObjectivesCompleted(),"Task must be accepted before actual crafting");
+                        log("NATIVE_TASK_READY",Map.of("player",who,"quest",QUEST,"progressEdited",false));
+                        cancel();result.complete(null);
+                    } else if(System.nanoTime()>=deadline) {
+                        throw new IllegalStateException("Native task admission did not complete for "+who);
+                    }
+                } catch(Throwable error) {cancel();result.completeExceptionally(error);}
+            }
+        }.runTaskTimer(this,1L,2L);
+        return result;
     }
     private CompletionStage<?> taskComplete(String who) {return main(()->{
         QuestService quests=service(QuestService.class);Player p=player(who);
@@ -202,8 +221,25 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
     private CompletionStage<?> endWar() {return main(()->{
         WarService wars=service(WarService.class);NationId restored=NationId.fromString(getConfig().getString("restored"));
         require(wars.endWar(country("B"),restored,country("B")),"Native principal peace rejected");
-        var receipt=wars.warCompletion(UUID.fromString(getConfig().getString("warId"))).orElseThrow();
-        log("NATIVE_WAR_ENDED",Map.of("warId",receipt.warId(),"endedAt",receipt.endedAt(),"domain",receipt.authorityDomainId(),"ending","native principal peace; no victory claim"));return null;
+        return wars;
+    }).thenCompose(wars->{
+        CompletableFuture<Void> result=new CompletableFuture<>();
+        long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(30);
+        new org.bukkit.scheduler.BukkitRunnable() {
+            @Override public void run() {
+                try {
+                    var committed=wars.warCompletion(UUID.fromString(getConfig().getString("warId")));
+                    if(committed.isPresent()) {
+                        var receipt=committed.orElseThrow();
+                        log("NATIVE_WAR_ENDED",Map.of("warId",receipt.warId(),"endedAt",receipt.endedAt(),"domain",receipt.authorityDomainId(),"ending","native principal peace; no victory claim"));
+                        cancel();result.complete(null);
+                    } else if(System.nanoTime()>=deadline) {
+                        throw new IllegalStateException("Native peace has no durable completion receipt");
+                    }
+                } catch(Throwable error) {cancel();result.completeExceptionally(error);}
+            }
+        }.runTaskTimer(this,1L,2L);
+        return result;
     });}
     private CompletionStage<?> captureFinal() {return main(()->{
         if(route.equals("DUNGEON"))for(String who:List.of("A","B")) {
@@ -243,17 +279,72 @@ public final class EpicCampaignPaperFixture extends JavaPlugin implements Comman
             return api.applyEpicOperation(done.operation().operationId(),done.operation().actorId(),done.revision()).handle((value,error)->{
                 require(error!=null,"Committed operation was reapplied");log("REPLAY_REJECTED",Map.of("operation",done.operation().operationId(),"error",error.toString()));return null;});});
     }
+    private CompletionStage<?> contributions() {
+        return api.contributions(null,null,0,100).thenCompose(entries->{
+            require(entries.size()==8,"Two treasury and two resource transfers must yield eight attributed contributions");
+            require(entries.stream().map(e->e.request().sourceEventId()).distinct().count()==4,"Expected four canonical aid events");
+            log("CONTRIBUTIONS",entries);
+            CompletionStage<?> chain=CompletableFuture.completedFuture(null);
+            for(String who:List.of("A","B"))for(String unit:List.of("treasury","agricultural"))
+                chain=chain.thenCompose(x->api.contributionTotal("player:"+uuid(who),io.github.addxiaoyi.starchronicle.api.contribution.ContributionType.RESOURCE_AID,unit))
+                        .thenApply(total->{require(total.compareTo(BigDecimal.TEN)==0,"Incorrect contribution total");return null;});
+            return chain;
+        });
+    }
+    private CompletionStage<?> rejected(CompletionStage<?> work,String reason) {
+        return work.handle((value,error)->{require(error!=null,"Expected rejection: "+reason);
+            log("MEMBER_REVIEW_REJECTED",Map.of("reason",reason,"error",error.toString()));return null;});
+    }
+    private CompletionStage<?> moveMember(String from,String to) {return main(()->{
+        var nations=service(NationService.class);
+        require(nations.removeMember(country(from),uuid("D")),"Native member removal rejected");
+        require(nations.addMember(country(to),uuid("D"),player("D").getName()),"Native member admission rejected");
+        log("MEMBER_NATIVE_MOVED",Map.of("player",uuid("D"),"from",country(from),"to",country(to)));return null;
+    });}
+    private CompletionStage<?> memberExit() {
+        return moveMember("A","B")
+                .thenCompose(x->rejected(api.revalidateMember(instance,uuid("D")),"changed nation"))
+                .thenCompose(x->moveMember("B","A"))
+                .thenCompose(x->main(()->{permissions.get(uuid("D")).setPermission("starchronicle.use",false);player("D").recalculatePermissions();return null;}))
+                .thenCompose(x->rejected(api.revalidateMember(instance,uuid("D")),"missing permission"))
+                .thenCompose(x->main(()->{permissions.get(uuid("D")).setPermission("starchronicle.use",true);player("D").recalculatePermissions();return null;}))
+                .thenCompose(x->api.revalidateMember(instance,uuid("D")))
+                .thenCompose(x->api.memberReviews(uuid("D"),100)).thenApply(reviews->{
+                    require(reviews.stream().anyMatch(r->r.instanceId().equals(instance)&&r.status().name().equals("APPROVED")&&r.reason().contains("StarCore.NationModule.membership")),"Ordinary member requires real authority proof");
+                    log("MEMBER_REVALIDATED",reviews);return null;
+                }).thenCompose(x->api.exitMember(instance,uuid("D")))
+                .thenCompose(x->api.instances(uuid("D"))).thenApply(items->{
+                    require(items.stream().noneMatch(i->i.id().equals(instance)),"Background resume restored an exited member");
+                    log("MEMBER_EXITED",Map.of("player",uuid("D"),"instance",instance));return null;
+                });
+    }
+    private CompletionStage<?> memberRejoin() {
+        return api.memberReviews(uuid("D"),100).thenCompose(reviews->{
+            require(reviews.stream().anyMatch(r->r.instanceId().equals(instance)&&r.status().name().equals("EXITED")),"Exit was not durable across restart");
+            return api.instances(uuid("D"));
+        }).thenCompose(items->{
+            require(items.stream().noneMatch(i->i.id().equals(instance)),"Restart resume restored exited member");
+            return api.join(instance,uuid("D"));
+        }).thenCompose(x->api.instances(uuid("D"))).thenApply(items->{
+            require(items.stream().anyMatch(i->i.id().equals(instance)),"Explicit native-checked rejoin did not succeed");
+            log("MEMBER_REJOINED",Map.of("player",uuid("D"),"instance",instance,"afterRestart",boot>1));return null;
+        });
+    }
+    protected CompletionStage<?> extraAction(String action,String[] args) {
+        throw new IllegalArgumentException("Unknown action: "+action);
+    }
     @Override public boolean onCommand(CommandSender sender,Command command,String label,String[] args) {
         if(!(sender instanceof ConsoleCommandSender)||args.length==0)return false;
         String action=args[0];if(!busy.compareAndSet(false,true)){fail(action,new IllegalStateException("Previous action is still pending"));return true;}
         try {
             CompletionStage<?> work=switch(action) {
-                case "seed"->seed();case "open"->open();case "task-complete"->taskComplete(args[1]);
+                case "seed"->seed();case "open"->open();case "task-ready"->taskReady(args[1]);case "task-complete"->taskComplete(args[1]);
                 case "preparations"->preparations();case "advance"->advanceStory();case "dungeon"->dungeonEnter(args[1]);
                 case "found"->founding();case "declare"->declareWar();case "end-war"->endWar();
                 case "checkpoint"->captureFinal();case "final-evidence"->finalEvidence();case "settle"->settle();
                 case "check"->check();case "replay"->replayRejection();case "state"->campaign().thenApply(s->{log("STATE",s);return s;});
-                default->throw new IllegalArgumentException("Unknown action: "+action);
+                case "contributions"->contributions();case "member-exit"->memberExit();case "member-rejoin"->memberRejoin();
+                default->extraAction(action,args);
             };
             work.whenComplete((value,error)->{busy.set(false);if(error!=null)fail(action,error);else log("ACTION_DONE",Map.of("action",action));});
         } catch(Throwable error) {busy.set(false);fail(action,error);}return true;
