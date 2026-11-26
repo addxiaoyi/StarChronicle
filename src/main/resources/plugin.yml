@@ -4,7 +4,7 @@ main: io.github.addxiaoyi.starchronicle.paper.StarChroniclePlugin
 api-version: '1.21'
 folia-supported: true
 description: Persistent national narrative orchestration and world history for StarCore
-softdepend: [StarCore, KaleidoscopeCookeryPlugin, FancyNpcs, Citizens, Adyeshach]
+softdepend: [StarCore, KaleidoscopeCookeryPlugin, FancyNpcs, Citizens, Adyeshach, WorldGuard]
 commands:
   chronicle:
     description: World history, collaborative stories and administrative diagnostics

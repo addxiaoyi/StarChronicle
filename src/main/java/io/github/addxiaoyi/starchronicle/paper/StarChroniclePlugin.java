@@ -926,7 +926,9 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                 query(()->{memoryLedger.disable(args[2]);memorySites.refresh(memoryLedger.sites());return null;}).whenComplete((ignored,error)->{if(error!=null)failure(viewer,error);else message(viewer,"纪念点已停用；未加载区块中的所属实体将在区块加载时清理。");});
             } else if(args.length>=4&&args.length<=5&&args[1].equalsIgnoreCase("create")) {
                 String npc=args.length==5?args[4]:"";if(!npc.isEmpty())npcLedger.catalog().require(npc);
-                Location l=player.getLocation();if(l.getBlockY()+3>=l.getWorld().getMaxHeight()||l.getBlockY()<l.getWorld().getMinHeight())throw new IllegalArgumentException("当前位置没有足够的纪念展示高度");MemorySite site=new MemorySite(args[2],l.getWorld().getUID(),l.getBlockX(),l.getBlockY(),l.getBlockZ(),"世界历史 · "+args[2],args[3],npc,true);
+                Location l=player.getLocation();if(l.getBlockY()+3>=l.getWorld().getMaxHeight()||l.getBlockY()<l.getWorld().getMinHeight())throw new IllegalArgumentException("当前位置没有足够的纪念展示高度");
+                new MemoryProtection(getServer().getPluginManager()).requireCreate(player,l);
+                MemorySite site=new MemorySite(args[2],l.getWorld().getUID(),l.getBlockX(),l.getBlockY(),l.getBlockZ(),"世界历史 · "+args[2],args[3],npc,true);
                 query(()->{memoryLedger.create(site);memorySites.refresh(memoryLedger.sites());return null;}).whenComplete((ignored,error)->{if(error!=null)failure(viewer,error);else message(viewer,"纪念点已保存；当前区块加载时显示，点击可读真实历史。来源="+site.eventId());});
             } else message(viewer,"/chronicle memory create <点ID> <真实事件ID> [逻辑NPC ID] | memory remove <点ID> | memory list");
         }catch(IllegalArgumentException error){message(viewer,error.getMessage());}

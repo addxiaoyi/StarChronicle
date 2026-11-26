@@ -216,6 +216,8 @@ public interface TextProvider {
 
 NPC 提供者是可选展示扩展点。注册方必须记录自己创建／附着的 NPC 与监听器，在 `close` 时只释放自己拥有的资源；禁止遍历并删除其他插件 NPC。内置 `NpcCatalog/NpcLedger` 已提供背景、阵营、长期关系、成长职位和历史反应。`/chronicle memory create` 可显式生成归本插件所有的纪念点和见证者实体；第三方NPC只接交互，不接管所有权。见 [NPC-SYSTEM.md](NPC-SYSTEM.md)、[WORLD-MEMORY.md](WORLD-MEMORY.md)。
 
+安装 WorldGuard 时，纪念点创建在玩家所属线程通过其 `RegionQuery.testBuild` 检查展示占用的整块范围，并遵循 WorldGuard 自身的 bypass。Chronicle 管理权限不替代领地权限；已安装但停用、接口不兼容或查询失败时拒绝创建。没有安装 WorldGuard 时沿用管理员显式放置。该检查是创建授权，不会追溯删除此前已授权点位，也不授予方块施工或第三方 NPC 管理权。
+
 `TextProvider.templates()` 提供基础模板。运行时 `ChronicleService.describe` 使用有界 `TextService`，在提供者缺失、超时、失败或无效响应时完整回退；最多32个真正未完成的请求，输出最多8192字符，替换不递归。它不持有奖励服务、国家服务、Bukkit console 或命令入口，AI 输出不得再解析为效果或条件。见 [TEXT-PROVIDERS.md](TEXT-PROVIDERS.md)。
 
 ## 生产装载流程与边界
