@@ -1,0 +1,274 @@
+{
+  "status": "VERIFIED",
+  "baseline": {
+    "chronicle": "3fbe309e0ee9a3d46e82cc4900f6f69213522e92",
+    "starcore": "958f419d95db6bdf62b366590a87bd8b1ffa314c"
+  },
+  "tests": {
+    "tests": 517,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "new_tests": 33,
+  "runs": {
+    "baseline": {
+      "exit_code": 1,
+      "totals": {
+        "tests": 24,
+        "failures": 24,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 95.20299999997951,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.main.skip=true",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "compile": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 242.3279999999795,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "spotless:apply",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "test-initial": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 29,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 6.688000000081956,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=SocialOwnershipTest,SocialStateConcurrencyTest",
+        "surefire:test"
+      ]
+    },
+    "compile-final": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 10.405999999959022,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.compiler.useIncrementalCompilation=false",
+        "spotless:apply",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "test-final": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 516,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 13.937999999965541,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=dev.starcore.starcore.core.scheduler.**,dev.starcore.starcore.essentials.**,InternalEconomyServiceTest,PlayerVaultEconomyServiceTest,TransactionFabricTest",
+        "surefire:test"
+      ]
+    },
+    "compile-final-compat": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 10.21799999999348,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.compiler.useIncrementalCompilation=false",
+        "spotless:apply",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "test-final-compat": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 517,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 12.562000000034459,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=dev.starcore.starcore.core.scheduler.**,dev.starcore.starcore.essentials.**,InternalEconomyServiceTest,PlayerVaultEconomyServiceTest,TransactionFabricTest",
+        "surefire:test"
+      ]
+    },
+    "package": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 53.90599999995902,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.main.skip=true",
+        "-Dmaven.test.skip=true",
+        "verify"
+      ]
+    },
+    "sbom": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 14.875,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "cyclonedx:makeAggregateBom@generate-sbom"
+      ]
+    }
+  },
+  "artifacts": {
+    "starcore": "dd069f79f141b644a224b16d155dfb7e2d990c428c4dd3f4482bd79c26ec36f4",
+    "chronicle": "10135139ddc6332ece286d16a5567da5e78fd527493789bc63cb1488ac851b77"
+  },
+  "api": {
+    "dev/starcore/starcore/essentials/EssentialsModule": {
+      "preserved_methods": 15,
+      "added_methods": []
+    },
+    "dev/starcore/starcore/essentials/command/SocialCommand": {
+      "preserved_methods": 3,
+      "added_methods": [
+        [
+          "public dev.starcore.starcore.essentials.command.SocialCommand(dev.starcore.starcore.essentials.social.SocialService, org.bukkit.plugin.Plugin, dev.starcore.starcore.core.scheduler.FoliaCompatScheduler, java.util.function.BooleanSupplier, dev.starcore.starcore.essentials.player.PlayerNameDirectory);",
+          "(Ldev/starcore/starcore/essentials/social/SocialService;Lorg/bukkit/plugin/Plugin;Ldev/starcore/starcore/core/scheduler/FoliaCompatScheduler;Ljava/util/function/BooleanSupplier;Ldev/starcore/starcore/essentials/player/PlayerNameDirectory;)V"
+        ]
+      ]
+    },
+    "dev/starcore/starcore/essentials/social/SocialService": {
+      "preserved_methods": 12,
+      "added_methods": [
+        [
+          "public boolean recordMessage(java.util.UUID, java.util.UUID, java.lang.String);",
+          "(Ljava/util/UUID;Ljava/util/UUID;Ljava/lang/String;)Z"
+        ],
+        [
+          "public void endSession(java.util.UUID);",
+          "(Ljava/util/UUID;)V"
+        ]
+      ]
+    }
+  },
+  "class_hashes": {
+    "dev/starcore/starcore/essentials/EssentialsModule$CommandBinding.class": "c66d639ec3c4ea166957c4e5d8dff1ab1810b59e149347426e813a0e4b8d2c6a",
+    "dev/starcore/starcore/essentials/EssentialsModule$LifecycleCommand.class": "bb468632ff2cdb7dc931519e5bac849f25cc441243cfb51431e495f8a5c74674",
+    "dev/starcore/starcore/essentials/EssentialsModule.class": "0e11b907c216df0845a63eac6aaa0ff316f9284a3b2f871a5475b0a8821a7a33",
+    "dev/starcore/starcore/essentials/command/SocialCommand.class": "576dbc87e766e9829accdcd9e016ba02fe456485dc7a48914f6998e79b78fca3",
+    "dev/starcore/starcore/essentials/social/SocialService$Message.class": "91a18c23cfe72b9ca22dc09fc40c1399eb85c323dbc222e641bbf280b1e2101e",
+    "dev/starcore/starcore/essentials/social/SocialService.class": "269e7bcf840aaa96d8f5a51cda59c45f1f38e2ba6de0a1933deac6b683c7a856"
+  },
+  "sbom_components": 36,
+  "limits": [
+    "No Minecraft, live Paper/Folia, third-party combination or full hot-reload acceptance.",
+    "517 related tests, not the whole StarCore suite; existing POM exclusions remain. One 256 MiB JVM, forkCount=0, jacoco.skip=true.",
+    "Message history is local admission rather than a client acknowledgement or durable delivery receipt. Transport failure can retain an attempted row and never auto-retries.",
+    "Legacy synchronous SocialCommand and SocialService APIs require the caller to own all accessed players. Runtime uses the scheduler-aware constructor.",
+    "Ignore preferences retain the existing asynchronous persistence contract; other services and social/GUI modules are outside this change.",
+    "After compiling all 2267 main and 1093 test sources, final session/compatibility edits were compiled by Maven stale-source compilation. Final source bytes and selected class bytes were checked.",
+    "Chronicle is unchanged here; its 1050 local tests and successful Linux CI belong to 3fbe309. The new upstream technology-history commits remain to be reconciled."
+  ],
+  "evidence_files": 164,
+  "evidence_sha256": "217c1c502451294e9d0893760cf5f8118c30632e6c5411c14305f459a73f5ed5"
+}
