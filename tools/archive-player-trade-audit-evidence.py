@@ -1,6 +1,7 @@
 """Archive inspected audit interruptions and happy-path regression, with portable byte checks."""
 from pathlib import Path
 import argparse,hashlib,importlib.util,json,os,re,shutil,subprocess,sys,zipfile
+import xml.etree.ElementTree as ET
 import yaml
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -22,8 +23,14 @@ def main():
     p.add_argument('--label',default='player-trade-audit-20261126');a=p.parse_args();require(re.fullmatch('[a-z0-9-]+',a.label),'Invalid label')
     pair=read(a.frozen_dir/'manifest.json')
     for product,root in [('StarCore',a.native),('StarChronicle',ROOT)]:
+        require(not git(root,'status','--porcelain'),'Commit the reviewable source before archiving')
         require(not git(root,'diff',pair[product]['source'],'HEAD','--','src','pom.xml'),'Product source drift')
         require(sha(a.frozen_dir/(product+'.jar'))==pair[product]['sha256'],'Frozen artifact drift')
+        label='native' if product=='StarCore' else 'chronicle'
+        suites=[ET.parse(f).getroot() for f in (a.frozen_dir/(label+'-surefire')).glob('TEST-*.xml')]
+        counts={key:sum(int(s.get(key,0)) for s in suites) for key in ('tests','failures','errors','skipped')}
+        log=(a.frozen_dir/(label+'-verify.log')).read_text()
+        require(counts==pair[product]['tests'] and counts['tests']>0 and counts['failures']==counts['errors']==0 and 'BUILD SUCCESS' in log and 'BUILD FAILURE' not in log,'Frozen build report differs')
     cases=read(a.completed);require({r['case'] for r in cases}=={'debit-before','debit-after','credit-after','refund-after'} and len(cases)==4,'Four audit windows required')
     runs=[(r['case'],Path(r['run'])) for r in cases]+[('player',a.player_run)]
     accepted=[];regressions={}
