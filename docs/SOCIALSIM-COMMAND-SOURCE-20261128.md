@@ -34,6 +34,8 @@ Chronicle 产品保持 `53562a2`／1,195 项完整 verify。[证据 ZIP](verific
 
 ## 剩余边界
 
+本批 CI 已核对：Chronicle `8a20249` run `46082090358` 的 10 步全部成功；StarCore `0353c0a` run `46082007214` 因账户付款／额度限制未启动，四个检查 runner=0、零步骤，发布 skipped。[原始结果](verification/socialsim-command-ci-20261128.json)另存，未将环境阻塞计为测试执行。
+
 社交监听器、旧 SocialCommand、GossipVerification、联盟／活动／文化、另一关系包装／推荐、领地收益与经验配置、政策／租赁／军队天气、兼容回调、叙事 Boss 及旧国家加成仍有源码待办。
 
 MySQL、长历史负载、实际多人 GUI、真实重启、第三方组合、全栈 Folia 仍需实服或相应环境验收。不设置 `folia-supported:true`，不认证在线热卸载、跨系统严格一次，不沿用其他 JAR 的实服或离线证明。
