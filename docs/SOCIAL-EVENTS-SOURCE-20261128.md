@@ -41,3 +41,7 @@ Chronicle 产品保持 `53562a2`／1,195 项完整 verify。本轮没有把上�
 影响力周期、声誉 SQL 恢复／事务／回调、社会监听器与命令仍有源码待办；后续还包括领地收益消费、联盟／政策／租赁／军队天气、兼容回调、叙事 Boss 与旧国家临时加成。当前社会事件验证不能代表整个社交模块或十阶段已完成。
 
 当前构件多人玩法、真实重启、数据库部署、第三方组合、完整 Folia 与长期负载仍需实服验收。不设置 `folia-supported:true`，不认证在线热卸载，不承诺跨系统严格一次。
+
+## 当前开发提交 CI
+
+Chronicle `e769617` 的 [46070447350](https://github.com/addxiaoyi/StarChronicle/actions/runs/46070447350) verify 已成功，构建、指纹报告和证据上传步骤均通过。StarCore `112539a` 的 [46070330411](https://github.com/addxiaoyi/starcore/actions/runs/46070330411) 四个检查为 `runner_id=0`、零步骤，发布 skipped；[原始 jobs／annotations](verification/social-events-ci-20261128.json)确认账户付款／额度限制导致未启动，不记为远端通过或源码失败。
