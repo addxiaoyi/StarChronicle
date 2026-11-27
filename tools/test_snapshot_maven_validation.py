@@ -12,6 +12,20 @@ validation = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(validation)
 
 
+class ArtifactProvenanceTest(unittest.TestCase):
+    def test_successful_tests_cannot_claim_existing_target_jars(self):
+        log = '[INFO] --- surefire:3.5.2:test (default-test) ---\n[INFO] BUILD SUCCESS\n'
+        self.assertFalse(validation.packaging_executed(log))
+
+    def test_actual_maven_jar_goal_records_packaging(self):
+        log = '[INFO] --- jar:3.4.2:jar (default-jar) @ starcore ---\n[INFO] BUILD SUCCESS\n'
+        self.assertTrue(validation.packaging_executed(log))
+
+    def test_sources_or_test_jar_alone_is_not_product_packaging(self):
+        self.assertFalse(validation.packaging_executed(
+            '[INFO] --- source:3.3.1:jar-no-fork ---\n[INFO] --- jar:3.4.2:test-jar ---'))
+
+
 class SourceDriftTest(unittest.TestCase):
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory()

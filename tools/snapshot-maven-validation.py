@@ -29,6 +29,11 @@ def write_json(path: Path, value) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
+def packaging_executed(log: str) -> bool:
+    """A successful test goal may leave unrelated, older JARs in target/."""
+    return bool(re.search(r'--- (?:maven-)?jar(?:-plugin)?:[^:\s]+:jar\s', log))
+
+
 def find_source_drift(repo: Path, source_hashes: dict, inputs: dict) -> list[str]:
     current_sources = {
         path.relative_to(repo).as_posix(): path
@@ -147,7 +152,8 @@ def main() -> int:
               'source_drift': drift, 'server_started': False,
               'validation_success': code == 0 and not drift and not missing_suites,
               'required_suites': args.require_suite, 'missing_required_suites': missing_suites}
-    if code == 0 and 'BUILD SUCCESS' in log:
+    result['packaging_executed'] = packaging_executed(log)
+    if code == 0 and 'BUILD SUCCESS' in log and result['packaging_executed']:
         result['artifacts'] = {path.name: digest(path) for path in (repo / 'target').glob('*.jar')}
     write_json(out / 'result.json', result)
     print(json.dumps({key: value for key, value in result.items() if key not in ('suites', 'args')}, ensure_ascii=False))
