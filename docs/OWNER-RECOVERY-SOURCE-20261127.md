@@ -6,6 +6,8 @@
 
 两库继续使用 `codex/plugin-all-stages-20261125`。Chronicle 产品源码为 `53562a2734bf2dd3a21bc089e4e0591040609c69`；StarCore 已推送到 `6412a73`。草稿 [Chronicle PR #2](https://github.com/addxiaoyi/StarChronicle/pull/2) 与 [StarCore PR #3](https://github.com/addxiaoyi/starcore/pull/3) 均保持打开、未合并。上游基线分别为 `92442e1`／`4d01f64`，上游原构件实服报告继续保留自己的指纹与范围。
 
+后续检查点已推送 **StarCore `6276140`**：随机事件维护走全局调度，各玩家位置在原 owner 采样；触发器分别路由玩家、区域和全局数据，重连／重载／停用丢弃旧检查，逐事件冷却原子准入。`native-event-runtime-focused-3-20261127` 的 128 项通过且四个必需测试类全部实际执行；前两轮泛型和重载编译失败均保留。此检查点仍使用同步旧效果入口，跨区域效果、围城及完整结果链继续在独立候选开发，不能据此声称全部随机事件已迁移。
+
 已交付的主要改动：
 
 - 史诗被明确拒绝后的重试保留追加式尝试谱系；必须是最新的确定 REJECTED、当前权威与修订号才可新建尝试。资源援助使用原请求的永久拒绝证明；UNKNOWN 不自动重放。
@@ -37,12 +39,16 @@
 | `native-random-scene-focused-2-20261127` | 61 项 | 仅音效、动画、HUD；随机事件目录被旧编译排除规则排除 |
 | `native-event-chain-focused-1-20261127` | 61 项 | 同样没有实际执行随机事件测试，不能认证菜单／链 |
 | `native-event-chain-focused-2-20261127` | 111 项 | 修正排除规则后含菜单 14 项、事件链 15 项、随机事件权限／诊断／经济等；源码对应 `6412a73` |
+| `native-event-runtime-focused-3-20261127` | 128 项 | 随机事件检查器／触发器及相关回归；四个必需套件无缺失 |
+| `native-owner-package-2-20261127` | 1,041 项、verify | StarCore **6276140**，五个必需套件无缺失；不是全库 |
 
 发现 `pom.xml` 原有 `**/event/random/**` 编译排除后，改为保留具体旧夹具的排除，恢复有效测试。前两次 Maven 成功日志原样保留，**不是菜单或事件链验证通过的证据**。验证脚本新增 `--require-suite`，从实际执行 XML 检查必需测试类；缺失则退出失败。
 
 任务自有 JVM 串行运行，Maven 堆 320 MiB、metaspace 192 MiB、SerialGC、单 CPU、`forkCount=0`；离线探针另用小堆独立 JVM。`native-owner-package-1` 的 SBOM 目标因 Maven offline 跳过，没有声称新生成 SBOM。
 
 ## 精确构件与离线副本
+
+**较新打包检查点**：`native-owner-package-2-20261127` 对应 StarCore `6276140`，shaded JAR SHA-256 `972eb64e0271b6697d5dcbb325927fcd161b56a7a52536025ee86190861c632e`，original JAR `bdab94e18c131976db4028aeb184930a826418b93e77a0b845279a94133c1dd4`。Chronicle 产品 JAR 保持下表指纹。`owner-pair-artifacts-2-20261127` 再次核验 1,866／35,883 旧成员描述符、8 个夹具与 290／4,130 项目 class；`processing-merge-databases-owner-2-20261127-20261126` 的 13 JVM／四次旧写入器拒绝全部通过。SBOM 仍因离线跳过。后续区域效果候选不属于此构件。
 
 以下仅属于 **Chronicle 53562a2／StarCore b7817ae** 配对构件；后续菜单、音效、事件链提交尚不属于这个打包指纹。
 
@@ -63,9 +69,13 @@
 
 本检查点原始证据：[owner-recovery-source-20261127-evidence.zip](verification/owner-recovery-source-20261127-evidence.zip)，6,392 个 ZIP 成员，20,997,456 字节，SHA-256 `9b1556eade417cf1ee971a7d68a07924de0e0ee336f5d96ca71ac935a67036ff`。逐成员 SHA 重新读取核验通过；保留实际失败日志／XML／命令及两库最终源码各一份，排除 JAR、class、可执行文件与内存转储。运行中的后续随机事件检查器候选不包含在这个证据归档内。
 
+后续检查器／`6276140` 构件独立归档：[event-runtime-source-20261127-evidence.zip](verification/event-runtime-source-20261127-evidence.zip)，4,727 成员、13,013,897 字节，SHA-256 `209df5df4097ae4137c7c6e88acaf623ed25bee7fbe16b4ed0e10ff2b0ebb8bc`。包含前两次编译失败、128 项通过、1,041 项 verify、API 与新构件数据库副本证据；最终原生源码一份，逐成员重新读取验证。
+
 保留首轮科研／持久化、运行时、副本、资源拒绝、季节 HUD、称号、动画注册表及场景音效重载断言的真实失败。`native-random-scene-focused-1` 因 Java 重载歧义编译失败，实际执行 0 项；后续明确类型修复。失败不会被通过记录覆盖。
 
 Chronicle 精确产品提交的 GitHub Actions [45920482469](https://github.com/addxiaoyi/StarChronicle/actions/runs/45920482469) 通过。StarCore [45977803474](https://github.com/addxiaoyi/starcore/actions/runs/45977803474) 的作业注解明确为账户付款失败或支出额度限制，作业没有启动；不是已完成的远端回归。本轮没有修改账单或系统设置。
+
+Chronicle 文档／验证工具 `1bfcb94` 的 [CI 45984394037](https://github.com/addxiaoyi/StarChronicle/actions/runs/45984394037) 也已通过。
 
 仍有源码待办：随机事件检查器及效果执行的完整 owner 迁移、围城任务清理、跨区域方块／生成效果、其余实际加载的旧调度调用链与叙事 Boss；全库适当分批回归及最终构件重打包仍待完成。不能把未加载的独立 BossManager 声明当作实际调用链证据。
 
