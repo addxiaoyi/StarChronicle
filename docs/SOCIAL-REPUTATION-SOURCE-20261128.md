@@ -38,4 +38,6 @@ Chronicle 产品保持 `53562a2`／1,195 项完整 verify。[完整证据 ZIP](v
 
 ## 剩余范围
 
+GitHub 原始结果见 [social-reputation-ci-20261128.json](verification/social-reputation-ci-20261128.json)：Chronicle `3a84117c360e66934fd3dfdc5bfb04547c2538f5` 的 [46078643692](https://github.com/addxiaoyi/StarChronicle/actions/runs/46078643692) 全部步骤通过；StarCore `ba2023f1e9d2feae95af9c09c501c134472285ae` 的 [46078584826](https://github.com/addxiaoyi/starcore/actions/runs/46078584826) 四个检查 runner 为 0、无执行步骤，付款／额度注解阻止任务启动，发布跳过，不能记为远程验证通过。
+
 关系网络事务／恢复，社交命令和监听器，联盟／活动／文化服务，领地收益消费与经验配置，政策／租赁／军队天气、兼容回调、叙事 Boss 和旧国家临时加成继续推进。当前构件完整多人玩法、真实重启、数据库部署、第三方组合、全栈 Folia 与长期负载仍需实服验收。不设置 `folia-supported:true`，不复用旧构件实服或其他批次离线结果。
