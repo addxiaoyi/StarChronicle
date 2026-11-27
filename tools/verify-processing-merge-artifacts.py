@@ -149,6 +149,7 @@ def source_snapshot(repo, snapshot, *, require_tests, artifact=None):
     result, command = json.loads(result_path.read_text(encoding='utf-8')), json.loads(command_path.read_text(encoding='utf-8'))
     require(result.get('exit_code') == 0 and result.get('build_success', True), f'Unsuccessful snapshot: {snapshot}')
     require(not result.get('source_drift'), f'Source changed during validation: {snapshot}')
+    require(not result.get('missing_required_suites'), f'Required suites did not execute: {snapshot}')
     totals = result.get('totals', {})
     if require_tests:
         require(totals.get('tests', 0) > 0, f'Snapshot did not run tests: {snapshot}')

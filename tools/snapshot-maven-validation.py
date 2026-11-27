@@ -6,6 +6,7 @@ This does not start Minecraft or certify any live-server behavior.
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import hashlib
 import json
 import os
@@ -53,6 +54,8 @@ def main() -> int:
     parser.add_argument('--heap', default='288m')
     parser.add_argument('--metaspace', default='144m')
     parser.add_argument('--java-agent', type=Path)
+    parser.add_argument('--require-suite', action='append', default=[],
+                        help='Required executed suite name or glob; matched against full and simple names')
     parser.add_argument('goals', nargs=argparse.REMAINDER)
     args = parser.parse_args()
     goals = args.goals[1:] if args.goals[:1] == ['--'] else args.goals
@@ -135,14 +138,20 @@ def main() -> int:
         for key in totals:
             totals[key] += counts[key]
     drift = find_source_drift(repo, source_hashes, inputs)
+    missing_suites = [required for required in args.require_suite if not any(
+        fnmatch.fnmatchcase(suite['name'], required)
+        or fnmatch.fnmatchcase(suite['name'].rsplit('.', 1)[-1], required)
+        for suite in suites)]
     result = {'exit_code': code, 'seconds': time.monotonic() - started, 'totals': totals,
               'suites': suites, 'args': command, 'build_success': 'BUILD SUCCESS' in log,
-              'source_drift': drift, 'server_started': False}
+              'source_drift': drift, 'server_started': False,
+              'validation_success': code == 0 and not drift and not missing_suites,
+              'required_suites': args.require_suite, 'missing_required_suites': missing_suites}
     if code == 0 and 'BUILD SUCCESS' in log:
         result['artifacts'] = {path.name: digest(path) for path in (repo / 'target').glob('*.jar')}
     write_json(out / 'result.json', result)
     print(json.dumps({key: value for key, value in result.items() if key not in ('suites', 'args')}, ensure_ascii=False))
-    return code or int(bool(drift))
+    return code or int(bool(drift or missing_suites))
 
 
 if __name__ == '__main__':
