@@ -43,3 +43,7 @@ API 检查保留 Chronicle 214 个公开类型／1,866 个描述符、StarCore 3
 [证据包](verification/social-propagation-source-20261128-evidence.zip)与[逐成员摘要](verification/social-propagation-source-20261128-summary.json)包括原始失败日志、XML、最终完整源码、工具、离线文件与配对清单。4,197 成员，10,828,365 字节，SHA-256 `97f74f8228f1fae94059a2227220bd2181afde59d96370384e4719c49ddc2a10`；逐成员重新读取核验，JAR／class 未上传 Git。
 
 本次 fetch 确认已合入的上游开发提交仍为 Chronicle `92442e1`／StarCore `4d01f64`。当前构件多人交互、真实重启、第三方组合、完整 Folia 和长期负载仍需实服验收；不复用旧构件实服证据，不设置 `folia-supported:true`，不认证在线热卸载。
+
+## 当前开发提交 CI
+
+Chronicle `6fb6b9e` 的 [46068678476](https://github.com/addxiaoyi/StarChronicle/actions/runs/46068678476) 已成功，verify job 的构建测试、指纹报告和证据上传均为 success。StarCore `de73daf` 的 [46068538137](https://github.com/addxiaoyi/starcore/actions/runs/46068538137) 四个检查均为 `runner_id=0`、零步骤，发布 skipped；[原始 jobs 与 annotations](verification/social-propagation-ci-20261128.json)明确指出账户付款／额度限制，任务没有启动。这不表示源码测试失败，也不能计为远端验证通过。
