@@ -36,6 +36,8 @@ Chronicle 产品保持 `53562a2`／1,195 项完整 verify。[证据 ZIP](verific
 
 ## 剩余边界
 
+当前关系提交的 CI 已核对：Chronicle `268c55c` run `46080706814` 成功；StarCore `9b65b9e` run `46080613411` 因账户付款／额度限制未启动，四个检查 runner=0、零步骤，发布 skipped。[原始结果](verification/social-relationships-ci-20261128.json)保留，不能把未启动算作测试失败或验证通过。
+
 查询反映加载及本实例提交的关系，外部 writer 不会自动刷新缓存；写入会重读拒绝陈旧状态。历史恢复全表校验、每次提交的历史查询和长期负载还需测量，不能用这批小型副本宣称大库性能通过。只验证 SQLite，MySQL、实际多人玩法、真实重启、第三方组合和全栈 Folia 仍需实际验收。
 
 社交命令排行榜和异步完成反馈、监听器跨玩家调用、GossipVerification、联盟／活动／文化等服务，领地收益消费与经验配置，政策／租赁／军队天气、兼容回调、叙事 Boss 和旧国家加成仍有源码待办。既有 SocialModule 的另一关系包装／推荐接线也继续审查。没有设置 `folia-supported:true`，不把旧构件的实服或其他离线记录套到新 JAR。
