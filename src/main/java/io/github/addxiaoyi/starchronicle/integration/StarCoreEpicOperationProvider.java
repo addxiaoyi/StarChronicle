@@ -4,6 +4,7 @@ import io.github.addxiaoyi.starchronicle.api.epic.EpicObservation;
 import io.github.addxiaoyi.starchronicle.api.epic.EpicOperation;
 import io.github.addxiaoyi.starchronicle.api.epic.EpicOperationProvider;
 import io.github.addxiaoyi.starchronicle.api.epic.EpicReceipt;
+import io.github.addxiaoyi.starchronicle.api.epic.EpicRejectionProof;
 import io.github.addxiaoyi.starchronicle.api.epic.EpicContract;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -113,6 +114,41 @@ public final class StarCoreEpicOperationProvider implements EpicOperationProvide
         return result;
     }
 
+    @Override public CompletionStage<Optional<EpicRejectionProof>> rejectionProof(EpicOperation operation) {
+        Objects.requireNonNull(operation);
+        if (operation.type() != EpicOperation.Type.RESOURCE_AID || !supports(operation))
+            return CompletableFuture.completedFuture(Optional.empty());
+        CompletableFuture<Optional<EpicRejectionProof>> result = new CompletableFuture<>();
+        bridge.global(() -> {
+            try {
+                Object nativeService = service(operation.type()); ensureDomain(nativeService);
+                if (unwrap(call(nativeService, "transferReceipt", nativeId(operation).toString())) != null) {
+                    result.complete(Optional.empty()); return;
+                }
+                result.complete(resourceRejection(operation, nativeService));
+            } catch (Throwable error) { result.completeExceptionally(error); }
+        }, () -> result.completeExceptionally(new IllegalStateException("StarCore global scheduler unavailable")));
+        return result;
+    }
+
+    private Optional<EpicRejectionProof> resourceRejection(EpicOperation operation, Object nativeService) throws Exception {
+        Object raw;
+        try { raw = unwrap(call(nativeService, "transferRejection", nativeId(operation).toString())); }
+        catch (NoSuchMethodException unsupported) { return Optional.empty(); }
+        if (raw == null) return Optional.empty();
+        ensureDomain(nativeService);
+        requireField(raw, "transactionId", nativeId(operation));
+        requireField(raw, "authorityDomainId", authorityDomain);
+        requireField(raw, "payerNationId", operation.nationId());
+        requireField(raw, "receiverNationId", operation.target());
+        if (!resources(operation.nativeReference()).equals(call(raw, "resources")))
+            throw new SecurityException("Resource rejection quantities differ");
+        requireField(raw, "category", "OTHER"); requireField(raw, "description", resourceDescription(operation));
+        String proofId = parseUuid(Objects.toString(call(raw, "proofId"), "")).toString();
+        return Optional.of(new EpicRejectionProof(providerId(), authorityDomain, operation, proofId,
+                Objects.toString(call(raw, "reason"), ""), timestamp(raw, "rejectedAt")));
+    }
+
     @Override public CompletionStage<EpicObservation> apply(EpicOperation operation) {
         return apply(operation,()->true);
     }
@@ -182,6 +218,11 @@ public final class StarCoreEpicOperationProvider implements EpicOperationProvide
             case DUNGEON_COMPLETION -> raw = dungeonReceipt(service, operation);
             case FINAL_BATTLE -> raw = endedWar(service, operation);
             default -> throw new IllegalArgumentException("Unsupported epic operation type: " + operation.type());
+        }
+        if (raw == null && operation.type() == EpicOperation.Type.RESOURCE_AID) {
+            Optional<EpicRejectionProof> proof = resourceRejection(operation, service);
+            if (proof.isPresent()) return new EpicObservation(EpicObservation.Status.REJECTED, null,
+                    "Permanent native rejection fence " + proof.get().nativeProofId() + ": " + proof.get().reason());
         }
         if (raw == null) return new EpicObservation(EpicObservation.Status.ABSENT, null, "No committed native receipt");
         return receipt(operation, service, raw);

@@ -15,9 +15,10 @@ class StarCoreEpicOperationProviderTest {
     static final UUID ACTOR=UUID.fromString("00000000-0000-0000-0000-000000000001"), WAR=UUID.randomUUID();
     static final Instant NOW=Instant.parse("2026-11-25T00:00:00Z");
     public static class NativeJournal {
-        Object raw;String domain=DOMAIN;int writes;
+        Object raw,rejection;String domain=DOMAIN;int writes;
         public String authorityDomainId(){return domain;}
         public Optional<Object> transferReceipt(String id){return Optional.ofNullable(raw);}
+        public Optional<Object> transferRejection(String id){return Optional.ofNullable(rejection);}
         public Optional<Object> allianceInviteReceipt(UUID id){return Optional.ofNullable(raw);}
         public Optional<Object> allianceAcceptanceReceipt(UUID id){return Optional.ofNullable(raw);}
         public Optional<Object> foundingReceipt(UUID id){return Optional.ofNullable(raw);}
@@ -28,13 +29,19 @@ class StarCoreEpicOperationProviderTest {
     }
     public record Resource(String transactionId,String authorityDomainId,String payerNationId,String receiverNationId,
                            Map<String,Long> resources,String category,String description,Instant appliedAt) {}
+    public record Rejection(String authorityDomainId,String transactionId,String payerNationId,String receiverNationId,
+                            Map<String,Long> resources,String category,String description,String proofId,String reason,Instant rejectedAt) {}
+    public static class LegacyResourceJournal {
+        public String authorityDomainId(){return DOMAIN;}
+        public Optional<Object> transferReceipt(String id){return Optional.empty();}
+    }
     public record Invite(UUID operationId,UUID actorId,String inviter,String invited,String authorityDomainId,Instant committedAt) {}
     public record Acceptance(UUID operationId,UUID invitationOperationId,UUID actorId,String inviter,String acceptor,String authorityDomainId,Instant committedAt) {}
     public record Founding(UUID operationId,String nationId,UUID founderId,String nationName,String authorityDomainId,Instant committedAt) {}
     public record Declaration(UUID operationId,UUID warId,String actorId,String aggressor,String defender,Instant declaredAt) {}
     public record Ended(UUID warId,UUID declarationOperationId,String aggressor,String defender,String authorityDomainId,Instant declaredAt,Instant endedAt) {}
     public record Completion(UUID recordId,String dungeonId,UUID playerId,String nationId,boolean isSuccess,Instant completedAt) {}
-    private StarCoreEpicOperationProvider provider(NativeJournal journal,EpicOperation.Type type) {
+    private StarCoreEpicOperationProvider provider(Object journal,EpicOperation.Type type) {
         var bridge=mock(StarCoreBridge.class);when(bridge.service(anyString())).thenReturn(journal);
         doAnswer(call->{call.getArgument(0,Runnable.class).run();return null;}).when(bridge).global(any(),any());
         return new StarCoreEpicOperationProvider(bridge,type);
@@ -110,5 +117,59 @@ class StarCoreEpicOperationProviderTest {
         pending.getFirst().accept(mock(org.bukkit.entity.Player.class));
         assertEquals(EpicObservation.Status.UNKNOWN,result.join().status());
         verify(bridge,never()).refreshContext(any(),any());
+    }
+
+    @Test void permanentResourceRejectionIsReadOnlyAndBindsTheFullNativeRequest() {
+        var journal=new NativeJournal();var op=operation(EpicOperation.Type.RESOURCE_AID,NB,"agricultural:10");var provider=provider(journal,op.type());
+        String id=StarCoreEpicOperationProvider.nativeId(op).toString(),description=StarCoreEpicOperationProvider.resourceDescription(op),proofId=UUID.randomUUID().toString();
+        journal.rejection=new Rejection(DOMAIN,id,NA,NB,Map.of("agricultural",10L),"OTHER",description,proofId,"INSUFFICIENT_RESOURCES",NOW.plusSeconds(1));
+        assertEquals(EpicObservation.Status.REJECTED,read(provider,op).status());
+        assertEquals(EpicObservation.Status.REJECTED,provider.apply(op).toCompletableFuture().join().status());
+        var proof=provider.rejectionProof(op).toCompletableFuture().join().orElseThrow();
+        assertTrue(proof.matches(op,provider.providerId(),DOMAIN));assertEquals(proofId,proof.nativeProofId());
+        assertNotEquals(StarCoreEpicOperationProvider.nativeId(op),StarCoreEpicOperationProvider.nativeId(
+                new EpicOperation(EpicContract.attemptOperationId(op.operationId(),2),op.campaignId(),op.instanceId(),op.sourceEventId(),op.phaseId(),op.type(),
+                        op.actorId(),op.nationId(),op.target(),op.nativeReference(),op.definitionFingerprint(),op.permission(),NOW.plusSeconds(2))));
+    }
+
+    @Test void mismatchedOrUncertainResourceRejectionNeverAuthorizesRetry() {
+        var journal=new NativeJournal();var op=operation(EpicOperation.Type.RESOURCE_AID,NB,"agricultural:10");var provider=provider(journal,op.type());
+        String id=StarCoreEpicOperationProvider.nativeId(op).toString(),description=StarCoreEpicOperationProvider.resourceDescription(op),proofId=UUID.randomUUID().toString();
+        for(Object corrupt:List.of(
+                new Rejection(NA,id,NA,NB,Map.of("agricultural",10L),"OTHER",description,proofId,"rejected",NOW),
+                new Rejection(DOMAIN,UUID.randomUUID().toString(),NA,NB,Map.of("agricultural",10L),"OTHER",description,proofId,"rejected",NOW),
+                new Rejection(DOMAIN,id,NB,NA,Map.of("agricultural",10L),"OTHER",description,proofId,"rejected",NOW),
+                new Rejection(DOMAIN,id,NA,NB,Map.of("agricultural",9L),"OTHER",description,proofId,"rejected",NOW),
+                new Rejection(DOMAIN,id,NA,NB,Map.of("agricultural",10L),"RESEARCH",description,proofId,"rejected",NOW),
+                new Rejection(DOMAIN,id,NA,NB,Map.of("agricultural",10L),"OTHER","unrelated",proofId,"rejected",NOW),
+                new Rejection(DOMAIN,id,NA,NB,Map.of("agricultural",10L),"OTHER",description,"not-durable","rejected",NOW),
+                new Rejection(DOMAIN,id,NA,NB,Map.of("agricultural",10L),"OTHER",description,proofId,"rejected",NOW.minusSeconds(1)))) {
+            journal.rejection=corrupt;
+            assertEquals(EpicObservation.Status.UNKNOWN,read(provider,op).status());
+            assertThrows(java.util.concurrent.CompletionException.class,()->provider.rejectionProof(op).toCompletableFuture().join());
+        }
+        journal.rejection=null;
+        assertTrue(provider.rejectionProof(op).toCompletableFuture().join().isEmpty());
+        assertEquals(EpicObservation.Status.ABSENT,read(provider,op).status());
+    }
+
+    @Test void legacyAndUnrelatedNativeServicesSupplyNoRetryProof() {
+        var op=operation(EpicOperation.Type.RESOURCE_AID,NB,"agricultural:10");var legacy=provider(new LegacyResourceJournal(),op.type());
+        assertTrue(legacy.rejectionProof(op).toCompletableFuture().join().isEmpty());
+        assertEquals(EpicObservation.Status.ABSENT,read(legacy,op).status());
+        for(var type:List.of(EpicOperation.Type.DIPLOMACY_INVITE,EpicOperation.Type.WAR_COMMIT,EpicOperation.Type.NATION_FOUNDING,
+                EpicOperation.Type.FINAL_BATTLE,EpicOperation.Type.DUNGEON_COMPLETION,EpicOperation.Type.TREASURY_AID,EpicOperation.Type.QUEST_GATE)) {
+            var journal=new NativeJournal();var provider=provider(journal,type);
+            assertTrue(provider.rejectionProof(operation(type,NB,"unused")).toCompletableFuture().join().isEmpty());
+        }
+    }
+
+    @Test void committedResourceIdCanNeverBecomeRetryProof() {
+        var journal=new NativeJournal();var op=operation(EpicOperation.Type.RESOURCE_AID,NB,"agricultural:10");var provider=provider(journal,op.type());
+        String id=StarCoreEpicOperationProvider.nativeId(op).toString(),description=StarCoreEpicOperationProvider.resourceDescription(op);
+        journal.raw=new Resource(id,DOMAIN,NA,NB,Map.of("agricultural",10L),"OTHER",description,NOW.plusSeconds(1));
+        journal.rejection=new Rejection(DOMAIN,id,NA,NB,Map.of("agricultural",10L),"OTHER",description,UUID.randomUUID().toString(),"impossible",NOW.plusSeconds(1));
+        assertTrue(provider.rejectionProof(op).toCompletableFuture().join().isEmpty());
+        assertEquals(EpicObservation.Status.COMMITTED,read(provider,op).status());
     }
 }

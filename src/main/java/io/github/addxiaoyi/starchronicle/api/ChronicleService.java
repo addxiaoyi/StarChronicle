@@ -38,6 +38,8 @@ public interface ChronicleService {
     default CompletionStage<EpicOperationState> epicOperation(String operationId,UUID actorId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic operations unavailable"));}
     default CompletionStage<EpicOperationState> applyEpicOperation(String operationId,UUID actorId,long expectedRevision){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic operations unavailable"));}
     default CompletionStage<EpicOperationState> reconcileEpicOperation(String operationId,UUID actorId,long expectedRevision){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic operations unavailable"));}
+    default CompletionStage<EpicOperationState> retryEpicOperation(String operationId,UUID actorId,long expectedRevision){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic operation retry unavailable"));}
+    default CompletionStage<io.github.addxiaoyi.starchronicle.api.epic.EpicOperationAttempt> epicOperationAttempt(String operationId,UUID actorId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic operation lineage unavailable"));}
     default CompletionStage<List<String>> epicProviders(){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic providers unavailable"));}
     /** DTO consistency only: does not query native authority, commit a campaign, or authorize
      * canonical events. Use prepare/apply/reconcile for provider-backed evidence. */

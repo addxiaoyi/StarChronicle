@@ -6,9 +6,11 @@
 
 ## 国家史诗
 
-`ChronicleService` 提供 `epicCampaignPlans`、`openEpicSignup`、`epicSignup`、`enrollEpicSignup`、`withdrawEpicSignup`、`sealEpicSignup`、`epicCampaign`、`voteEpicRoute`、`prepareEpicOperation`、`epicOperation`、`applyEpicOperation`、`reconcileEpicOperation` 和 `epicProviders`。身份由插件重新采集，修订号来自状态查询。
+`ChronicleService` 提供 `epicCampaignPlans`、`openEpicSignup`、`epicSignup`、`enrollEpicSignup`、`withdrawEpicSignup`、`sealEpicSignup`、`epicCampaign`、`voteEpicRoute`、`prepareEpicOperation`、`epicOperation`、`applyEpicOperation`、`reconcileEpicOperation`、`retryEpicOperation`、`epicOperationAttempt` 和 `epicProviders`。身份由插件重新采集，修订号来自状态查询。
 
 `EpicOperationProvider.supports` 在准备前检查能力。apply 之前先持久占位；不确定结果只查原生回执。provider ID 和 authority domain 固定在操作中，服务注销后旧响应失效。`verifyEpicReceipt` 仅检查 DTO 匹配，不能证明外部传入凭证的真实性。详见 [国家史诗契约](NATIONAL-EPIC-CONTRACT.md)。
+
+`retryEpicOperation(operationId,actorId,expectedRevision)` 只为最新的 RESOURCE_AID REJECTED 操作追加 PREPARED 新尝试；必须由固定 provider 的 `rejectionProof` 只读返回完整匹配的原生永久拒绝栅栏。默认 provider 返回空，旧原生接口、普通 REJECTED 文本、UNKNOWN、ABSENT 及其他操作类型均不授权重试。证明查询完成后重新采集身份、权限、在任代表和 provider 租约。新 ID 不复用原生事务 UUID，原记录不改写，仍需显式 apply。`epicOperationAttempt` 返回根 ID、单调轮次、前驱和所依据证明，新增方法为默认方法以保留旧实现的加载能力。
 
 包名前缀：`io.github.addxiaoyi.starchronicle`。源码 API 为第一阶段 `0.1.0-SNAPSHOT`，未承诺二进制稳定；跨插件部署应固定构建版本。StarChronicle 负责长期编排、共同阶段与历史，StarCore 继续拥有 NarrativeEngine、原任务执行和国家权威状态。
 

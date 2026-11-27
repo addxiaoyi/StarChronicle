@@ -19,4 +19,7 @@ public interface EpicOperationProvider {
                 EpicObservation.unknown("Epic provider lease expired before invocation"));
     }
     CompletionStage<EpicObservation> lookup(EpicOperation operation);
+    default CompletionStage<java.util.Optional<EpicRejectionProof>> rejectionProof(EpicOperation operation) {
+        return java.util.concurrent.CompletableFuture.completedFuture(java.util.Optional.empty());
+    }
 }

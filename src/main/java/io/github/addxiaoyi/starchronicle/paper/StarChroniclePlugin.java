@@ -545,6 +545,49 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     }
     private record EpicProviderCall(EpicOperation operation,EpicCampaignLedger.ProviderPin pin,EpicOperationProvider provider,
                                     List<EpicOperationProvider> registry) {}
+    private CompletionStage<EpicOperationState> retryEpicOperation(String operationId,UUID actorId,long expectedRevision) {
+        return nationalSnapshot(actorId).thenCompose(context->query(()->{
+            EpicOperationState state=requireRetryActor(operationId,actorId,expectedRevision,context);
+            EpicCampaignLedger.ProviderPin pin=epicCampaigns.providerPin(operationId);
+            if(pin==null)throw new IllegalStateException("Epic operation has no durable provider pin");
+            EpicOperationProvider provider=epicProvider(pin.providerId(),pin.authorityDomain());
+            if(!provider.supports(state.operation()))throw new IllegalStateException("The pinned provider no longer supports this operation");
+            withEpicRepresentative(context,()->null);
+            return new EpicProviderCall(state.operation(),pin,provider,epicOperationProviders);
+        })).thenCompose(call->{
+            requireEpicLease(call);
+            CompletionStage<Optional<EpicRejectionProof>> lookup=call.provider().rejectionProof(call.operation());
+            if(lookup==null)throw new IllegalStateException("Epic provider returned no rejection proof stage");
+            return lookup.toCompletableFuture().orTimeout(30,TimeUnit.SECONDS).thenCompose(found->{
+                EpicRejectionProof proof=Objects.requireNonNull(found,"Epic provider returned no rejection proof result")
+                        .orElseThrow(()->new IllegalStateException("This operation has no durable native rejection fence; a new attempt is refused"));
+                return nationalSnapshot(actorId).thenCompose(context->query(()->{
+                    requireEpicLease(call);
+                    EpicOperationState state=requireRetryActor(operationId,actorId,expectedRevision,context);
+                    if(!state.operation().equals(call.operation()))throw new SecurityException("Pinned epic operation changed during rejection lookup");
+                    if(!call.provider().supports(state.operation()))throw new IllegalStateException("The pinned provider capability changed during rejection lookup");
+                    engine.validateEpicContributionIntent(state.operation());
+                    return withEpicRepresentative(context,()->epicCampaigns.retry(operationId,expectedRevision,proof,
+                            call.pin().providerId(),call.pin().authorityDomain(),Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS)));
+                }));
+            });
+        });
+    }
+    private EpicOperationState requireRetryActor(String operationId,UUID actorId,long expectedRevision,PlayerContext context) {
+        EpicOperationState state=epicCampaigns.operation(operationId);
+        if(state==null)throw new IllegalArgumentException("Unknown epic operation: "+operationId);
+        if(state.status()!=EpicOperationState.Status.REJECTED||state.revision()!=expectedRevision)
+            throw new IllegalStateException("Only the current rejected operation revision may start a new attempt");
+        if(state.operation().type()!=EpicOperation.Type.RESOURCE_AID)
+            throw new IllegalStateException("This epic operation type has no supported permanent rejection fence");
+        if(!state.operation().actorId().equals(actorId)||!state.operation().nationId().equals(context.nationId()))
+            throw new SecurityException("Epic operation belongs to another current actor or nation");
+        if(!context.permitted(state.operation().permission()))throw new SecurityException("Missing native operation permission: "+state.operation().permission());
+        EpicCampaignState campaign=epicCampaigns.state(state.operation().instanceId());
+        if(!epicOperationMember(epicCampaigns.signup(campaign.sessionId()),campaign,context,state.operation().type()))
+            throw new SecurityException("Current nation is outside the frozen campaign roles");
+        return state;
+    }
     private void requireEpicLease(EpicProviderCall call) {
         if(!epicLeaseCurrent(call))
             throw new IllegalStateException("Epic provider lease expired; the operation requires reconciliation");
@@ -829,6 +872,12 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         @Override public CompletionStage<EpicOperationState> reconcileEpicOperation(String operationId,UUID actorId,long expectedRevision){
             return runEpicOperation(operationId,actorId,expectedRevision,true);
         }
+        @Override public CompletionStage<EpicOperationState> retryEpicOperation(String operationId,UUID actorId,long expectedRevision){
+            return StarChroniclePlugin.this.retryEpicOperation(operationId,actorId,expectedRevision);
+        }
+        @Override public CompletionStage<EpicOperationAttempt> epicOperationAttempt(String operationId,UUID actorId){
+            return epicOperation(operationId,actorId).thenCompose(state->query(()->epicCampaigns.attempt(state.operation().operationId())));
+        }
         @Override public CompletionStage<List<String>> epicProviders(){return query(()->epicOperationProviders.stream()
                 .map(EpicOperationProvider::providerId).distinct().sorted().toList());}
         @Override public CompletionStage<NationalAidService.Result> submitAid(io.github.addxiaoyi.starchronicle.api.aid.AidRequest request){
@@ -1003,14 +1052,24 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
                         if(error!=null)failure(actor,error);else message(actor,epicOperationSummary(state)+"；按修订号执行 apply 或只读 reconcile。");
                     });
                 }
-                case "apply","reconcile" -> {
-                    if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle epic apply|reconcile <操作ID> <操作修订号>");
+                case "apply","reconcile","retry" -> {
+                    if(args.length!=4)throw new IllegalArgumentException("用法: /chronicle epic apply|reconcile|retry <操作ID> <操作修订号>");
                     long revision=epicRevision(args[3]);
-                    CompletionStage<EpicOperationState> result=args[1].equalsIgnoreCase("apply")
-                            ?service.applyEpicOperation(args[2],actor,revision)
-                            :service.reconcileEpicOperation(args[2],actor,revision);
+                    CompletionStage<EpicOperationState> result=switch(args[1].toLowerCase(Locale.ROOT)) {
+                        case "apply" -> service.applyEpicOperation(args[2],actor,revision);
+                        case "retry" -> service.retryEpicOperation(args[2],actor,revision);
+                        default -> service.reconcileEpicOperation(args[2],actor,revision);
+                    };
                     result.whenComplete((state,error)->{
-                        if(error!=null)failure(actor,error);else message(actor,epicOperationSummary(state));
+                        if(error!=null)failure(actor,error);else message(actor,epicOperationSummary(state)
+                                +(args[1].equalsIgnoreCase("retry")?"；新尝试仅已准备，请使用新操作ID和修订号显式 apply。":""));
+                    });
+                }
+                case "attempt" -> {
+                    if(args.length!=3)throw new IllegalArgumentException("用法: /chronicle epic attempt <操作ID>");
+                    service.epicOperationAttempt(args[2],actor).whenComplete((attempt,error)->{
+                        if(error!=null)failure(actor,error);else message(actor,"operation="+attempt.operationId()+" root="
+                                +attempt.rootOperationId()+" attempt="+attempt.attempt()+" previous="+Objects.toString(attempt.previousOperationId(),"-"));
                     });
                 }
                 default -> message(actor,epicUsage());
@@ -1021,7 +1080,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
         long revision=Long.parseLong(value);if(revision<0)throw new IllegalArgumentException("史诗修订号不能为负数；请刷新状态后重试。");return revision;
     }
     private static String epicUsage() {
-        return "/chronicle epic plans|providers|open <会期> <计划> <救济国UUID>|signup <会期>|enroll <会期> <修订号>|withdraw-signup <会期> <席位修订号> <会期修订号>|seal <会期> <修订号>|status <实例>|route <实例> <战役修订号> <WAR|DUNGEON>|prepare <实例> <类型> <目标> <原生参数> <providerID>|apply|reconcile <操作ID> <修订号>|founding-reference <新国名>";
+        return "/chronicle epic plans|providers|open <会期> <计划> <救济国UUID>|signup <会期>|enroll <会期> <修订号>|withdraw-signup <会期> <席位修订号> <会期修订号>|seal <会期> <修订号>|status <实例>|route <实例> <战役修订号> <WAR|DUNGEON>|prepare <实例> <类型> <目标> <原生参数> <providerID>|apply|reconcile|retry <操作ID> <修订号>|attempt <操作ID>|founding-reference <新国名>";
     }
     private void epicSignupResponse(UUID actor,EpicSignup signup,Throwable error) {
         if(error!=null)failure(actor,error);else message(actor,epicSignupSummary(signup));
@@ -1099,7 +1158,7 @@ public final class StarChroniclePlugin extends JavaPlugin implements Listener, C
     }
     @Override public List<String> onTabComplete(CommandSender sender,Command command,String alias,String[] args) {
         if(args.length==1)return List.of("stories","scene","history","book","npc","fate","past","memory","join","membership","reviews","revalidate","review","leave","contributions","quest-reconcile","quest-retry","choose","national","vote","withdraw","epic","status","validate","reload","uncertain","ack","native-ack","blocked","evaluate","demo").stream().filter(s->s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
-        if(args.length==2&&args[0].equalsIgnoreCase("epic"))return List.of("plans","providers","open","signup","enroll","withdraw-signup","seal","status","route","prepare","apply","reconcile","founding-reference").stream().filter(s->s.startsWith(args[1].toLowerCase(Locale.ROOT))).toList();
+        if(args.length==2&&args[0].equalsIgnoreCase("epic"))return List.of("plans","providers","open","signup","enroll","withdraw-signup","seal","status","route","prepare","apply","reconcile","retry","attempt","founding-reference").stream().filter(s->s.startsWith(args[1].toLowerCase(Locale.ROOT))).toList();
         if(args.length==4&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("prepare"))return Arrays.stream(EpicOperation.Type.values()).map(Enum::name).filter(s->s.startsWith(args[3].toUpperCase(Locale.ROOT))).toList();
         if(args.length==5&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("route"))return List.of("WAR","DUNGEON").stream().filter(s->s.startsWith(args[4].toUpperCase(Locale.ROOT))).toList();
         if(args.length==7&&args[0].equalsIgnoreCase("epic")&&args[1].equalsIgnoreCase("prepare"))return epicOperationProviders.stream().map(EpicOperationProvider::providerId).distinct().filter(s->s.startsWith(args[6])).sorted().toList();

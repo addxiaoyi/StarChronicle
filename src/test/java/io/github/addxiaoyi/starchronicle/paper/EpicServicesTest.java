@@ -34,7 +34,7 @@ class EpicServicesTest {
                         new EpicPhasePolicy("route",EpicPhasePolicy.Kind.FINAL_ROUTE,Set.of())));
         ledger.open(plan,"session",RELIEF,Instant.now());ledger.enroll("session",NA,ACTOR,0,Instant.now());ledger.enroll("session",NB,OTHER,1,Instant.now());
         ledger.seal("session",2,ACTOR,Instant.now());ledger.start("instance","session","source",Instant.now());
-        op=new EpicOperation("op:aid","heir","instance","source","aid",EpicOperation.Type.RESOURCE_AID,ACTOR,NA,RELIEF,"agricultural:10","a".repeat(64),"starcore.resource",Instant.now());
+        op=new EpicOperation("op:aid","heir","instance","source","aid",EpicOperation.Type.RESOURCE_AID,ACTOR,NA,RELIEF,"agricultural:10","a".repeat(64),"starcore.resource",Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS));
         ledger.prepare(op,"test.native",DOMAIN);
         plugin=mock(StarChroniclePlugin.class,CALLS_REAL_METHODS);bridge=mock(StarCoreBridge.class);
         var tasks=mock(RegionTasks.class);var worker=mock(ThreadPoolExecutor.class);var player=mock(Player.class);
@@ -87,5 +87,81 @@ class EpicServicesTest {
             assertEquals(EpicOperationState.Status.PREPARED,ledger.operation(op.operationId()).status());
         }
         verify(provider,never()).apply(any());
+    }
+
+    long rejectOperation() {
+        ledger.claimAttempt(op.operationId(),1,Instant.now());
+        return ledger.observe(op,new EpicObservation(EpicObservation.Status.REJECTED,null,"insufficient resources"),
+                provider.providerId(),DOMAIN,Instant.now()).revision();
+    }
+    EpicRejectionProof rejectionProof() {
+        return new EpicRejectionProof("test.native",DOMAIN,op,UUID.randomUUID().toString(),
+                "INSUFFICIENT_RESOURCES",Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS));
+    }
+    @Test void retryRequiresDurableProofAndNeverInvokesTheNativeMutation() {
+        long revision=rejectOperation();
+        assertThrows(CompletionException.class,()->service.retryEpicOperation(op.operationId(),ACTOR,revision).toCompletableFuture().join());
+        assertEquals(1,ledger.state("instance").operations().size());
+        when(provider.rejectionProof(op)).thenReturn(CompletableFuture.completedFuture(Optional.of(rejectionProof())));
+        var next=service.retryEpicOperation(op.operationId(),ACTOR,revision).toCompletableFuture().join();
+        assertEquals(EpicOperationState.Status.PREPARED,next.status());assertNotEquals(op.operationId(),next.operation().operationId());
+        assertEquals(EpicOperationState.Status.REJECTED,ledger.operation(op.operationId()).status());
+        assertEquals(2,service.epicOperationAttempt(next.operation().operationId(),ACTOR).toCompletableFuture().join().attempt());
+        verify(provider,never()).apply(any());verify(provider,never()).lookup(any());
+    }
+    @Test void asyncProofCannotBypassProviderLeaseOrFreshIdentity()throws Exception {
+        long revision=rejectOperation();
+        var pending=new CompletableFuture<Optional<EpicRejectionProof>>();when(provider.rejectionProof(op)).thenReturn(pending);
+        var retry=service.retryEpicOperation(op.operationId(),ACTOR,revision).toCompletableFuture();
+        assertFalse(retry.isDone());field("epicOperationProviders",List.of());pending.complete(Optional.of(rejectionProof()));
+        assertThrows(CompletionException.class,retry::join);assertEquals(1,ledger.state("instance").operations().size());
+        field("epicOperationProviders",List.of(provider));
+        pending=new CompletableFuture<>();when(provider.rejectionProof(op)).thenReturn(pending);
+        retry=service.retryEpicOperation(op.operationId(),ACTOR,revision).toCompletableFuture();
+        when(bridge.context(ACTOR)).thenReturn(new PlayerContext(ACTOR,NB,Map.of(),Set.of("starchronicle.use","starcore.resource")));
+        pending.complete(Optional.of(rejectionProof()));var failed=retry;
+        assertThrows(CompletionException.class,failed::join);assertEquals(1,ledger.state("instance").operations().size());
+    }
+    @Test void asyncProofCannotBypassFreshNativePermission() {
+        long revision=rejectOperation();var pending=new CompletableFuture<Optional<EpicRejectionProof>>();
+        when(provider.rejectionProof(op)).thenReturn(pending);
+        var retry=service.retryEpicOperation(op.operationId(),ACTOR,revision).toCompletableFuture();
+        when(bridge.context(ACTOR)).thenReturn(new PlayerContext(ACTOR,NA,Map.of(),Set.of("starchronicle.use")));
+        pending.complete(Optional.of(rejectionProof()));
+        assertThrows(CompletionException.class,retry::join);assertEquals(1,ledger.state("instance").operations().size());
+    }
+    @Test void overlappingRetriesWithOneProofAppendOnePreparedSuccessor() {
+        long revision=rejectOperation();var pending=new CompletableFuture<Optional<EpicRejectionProof>>();
+        when(provider.rejectionProof(op)).thenReturn(pending);
+        var first=service.retryEpicOperation(op.operationId(),ACTOR,revision).toCompletableFuture();
+        var second=service.retryEpicOperation(op.operationId(),ACTOR,revision).toCompletableFuture();
+        pending.complete(Optional.of(rejectionProof()));
+        assertNotEquals(first.isCompletedExceptionally(),second.isCompletedExceptionally());
+        var winner=first.isCompletedExceptionally()?second:first;var loser=first.isCompletedExceptionally()?first:second;
+        assertEquals(EpicOperationState.Status.PREPARED,winner.join().status());assertThrows(CompletionException.class,loser::join);
+        assertEquals(2,ledger.state("instance").operations().size());verify(provider,never()).apply(any());
+    }
+    @Test void unknownAndPreparedRefuseRetryBeforeProofLookup() {
+        assertThrows(CompletionException.class,()->service.retryEpicOperation(op.operationId(),ACTOR,1).toCompletableFuture().join());
+        ledger.claimAttempt(op.operationId(),1,Instant.now());
+        when(provider.lookup(op)).thenReturn(CompletableFuture.completedFuture(new EpicObservation(EpicObservation.Status.ABSENT,null,"absent")));
+        var unknown=service.reconcileEpicOperation(op.operationId(),ACTOR,2).toCompletableFuture().join();
+        assertEquals(EpicOperationState.Status.UNKNOWN,unknown.status());
+        assertThrows(CompletionException.class,()->service.retryEpicOperation(op.operationId(),ACTOR,unknown.revision()).toCompletableFuture().join());
+        verify(provider,never()).rejectionProof(any());verify(provider,never()).apply(any());
+    }
+    @Test void asyncProofCannotBypassCurrentRepresentative()throws Exception {
+        long revision=rejectOperation();var pending=new CompletableFuture<Optional<EpicRejectionProof>>();
+        when(provider.rejectionProof(op)).thenReturn(pending);
+        var retry=service.retryEpicOperation(op.operationId(),ACTOR,revision).toCompletableFuture();
+        field("nationalVoteAuthority",NationalVoteAuthority.denying());pending.complete(Optional.of(rejectionProof()));
+        assertThrows(CompletionException.class,retry::join);assertEquals(1,ledger.state("instance").operations().size());
+    }
+    @Test void asyncProofCannotBypassCurrentProviderCapability() {
+        long revision=rejectOperation();var pending=new CompletableFuture<Optional<EpicRejectionProof>>();
+        when(provider.rejectionProof(op)).thenReturn(pending);
+        var retry=service.retryEpicOperation(op.operationId(),ACTOR,revision).toCompletableFuture();
+        when(provider.supports(op)).thenReturn(false);pending.complete(Optional.of(rejectionProof()));
+        assertThrows(CompletionException.class,retry::join);assertEquals(1,ledger.state("instance").operations().size());
     }
 }
