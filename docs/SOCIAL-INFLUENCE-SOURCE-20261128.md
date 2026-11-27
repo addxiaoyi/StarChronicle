@@ -36,6 +36,8 @@ Chronicle 产品保持 `53562a2`／1,195 项完整 verify。[证据 ZIP](verific
 
 ## 剩余源码和实服边界
 
+GitHub 原始 CI 记录见 [social-influence-ci-20261128.json](verification/social-influence-ci-20261128.json)：Chronicle `4ef18ef09020a0c4dfc5541c9f04a050f529343e` 的 [46071960232](https://github.com/addxiaoyi/StarChronicle/actions/runs/46071960232) 全部步骤成功；StarCore `4c57fd65d1e540e0a8879eec8834181913c7c5d9` 的 [46071820505](https://github.com/addxiaoyi/starcore/actions/runs/46071820505) 四个检查未分配 runner、零步骤，注解为账户付款／额度限制，发布跳过。这不是 StarCore 远程测试失败证据，也不能算远程验证通过。
+
 声誉等级选择、SQL 恢复／事务／排队 future 清理，模块核心服务失败回退，以及社交监听器／命令仍需处理；领地收益、联盟／政策／租赁／军队天气、兼容回调、叙事 Boss 和旧国家临时加成继续待办。不能以本批通过声称社交模块或十阶段完成。
 
 当前构件完整多人玩法、真实重启、数据库部署、第三方组合、全栈 Folia 和长期负载仍需实服验收。不设置 `folia-supported:true`，不复用旧构件实服记录，不承诺跨系统严格一次。
