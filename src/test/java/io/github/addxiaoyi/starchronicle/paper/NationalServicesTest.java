@@ -3,6 +3,7 @@ package io.github.addxiaoyi.starchronicle.paper;
 import io.github.addxiaoyi.starchronicle.api.*;
 import io.github.addxiaoyi.starchronicle.core.*;
 import io.github.addxiaoyi.starchronicle.integration.StarCoreBridge;
+import io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthority;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -65,5 +66,29 @@ class NationalServicesTest {
     }
     @Test void offlineSnapshotCannotReachNationalEngine(){
         when(player.isOnline()).thenReturn(false);CompletionStage<?> pending=service.nationalState("instance",actor);assertEquals(1,playerWork.size());playerWork.removeFirst().run();assertThrows(CompletionException.class,()->pending.toCompletableFuture().join());verifyNoInteractions(engine,worker,gateway);
+    }
+
+    @Test void membershipReviewUsesNewSnapshotBeforeEnginePerformsNativeMemberApproval() {
+        var current=context("current-native-nation",Set.of("starchronicle.use"));
+        var expected=new ProcessReport(false,List.of("instance"),"reviewed");
+        when(engine.revalidateMember("instance",current)).thenReturn(expected);
+        var pending=service.revalidateMember("instance",actor);verifyNoInteractions(engine);
+        snapshot(current);verifyNoInteractions(engine);runWorker();
+        assertEquals(expected,pending.toCompletableFuture().join());verify(engine).revalidateMember("instance",current);
+    }
+
+    @Test void memberExitUsesExplicitNodeAndFreshIdentityEvenAfterNationalityChanged(){
+        var current=context("new-nation",Set.of("starchronicle.use"));
+        var pending=service.exitMember("instance",actor,"old-node");snapshot(current);runWorker();pending.toCompletableFuture().join();
+        verify(engine).exitMember("instance","old-node",current);
+        assertThrows(CompletionException.class,()->service.exitMember("instance",actor,"").toCompletableFuture().join());
+    }
+
+    @Test void reviewReadRefreshesPendingStateBeforeReadingAndPermissionRevocationBlocksExit(){
+        var current=context("new-nation",Set.of("starchronicle.use"));
+        when(engine.memberReviews(actor,50)).thenReturn(List.of());var pending=service.memberReviews(actor,50);snapshot(current);runWorker();
+        assertEquals(List.of(),pending.toCompletableFuture().join());var order=inOrder(engine);order.verify(engine).observeMembers(List.of(current));order.verify(engine).memberReviews(actor,50);
+        var exit=service.exitMember("instance",actor,"node");snapshot(context("new-nation",Set.of()));
+        assertThrows(CompletionException.class,()->exit.toCompletableFuture().join());verify(engine,never()).exitMember(anyString(),anyString(),any());
     }
 }

@@ -41,7 +41,7 @@ class ActualCombinationEvidenceTest(unittest.TestCase):
     def remove_kind(self, kind):
         path = self.run / 'evidence/combination-fixture.jsonl'
         rows = INSPECTOR.rows(path)
-        path.write_text(''.join(json.dumps(r) + '\n' for r in rows if r['kind'] != kind))
+        path.write_text(''.join(json.dumps(r) + '\n' for r in rows if r['kind'] != kind), encoding='utf-8')
 
     def test_actual_three_boot_evidence_passes(self):
         self.assertEqual(INSPECTOR.inspect(self.run), self.original)
@@ -68,7 +68,7 @@ class ActualCombinationEvidenceTest(unittest.TestCase):
 
     def test_missing_disabled_protection_rejection_is_rejected(self):
         path = self.run / 'evidence/boot3.clients.log'
-        path.write_text('\n'.join(line for line in path.read_text().splitlines() if '领地保护服务暂不可用' not in line))
+        path.write_text('\n'.join(line for line in path.read_text(encoding='utf-8').splitlines() if '领地保护服务暂不可用' not in line), encoding='utf-8')
         with self.assertRaisesRegex(AssertionError, 'fail closed'):
             INSPECTOR.inspect(self.run)
 
@@ -82,23 +82,23 @@ class ActualCombinationEvidenceTest(unittest.TestCase):
         path = self.run / 'evidence/combination-fixture.jsonl'
         rows = INSPECTOR.rows(path)
         next(r for r in rows if r['boot'] == 2 and r['kind'] == 'MEMORY')['data']['owned'][0] = 'changed-entity'
-        path.write_text(''.join(json.dumps(r) + '\n' for r in rows))
+        path.write_text(''.join(json.dumps(r) + '\n' for r in rows), encoding='utf-8')
         with self.assertRaisesRegex(AssertionError, 'entity changed across restart'):
             INSPECTOR.inspect(self.run)
 
     def test_native_region_owner_drift_is_rejected(self):
         path = self.run / 'plugins/WorldGuard/worlds/world/regions.yml'
-        content = yaml.safe_load(path.read_text())
+        content = yaml.safe_load(path.read_text(encoding='utf-8'))
         content['regions']['chronicle-owned']['owners'] = {'unique-ids': []}
-        path.write_text(yaml.safe_dump(content))
+        path.write_text(yaml.safe_dump(content), encoding='utf-8')
         with self.assertRaisesRegex(AssertionError, 'region authority mismatch'):
             INSPECTOR.inspect(self.run)
 
     def test_changed_plugin_pin_is_rejected(self):
         path = self.run / 'combination.json'
-        content = json.loads(path.read_text())
+        content = json.loads(path.read_text(encoding='utf-8'))
         content['artifacts']['WorldGuard']['sha256'] = '0' * 64
-        path.write_text(json.dumps(content))
+        path.write_text(json.dumps(content), encoding='utf-8')
         with self.assertRaisesRegex(AssertionError, 'artifact mismatch'):
             INSPECTOR.inspect(self.run)
 

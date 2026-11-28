@@ -19,6 +19,19 @@ public final class StarCoreNationalVoteAuthority implements NationalVoteAuthorit
     public boolean available(){try{return nativeAccess.get()!=null;}catch(RuntimeException failure){return false;}}
     static NativeAccess nativeAccess(StarCoreBridge bridge) { return Native.find(bridge); }
 
+    /** Ordinary member revalidation uses the same native mutation monitor, without granting a national seat. */
+    public <T> T withMember(UUID actor, String expectedNation, java.util.concurrent.Callable<T> operation) throws Exception {
+        Objects.requireNonNull(actor); Objects.requireNonNull(expectedNation); Objects.requireNonNull(operation);
+        if (!expectedNation.isEmpty() && !canonicalUuid(expectedNation)) throw new SecurityException("Invalid native nation ID");
+        NativeAccess access = nativeAccess.get();
+        if (access == null) throw new SecurityException("Audited native membership authority is unavailable");
+        synchronized (Objects.requireNonNull(access.monitor())) {
+            if (!expectedNation.equals(access.nationOf(actor)) || (!expectedNation.isEmpty() && !access.exists(expectedNation)))
+                throw new SecurityException("Current native membership changed; refresh before revalidating");
+            return operation.call();
+        }
+    }
+
     @Override public <T>T withRepresentative(UUID actor,String expectedNation,Authorized<T> operation)throws Exception {
         Objects.requireNonNull(actor);Objects.requireNonNull(operation);
         if(!canonicalUuid(expectedNation))throw new SecurityException("A current native nation is required");

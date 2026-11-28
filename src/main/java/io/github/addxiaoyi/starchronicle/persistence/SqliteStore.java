@@ -18,7 +18,9 @@ import java.sql.*;
 
 /** Single local durable database. Every orchestration transition and local outcome is one transaction. */
 public final class SqliteStore implements AutoCloseable {
-    public static final int SCHEMA_VERSION=10;
+    // The independent schema-10 writers support different native receipt ledgers. Fence
+    // both after combining them, so neither can acknowledge incomplete processing history.
+    public static final int SCHEMA_VERSION=11;
     public static final ObjectMapper JSON=new ObjectMapper().registerModule(new JavaTimeModule())
             .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     private final Connection connection;
@@ -31,6 +33,8 @@ public final class SqliteStore implements AutoCloseable {
             opened=connection;
             try(var s=connection.createStatement()) {
                 s.execute("PRAGMA journal_mode=WAL");s.execute("PRAGMA synchronous=FULL");s.execute("PRAGMA foreign_keys=ON");s.execute("PRAGMA busy_timeout=5000");
+                // Large legacy migrations spill their sortable keys to disk, with a bounded cache.
+                s.execute("PRAGMA temp_store=FILE");s.execute("PRAGMA temp.cache_size=-2048");
                 int oldVersion;
                 try(var r=s.executeQuery("PRAGMA user_version")){oldVersion=r.next()?r.getInt(1):0;if(oldVersion>SCHEMA_VERSION) throw new IllegalStateException("Database schema newer than this plugin");}
                 connection.setAutoCommit(false);
@@ -38,8 +42,11 @@ public final class SqliteStore implements AutoCloseable {
                 s.execute("CREATE TABLE IF NOT EXISTS event_nations(event_id TEXT REFERENCES events(id),nation TEXT NOT NULL,PRIMARY KEY(event_id,nation))");
                 s.execute("CREATE TABLE IF NOT EXISTS event_players(event_id TEXT REFERENCES events(id),player TEXT NOT NULL,PRIMARY KEY(event_id,player))");
                 s.execute("CREATE INDEX IF NOT EXISTS history_time ON events(time DESC,id)");
+                s.execute("CREATE INDEX IF NOT EXISTS history_cursor ON events(time DESC,id DESC)");
+                s.execute("CREATE INDEX IF NOT EXISTS history_type ON events(type,id)");
                 s.execute("CREATE INDEX IF NOT EXISTS nation_history ON event_nations(nation,event_id)");
                 s.execute("CREATE INDEX IF NOT EXISTS player_history ON event_players(player,event_id)");
+                HistoryCountIndex.initialize(connection);
                 s.execute("CREATE TABLE IF NOT EXISTS instances(id TEXT PRIMARY KEY,story TEXT NOT NULL,scope TEXT NOT NULL,completed INTEGER NOT NULL,updated TEXT NOT NULL,json TEXT NOT NULL)");
                 s.execute("CREATE INDEX IF NOT EXISTS active_instances ON instances(story,scope,completed)");
                 s.execute("CREATE INDEX IF NOT EXISTS instance_origin ON instances(story,scope,json_extract(json,'$.definition.version'),json_extract(json,'$.sourceEventId'))");
@@ -61,7 +68,8 @@ public final class SqliteStore implements AutoCloseable {
                 AidLedger.createSchema(connection);
                 MemberReviewLedger.createSchema(connection);
                 ContributionLedger.createSchema(connection);
-                TradeContributionLedger.createSchema(connection);
+                io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.createSchema(connection);
+                io.github.addxiaoyi.starchronicle.core.TradeContributionLedger.createSchema(connection);
                 io.github.addxiaoyi.starchronicle.core.ResourceHistoryLedger.createSchema(connection);
                 io.github.addxiaoyi.starchronicle.core.ProcessingContributionLedger.createSchema(connection);
                 EpicCampaignLedger.createSchema(connection);
@@ -69,6 +77,8 @@ public final class SqliteStore implements AutoCloseable {
                 if(oldVersion<3)ChoiceLedger.migrateSnapshots(connection);
                 if(oldVersion<4)DefinitionCatalog.migrateSnapshots(connection);
                 if(oldVersion<5)DefinitionCatalog.migrateCanonicalV2(connection);
+                boolean rebuildMembership=InstanceIndex.createSchema(connection);
+                if(oldVersion<8||rebuildMembership)InstanceIndex.rebuild(connection);
                 s.execute("PRAGMA user_version="+SCHEMA_VERSION);
                 // A process may have died after a non-idempotent external call. Never replay it blindly.
                 s.execute("UPDATE outcomes SET status='UNKNOWN' WHERE status='RUNNING'");
@@ -82,9 +92,17 @@ public final class SqliteStore implements AutoCloseable {
     public synchronized <T>T transaction(Work<T> work){
         try {
             connection.setAutoCommit(false);
-            try { T result=work.run(connection); connection.commit(); return result; }
-            catch(Exception|Error e){connection.rollback();throw e;}
-            finally{connection.setAutoCommit(true);}
+            try {
+                T result=work.run(connection);connection.commit();connection.setAutoCommit(true);return result;
+            } catch(Exception|Error failure) {
+                boolean uncertain=false;
+                try{connection.rollback();}catch(Exception cleanup){failure.addSuppressed(cleanup);uncertain=true;}
+                try{connection.setAutoCommit(true);}catch(Exception cleanup){failure.addSuppressed(cleanup);uncertain=true;}
+                // SQLite can abort a transaction itself (ROLLBACK trigger, I/O or memory failure).
+                // Preserve that original error and retire a connection whose cleanup failed.
+                if(uncertain)try{connection.close();}catch(Exception cleanup){failure.addSuppressed(cleanup);}
+                throw failure;
+            }
         }catch(RuntimeException|Error e){throw e;}catch(Exception e){throw new IllegalStateException("Chronicle transaction failed",e);}
     }
     public static String json(Object value){try{return JSON.writeValueAsString(value);}catch(Exception e){throw new IllegalStateException(e);}}

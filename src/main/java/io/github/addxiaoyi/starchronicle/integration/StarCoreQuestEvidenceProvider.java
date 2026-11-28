@@ -20,7 +20,7 @@ import java.util.function.Supplier;
  * binds the first valid UUID and declines a different domain for its entire lifetime;
  * the host separately owns registration epochs and stale callback rejection.</p>
  */
-public final class StarCoreQuestEvidenceProvider implements QuestEvidenceProvider {
+public final class StarCoreQuestEvidenceProvider implements QuestRecoveryProvider {
     public static final String ISSUER="starcore.quest.evidence.v1";
     private final Supplier<Object> services;
     private final boolean folia;
@@ -84,6 +84,50 @@ public final class StarCoreQuestEvidenceProvider implements QuestEvidenceProvide
                 }catch(ReflectiveOperationException|RuntimeException|LinkageError failure){return observation(QuestObservation.Status.UNKNOWN,null,null,"Native admission could not be canonically verified");}
             });
         }catch(ReflectiveOperationException|RuntimeException|LinkageError failure){return done(QuestObservation.Status.UNKNOWN,null,null,"Native admission invocation is uncertain; canonical lookup is required");}
+    }
+
+    @Override public CompletionStage<QuestObservation> reconcile(QuestRequest request) {
+        try {
+            Native access=recoveryAccess(request);
+            Object value=access.service().getClass().getMethod("reconcileTracked",String.class).invoke(access.service(),request.bindingId());
+            if(!(value instanceof CompletionStage<?> future))throw new IllegalStateException("Native recovery returned no acknowledgement");
+            return future.thenApply(ignored->{
+                try {
+                    if(!current(access))throw new IllegalStateException("Native recovery authority changed");
+                    Object snapshot=access.lookup().invoke(access.service(),request.bindingId());
+                    if(!current(access))throw new IllegalStateException("Native recovery authority changed");
+                    return snapshot==null?observation(QuestObservation.Status.UNKNOWN,null,null,"Original native binding is absent; recovery cannot create a run"):map(request,snapshot);
+                }catch(ReflectiveOperationException failure){throw new CompletionException(failure);}
+            });
+        }catch(ReflectiveOperationException|RuntimeException|LinkageError failure){return CompletableFuture.failedFuture(new IllegalStateException("原生任务恢复能力不可用；保留原轮次",failure));}
+    }
+    @Override public CompletionStage<QuestTermination> termination(QuestRequest request) {
+        try {
+            Native access=recoveryAccess(request);
+            Object value=access.service().getClass().getMethod("termination",String.class).invoke(access.service(),request.bindingId());
+            if(!current(access))throw new IllegalStateException("Native termination authority changed");
+            if(value==null)return CompletableFuture.completedFuture(null);
+            Object snapshot=value.getClass().getMethod("snapshot").invoke(value);
+            QuestObservation mapped=map(request,Objects.requireNonNull(snapshot));
+            if((mapped.status()!=QuestObservation.Status.FAILED&&mapped.status()!=QuestObservation.Status.ABANDONED)||mapped.acceptedRun()==null
+                    ||!"NOT_STARTED".equals(string(snapshot,"rewardStatus",false))||!blank(string(snapshot,"completionId",true))
+                    ||number(snapshot,"completedAt")!=0||number(snapshot,"committedAt")!=0||!blank(string(snapshot,"completionEvidence",true)))
+                throw new IllegalStateException("Termination contradicts native run or reward guard");
+            String id=string(value,"terminationId",false),evidence=string(value,"evidence",false);
+            Instant ended=positive(number(value,"terminatedAt")),committed=positive(number(value,"committedAt"));
+            if(!canonicalUuid(id)||ended.isBefore(mapped.acceptedRun().startedAt())||committed.isBefore(ended)||committed.isAfter(now()))
+                throw new IllegalStateException("Invalid terminal receipt chronology");
+            return CompletableFuture.completedFuture(new QuestTermination(mapped.acceptedRun(),mapped.status(),id,ended,committed,evidence));
+        }catch(ReflectiveOperationException|RuntimeException|LinkageError failure){return CompletableFuture.failedFuture(new IllegalStateException("原生终止凭据不完整；未开启新轮次",failure));}
+    }
+    private Native recoveryAccess(QuestRequest request)throws ReflectiveOperationException {
+        if(!valid(request))throw new IllegalArgumentException("Invalid recovery binding");
+        Native access=nativeAccess();
+        if(access==null)throw new IllegalStateException("Native authority unavailable");
+        Method version=access.service().getClass().getMethod("recoveryProtocolVersion");
+        if(version.getReturnType()!=int.class||!Integer.valueOf(1).equals(version.invoke(access.service())))
+            throw new IllegalStateException("Unsupported native recovery protocol");
+        return access;
     }
 
     private record Native(Object service,Method lookup,Method begin,String storageAuthority){}

@@ -1,0 +1,97 @@
+{
+  "date": "2026-11-26",
+  "scope": "Pay original-session owner capture and independent feedback, selected-page leaderboard profile lookup, module lifetime and provider-aware snapshot routing. No Minecraft.",
+  "baseline_commits": {
+    "starchronicle": "182895c1b153f9ffbe3aa05150c6a403c104a34d",
+    "starcore": "6af2a974992bb9b385e67a22bd5c03add99eebb4"
+  },
+  "new_tests": 33,
+  "tests": {
+    "tests": 389,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "baseline_tests": {
+    "tests": 17,
+    "failures": 17,
+    "errors": 0,
+    "skipped": 0
+  },
+  "intermediate_tests": {
+    "tests": 382,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "initial_failure": "New test fixture used an ambiguous overloaded Server.getOfflinePlayer argument. Compilation failed before tests; fixed the UUID type and preserved that log. Production was still unchanged for the 17-test baseline.",
+  "artifacts": {
+    "starchronicle_sha256": "1c7b8b010c9d330c15b0882753d54095fb906e42caedb926a81055d643cd78ce",
+    "sources_sha256": "8a9634b60a7b256e228e5c96b62eb525824083d83cffb590828934d93dd2547c",
+    "starcore_sha256": "2a8ec8b73d0fa2aaf6c5bb5f8e2f4a05116e98f0eae95d07cef9cb46d092e77b"
+  },
+  "artifact_verification": {
+    "status": "VERIFIED",
+    "starcore_sha256": "2a8ec8b73d0fa2aaf6c5bb5f8e2f4a05116e98f0eae95d07cef9cb46d092e77b",
+    "baseline_sha256": "b1a94dcad11cf5b82f1029ffa6c54a920781cd22ae5fb84ce8d5bef6f1225225",
+    "class_hashes": {
+      "dev/starcore/starcore/essentials/EssentialsModule$CommandBinding.class": "93135732485f1b68b7bffce4eeab9b2e680cb02c0c0a133969d6635cb3e01e7d",
+      "dev/starcore/starcore/essentials/EssentialsModule$LifecycleCommand.class": "03e32e545cec7def1d0de1fc6b49d89f09a61eaf047caa01e51542da8e8ea791",
+      "dev/starcore/starcore/essentials/EssentialsModule.class": "e6b318e6825995115567d532a0b3bae57dba5b9dcf807888adc35d56570c7897",
+      "dev/starcore/starcore/essentials/command/EconomyCommand$Audience.class": "bb5bcab07593738068b2ad97e802ae1eb2b46f0268ca9ce855bc195b7b671979",
+      "dev/starcore/starcore/essentials/command/EconomyCommand.class": "1f47e07bffb61378c7e967aafbae9b2aea25179a3264792ecf6d790d5d594679"
+    },
+    "compiled_source_hashes": {
+      "src/main/java/dev/starcore/starcore/essentials/EssentialsModule.java": "9b4c51f479cf561a46e28fbf93505245c6d3a2130b2ea5e3f438b3ef1f54bff6",
+      "src/main/java/dev/starcore/starcore/essentials/command/EconomyCommand.java": "7333f3d944b9c7c0a2738b2e33ebd6155e2ad1fafa91385145cbb894592dfaeb",
+      "src/test/java/dev/starcore/starcore/essentials/command/EconomyOwnershipTest.java": "9fb8e0763c6f40bec6a2701a37cb7c57dc92ee8f456438a6a1dc22875774f319",
+      "src/test/java/dev/starcore/starcore/essentials/command/EconomyCommandThreadingTest.java": "814b9bebfde5238afc891b8445ce6021c05d65616cdfcba88872b8fa1f3d6f1e",
+      "src/test/java/dev/starcore/starcore/essentials/EssentialsModuleLifecycleTest.java": "15702f51842b669d06a26330d4089b8819305cfe4161bf676aec9801d184c352",
+      "src/test/java/dev/starcore/starcore/core/database/MySqlConnectionRecoveryIntegrationTest.java": "972c227243983e64e206426d6a0296ab7258e1b37357fb282c59f2e707aad067"
+    },
+    "public_api": {
+      "dev/starcore/starcore/essentials/EssentialsModule": {
+        "preserved_methods": 15,
+        "added_methods": []
+      },
+      "dev/starcore/starcore/essentials/command/EconomyCommand": {
+        "preserved_methods": 6,
+        "added_methods": [
+          [
+            "public dev.starcore.starcore.essentials.command.EconomyCommand(org.bukkit.plugin.Plugin, dev.starcore.starcore.foundation.economy.EconomyService, dev.starcore.starcore.essentials.baltop.BalTopService, dev.starcore.starcore.foundation.economy.transaction.TransactionFabric, dev.starcore.starcore.core.scheduler.FoliaCompatScheduler, dev.starcore.starcore.essentials.EssentialsPermissions, java.util.function.BooleanSupplier);",
+            "(Lorg/bukkit/plugin/Plugin;Ldev/starcore/starcore/foundation/economy/EconomyService;Ldev/starcore/starcore/essentials/baltop/BalTopService;Ldev/starcore/starcore/foundation/economy/transaction/TransactionFabric;Ldev/starcore/starcore/core/scheduler/FoliaCompatScheduler;Ldev/starcore/starcore/essentials/EssentialsPermissions;Ljava/util/function/BooleanSupplier;)V"
+          ]
+        ]
+      }
+    },
+    "sbom_components": 36,
+    "limits": [
+      "Bytecode and API checks are not live Paper/Folia acceptance.",
+      "Existing public descriptors are preserved; one optional lifecycle constructor is additive."
+    ]
+  },
+  "source_hashes": {
+    "src/main/java/dev/starcore/starcore/essentials/EssentialsModule.java": "9b4c51f479cf561a46e28fbf93505245c6d3a2130b2ea5e3f438b3ef1f54bff6",
+    "src/main/java/dev/starcore/starcore/essentials/command/EconomyCommand.java": "7333f3d944b9c7c0a2738b2e33ebd6155e2ad1fafa91385145cbb894592dfaeb",
+    "src/test/java/dev/starcore/starcore/essentials/command/EconomyOwnershipTest.java": "9fb8e0763c6f40bec6a2701a37cb7c57dc92ee8f456438a6a1dc22875774f319",
+    "src/test/java/dev/starcore/starcore/essentials/command/EconomyCommandThreadingTest.java": "814b9bebfde5238afc891b8445ce6021c05d65616cdfcba88872b8fa1f3d6f1e",
+    "src/test/java/dev/starcore/starcore/essentials/EssentialsModuleLifecycleTest.java": "15702f51842b669d06a26330d4089b8819305cfe4161bf676aec9801d184c352",
+    "src/test/java/dev/starcore/starcore/core/database/MySqlConnectionRecoveryIntegrationTest.java": "972c227243983e64e206426d6a0296ab7258e1b37357fb282c59f2e707aad067",
+    "docs/ECONOMY-COMMAND-OWNERSHIP.md": "f33ffceb06aaa778bccac68000ac7fa46fa0cafc3599ba165c3d0ed1f2724181",
+    "docs/ESSENTIALS-COMMAND-LIFECYCLE.md": "28190370760223fa8ea2b12ab0206925c37a95fe39c273c525a4a0035e9337ab"
+  },
+  "limits": [
+    "No real Minecraft, MySQL, Vault binary or live Paper/Folia reload.",
+    "Pay keeps its existing asynchronous financial provider contract; this does not certify arbitrary Vault provider threading or uncertain transfer results.",
+    "InternalEconomyService snapshots are async; other providers keep Paper main-thread refresh. Folia refuses an unverified external refresh but can display already fresh cached entries.",
+    "Already admitted UUID transfers may finish after reconnect. Module stop suppresses queued work/late feedback but does not roll back a running financial operation.",
+    "Ranking values and names are snapshots sampled at different times, not a cross-player atomic view.",
+    "Balance/admin commands, tab-completion names, social calls and the separate periodic ranking refresh remain separate work.",
+    "389 selected tests, existing POM exclusions retained, not the complete native suite.",
+    "MySQL recovery fixture was adapted and compiled, but the real MySQL acceptance was not run.",
+    "Single 256 MiB JVM per operation; forkCount=0, jacoco.skip=true; no local coverage result.",
+    "Chronicle main JAR and prior 1021-test local result unchanged. Earlier contracts and regressions retain their own JAR identities."
+  ],
+  "evidence_files": 184,
+  "evidence_zip_sha256": "e84b5a311fa0e81f411d7dcd29fa01e4cdb16f1b46b3cc6ce772e70825001bb1"
+}

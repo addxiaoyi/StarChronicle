@@ -14,8 +14,13 @@
 2. apply 用修订号 CAS 把操作保存为 UNKNOWN，再调用原生服务。并发提交只能有一次占位成功。
 3. 来自仍有效 provider 且匹配固定字段的持久回执才能成为 COMMITTED。超时、异常或服务注销保持待对账。
 4. UNKNOWN 只接受 reconcile 的只读 lookup；即使 ABSENT 也不重新扣款或变更国家。重启不重开执行入口。
+5. 仅 RESOURCE_AID 的最新 REJECTED 意图可经显式 retry 追加下一轮 PREPARED。旧行、旧修订号及历史证明不重写；根操作 ID、单调轮次、唯一前驱与完整拒绝证明在同一 SQLite 事务中保存。新操作／原生 UUID 不复用，完成 retry 不调用资源转账，之后仍须显式 apply。
 
 回执唯一键为 authority domain、操作类型、原生 receipt ID，不能重复用于两个意图。宣战和战争结束是不同证据类型，可引用同一 war ID。
+
+重试依赖 StarCore `transferRejection(transactionId)` 的持久永久栅栏；它必须固定原事务 ID、存储域、双方、规范化数量、类别、描述、拒绝时刻及唯一证明 ID，并在存储层与提交回执互斥。被栅栏固定的原 ID 永远不能转账，即使余额后来充足、普通快照保存、SQL／文件迁移或服务重启。保存确认不明先保持 UNKNOWN，只有恢复后的权威读取才能确认实际保存的拒绝证明，不能将提交异常、缺少回执或历史 REJECTED 文本补造成证明。
+
+provider 的默认 `rejectionProof` 返回空；内置适配器仅为 RESOURCE_AID 验证原生完整 payload 和域，其他类型／旧接口没有重试资格。异步证明完成后再次检查当前 actor／国家、固定权限、原生在任代表、provider/domain 租约、当前阶段和预期修订号；并发 retry 只能追加一个后继。已有后继的拒绝祖先不能被迟到 COMMITTED／UNKNOWN 响应改写。此接口不接受玩家提交的证明。
 
 ## 原生证据
 

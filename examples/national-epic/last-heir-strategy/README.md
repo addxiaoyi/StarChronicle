@@ -50,6 +50,16 @@ open 需管理权限，报名与冻结需原生在任代表。至少两国报名
 
 任务先通过真实 quest.await 完成；接受邀请由救济国代表逐国操作。资金与资源必须真实充足。UNKNOWN 用 `epic reconcile <操作ID> <修订号>` 只读对账，不能重发。
 
+仅资源援助在最新操作为 REJECTED、且配套 StarCore 已保存该事务的永久拒绝证明时，可显式准备新轮次：
+
+```text
+/chronicle epic retry <被拒绝的操作ID> <操作修订号>
+/chronicle epic attempt <返回的新操作ID>
+/chronicle epic apply <返回的新操作ID> <返回的新修订号>
+```
+
+retry 只追加 PREPARED 新意图，不转账；actor、国家、目标、数量、权限、provider/domain 及剧情指纹沿用原意图。命令使用当前原生在任代表并重新核验权限。旧操作保留 REJECTED，原生事务 ID 永久禁止执行。UNKNOWN、ABSENT、旧版原生服务、普通拒绝文本和其他操作类型都不能开启新轮次；请先解决权威存储／身份问题并按状态只读对账。
+
 ## 路线与结算
 
 全部准备完成后，各国用 `epic route <实例ID> <战役修订号> WAR` 或 DUNGEON 表决，严格多数批准。再在剧情 route 节点投对应国家票，进入等待结算节点。

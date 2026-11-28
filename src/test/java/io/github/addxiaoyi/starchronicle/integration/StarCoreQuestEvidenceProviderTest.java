@@ -147,4 +147,46 @@ class StarCoreQuestEvidenceProviderTest {
     @Test void lookupFailuresAndInvalidRequestsDoNotAttemptAdmission(){
         NativeService nativeService=new NativeService();nativeService.failLookup=true;assertEquals(QuestObservation.Status.UNKNOWN,lookup(nativeService).status());assertEquals(0,nativeService.beginCalls);AtomicInteger calls=new AtomicInteger();var provider=new StarCoreQuestEvidenceProvider(()->{calls.incrementAndGet();return nativeService;},false,clock);assertEquals(QuestObservation.Status.UNKNOWN,provider.ensureStarted(null).toCompletableFuture().join().status());assertEquals(0,calls.get());
     }
+    public record Termination(Object snapshot,String terminationId,long terminatedAt,long committedAt,String evidence) {}
+    public static class RecoveryNativeService extends NativeService {
+        int recoveryVersion=1,reconcileCalls;Object terminal;
+        CompletableFuture<Object> recovery=CompletableFuture.completedFuture(null);
+        public int recoveryProtocolVersion(){return recoveryVersion;}
+        public CompletionStage<Object> reconcileTracked(String binding){reconcileCalls++;actualBinding=binding;return recovery;}
+        public Object termination(String binding){return terminal;}
+    }
+    private Snapshot terminalSnapshot(){var s=active();s.status="ABANDONED";s.reward="NOT_STARTED";s.completed=0;s.committed=0;s.completion=null;s.completionProof=null;return s;}
+    @Test void additiveRecoveryReadsCanonicalStateAndLeavesBaseProviderIdentityStable() {
+        var nativeService=new RecoveryNativeService();nativeService.canonical=active();nativeService.recovery=CompletableFuture.completedFuture(completed());
+        var provider=adapter(nativeService);String id=provider.providerId();
+        var result=provider.reconcile(PLAYER_REQUEST).toCompletableFuture().join();
+        assertEquals(QuestObservation.Status.ACTIVE,result.status());assertEquals(id,provider.providerId());
+        assertEquals(1,nativeService.reconcileCalls);assertEquals(0,nativeService.beginCalls);assertEquals(0,nativeService.legacyCalls);
+        nativeService.canonical=null;
+        assertEquals(QuestObservation.Status.UNKNOWN,provider.reconcile(PLAYER_REQUEST).toCompletableFuture().join().status());
+    }
+    @Test void oldProtocolRemainsReadableButDoesNotClaimRecoverySupport() {
+        var nativeService=new NativeService();nativeService.canonical=active();var provider=adapter(nativeService);
+        assertEquals(QuestObservation.Status.ACTIVE,provider.lookup(PLAYER_REQUEST).toCompletableFuture().join().status());
+        assertThrows(CompletionException.class,()->provider.reconcile(PLAYER_REQUEST).toCompletableFuture().join());
+        assertThrows(CompletionException.class,()->provider.termination(PLAYER_REQUEST).toCompletableFuture().join());assertEquals(0,nativeService.beginCalls);
+    }
+    @Test void terminalReceiptRequiresMatchingRunDurableTimesAndNoRewardGuard() {
+        var nativeService=new RecoveryNativeService();var s=terminalSnapshot();nativeService.canonical=s;
+        nativeService.terminal=new Termination(s,COMPLETION,3000,4000,"native terminal proof");var provider=adapter(nativeService);
+        var proof=provider.termination(PLAYER_REQUEST).toCompletableFuture().join();
+        assertEquals(QuestObservation.Status.ABANDONED,proof.status());assertEquals(RUN,proof.acceptedRun().runId());assertEquals(Instant.ofEpochMilli(4000),proof.committedAt());
+        s.reward="UNKNOWN";assertThrows(CompletionException.class,()->provider.termination(PLAYER_REQUEST).toCompletableFuture().join());s.reward="NOT_STARTED";
+        nativeService.terminal=new Termination(s,COMPLETION,3000,2000,"bad clock");
+        assertThrows(CompletionException.class,()->provider.termination(PLAYER_REQUEST).toCompletableFuture().join());
+        nativeService.terminal=new Termination(s,COMPLETION,3000,4000,"native proof");s.binding="other";
+        assertThrows(CompletionException.class,()->provider.termination(PLAYER_REQUEST).toCompletableFuture().join());
+    }
+    @Test void storageReplacementDuringRecoveryRejectsLateAcknowledgement() {
+        var first=new RecoveryNativeService();var second=new RecoveryNativeService();first.recovery=new CompletableFuture<>();second.canonical=completed();
+        AtomicReference<Object> current=new AtomicReference<>(first);var provider=new StarCoreQuestEvidenceProvider(current::get,false,clock);
+        var pending=provider.reconcile(PLAYER_REQUEST).toCompletableFuture();current.set(second);first.recovery.complete(completed());
+        assertThrows(CompletionException.class,pending::join);assertEquals(0,second.beginCalls);assertEquals(0,second.lookupCalls);
+    }
+
 }

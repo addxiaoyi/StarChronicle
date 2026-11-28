@@ -1,0 +1,1522 @@
+{
+  "status": "VERIFIED_BY_COMPLETED_SUITES_AND_REMAINDER",
+  "baselines": {
+    "chronicle": "4cc9b18377a8ca2e1939d8395a8378a0c99e6281",
+    "starcore": "9bf59b74f66383036ebafd36ecf7d7f115731458"
+  },
+  "merged_upstream": {
+    "chronicle": "78b227f6847294111abc3d309690caa58196c689",
+    "starcore": "a6452723f5a2ea78e4ac058a3e16f465837a9ca5"
+  },
+  "tests": {
+    "tests": 1929,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "completed_suites": {
+    "dev.starcore.starcore.core.scheduler.EntityTaskContractTest": {
+      "tests": 11,
+      "xml_sha256": "27c4063d994cf174f499fc0bb3f1942ddab50c19b9bb93ac3ff13ecc8b550600",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.core.scheduler.FoliaCompatSchedulerBoundaryTest": {
+      "tests": 9,
+      "xml_sha256": "9ecb6515be36d2c6f95d42f6f6f520928e5d9a43fad4d1d56f7a88d023091794",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.core.scheduler.FoliaCompatSchedulerLifecycleTest": {
+      "tests": 23,
+      "xml_sha256": "f28a475faad9ec5fb0e9e54bfbbf80b8f4b21ac6d4ffa6813e99010bf58ec9fe",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.core.scheduler.FoliaCompatSchedulerThreadTest": {
+      "tests": 2,
+      "xml_sha256": "8b571be9da448989b47c21cafddfb49b4dec497084a02d89e935a6aa923f0b0e",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.core.scheduler.RepeatingTaskLifecycleTest": {
+      "tests": 27,
+      "xml_sha256": "076440b7715bd8688728dc0234326deabbbea10574c25043106e5f556e5a01ad",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.core.scheduler.StarCoreSchedulerGlobalTimerTest": {
+      "tests": 2,
+      "xml_sha256": "a2d495950a0c93817f9513b4368d0c1771e7a0922787e28333aae0cf0e0e7377",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.baltop.BalTopServiceComprehensiveTest": {
+      "tests": 17,
+      "xml_sha256": "027d26bc027112691490976948f58e33d6ce70c2a2b01a945c55bdaf72c2f489",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.baltop.BalTopServiceTest": {
+      "tests": 12,
+      "xml_sha256": "0d014848f5239b5c04353f90a0c81a33738c4612062ab4d44cc30fe6f8b6c069",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.baltop.BalTopViewLoaderTest": {
+      "tests": 21,
+      "xml_sha256": "2022ca8c6671be4a3de6f998481bec097a640735e2e160f3207f4997917911a9",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.command.EconomyCommandThreadingTest": {
+      "tests": 5,
+      "xml_sha256": "1fda23d4bf46ca50d67dbdcfd910ce27b234c162c29ca7adf560660b58aac32d",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.command.EconomyOwnershipTest": {
+      "tests": 32,
+      "xml_sha256": "3ef4d8b18506dadb1922dbaafb105e0ddd20f382cefa36a577a6466bb5b7e415",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.command.EconomyRemainingOwnershipTest": {
+      "tests": 27,
+      "xml_sha256": "fc20885dc91b0117f6f36bf338d50f2da861a1f53c93972837c323d4eae1ec43",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.command.HomeCommandHomeNameValidationTest": {
+      "tests": 1,
+      "xml_sha256": "a00bbdb6f4b8891ee17929a47e5e400bcb5914a70a96dc21759033dc188443de",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.command.NicknameCommandTest": {
+      "tests": 5,
+      "xml_sha256": "0a4fa91b2b5603bf863464ea77b666f4f50edbf4c9d07c959004e90768fbf141",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.command.NicknameOwnershipTest": {
+      "tests": 20,
+      "xml_sha256": "09df17e08d57f37bdce0d967d51475a0ddabcb4044c4eb0f37a322e022920fa8",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.command.SocialOwnershipTest": {
+      "tests": 25,
+      "xml_sha256": "02e9d6b270dc2bd441044475f0cb01064e89f470f2af810ac2f311aabac567f5",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.data.EssentialsDataManagerAsyncSaveTest": {
+      "tests": 9,
+      "xml_sha256": "9cf47092002bc8b483a48b8ccd0e271e1b1cd939473c6dcd912ef3817b0527b3",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.data.EssentialsNicknameRecoveryTest": {
+      "tests": 5,
+      "xml_sha256": "bc83db6b36dcbf4452af99255b0bb3c9ab30b518426cc503c86ee633cff8e5a2",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.EssentialsCommandLifecycleTest": {
+      "tests": 17,
+      "xml_sha256": "2c9b86b3834e311a334eb18d8d562678907c957325891dc4d4fb3caf8aa6041b",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.EssentialsModuleLifecycleTest": {
+      "tests": 8,
+      "xml_sha256": "92d37ae4d0d6ff314aa4e2b4e301d1d603d2571071a7e25f929d8f6369e54ee9",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.EssentialsPermissionsTest": {
+      "tests": 4,
+      "xml_sha256": "f32694047db728c067e3f76727ea41376cb235b4b9c6b69cfe85206929038793",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.EssentialsRankingLifecycleTest": {
+      "tests": 7,
+      "xml_sha256": "8ef214690ff55ae505025b66261fdb761eb141e264c380db6d04cac94e1aab97",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.EssentialsSocialSessionTest": {
+      "tests": 3,
+      "xml_sha256": "edf2ef50860984403ae82d561ea2a4d9d663142480a5bdd51d452824a621e060",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.gui.BalTopGuiSnapshotTest": {
+      "tests": 3,
+      "xml_sha256": "5bee3f5c9e4fd87149ec96593087dd6332bb2bb119bfa42cac9f4612fded5f6b",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.home.HomeServiceComprehensiveTest": {
+      "tests": 32,
+      "xml_sha256": "725a13f4e3ac615105e3510540b5ac3b149354b32363e63276eae37374762bf2",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.home.HomeServiceTest": {
+      "tests": 15,
+      "xml_sha256": "23db1cc36da217b19ac71d8b378dc36ff0f8d79acd93f54707439b1af8645822",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.listener.EssentialsGuiListenerInputContractTest": {
+      "tests": 1,
+      "xml_sha256": "ae6f71a1550f00988e8b429e5bfc7fe84f4e4ce9da2490924bc3bf60c39ab0a3",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.listener.EssentialsGuiListenerInventorySafetyTest": {
+      "tests": 6,
+      "xml_sha256": "74315d3865157b59268ecc79704ead876e7d17d4228892664ed246ea2aa091ef",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.listener.EssentialsGuiOwnershipTest": {
+      "tests": 28,
+      "xml_sha256": "9ab625dcb772d147fdf50247874cc0775d023577c94624008ba9a470a8aa80d5",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.nickname.NicknameServiceComprehensiveTest": {
+      "tests": 23,
+      "xml_sha256": "3e033bd548573b2ca59a6be6b71d55c741c578c5bb23f7b24319ec2e5c6338a4",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.nickname.NicknameServiceTest": {
+      "tests": 20,
+      "xml_sha256": "a4dd0446a2a96a408db6365ba2e27051eaff5fe81f18d8e507961591b16c27b3",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.nickname.NicknameStateConcurrencyTest": {
+      "tests": 7,
+      "xml_sha256": "875d3327e8c625d499278e236ec5676c089148e718bb5bad7c18a3856e489452",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.player.PlayerNameDirectoryTest": {
+      "tests": 18,
+      "xml_sha256": "18c9192dc7a137712b46b292fb6026cce5487ab9a35ca753074422afc0e08fb4",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.social.SocialServiceComprehensiveTest": {
+      "tests": 18,
+      "xml_sha256": "e6426fd2cc3ddd53fda289688fe9a2bc9219c7f52d64058489e14ae8e2ed421c",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.social.SocialStateConcurrencyTest": {
+      "tests": 5,
+      "xml_sha256": "c746e1e4b95f8e521c240f23b44d9872d474c9860615d32e0d76be2d73662882",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.teleport.TeleportConfigComprehensiveTest": {
+      "tests": 5,
+      "xml_sha256": "263fcab94f5c6106c2ff841ab84500f4286dc5df1d9bb626c74ea0acd0ab786a",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.teleport.TeleportDelaySystemComprehensiveTest": {
+      "tests": 7,
+      "xml_sha256": "9feb2ad6fe9170820611d0a3c2e8b4d05535f53d103ee21b0935980df356b84e",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.teleport.TeleportOwnershipTest": {
+      "tests": 28,
+      "xml_sha256": "d6f330ff65bfebd876af33d123bef1b19eca6505aff003d98b092ea3303edcb4",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.teleport.TeleportServiceComprehensiveTest": {
+      "tests": 31,
+      "xml_sha256": "6963724f3575d4a768480f2255833d9ba58f476d74f8914733597be2397c57d4",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.essentials.warp.WarpServiceTest": {
+      "tests": 21,
+      "xml_sha256": "2007870927b89027fee498af52d8410d5ae9175a2ac1a437bae94a1c42ba3274",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.foundation.economy.InternalEconomyServiceTest": {
+      "tests": 8,
+      "xml_sha256": "e0fd5e87f60a0baeeea568d8fa2ddfd4892b2c313fcd6a70080da4baed5f846b",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.foundation.economy.PlayerVaultEconomyServiceTest": {
+      "tests": 14,
+      "xml_sha256": "8a8a009fcc4268794d2d9fb08d22280d0f8b45e572dbb2abb49ae98efac09829",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.foundation.economy.transaction.TransactionFabricTest": {
+      "tests": 21,
+      "xml_sha256": "e2722aaa8eb7cc05c19531d17971af530f90cc205f491c8d8688110c0c265521",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.foundation.gui.BookInputSupportTest": {
+      "tests": 4,
+      "xml_sha256": "1c527a57762274a2c045b647c7c3d7f45ad7c2b1df8a7f7b32b901807cfcbefe",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.command.ResourceCommandSafetyTest": {
+      "tests": 6,
+      "xml_sha256": "9bb961a889fad21e6a2355c5b73931d3bd819e914eb68a9bc485117601659a37",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.command.ResourceFactoryCommandTest": {
+      "tests": 4,
+      "xml_sha256": "6043ec7fc943e1b7c22817d8ed1bcd96ff2729f076c0df67e1d24b7409e87b80",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.command.ResourceObjectIdResolverTest": {
+      "tests": 4,
+      "xml_sha256": "b6c308297869e32376ef177edb6e4054e845aa84b3359a5bac7521b263b0a18f",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.command.ResourceProductionCommandTest": {
+      "tests": 3,
+      "xml_sha256": "3685643b73e39d75a299e1f5bbd273feeacdf5e68996aea402bd43ec6825f94a",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.command.ResourceTradeExecutionCommandTest": {
+      "tests": 5,
+      "xml_sha256": "55bb52f34952ae837ba9486f528bf71d6be9b35c215cb37ebc5bf7d144679d49",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.command.TradeCommandArgumentsTest": {
+      "tests": 4,
+      "xml_sha256": "f8ed8beb9810113c1496de8d852c1675eaa325a34a30e2b923b4080ffecf3bca",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.command.TradeCommandSafetyTest": {
+      "tests": 5,
+      "xml_sha256": "671b994f9d958042b178159d2a975509681a5b9fd4a515a9924a1c6808968680",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.command.TradeOfferIdResolverTest": {
+      "tests": 4,
+      "xml_sha256": "a82581224627da1954b1c7d6ea264fb4e329493d17864fef5216c0f5685a9748",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.FactoryCanonicalRecoveryTest": {
+      "tests": 18,
+      "xml_sha256": "2e42fa3178559209dc0c7ad13aa75313d562414686c83b4b8a706027a29a3d00",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.FactoryPersistenceTest": {
+      "tests": 28,
+      "xml_sha256": "17e15ce350c7d0b5b62ff53ed58aec6c66e3a9333e6fac55ca73d1b32b8f86f5",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.FactoryReceiptValidationTest": {
+      "tests": 15,
+      "xml_sha256": "193fb079bd9337605edb7e2806f0061acc25d494dd2e0e8e0cd09cd3d43e5309",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.FactorySnapshotVersionTest": {
+      "tests": 16,
+      "xml_sha256": "3455cb2792e01936e99f32106c84b8cd26fc704a06d682c0bc68b69d02b9ec67",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.gui.ResourceMenuListenerInventorySafetyTest": {
+      "tests": 6,
+      "xml_sha256": "98d4521f95782c315612083ca9b5e9c4cd453039f074426e728812c9b98ecfa5",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.InventoryCommitRecoveryTest": {
+      "tests": 50,
+      "xml_sha256": "1dea66b60d5cff1e8ee3dd2779cedaa8f60858b4c5e18cf91a39c31c3c6b97b6",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.InventorySnapshotValidationTest": {
+      "tests": 132,
+      "xml_sha256": "725ae87dbe9695bf11a6398d1f8a2b29ad3334d86129bb8bf275ff5218cc51b3",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.LegacyResourceImportValidationTest": {
+      "tests": 22,
+      "xml_sha256": "ce2baa9523aa159151ade9d801a4fcee9935268eeb91532471048ea83c652596",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.FactoryTest": {
+      "tests": 2,
+      "xml_sha256": "7c0f2f3160ccb224f4a6168919dcacd8284a762e0feca2fe38d0f6135bce6660",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.MarketOrderBookTest": {
+      "tests": 4,
+      "xml_sha256": "55dd47851a29b53fdd504c39a20731a7db8018a2c8d556ae40e457ddfdce99b3",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.NationalReserveTest": {
+      "tests": 2,
+      "xml_sha256": "7400dc3b9be661fc4682c7a9062c5d12b4ca6ffba8fb9dd7b81fa9e92977f5b2",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.ProcessingRecipeTest": {
+      "tests": 2,
+      "xml_sha256": "1765c6b51ea04fb3346775ea67aa94f57b700d494124746cd74fbc23847015a6",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.ResourceDistributionTest": {
+      "tests": 2,
+      "xml_sha256": "c8e31b80581d804231085a019d6fc49648b18df5a4d7b43019a28030cff0dbd2",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.ResourceEmbargoTest": {
+      "tests": 3,
+      "xml_sha256": "c63c246f77cb7f02f90330dbfc11f7d7d1385e662025bb2b50653c4af3af2a54",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.ResourceMonopolyTest": {
+      "tests": 1,
+      "xml_sha256": "00831f770ddb7db6d37c8323ff58932f48050ae67f71febaee02478f620b8bdb",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.ResourcePriceTest": {
+      "tests": 3,
+      "xml_sha256": "03e9c40f5055032495e3a0ca9a5e8beb54a29b6813fcc2b5448a6f4cc52e00a4",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.ResourceQuotaTest": {
+      "tests": 2,
+      "xml_sha256": "3af97bc520092e86b36e960fd1e0461be512f3ab432d92ccea1990e395e6fe0d",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.TradeAgreementTest": {
+      "tests": 3,
+      "xml_sha256": "2780fcab0b20cc908e78256df49c3e97dd23ec5f7eeaa0c3a1c9afad6b6c24bc",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.TradeOrderTest": {
+      "tests": 2,
+      "xml_sha256": "f3740ff2d1ec695ec42a3b791b048fea6754e9899f769acd1fb1ce8f3848dc6f",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.TradeRecordTest": {
+      "tests": 5,
+      "xml_sha256": "8ccdbee0b67b9cbb70ed92fee420178c55aebb6fbdbace6655bddff2c0ecfda9",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.model.TradeRouteTest": {
+      "tests": 2,
+      "xml_sha256": "056a0fa5c5c7f736390dbdf224bcf7836d93d830633ffc93547e90ff955c1aa7",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.NationResourceTransactionDescriptionLimitTest": {
+      "tests": 11,
+      "xml_sha256": "7f64fba69db7aad06fc89210894f45f1d25c188c0dabbfb9784ab2634dcc3853",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.NativeTradeExecutionRecoveryTest": {
+      "tests": 106,
+      "xml_sha256": "150015cae54bc681a6f5fa8cfba2c1571dc919658a0c8d5295fb9cb09ca02b94",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.NativeTradeExecutionValidationTest": {
+      "tests": 34,
+      "xml_sha256": "f30c3c253c4b375c84cb2839130fcd8448d53e26a063b183978ae25ceb899639",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.PlayerTradeAuthorizationBoundaryTest": {
+      "tests": 3,
+      "xml_sha256": "b5f3c3aae5b01b15fd5fa757f45231a2400b9b46602b702f9bea01c3922f9b18",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.PlayerTradeCompensationRecoveryTest": {
+      "tests": 3,
+      "xml_sha256": "a179e75b9c3b7b486eb59f9847847ca46576948fe4d1e1f33f57b367873cd74b",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.PlayerTradeGuiContractTest": {
+      "tests": 6,
+      "xml_sha256": "e36bc752bd6b407d692fb89f83755895a877abcba3211c7199e99c7991870227",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.PlayerTradeOfferTest": {
+      "tests": 1,
+      "xml_sha256": "2ee0dbef86537f534ac7f2d0b2872351f78355a53620abab46bfb6140001725b",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ProductionPersistenceTest": {
+      "tests": 8,
+      "xml_sha256": "d1a9f45a038ff7930f86107ab92b162c4002bf5fdd5afb8947d11ab403b9d5b2",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ResourceModuleNpcMarketRestartTest": {
+      "tests": 3,
+      "xml_sha256": "b3c24c71253932cf49f655abfdbfe6d02a2166d87fe4458fb99ccc4db80fb92e",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ResourceQuotaRenewalTest": {
+      "tests": 24,
+      "xml_sha256": "3a98361c6b4f0f57a28b27d013088d73cb96a1b6c414811454d3620b0bae9618",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ResourceStateCodecTest": {
+      "tests": 10,
+      "xml_sha256": "d5ec116691d45861e3cb5dd62e814d1f97695a8a831dd0cebadb57365453876d",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ResourceTariffTest": {
+      "tests": 3,
+      "xml_sha256": "4e51078b3e50c8c4291a171209f1730416c0310712aedaa86b561ced4c410e39",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ResourceTradeLockingTest": {
+      "tests": 32,
+      "xml_sha256": "4009fdcdd2d286026e2e3a8a9e0e4c7e7d6c64cdcbd4acd1b0edb1c8d5df18b1",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ResourceTradeOwnershipTest": {
+      "tests": 47,
+      "xml_sha256": "7e6d62da9968bae904c58a9b7aa6d13d20cec821134a15fb01966568bef68671",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ResourceTradeTermsTest": {
+      "tests": 4,
+      "xml_sha256": "b6881e3b49dfda9045f1b6cf169c2c14f822a8ffb350116c8b777c22ca9e70c5",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ResourceTransactionPersistenceTest": {
+      "tests": 9,
+      "xml_sha256": "2be529d479d3a285ec798c7225150bf0cca43937ba47d160cb9b795d61f6e2db",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ResourceTransferReceiptStoreTest": {
+      "tests": 4,
+      "xml_sha256": "02b3668fb489bdf53997821c310ffe3b2ae909a0f1335e4b4261d52af8023e76",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.ResourceTransferRecoveryTest": {
+      "tests": 16,
+      "xml_sha256": "f53d8fdf00b9b1d1de2d37b964f7fdc8ce699604c75ea83210bfa374cf135a60",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SimpleMarketOrderBookServiceTest": {
+      "tests": 25,
+      "xml_sha256": "c31fd2a5d136028031c4cc45dd8c4a928c1da3d4ceaae7b8d790385c0b175107",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SimplePlayerQuickTradeTaxTest": {
+      "tests": 15,
+      "xml_sha256": "e6ae82a8ffa9590bc966dc2b623fbd79780e418b2bb7e1ea1f030e8379f42ee3",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SimpleResourceMonopolyServiceTest": {
+      "tests": 4,
+      "xml_sha256": "78de8a36ee0e7642bc57ee028230e76ffe8ef0e35733ab41ae1ab192955fc90e",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SimpleResourcePriceServiceTest": {
+      "tests": 2,
+      "xml_sha256": "141786108014c7d34c931018ca5d801812706c4f55585e47167bd71c85bc6a08",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SimpleResourceTradeAuthorizationTest": {
+      "tests": 6,
+      "xml_sha256": "259a65ef38030b67f09fef89a63f144136fb9589b14e93849b4149bb63e89212",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SimpleResourceTradeExecutionTest": {
+      "tests": 6,
+      "xml_sha256": "86a58e744c33f18e9862250c2c5273d81a76a38910e2d8698d4732c6c94a6024",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SimpleTradeHistoryCommitTest": {
+      "tests": 9,
+      "xml_sha256": "bc136130ba1e520c80a7eee1c9a10d8497adc62aa3b26179701c721d8f4a03f3",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SimpleTradeHistoryPagingTest": {
+      "tests": 2,
+      "xml_sha256": "f9d01b2b21590d9391e2c58beeeda54af521c5e0586157cdfd0354647a863990",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SimpleTradeTaxServiceTransactionTest": {
+      "tests": 3,
+      "xml_sha256": "1a01a6f2f5c6833898fe3ef7473ed45c6441fcfa2cd4ea756a41fb850b6a006d",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SimpleTradeTaxServiceValidationTest": {
+      "tests": 11,
+      "xml_sha256": "68fb32a81e28fe5ab361f48b8feb8bd6176f670f9693d4dc1d0fb4557548e162",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SqlFactoryArchiveTest": {
+      "tests": 28,
+      "xml_sha256": "b9c8f72b9cadf9ba04e77c78acfa29a9ae0916dd26d908e94c16b44213d84f2f",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SqlFactoryPersistenceTest": {
+      "tests": 12,
+      "xml_sha256": "6cf222c8afe4988787a224c423c15f52e7ee49c9776a9b5e03066d6818dcf970",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SqlProductionPersistenceTest": {
+      "tests": 5,
+      "xml_sha256": "29044f924fc8964b4f79c4799ce87de34682b0720e914832825b45b3cac1d7c3",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SqlResourceSnapshotDiffTest": {
+      "tests": 9,
+      "xml_sha256": "a42dd4c6db0909289cb000ac403ac258e8d2611dab3bfa2939a22ff29eb075a9",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.SqlResourceTransferMigrationTest": {
+      "tests": 2,
+      "xml_sha256": "e6cc92c0eb6fb5f7a5319aece5f7a8bc87bc51ab2f449df2896bb58dd7e7fa07",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.TradeCommitJournalTest": {
+      "tests": 11,
+      "xml_sha256": "2d325aa2f211b7e6df5bf9e7a6a5e1876521812d6909d606713f1d04ea9ab03c",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.TradeExecutionArchiveTest": {
+      "tests": 50,
+      "xml_sha256": "04c39a051da5d8bc9115a48d156c6e6e29b4d0327cfe70d94c97ca26c007314e",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.TradeExecutionReceiptValidationTest": {
+      "tests": 49,
+      "xml_sha256": "159825a04831fd6c56eadb2169bef2d0582a5067185e3c0add675b7ee92e293b",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.TradeJournalCompatibilityTest": {
+      "tests": 6,
+      "xml_sha256": "390387f60e74681959299929e4a0e3de97b8b2cbeb066d157eb764642bb49796",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.TradeSettlementRecoveryTest": {
+      "tests": 12,
+      "xml_sha256": "69fdf78c2fded1e5d037f9d3b1c876dd81e66624f0428f840984a84ee982ab26",
+      "phase": "test-regression"
+    },
+    "dev.starcore.starcore.module.resource.TradeSnapshotValidationTest": {
+      "tests": 376,
+      "xml_sha256": "fd034f15cd0cc917444c547751f28375264f8f515698b56deb777b536b7d938c",
+      "phase": "test-remainder"
+    }
+  },
+  "runs": {
+    "compile-initial": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 14.390999999945052,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "spotless:apply",
+        "-Dmaven.compiler.useIncrementalCompilation=false",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "test-initial": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 78,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 50.34400000004098,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=TradeCommitJournalTest,TradeSettlementRecoveryTest,SimpleTradeHistoryCommitTest,SimpleTradeHistoryServiceTest,SimpleMarketOrderBookServiceTest,SimplePlayerQuickTradeTaxTest,PlayerTradeAuthorizationBoundaryTest,PlayerTradeCompensationRecoveryTest",
+        "surefire:test"
+      ]
+    },
+    "compile-compatibility": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 9.968999999924563,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "spotless:apply",
+        "-Dmaven.compiler.useIncrementalCompilation=false",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "test-compatibility": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 6.51500000001397,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=TradeJournalCompatibilityTest",
+        "surefire:test"
+      ]
+    },
+    "test-regression": {
+      "exit_code": 1,
+      "totals": {
+        "tests": 1929,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 266.26600000006147,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=dev.starcore.starcore.core.scheduler.**,dev.starcore.starcore.essentials.**,dev.starcore.starcore.module.resource.**,BookInputSupportTest,InternalEconomyServiceTest,PlayerVaultEconomyServiceTest,TransactionFabricTest",
+        "surefire:test"
+      ]
+    },
+    "test-remainder": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 376,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 39.46899999992456,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=dev.starcore.starcore.module.resource.ResourceStateCodecNpcMarketTest,dev.starcore.starcore.module.resource.TradeSnapshotValidationTest",
+        "surefire:test"
+      ]
+    },
+    "package": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 54.125,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.main.skip=true",
+        "-Dmaven.test.skip=true",
+        "verify"
+      ]
+    },
+    "sbom": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 14.15700000000652,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "cyclonedx:makeAggregateBom@generate-sbom"
+      ]
+    }
+  },
+  "interrupted_run_audit": {
+    "status": "INCOMPLETE_HEAP_OOM",
+    "completed_suites": 111,
+    "completed_totals": {
+      "tests": 1553,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "remaining_suites": [
+      "dev.starcore.starcore.module.resource.ResourceStateCodecNpcMarketTest",
+      "dev.starcore.starcore.module.resource.TradeSnapshotValidationTest"
+    ],
+    "note": "Original result.json counted stale XML for a started but incomplete suite; only complete log lines count here."
+  },
+  "new_tests": {
+    "upstream": 23,
+    "merge_compatibility": 6
+  },
+  "artifacts": {
+    "status": "VERIFIED",
+    "starcore_sha256": "e690d49296f580ba40d037f64d0a8f0720e38627d97a938951b75f26ed2fb41e",
+    "old_sha256": "088168537d6d8cc2f3f63c3b8b7172468f7c307bd7579b75ea8eaeb8aa553183",
+    "chronicle_sha256": "42c0e27b7726548faf8f2bf330af3de44e44225632645824ccf3ad102c22f071",
+    "class_hashes": {
+      "dev/starcore/starcore/module/resource/ResourceModule.class": "57762a212d24fd87dce7f8ace0cc1df763719ea37a5654bf0657c3a9ed9d763b",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$BuyEscrow.class": "013bc11a997a2e99acc3ca4c2f5175be4478f61d28997e29f2082843fdb54b08",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$ExpiredOrdersCleanedEvent.class": "d8b7b070b1cf8f8939d0e8b4b8545d409b2876283e81e4013688b689587e02a0",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$OrderCancelledEvent.class": "bcc8454f377b4e5e2074f09ea01358037049e955f67141bcc773eb1d3e8065f6",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$OrderRejectedEvent.class": "00adfaf1ec21b58a6bc8460bcfecffc9247d0576487d26dd38219b503e0a7753",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$OrderSubmittedEvent.class": "b9246c59cc23f965c18ba1db73580e5f6a511d9d71e7b3706513e7179743ea53",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService$TradeExecutedEvent.class": "d608e5c4897a4fc52efd9659c2383f71af2a8f3d12d621a2dda82ea4a4c51767",
+      "dev/starcore/starcore/module/resource/SimpleMarketOrderBookService.class": "6bae636575d0cc7269fc32a9fc8617d646a4b0f6e2cc554558d2395f97837a9a",
+      "dev/starcore/starcore/module/resource/SimplePlayerTradeService$ExpiredOffersCleanedEvent.class": "d55276e4a2575cbca279d99d91755b04fcda9dd5865265dc6257bfc5248f891e",
+      "dev/starcore/starcore/module/resource/SimplePlayerTradeService$QuickTradeExecutedEvent.class": "d934bab1845ba07089e43b135832c2e768c3b65ae21c953795a8b9a708238961",
+      "dev/starcore/starcore/module/resource/SimplePlayerTradeService$TradeAcceptedEvent.class": "1ae1f3bd8450c0eb61f0123dc6312c736ca40fe9fbf641143f79e9f0c249e984",
+      "dev/starcore/starcore/module/resource/SimplePlayerTradeService$TradeOfferAcceptedEvent.class": "13ac86b253f55ba8d8afdba83e13d4b39829db5f2a819b7e34820ea609d56ec5",
+      "dev/starcore/starcore/module/resource/SimplePlayerTradeService$TradeOfferCancelledEvent.class": "e6f898140a1e389698708c4c307b428a87aa214ac09eec1949c785600421d4ca",
+      "dev/starcore/starcore/module/resource/SimplePlayerTradeService$TradeOfferCreatedEvent.class": "f6d0a24351c75a3e53782413665197c81231e2969ea0a4768d431d639bcfc5ce",
+      "dev/starcore/starcore/module/resource/SimplePlayerTradeService$TradeOfferRejectedEvent.class": "21f471218da36c110ec94cc5fdfd138d55fb62b6d00adf56ec6b1e33cd357d69",
+      "dev/starcore/starcore/module/resource/SimplePlayerTradeService$TradeRejectedEvent.class": "b0042a66b93a044d7184d64a4612f57ad6c52fdc2d8d404d57d3cc4c2c93876e",
+      "dev/starcore/starcore/module/resource/SimplePlayerTradeService.class": "0c366da9d80b4494a8eb6c3e6e1e9067af663704dfe571d5922f2ec74ade422a",
+      "dev/starcore/starcore/module/resource/SimpleTradeHistoryService.class": "c47db9757edea70c850ea7b722bf9cf8565e0b34c1855494160b2c74bda5e273",
+      "dev/starcore/starcore/module/resource/TradeHistoryService$TradeStatistics.class": "abc2a54823da83931edd3482786688f87c77360c31a9a85ded3cfafd3e1d1fc0",
+      "dev/starcore/starcore/module/resource/TradeHistoryService.class": "d843eb30c9f699e933bf398f9ca696293ad6b5cd343ec56403f43e57d039f9dd",
+      "dev/starcore/starcore/module/resource/TradeHistoryChange.class": "be597e58c356d49b6823c0acd220959757461764335efb5d6cc177f3bdbaa571",
+      "dev/starcore/starcore/module/resource/TradeCommitJournal.class": "d08981529ea60fa4b051ecc6ca292cdc2a541c3881538a6f6ab4ebc6753ea89a",
+      "dev/starcore/starcore/module/resource/SettlementTradeJournal$1.class": "2575012ce16d85ba051a53924de2d0378d908717eb91d890ae68e1b77ef29e31",
+      "dev/starcore/starcore/module/resource/SettlementTradeJournal$Head.class": "296831d47bba6f2738c2315b20a572fa6650714eaf8013e0413a8ed34656214c",
+      "dev/starcore/starcore/module/resource/SettlementTradeJournal$RecordWriter.class": "1cd94d3f9b5476b44ef6165c041214bab6e24f5560522962c5ce3d0096125302",
+      "dev/starcore/starcore/module/resource/SettlementTradeJournal$SqlWork.class": "027eba54e11347c55db89bb7d6990bc55101591413dbcc77e94641d99c45f058",
+      "dev/starcore/starcore/module/resource/SettlementTradeJournal.class": "fc08119cf766417b8611ce6c9d650a71170b55f275026e373186f7f42ece49b7",
+      "dev/starcore/starcore/module/resource/TradeRecordCodec.class": "72f19eeb22fdf537a673c788ca6f76728175d13cc3bdc28c9b86ea0a27d64b40",
+      "dev/starcore/starcore/module/resource/TradeSettlementCoordinator$RecoveryReport.class": "91a71b6535c1f4544ca9171d234931374e31b9708aaed06c3108b7936362b7a0",
+      "dev/starcore/starcore/module/resource/TradeSettlementCoordinator.class": "513ccea718c71d870a7f1da73d2ec9b64bae467a37314702b9a467f00bad2675",
+      "dev/starcore/starcore/module/resource/model/TradeHistoryChange.class": "db65f9213d80dc6dbb8c7c571b9c0ef27032cae62c0781862a09ebbd136182f8",
+      "dev/starcore/starcore/module/resource/model/TradeSettlementIntent.class": "6210d6c231338be9f5757e4d1d3332371b2b2cb9985bb90aaf51387f5ffeea7d"
+    },
+    "public_api": {
+      "module/resource/ResourceModule": {
+        "preserved": 31,
+        "added": []
+      },
+      "module/resource/SimpleMarketOrderBookService": {
+        "preserved": 31,
+        "added": [
+          [
+            "public java.util.Set<java.util.UUID> ordersAwaitingReconciliation();",
+            "()Ljava/util/Set;"
+          ],
+          [
+            "public void setTransactionFabric(dev.starcore.starcore.foundation.economy.transaction.TransactionFabric);",
+            "(Ldev/starcore/starcore/foundation/economy/transaction/TransactionFabric;)V"
+          ]
+        ]
+      },
+      "module/resource/SimplePlayerTradeService": {
+        "preserved": 23,
+        "added": [
+          [
+            "public dev.starcore.starcore.module.resource.TradeSettlementCoordinator$RecoveryReport reconcileTradeHistory();",
+            "()Ldev/starcore/starcore/module/resource/TradeSettlementCoordinator$RecoveryReport;"
+          ]
+        ]
+      },
+      "module/resource/SimpleTradeHistoryService": {
+        "preserved": 23,
+        "added": [
+          [
+            "public java.util.List<dev.starcore.starcore.module.resource.model.TradeHistoryChange> tradeChangesAfter(long, int);",
+            "(JI)Ljava/util/List;"
+          ],
+          [
+            "public java.util.List<dev.starcore.starcore.module.resource.model.TradeSettlementIntent> settlementIntentsAfter(java.util.UUID, int);",
+            "(Ljava/util/UUID;I)Ljava/util/List;"
+          ],
+          [
+            "public java.util.Optional<dev.starcore.starcore.module.resource.model.TradeRecord> reconcileSettlement(java.util.UUID, dev.starcore.starcore.foundation.economy.transaction.TransactionRecord);",
+            "(Ljava/util/UUID;Ldev/starcore/starcore/foundation/economy/transaction/TransactionRecord;)Ljava/util/Optional;"
+          ],
+          [
+            "public java.util.UUID tradeHistoryAuthorityDomainId();",
+            "()Ljava/util/UUID;"
+          ],
+          [
+            "public void prepareSettlement(dev.starcore.starcore.module.resource.model.TradeSettlementIntent);",
+            "(Ldev/starcore/starcore/module/resource/model/TradeSettlementIntent;)V"
+          ]
+        ]
+      },
+      "module/resource/TradeHistoryService": {
+        "preserved": 21,
+        "added": [
+          [
+            "public default java.util.List<dev.starcore.starcore.module.resource.model.TradeHistoryChange> tradeChangesAfter(long, int);",
+            "(JI)Ljava/util/List;"
+          ],
+          [
+            "public default java.util.List<dev.starcore.starcore.module.resource.model.TradeSettlementIntent> settlementIntentsAfter(java.util.UUID, int);",
+            "(Ljava/util/UUID;I)Ljava/util/List;"
+          ],
+          [
+            "public default java.util.Optional<dev.starcore.starcore.module.resource.model.TradeRecord> reconcileSettlement(java.util.UUID, dev.starcore.starcore.foundation.economy.transaction.TransactionRecord);",
+            "(Ljava/util/UUID;Ldev/starcore/starcore/foundation/economy/transaction/TransactionRecord;)Ljava/util/Optional;"
+          ],
+          [
+            "public default java.util.UUID tradeHistoryAuthorityDomainId();",
+            "()Ljava/util/UUID;"
+          ],
+          [
+            "public default void prepareSettlement(dev.starcore.starcore.module.resource.model.TradeSettlementIntent);",
+            "(Ldev/starcore/starcore/module/resource/model/TradeSettlementIntent;)V"
+          ]
+        ]
+      },
+      "module/resource/TradeHistoryChange": {
+        "preserved": 10,
+        "added": []
+      }
+    },
+    "source_hashes": {
+      "src/main/java/dev/starcore/starcore/module/resource/ResourceModule.java": "e89c298aa3561478e96ac18b14cfda44010e82909a33956fdcb0b6c81397fc48",
+      "src/main/java/dev/starcore/starcore/module/resource/SettlementTradeJournal.java": "0b1632d038b797310712aa5d188ac23459643e5ca90da4cf1ecc6f28ee66d982",
+      "src/main/java/dev/starcore/starcore/module/resource/SimpleMarketOrderBookService.java": "06d2e5e06cc04a197778c75ec79b0a41c55b7595340fb1a1eddcdf944584faa5",
+      "src/main/java/dev/starcore/starcore/module/resource/SimplePlayerTradeService.java": "65a38e278bbc1c27caa6a20c3b822bf42b04b52a09f6dbec16471933914fdb3b",
+      "src/main/java/dev/starcore/starcore/module/resource/SimpleTradeHistoryService.java": "67d32feeb460fd61f72989038d7f2885a7720c23cd6d900d5866f66ea3d226f6",
+      "src/main/java/dev/starcore/starcore/module/resource/TradeHistoryService.java": "e219d61f02dd592cc8abff95bb4c90c3104cfae1acb20a463604bae04dc191c2",
+      "src/main/java/dev/starcore/starcore/module/resource/TradeRecordCodec.java": "123f6283be41e1585df03e1da7c1a5ae4c72ac2935e5ea318705418107b311ed",
+      "src/main/java/dev/starcore/starcore/module/resource/TradeSettlementCoordinator.java": "70d2aa71e5f93d94c916d547e6908ff05ad2d6249fdbd54c2432d17ae2d6eaeb",
+      "src/main/java/dev/starcore/starcore/module/resource/model/TradeHistoryChange.java": "0744efff4e33ddfd49fb6a50f6b44b4ee024cc0f22976aab1b71883151d6011e",
+      "src/main/java/dev/starcore/starcore/module/resource/model/TradeSettlementIntent.java": "8b20f260927359b4d92fd779eb9d549d2e416459c6d0b6858fe36ca5e35ba131",
+      "src/test/java/dev/starcore/starcore/module/resource/PlayerTradeAuthorizationBoundaryTest.java": "94df2c2406a2408a942c403d19f5f0c3791dafa031d20925988ec4f1861805d6",
+      "src/test/java/dev/starcore/starcore/module/resource/PlayerTradeCompensationRecoveryTest.java": "06897ecd44f7c606917f65bf7df8f912b31b3b15c37f1ef15962b027dc7a5d41",
+      "src/test/java/dev/starcore/starcore/module/resource/SimpleMarketOrderBookServiceTest.java": "3c63807f330a8765b5260cddf5e9eb14fcdeaa27871f5977f8127c28ba69583c",
+      "src/test/java/dev/starcore/starcore/module/resource/SimplePlayerQuickTradeTaxTest.java": "b0aacf66b882fc9801f78b509e8448eff4d7b2515ac1b6e69fcd1c36cd72dbc8",
+      "src/test/java/dev/starcore/starcore/module/resource/SimpleTradeHistoryCommitTest.java": "bbbfa9b5826d995ae5a376c89159bb1be70f568fe9431302b674df1519751dd3",
+      "src/test/java/dev/starcore/starcore/module/resource/TradeCommitJournalTest.java": "5922f6114835fe929ad0e4fa49cd6c4ab5b321dbbab4f971d1e235cf34f98977",
+      "src/test/java/dev/starcore/starcore/module/resource/TradeJournalCompatibilityTest.java": "59dabba33123ebcf044ca2247dd64b97afb64775d363587efc7aea3e491f5d1e",
+      "src/test/java/dev/starcore/starcore/module/resource/TradeSettlementRecoveryTest.java": "c983b283e18a457eef78d6c9e93dcc2fec812244cb5e50cef368867a80950314",
+      "src/test/java/dev/starcore/starcore/module/resource/TradeTestStorage.java": "3fd8c216276e90609bf5653262b5f4fde3bc539a4623a87b505404af2ebafb88"
+    },
+    "fixtures": [
+      "EpicCampaignPaperFixture.java",
+      "TechnologyHistoryPaperFixture.java",
+      "TradeHistoryPaperFixture.java"
+    ],
+    "native_chronicle_probe": [
+      {
+        "accepted": 134,
+        "contributions": 534,
+        "cursor": 134,
+        "events": 134
+      },
+      {
+        "accepted": 0,
+        "contributions": 534,
+        "cursor": 134,
+        "events": 134
+      }
+    ],
+    "sbom_components": 36,
+    "limits": [
+      "Original branch public signatures are preserved; upstream UUID historyAuthorityDomainId is renamed tradeHistoryAuthorityDomainId. Upstream consumers of that descriptor must recompile.",
+      "Actual native service and Chronicle collector over a copied archived database in separate JVMs; historical contribution import follows existing generic-source semantics, with no online audience or asset calls.",
+      "Fixture compilation is not live acceptance. Existing archived live reports retain their original artifact scope."
+    ]
+  },
+  "databases": {
+    "status": "VERIFIED",
+    "old_jar": "088168537d6d8cc2f3f63c3b8b7172468f7c307bd7579b75ea8eaeb8aa553183",
+    "current_jar": "e690d49296f580ba40d037f64d0a8f0720e38627d97a938951b75f26ed2fb41e",
+    "legacy": {
+      "seed": {
+        "mode": "seed",
+        "domain": "751154b7-709e-4d98-8391-3bd01f72104b",
+        "commits": 131,
+        "head": 131
+      },
+      "upgrade": {
+        "mode": "reopen",
+        "domain": "751154b7-709e-4d98-8391-3bd01f72104b",
+        "commits": 131,
+        "head": 131
+      },
+      "reopen": {
+        "mode": "reopen",
+        "domain": "751154b7-709e-4d98-8391-3bd01f72104b",
+        "commits": 131,
+        "head": 131
+      },
+      "original_tables": {
+        "trade_history": {
+          "rows": 129,
+          "sha256": "7e44a8edd194447fdb3247d89b7db0e8d0f4457d75a676c706307819c9ac07b1"
+        },
+        "trade_commit_authority": {
+          "rows": 1,
+          "sha256": "583fffac48c269e3ddb5c6d6b069a782243daae65b61a9d772d2a4e84900b517"
+        },
+        "trade_commit_log": {
+          "rows": 131,
+          "sha256": "934d04f84de19d1260da1678a03b95689e48682461a3ccb6c45a6a3bef4377e0"
+        }
+      }
+    },
+    "upstream": {
+      "upgrade": {
+        "commits": 134,
+        "scanned": 134,
+        "applied": 0,
+        "transactions": 134,
+        "domain": "f93a7800-fce1-49aa-b019-019323cda4d5"
+      },
+      "reopen": {
+        "commits": 134,
+        "scanned": 134,
+        "applied": 0,
+        "transactions": 134,
+        "domain": "f93a7800-fce1-49aa-b019-019323cda4d5"
+      },
+      "original_tables": {
+        "starcore_player_locale": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "pvp_elo_history": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "pvp_matchmaking_queue": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "pvp_season": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_alliance_state": {
+          "rows": 2,
+          "sha256": "ab66c4591684c02edac2821c9673b59e10e862a3ad45ce3235964151d6effa92"
+        },
+        "starcore_metadata": {
+          "rows": 3,
+          "sha256": "50c353604de2cac18479f34575fdc819914fb4f1659d7be4d4ff2746980ca66c"
+        },
+        "starcore_player_balances": {
+          "rows": 2,
+          "sha256": "7b97057d4c9097771172e907f9649c3792256b23670d652ec00feb1c1b76b457"
+        },
+        "starcore_territory_claims": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_territories": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_territories_permissions": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_territory_members": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_subregions": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_subregions_permissions": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "audit_logs": {
+          "rows": 413,
+          "sha256": "d85ba32bd9e6209c69c0ead555cb9a8fd6450e5b9d12f32b87d4097157144cdc"
+        },
+        "starcore_achievements": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_achievement_stats": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_achievement_reward_pending": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_achievement_reward_delivered": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_mail_v2": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_mail_v2_attachments": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_nation_state": {
+          "rows": 31,
+          "sha256": "cbd1274d3882e35b1432897ed2becf0fda7055658e447edfcbd195aedd9530e3"
+        },
+        "starcore_nation_founding_receipts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_nation_resource_district_state": {
+          "rows": 1,
+          "sha256": "2cfa724b5f807662211667c8ca1d545dfcf990889a7d8b3c043aabaf07c1ae24"
+        },
+        "shop_shops": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "shop_items": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "shop_transactions": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "shop_npc_bindings": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "shop_trade_records": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "shop_templates": {
+          "rows": 4,
+          "sha256": "c57438145fa4715271ce9e235e02416eee31112f3796faa6ae0953d568eccd1e"
+        },
+        "shop_auction_listings": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_mails": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_mail_attachments": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_mail_attachment_claims": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "duel_history": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "duel_player_stats": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_friend_relations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_friend_requests": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_blacklist": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_player_status": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_guilds": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_guild_members": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_guild_invites": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_parties": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_party_members": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_party_invites": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "social_activities": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "social_activity_participants": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "relationships": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "relationship_history": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "business_transactions": {
+          "rows": 264,
+          "sha256": "b0d9ee1976298bf8ffe8e7f7058e6f243da0c8abad8ed959a793ba7f6139a040"
+        },
+        "business_player_index": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "business_nation_index": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_dynasties": {
+          "rows": 2,
+          "sha256": "191476c9a536a9fd525e9163a5c529b673cb2a04dcc75f1ace41b0d88e578f66"
+        },
+        "starcore_dynasty_heirs": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_event_state": {
+          "rows": 1,
+          "sha256": "2cfa724b5f807662211667c8ca1d545dfcf990889a7d8b3c043aabaf07c1ae24"
+        },
+        "parliament": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "parliament_members": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "parliament_bills": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "parliament_votes": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "political_parties": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "party_members": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "party_alliances": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "alliance_members": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "court_judges": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "court_cases": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "court_jury": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "court_verdicts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "court_appeals": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_court_debts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_court_history": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "lease_contracts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "player_reputation": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "reputation_history": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "player_influence": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "influence_sources": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_culture": {
+          "rows": 2,
+          "sha256": "5775d90061c5666a0dbe7b4280a74559b8de0e5afb306bea098e1cd9d02780d8"
+        },
+        "starcore_social_events": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_alliances": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "influence_leaderboard_history": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "influence_leaderboard_titles": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "leaderboard_notifications": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sovereignty_declarations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "sovereignty_claims": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_officer_state": {
+          "rows": 1,
+          "sha256": "2cfa724b5f807662211667c8ca1d545dfcf990889a7d8b3c043aabaf07c1ae24"
+        },
+        "starcore_resolution_state": {
+          "rows": 1,
+          "sha256": "2cfa724b5f807662211667c8ca1d545dfcf990889a7d8b3c043aabaf07c1ae24"
+        },
+        "starcore_diplomacy_state": {
+          "rows": 6,
+          "sha256": "a5c0d58abeec27b23ec31c0052994304729e85758f5fc19ca49709aff3c6d9c4"
+        },
+        "starcore_diplomacy_invite_receipts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_diplomacy_acceptance_receipts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_treasury_state": {
+          "rows": 8,
+          "sha256": "cf53e4b66b333e148dc24f772e57a6251fb338505f8a255941bbd46fcc9b5fa1"
+        },
+        "starcore_budget_state": {
+          "rows": 6,
+          "sha256": "b4e3dcdab6ac76d4ad81139357381e00490cf0124ca6c194a55e7cc0d2c320c6"
+        },
+        "starcore_donations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "resource_funded_trade_taxes": {
+          "rows": 134,
+          "sha256": "3d3f89af59407badb8c6d34b09ec8acfb0d79fb345e7a65b9e0248120ed8d908"
+        },
+        "trade_history": {
+          "rows": 134,
+          "sha256": "87dfb85f2cfb7fb95d56f25ca47b82fc0521126b2e0521dd4c46af61d5b0d7cd"
+        },
+        "trade_history_authority": {
+          "rows": 1,
+          "sha256": "a3fd3a6b88ada0dccb592ae4fc5860d60b6899f67f3b002f5ccc41d4fa039a56"
+        },
+        "trade_history_identity": {
+          "rows": 134,
+          "sha256": "4b373f0b9038de97ffd00d66b1b7275aeb6c7bf535153741e3ac30f651a6327f"
+        },
+        "trade_history_commits": {
+          "rows": 134,
+          "sha256": "540ae6a8c978ab53f1522d1c6812956d2f95dbbe200522d5ac0545467b6fa189"
+        },
+        "trade_settlement_intents": {
+          "rows": 134,
+          "sha256": "ef83e432b593a8181f2124e384f78ed069ff54c17f19cf31f4bbaff61cf3252f"
+        },
+        "starcore_resource_state": {
+          "rows": 14,
+          "sha256": "3bdc82689a3b850ee07ded3da330d720912ab95bddee666cd5d3c3c186dc0059"
+        },
+        "starcore_resource_transfer_receipts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_resource_state_migrations": {
+          "rows": 1,
+          "sha256": "6a2ced1a89d42a95da989384e7b9a306145e6c563228a9bc39660d94f7102c26"
+        },
+        "treasury_funded_taxes": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "treasury_tax_compensations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_lease_contracts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_lease_payments": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_lease_chunk_index": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "zone_state": {
+          "rows": 1,
+          "sha256": "03a5cc14514db3c6e5bc9cc791d6f5a84a409acc59b4e4e4bdc870a45f723302"
+        },
+        "starcore_bankruptcy_state": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "combat_player_states": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "combat_history": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "combat_player_pvp": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "mercenary_contracts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_policy_state": {
+          "rows": 3,
+          "sha256": "5262c93404a26f10fcc851d16da078d867977682e1df25ce0a3cf617086b29f0"
+        },
+        "starcore_technology_state": {
+          "rows": 3,
+          "sha256": "cc844905c802d9ce9fc00bd40065b422387ae373b8151609ff933157c13a7c81"
+        },
+        "starcore_technology_research": {
+          "rows": 2,
+          "sha256": "ab289fc01b9a4291d2abf94fce9d4cbdad94150b368fde53508cacb205372e13"
+        },
+        "starcore_war_state": {
+          "rows": 2,
+          "sha256": "2ecdd1ee5fab920cb13a5682420df448ac8a27c28e7cf88547c87b281a6ec098"
+        },
+        "starcore_wars": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_battlefield_state": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_treaty_data": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_military_alliance_state": {
+          "rows": 2,
+          "sha256": "975ad4f7f0f00f8fab6826ac9f1648caaf0824fa02cd0bcb502d8ed75a189eeb"
+        },
+        "weather_weather_state": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "weather_weather_state_meta": {
+          "rows": 1,
+          "sha256": "4e3970018fa500922ce5c087f84c734d7b47b0651da2f2e17226801885838032"
+        },
+        "weather_tactics": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "weather_tactics_boosts": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "starcore_player_titles": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "transaction_file_sha256": "d6d7367933928e9c1653fad4c317626000f888a1e99a59c43ddadf7d396e0663"
+    },
+    "upstream_evidence": {
+      "files": 5524,
+      "sha256": "b6c45b78ecd0fa4a6eb15a643733c7287980cc118ce3b5294248173e488d4fd0"
+    },
+    "limits": "Independent JVM service probes of database copies; no Minecraft or asset API calls. Legacy sample is synthetic service data, upstream 134-settlement data comes from the archived real service run."
+  },
+  "limits": [
+    "The broad run failed with Java heap OOM after 1553 completed tests. A fresh JVM passed the remaining 376. The failed process remains failed; only completed-suite reports form the 1929 aggregate.",
+    "The initial interrupted runner summary copied stale XML for the unfinished suite. result-audit.json and completed_suites supersede that total; raw evidence is preserved.",
+    "This is a selected resource/scheduler/Essentials/economy/book regression, not all StarCore tests. Existing POM exclusions and one disabled empty class remain unchanged.",
+    "Each JVM was limited to 256 MiB for Maven, 128 MiB for probes, and runs after the GUI checkpoint were serialized; no local coverage result.",
+    "No Minecraft, production deployment, third-party economy, MySQL or full Folia verification.",
+    "Legacy generic-source import semantics are preserved. Fresh/upstream committedChangesAfter uses deterministic receipt IDs, not the technology archive-only first-install protocol.",
+    "The upstream UUID-returning domain getter is renamed tradeHistoryAuthorityDomainId because it conflicts with the installed Optional getter. Upstream consumers need recompilation.",
+    "Chronicle product Java/resources unchanged; 1076 local tests and CI #199 remain the preceding product checkpoint. Three updated fixtures compile against the paired jars."
+  ],
+  "evidence_files": 355,
+  "evidence_sha256": "815f163d6e4217f9652910e25c6a3a118ff8406bc71e4cb2e20cd46b0cc51722"
+}

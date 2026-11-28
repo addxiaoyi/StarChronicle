@@ -9,6 +9,8 @@ import dev.starcore.starcore.module.treasury.TreasuryService;
 import dev.starcore.starcore.module.war.WarService;
 import dev.starcore.starcore.quest.QuestService;
 import io.github.addxiaoyi.starchronicle.api.ChronicleService;
+import io.github.addxiaoyi.starchronicle.api.WorldEvent;
+import io.github.addxiaoyi.starchronicle.core.MemberReviewLedger;
 import io.github.addxiaoyi.starchronicle.api.epic.*;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
 import java.math.BigDecimal;
@@ -119,6 +121,60 @@ public class EpicCampaignPaperFixture extends JavaPlugin implements CommandExecu
         }
         log("SEEDED",Map.of("A",country("A").toString(),"B",country("B").toString(),"C",country("C").toString(),"testFunds",true,"nonOp",true));
         return null;
+    });}
+    private String memberInstance(){return Objects.requireNonNull(getConfig().getString("membership-instance"));}
+    private CompletionStage<Void> rejected(CompletionStage<?> action,String reason){return action.handle((value,error)->{
+        require(error!=null,reason);log("EXPECTED_REJECTION",Map.of("reason",reason));return null;
+    });}
+    private CompletionStage<?> moveMember(String from,String to){return main(()->{
+        var nations=service(NationService.class);
+        require(nations.removeMember(country(from),uuid("D")),"Native member removal rejected");
+        require(nations.addMember(country(to),uuid("D"),player("D").getName()),"Native member admission rejected");
+        log("MEMBER_NATIVE_MOVE",Map.of("player",uuid("D"),"from",country(from),"to",country(to)));return null;
+    });}
+    private CompletionStage<?> membershipFirst(){
+        var event=new WorldEvent("acceptance:membership","MEMBERSHIP_ACCEPTANCE",Instant.now(),Set.of(uuid("B"),uuid("D")),
+                Set.of(country("A").toString(),country("B").toString()),Map.of("time_basis","ACCEPTANCE_TEST"),"AcceptanceFixture","Explicit isolated test story; membership changes use native services");
+        return api.submit(event).thenCompose(report->api.instances(uuid("D"))).thenCompose(items->{
+            var member=items.stream().filter(i->i.definition().id().equals("membership-acceptance")).findFirst().orElseThrow();
+            return main(()->{getConfig().set("membership-instance",member.id());saveConfig();log("MEMBER_INSTANCE",Map.of("id",member.id()));return null;});
+        }).thenCompose(x->api.choose(memberInstance(),uuid("D"),"vote","yes"))
+          .thenCompose(x->moveMember("A","B"))
+          .thenCompose(x->api.memberReview(memberInstance(),uuid("D")))
+          .thenCompose(review->{require(review.orElseThrow().status()==MemberReviewLedger.Status.PENDING,"Drift must require review");
+              return rejected(api.revalidateMember(memberInstance(),uuid("D")),"changed nationality cannot approve original membership");})
+          .thenCompose(x->api.instances(uuid("D"))).thenCompose(items->{
+              require(items.stream().filter(i->i.id().equals(memberInstance())).findFirst().orElseThrow().votes().isEmpty(),"Drifted personal vote still counted");
+              return moveMember("B","A");})
+          .thenCompose(x->api.revalidateMember(memberInstance(),uuid("D")))
+          .thenCompose(x->api.exitMember(memberInstance(),uuid("D"),"vote"))
+          .thenCompose(x->api.instances(uuid("D"))).thenApply(items->{
+              require(items.stream().noneMatch(i->i.id().equals(memberInstance())),"Polling silently rejoined exited member");
+              log("MEMBER_EXITED",Map.of("instance",memberInstance(),"ordinaryMember",uuid("D"),"nativeAuthority",true));return null;
+          });
+    }
+    private CompletionStage<?> membershipSecond(){return api.instances(uuid("D")).thenCompose(items->{
+        require(items.stream().noneMatch(i->i.id().equals(memberInstance())),"Restart silently rejoined exited member");
+        return api.memberReview(memberInstance(),uuid("D"));
+    }).thenCompose(review->{require(review.orElseThrow().status()==MemberReviewLedger.Status.EXITED,"Exit review not durable");return api.join(memberInstance(),uuid("D"));})
+      .thenApply(report->{log("MEMBER_REJOINED",Map.of("instance",memberInstance(),"explicit",true));return report;});}
+    private CompletionStage<?> membershipFinish(){return api.choose(memberInstance(),uuid("D"),"vote","yes")
+        .thenCompose(x->api.choose(memberInstance(),uuid("B"),"vote","yes"))
+        .thenCompose(x->rejected(api.exitMember(memberInstance(),uuid("D"),"done"),"completed history cannot be rewritten by exit"))
+        .thenCompose(x->membershipCheck());}
+    private CompletionStage<?> membershipCheck(){return api.instances(uuid("D")).thenApply(items->{
+        var member=items.stream().filter(i->i.id().equals(memberInstance())).findFirst().orElseThrow();
+        require(member.completed()&&member.members().containsKey(uuid("D")),"Completed membership missing after restart");
+        log("MEMBER_COMPLETED",member);return null;
+    });}
+    private CompletionStage<?> contributionsCheck(){return api.contributions(null,null,0,100).thenApply(entries->{
+        require(entries.size()==8,"Expected eight projections from four native aid receipts, got "+entries.size());
+        for(String who:List.of("A","B"))for(String subject:List.of("player:"+uuid(who),"nation:"+country(who))) {
+            var rows=entries.stream().filter(e->e.request().subjectId().equals(subject)).toList();
+            require(rows.size()==2&&rows.stream().allMatch(e->e.request().amount().compareTo(BigDecimal.TEN)==0),"Incorrect contribution subject or amount: "+subject);
+            require(rows.stream().map(e->e.request().unit()).collect(java.util.stream.Collectors.toSet()).equals(Set.of("treasury","resource.agricultural")),"Contribution units mixed");
+        }
+        log("CONTRIBUTIONS_CHECKED",entries);return null;
     });}
     private CompletionStage<?> open() {
         require(instance.isEmpty(),"Campaign already exists");
@@ -291,22 +347,22 @@ public class EpicCampaignPaperFixture extends JavaPlugin implements CommandExecu
             return chain;
         });
     }
-    private CompletionStage<?> rejected(CompletionStage<?> work,String reason) {
+    private CompletionStage<?> ledgerRejected(CompletionStage<?> work,String reason) {
         return work.handle((value,error)->{require(error!=null,"Expected rejection: "+reason);
             log("MEMBER_REVIEW_REJECTED",Map.of("reason",reason,"error",error.toString()));return null;});
     }
-    private CompletionStage<?> moveMember(String from,String to) {return main(()->{
+    private CompletionStage<?> ledgerMoveMember(String from,String to) {return main(()->{
         var nations=service(NationService.class);
         require(nations.removeMember(country(from),uuid("D")),"Native member removal rejected");
         require(nations.addMember(country(to),uuid("D"),player("D").getName()),"Native member admission rejected");
         log("MEMBER_NATIVE_MOVED",Map.of("player",uuid("D"),"from",country(from),"to",country(to)));return null;
     });}
     private CompletionStage<?> memberExit() {
-        return moveMember("A","B")
-                .thenCompose(x->rejected(api.revalidateMember(instance,uuid("D")),"changed nation"))
-                .thenCompose(x->moveMember("B","A"))
+        return ledgerMoveMember("A","B")
+                .thenCompose(x->ledgerRejected(api.revalidateMember(instance,uuid("D")),"changed nation"))
+                .thenCompose(x->ledgerMoveMember("B","A"))
                 .thenCompose(x->main(()->{permissions.get(uuid("D")).setPermission("starchronicle.use",false);player("D").recalculatePermissions();return null;}))
-                .thenCompose(x->rejected(api.revalidateMember(instance,uuid("D")),"missing permission"))
+                .thenCompose(x->ledgerRejected(api.revalidateMember(instance,uuid("D")),"missing permission"))
                 .thenCompose(x->main(()->{permissions.get(uuid("D")).setPermission("starchronicle.use",true);player("D").recalculatePermissions();return null;}))
                 .thenCompose(x->api.revalidateMember(instance,uuid("D")))
                 .thenCompose(x->api.memberReviews(uuid("D"),100)).thenApply(reviews->{
@@ -343,6 +399,8 @@ public class EpicCampaignPaperFixture extends JavaPlugin implements CommandExecu
                 case "found"->founding();case "declare"->declareWar();case "end-war"->endWar();
                 case "checkpoint"->captureFinal();case "final-evidence"->finalEvidence();case "settle"->settle();
                 case "check"->check();case "replay"->replayRejection();case "state"->campaign().thenApply(s->{log("STATE",s);return s;});
+                case "membership-first"->membershipFirst();case "membership-second"->membershipSecond();
+                case "membership-finish"->membershipFinish();case "membership-check"->membershipCheck();case "contributions-check"->contributionsCheck();
                 case "contributions"->contributions();case "member-exit"->memberExit();case "member-rejoin"->memberRejoin();
                 default->extraAction(action,args);
             };

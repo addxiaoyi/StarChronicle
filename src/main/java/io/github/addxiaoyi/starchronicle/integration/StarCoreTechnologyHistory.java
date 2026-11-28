@@ -64,19 +64,24 @@ public final class StarCoreTechnologyHistory {
             if (journal.hasPending(NAMESPACE)) return 0;
             long after = cursor.map(CommittedHistoryJournal.Cursor::sequence).orElse(0L);
             List<CommittedHistoryJournal.Entry> entries = new ArrayList<>();
+            boolean atHead;
             synchronized (service) {
                 if (!domain(service).equals(Optional.of(domain))) throw new IllegalStateException("Technology history authority changed during read");
-                Object result = call(service, "technologyChangesAfter", after, CommittedHistoryJournal.PAGE_SIZE);
+                long readAfter=after==0?0:after-1;
+                Object result = call(service, "technologyChangesAfter", readAfter, CommittedHistoryJournal.PAGE_SIZE);
                 if (!(result instanceof List<?> page) || page.size() > CommittedHistoryJournal.PAGE_SIZE)
                     throw new IllegalArgumentException("Invalid technology history page");
-                long expected = after;
+                atHead=page.size()<CommittedHistoryJournal.PAGE_SIZE;
+                if(after>0&&page.isEmpty())throw new IllegalStateException("Technology source lost its acknowledged receipt");
+                long expected = readAfter;
                 for (Object receipt : page) {
                     expected = Math.addExact(expected, 1);
                     entries.add(project(receipt, domain, expected));
                 }
                 if (!domain(service).equals(Optional.of(domain))) throw new IllegalStateException("Technology history authority changed during read");
             }
-            if (!entries.isEmpty() || cursor.isEmpty() || !cursor.get().live()) journal.stage(NAMESPACE, domain, after, entries);
+            if(after>0)journal.verifyAnchor(NAMESPACE,entries.removeFirst());
+            if (!entries.isEmpty() || cursor.isEmpty() || !cursor.get().live()) journal.stage(NAMESPACE, domain, after, entries,atHead);
             return entries.size();
         } catch (NoSuchMethodException legacy) {
             if (committedMode) throw new IllegalStateException("Pinned technology history protocol is unavailable", legacy);

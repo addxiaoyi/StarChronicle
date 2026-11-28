@@ -7,6 +7,7 @@ import dev.starcore.starcore.module.nation.NationService;
 import dev.starcore.starcore.module.nation.model.NationId;
 import dev.starcore.starcore.module.resource.*;
 import dev.starcore.starcore.module.resource.model.*;
+import dev.starcore.starcore.module.resource.model.TradeHistoryChange;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
 import io.github.addxiaoyi.starchronicle.api.*;
 import io.github.addxiaoyi.starchronicle.api.contribution.*;
@@ -72,7 +73,7 @@ public final class TradeContributionPaperFixture extends JavaPlugin implements C
             }
             if(boot==1)initial();
             saveConfig();Objects.requireNonNull(getCommand("tradeverify")).setExecutor(this);
-            log("READY",Map.of("domain",history.historyAuthorityDomainId().toString(),"buyer",buyer.toString(),"seller",seller.toString(),
+            log("READY",Map.of("domain",history.tradeHistoryAuthorityDomainId().toString(),"buyer",buyer.toString(),"seller",seller.toString(),
                 "buyerNation",buyerNation.toString(),"sellerNation",sellerNation.toString(),"balances",balances(),"opening",getConfig().getString("opening")));
         } catch(Throwable error){fail(error);getServer().getPluginManager().disablePlugin(this);}
     }

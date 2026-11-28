@@ -1,0 +1,98 @@
+{
+  "date": "2026-11-26",
+  "baselines": {
+    "chronicle": "2850de4b819bbf4009ceefa3236a136d7baf77c0",
+    "starcore": "14ea24011ed5612b97ef7c9e62f3679a01f87715"
+  },
+  "scope": "Strict agreement, route, embargo and quota recovery; file/SQLite/H2 corruption, quarantine of inventory and 22 trade business entry points, preserved historical fields and defaults; resource and research regressions and packaged factory contract; no Minecraft",
+  "red_tests": {
+    "tests": 368,
+    "failures": 364,
+    "errors": 0,
+    "skipped": 0
+  },
+  "native_tests": {
+    "tests": 921,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "tests_by_package": {
+    "resource": 908,
+    "technology": 13
+  },
+  "new_trade_validation_tests": 376,
+  "packaging": "All 921 tests passed; same 256 MiB JVM exhausted heap during JAR assembly. Original failure and XML retained. Fresh serial 256 MiB JVM verify with skipTests completed packaging and checks; no source change or repeated tests.",
+  "chronicle_tests": "Main source unchanged; previous 957-test JAR. Baseline Linux Maven verification #111 passed. No new local full verify.",
+  "artifacts": {
+    "starcore_sha256": "c484ea1dc5c5cfd08146d9756a221ead3625ae68f2427225ce9c27fcaf05bbb5",
+    "starchronicle_sha256": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886"
+  },
+  "factory_contract": {
+    "status": "PASS",
+    "artifacts": {
+      "FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+      "starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886",
+      "starcore.jar": "c484ea1dc5c5cfd08146d9756a221ead3625ae68f2427225ce9c27fcaf05bbb5"
+    },
+    "scope": "Three sequential JVMs; packaged timed factory and Chronicle services; real SQLite; controlled clock and detached NationService fixture; no Minecraft or live player certification",
+    "phases": {
+      "compile": {
+        "exit_code": 0,
+        "log_sha256": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc"
+      },
+      "first": {
+        "exit_code": 0,
+        "log_sha256": "589db7ce4da0da7bfc03816ac3c0d591d554fec9b8bc0bd82c701b96c367df97"
+      },
+      "second": {
+        "exit_code": 0,
+        "log_sha256": "a3027a2773775819f401c5bf544bd47702176cc38d0d41921b058aed818c7a94"
+      },
+      "third": {
+        "exit_code": 0,
+        "log_sha256": "935f17ab5ffbaa9d1b3bcb1995a4c5183c92a187e284b7d9e78730dcf97945bc"
+      }
+    },
+    "files": {
+      "chronicle.db": "8e954d14af202102592788d39f964f337f31c9c6f1a0e3abed381fe522736330",
+      "chronicle.db-shm": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+      "chronicle.db-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compile.args": "b6309baf4211fbca68c958c13ea420af52884dabcf5ac40baa76cd092626185e",
+      "compile.log": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc",
+      "factory-id.txt": "b8339c2f77a572943e0c27b209a4a3bbcd5ec032a9329782ae335d40c5312f03",
+      "first-receipt.txt": "75a6e28a87e65ba36544232adca6667fa1002eb87a57b9f1d6f76ecaeb05d148",
+      "first.args": "37098acc42e5f847377e68084592f65bc23633e5fb8d6a1355508f73873c7c1c",
+      "first.log": "589db7ce4da0da7bfc03816ac3c0d591d554fec9b8bc0bd82c701b96c367df97",
+      "native.db": "52dae5330a6f4d1a682d24cfd1aaa183c8a8b6a46201f2c00bd9b425cc37296c",
+      "ready-at.txt": "038aaa104d8888d3886f720f0ac20eddb0a1fb1260a4d49a4c90f57ecfe639ea",
+      "second.args": "f2386a5e16b60f107a5dd41c506a648a0f181dee8c4b4ec325481a2010a051b7",
+      "second.log": "a3027a2773775819f401c5bf544bd47702176cc38d0d41921b058aed818c7a94",
+      "third.args": "2bc606fbcf3b63b195d87bc2b9699a4b16e0fd33ee46054768bd1dbf091d4af4",
+      "third.log": "935f17ab5ffbaa9d1b3bcb1995a4c5183c92a187e284b7d9e78730dcf97945bc",
+      "artifacts/FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+      "artifacts/starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886",
+      "artifacts/starcore.jar": "c484ea1dc5c5cfd08146d9756a221ead3625ae68f2427225ce9c27fcaf05bbb5",
+      "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe$TestClock.class": "3ece24b60871dad70981cc222c5c572009eff318c9cccf8afdd8e735c34723e6",
+      "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe.class": "10c5ee66b8fc3ad34a0e5acd4932ddebe2c4ed9fd70c0b275b436d18cc7b786f"
+    }
+  },
+  "native_source_hashes": {
+    "docs/TRADE-SNAPSHOT-RECOVERY.md": "a52fba8b7d5ded4438b18e0f7bbf35bc10480a651acfd5063fa8625ea45f5b62",
+    "src/main/java/dev/starcore/starcore/module/resource/ResourceModule.java": "6b943f69b874b2dfa44a2f300b0967c36983c2b1aedc05bc7c161167dbaedddf",
+    "src/main/java/dev/starcore/starcore/module/resource/SimpleResourceTradeService.java": "92c1dc0abe53685efe92423bb18f3742f4b5bb14b8fd3c29161d3ecd4db7f77f",
+    "src/main/java/dev/starcore/starcore/module/resource/TradeSnapshotValidator.java": "7b5d1ccd2f4438d2f3d1e5b5c0df870a3ac8c126e7df8cbc632ea1ba385f3976",
+    "src/test/java/dev/starcore/starcore/module/resource/TradeSnapshotValidationTest.java": "69f046e2d0ad49c9f6e18d7e99f3f20d517487211b554f29ce4c8aca6c45ef6d"
+  },
+  "coverage": "No current native full suite or JaCoCo; forkCount=0 and jacoco.skip=true",
+  "limits": [
+    "Quarantined native trade queries throw instead of reporting absent restrictions; restart with repaired authoritative storage is required.",
+    "Historical creation limits are not reapplied; valid legacy optional defaults and custom resource IDs remain readable.",
+    "Previously acquired mutable model references, in-flight concurrency and cross-service transaction guarantees remain separate work.",
+    "Format checks do not authenticate valid-format arbitrary tampering or validate every legacy file field against SQL.",
+    "The prior 5000-run factory capacity result belongs to its recorded previous artifact, not this JAR.",
+    "MySQL, Minecraft, full-stack Folia, third-party plugins and long concurrent load remain unverified."
+  ],
+  "evidence_zip_sha256": "e91a157b2e10167136cf3f333d88a166dd85b04ead600c63dfbfc1afe1cbdea3",
+  "evidence_files": 145
+}

@@ -1,0 +1,22 @@
+{
+  "chronicle_sha256": "4f9a0698eaabba58c4a91f657c3359d830730e3e94abf7a427d941d7655dec35",
+  "starcore_sha256": "8ed3137e9c6b9b302216963402912a35ac7a37ee94096cae63f7139e0f1d99ed",
+  "evidence_sha256": "cdd2af9a8b0d1a3ad9e499dd9e690eed93c5a24267e1419cf4a7e975f332b932",
+  "evidence_files": 49,
+  "contract_run": "native-history-contract-20261125-2",
+  "contract_status": "PASS",
+  "tests": {
+    "chronicle": {
+      "tests": 895,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "starcore_focused": {
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  }
+}

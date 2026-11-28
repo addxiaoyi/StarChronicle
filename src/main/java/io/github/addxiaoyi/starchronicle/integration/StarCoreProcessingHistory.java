@@ -64,19 +64,24 @@ public final class StarCoreProcessingHistory {
             if (journal.hasPending(NAMESPACE)) return 0;
             long after = cursor.map(CommittedHistoryJournal.Cursor::sequence).orElse(0L);
             List<CommittedHistoryJournal.Entry> entries = new ArrayList<>();
+            boolean atHead;
             synchronized (service) {
                 if (!domain(service).equals(Optional.of(domain))) throw new IllegalStateException("Processing history authority changed during read");
-                Object result = call(service, "processingChangesAfter", after, CommittedHistoryJournal.PAGE_SIZE);
+                long readAfter = after == 0 ? 0 : after - 1;
+                Object result = call(service, "processingChangesAfter", readAfter, CommittedHistoryJournal.PAGE_SIZE);
                 if (!(result instanceof List<?> page) || page.size() > CommittedHistoryJournal.PAGE_SIZE)
                     throw new IllegalArgumentException("Invalid processing history page");
-                long expected = after;
+                atHead = page.size() < CommittedHistoryJournal.PAGE_SIZE;
+                if (after > 0 && page.isEmpty()) throw new IllegalStateException("Processing source lost its acknowledged receipt");
+                long expected = readAfter;
                 for (Object receipt : page) {
                     expected = Math.addExact(expected, 1);
                     entries.add(project(receipt, domain, expected));
                 }
                 if (!domain(service).equals(Optional.of(domain))) throw new IllegalStateException("Processing history authority changed during read");
             }
-            if (!entries.isEmpty() || cursor.isEmpty() || !cursor.get().live()) journal.stage(NAMESPACE, domain, after, entries);
+            if (after > 0) journal.verifyAnchor(NAMESPACE, entries.removeFirst());
+            if (!entries.isEmpty() || cursor.isEmpty() || !cursor.get().live()) journal.stage(NAMESPACE, domain, after, entries, atHead);
             return entries.size();
         } catch (NoSuchMethodException legacy) {
             if (committedMode) throw new IllegalStateException("Pinned processing history protocol is unavailable", legacy);
@@ -90,13 +95,13 @@ public final class StarCoreProcessingHistory {
         Object value = call(service, "processingHistoryAuthorityDomainId");
         if (!(value instanceof Optional<?> identity)) throw new IllegalArgumentException("Missing processing history capability response");
         if (identity.isEmpty()) return Optional.empty();
-        if (!(identity.get() instanceof UUID id)) throw new IllegalArgumentException("Invalid resource authority domain");
+        if (!(identity.get() instanceof UUID id)) throw new IllegalArgumentException("Invalid processing authority domain");
         return Optional.of(id);
     }
     static CommittedHistoryJournal.Entry project(Object raw, UUID domain, long expected) throws ReflectiveOperationException {
-        if (!domain.equals(uuid(call(raw, "authorityDomainId")))) throw new IllegalArgumentException("Resource receipt authority mismatch");
+        if (!domain.equals(uuid(call(raw, "authorityDomainId")))) throw new IllegalArgumentException("Processing receipt authority mismatch");
         Object sequence = call(raw, "sequence");
-        if (!(sequence instanceof Long position) || position != expected) throw new IllegalArgumentException("Resource receipt sequence gap");
+        if (!(sequence instanceof Long position) || position != expected) throw new IllegalArgumentException("Processing receipt sequence gap");
         Object kind = call(raw, "kind"), time = call(raw, "committedAt");
         if (!(kind instanceof Enum<?> value) || !(time instanceof Instant at)) throw new IllegalArgumentException("Missing processing kind/time");
         Object nativeRun = call(raw, "run");

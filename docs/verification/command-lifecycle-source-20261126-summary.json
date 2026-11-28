@@ -1,0 +1,73 @@
+{
+  "date": "2026-11-26",
+  "scope": "Essentials command ownership, handler restoration, inactive captured callbacks, partial enable and independent cleanup failures. No Minecraft.",
+  "baseline_commits": {
+    "starchronicle": "24c17a422e03f5a6ae7bb863ccacb8704556e3dc",
+    "starcore": "b2cb58f74064132b32509a4762c6c4a3e4719919"
+  },
+  "new_tests": 17,
+  "tests": {
+    "tests": 356,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "baseline_tests": {
+    "tests": 17,
+    "failures": 17,
+    "errors": 0,
+    "skipped": 0
+  },
+  "artifacts": {
+    "starchronicle_sha256": "1c7b8b010c9d330c15b0882753d54095fb906e42caedb926a81055d643cd78ce",
+    "sources_sha256": "8a9634b60a7b256e228e5c96b62eb525824083d83cffb590828934d93dd2547c",
+    "starcore_sha256": "b1a94dcad11cf5b82f1029ffa6c54a920781cd22ae5fb84ce8d5bef6f1225225"
+  },
+  "artifact_verification": {
+    "status": "VERIFIED",
+    "starcore_sha256": "b1a94dcad11cf5b82f1029ffa6c54a920781cd22ae5fb84ce8d5bef6f1225225",
+    "baseline_sha256": "a82d8eacc99beabe97eec89c47f5343f637c1d95eac5854f8e6149d7073a59c3",
+    "class_hashes": {
+      "dev/starcore/starcore/essentials/EssentialsModule$CommandBinding.class": "eedab2bcdfab9fb5cdbd9e10a2666abdb2438953b39ba2818a24e41a6999b0e9",
+      "dev/starcore/starcore/essentials/EssentialsModule$LifecycleCommand.class": "ccf4cc705326f26ec3915407039a362b58134b66b159724cd37729da3637fb60",
+      "dev/starcore/starcore/essentials/EssentialsModule.class": "292215d8e16ee5dfcfe8d65fb313b90d5deaf18083021712f4e43820fefb6638"
+    },
+    "compiled_source_hashes": {
+      "src/main/java/dev/starcore/starcore/essentials/EssentialsModule.java": "9a2f46e98076b819ff21310f77bbb12e823711c75d75f9eec309643ee10a4e8d",
+      "src/test/java/dev/starcore/starcore/essentials/EssentialsCommandLifecycleTest.java": "77b9d478ff873421de8dc87361d181d541edd80d50b93a78fa68fa150ccf0f38",
+      "src/test/java/dev/starcore/starcore/essentials/EssentialsModuleLifecycleTest.java": "ae02e895036ee690222ced57b41ca5ff3cdb0d92a071237d1b60a423011a5fdd"
+    },
+    "public_api": {
+      "dev/starcore/starcore/essentials/EssentialsModule": {
+        "preserved_methods": 15,
+        "added_methods": []
+      }
+    },
+    "sbom_components": 36,
+    "limits": [
+      "Bytecode and API checks are not live Paper/Folia acceptance.",
+      "Essentials public descriptors are preserved; private command guards and restoration bookkeeping are internal."
+    ]
+  },
+  "source_hashes": {
+    "src/main/java/dev/starcore/starcore/essentials/EssentialsModule.java": "9a2f46e98076b819ff21310f77bbb12e823711c75d75f9eec309643ee10a4e8d",
+    "src/test/java/dev/starcore/starcore/essentials/EssentialsCommandLifecycleTest.java": "77b9d478ff873421de8dc87361d181d541edd80d50b93a78fa68fa150ccf0f38",
+    "src/test/java/dev/starcore/starcore/essentials/EssentialsModuleLifecycleTest.java": "ae02e895036ee690222ced57b41ca5ff3cdb0d92a071237d1b60a423011a5fdd",
+    "docs/ESSENTIALS-COMMAND-LIFECYCLE.md": "fe297f99a2d23bc683f428fac15efe0fe3665b994e932db5a0563fd3d607718f",
+    "docs/COMPAT-SCHEDULER-LIFECYCLE.md": "bdaf8f7e4cc3f06b4b7a63831b7fad95b9eef2dfc26adda6d450286a722df47d"
+  },
+  "limits": [
+    "No real Minecraft, third-party binaries or live Paper/Folia reload.",
+    "Command wrappers gate future entry, not already admitted effects or asynchronous continuations.",
+    "Previous executor and completer slots are restored independently only while still owned.",
+    "PluginCommand registration and aliases remain in the server command map.",
+    "Command-map mutations require server lifecycle context; player invocations require the player owner.",
+    "Cleanup failure is rethrown after other cleanup; it is not a successful-restoration receipt.",
+    "356 selected tests, existing POM exclusions retained, not the complete native suite.",
+    "Single 256 MiB JVM per operation; forkCount=0, jacoco.skip=true; no local coverage result.",
+    "Chronicle main JAR and prior 1021-test local result unchanged. Earlier native contracts and regressions retain their own JAR identities.",
+    "Remaining player-owner migrations, GUI state, full hot reload, other modules and production acceptance remain."
+  ],
+  "evidence_files": 74,
+  "evidence_zip_sha256": "7fc9ec5e9e1105ca4f90d43c8a10723cd60f63282ba6501ad46570d3dba9b218"
+}

@@ -1,0 +1,21 @@
+{
+  "chronicle_sha256": "4f9a0698eaabba58c4a91f657c3359d830730e3e94abf7a427d941d7655dec35",
+  "starcore_sha256": "2192731db3a88610a832c2a41408a8785e4d24fa5af7b70230606241fe8fd946",
+  "evidence_sha256": "f3e691ead92457d7a28725be39e0f74b544ff99825600c853368794727793dc3",
+  "evidence_files": 131,
+  "contract_status": "PASS",
+  "tests": {
+    "chronicle": {
+      "tests": 895,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "starcore_focused": {
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  }
+}

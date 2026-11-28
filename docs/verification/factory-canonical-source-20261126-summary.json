@@ -1,0 +1,436 @@
+{
+  "date": "2026-11-26",
+  "baselines": {
+    "chronicle": "4979f52fdbeb1d4a186c6809722ec2e8fd876a78",
+    "starcore": "98945394fd278ef3f1e23c1908756a59ad4f4b32"
+  },
+  "scope": "Native resource-domain source/regression; exact frozen V1/V2 writers, packaged recovery and SQLite/file evidence; no Minecraft or native full-suite certification",
+  "native_tests": {
+    "tests": 322,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "targeted_tests": 89,
+  "new_tests": 18,
+  "chronicle_tests": "Source unchanged: previously verified 957-test JAR; latest tools/evidence commit Linux CI #89 passed",
+  "artifacts": {
+    "starcore_sha256": "b9c084e21ac5620cb95e5038a9cec289dfebd4294527596844651f693b844d53",
+    "starchronicle_sha256": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886"
+  },
+  "contracts": {
+    "memory": {
+      "status": "PASS",
+      "scope": "Serial packaged factory recovery, actual file/SQLite, exact V1/V2 frozen writers, HotSpot thread allocation counter; no Minecraft or whole-module capacity claim",
+      "completed_runs": 5000,
+      "heap_mib": 96,
+      "artifacts": {
+        "current.jar": "b9c084e21ac5620cb95e5038a9cec289dfebd4294527596844651f693b844d53",
+        "FactoryCanonicalMemoryProbe.java": "e7f1f2af5b8729a72262b130194e100aba95a33b107d71d1e0d0db559195cd3e",
+        "FactoryRecoveryProbe.java": "5c61452074da32b5dd19e524eb5b51af8c76787af9298f1c2399730a7657dd14",
+        "legacy.jar": "97db36ee40dbc6df8c765c0bbbb92dadcddf8989f5b31db77505d814e31470f1",
+        "previous.jar": "c5f459b181ff92e828eed9d4c58c3b699593dc261d763b28aa61c69e458bbf02",
+        "starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886"
+      },
+      "phases": {
+        "compile": {
+          "exit_code": 0,
+          "elapsed_seconds": 6.015,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "v1-seed": {
+          "exit_code": 0,
+          "elapsed_seconds": 4.328,
+          "log_sha256": "3c4d95c0fc56305c511dd739d3841de147e4fd24c757679c148370584702603e"
+        },
+        "v1-previous-file-first": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.187,
+          "log_sha256": "513a840f28cf1426da5e567d21a5da68ea180a7458273772bb7607e8732a97b8",
+          "all_tables_and_file_unchanged": true
+        },
+        "v1-previous-file-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.157,
+          "log_sha256": "8f357fdb3c250f51d86b380ef63e36a251e03c06c581c183bf5bf845d3a1e797",
+          "all_tables_and_file_unchanged": true
+        },
+        "v1-previous-sql-first": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.984,
+          "log_sha256": "047c517c5f6429c265205acbba0cdb8b0e19c40335c27b6769c24e073412719b",
+          "all_tables_and_file_unchanged": true
+        },
+        "v1-previous-sql-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.922,
+          "log_sha256": "235ffc449aec372efb28b62fde3e1e1dddf79ca30d346b65b23f1afe9183761d",
+          "all_tables_and_file_unchanged": true
+        },
+        "v1-current-file-first": {
+          "exit_code": 0,
+          "elapsed_seconds": 1.719,
+          "log_sha256": "6e1cdd9b074f32922405ce0621954899ebac67a8eab85acac2de42dabe0e4c1f",
+          "all_tables_and_file_unchanged": true
+        },
+        "v1-current-file-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 1.704,
+          "log_sha256": "eed32c07aed5f504e9a5397c04f7b7beda16dd978130bf90d1b50be4b2142903",
+          "all_tables_and_file_unchanged": true
+        },
+        "v1-current-sql-first": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.625,
+          "log_sha256": "648cfe63f821fead70ea2870d141891f03a6ac145db01111ab026b43f06572a3",
+          "all_tables_and_file_unchanged": true
+        },
+        "v1-current-sql-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.609,
+          "log_sha256": "33d2e3b84e51b07dc92f6fbb102b6b241d7526abb4892c903eb0c6cb8f35dc44",
+          "all_tables_and_file_unchanged": true
+        },
+        "v2-seed": {
+          "exit_code": 0,
+          "elapsed_seconds": 4.719,
+          "log_sha256": "6092eb5b3bbf71d87b82b58e368cf9250bc28291c3fa84a7c0def02b12c4e0ea"
+        },
+        "v2-previous-file-first": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.954,
+          "log_sha256": "8ba104e5237575ddeae8021ad867eef40712ddc23066fec73c528555b55f858d",
+          "all_tables_and_file_unchanged": true
+        },
+        "v2-previous-file-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 3.094,
+          "log_sha256": "48908b9d85fc5b091e56adfb5a95771297f3fad263854c596e90e09c5d91dcc6",
+          "all_tables_and_file_unchanged": true
+        },
+        "v2-previous-sql-first": {
+          "exit_code": 0,
+          "elapsed_seconds": 4.079,
+          "log_sha256": "3e3c30cf6c298b54c68a70b324106cdbbd3c7d8f90ce4ba9cfef7bbedfba7fea",
+          "all_tables_and_file_unchanged": true
+        },
+        "v2-previous-sql-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 3.391,
+          "log_sha256": "f623070368ab801aa968ac8f7392a8608bc5598ed3a639ba7ec415c7a85ad130",
+          "all_tables_and_file_unchanged": true
+        },
+        "v2-current-file-first": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.047,
+          "log_sha256": "65318e9aab062cfcb18a0b982680c59de047a789ab73402ddad06a7eba0453c4",
+          "all_tables_and_file_unchanged": true
+        },
+        "v2-current-file-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 1.875,
+          "log_sha256": "34a8016f1f27453d18532ac8bef7b6c0f149f4017d1b5fa7d2f7997a7e7ae820",
+          "all_tables_and_file_unchanged": true
+        },
+        "v2-current-sql-first": {
+          "exit_code": 0,
+          "elapsed_seconds": 3.14,
+          "log_sha256": "8d2ea14934f0fbab31c89e55ffec2e5846eb43d4499de910235e6e65f4f377a0",
+          "all_tables_and_file_unchanged": true
+        },
+        "v2-current-sql-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.938,
+          "log_sha256": "e0c78515d7aebb0655861ac89ef8d718904f1b8df61a191d9976d715be180850",
+          "all_tables_and_file_unchanged": true
+        }
+      },
+      "same_logical_evidence_across_formats": true
+    },
+    "factory_contract": {
+      "status": "PASS",
+      "artifacts": {
+        "FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+        "starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886",
+        "starcore.jar": "b9c084e21ac5620cb95e5038a9cec289dfebd4294527596844651f693b844d53"
+      },
+      "scope": "Three sequential JVMs; packaged timed factory and Chronicle services; real SQLite; controlled clock and detached NationService fixture; no Minecraft or live player certification",
+      "phases": {
+        "compile": {
+          "exit_code": 0,
+          "log_sha256": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc"
+        },
+        "first": {
+          "exit_code": 0,
+          "log_sha256": "b8f16a6475c7a0db47412b307c36e4bfec2359fd2dd667be3e05fe7e6f8d8693"
+        },
+        "second": {
+          "exit_code": 0,
+          "log_sha256": "7673955e60445d8be2c71623176006a5fb3187a8d9d97a31d248aeb7bbfee319"
+        },
+        "third": {
+          "exit_code": 0,
+          "log_sha256": "55b23382e7becb5005f15a2d89c79ac85649b2e73e001fbdb6ed2d06aae6a483"
+        }
+      },
+      "files": {
+        "chronicle.db": "fe8dd5ca662a126984ef9942c7a8fe75d2825575ed3188bacae598affd877b47",
+        "chronicle.db-shm": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+        "chronicle.db-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "compile.args": "46f5a275192d0f49402c6116f120478cb1d00ad12b26cc2a3488f342f5a23fb3",
+        "compile.log": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc",
+        "factory-id.txt": "4f968c899ade567da22b8919f10dac42536b2c0e2535655ddee03eb3f6b4da21",
+        "first-receipt.txt": "948d45d1d96e3e10f8aa95801ccd7fa30f20eba57acf5774a385729c3e41680d",
+        "first.args": "9558d8c0994b8f4565c36da36675d0bdd6b56ebe060a6a959d9d1a2610f9b227",
+        "first.log": "b8f16a6475c7a0db47412b307c36e4bfec2359fd2dd667be3e05fe7e6f8d8693",
+        "native.db": "49bebeaee8fa9d57772b4a0f9d19e51a247fef6f5a7458e989860e356f73145f",
+        "ready-at.txt": "038aaa104d8888d3886f720f0ac20eddb0a1fb1260a4d49a4c90f57ecfe639ea",
+        "second.args": "784bfcebfa70719f9a56fb316fae082ad6d2f9a68891c424ef79357526f908fb",
+        "second.log": "7673955e60445d8be2c71623176006a5fb3187a8d9d97a31d248aeb7bbfee319",
+        "third.args": "b02fe84111aa9cb0c49de49b65187d1ddee8381f8843c2be4acd211f64a90807",
+        "third.log": "55b23382e7becb5005f15a2d89c79ac85649b2e73e001fbdb6ed2d06aae6a483",
+        "artifacts/FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+        "artifacts/starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886",
+        "artifacts/starcore.jar": "b9c084e21ac5620cb95e5038a9cec289dfebd4294527596844651f693b844d53",
+        "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe$TestClock.class": "3ece24b60871dad70981cc222c5c572009eff318c9cccf8afdd8e735c34723e6",
+        "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe.class": "10c5ee66b8fc3ad34a0e5acd4932ddebe2c4ed9fd70c0b275b436d18cc7b786f"
+      }
+    }
+  },
+  "measurements": {
+    "v1-current-file-first": {
+      "status": "PASS",
+      "mode": "file",
+      "completed": 5000,
+      "active": 1,
+      "format": "1",
+      "file_loads": 1,
+      "restore_micros": 780003,
+      "recovery_thread_allocated_bytes": 171721192,
+      "input_live_heap_bytes": 28360072,
+      "recovered_live_heap_bytes": 34800160,
+      "max_heap_bytes": 97320960
+    },
+    "v1-current-file-restart": {
+      "status": "PASS",
+      "mode": "file",
+      "completed": 5000,
+      "active": 1,
+      "format": "1",
+      "file_loads": 1,
+      "restore_micros": 761937,
+      "recovery_thread_allocated_bytes": 171721160,
+      "input_live_heap_bytes": 28358792,
+      "recovered_live_heap_bytes": 34798816,
+      "max_heap_bytes": 97320960
+    },
+    "v1-current-sql-first": {
+      "status": "PASS",
+      "mode": "sql",
+      "completed": 5000,
+      "active": 1,
+      "format": "1",
+      "file_loads": 0,
+      "restore_micros": 619141,
+      "recovery_thread_allocated_bytes": 156470880,
+      "input_live_heap_bytes": 22887312,
+      "recovered_live_heap_bytes": 29152136,
+      "max_heap_bytes": 97320960
+    },
+    "v1-current-sql-restart": {
+      "status": "PASS",
+      "mode": "sql",
+      "completed": 5000,
+      "active": 1,
+      "format": "1",
+      "file_loads": 0,
+      "restore_micros": 619426,
+      "recovery_thread_allocated_bytes": 156470808,
+      "input_live_heap_bytes": 22893296,
+      "recovered_live_heap_bytes": 29158104,
+      "max_heap_bytes": 97320960
+    },
+    "v1-previous-file-first": {
+      "status": "PASS",
+      "mode": "file",
+      "completed": 5000,
+      "active": 1,
+      "format": "1",
+      "file_loads": 1,
+      "restore_micros": 1224662,
+      "recovery_thread_allocated_bytes": 224374648,
+      "input_live_heap_bytes": 28359704,
+      "recovered_live_heap_bytes": 34447792,
+      "max_heap_bytes": 97320960
+    },
+    "v1-previous-file-restart": {
+      "status": "PASS",
+      "mode": "file",
+      "completed": 5000,
+      "active": 1,
+      "format": "1",
+      "file_loads": 1,
+      "restore_micros": 1222311,
+      "recovery_thread_allocated_bytes": 224374680,
+      "input_live_heap_bytes": 28359600,
+      "recovered_live_heap_bytes": 34527464,
+      "max_heap_bytes": 97320960
+    },
+    "v1-previous-sql-first": {
+      "status": "PASS",
+      "mode": "sql",
+      "completed": 5000,
+      "active": 1,
+      "format": "1",
+      "file_loads": 0,
+      "restore_micros": 953534,
+      "recovery_thread_allocated_bytes": 201990456,
+      "input_live_heap_bytes": 22884672,
+      "recovered_live_heap_bytes": 29458640,
+      "max_heap_bytes": 97320960
+    },
+    "v1-previous-sql-restart": {
+      "status": "PASS",
+      "mode": "sql",
+      "completed": 5000,
+      "active": 1,
+      "format": "1",
+      "file_loads": 0,
+      "restore_micros": 936059,
+      "recovery_thread_allocated_bytes": 201990384,
+      "input_live_heap_bytes": 22885424,
+      "recovered_live_heap_bytes": 29412480,
+      "max_heap_bytes": 97320960
+    },
+    "v2-current-file-first": {
+      "status": "PASS",
+      "mode": "file",
+      "completed": 5000,
+      "active": 1,
+      "format": "2",
+      "file_loads": 1,
+      "restore_micros": 1005930,
+      "recovery_thread_allocated_bytes": 195595128,
+      "input_live_heap_bytes": 32467968,
+      "recovered_live_heap_bytes": 38112216,
+      "max_heap_bytes": 97320960
+    },
+    "v2-current-file-restart": {
+      "status": "PASS",
+      "mode": "file",
+      "completed": 5000,
+      "active": 1,
+      "format": "2",
+      "file_loads": 1,
+      "restore_micros": 907056,
+      "recovery_thread_allocated_bytes": 195595160,
+      "input_live_heap_bytes": 32469160,
+      "recovered_live_heap_bytes": 38113520,
+      "max_heap_bytes": 97320960
+    },
+    "v2-current-sql-first": {
+      "status": "PASS",
+      "mode": "sql",
+      "completed": 5000,
+      "active": 1,
+      "format": "2",
+      "file_loads": 0,
+      "restore_micros": 791088,
+      "recovery_thread_allocated_bytes": 180283712,
+      "input_live_heap_bytes": 26950416,
+      "recovered_live_heap_bytes": 33290800,
+      "max_heap_bytes": 97320960
+    },
+    "v2-current-sql-restart": {
+      "status": "PASS",
+      "mode": "sql",
+      "completed": 5000,
+      "active": 1,
+      "format": "2",
+      "file_loads": 0,
+      "restore_micros": 815498,
+      "recovery_thread_allocated_bytes": 180283712,
+      "input_live_heap_bytes": 26951880,
+      "recovered_live_heap_bytes": 33292208,
+      "max_heap_bytes": 97320960
+    },
+    "v2-previous-file-first": {
+      "status": "PASS",
+      "mode": "file",
+      "completed": 5000,
+      "active": 1,
+      "format": "2",
+      "file_loads": 1,
+      "restore_micros": 1790445,
+      "recovery_thread_allocated_bytes": 260551096,
+      "input_live_heap_bytes": 32407848,
+      "recovered_live_heap_bytes": 36284552,
+      "max_heap_bytes": 97320960
+    },
+    "v2-previous-file-restart": {
+      "status": "PASS",
+      "mode": "file",
+      "completed": 5000,
+      "active": 1,
+      "format": "2",
+      "file_loads": 1,
+      "restore_micros": 2014866,
+      "recovery_thread_allocated_bytes": 260551096,
+      "input_live_heap_bytes": 32467928,
+      "recovered_live_heap_bytes": 36282808,
+      "max_heap_bytes": 97320960
+    },
+    "v2-previous-sql-first": {
+      "status": "PASS",
+      "mode": "sql",
+      "completed": 5000,
+      "active": 1,
+      "format": "2",
+      "file_loads": 0,
+      "restore_micros": 1195442,
+      "recovery_thread_allocated_bytes": 234535336,
+      "input_live_heap_bytes": 26942032,
+      "recovered_live_heap_bytes": 31134992,
+      "max_heap_bytes": 97320960
+    },
+    "v2-previous-sql-restart": {
+      "status": "PASS",
+      "mode": "sql",
+      "completed": 5000,
+      "active": 1,
+      "format": "2",
+      "file_loads": 0,
+      "restore_micros": 1136674,
+      "recovery_thread_allocated_bytes": 234535408,
+      "input_live_heap_bytes": 26944632,
+      "recovered_live_heap_bytes": 31137008,
+      "max_heap_bytes": 97320960
+    }
+  },
+  "fixtures": {
+    "v1": {
+      "file_sha256": "61164125dce565604d1ee74dc20fc795818cd81cd05fd7fc86eca857e252ad9a",
+      "file_bytes": 5879065
+    },
+    "v2": {
+      "file_sha256": "d6904081a6322deca42d03319859f983502430422c1d8c5bf36310fc284a0a45",
+      "file_bytes": 9794275
+    }
+  },
+  "coverage": "No current native JaCoCo: forkCount=0, jacoco.skip=true",
+  "native_source_hashes": {
+    "src/main/java/dev/starcore/starcore/module/resource/FactoryRunStore.java": "d26f003e41a2d62241b078bc4597223a360dedf462f9af8b3ca160283d62939d",
+    "src/test/java/dev/starcore/starcore/module/resource/FactoryCanonicalRecoveryTest.java": "63d5db2b868534163ee13576770c05f32f1e633359746699540978fe392f2e0c"
+  },
+  "retained_failures": [
+    "First targeted launch rejected unquoted PowerShell -Djacoco.skip=true as an unknown Maven lifecycle phase before compiling or testing; corrected invocation uses quoted arguments"
+  ],
+  "limits": [
+    "Measures current-thread allocation of recovery, not peak process memory; original full input and all restored runs remain resident",
+    "Full snapshot construction, fingerprint sorting, file writes and recovery remain proportional to retained history",
+    "V1-to-V2 upgrade/old-writer compatibility boundaries remain unchanged",
+    "No MySQL, long concurrent throughput, full Folia or actual third-party runtime certification"
+  ],
+  "evidence_zip_sha256": "fa49ebe68c44a485a7ac7ba66a98fb8d63c30a3840efa01b06a1d5bd8dced162",
+  "evidence_files": 136
+}

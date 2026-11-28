@@ -7,6 +7,7 @@ import hashlib
 import importlib.util
 import json
 import re
+from trade_contribution_protocol import artifact_schema, history_warning, injected_fault
 
 spec = importlib.util.spec_from_file_location('native_trade_inspector', Path(__file__).with_name('inspect-trade-history.py'))
 native = importlib.util.module_from_spec(spec)
@@ -97,6 +98,8 @@ def inspect(run):
     for filename, key in (('plugins/StarChronicle.jar', 'product_sha256'), ('plugins/StarCore.jar', 'native_sha256'),
             ('plugins/TradeContributionPaperFixture.jar', 'fixture_sha256'), ('fixture/TradeContributionPaperFixture.java', 'fixture_source_sha256'), ('paper.jar', 'paper_sha256')):
         require(sha(run / filename) == manifest[key], 'Artifact fingerprint drift: ' + filename)
+    schema = artifact_schema(run / 'plugins/StarChronicle.jar')
+    require(schema == manifest.get('schema_version', 8), 'Preparation/product schema mismatch')
     fixture = [json.loads(line) for line in (run / 'evidence/fixture.jsonl').read_text().splitlines() if line]
     require(not any(r['kind'] == 'FAILED' for r in fixture), 'Fixture failure')
     identity = next(r['data'] for r in fixture if r['kind'] == 'READY')
@@ -110,12 +113,12 @@ def inspect(run):
         log = (run / f'evidence/boot{boot}.server.log').read_text()
         require(all(marker in log for marker in ('Done (', 'Stopping server', 'TRADE_CONTRIB_CLOSED', 'StarChronicle] Enabling StarChronicle', 'StarCore] Enabling StarCore')), 'Missing paired plugin lifecycle')
         require(not re.search(r' ERROR\]|TRADE_CONTRIB_FAILED|Exception in thread|Trade history reconciliation failed', log), 'Server error')
-        faults = [line for line in log.splitlines(keepends=True) if 'history scan retained its cursor:' in line or 'History scan retained pending evidence:' in line]
+        faults = [line for line in log.splitlines(keepends=True) if history_warning(line)]
         require(faults == session['expected_faults'], 'Unaccounted source or consumer fault')
         require(bool(faults) == (boot == 1), 'Faults outside first boot')
         if boot == 1:
             for line in faults:
-                require(re.fullmatch(r'\[[0-9:]+ WARN\]: \[StarChronicle\] (?:Trade history scan retained its cursor: SQLiteException: \[SQLITE_CONSTRAINT_TRIGGER\] A RAISE function within a trigger fired, causing the SQL statement to abort \(acceptance injected trade ingress failure\)|History scan retained pending evidence: SQLiteException: \[SQLITE_CONSTRAINT_TRIGGER\] A RAISE function within a trigger fired, causing the SQL statement to abort \(acceptance injected contribution revision failure\))\n?', line), 'Unexpected injected error text')
+                require(injected_fault(line, schema) in ('ingress', 'revision'), 'Unexpected injected error text')
             require(any('injected trade ingress failure' in f for f in faults) and any('injected contribution revision failure' in f for f in faults), 'Missing either fault scenario')
             staged = session['stage_failure_state']
             require(staged['native'][1] == 133 and staged['cursor'][1] == 3 and staged['pending'] == 0 and staged['receipts'] == 3, 'Staging failure advanced cursor or left partial ingress')
@@ -137,7 +140,7 @@ def inspect(run):
             for db in (core, chronicle):
                 require(db.execute('PRAGMA integrity_check').fetchall() == [('ok',)], 'Database integrity failure')
                 require(db.execute('PRAGMA foreign_key_check').fetchall() == [], 'Broken foreign key')
-            require(chronicle.execute('PRAGMA user_version').fetchone() == (8,), 'Wrong net-ledger schema')
+            require(chronicle.execute('PRAGMA user_version').fetchone() == (schema,), 'Wrong net-ledger schema')
             require(core.execute('SELECT domain_id,last_sequence,initialized FROM trade_history_authority').fetchall() == [(identity['domain'], source_count, 1)], 'Native head/domain mismatch')
             rows = core.execute('SELECT sequence_id,committed_at,occurred_at,previous_status,payload FROM trade_history_commits ORDER BY sequence_id').fetchall()
             require([r[0] for r in rows] == list(range(1, source_count + 1)), 'Missing native sequence')
@@ -236,7 +239,7 @@ def inspect(run):
             previous_revisions, previous_txs, previous_assets = {r['revision']: r for r in revisions}, txs, final_assets
         boots.append(dict(boot=boot, native_changes=source_count, committed_receipts=consumer_count, settlements=settlements, expected_faults=len(faults)))
     return dict(status='PASS', chronicle_sha256=manifest['product_sha256'], starcore_sha256=manifest['native_sha256'],
-        source_domain=identity['domain'], verified_boots=3, native_settlements=134, native_changes=139, original_contributions=534,
+        source_domain=identity['domain'], schema_version=schema, verified_boots=3, native_settlements=134, native_changes=139, original_contributions=534,
         status_revisions=554, initial_archive=3, live_changes=136, recovered_after_restart=1, boot_counts=boots,
         final_totals=checks[-1]['totals'], scope='Real native trades with offline fixture accounts; administrative native history corrections and Chronicle net ledger recovery; no economic refund or online player UI certification')
 

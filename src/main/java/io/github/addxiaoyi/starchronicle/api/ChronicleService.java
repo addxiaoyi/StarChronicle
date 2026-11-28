@@ -22,6 +22,10 @@ import java.util.concurrent.CompletionStage;
  * Player snapshots are collected by StarChronicle, never accepted from commands or text providers. */
 public interface ChronicleService {
     CompletionStage<ProcessReport> submit(WorldEvent event);
+    /** Trusted committed production/trade sources only. Amounts must match the exact event actors and time. */
+    default CompletionStage<ProcessReport> submitContributions(WorldEvent event,List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionRequest> entries){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contribution sources unavailable"));}
+    /** Public, read-only evidenced contributions; page starts at zero, size is at most 100. */
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry>> contributions(String subjectId,io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type,int page,int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contributions unavailable"));}
     default CompletionStage<List<EpicCampaignPlan>> epicCampaignPlans(){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic campaigns unavailable"));}
     default CompletionStage<EpicSignup> openEpicSignup(String planId,String sessionId,String reliefNationId,UUID actorId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic signup unavailable"));}
     default CompletionStage<EpicSignup> epicSignup(String sessionId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic signup unavailable"));}
@@ -34,6 +38,8 @@ public interface ChronicleService {
     default CompletionStage<EpicOperationState> epicOperation(String operationId,UUID actorId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic operations unavailable"));}
     default CompletionStage<EpicOperationState> applyEpicOperation(String operationId,UUID actorId,long expectedRevision){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic operations unavailable"));}
     default CompletionStage<EpicOperationState> reconcileEpicOperation(String operationId,UUID actorId,long expectedRevision){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic operations unavailable"));}
+    default CompletionStage<EpicOperationState> retryEpicOperation(String operationId,UUID actorId,long expectedRevision){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic operation retry unavailable"));}
+    default CompletionStage<io.github.addxiaoyi.starchronicle.api.epic.EpicOperationAttempt> epicOperationAttempt(String operationId,UUID actorId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic operation lineage unavailable"));}
     default CompletionStage<List<String>> epicProviders(){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Epic providers unavailable"));}
     /** DTO consistency only: does not query native authority, commit a campaign, or authorize
      * canonical events. Use prepare/apply/reconcile for provider-backed evidence. */
@@ -66,14 +72,20 @@ public interface ChronicleService {
     /** Read-only task gate summaries for the current pinned node. The service filters private
      * and country visibility using freshly collected identity; this grants no completion or choice authority. */
     default CompletionStage<io.github.addxiaoyi.starchronicle.api.quest.QuestGateState> questGateState(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Quest gates unavailable"));}
+    /** Reconcile the owner's original attempt against native authority. Never replays rewards. */
+    default CompletionStage<io.github.addxiaoyi.starchronicle.api.quest.QuestGateState.GateSummary> reconcileQuestGate(String gateId,UUID playerId,int expectedAttempt){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Quest recovery unavailable"));}
+    /** Explicit new attempt, only after a matching durable FAILED/ABANDONED receipt. */
+    default CompletionStage<io.github.addxiaoyi.starchronicle.api.quest.QuestGateState.GateSummary> retryQuestGate(String gateId,UUID playerId,int expectedAttempt){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Quest recovery unavailable"));}
     CompletionStage<ProcessReport> join(String instanceId, UUID playerId);
-    /** Recheck the caller's original membership under current native authority. */
-    default CompletionStage<ProcessReport> revalidateMember(String instanceId, UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
-    /** Explicit opt-out; durable historical choices and native receipts remain intact. */
+    /** Read the player's current reviews after collecting fresh server identity. */
+    default CompletionStage<List<io.github.addxiaoyi.starchronicle.core.MemberReviewLedger.Review>> memberReviews(UUID playerId,int limit){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership reviews unavailable"));}
+    default CompletionStage<java.util.Optional<io.github.addxiaoyi.starchronicle.core.MemberReviewLedger.Review>> memberReview(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership reviews unavailable"));}
+    /** Revalidate only the original membership against current native authority and pinned story conditions. */
+    default CompletionStage<ProcessReport> revalidateMember(String instanceId,UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership reviews unavailable"));}
+    /** Leave the specified active node; preserve historical evidence. Rejoining must be explicit. */
+    default CompletionStage<ProcessReport> exitMember(String instanceId,UUID playerId,String expectedNode){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Membership exit unavailable"));}
+    /** Compatibility exit of the active instance; explicit-node callers can reject stale requests. */
     default CompletionStage<ProcessReport> exitMember(String instanceId, UUID playerId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
-    default CompletionStage<List<io.github.addxiaoyi.starchronicle.core.MemberReviewLedger.Review>> memberReviews(UUID playerId, int limit){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Member review unavailable"));}
-    /** Read-only, evidenced contributions. No public API accepts contribution claims. */
-    default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry>> contributions(String subjectId, io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type, int page, int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contributions unavailable"));}
     default CompletionStage<java.math.BigDecimal> contributionTotal(String subjectId, io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type, String unit){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contributions unavailable"));}
     /** Original entries with their current net state; totals exclude suspended/refunded/cancelled entries. */
     default CompletionStage<List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionBalance>> contributionBalances(String subjectId, io.github.addxiaoyi.starchronicle.api.contribution.ContributionType type, int page, int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Contribution balances unavailable"));}
@@ -85,10 +97,21 @@ public interface ChronicleService {
     /** Full committed trade receipt, including notes that exceed the world-event fact limit. */
     default CompletionStage<java.util.Optional<io.github.addxiaoyi.starchronicle.api.trade.TradeHistoryReceipt>> tradeHistoryReceipt(String eventId){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Trade history unavailable"));}
     CompletionStage<List<StoryInstance>> instances(UUID playerId);
+    /** Bounded member history page; the full overload retains its original completeness contract. */
+    default CompletionStage<List<StoryInstance>> instances(UUID playerId,int page,int size){
+        if(page<0||page>1_000_000||size<1||size>100)return java.util.concurrent.CompletableFuture.failedFuture(new IllegalArgumentException("Invalid instance page"));
+        return instances(playerId).thenApply(items->items.stream().skip((long)page*size).limit(size).toList());
+    }
+    default CompletionStage<java.util.Optional<StoryInstance>> instance(UUID playerId,String instanceId){return instances(playerId).thenApply(items->items.stream().filter(i->i.id().equals(instanceId)&&i.contains(playerId)).findFirst());}
+    /** Member history plus eligible active shared stories. Follow nextCursor even for an empty page. */
+    default CompletionStage<StoryPage> storyPage(UUID playerId,String afterId,int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Paged story queries unavailable"));}
     CompletionStage<List<StoryInstance>> activeInstances();
     CompletionStage<List<StoryInstance>> availableInstances(UUID playerId);
     CompletionStage<Map<String,StoryDefinition.Choice>> availableChoices(String instanceId, UUID playerId);
     CompletionStage<List<WorldEvent>> history(String nationId, UUID playerId, int page, int size);
+    /** Read after an existing matching event in descending stored time/ID order. Null starts
+     * at the newest event; size is 1..100. New arrivals may appear on a later refresh. */
+    default CompletionStage<HistoryPage> historyPage(String nationId,UUID playerId,String beforeEventId,int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Cursor history queries unavailable"));}
     /** Public read-only evidenced memory registrations, filtered by an optional exact logical region. */
     default CompletionStage<List<io.github.addxiaoyi.starchronicle.memory.MemoryEntry>> memoryEntries(String regionId,int page,int size){return java.util.concurrent.CompletableFuture.failedFuture(new UnsupportedOperationException("Automatic memory recipes unavailable"));}
     /** At most 256 explicit past.* or history references. Identity is freshly collected by

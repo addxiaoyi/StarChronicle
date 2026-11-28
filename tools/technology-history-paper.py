@@ -134,7 +134,7 @@ def execute(args):
     run = args.run.resolve()
     if run.parent != (ROOT / 'run').resolve() or not run.name.startswith('paper-technology-'):
         raise RuntimeError('Require an isolated prepared run')
-    manifest = json.loads((run / 'preparation.json').read_text())
+    manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
     for filename, key in (('plugins/StarChronicle.jar', 'product_sha256'), ('plugins/StarCore.jar', 'native_sha256'),
                           (f'plugins/{FIXTURE}.jar', 'fixture_sha256'), ('paper.jar', 'paper_sha256')):
         if sha(run / filename) != manifest[key]:

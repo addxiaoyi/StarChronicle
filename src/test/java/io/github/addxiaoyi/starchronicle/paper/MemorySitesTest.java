@@ -227,4 +227,16 @@ class MemorySitesTest {
         sites.refresh(List.of(site(true)));globals.clear();Interaction monument=create(Interaction.class,"siege","monument");
         sites.interact(interaction(monument,true,EquipmentSlot.HAND));assertEquals(List.of(PLAYER_ID),libraries);assertEquals(List.of("event:siege"),evidence);assertTrue(dialogues.isEmpty());
     }
+
+    @Test void veteranObservationRetainsTheEventPlayerAndExpiresWhenTheSiteChanges(){
+        sites.close();List<NpcHooks.Interaction> observations=new ArrayList<>();
+        sites=new MemorySites(plugin,(player,event)->libraries.add(player),observed->observations.add(observed));
+        sites.refresh(List.of(site(true)));globals.clear();Villager veteran=create(Villager.class,"siege","veteran");
+        var event=interaction(veteran,true,EquipmentSlot.HAND);sites.interact(event);
+        assertEquals(1,observations.size());assertSame(event.getPlayer(),observations.getFirst().player());
+        assertEquals("siege-veteran",observations.getFirst().npcId());assertTrue(observations.getFirst().current().getAsBoolean());
+        sites.refresh(List.of(site(false)));assertFalse(observations.getFirst().current().getAsBoolean());
+        sites.refresh(List.of(site(true)));assertFalse(observations.getFirst().current().getAsBoolean());
+        sites.close();assertFalse(observations.getFirst().current().getAsBoolean());
+    }
 }

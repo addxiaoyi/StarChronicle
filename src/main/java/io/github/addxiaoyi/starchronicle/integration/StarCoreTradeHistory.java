@@ -31,22 +31,29 @@ public final class StarCoreTradeHistory {
             return 0;
         }
         try {
-            UUID domain = uuid(call(service, "historyAuthorityDomainId"));
+            UUID domain = domain(service);
             committedMode = true;
             var cursor = journal.cursor(NAMESPACE);
             if (cursor.isPresent() && !cursor.get().authorityDomain().equals(domain))
                 throw new IllegalStateException("Trade history authority changed; restore matching backups");
             if (journal.hasPending(NAMESPACE)) return 0;
             long after = cursor.map(CommittedHistoryJournal.Cursor::sequence).orElse(0L);
-            Object value = call(service, "tradeChangesAfter", after, CommittedHistoryJournal.PAGE_SIZE);
-            if (!(value instanceof List<?> page) || page.size() > CommittedHistoryJournal.PAGE_SIZE)
-                throw new IllegalArgumentException("Invalid trade history page");
             List<CommittedHistoryJournal.Entry> entries = new ArrayList<>();
-            long expected = after;
-            for (Object receipt : page) entries.add(project(receipt, domain, expected = Math.addExact(expected, 1)));
-            if (!uuid(call(service, "historyAuthorityDomainId")).equals(domain))
-                throw new IllegalStateException("Trade authority changed during source read");
-            if (!entries.isEmpty() || cursor.isEmpty() || !cursor.get().live()) journal.stage(NAMESPACE, domain, after, entries);
+            boolean atHead;
+            synchronized(service) {
+                if(!domain(service).equals(domain))throw new IllegalStateException("Trade authority changed during source read");
+                long readAfter=after==0?0:after-1;
+                Object value=call(service,"tradeChangesAfter",readAfter,CommittedHistoryJournal.PAGE_SIZE);
+                if(!(value instanceof List<?> page)||page.size()>CommittedHistoryJournal.PAGE_SIZE)
+                    throw new IllegalArgumentException("Invalid trade history page");
+                atHead=page.size()<CommittedHistoryJournal.PAGE_SIZE;
+                if(after>0&&page.isEmpty())throw new IllegalStateException("Trade source lost its acknowledged receipt");
+                long expected=readAfter;
+                for(Object receipt:page)entries.add(project(receipt,domain,expected=Math.addExact(expected,1)));
+                if(!domain(service).equals(domain))throw new IllegalStateException("Trade authority changed during source read");
+            }
+            if(after>0)journal.verifyAnchor(NAMESPACE,entries.removeFirst());
+            if (!entries.isEmpty() || cursor.isEmpty() || !cursor.get().live()) journal.stage(NAMESPACE, domain, after, entries,atHead);
             return entries.size();
         } catch (NoSuchMethodException legacy) {
             if (!committedMode) return 0;
@@ -56,6 +63,15 @@ public final class StarCoreTradeHistory {
             throw new IllegalStateException("Cannot read committed trade history", failure.getCause());
         } catch (ReflectiveOperationException failure) {
             throw new IllegalStateException("Cannot read committed trade history", failure);
+        }
+    }
+
+    private static UUID domain(Object service)throws ReflectiveOperationException {
+        try { return uuid(call(service,"tradeHistoryAuthorityDomainId")); }
+        catch(NoSuchMethodException originalProtocol) {
+            // The original upstream UUID getter remains supported; an Optional UUID is the
+            // distinct legacy stream and must never be used to pin this sequence space.
+            return uuid(call(service,"historyAuthorityDomainId"));
         }
     }
 

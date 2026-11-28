@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-26",
+  "scope": "NPC provider-instance lifecycle, captured player admission, observed timestamps and owned memory-site observations; source and unit tests only.",
+  "baseline_commits": {
+    "chronicle": "1c4acc06f2db299247f22b542d13037c158a3107",
+    "starcore": "b048071df580a6919e37971d340b4abd681f46d1"
+  },
+  "tests": {
+    "baseline": {
+      "tests": 33,
+      "failures": 10,
+      "errors": 13,
+      "skipped": 0
+    },
+    "baseline-corrected": {
+      "tests": 33,
+      "failures": 26,
+      "errors": 0,
+      "skipped": 0
+    },
+    "targeted": {
+      "tests": 102,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "full": {
+      "tests": 1010,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "new_tests": 53,
+  "source_hashes": {
+    "src/main/java/io/github/addxiaoyi/starchronicle/paper/MemorySites.java": "400e13ea4ff0f019170996a2179527db8066480a2ad9441860881e9df3d0a2f9",
+    "src/main/java/io/github/addxiaoyi/starchronicle/paper/NpcHooks.java": "a1acfb3aeedf41cd5774fd2eb83b6dcb42f574ad2419e5777b6ed99b067f4683",
+    "src/main/java/io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin.java": "4ae68766791c8e67a3852eb85e72c1839a16c1d279ea4726eebb7e5a159bbf0b",
+    "src/test/java/de/oliver/fancynpcs/api/events/NpcInteractEvent.java": "a579b4e8d61e98c513007ea56fd8a0b4498f4a78f5ab35f5badd31a1f71e0ba6",
+    "src/test/java/ink/ptms/adyeshach/core/event/AdyeshachEntityInteractEvent.java": "a888a2d06dc3c5d06280d9e69f7979bf76f492758e4b6cc7ad0f42812b56d2cc",
+    "src/test/java/io/github/addxiaoyi/starchronicle/paper/MemorySitesTest.java": "88dfc40e923b97e5146403d2dd066596740b6cea189d6ec844c83b54986c95b3",
+    "src/test/java/io/github/addxiaoyi/starchronicle/paper/NpcHooksTest.java": "b9914a38621687a2e37f35b15457afc2a5724d0152c71fc932e077d0d37e8fc2",
+    "src/test/java/io/github/addxiaoyi/starchronicle/paper/NpcInteractionLifecycleTest.java": "a44e6b8294954967b905b39cf11a822128e64b099b8ccb8d706a5500d0960c51",
+    "src/test/java/net/citizensnpcs/api/event/NPCRightClickEvent.java": "958fc53abdfdb99ad26200fc7a9c69a1565aaedf5ea940eeb8d6ad666d527a10"
+  },
+  "artifacts": {
+    "starchronicle_sha256": "e020c1ad8d26466c9e170a0af44beda82ef3674654656a5015aa23bf80964f23",
+    "sources_sha256": "aa59ea116635f97b91c71411df5fb8227fe1af2648fcbec5bd903fd38892b6dd",
+    "starcore_sha256": "928637205bffa395a52781eade913650e767c551a04b5f1a78a6a3e86183e87b"
+  },
+  "limits": [
+    "No Minecraft or actual third-party/protection-plugin execution.",
+    "API-shaped test doubles do not certify specific provider binaries.",
+    "Local full verify used one 256 MiB JVM, forkCount=0 and jacoco.skip=true; no local coverage result.",
+    "An already admitted observation may finish after disable; committed history is not rolled back.",
+    "This is not a durable provider outbox; pre-admission loss and interactions while disabled cannot be recovered.",
+    "StarCore source and JAR are unchanged; the previous 1558 focused regression result is retained, not rerun or relabeled as a full native suite."
+  ],
+  "evidence_zip_sha256": "d8f4546ed77dd56f28a940e1c4d9c101a1e4436b76585006ce7fc6861c050ee9",
+  "evidence_files": 152
+}

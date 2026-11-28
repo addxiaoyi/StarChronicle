@@ -21,8 +21,18 @@ public final class QuestGateLedger {
                        String effectId, UUID playerId, String questId, Mode mode, String expectedNationId,
                        Instant openedAt, String providerId, Instant providerPinnedAt, Status status, AcceptedRun acceptedRun,
                        CommittedCompletion completion, Instant updatedAt, Instant lastCheckedAt,
-                       long revision, String message, boolean active) {
-        public QuestRequest request() { return new QuestRequest(id,playerId,questId,openedAt,expectedNationId,mode); }
+                       long revision, String message, boolean active, int attempt) {
+        public Gate(String id,String instanceId,String sourceEventId,String storyId,String storyVersion,
+                    String storyFingerprint,String scopeKey,String nodeId,String effectId,UUID playerId,
+                    String questId,Mode mode,String expectedNationId,Instant openedAt,String providerId,
+                    Instant providerPinnedAt,Status status,AcceptedRun acceptedRun,CommittedCompletion completion,
+                    Instant updatedAt,Instant lastCheckedAt,long revision,String message,boolean active) {
+            this(id,instanceId,sourceEventId,storyId,storyVersion,storyFingerprint,scopeKey,nodeId,effectId,
+                    playerId,questId,mode,expectedNationId,openedAt,providerId,providerPinnedAt,status,
+                    acceptedRun,completion,updatedAt,lastCheckedAt,revision,message,active,1);
+        }
+        public String bindingId() { return attempt==1?id:RuleEngine.stable("quest-attempt",id,Integer.toString(attempt)); }
+        public QuestRequest request() { return new QuestRequest(bindingId(),playerId,questId,openedAt,expectedNationId,mode); }
         public boolean completed() { return status==Status.COMMITTED; }
     }
     public record Mutation(boolean changed, Gate gate, boolean completionNewlyRecorded) {}
@@ -47,6 +57,15 @@ public final class QuestGateLedger {
                 "CHECK(provider_id IS NOT NULL OR accepted_json IS NULL),"+
                 "CHECK((status='COMMITTED' AND accepted_json IS NOT NULL AND completion_json IS NOT NULL AND provider_id IS NOT NULL) OR (status<>'COMMITTED' AND completion_json IS NULL)),"+
                 "UNIQUE(instance_id,node_id,effect_id,player_id))");
+            boolean hasAttempt=false;
+            try(var columns=s.executeQuery("PRAGMA table_info(quest_gates)")){while(columns.next())if("attempt".equals(columns.getString("name")))hasAttempt=true;}
+            if(!hasAttempt)s.execute("ALTER TABLE quest_gates ADD COLUMN attempt INTEGER NOT NULL DEFAULT 1 CHECK(attempt>0)");
+            s.execute("CREATE TABLE IF NOT EXISTS quest_gate_attempts("+
+                "gate_id TEXT NOT NULL REFERENCES quest_gates(id),attempt INTEGER NOT NULL CHECK(attempt>0),"+
+                "binding_id TEXT NOT NULL UNIQUE,provider_id TEXT NOT NULL,issuer TEXT NOT NULL,run_id TEXT NOT NULL,"+
+                "termination_id TEXT NOT NULL,gate_json TEXT NOT NULL,proof_json TEXT NOT NULL,proof_hash TEXT NOT NULL,"+
+                "next_opened_at INTEGER NOT NULL,actor_id TEXT NOT NULL,PRIMARY KEY(gate_id,attempt),"+
+                "UNIQUE(issuer,run_id),UNIQUE(issuer,termination_id))");
             s.execute("CREATE INDEX IF NOT EXISTS quest_gate_pending ON quest_gates(status,last_checked_at,updated_at,id)");
             s.execute("CREATE INDEX IF NOT EXISTS quest_gate_instance ON quest_gates(instance_id,node_id,effect_id,player_id)");
             s.execute("CREATE TABLE IF NOT EXISTS quest_gate_completions("+
@@ -87,7 +106,7 @@ public final class QuestGateLedger {
     public static List<Gate> pending(Connection c,Set<UUID> onlineOwners,int limit)throws SQLException {
         transaction(c);Objects.requireNonNull(onlineOwners);if(limit<1)return List.of();
         List<String> online=onlineOwners.stream().map(UUID::toString).sorted().toList();List<String> ids=new ArrayList<>();
-        String sql="SELECT g.id FROM quest_gates g JOIN instances i ON i.id=g.instance_id WHERE g.status<>'COMMITTED' AND i.completed=0 AND json_extract(i.json,'$.completed')=0 AND json_extract(i.json,'$.node')=g.node_id AND NOT EXISTS(SELECT 1 FROM story_member_reviews m WHERE m.instance_id=g.instance_id AND m.player_id=g.player_id AND m.status<>'APPROVED') AND (g.provider_id IS NOT NULL OR g.player_id IN (SELECT value FROM json_each(?))) ORDER BY g.last_checked_at,g.updated_at,g.id LIMIT ?";
+        String sql="SELECT g.id FROM quest_gates g JOIN instances i ON i.id=g.instance_id WHERE g.status<>'COMMITTED' AND i.completed=0 AND json_extract(i.json,'$.completed')=0 AND json_extract(i.json,'$.node')=g.node_id AND EXISTS(SELECT 1 FROM json_each(i.json,'$.members') m WHERE m.key=g.player_id AND m.value=g.expected_nation_id) AND NOT EXISTS(SELECT 1 FROM story_member_reviews m WHERE m.instance_id=g.instance_id AND m.player_id=g.player_id AND m.status<>'APPROVED') AND (g.provider_id IS NOT NULL OR g.player_id IN (SELECT value FROM json_each(?))) ORDER BY g.last_checked_at,g.updated_at,g.id LIMIT ?";
         try(var s=c.prepareStatement(sql)){s.setString(1,SqliteStore.json(online));s.setInt(2,limit);try(var r=s.executeQuery()){while(r.next())ids.add(r.getString(1));}}
         List<Gate> result=new ArrayList<>();for(String id:ids){Gate gate=load(c,id);if(gate.active()&&!gate.completed())result.add(gate);}return List.copyOf(result);
     }
@@ -133,7 +152,7 @@ public final class QuestGateLedger {
         if(observed.isBefore(gate.openedAt())||observed.isAfter(received))throw new IllegalArgumentException("Quest observation time is outside the gate receipt window");
         if(observation.status()!=Status.COMMITTED&&observation.completion()!=null)throw new IllegalArgumentException("Only a committed observation may carry a receipt");
         AcceptedRun accepted=observation.acceptedRun();
-        if(accepted!=null)validateAccepted(gate,accepted,observed);
+        if(accepted!=null){validateAccepted(gate,accepted,observed);requireUnterminated(c,accepted);}
         if(gate.acceptedRun()!=null&&accepted!=null&&!gate.acceptedRun().equals(accepted))throw new IllegalStateException("Native quest acceptance is immutable");
         if(observation.status()==Status.ACTIVE&&accepted==null)throw new IllegalArgumentException("Active quest requires a canonical acceptance");
         if(observation.status()==Status.COMMITTED) {
@@ -149,6 +168,85 @@ public final class QuestGateLedger {
         AcceptedRun keep=accepted==null?gate.acceptedRun():accepted;String message=observation.message()==null?"":observation.message();
         if(observation.status()==gate.status()&&Objects.equals(keep,gate.acceptedRun())&&received.equals(gate.lastCheckedAt())&&message.equals(gate.message()))return unchanged(gate);
         update(c,gate,observation.status(),keep,null,message,received);return new Mutation(true,load(c,gate.id()),false);
+    }
+
+    /** Every asynchronous caller carries its captured binding, including bare UNKNOWN replies. */
+    public static Mutation observe(Connection c,String gateId,String bindingId,String providerId,QuestObservation observation,Instant receivedAt)throws SQLException {
+        transaction(c);Gate current=load(c,gateId);
+        if(!current.bindingId().equals(bindingId))return unchanged(current);
+        return observe(c,gateId,providerId,observation,receivedAt);
+    }
+
+    /** Archive the exact old run and terminal proof, then allocate a new binding atomically. */
+    public static Gate retry(Connection c,String gateId,int expectedAttempt,String providerId,
+                             QuestTermination proof,UUID actor,Instant now)throws SQLException {
+        transaction(c);Gate gate=load(c,gateId);
+        if(!gate.active()||gate.completed()||gate.attempt()!=expectedAttempt)
+            throw new IllegalStateException("任务轮次已变化，请刷新后重试");
+        if(!gate.playerId().equals(actor)||!Objects.equals(gate.providerId(),providerId))
+            throw new SecurityException("只能重试本人在原提供者上的任务");
+        Instant at=receiptTime(gate,now);
+        if(at.isBefore(gate.lastCheckedAt())||at.isBefore(gate.updatedAt()))throw new IllegalArgumentException("Retry predates the gate state");
+        validateTermination(gate,proof,at);
+        try(var s=c.prepareStatement("SELECT 1 FROM quest_gate_completions WHERE issuer=? AND run_id=?")) {
+            s.setString(1,proof.acceptedRun().issuer());s.setString(2,proof.acceptedRun().runId());
+            try(var r=s.executeQuery()){if(r.next())throw new IllegalStateException("A completed native run cannot authorize a retry");}
+        }
+        String gateJson=SqliteStore.json(gate),proofJson=SqliteStore.json(proof);
+        try(var s=c.prepareStatement("INSERT INTO quest_gate_attempts(gate_id,attempt,binding_id,provider_id,issuer,run_id,termination_id,gate_json,proof_json,proof_hash,next_opened_at,actor_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)")) {
+            s.setString(1,gate.id());s.setInt(2,gate.attempt());s.setString(3,gate.bindingId());s.setString(4,providerId);
+            s.setString(5,proof.acceptedRun().issuer());s.setString(6,proof.acceptedRun().runId());s.setString(7,proof.terminationId());
+            s.setString(8,gateJson);s.setString(9,proofJson);s.setString(10,RuleEngine.stable("quest-attempt-proof",gateJson,proofJson));s.setLong(11,at.toEpochMilli());s.setString(12,actor.toString());s.executeUpdate();
+        }
+        int next=Math.addExact(gate.attempt(),1);
+        try(var s=c.prepareStatement("UPDATE quest_gates SET attempt=?,opened_at=?,provider_pinned_at=?,status='NOT_STARTED',accepted_json=NULL,completion_json=NULL,updated_at=?,last_checked_at=?,revision=revision+1,message='已保留原任务终止凭据，等待新轮次接取' WHERE id=? AND revision=?")) {
+            s.setInt(1,next);s.setLong(2,at.toEpochMilli());s.setLong(3,at.toEpochMilli());s.setLong(4,at.toEpochMilli());s.setLong(5,at.toEpochMilli());s.setString(6,gate.id());s.setLong(7,gate.revision());
+            if(s.executeUpdate()!=1)throw new IllegalStateException("Quest retry raced with another observation");
+        }
+        return load(c,gate.id());
+    }
+
+    private static void validateTermination(Gate gate,QuestTermination proof,Instant received) {
+        Objects.requireNonNull(proof,"durable termination");Objects.requireNonNull(proof.acceptedRun(),"terminated run");
+        if((proof.status()!=Status.FAILED&&proof.status()!=Status.ABANDONED)||gate.status()!=proof.status()
+                ||gate.acceptedRun()==null||!gate.acceptedRun().equals(proof.acceptedRun()))
+            throw new IllegalStateException("只有已确认失败或放弃的原始任务可以开启新轮次；UNKNOWN 必须先对账");
+        validateAccepted(gate,proof.acceptedRun(),received);text(proof.terminationId(),"termination ID");text(proof.evidence(),"termination evidence");
+        if(millis(proof.terminatedAt()).isBefore(millis(proof.acceptedRun().startedAt()))
+                ||millis(proof.committedAt()).isBefore(millis(proof.terminatedAt()))||millis(proof.committedAt()).isAfter(received))
+            throw new IllegalArgumentException("Invalid durable termination chronology");
+    }
+
+    private static void requireUnterminated(Connection c,AcceptedRun run)throws SQLException {
+        try(var s=c.prepareStatement("SELECT 1 FROM quest_gate_attempts WHERE issuer=? AND run_id=?")) {
+            s.setString(1,run.issuer());s.setString(2,run.runId());
+            try(var r=s.executeQuery()){if(r.next())throw new IllegalStateException("An archived native run cannot be reused by a new attempt");}
+        }
+    }
+
+    private static void verifyAttempts(Connection c,Gate gate)throws SQLException {
+        try(var s=c.prepareStatement("SELECT COUNT(*),MIN(attempt),MAX(attempt) FROM quest_gate_attempts WHERE gate_id=?")) {
+            s.setString(1,gate.id());try(var r=s.executeQuery()) {
+                if(!r.next()||r.getLong(1)!=(long)gate.attempt()-1||(gate.attempt()>1&&(r.getInt(2)!=1||r.getInt(3)!=gate.attempt()-1)))
+                    throw new IllegalStateException("Quest attempt archive has a gap");
+            }
+        }
+        if(gate.attempt()==1)return;
+        try(var s=c.prepareStatement("SELECT * FROM quest_gate_attempts WHERE gate_id=? AND attempt=?")) {
+            s.setString(1,gate.id());s.setInt(2,gate.attempt()-1);try(var r=s.executeQuery()) {
+                if(!r.next())throw new IllegalStateException("Missing previous quest attempt");
+                String gateJson=r.getString("gate_json"),proofJson=r.getString("proof_json");
+                Gate previous=SqliteStore.decode(gateJson,Gate.class);QuestTermination proof=SqliteStore.decode(proofJson,QuestTermination.class);
+                if(!RuleEngine.stable("quest-attempt-proof",gateJson,proofJson).equals(r.getString("proof_hash"))
+                        ||!gate.id().equals(previous.id())||previous.attempt()!=gate.attempt()-1
+                        ||!Objects.equals(gate.providerId(),previous.providerId())||!Objects.equals(gate.providerId(),r.getString("provider_id"))
+                        ||!previous.bindingId().equals(r.getString("binding_id"))||!gate.playerId().toString().equals(r.getString("actor_id"))
+                        ||!proof.acceptedRun().issuer().equals(r.getString("issuer"))||!proof.acceptedRun().runId().equals(r.getString("run_id"))
+                        ||!proof.terminationId().equals(r.getString("termination_id"))||gate.openedAt().toEpochMilli()!=r.getLong("next_opened_at"))
+                    throw new IllegalStateException("Quest attempt archive differs from the current binding");
+                validateIdentity(c,previous,stored(c,gate.instanceId()));validateTermination(previous,proof,gate.openedAt());
+            }
+        }
     }
 
     public static boolean ready(Connection c,StoryInstance current,PlayerContext actor)throws SQLException { return view(c,current,actor).ready(); }
@@ -176,25 +274,19 @@ public final class QuestGateLedger {
                 if(!r.next())throw new IllegalArgumentException("Quest gate does not exist: "+id);
                 String accepted=r.getString("accepted_json"),completion=r.getString("completion_json");
                 Instant pinnedAt=r.getObject("provider_pinned_at")==null?null:Instant.ofEpochMilli(r.getLong("provider_pinned_at"));
-                gate=new Gate(r.getString("id"),r.getString("instance_id"),r.getString("source_event_id"),r.getString("story_id"),r.getString("story_version"),r.getString("story_fingerprint"),r.getString("scope_key"),r.getString("node_id"),r.getString("effect_id"),UUID.fromString(r.getString("player_id")),r.getString("quest_id"),Mode.valueOf(r.getString("mode")),r.getString("expected_nation_id"),Instant.ofEpochMilli(r.getLong("opened_at")),r.getString("provider_id"),pinnedAt,Status.valueOf(r.getString("status")),accepted==null?null:SqliteStore.decode(accepted,AcceptedRun.class),completion==null?null:SqliteStore.decode(completion,CommittedCompletion.class),Instant.ofEpochMilli(r.getLong("updated_at")),Instant.ofEpochMilli(r.getLong("last_checked_at")),r.getLong("revision"),r.getString("message"),false);
+                gate=new Gate(r.getString("id"),r.getString("instance_id"),r.getString("source_event_id"),r.getString("story_id"),r.getString("story_version"),r.getString("story_fingerprint"),r.getString("scope_key"),r.getString("node_id"),r.getString("effect_id"),UUID.fromString(r.getString("player_id")),r.getString("quest_id"),Mode.valueOf(r.getString("mode")),r.getString("expected_nation_id"),Instant.ofEpochMilli(r.getLong("opened_at")),r.getString("provider_id"),pinnedAt,Status.valueOf(r.getString("status")),accepted==null?null:SqliteStore.decode(accepted,AcceptedRun.class),completion==null?null:SqliteStore.decode(completion,CommittedCompletion.class),Instant.ofEpochMilli(r.getLong("updated_at")),Instant.ofEpochMilli(r.getLong("last_checked_at")),r.getLong("revision"),r.getString("message"),false,r.getInt("attempt"));
             }
         }
-        StoryInstance instance=stored(c,gate.instanceId());validateIdentity(c,gate,instance);
-        boolean active=!instance.completed()&&instance.node().equals(gate.nodeId())&&instance.contains(gate.playerId())
+        StoryInstance instance=stored(c,gate.instanceId());validateIdentity(c,gate,instance);verifyAttempts(c,gate);
+        boolean active=!instance.completed()&&instance.node().equals(gate.nodeId())&&Objects.equals(gate.expectedNationId(),instance.members().get(gate.playerId()))
                 &&MemberReviewLedger.find(c,instance.id(),gate.playerId()).map(r->r.status()==MemberReviewLedger.Status.APPROVED).orElse(true);
         if(gate.providerId()!=null)text(gate.providerId(),"stored provider");
-        if(gate.acceptedRun()!=null){if(gate.providerId()==null)throw new IllegalStateException("Unpinned quest gate has acceptance");validateAccepted(gate,gate.acceptedRun(),gate.lastCheckedAt());}
+        if(gate.acceptedRun()!=null){if(gate.providerId()==null)throw new IllegalStateException("Unpinned quest gate has acceptance");validateAccepted(gate,gate.acceptedRun(),gate.lastCheckedAt());requireUnterminated(c,gate.acceptedRun());}
         if(gate.completed()) {
             if(gate.completion()==null||!Objects.equals(gate.acceptedRun(),gate.completion().acceptedRun()))throw new IllegalStateException("Stored completion changed acceptance");
             validateCompletion(gate,gate.completion(),gate.lastCheckedAt());verifyConsumed(c,gate);
         } else if(gate.completion()!=null)throw new IllegalStateException("Incomplete gate contains a completion");
-        return new Gate(gate.id(),gate.instanceId(),gate.sourceEventId(),gate.storyId(),gate.storyVersion(),gate.storyFingerprint(),gate.scopeKey(),gate.nodeId(),gate.effectId(),gate.playerId(),gate.questId(),gate.mode(),gate.expectedNationId(),gate.openedAt(),gate.providerId(),gate.providerPinnedAt(),gate.status(),gate.acceptedRun(),gate.completion(),gate.updatedAt(),gate.lastCheckedAt(),gate.revision(),gate.message(),active);
-    }
-
-    private static boolean originalMember(Connection c,Gate gate,StoryInstance instance)throws SQLException {
-        if(instance.contains(gate.playerId()))return Objects.equals(gate.expectedNationId(),instance.members().get(gate.playerId()));
-        return MemberReviewLedger.find(c,instance.id(),gate.playerId())
-                .map(r->r.status()==MemberReviewLedger.Status.EXITED&&r.originalNationId().equals(gate.expectedNationId())).orElse(false);
+        return new Gate(gate.id(),gate.instanceId(),gate.sourceEventId(),gate.storyId(),gate.storyVersion(),gate.storyFingerprint(),gate.scopeKey(),gate.nodeId(),gate.effectId(),gate.playerId(),gate.questId(),gate.mode(),gate.expectedNationId(),gate.openedAt(),gate.providerId(),gate.providerPinnedAt(),gate.status(),gate.acceptedRun(),gate.completion(),gate.updatedAt(),gate.lastCheckedAt(),gate.revision(),gate.message(),active,gate.attempt());
     }
 
     private static boolean personalScope(Connection c,StoryInstance instance)throws SQLException {
@@ -202,24 +294,41 @@ public final class QuestGateLedger {
         if(!instance.members().isEmpty()||!instance.scopeKey().startsWith("player:"))return false;
         UUID player;
         try {player=UUID.fromString(instance.scopeKey().substring(7));}catch(IllegalArgumentException invalid){return false;}
-        return MemberReviewLedger.find(c,instance.id(),player).map(r->r.status()==MemberReviewLedger.Status.EXITED).orElse(false);
+        if(MemberReviewLedger.find(c,instance.id(),player).map(r->r.status()==MemberReviewLedger.Status.EXITED).orElse(false))return true;
+        try(var s=c.prepareStatement("SELECT 1 FROM story_member_review_log WHERE instance_id=? AND player_id=? AND status='EXITED' LIMIT 1")) {
+            s.setString(1,instance.id());s.setString(2,player.toString());try(var r=s.executeQuery()){return r.next();}
+        }
     }
 
     private static void validateIdentity(Connection c,Gate gate,StoryInstance instance)throws SQLException {
         if(!gate.id().equals(RuleEngine.stable("quest-gate",instance.id(),gate.nodeId(),gate.effectId(),gate.playerId().toString()))
                 ||!gate.sourceEventId().equals(instance.sourceEventId())||!gate.storyId().equals(instance.definition().id())||!gate.storyVersion().equals(instance.definition().version())
                 ||!gate.storyFingerprint().equals(DefinitionCanonicalCodec.fingerprintV2(instance.definition()))||!gate.scopeKey().equals(instance.scopeKey())
-                ||!originalMember(c,gate,instance)
-                ||gate.openedAt().isBefore(millis(instance.startedAt()))||gate.updatedAt().isBefore(gate.openedAt())||gate.lastCheckedAt().isBefore(gate.openedAt())||gate.revision()<1)
+                ||instance.definition().scope()==StoryDefinition.Scope.PLAYER&&!gate.scopeKey().equals("player:"+gate.playerId())
+                ||instance.definition().scope()==StoryDefinition.Scope.NATION&&!gate.scopeKey().equals("nation:"+gate.expectedNationId())
+                ||!knownMembership(c,gate,instance)
+                ||gate.openedAt().isBefore(millis(instance.startedAt()))||gate.updatedAt().isBefore(gate.openedAt())||gate.lastCheckedAt().isBefore(gate.openedAt())||gate.revision()<1||gate.attempt()<1)
             throw new IllegalStateException("Stored quest gate identity does not match its pinned instance");
         if(gate.providerId()==null?gate.providerPinnedAt()!=null:gate.providerPinnedAt()==null||gate.providerPinnedAt().isBefore(gate.openedAt())||gate.providerPinnedAt().isAfter(gate.updatedAt()))throw new IllegalStateException("Stored quest provider pin time is inconsistent");
         var effect=awaits(instance,gate.nodeId()).stream().filter(e->e.id().equals(gate.effectId())).findFirst().orElseThrow(()->new IllegalStateException("Quest gate effect no longer matches pinned definition"));
         if(!gate.questId().equals(effect.target())||gate.mode()!=Mode.valueOf(effect.value()))throw new IllegalStateException("Stored quest gate target or mode changed");
     }
 
+    /** Exiting or rejoining does not invalidate the immutable original membership evidence. */
+    private static boolean knownMembership(Connection c,Gate gate,StoryInstance instance)throws SQLException {
+        if(Objects.equals(gate.expectedNationId(),instance.members().get(gate.playerId())))return true;
+        var review=MemberReviewLedger.find(c,instance.id(),gate.playerId());
+        if(review.filter(r->r.status()==MemberReviewLedger.Status.EXITED && r.originalNationId().equals(gate.expectedNationId())
+                && !millis(r.checkedAt()).isBefore(gate.openedAt())).isPresent())return true;
+        try(var s=c.prepareStatement("SELECT checked_at FROM story_member_review_log WHERE instance_id=? AND player_id=? AND original_nation_id=? AND status='EXITED' ORDER BY seq DESC LIMIT 1")) {
+            s.setString(1,gate.instanceId());s.setString(2,gate.playerId().toString());s.setString(3,gate.expectedNationId());
+            try(var r=s.executeQuery()){return r.next()&&!millis(Instant.parse(r.getString(1))).isBefore(gate.openedAt());}
+        }
+    }
+
     private static void validateAccepted(Gate gate,AcceptedRun accepted,Instant observed) {
         text(accepted.bindingId(),"binding");text(accepted.runId(),"run");text(accepted.questId(),"quest");text(accepted.issuer(),"issuer");text(accepted.evidence(),"acceptance evidence");
-        if(!gate.id().equals(accepted.bindingId())||!gate.playerId().equals(accepted.playerId())||!gate.questId().equals(accepted.questId()))throw new IllegalArgumentException("Native acceptance is for another gate, owner or task");
+        if(!gate.bindingId().equals(accepted.bindingId())||!gate.playerId().equals(accepted.playerId())||!gate.questId().equals(accepted.questId()))throw new IllegalArgumentException("Native acceptance is for another gate, owner or task");
         if(accepted.definitionFingerprint()==null||!accepted.definitionFingerprint().matches("[0-9a-f]{64}"))throw new IllegalArgumentException("Native quest definition fingerprint is invalid");
         if(gate.providerPinnedAt()==null)throw new IllegalStateException("Native acceptance requires a previously pinned provider");
         Instant started=millis(accepted.startedAt());if(started.isBefore(gate.providerPinnedAt())||started.isAfter(observed))throw new IllegalArgumentException("Native quest run predates its provider pin or observation");

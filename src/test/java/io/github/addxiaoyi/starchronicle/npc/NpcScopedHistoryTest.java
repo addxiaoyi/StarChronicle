@@ -39,6 +39,16 @@ class NpcScopedHistoryTest {
         }
     }
 
+    @Test void dialogueWithoutHistoryPredicatesStillRendersUnconditionalHistoryPlaceholders() {
+        var catalog=catalog(List.of(new NpcCatalog.Dialogue("display",10,null,"World={history.AWARD}; player={chronicle.history.player.AWARD}")),List.of());
+        try(var store=new SqliteStore(temp.resolve("template-history.db"))) {
+            seed(store);var ledger=new NpcLedger(store,catalog);
+            var view=ledger.view(A,"guide",context(A,"north"),Map.of());
+            assertEquals("World=2; player=1",view.dialogue());
+            assertEquals("1",view.facts().get("chronicle.history.nation.AWARD"));
+        }
+    }
+
     @Test void requestedZeroCountDialogueDistinguishesKnownNationFromUnknownNation() {
         var catalog=catalog(List.of(new NpcCatalog.Dialogue("national-zero",100,eq("chronicle.history.nation.MISSING","0"),"Known national zero"),new NpcCatalog.Dialogue("personal-zero",50,eq("chronicle.history.player.MISSING","0"),"Known personal zero"),fallback()),List.of());
         try(var store=new SqliteStore(temp.resolve("zero.db"))) {

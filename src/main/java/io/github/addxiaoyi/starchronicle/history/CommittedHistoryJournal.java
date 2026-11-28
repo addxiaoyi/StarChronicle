@@ -72,6 +72,11 @@ public final class CommittedHistoryJournal {
      * Initial catch-up is archive-only; later commits activate stories, including after restart.
      * Never silently reset a cursor when a different database is installed. */
     public void stage(String namespace, UUID domain, long after, List<Entry> page) {
+        stage(namespace,domain,after,page,page.size()<PAGE_SIZE);
+    }
+    /** A source page may include a verified anchor outside these new entries. Its original
+     * fullness decides whether initial catch-up is complete, not the count after removing it. */
+    public void stage(String namespace, UUID domain, long after, List<Entry> page, boolean atHead) {
         namespace(namespace); Objects.requireNonNull(domain);
         List<Entry> entries = List.copyOf(page);
         if (after < 0 || entries.size() > PAGE_SIZE) throw new IllegalArgumentException("Invalid history page");
@@ -107,7 +112,7 @@ public final class CommittedHistoryJournal {
             boolean activate = old.map(Cursor::live).orElse(false);
             try (var s = c.prepareStatement("INSERT INTO committed_history_sources(namespace,authority_domain,sequence,live) VALUES(?,?,?,?) ON CONFLICT(namespace) DO UPDATE SET sequence=excluded.sequence,live=excluded.live")) {
                 s.setString(1, namespace); s.setString(2, domain.toString()); s.setLong(3, last);
-                s.setBoolean(4, activate || entries.size() < PAGE_SIZE); s.executeUpdate();
+                s.setBoolean(4, activate || atHead); s.executeUpdate();
             }
             for (Entry entry : entries) try (var s = c.prepareStatement("INSERT INTO committed_history_ingress(id,namespace,sequence,status,activate,json) VALUES(?,?,?,'PENDING',?,?)")) {
                 s.setString(1, entry.event().id()); s.setString(2, namespace); s.setLong(3, entry.sequence()); s.setBoolean(4, activate); s.setString(5, json(entry.event())); s.executeUpdate();
@@ -131,13 +136,18 @@ public final class CommittedHistoryJournal {
         return store.transaction(c -> pending(c, namespace));
     }
     public List<Pending> pending(int limit) {
+        return pending(null,limit);
+    }
+    public List<Pending> pending(String namespace,int limit) {
+        if(namespace!=null)namespace(namespace);
         if (limit < 1 || limit > PAGE_SIZE) throw new IllegalArgumentException("History batch must be 1..128");
         return store.transaction(c -> {
             List<Pending> result = new ArrayList<>();
             // Interleave sources while preserving each source's own order. A busy earlier
             // namespace must not starve another source's refunds or initial catch-up.
-            try (var s = c.prepareStatement("SELECT h.json,h.activate,t.json,r.json,p.json FROM committed_history_ingress h LEFT JOIN committed_trade_ingress t ON t.event_id=h.id LEFT JOIN committed_resource_ingress r ON r.event_id=h.id LEFT JOIN committed_processing_ingress p ON p.event_id=h.id WHERE h.status='PENDING' ORDER BY ROW_NUMBER() OVER(PARTITION BY h.namespace ORDER BY h.sequence),h.namespace LIMIT ?")) {
-                s.setInt(1, limit);
+            try (var s = c.prepareStatement("SELECT h.json,h.activate,t.json,r.json,p.json FROM committed_history_ingress h LEFT JOIN committed_trade_ingress t ON t.event_id=h.id LEFT JOIN committed_resource_ingress r ON r.event_id=h.id LEFT JOIN committed_processing_ingress p ON p.event_id=h.id WHERE h.status='PENDING'"+(namespace==null?"":" AND h.namespace=?")+" ORDER BY ROW_NUMBER() OVER(PARTITION BY h.namespace ORDER BY h.sequence),h.namespace LIMIT ?")) {
+                if(namespace!=null)s.setString(1,namespace);
+                s.setInt(namespace==null?1:2, limit);
                 try (var r = s.executeQuery()) { while (r.next()) result.add(new Pending(decode(r.getString(1), WorldEvent.class), r.getBoolean(2),
                         r.getString(3) == null ? null : decode(r.getString(3), TradeHistoryReceipt.class),
                         r.getString(4) == null ? null : decode(r.getString(4), ResourceHistoryReceipt.class),
@@ -154,6 +164,23 @@ public final class CommittedHistoryJournal {
                     + "AND (namespace<>'starcore.processing' OR EXISTS(SELECT 1 FROM processing_history_receipts p JOIN committed_processing_ingress i ON i.event_id=p.event_id WHERE p.event_id=committed_history_ingress.id AND p.json=i.json))")) {
                 s.setString(1, eventId); return s.executeUpdate() == 1;
             }
+        });
+    }
+    /** Re-read the last receipt even at an idle head: a rolled-back source must not look empty. */
+    public void verifyAnchor(String namespace,Entry anchor) {
+        namespace(namespace);Objects.requireNonNull(anchor);
+        store.transaction(c->{
+            try(var s=c.prepareStatement("SELECT h.json,t.json,r.json,p.json FROM committed_history_ingress h LEFT JOIN committed_trade_ingress t ON t.event_id=h.id LEFT JOIN committed_resource_ingress r ON r.event_id=h.id LEFT JOIN committed_processing_ingress p ON p.event_id=h.id WHERE h.namespace=? AND h.sequence=?")) {
+                s.setString(1,namespace);s.setLong(2,anchor.sequence());
+                try(var rows=s.executeQuery()) {
+                    if(!rows.next()||!decode(rows.getString(1),WorldEvent.class).equals(anchor.event())
+                            ||!Objects.equals(rows.getString(2)==null?null:decode(rows.getString(2),TradeHistoryReceipt.class),anchor.tradeReceipt())
+                            ||!Objects.equals(rows.getString(3)==null?null:decode(rows.getString(3),ResourceHistoryReceipt.class),anchor.resourceReceipt())
+                            ||!Objects.equals(rows.getString(4)==null?null:decode(rows.getString(4),ProcessingHistoryReceipt.class),anchor.processingReceipt()))
+                        throw new IllegalStateException("Committed source changed its acknowledged receipt");
+                }
+            }
+            return null;
         });
     }
     private static Optional<Cursor> cursor(Connection c, String namespace) throws SQLException {

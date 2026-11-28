@@ -8,7 +8,7 @@ public final class ResourceSchemaProbe {
         try(var store=new SqliteStore(Path.of(args[1]))) {
             if(reject) throw new AssertionError("Old plugin accepted a newer receipt database");
             int version=store.transaction(c->{try(var s=c.createStatement();var r=s.executeQuery("PRAGMA user_version")){return r.getInt(1);}});
-            if(version!=9) throw new AssertionError("Expected schema 9");
+            if(version!=10) throw new AssertionError("Expected schema 10");
             System.out.println("UPGRADED schema="+version);
         } catch(IllegalStateException failure) {
             Throwable cause=failure;

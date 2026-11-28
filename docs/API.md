@@ -1,10 +1,16 @@
 # StarChronicle 扩展 API
 
+## 有界剧情查询（schema 8）
+
+界面列表使用 `storyPage(playerId, afterId, size)`；首次游标为 null，继续使用返回的 `nextCursor`，直到它为 null。size 为 1–100，每次最多检查 256 个候选；空列表不一定代表结束。`instance(playerId, instanceId)` 只返回本人的单个实例，`instances(playerId,page,size)` 提供成员历史分页，原无分页方法仍返回完整结果。成员索引不授予动作权限，身份在服务器端采集，详情和操作重新核验正文及权威。容量边界、索引迁移与备份见 [容量与维护](CAPACITY.md)。
+
 ## 国家史诗
 
-`ChronicleService` 提供 `epicCampaignPlans`、`openEpicSignup`、`epicSignup`、`enrollEpicSignup`、`withdrawEpicSignup`、`sealEpicSignup`、`epicCampaign`、`voteEpicRoute`、`prepareEpicOperation`、`epicOperation`、`applyEpicOperation`、`reconcileEpicOperation` 和 `epicProviders`。身份由插件重新采集，修订号来自状态查询。
+`ChronicleService` 提供 `epicCampaignPlans`、`openEpicSignup`、`epicSignup`、`enrollEpicSignup`、`withdrawEpicSignup`、`sealEpicSignup`、`epicCampaign`、`voteEpicRoute`、`prepareEpicOperation`、`epicOperation`、`applyEpicOperation`、`reconcileEpicOperation`、`retryEpicOperation`、`epicOperationAttempt` 和 `epicProviders`。身份由插件重新采集，修订号来自状态查询。
 
 `EpicOperationProvider.supports` 在准备前检查能力。apply 之前先持久占位；不确定结果只查原生回执。provider ID 和 authority domain 固定在操作中，服务注销后旧响应失效。`verifyEpicReceipt` 仅检查 DTO 匹配，不能证明外部传入凭证的真实性。详见 [国家史诗契约](NATIONAL-EPIC-CONTRACT.md)。
+
+`retryEpicOperation(operationId,actorId,expectedRevision)` 只为最新的 RESOURCE_AID REJECTED 操作追加 PREPARED 新尝试；必须由固定 provider 的 `rejectionProof` 只读返回完整匹配的原生永久拒绝栅栏。默认 provider 返回空，旧原生接口、普通 REJECTED 文本、UNKNOWN、ABSENT 及其他操作类型均不授权重试。证明查询完成后重新采集身份、权限、在任代表和 provider 租约。新 ID 不复用原生事务 UUID，原记录不改写，仍需显式 apply。`epicOperationAttempt` 返回根 ID、单调轮次、前驱和所依据证明，新增方法为默认方法以保留旧实现的加载能力。
 
 包名前缀：`io.github.addxiaoyi.starchronicle`。源码 API 为第一阶段 `0.1.0-SNAPSHOT`，未承诺二进制稳定；跨插件部署应固定构建版本。StarChronicle 负责长期编排、共同阶段与历史，StarCore 继续拥有 NarrativeEngine、原任务执行和国家权威状态。
 
@@ -22,9 +28,11 @@ if (chronicle != null) {
 }
 ```
 
-`ChronicleService` 暴露异步 `submit`、`join`、`choose`、`instances`、`activeInstances`、`availableInstances`、`availableChoices`、`history`、`questGateState(instanceId,playerId)`、`npc(playerId,npcId)`、`fate(playerId)` 和 `describe(template,publicFacts)`。运行时会自己收集在线玩家的当前权威快照；集成方不能通过该 API 注入自填国籍或权限。`activeInstances()` 是可信服务器插件的管理查询，GUI 应使用 `availableInstances(playerId)` 避免泄露其他国家或个人实例。
+`ChronicleService` 暴露异步 `submit`、`join`、`choose`、`instances`、`activeInstances`、`availableInstances`、`availableChoices`、`history`、`questGateState(instanceId,playerId)`、`npc(playerId,npcId)`、`fate(playerId)` 和 `describe(template,publicFacts)`。运行时会自己收集在线玩家的当前权威快照；集成方不能通过该 API 注入自填国籍或权限。`activeInstances()` 是可信服务器插件的管理查询，GUI 应使用 `storyPage` 或 `availableInstances(playerId)` 避免泄露其他国家或个人实例。
 
 `questGateState` 是只读投影，要求玩家已是该实例成员并仍保持实例记录的原国籍。个人模式只显示本人任务门槛；国家模式只向同一原国家成员显示。它不接受完成回执，不执行任务、不作出剧情选择，也不代表国家席位。配置使用 `quest.await` 前需有可信的 `QuestEvidenceProvider`，不能将 `quest.accept` 投递成功或目标达标解释为完成。完整 provider/run/completion 合同与 StarCore 部署边界见 [QUEST-GATES.md](QUEST-GATES.md)。
+
+`reconcileQuestGate(gateId, playerId, expectedAttempt)` 向原提供者核对本人的原任务；`retryQuestGate(gateId, playerId, expectedAttempt)` 仅在原生持久确认 FAILED/ABANDONED 后归档旧凭据、开启新轮次。调用者不能提交接受、完成或终止证明，身份和权限在服务端重新采集。轮次来自 `GateSummary.attempt()`，旧轮次和其他成员请求会被拒绝。可选 `QuestRecoveryProvider` 扩展负责原生对账和终止证明查询；不支持该扩展的提供者仍可读取原协议，但不能自动重试。UNKNOWN 对账不重放奖励，也不授权盲目新接取。
 
 对交互界面，应调用带阶段令牌的版本：
 
@@ -153,7 +161,9 @@ try (var engine = new RuleEngine(store, definitions, Clock.systemUTC())) {
 | `reload(List<StoryDefinition>)` | 替换后续新来源匹配所用定义；调用方必须先验证，进行中实例与已排队触发保留各自旧快照 |
 | `close()` | 关闭 store；只能在请求已排空后调用 |
 
-`history` 的 page 从 0 起，size 为 1–100。GUI 使用分页而非加载全部历史。`ProcessReport` 包含 `duplicate`、变更实例 ID 和用户消息。核心数据库事务会串行化共同阶段，不能在 Folia 区域线程直接执行磁盘访问。
+`history` 的 page 从 0 起，size 为 1–100，保留编号分页。新增 `historyPage(nationId,playerId,beforeEventId,size)` 返回不可变 `HistoryPage(events,nextCursor)`；首次 beforeEventId 为 null，之后使用返回的 nextCursor，null 表示结束。游标必须是当前过滤范围内已保存的事件 ID，缺失或范围不匹配会拒绝，不能当作首页。它按数据库原始 `(time,id)` 降序续读，不重新格式化旧时间、不改写证据。新插入的较新历史在刷新首页后可见，迟到的较旧证据可能出现在后页；它不是固定时点快照或授权令牌。旧第三方服务实现可继续加载，新增默认方法明确报告不支持。
+
+历史 GUI 的顺序翻页使用游标，最多保留 128 个回退位置；显式编号跳页和更早回退保留原分页接口，证据详情返回原查询位置。`ProcessReport` 包含 `duplicate`、变更实例 ID 和用户消息。核心数据库事务会串行化共同阶段，不能在 Folia 区域线程直接执行磁盘访问。
 
 ## 外部效果、权限与崩溃窗口
 
@@ -270,25 +280,33 @@ schema 7 仅在原因果表追加默认空的 `recipe_path` 并新增定义、�
 
 ## 贡献查询与成员复核
 
-`ChronicleService.contributions(subjectId, type, page, size)` 返回不可变的原始贡献记录；主体可为 `player:<UUID>`／`nation:<UUID>`，主体与类型传 `null` 表示不过滤。页码从 0 开始，页大小为 1..100。`contributionTotal(subjectId, type, unit)` 使用精确十进制返回当前有效净值，排除争议暂停、已退款和已取消的条目；国库 `treasury` 与资源 `agricultural` 等分别统计。原始条目的金额不代表仍然有效，展示当前贡献请使用 `contributionBalances(subjectId, type, page, size)`，读取 `status`、`netAmount()`、`statusEventId` 与 `statusCommittedAt`。`contributionRevisions(contributionId, page, size)` 按追加修订号倒序返回完整状态轨迹。公开服务没有直接写入贡献或状态的入口。
+`ChronicleService.contributions(subjectId, type, page, size)` 返回已核验的贡献记录；主体可为 `player:<UUID>`／`nation:<UUID>`，主体与类型传 `null` 表示不过滤。页码从 0 开始，页大小为 1..100。`contributionTotal(subjectId, type, unit)` 使用精确十进制按单位汇总，国库 `treasury` 单独统计；RESOURCE_AID 的 `agricultural` 与 `resource.agricultural` 等新旧单位作为查询别名合计。原始行、单位和证据不改写；底层 `ContributionLedger.total` 仍按精确单位查询。公开服务没有直接写入贡献的入口。
 
-schema 8 新增贸易回执与只追加的贡献修订表。原始贡献与历史行不改写；没有修订的旧援助／文明／贸易条目按 ACTIVE 统计。版本 7 插件不能打开升级后的数据库，回退需恢复配套备份。`ContributionRequest` 的单位支持原生 64 字符资源标识；TRADE 数量支持正值至 `Long.MAX_VALUE`（至多六位小数，原生投影使用整数），其他类别仍保留原先 `10^12` 金额上限，不截断或拆分合法原生成交。
+`contributionBalances(subjectId, type, page, size)` 返回原始条目、当前状态、该状态的来源事件／提交时间与 `netAmount()`；只有 ACTIVE 计入净值。`contributionRevisions(contributionId, page, size)` 按追加顺序倒序返回状态凭据。`tradeHistoryReceipt(eventId)` 返回专用贸易来源的完整原生回执，包括超过历史事实长度限制的备注。上述方法均异步只读，分页大小为 1..100；`/chronicle contributions [player|nation] [页]` 显示当前计入／原始数量和状态。
 
-贸易从配套 StarCore 的 `TradeHistoryService.tradeChangesAfter(sequence, 128)` 读取，固定 authority-domain，提交序号与完整收件箱原子落库。`tradeHistoryReceipt(eventId)` 返回无损原生回执，包括完整备注、原始双方／国籍、成交时间、事务发生时间和日志提交时间；WorldEvent 使用 occurredAt，另存 executedAt／committedAt。事件 ID 包含 domain 与 sequence；首次成交为 `TRADE_COMPLETED`，争议为 `TRADE_DISPUTED`，退款／取消为 `TRADE_REFUNDED`／`TRADE_CANCELLED`，恢复为 `TRADE_RESTORED`，同状态备注修订为 `TRADE_UPDATED`。恢复和备注修订不会再次触发 `TRADE_COMPLETED`。
+贸易协调器保留已安装格式：存在旧 `committed_source_cursors` 时继续原来源、操作 ID、`resource.<资源>` 单位、baseline 与剧情激活语义，不重复接入专用 journal；新安装或既有上游 journal 使用 `tradeChangesAfter`，首次追赶只归档、建立净贡献，追上后才激活新剧情。两套贸易游标同时存在时隔离贸易读取并保留数据。原生 UUID getter 优先使用 `tradeHistoryAuthorityDomainId`，兼容上游原 UUID getter，但不会把旧 Optional getter 的序号当作专用流。合并后的数据库升级到 schema 10，阻止会忽略新修订、完整资源回执或运行另一套采集器的 schema 9 及更早旧 JAR 打开；回退必须使用配套旧版备份。
 
-每笔贸易按资源数量为不同参与玩家和国家分别计一条贡献；同国双方的国家合计只计一次，不应把各主体合计视为全服贸易量。只使用回执中的真实玩家和当时国籍；没有该侧玩家主体的国家交易保留历史，不推定创始人。首次连续追赶补齐历史与净贡献，不补发旧剧情、NPC、纪念点或奖励。已有正贡献的争议、退款、取消只追加状态，明确恢复后重新计入原条目；安装日志协议前的旧退款如果没有正贡献，不生成负数。已发出的剧情奖励不因后续退款自动撤销。历史、贡献、状态和正常剧情收件箱同事务，提交后才 ACK；异常保持待处理，重启只补本地账本，不调用原生资产操作。
+旧贡献的原行和既有历史不改写。旧库升级前没有独立修订表，其当前净状态从原始提交凭据读取；新修订表只追加升级后的变化，不能据此声称它列出了升级前的全部修订。旧原始回执仍在 `committed_source_receipts`，不会伪造为缺少字段的完整 `TradeHistoryReceipt`。旧公开 `ContributionEntry.sourceStatus` 投影保持原行为；专用来源的原始条目保持不变，通过余额／修订接口读取当前状态。退款、争议和取消只改变本地有效合计，不调用资产接口或撤回已经发出的奖励。
 
-史诗 `TREASURY_AID`／`RESOURCE_AID` 的提供者回执、历史事件、剧情收件箱和两条主体贡献在同一事务提交；UNKNOWN、拒绝、准备或选项投票不会产生贡献。旧候选的已提交回执由有界恢复任务补入，只读已有 provider/domain 固定回执。国库援助与史诗国库援助使用相同的事件和贡献键，同一转账不会因入口不同被计入两次。
+专用来源支持原生 64 字符资源和 `Long.MAX_VALUE` 数量；国库／资源援助保留原金额上限。旧来源的数量／单位准入规则保持原样，避免重新读取锚点时改写已经固定的凭据。查询单位仍需使用该条目保存的准确单位，贸易的有前缀／无前缀单位不自动合并。
+
+史诗 `TREASURY_AID`／`RESOURCE_AID` 的提供者回执、历史事件、剧情收件箱和每个资源的两条主体贡献在同一事务提交；UNKNOWN、拒绝、准备或选项投票不会产生贡献。旧候选的已提交回执由有界恢复任务补入，只读已有 provider/domain 固定回执。原生回执绑定兼容两分支的旧操作编号与资源单位，保存 `epic_contribution_projections` 恢复标记并核对原回执；已有行及事件保持原值，缺失主体才补录。新国库援助与史诗援助复用规范事件，同一转账按原生回执去重；旧分支已保存的其他历史事件不删除。
 
 `revalidateMember(instanceId, playerId)` 在 StarCore 当前成员变更锁内重新核验原国籍、国家存续及剧情条件；普通成员也可复核，不需要国王身份。缺失权威服务、换国未恢复、无使用权限、退出或已结束剧情均拒绝。`exitMember(instanceId, playerId)` 显式退出活动剧情，保留历史选择与原生任务证明。后台恢复不会自动重新加入；`join` 对退出玩家要求原国籍及当前权威核验。
 
-`memberReviews(playerId, limit)` 返回本人的复核状态，`limit` 为 1..1000。玩家入口为 `/chronicle review <实例ID>`、`leave <实例ID>`、`reviews` 与 `contributions [页]`。插件 API 自行收集实时玩家快照，调用者不能提供国籍或审批标志。已退出成员的任务闸门保持可读且不再主动执行，已经提交的同国任务证明仍属于历史国家；缺少退出证据的成员数据丢失仍按损坏拒绝。
+`memberReviews(playerId, limit)` 返回本人的复核状态，`limit` 为 1..1000。玩家入口保留 `review`／`revalidate`、`membership`、`reviews`、`leave <实例ID> [当前节点ID]` 与 `contributions [player|nation] [页]`；单独页码等同本人贡献。三参 `exitMember` 校验调用方看到的节点，原两参版本退出处理时的当前活动实例。插件 API 自行收集实时玩家快照，调用者不能提供国籍或审批标志。已退出成员的任务闸门保持可读且不再主动执行，已经提交的同国任务证明仍属于历史国家；原审核行或追加退出历史均可证明旧成员，缺少全部证据仍按损坏拒绝。
+
+嵌入式 `RuleEngine` 旧构造器保持由可信调用方授权上下文的契约；新增带 `MemberAuthority` 构造器在本引擎复核／重新加入时取得同步、单次、同线程的成员凭据。公开插件使用该原生权威模式，退出后重新加入要求原国籍；独立模式仅允许无国家成员。旧嵌入式显式重新加入仍可记录新的成员决定，追加历史不会被改写。该兼容入口不适合接收玩家自填身份。
 
 ## 首都指定与迁移提交历史
+
+`CapitalHistoryCoordinator` 按已安装账本选择单一读取路径：旧 `committed_source_cursors` 中的 `starcore.capital` 保留 `NationService.authorityDomainId()` 国家存储域、旧事件 ID 和 `capital.city_id`／`capital.previous_city_id` 字段；新安装和上游账本沿用下述独立 `starcore.capitals` 域。两种游标并存时停止消费并保留证据，不静默重置、改域或双采集。旧国家域与新首都域不可互换。
 
 内置 `StarCoreCapitalHistory` 读取独立 `capitalHistoryAuthorityDomainId()` 与 `capitalChangesAfter(sequence,128)`，固定 `starcore.capitals` 来源域。每条 `CapitalChangeReceipt` 包含域和完整 `CapitalDesignation`；连续序号、稳定 operation UUID、国家、原／新城市、真实 actor 与 `Instant` 都进入规范历史。首条是 `CAPITAL_DESIGNATED`，后续是 `CAPITAL_MOVED`；`capital.city`／`city.id`、可选 `capital.previous`、`capital.change`、`actor.id`、`nation.id`、`history.*` 与 `time_basis=COMMITTED` 可供规则使用。参与者只含原指定人，之后转让国主不会改写旧记录；不额外推定贡献。
 
 首次追赶仅归档，后续新提交／离线补读才进入正常剧情收件箱。每次最多128条，来源域与游标同 ingress 事务；消费完成才 ACK。源缺失、换域、游标超前、非连续页和写入失败保留游标，不回退到缓存首都或重建旧 OBSERVED 历史。新记录保留纳秒，旧原生日志只具毫秒精度，迁移不补造精度。
+
+续读包含上一条已读回执并核对完整事件；来源在同一序号更改原指定人、城市、国家或时间也会拒绝继续。是否追赶完成由包含锚点的原始页长度决定；满页除去锚点后的127条不能提前开启剧情。各来源只消费自己的待处理记录。
 
 原生在 `nation/capital-designations.log.sqlite` 同事务保存日志与提交位置；原 `.log` 成为迁移标记、`.log.legacy` 保留迁移前完整字节（包含未提交尾部）。旧插件遇到标记会拒绝读取；回退需整套匹配旧备份，不可删标记重新初始化。首次迁移与启动完整校验，日常查询使用序号／国家索引；不支持运行中手改或单独替换来源文件。部署／备份范围见首都专项报告。
 
@@ -301,9 +319,14 @@ schema 8 新增贸易回执与只追加的贡献修订表。原始贡献与历�
 
 普通增减库存不是生产证明。资源历史不新增贡献，不重复计入已由援助或贸易回执建立的贡献，也不推定当前国主为原始操作人。`resource.kind/reference/category/description/balance_count/receipt_sha256` 保留检索与核对信息；详细余额通过完整回执查询。
 
-schema 9 增加完整资源回执表并要求消费事务提交该回执后才确认 ingress。版本 8 及更早插件拒绝打开 schema 9，避免旧消费者跳过完整资源证据；升级保留已有历史／贡献，回退须恢复配套备份。
+schema 10 同时保留贸易净贡献和完整资源回执，消费事务提交完整回执后才确认 ingress。两个来源的旧 schema 9 插件均拒绝打开 schema 10；升级保留已有历史／贡献，回退须恢复配套旧版备份。
+
+完整库存变动和原国家转移回执分别使用 `committed_history_sources` 与 `committed_source_cursors`；虽然 namespace 都为 `starcore.resources`，其权威域、游标和事件各自独立，两者同时采集。库存变化不再次计入生产、援助或贸易贡献。每页最多 128 条，续读会逐字段校验上一条完整回执，首次追赶的整页（含锚点）仍只归档。
 
 ### 工厂生产提交历史与文明贡献
+
+兼容合并保留原 string-ID 国家生产／工厂协议及其 starcore.production 游标、域、稳定操作键、resource.<type> 单位和实时激活口径。新 UUID ProcessingRun 属于另一持久协议，使用独立 starcore.processing 游标；两类入口共享同一工厂状态并互斥，新 UUID 路径不再发旧 ProductionReceipt，旧路径不伪造新 processing 历史。两套贡献不能通过改单位或猜测编号合并，也不能将资源余额历史再计为产量。
+
 
 `ChronicleService.processingHistoryReceipt(eventId)` 返回完整 `ProcessingHistoryReceipt`，包含独立来源域、连续序号、STARTED／COMPLETED／AUTOMATIC 类型及冻结的 run：批次 UUID、工厂／原国家／原操作者、配方 ID、精确批数、全部输入（含能源）、输出、纳秒开工／到期／完成时间。没有原始玩家主体时 actor 为 null，不使用当前国主或当前国籍补录。
 
@@ -311,4 +334,4 @@ schema 9 增加完整资源回执表并要求消费事务提交该回执后才�
 
 只有带原始 actor 的 COMPLETED 工厂批次产生文明贡献：每种产出资源分别记录原玩家和原国家的精确数量，单位为原生资源名，每种资源有独立幂等操作键。两个主体行供各自查询，不能相加当作全服产量。数量支持正 signed long；系统即时加工、无主体批次和普通资源余额变化不新增文明贡献。初始补读同样建立证据与贡献，但不补发剧情效果。已有援助／贸易贡献不会重复计入。
 
-schema10新增完整生产回执表；schema9及更早Chronicle拒绝打开升级库。原生的持久工厂恢复还依赖资源数据库、`resource/history`、`resource/processing-history`（含 `runs.sqlite`）与SQL权威标记，需要一起备份／恢复。旧原生版本不理解冻结run和生产日志，不能直接降级运行升级后的状态。
+上游 schema10 与本地已有的资源回执 schema10 冲突；合并版本使用 schema11 新增完整生产回执表，schema10 及更早 Chronicle 拒绝打开升级库。原生的持久工厂恢复还依赖资源数据库、`resource/history`、`resource/processing-history`（含 `runs.sqlite`）与SQL权威标记，需要一起备份／恢复。旧原生版本不理解冻结run和生产日志，不能直接降级运行升级后的状态。

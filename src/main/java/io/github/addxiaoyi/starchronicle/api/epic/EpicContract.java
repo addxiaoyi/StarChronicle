@@ -40,6 +40,12 @@ public final class EpicContract {
         }
     }
 
+    public static String attemptOperationId(String rootOperationId, long attempt) {
+        if (rootOperationId == null || rootOperationId.isBlank() || attempt < 2)
+            throw new IllegalArgumentException("A retry requires an existing root and attempt greater than one");
+        return operationId("retry", rootOperationId, "attempt", Long.toString(attempt), "lineage");
+    }
+
     /** Accept only a receipt pinned to this provider and exact operation identity. */
     public static EpicReceipt requireCommitted(EpicOperation operation, EpicObservation observation,
                                                String providerId, String authorityDomain) {

@@ -85,6 +85,8 @@ class QuestGateEngineTest {
         assertThrows(SecurityException.class,()->engine.prepareQuestGate(completed.id(),provider,context(a,"river")));
         assertEquals(1,questHistory());
         sql("DELETE FROM story_member_reviews WHERE player_id='"+a+"'");
+        assertEquals(receipt,saved(completed.id()).completion(),"The append-only exit history remains authoritative");
+        sql("DELETE FROM story_member_review_log WHERE player_id='"+a+"'");
         assertThrows(IllegalStateException.class,()->saved(completed.id()),"Missing historical membership evidence must still be treated as corruption");
     }
     @Test void personalTaskRemainsReadableButInactiveAfterItsOnlyMemberExits() {
@@ -94,6 +96,22 @@ class QuestGateEngineTest {
         engine.exitMember(id,context(a,"river"));reopen();
         assertFalse(saved(gate.id()).active());assertEquals(gate.acceptedRun(),saved(gate.id()).acceptedRun());
         assertTrue(engine.instances(a).isEmpty());
+    }
+    @Test void upstreamExitReviewWithoutNewAppendLogStillProvesOriginalQuestMembership() {
+        String id=start(story(Mode.NATION));var gate=pinned(a);
+        engine.exitMember(id,context(a,"river"));sql("DELETE FROM story_member_review_log");reopen();
+        assertFalse(saved(gate.id()).active());assertEquals(gate.acceptedRun(),saved(gate.id()).acceptedRun());
+        sql("DELETE FROM story_member_reviews WHERE player_id='"+a+"'");
+        assertThrows(IllegalStateException.class,()->saved(gate.id()));
+    }
+    @Test void personalScopeCanUseAppendOnlyExitProofWhenCurrentReviewIsMissing() {
+        var template=story(Mode.PLAYER);
+        var personal=new StoryDefinition(template.id(),template.version(),template.title(),Scope.PLAYER,template.triggers(),template.condition(),template.start(),template.cooldownSeconds(),template.nodes());
+        start(personal);String id=engine.instances(a).getFirst().id();var gate=pinned(a);
+        engine.exitMember(id,context(a,"river"));sql("DELETE FROM story_member_reviews WHERE player_id='"+a+"'");reopen();
+        assertFalse(saved(gate.id()).active());assertEquals(gate.acceptedRun(),saved(gate.id()).acceptedRun());
+        sql("DELETE FROM story_member_review_log WHERE player_id='"+a+"'");
+        assertThrows(IllegalStateException.class,()->saved(gate.id()));
     }
 
     @Test void awaitCreatesNativeEvidenceGatesAndBlocksChoiceUntilCommittedReceipt() {
@@ -184,4 +202,38 @@ class QuestGateEngineTest {
         var query=engine.pendingQuestGates(Set.of(b),100);assertEquals(Set.of(a,b),query.stream().map(QuestGateLedger.Gate::playerId).collect(java.util.stream.Collectors.toSet()));
         assertThrows(IllegalArgumentException.class,()->engine.pendingQuestGates(online,0));assertThrows(IllegalArgumentException.class,()->engine.pendingQuestGates(online,101));finish(ga);assertTrue(engine.pendingQuestGates(Set.of(),100).isEmpty());
     }
+    @Test void recoveryRechecksCurrentMembershipPermissionAndAttemptWithoutCreatingHistory() {
+        String id=start(story(Mode.NATION));var gate=pinned(a);var run=accepted(gate);clock.after(epoch.plusSeconds(2));
+        engine.observeQuestGate(gate.id(),provider,new QuestObservation(Status.FAILED,run,null,clock.instant(),"failed"));
+        var proof=new QuestTermination(run,Status.FAILED,"termination",clock.instant(),clock.instant(),"native terminal receipt");
+        assertThrows(SecurityException.class,()->engine.prepareQuestRecovery(gate.id(),1,context(b,"river")));
+        assertThrows(SecurityException.class,()->engine.prepareQuestRecovery(gate.id(),1,context(a,"hill")));
+        assertThrows(SecurityException.class,()->engine.prepareQuestRecovery(gate.id(),1,context(a,"river","scholar",Set.of("starchronicle.use"))));
+        var next=engine.retryQuestGate(gate.id(),1,provider,proof,context(a,"river"));
+        assertEquals(2,next.attempt());assertEquals(0,questHistory());assertEquals(0,count("outcomes"));
+        assertThrows(SecurityException.class,()->engine.prepareQuestRecovery(gate.id(),1,context(a,"river")));
+        engine.exitMember(id,"wait",context(a,"river"));
+        assertThrows(SecurityException.class,()->engine.prepareQuestRecovery(gate.id(),2,context(a,"river")));
+    }
+
+    @Test void exitKeepsGateEvidenceReadableWithoutPollingAndRejoinCannotChangeItsNation() {
+        String id=start(story(Mode.NATION));var gate=pinned(a);var run=accepted(gate);clock.after(epoch.plusSeconds(2));
+        engine.observeQuestGate(gate.id(),provider,new QuestObservation(Status.ACTIVE,run,null,clock.instant(),"active"));
+        engine.exitMember(id,"wait",context(a,"river"));
+        assertFalse(saved(gate.id()).active());assertEquals(run,saved(gate.id()).acceptedRun());
+        assertTrue(engine.pendingQuestGates(online,100).stream().noneMatch(g->g.playerId().equals(a)));
+        assertFalse(engine.questGateSnapshot(id,context(b,"river")).ready());
+        reopen();assertFalse(saved(gate.id()).active());
+        engine.join(id,context(a,"hill"));
+        assertFalse(saved(gate.id()).active());assertEquals("river",saved(gate.id()).expectedNationId());
+        assertThrows(SecurityException.class,()->engine.prepareQuestRecovery(gate.id(),1,context(a,"hill")));
+    }
+    @Test void alreadyCompletedCountryTaskRemainsHistoricalAfterContributorExits() {
+        String id=start(story(Mode.NATION));var gate=pinned(a);finish(gate);
+        engine.exitMember(id,"wait",context(a,"river"));
+        assertTrue(saved(gate.id()).completed());assertFalse(saved(gate.id()).active());
+        assertTrue(engine.questGateState(id,context(b,"river")).ready());assertEquals(1,questHistory());
+        reopen();assertTrue(engine.questGateState(id,context(b,"river")).ready());assertEquals(1,questHistory());
+    }
+
 }

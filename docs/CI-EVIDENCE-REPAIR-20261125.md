@@ -1,0 +1,7 @@
+# GitHub 交付包校验修复
+
+`03a7b1a` 的 [GitHub Actions 第 21 次 PR 检查](https://github.com/addxiaoyi/StarChronicle/actions/runs/45608951441) 在 Linux 上完成了 914 项测试，零失败、错误与跳过；随后交付打包的证据校验失败。本轮故障发生在历史证据的运输完整性检查，不能把整条 CI 记为成功。
+
+对原有 10 份清单逐字节核验，发现 86 个文件发生换行转换。仅在转换结果的字节数和 SHA-256 同时精确匹配原清单时恢复文件；未更改任何原清单、测试结果或构件指纹。恢复记录见 [逐文件记录](verification/evidence-line-endings-repair-20261125.json)。全部 263 个清单文件恢复核验通过。
+
+交付脚本现在保留子校验器的错误输出，让今后 CI 直接报告发生差异的文件。失败运行仍保留在 GitHub。修复提交 `11ff080` 的 [第 23 次 PR 检查](https://github.com/addxiaoyi/StarChronicle/actions/runs/45610161896) 已完成并通过，包括编译、914 项测试、构件指纹、交付打包与 ZIP 独立校验。后续功能提交仍以自身检查结果为准。

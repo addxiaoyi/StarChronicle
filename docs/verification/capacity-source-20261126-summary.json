@@ -1,0 +1,703 @@
+{
+  "date": "2026-11-26",
+  "baseline": "11ffa3ef258118746093e7af7d3ace00ac79db5b",
+  "scope": "Source, 933 tests, frozen packaged SQLite migration/query probes, and read-only WAL backup; no Minecraft or live player, production deployment, native full-suite or full Folia acceptance",
+  "tests": {
+    "tests": 933,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "jar_sha256": "7338e165534c2052a9678a3842955cab645021fdbc16b8eb256b58e312fbfffd",
+  "source_jar_sha256": "4b1a4380f144db177214c2b890c3a4f047c45b6aa39d8afa52177c2135811bbc",
+  "coverage": "No current JaCoCo data: low-memory forkCount=0",
+  "retained_failure": "First full run: 931 tests, 1 failure, 0 errors/skips; MemoryRecipeSchemaUpgradeTest still asserted user_version=7. Updated the current-version assertion while preserving the literal V6 fixture. Intermediate 932 and final 933 full builds passed.",
+  "capacity": {
+    "initial": {
+      "manifest": {
+        "status": "PASS",
+        "scope": "Serial isolated JVMs and real SQLite; no Minecraft or live player; fixed 64 MiB heap, native memory is additional",
+        "instances_per_database": 15000,
+        "artifacts": {
+          "CapacityProbe.java": "e602a56a675c2065c644a694c466f20f3473b8ce27738e915698cf27ba3fbd50",
+          "CapacitySeed.java": "280afb39532e92213307d7f0f752d339d5bb8fece82b806ba5fcabb49dbf38ff",
+          "schema7.jar": "71d98cd504338b1116109cc8b793897727e848867b97223f8b48d7a730b623a6",
+          "schema8.jar": "9cc825951469776092cf80c6256a6de57416d6380f8cdaecc1513016e17d35c7",
+          "CapacityOpen.java": "8eb016fc64bcf89611afc064cd4e3bef246710c9264ef704fbfb30fcb328e6b4"
+        },
+        "phases": {
+          "compile-CapacitySeed": {
+            "exit_code": 0,
+            "elapsed_seconds": 1.406,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "compile-CapacityProbe": {
+            "exit_code": 0,
+            "elapsed_seconds": 1.594,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "compile-baseline": {
+            "exit_code": 0,
+            "elapsed_seconds": 1.016,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "seed-v2": {
+            "exit_code": 0,
+            "elapsed_seconds": 8.047,
+            "log_sha256": "150378c9c35276b54fef8d2703c2aadda1bc89c45a0142f3253f4ba08d4211bc"
+          },
+          "previous-build-v2-heap": {
+            "exit_code": 1,
+            "elapsed_seconds": 5.313,
+            "log_sha256": "e6318f2f83a02bb2211a569c6ee8915623f7f7f16c5cff36659d43f600837c2d",
+            "expected_failure": "Previous schema-7 build exhausts the same 64 MiB heap while migrating the literal V2 fixture"
+          },
+          "v2-upgrade": {
+            "exit_code": 0,
+            "elapsed_seconds": 78.187,
+            "log_sha256": "641ca2650545b96c1c3a8f49f2a96023e16a22b0df0960a1120cdab851409821",
+            "original_tables_preserved": 9,
+            "independent_validation": "PASS"
+          },
+          "v2-restart": {
+            "exit_code": 0,
+            "elapsed_seconds": 47.953,
+            "log_sha256": "9546fb5d5862a98b66ef081627ef899aa31585d336219e7d0c563b1ebe7a210c",
+            "original_tables_preserved": 9,
+            "independent_validation": "PASS"
+          },
+          "seed-v7": {
+            "exit_code": 0,
+            "elapsed_seconds": 32.969,
+            "log_sha256": "dfe2047e76961d13d8a596f3ebf0a553e3dcb4f9e11623304dc03aa49a88be3f"
+          },
+          "v7-upgrade": {
+            "exit_code": 0,
+            "elapsed_seconds": 58.344,
+            "log_sha256": "649af6fdc0bc7f7f653e306a0b9f26cc38a5703c045ba57dd2c289f830a0bf52",
+            "original_tables_preserved": 40,
+            "independent_validation": "PASS"
+          },
+          "v7-restart": {
+            "exit_code": 0,
+            "elapsed_seconds": 52.906,
+            "log_sha256": "dfec6164741ac72d8b21b781522bbcd146432e06908df76ca8186e741bd24461",
+            "original_tables_preserved": 40,
+            "independent_validation": "PASS"
+          }
+        }
+      },
+      "results": {
+        "v2-upgrade": {
+          "database_bytes": 220372992,
+          "elapsed_millis": 78053,
+          "events": 15000,
+          "first_page_200_calls_micros": {
+            "max": 437144,
+            "p50": 203038,
+            "p95": 224781
+          },
+          "instance_members": 15000,
+          "instances": 15000,
+          "max_heap_bytes": 64880640,
+          "member": 15,
+          "member_query_plan": [
+            "SEARCH m USING COVERING INDEX member_instances (player_id=?)",
+            "SEARCH i USING INDEX sqlite_autoindex_instances_1 (id=?)",
+            "USE TEMP B-TREE FOR ORDER BY"
+          ],
+          "open_millis": 31138,
+          "outcomes": 11250,
+          "pages": 9,
+          "peak_heap_pools": {
+            "Eden Space": 17891328,
+            "Survivor Space": 2228224,
+            "Tenured Gen": 9036616
+          },
+          "status": "PASS",
+          "story_choice_log": 26250,
+          "story_definitions": 2,
+          "story_triggers": 5000,
+          "visible": 150
+        },
+        "v2-restart": {
+          "database_bytes": 220372992,
+          "elapsed_millis": 47849,
+          "events": 15000,
+          "first_page_200_calls_micros": {
+            "max": 461891,
+            "p50": 203419,
+            "p95": 232219
+          },
+          "instance_members": 15000,
+          "instances": 15000,
+          "max_heap_bytes": 64880640,
+          "member": 15,
+          "member_query_plan": [
+            "SEARCH m USING COVERING INDEX member_instances (player_id=?)",
+            "SEARCH i USING INDEX sqlite_autoindex_instances_1 (id=?)",
+            "USE TEMP B-TREE FOR ORDER BY"
+          ],
+          "open_millis": 709,
+          "outcomes": 11250,
+          "pages": 9,
+          "peak_heap_pools": {
+            "Eden Space": 17891328,
+            "Survivor Space": 2228216,
+            "Tenured Gen": 4217712
+          },
+          "status": "PASS",
+          "story_choice_log": 26250,
+          "story_definitions": 2,
+          "story_triggers": 5000,
+          "visible": 150
+        },
+        "v7-upgrade": {
+          "database_bytes": 251858944,
+          "elapsed_millis": 58217,
+          "events": 15000,
+          "first_page_200_calls_micros": {
+            "max": 505024,
+            "p50": 229056,
+            "p95": 374139
+          },
+          "instance_members": 15000,
+          "instances": 15000,
+          "max_heap_bytes": 64880640,
+          "member": 15,
+          "member_query_plan": [
+            "SEARCH m USING COVERING INDEX member_instances (player_id=?)",
+            "SEARCH i USING INDEX sqlite_autoindex_instances_1 (id=?)",
+            "USE TEMP B-TREE FOR ORDER BY"
+          ],
+          "open_millis": 3819,
+          "outcomes": 11250,
+          "pages": 9,
+          "peak_heap_pools": {
+            "Eden Space": 17891328,
+            "Survivor Space": 2228224,
+            "Tenured Gen": 7439104
+          },
+          "status": "PASS",
+          "story_choice_log": 26250,
+          "story_definitions": 2,
+          "story_triggers": 5000,
+          "visible": 150
+        },
+        "v7-restart": {
+          "database_bytes": 251858944,
+          "elapsed_millis": 52785,
+          "events": 15000,
+          "first_page_200_calls_micros": {
+            "max": 456572,
+            "p50": 215652,
+            "p95": 310936
+          },
+          "instance_members": 15000,
+          "instances": 15000,
+          "max_heap_bytes": 64880640,
+          "member": 15,
+          "member_query_plan": [
+            "SEARCH m USING COVERING INDEX member_instances (player_id=?)",
+            "SEARCH i USING INDEX sqlite_autoindex_instances_1 (id=?)",
+            "USE TEMP B-TREE FOR ORDER BY"
+          ],
+          "open_millis": 776,
+          "outcomes": 11250,
+          "pages": 9,
+          "peak_heap_pools": {
+            "Eden Space": 17891328,
+            "Survivor Space": 2228216,
+            "Tenured Gen": 4215992
+          },
+          "status": "PASS",
+          "story_choice_log": 26250,
+          "story_definitions": 2,
+          "story_triggers": 5000,
+          "visible": 150
+        }
+      },
+      "databases": {
+        "baseline-v2.db": {
+          "bytes": 196988928,
+          "sha256": "772a0dd5d52be486d63c8398cb69279d7d38b560ddbf0a91189411539f0c7997"
+        },
+        "schema2.db": {
+          "bytes": 220372992,
+          "sha256": "612f7924fed221ac9212012761da840fc4ab106a253a630871b357bbdc41e74f"
+        },
+        "schema7.db": {
+          "bytes": 251858944,
+          "sha256": "dafd21b8d0ea8e0ee0dddde1a08ab6cee73f43c232072a0738c62ba760d0b90b"
+        }
+      }
+    },
+    "final": {
+      "manifest": {
+        "status": "PASS",
+        "scope": "Serial isolated JVMs and real SQLite; no Minecraft or live player; fixed 64 MiB heap, native memory is additional",
+        "instances_per_database": 15000,
+        "artifacts": {
+          "CapacityProbe.java": "b195887b30d88fd8573d4ef18053446187bc7b687017741f194777d99eeb8614",
+          "CapacitySeed.java": "280afb39532e92213307d7f0f752d339d5bb8fece82b806ba5fcabb49dbf38ff",
+          "schema7.jar": "71d98cd504338b1116109cc8b793897727e848867b97223f8b48d7a730b623a6",
+          "schema8.jar": "7338e165534c2052a9678a3842955cab645021fdbc16b8eb256b58e312fbfffd",
+          "CapacityOpen.java": "8eb016fc64bcf89611afc064cd4e3bef246710c9264ef704fbfb30fcb328e6b4"
+        },
+        "phases": {
+          "compile-CapacitySeed": {
+            "exit_code": 0,
+            "elapsed_seconds": 1.61,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "compile-CapacityProbe": {
+            "exit_code": 0,
+            "elapsed_seconds": 1.485,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "compile-baseline": {
+            "exit_code": 0,
+            "elapsed_seconds": 1.047,
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "seed-v2": {
+            "exit_code": 0,
+            "elapsed_seconds": 13.703,
+            "log_sha256": "150378c9c35276b54fef8d2703c2aadda1bc89c45a0142f3253f4ba08d4211bc"
+          },
+          "previous-build-v2-heap": {
+            "exit_code": 1,
+            "elapsed_seconds": 5.14,
+            "log_sha256": "e6318f2f83a02bb2211a569c6ee8915623f7f7f16c5cff36659d43f600837c2d",
+            "expected_failure": "Previous schema-7 build exhausts the same 64 MiB heap while migrating the literal V2 fixture"
+          },
+          "v2-upgrade": {
+            "exit_code": 0,
+            "elapsed_seconds": 37.546,
+            "log_sha256": "3cd8b661ef6cef7ae5a93f8cf63edc90f7f45b16f6967f67cd8cb47fd9f99800",
+            "original_tables_preserved": 9,
+            "independent_validation": "PASS"
+          },
+          "v2-restart": {
+            "exit_code": 0,
+            "elapsed_seconds": 3.921,
+            "log_sha256": "af65b4503a618d4902acc061329f388b838d0a8678ae07560ac2d4b9b8e7aca6",
+            "original_tables_preserved": 9,
+            "independent_validation": "PASS"
+          },
+          "seed-v7": {
+            "exit_code": 0,
+            "elapsed_seconds": 27.11,
+            "log_sha256": "dfe2047e76961d13d8a596f3ebf0a553e3dcb4f9e11623304dc03aa49a88be3f"
+          },
+          "v7-upgrade": {
+            "exit_code": 0,
+            "elapsed_seconds": 7.062,
+            "log_sha256": "09f5e0ad1d6781d4918005701c0ec787ad93151fbb2f128f38aca5eb7aa15592",
+            "original_tables_preserved": 40,
+            "independent_validation": "PASS"
+          },
+          "v7-restart": {
+            "exit_code": 0,
+            "elapsed_seconds": 3.672,
+            "log_sha256": "31b2fa4272f5e69469bb28d6f58c498b563c6cb19cc504a13c15e8b208ea0a96",
+            "original_tables_preserved": 40,
+            "independent_validation": "PASS"
+          }
+        }
+      },
+      "results": {
+        "v2-upgrade": {
+          "active_batch_query_plan": [
+            "SEARCH instances USING INDEX instance_active_id (completed=? AND id>?)"
+          ],
+          "database_bytes": 220766208,
+          "elapsed_millis": 37408,
+          "events": 15000,
+          "first_page_200_calls_micros": {
+            "max": 15679,
+            "p50": 6085,
+            "p95": 8558
+          },
+          "instance_members": 15000,
+          "instances": 15000,
+          "max_heap_bytes": 64880640,
+          "member": 15,
+          "member_query_plan": [
+            "SEARCH m USING COVERING INDEX member_instances (player_id=?)",
+            "SEARCH i USING INDEX sqlite_autoindex_instances_1 (id=?)",
+            "USE TEMP B-TREE FOR ORDER BY"
+          ],
+          "open_millis": 34529,
+          "outcomes": 11250,
+          "pages": 9,
+          "peak_heap_pools": {
+            "Eden Space": 17891328,
+            "Survivor Space": 2228216,
+            "Tenured Gen": 8598248
+          },
+          "status": "PASS",
+          "story_choice_log": 26250,
+          "story_definitions": 2,
+          "story_triggers": 5000,
+          "visible": 150
+        },
+        "v2-restart": {
+          "active_batch_query_plan": [
+            "SEARCH instances USING INDEX instance_active_id (completed=? AND id>?)"
+          ],
+          "database_bytes": 220766208,
+          "elapsed_millis": 3802,
+          "events": 15000,
+          "first_page_200_calls_micros": {
+            "max": 8807,
+            "p50": 5503,
+            "p95": 6862
+          },
+          "instance_members": 15000,
+          "instances": 15000,
+          "max_heap_bytes": 64880640,
+          "member": 15,
+          "member_query_plan": [
+            "SEARCH m USING COVERING INDEX member_instances (player_id=?)",
+            "SEARCH i USING INDEX sqlite_autoindex_instances_1 (id=?)",
+            "USE TEMP B-TREE FOR ORDER BY"
+          ],
+          "open_millis": 722,
+          "outcomes": 11250,
+          "pages": 9,
+          "peak_heap_pools": {
+            "Eden Space": 17891328,
+            "Survivor Space": 2228216,
+            "Tenured Gen": 4200136
+          },
+          "status": "PASS",
+          "story_choice_log": 26250,
+          "story_definitions": 2,
+          "story_triggers": 5000,
+          "visible": 150
+        },
+        "v7-upgrade": {
+          "active_batch_query_plan": [
+            "SEARCH instances USING INDEX instance_active_id (completed=? AND id>?)"
+          ],
+          "database_bytes": 252252160,
+          "elapsed_millis": 6944,
+          "events": 15000,
+          "first_page_200_calls_micros": {
+            "max": 15654,
+            "p50": 5634,
+            "p95": 7676
+          },
+          "instance_members": 15000,
+          "instances": 15000,
+          "max_heap_bytes": 64880640,
+          "member": 15,
+          "member_query_plan": [
+            "SEARCH m USING COVERING INDEX member_instances (player_id=?)",
+            "SEARCH i USING INDEX sqlite_autoindex_instances_1 (id=?)",
+            "USE TEMP B-TREE FOR ORDER BY"
+          ],
+          "open_millis": 4349,
+          "outcomes": 11250,
+          "pages": 9,
+          "peak_heap_pools": {
+            "Eden Space": 17891328,
+            "Survivor Space": 2228216,
+            "Tenured Gen": 7385136
+          },
+          "status": "PASS",
+          "story_choice_log": 26250,
+          "story_definitions": 2,
+          "story_triggers": 5000,
+          "visible": 150
+        },
+        "v7-restart": {
+          "active_batch_query_plan": [
+            "SEARCH instances USING INDEX instance_active_id (completed=? AND id>?)"
+          ],
+          "database_bytes": 252252160,
+          "elapsed_millis": 3542,
+          "events": 15000,
+          "first_page_200_calls_micros": {
+            "max": 29651,
+            "p50": 5550,
+            "p95": 8576
+          },
+          "instance_members": 15000,
+          "instances": 15000,
+          "max_heap_bytes": 64880640,
+          "member": 15,
+          "member_query_plan": [
+            "SEARCH m USING COVERING INDEX member_instances (player_id=?)",
+            "SEARCH i USING INDEX sqlite_autoindex_instances_1 (id=?)",
+            "USE TEMP B-TREE FOR ORDER BY"
+          ],
+          "open_millis": 719,
+          "outcomes": 11250,
+          "pages": 9,
+          "peak_heap_pools": {
+            "Eden Space": 17891328,
+            "Survivor Space": 2228216,
+            "Tenured Gen": 4229016
+          },
+          "status": "PASS",
+          "story_choice_log": 26250,
+          "story_definitions": 2,
+          "story_triggers": 5000,
+          "visible": 150
+        }
+      },
+      "databases": {
+        "baseline-v2.db": {
+          "bytes": 196988928,
+          "sha256": "772a0dd5d52be486d63c8398cb69279d7d38b560ddbf0a91189411539f0c7997"
+        },
+        "schema2.db": {
+          "bytes": 220766208,
+          "sha256": "7d8ded3072b98ecf5775ceabdc93cc7db3ddc245b6d3c2096ff235003d7784e9"
+        },
+        "schema7.db": {
+          "bytes": 252252160,
+          "sha256": "5de457db7d8c4c52ed3a08b50b7428fd1c205cd83b99c11cc534f50261c3a824"
+        }
+      }
+    }
+  },
+  "backup": {
+    "status": "PASS",
+    "source_wal_bytes_preserved": true,
+    "wal_only_fact_in_backup": true,
+    "all_tables_preserved": 41,
+    "overwrite_refusals": [
+      "existing-backup",
+      "source-as-backup"
+    ],
+    "backup_sha256": "c7879fb0d9c02f4d065498286984b591c00e22f5508871fa11639d5138892a6d",
+    "source_bytes_before": {
+      "main": "5de457db7d8c4c52ed3a08b50b7428fd1c205cd83b99c11cc534f50261c3a824",
+      "wal": "e48528ac37b559930b29961f8f7606950d795aa9d4fe2d9e52935aa93b982584"
+    },
+    "database_report": {
+      "database": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\capacity-backup-20261126\\live-source.db",
+      "schema_version": 8,
+      "allocated_bytes": 252252160,
+      "reusable_bytes": 0,
+      "rows": {
+        "events": 15000,
+        "instances": 15000,
+        "instance_members": 15000,
+        "outcomes": 11250,
+        "story_triggers": 5000,
+        "story_trigger_receipts": 0,
+        "story_choice_log": 26250,
+        "story_definitions": 2,
+        "contributions": 0,
+        "committed_source_receipts": 0
+      },
+      "outcome_status": {
+        "DONE": 11250
+      },
+      "trigger_audiences": {
+        "players:*": 5000
+      },
+      "backup": {
+        "path": "C:\\Users\\Administrator\\Documents\\StarChronicle\\run\\capacity-backup-20261126\\consistent-backup.db",
+        "integrity_check": "ok",
+        "bytes": 252252160
+      }
+    },
+    "table_fingerprints": {
+      "aid_attempts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "committed_source_cursors": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "committed_source_receipts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "contribution_receipts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "contributions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "epic_campaigns": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "epic_operation_providers": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "epic_operations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "epic_route_votes": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "epic_signup_seats": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "epic_signups": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "event_causes": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "event_nations": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "event_players": {
+        "rows": 15000,
+        "sha256": "971ddeea37a8750bbf98a04a0bb032dbb344ac23e9b826a4469b6dd9deafbc35"
+      },
+      "events": {
+        "rows": 15000,
+        "sha256": "1096076f6ec59188d21ab5ee5794a2be14da89ba5612ba18dfe9a7bb29546613"
+      },
+      "facts": {
+        "rows": 1,
+        "sha256": "62cc153ef646a2b3f5cb0c2e837e637afa23ccf94df2c2820055a90c454c71b1"
+      },
+      "instance_members": {
+        "rows": 15000,
+        "sha256": "32f3f62d3ffd7ccfa9194658d7bed4481d69594e2035804975516163e7c37c9d"
+      },
+      "instances": {
+        "rows": 15000,
+        "sha256": "6cd9020a66cfcb043b176749485c474b569e2b3a0e096c0f21805f889bf2162c"
+      },
+      "memory_entries": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "memory_recipe_blocks": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "memory_recipe_definitions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "native_scene_journal": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "native_trade_contributions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "native_trade_states": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "outcomes": {
+        "rows": 11250,
+        "sha256": "d199e1ddd092d93c36d1f174b8665dda3f19f2a1dc1bf8c7a9a551c99f211c3f"
+      },
+      "quest_gate_attempts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "quest_gate_completions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "quest_gates": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_choice_log": {
+        "rows": 26250,
+        "sha256": "7994dd8ac45f341a0bbd1153cad5bf9e77245ae1a1b4a0c6651e0b80549de332"
+      },
+      "story_definition_formats": {
+        "rows": 2,
+        "sha256": "c26acb16d54515f11184b0b88482b8828b78a5079758b2fee0a501e8814e0918"
+      },
+      "story_definition_upgrades": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_definitions": {
+        "rows": 2,
+        "sha256": "ad7345a79f4a0fc72b88035755ea2125b4f598b12bfb64d2fd4b3b5d26e45fb4"
+      },
+      "story_member_review_log": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_member_reviews": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_nation_actor_bindings": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_nation_resolutions": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_nation_vote_log": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_nation_votes": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_trigger_blocks": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_trigger_receipts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "story_triggers": {
+        "rows": 5000,
+        "sha256": "82ac2f8a029af845de9eab889246ca8caf4830f22e0015da7280c21b2a22436d"
+      }
+    }
+  },
+  "source_hashes": {
+    "src/main/java/io/github/addxiaoyi/starchronicle/api/ChronicleService.java": "f1e1b3c28d66a90415556e7894532457268709e23f41ec53eeb53ba2305166f2",
+    "src/main/java/io/github/addxiaoyi/starchronicle/api/StoryPage.java": "5e2a652e6052ace1e66b91cd9242cdc3e45a95529707a1e77001fa01549fcccf",
+    "src/main/java/io/github/addxiaoyi/starchronicle/core/ChoiceLedger.java": "c74fbaecc56f116fc556297af13f197b422adfb33f9fccd963b1892790ccd256",
+    "src/main/java/io/github/addxiaoyi/starchronicle/core/DefinitionCatalog.java": "6bbd46e0d2231af60a269c50900719e3c65d06e30333da878566460a6c094e79",
+    "src/main/java/io/github/addxiaoyi/starchronicle/core/RuleEngine.java": "dfc5bc20965ddcba2b7ef348a793853a52ec9a29b6f8bd5540e72eefd3c53984",
+    "src/main/java/io/github/addxiaoyi/starchronicle/paper/Menus.java": "edc18c56eacb77f12268ff9c1858c8803b831f7d343f7a6edf59c2ffa16d724d",
+    "src/main/java/io/github/addxiaoyi/starchronicle/paper/StarChroniclePlugin.java": "3bba635908839198736a4fdfaeb5379b31bcc680468303806f28b6df76a2f0da",
+    "src/main/java/io/github/addxiaoyi/starchronicle/persistence/InstanceIndex.java": "01bf12eea9ee94e59b5ecef2d1e91ad297c56a2ad72b026a6697096444f3bb5d",
+    "src/main/java/io/github/addxiaoyi/starchronicle/persistence/SqliteStore.java": "644c4781f538e5c5b12764258c52870739b7136a6ec4ae074a290cb509c2b7af",
+    "src/test/java/io/github/addxiaoyi/starchronicle/core/ChoiceLedgerTest.java": "d8cee532feb72d8a85a1e09cf7449676d55ae9194d1dfe9deaeb25a5272cd4a1",
+    "src/test/java/io/github/addxiaoyi/starchronicle/core/InstanceCapacityTest.java": "7380159a15ff03a58e7b0f80614f80ab65d4f19b9e468fba1ab470b5198ce7b0",
+    "src/test/java/io/github/addxiaoyi/starchronicle/paper/NationalMenusTest.java": "0a25aa1744e71855acbddde70ea6304fc3a52c8f9a339f4febf6ba5a2b08f9c6",
+    "src/test/java/io/github/addxiaoyi/starchronicle/paper/QuestGateMenusTest.java": "89f31bdcd9a8561309ad774f2f93ac091c8a44a52bd5855409ee85de55de0e8e",
+    "src/test/java/io/github/addxiaoyi/starchronicle/persistence/ChoiceSchemaUpgradeTest.java": "ebf42e4f8711d9dfaed260c76738a7200393867018a19de60561c27c63b29947",
+    "src/test/java/io/github/addxiaoyi/starchronicle/persistence/DefinitionSchemaUpgradeTest.java": "43fd4f0a6512a8f64ce6d6b289cc01423682eeecb14e2f197459c79815a044f9",
+    "src/test/java/io/github/addxiaoyi/starchronicle/persistence/MemoryRecipeSchemaUpgradeTest.java": "c57a4cda10ff424820c23982a0124be4ccf84aca58ac3c1637c9ebb6158f6761"
+  },
+  "limits": [
+    "64 MiB is the Java heap limit, not process RSS",
+    "Two distinct definitions, 15000 instances and events per database; 150 shared visible instances and 15 owned instances",
+    "Page timing measures direct engine queries with unconditional definitions; no Bukkit identity capture or trigger replay",
+    "Not a concurrency or throughput SLA; complex historical conditions, large definition catalogs and long-term archive policy remain open"
+  ],
+  "evidence_zip_sha256": "1a0947004895220469e166a5308305cf40dff7fd52134bd380ff2f9e7e1d357f",
+  "evidence_files": 369
+}

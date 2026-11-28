@@ -94,18 +94,26 @@ def verify_ledgers(run, manifest, chronicle, operations, campaign_id):
     check(len(aid) == 4, 'Expected four provider-backed aid operations')
     for row in aid:
         op, receipt = json.loads(row['operation_json']), json.loads(row['receipt_json'])
-        matches = [entry for entry in entries if entry['operation_id'] == op['operationId']]
+        def matching_receipt(entry):
+            if entry['operation_id'] == op['operationId']:
+                return True
+            row = chronicle.execute('SELECT json FROM events WHERE id=?', (entry['source_event_id'],)).fetchone()
+            if row is None:
+                return False
+            facts = json.loads(row[0])['facts']
+            return facts.get('aid.authority_domain') == receipt['authorityDomain'] and facts.get('aid.transaction', facts.get('aid.native_receipt')) == receipt['nativeReceiptId']
+        matches = [entry for entry in entries if matching_receipt(entry)]
         check(len(matches) == 2, 'Each native transfer needs one player and one national attribution')
         check({entry['subject_id'] for entry in matches} == {'player:' + op['actorId'], 'nation:' + op['nationId']}, 'Contribution subjects differ from authorized intent')
         unit, amount = ('treasury', op['nativeReference']) if op['type'] == 'TREASURY_AID' else op['nativeReference'].split(':')
         for entry in matches:
             request = json.loads(entry['request_json'])
             check(entry['type'] == 'RESOURCE_AID' and entry['actor_id'] == op['actorId'] and entry['nation_id'] == op['nationId'], 'Wrong contribution attribution')
-            check(entry['unit'] == unit and Decimal(entry['amount']) == Decimal(amount), 'Contribution amount or unit mismatch')
-            check(request['operationId'] == op['operationId'] and request['sourceEventId'] == entry['source_event_id'], 'Contribution payload differs from indexed source')
+            check(entry['unit'] in ({unit} if unit == 'treasury' else {unit, 'resource.' + unit}) and Decimal(entry['amount']) == Decimal(amount), 'Contribution amount or unit mismatch')
+            check(request['operationId'] == entry['operation_id'] and request['sourceEventId'] == entry['source_event_id'], 'Contribution payload differs from indexed source')
             check(request['actorId'] == entry['actor_id'] and request['nationId'] == entry['nation_id']
                   and request['subjectId'] == entry['subject_id'] and request['type'] == entry['type']
-                  and request['unit'] == unit and Decimal(str(request['amount'])) == Decimal(amount)
+                  and request['unit'] == entry['unit'] and Decimal(str(request['amount'])) == Decimal(amount)
                   and request['committedAt'] == entry['committed_at'] and request['evidence'] == entry['evidence'], 'Contribution JSON differs from indexed receipt')
             check(entry['committed_at'] == receipt['appliedAt'], 'Contribution timestamp must be the native commit')
             event_row = chronicle.execute('SELECT json FROM events WHERE id=?', (entry['source_event_id'],)).fetchone()
@@ -116,7 +124,7 @@ def verify_ledgers(run, manifest, chronicle, operations, campaign_id):
             check(event['type'] == ('NATIONAL_AID_COMMITTED' if unit == 'treasury' else 'NATIONAL_RESOURCE_AID_COMMITTED')
                   and Decimal(event['facts']['aid.amount']) == Decimal(amount), 'Aid history type or amount mismatch')
             check(set(event['participants']) == {op['actorId']} and set(event['nations']) == {op['nationId'], op['target']}, 'Aid event audience mismatch')
-    fixture = [json.loads(line) for line in (run / 'evidence/epic-fixture.jsonl').read_text().splitlines()]
+    fixture = [json.loads(line) for line in (run / 'evidence/epic-fixture.jsonl').read_text(encoding='utf-8').splitlines()]
     for boot in (1, 2, 3):
         checks = [row for row in fixture if row['boot'] == boot and row['kind'] == 'CONTRIBUTIONS']
         check(bool(checks) and all(len(row['data']) == 8 for row in checks), 'Missing public contribution check across restart')
@@ -250,12 +258,48 @@ def inspect(run):
         check(len(aftermath) == len(expected_players) and {row['scope'] for row in aftermath} == {'player:' + player for player in expected_players}, 'Missing or duplicate aftermath per player')
         check(all(json.loads(row['json'])['sourceEventId'] == event['id'] for row in aftermath), 'Aftermath has unrelated source')
         check(chronicle.execute("select count(*) from story_nation_resolutions where instance_id=? and node_id=? and choice_id='settle'", (campaign['instance_id'], 'war-await' if manifest['route'] == 'WAR' else 'dungeon-await')).fetchone()[0] == 1, 'Missing unique canonical settle resolution')
+        extended = {}
+        if manifest.get('extended'):
+            contributions = [dict(row) for row in chronicle.execute('SELECT * FROM contributions')]
+            check(len(contributions) == 8, 'Expected eight unique native aid contribution projections')
+            check(chronicle.execute('SELECT COUNT(*) FROM contribution_receipts').fetchone()[0] == 8, 'Contribution receipt bindings missing')
+            aid_operations = [json.loads(row['operation_json']) for row in rows if json.loads(row['operation_json'])['type'] in ('TREASURY_AID', 'RESOURCE_AID')]
+            for operation in aid_operations:
+                stored = next(row for row in rows if json.loads(row['operation_json'])['operationId'] == operation['operationId'])
+                receipt = json.loads(stored['receipt_json'])
+                expected_subjects = {'player:' + operation['actorId'], 'nation:' + operation['nationId']}
+                found = []
+                for entry in contributions:
+                    evidence = json.loads(chronicle.execute('SELECT json FROM events WHERE id=?', (entry['source_event_id'],)).fetchone()[0])
+                    if evidence['facts'].get('aid.transaction') != receipt['nativeReceiptId']:
+                        continue
+                    check(evidence['facts']['aid.authority_domain'] == receipt['authorityDomain'], 'Contribution native authority mismatch')
+                    check(entry['actor_id'] == operation['actorId'] and entry['nation_id'] == operation['nationId'], 'Contribution actor/nation mismatch')
+                    check(entry['type'] == 'RESOURCE_AID' and Decimal(entry['amount']) == 10, 'Contribution amount/type mismatch')
+                    check(entry['unit'] == ('treasury' if operation['type'] == 'TREASURY_AID' else 'resource.agricultural'), 'Contribution unit mismatch')
+                    check(entry['committed_at'] == receipt['appliedAt'] == evidence['occurredAt'], 'Contribution timestamp mismatch')
+                    request = json.loads(entry['request_json'])
+                    check(request['subjectId'] == entry['subject_id'] and Decimal(str(request['amount'])) == Decimal(entry['amount']), 'Contribution projection payload mismatch')
+                    found.append(entry['subject_id'])
+                check(len(found) == 2 and set(found) == expected_subjects, 'Native receipt must credit exactly one player and one nation')
+            member_stories = list(chronicle.execute("SELECT id,json,completed FROM instances WHERE story='membership-acceptance'"))
+            check(len(member_stories) == 1 and member_stories[0]['completed'] == 1, 'Missing completed membership acceptance')
+            member_id = member_stories[0]['id']
+            member_story = json.loads(member_stories[0]['json'])
+            check(manifest['players']['D'] in member_story['members'], 'Completed member was removed')
+            transitions = [dict(row) for row in chronicle.execute('SELECT * FROM story_member_review_log WHERE instance_id=? AND player_id=? ORDER BY seq', (member_id, manifest['players']['D']))]
+            check([row['status'] for row in transitions] == ['PENDING','APPROVED','EXITED','APPROVED'], 'Membership transitions missing, repeated or rewritten')
+            check(transitions[0]['original_nation_id'] != transitions[0]['observed_nation_id'], 'Missing real nationality drift')
+            check(all(row['original_nation_id'] == transitions[0]['original_nation_id'] for row in transitions), 'Unexpected original membership rewrite')
+            client_evidence = [json.loads(line) for line in (run / 'evidence/epic-clients.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
+            check(any(row['kind'] == 'MEMBERSHIP_GUI' and row['data']['who'] == 'D' and row['data']['instance'] == member_id for row in client_evidence), 'Actual client membership GUI missing')
+            extended = dict(contribution_entries=8, membership_transitions=4, membership_gui=True)
         if manifest.get('ledger_acceptance'):
             verify_ledgers(run, manifest, chronicle, rows, campaign['instance_id'])
         result = dict(status='PASS', route=campaign['route'], instance=campaign['instance_id'],
                       chronicle_sha256=manifest['plugin_sha256'], starcore_sha256=manifest['starcore_sha256'],
                       committed_operations=len(rows), treasury_transfers=2, resource_transfers=2, settlement_events=1,
-                      verified_boots=3, aftermath_instances=len(aftermath), ledger_acceptance=bool(manifest.get('ledger_acceptance')),
+                      verified_boots=3, aftermath_instances=len(aftermath), **extended, ledger_acceptance=bool(manifest.get('ledger_acceptance')),
                       verification='Three normal server/client exits, live craft/restart/replay evidence and independent native/Chronicle receipt cross-check; server port unbound.')
         return result
 

@@ -53,8 +53,8 @@ with zipfile.ZipFile(artifact) as jar:
     for name in required:
         if name not in names:
             raise SystemExit(f"Artifact missing {name}")
-    if any(n.startswith(("org/bukkit/", "dev/starcore/")) for n in names):
-        raise SystemExit("Artifact illegally bundles platform or StarCore classes")
+    if any(n.startswith(("org/bukkit/", "dev/starcore/", "de/oliver/fancynpcs/", "net/citizensnpcs/", "ink/ptms/adyeshach/")) for n in names):
+        raise SystemExit("Artifact illegally bundles platform, StarCore or optional NPC API classes")
     major = int.from_bytes(jar.read(entry_class)[6:8], "big")
     if major != 65:
         raise SystemExit(f"Expected Java 21 bytecode, got class version {major}")

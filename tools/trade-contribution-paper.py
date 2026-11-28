@@ -12,6 +12,7 @@ import subprocess
 import threading
 import time
 import zipfile
+from trade_contribution_protocol import artifact_schema, history_warning, injected_fault
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = 'TradeContributionPaperFixture'
@@ -47,7 +48,7 @@ def prepare(args):
     for folder in ('plugins', 'evidence', 'fixture/classes'):
         (run / folder).mkdir(parents=True)
     manifest = {'product_sha256': sha(product), 'native_sha256': sha(native), 'paper_sha256': sha(runtime / 'paper.jar'),
-                'port': args.port, 'scenario': '134 native settlements, 139 history changes; original actors; native administrative status corrections (no economic refund claim); Chronicle revision fault and restart recovery'}
+                'schema_version': artifact_schema(product), 'port': args.port, 'scenario': '134 native settlements, 139 history changes; original actors; native administrative status corrections (no economic refund claim); Chronicle revision fault and restart recovery'}
     for source, target in ((product, run / 'plugins/StarChronicle.jar'), (native, run / 'plugins/StarCore.jar'), (runtime / 'paper.jar', run / 'paper.jar')):
         if source.is_symlink():
             raise RuntimeError('Symlink artifact input is not supported')
@@ -138,6 +139,9 @@ def execute(args):
     if run.parent != (ROOT / 'run').resolve() or not run.name.startswith('paper-trade-contribution-'):
         raise RuntimeError('Require an isolated prepared run')
     manifest = json.loads((run / 'preparation.json').read_text())
+    schema = artifact_schema(run / 'plugins/StarChronicle.jar')
+    if schema != manifest.get('schema_version', 8):
+        raise RuntimeError('Preparation does not match frozen product schema')
     for filename, key in (('plugins/StarChronicle.jar', 'product_sha256'), ('plugins/StarCore.jar', 'native_sha256'),
                           (f'plugins/{FIXTURE}.jar', 'fixture_sha256'), ('paper.jar', 'paper_sha256')):
         if sha(run / filename) != manifest[key]:
@@ -164,19 +168,15 @@ def execute(args):
     expected_faults = []
 
     def unexpected(line):
-        return (' ERROR]' in line or 'TRADE_CONTRIB_FAILED' in line or 'History scan retained pending evidence:' in line
-                or 'history scan retained its cursor:' in line or 'Trade history reconciliation failed' in line) and line not in expected_faults
+        return (' ERROR]' in line or 'TRADE_CONTRIB_FAILED' in line or history_warning(line) or 'Trade history reconciliation failed' in line) and line not in expected_faults
 
     def reader():
         with log_path.open('x') as log:
             for line in process.stdout:
                 log.write(line); log.flush()
                 with condition:
-                    if injecting_failure and args.boot == 1 and re.fullmatch(
-                            r"\[[0-9:]+ WARN\]: \[StarChronicle\] History scan retained pending evidence: SQLiteException: \[SQLITE_CONSTRAINT_TRIGGER\] A RAISE function within a trigger fired, causing the SQL statement to abort \(acceptance injected contribution revision failure\)\n?", line):
-                        expected_faults.append(line)
-                    if injecting_stage_failure and args.boot == 1 and re.fullmatch(
-                            r"\[[0-9:]+ WARN\]: \[StarChronicle\] Trade history scan retained its cursor: SQLiteException: \[SQLITE_CONSTRAINT_TRIGGER\] A RAISE function within a trigger fired, causing the SQL statement to abort \(acceptance injected trade ingress failure\)\n?", line):
+                    kind = injected_fault(line, schema)
+                    if args.boot == 1 and ((injecting_failure and kind == 'revision') or (injecting_stage_failure and kind == 'ingress')):
                         expected_faults.append(line)
                     lines.append(line); condition.notify_all()
                 if any(word in line for word in ('TRADE_CONTRIB_', 'Done (', 'ERROR', 'Exception', 'Stopping server', 'History scan retained')):

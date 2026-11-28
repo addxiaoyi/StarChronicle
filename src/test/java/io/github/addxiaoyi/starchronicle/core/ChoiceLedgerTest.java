@@ -224,6 +224,33 @@ class ChoiceLedgerTest {
             assertEquals(0,ChoiceLedger.migrateSnapshots(connection));assertEquals(2,count(connection,""));connection.commit();
         }
     }
+    @Test void migrationRetainsNanosecondAndJavaIdOrderingWithoutRewritingOriginalTimestamps()throws Exception {
+        try(var connection=fresh()) {
+            var samples=new LinkedHashMap<String,Instant>();
+            samples.put("negative",Instant.ofEpochSecond(-1,999999999));samples.put("whole",Instant.EPOCH);
+            samples.put("nano",Instant.ofEpochSecond(0,1));samples.put("micro",Instant.ofEpochSecond(0,1000));
+            samples.put("\uD800\uDC00",Instant.ofEpochSecond(1));samples.put("\uE000",Instant.ofEpochSecond(1));
+            for(var item:samples.entrySet())seed(connection,state(instance(item.getKey(),Scope.WORLD,Map.of(a,"river"),1,"1"),Map.of(),Map.of("council","yes"),true,item.getValue()));
+            // The legacy JSON time, rather than a differently formatted/materialized column, is authoritative.
+            try(var s=connection.createStatement()){s.execute("UPDATE instances SET updated='legacy-column-kept' ");}
+            assertEquals(6,ChoiceLedger.migrateSnapshots(connection));
+            assertEquals("negative,whole,nano,micro,\uD800\uDC00,\uE000",scalar(connection,"SELECT group_concat(instance_id,',') FROM (SELECT instance_id FROM story_choice_log ORDER BY seq)"));
+            assertEquals("6",scalar(connection,"SELECT COUNT(*) FROM instances WHERE updated='legacy-column-kept'"));
+            assertEquals("0",scalar(connection,"SELECT COUNT(*) FROM sqlite_temp_master WHERE name='choice_snapshot_order'"));
+        }
+    }
+
+    @Test void invalidLastSnapshotLeavesNoMigrationRowsAndReleasesTemporaryOrdering()throws Exception {
+        try(var connection=fresh()) {
+            for(String id:List.of("a-valid","z-invalid"))seed(connection,state(instance(id,Scope.WORLD,Map.of(a,"river"),1,"1"),Map.of(),Map.of("council","yes"),true,now));
+            try(var s=connection.createStatement()){s.execute("UPDATE instances SET scope='nation:forged' WHERE id='z-invalid'");}
+            assertThrows(IllegalStateException.class,()->ChoiceLedger.migrateSnapshots(connection));
+            assertEquals(0,count(connection,""));assertEquals("0",scalar(connection,"SELECT COUNT(*) FROM sqlite_temp_master WHERE name='choice_snapshot_order'"));
+            try(var s=connection.createStatement()){s.execute("UPDATE instances SET scope='world' WHERE id='z-invalid'");}
+            assertEquals(2,ChoiceLedger.migrateSnapshots(connection));
+        }
+    }
+
     @Test void choiceRowsRequireBothStoredInstanceAndOriginalSourceEvidence()throws Exception {
         var i=instance("foreign-key",Scope.WORLD,Map.of(a,"river"),1,"1");
         try(var connection=fresh()) {

@@ -171,7 +171,8 @@ def execute(args):
         deadline = time.monotonic() + seconds
         while time.monotonic() < deadline:
             if any('CAPITAL_FAILED' in line or ' ERROR]' in line or 'Source event was not accepted:' in line or
-                   'History scan retained pending evidence:' in line or 'Capital history scan retained its cursor:' in line for line in lines):
+                   'History scan retained pending evidence:' in line or 'Capital history scan retained its cursor:' in line or
+                   'history retained its original ledger:' in line for line in lines):
                 raise RuntimeError('Server reported an acceptance/source failure')
             if process.poll() is not None:
                 raise RuntimeError('Server exited before acceptance')

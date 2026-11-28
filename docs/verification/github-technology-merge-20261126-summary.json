@@ -1,0 +1,196 @@
+{
+  "status": "VERIFIED",
+  "parents": {
+    "local": "43ea25cae8216d7e18ec5d9993ee954a5ba57dce",
+    "upstream": "50257dd70a007fa1cfbd58161dbd9b39c5a7bea9"
+  },
+  "tests": {
+    "tests": 1076,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "upstream_tests_added": 18,
+  "merge_tests_added": 8,
+  "build": {
+    "exit_code": 0,
+    "seconds": 84.46899999992456,
+    "totals": {
+      "tests": 1076,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "args": [
+      "cmd.exe",
+      "/d",
+      "/c",
+      "C:\\Users\\Administrator\\Documents\\StarChronicle\\mvnw.cmd",
+      "-o",
+      "-B",
+      "-ntp",
+      "-DforkCount=0",
+      "-Djacoco.skip=true",
+      "clean",
+      "verify"
+    ],
+    "artifacts": {
+      "original-starchronicle-0.1.0-SNAPSHOT.jar": "bba90767af41781f0906b426d00d84c645fb8c2151b9f4dbc9dd545bd30d1622",
+      "starchronicle-0.1.0-SNAPSHOT-sources.jar": "f48e8b325b1c086880eccadff4eb8d1f7eb160fd7c4a972d614e7d305b9f8c87",
+      "starchronicle-0.1.0-SNAPSHOT.jar": "42c0e27b7726548faf8f2bf330af3de44e44225632645824ccf3ad102c22f071"
+    }
+  },
+  "artifacts": {
+    "chronicle": "42c0e27b7726548faf8f2bf330af3de44e44225632645824ccf3ad102c22f071",
+    "sources": "f48e8b325b1c086880eccadff4eb8d1f7eb160fd7c4a972d614e7d305b9f8c87",
+    "starcore": "dd069f79f141b644a224b16d155dfb7e2d990c428c4dd3f4482bd79c26ec36f4"
+  },
+  "api": {
+    "api/ChronicleService": {
+      "preserved": 51,
+      "added": 0
+    },
+    "core/RuleEngine": {
+      "preserved": 80,
+      "added": 1
+    },
+    "core/ContributionLedger": {
+      "preserved": 11,
+      "added": 0
+    },
+    "core/EpicCampaignLedger": {
+      "preserved": 28,
+      "added": 0
+    },
+    "core/QuestGateLedger": {
+      "preserved": 12,
+      "added": 0
+    },
+    "core/MemberReviewLedger": {
+      "preserved": 9,
+      "added": 0
+    },
+    "paper/StarChroniclePlugin": {
+      "preserved": 15,
+      "added": 0
+    },
+    "integration/StarCoreNationalVoteAuthority": {
+      "preserved": 4,
+      "added": 0
+    }
+  },
+  "databases": {
+    "status": "VERIFIED",
+    "jar_sha256": "42c0e27b7726548faf8f2bf330af3de44e44225632645824ccf3ad102c22f071",
+    "archive_sha256": "8f3c6fbdff79e75312734a70137a5b687eb7f27eef35e5884bed6f5a2ebd5b4c",
+    "checkpoint": "boot3.data",
+    "archive_components": {
+      "paper-technology-e53a35d8-20261126-1/evidence/boot3.data/StarChronicle/chronicle.db": {
+        "bytes": 1134592,
+        "sha256": "9c54d2046d16b31676fd3e3b65ad3e77121c84508b88f8007ad563e8f5ff4004"
+      },
+      "paper-technology-e53a35d8-20261126-1/evidence/boot3.data/StarChronicle/chronicle.db-wal": {
+        "bytes": 4157112,
+        "sha256": "92b2a293e3735ab36b54345fa6e184c1b418b8f7a55fef2578566d2347e4cc5c"
+      },
+      "paper-technology-e53a35d8-20261126-1/evidence/boot3.data/StarChronicle/chronicle.db-shm": {
+        "bytes": 32768,
+        "sha256": "6f18cf492179389ab760db6650cf153e98e320e08097f55a0561df60767512e2"
+      }
+    },
+    "original_sha256": "56aae21906091edc33537605ddf1144faca8c684307912207464f8de7e739ee9",
+    "result_sha256": "8de753aa87ccc1ae1076e566eda839e7aab0cfe0670daa1108b12c38d73cb24e",
+    "unchanged_original_tables": 40,
+    "added_tables": [
+      "committed_source_cursors",
+      "committed_source_receipts",
+      "contribution_receipts",
+      "epic_contribution_projections",
+      "instance_members",
+      "native_trade_contributions",
+      "native_trade_states",
+      "quest_gate_attempts",
+      "story_member_review_log"
+    ],
+    "table_hashes": {
+      "aid_attempts": "6c2516eba29fc1b7a1db153ab6016d0f3b5fc16e14ab13c2ab2962e28a9640da",
+      "committed_history_ingress": "98555cf796185fa4d8d3ba03471a50cf092b2f5dac9e5733e45e371caaa7e4a6",
+      "committed_history_sources": "079ed8b081a3248534bf82af1780c400ac9c89b26e20dfc6a170eaa45ff6dbe9",
+      "contributions": "bc2957977a763a6489d78c288145a6704d4d5f37e72d8448f25cc48ecbdb5cd6",
+      "epic_campaigns": "79a31148a42f4272890a143aba3a37d8bd5f1162c0021030a5a8c947adcea96d",
+      "epic_operation_providers": "c4543d2d213aebcff8b424c09134b98defb5d1bba4ce45119527faf1b886e0f9",
+      "epic_operations": "cfcd51bbc2b4166a62c603778e45d2f53328933dba781d3db1e813327b25a8c9",
+      "epic_route_votes": "726d6e085263acb50581e6af5b7d736ed9709235e65a6dffbc7ff085b2219dd9",
+      "epic_signup_seats": "35fd3d857a4044d312de394ebbae3f52e1f738f968a1fac9eac1b209ff990a7c",
+      "epic_signups": "2e589f3323da8ab29aea34c1dcced33a3cce41df2597fb3b52ca5aa2cfcd0d64",
+      "event_causes": "b6020eb39a8588a616530fa07b57a83f4c1d3fc8c15de5ac175ed8dcd31d2118",
+      "event_nations": "d39d2a5f747d44ce7e4ac4478b644e04e3fda17f1458f706cc751ad7766f580b",
+      "event_players": "ba3f93f6bfaccacfabf877e4516875b36878548ec372437cd422f09376646e0a",
+      "events": "b223702ec261c7dfd3f32d45ed68c71ee80b3cf0ac4ae099d35f28d1e9b0f058",
+      "exploration_discoveries": "8ea673f0336d6b98cac994d8a5d2b442da4d3593e996e544814ce491a754d85d",
+      "exploration_region_scopes": "eb9eb978b3abf2a1ff338ef8eff46ea02d7682e2f0c258086665935d93c56a80",
+      "facts": "3e7da4c426198235e112c1616fb48c737879c3ff203fed8807950164fd1853f7",
+      "instances": "8c1b56a3b55510840b8f37808e4fc46a67b6385f7b784c8efdfa6e002d378d71",
+      "memory_entries": "e736e17173e23fd5e10ded65953dc44e94e9f3e48aa58ef61124fe91b9525074",
+      "memory_recipe_blocks": "361411457dbecec0b6531e19095baedebc44c00fdfb6c99bd3d37dc112ff0440",
+      "memory_recipe_definitions": "be89d7a19f0edb59fcaf0e408488d032083afdcd1a810241e7ea2231ff824125",
+      "memory_sites": "377553a70742f9dd58081f52efc38fd6d9a8854ac37618507e58b2b658b47857",
+      "native_scene_journal": "09fff4bc56a73d04199efa7874d6767c5802726a9e8fdc7cf79e2d7bed2a5792",
+      "observation_baselines": "628d3bafdf1d4aba8110a1272be6b7f1ffcb09fa434f72760977db148aea242f",
+      "observation_ingress": "6111ed5ab92b532778ea2efea1e413a253d058ae4e2c7bae3950542eefd84365",
+      "outcomes": "28602d65578b43a5a60e029c8473fbf28471bbf27dd1b71a11c7ae4ae9e6e08a",
+      "quest_gate_completions": "1f10d31500cbfef75441999a11f61eb6cb6dff663734f0492d1226ad985b44ba",
+      "quest_gates": "eaf5730663eecd6ab965b90e59322bbd9a1c2c3eea6d43d2859e6aaf0081597f",
+      "story_choice_log": "673af5fc71a96e80e5c474bb551399118008f496726427b3774112e2fa3faf44",
+      "story_definition_formats": "6a9fec280124e675be9bfd3a1fd0f0c062d46335cc5b23b44828ffbc034d3265",
+      "story_definition_upgrades": "53b7ae2c6e8db576e35e8b4f081a8200a186a8e5e7488353b067e74496c66405",
+      "story_definitions": "d1c3ddaf128e1f6b66981acf28ba412a4507655acfcc12a8a3fcb999d16085cb",
+      "story_member_reviews": "44be798eb16e1690c285f2f13d75882a098268b43e55e875bbc6fc5194d6547a",
+      "story_nation_actor_bindings": "dda4003cbb747f63b32454fa44ab9fe1c245c245fb77559fd06fc5bda6104166",
+      "story_nation_resolutions": "496001bb7858d9bcce7460f572ecfbe2502080ee1ca7f9b5e5acd7257cea927c",
+      "story_nation_vote_log": "72b49fc2ced58d85fccb314351d12811d78616160a5adf68d95d2e05318858e3",
+      "story_nation_votes": "e9e0636ba8e2c211177feb1846a79a3563cd6cc2a8e29efcb483fe50809e0b14",
+      "story_trigger_blocks": "009dd4b33a93c4f8ea0c28d2d15d09bf6af11d1c0fdd81a83682f07ab50c7255",
+      "story_trigger_receipts": "e564290d0ad545acdfd33c532fc75894bab081baa612b84d431bc18dec1458bc",
+      "story_triggers": "0b285b38e1f561034d6818d9d39b9ac32fca6c8a3f2ad49af38d10301b1e321b"
+    },
+    "results": [
+      {
+        "archived_native_receipts": 139,
+        "events": 140,
+        "new_events": 0,
+        "source": "archived receipt files, not a running provider",
+        "status": "VERIFIED"
+      },
+      {
+        "archived_native_receipts": 139,
+        "events": 140,
+        "new_events": 0,
+        "source": "archived receipt files, not a running provider",
+        "status": "VERIFIED"
+      }
+    ],
+    "correction": "Previous run copied only the main SQLite file. This run preserves the archived boot3 DB/WAL/SHM set and creates a consistent SQLite backup before probing. The failed attempt is preserved separately.",
+    "limits": "Two standalone JVMs, copied archived database and all 139 archived native receipt files; no Minecraft or live provider."
+  },
+  "upstream_archive": {
+    "files": 1172,
+    "sha256": "8f3c6fbdff79e75312734a70137a5b687eb7f27eef35e5884bed6f5a2ebd5b4c",
+    "intact": true
+  },
+  "retained_attempts": [
+    "Initial focused 68 tests: 2 errors from a nonexistent event_inbox assertion; final focused 68 and full 1076 passed after correcting the test.",
+    "First database probe omitted the archived WAL and saw 98 events/cursor 131; failed before acceptance.",
+    "Second probe preserved WAL but expected 139 total events; the archive actually has 139 technology events plus one NATION_FOUNDED. No product JVM started in this attempt."
+  ],
+  "limits": [
+    "No Minecraft server started; archived receipt files and database copies are not live acceptance.",
+    "Serial 256 MiB Maven JVM with forkCount=0 and jacoco.skip=true; no local coverage claim.",
+    "StarCore independent 517-test checkpoint remains scoped to scheduler, Essentials and economy/Vault/TransactionFabric regressions; not a full-library run.",
+    "EpicCampaignPaperFixture and TechnologyHistoryPaperFixture compiled against current artifacts; the pinned third-party combination fixture was not compiled.",
+    "Four technology Python tools passed syntax checks; upstream 10 technology evidence regressions and live 139-receipt acceptance were preserved, not rerun.",
+    "Upstream e53a35d8/44f450ec live evidence does not certify current 42c0e27b/dd069f79 artifacts."
+  ],
+  "evidence_files": 1393,
+  "evidence_sha256": "4d56718b0266f20253fb43e4354343d45c04c1b9dc8ae83081a6f76b01edbe14"
+}

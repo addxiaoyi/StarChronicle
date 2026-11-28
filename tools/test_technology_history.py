@@ -88,14 +88,14 @@ class ActualTechnologyHistoryEvidenceTest(unittest.TestCase):
 
     def test_dropped_source_warning_is_not_a_passing_run(self):
         path = self.run / 'evidence/boot2.server.log'
-        path.write_text(path.read_text() + '\n[WARN]: Technology history scan retained its cursor: source unavailable\n')
+        path.write_text(path.read_text(encoding='utf-8') + '\n[WARN]: Technology history scan retained its cursor: source unavailable\n', encoding='utf-8')
         with self.assertRaisesRegex(AssertionError, 'Server error or dropped source evidence'):
             INSPECTOR.inspect(self.run)
 
     def test_abnormal_shutdown_is_not_a_passing_restart(self):
         path = self.run / 'evidence/boot3.session.json'
-        data = json.loads(path.read_text()); data['exit_code'] = 137
-        path.write_text(json.dumps(data))
+        data = json.loads(path.read_text(encoding='utf-8')); data['exit_code'] = 137
+        path.write_text(json.dumps(data), encoding='utf-8')
         with self.assertRaisesRegex(AssertionError, 'Incomplete process lifecycle'):
             INSPECTOR.inspect(self.run)
 

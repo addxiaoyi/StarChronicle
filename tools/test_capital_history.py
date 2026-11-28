@@ -90,9 +90,12 @@ class ActualCapitalHistoryEvidenceTest(unittest.TestCase):
 
     def test_dropped_source_warning_is_not_a_passing_run(self):
         path = self.run / 'evidence/boot2.server.log'
-        path.write_text(path.read_text() + '\n[WARN]: Capital history scan retained its cursor: source unavailable\n')
-        with self.assertRaisesRegex(AssertionError, 'Server error or dropped source evidence'):
-            INSPECTOR.inspect(self.run)
+        original = path.read_text()
+        for message in ('Capital history scan retained its cursor', 'Capital history retained its original ledger'):
+            with self.subTest(message=message):
+                path.write_text(original + '\n[WARN]: ' + message + ': source unavailable\n')
+                with self.assertRaisesRegex(AssertionError, 'Server error or dropped source evidence'):
+                    INSPECTOR.inspect(self.run)
 
     def test_abnormal_shutdown_is_not_a_passing_restart(self):
         path = self.run / 'evidence/boot3.session.json'

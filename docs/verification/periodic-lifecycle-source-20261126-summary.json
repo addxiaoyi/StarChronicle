@@ -1,0 +1,137 @@
+{
+  "date": "2026-11-26",
+  "scope": "Shared entity/global periodic lifecycle; source, mocked platform callbacks and low-memory unit regressions only.",
+  "baseline_commits": {
+    "starchronicle": "d9e24fa2b022030bcea5b9901175652c244ccb59",
+    "starcore": "b048071df580a6919e37971d340b4abd681f46d1"
+  },
+  "new_tests": 27,
+  "tests": {
+    "tests": 1131,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 9
+  },
+  "tests_by_group": {
+    "test-scheduler": {
+      "tests": 391,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 7
+    },
+    "test-war": {
+      "tests": 475,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2
+    },
+    "test-finance": {
+      "tests": 265,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "baseline_tests": {
+    "tests": 15,
+    "failures": 13,
+    "errors": 2,
+    "skipped": 0
+  },
+  "skips": [
+    {
+      "suite": "dev.starcore.starcore.module.narrative.engine.NarrativeEngineTest$SessionLifecycle",
+      "test": "testAdvanceThroughDialogue",
+      "reason": "Requires a live Bukkit Player; covered by integration tests"
+    },
+    {
+      "suite": "dev.starcore.starcore.module.narrative.engine.NarrativeEngineTest$SessionLifecycle",
+      "test": "testSelectChoice",
+      "reason": "Requires a live Bukkit Player; covered by integration tests"
+    },
+    {
+      "suite": "dev.starcore.starcore.module.narrative.engine.NarrativeEngineTest$SessionLifecycle",
+      "test": "testStartSession",
+      "reason": "Requires a live Bukkit Player; covered by integration tests"
+    },
+    {
+      "suite": "dev.starcore.starcore.module.narrative.engine.NarrativeEngineTest$SessionLifecycle",
+      "test": "testCheckpointAndRollback",
+      "reason": "Requires a live Bukkit Player; covered by integration tests"
+    },
+    {
+      "suite": "dev.starcore.starcore.module.narrative.engine.NarrativeEngineTest$SessionLifecycle",
+      "test": "testInputSubmission",
+      "reason": "Requires a live Bukkit Player; covered by integration tests"
+    },
+    {
+      "suite": "dev.starcore.starcore.module.narrative.engine.NarrativeEngineTest$SessionLifecycle",
+      "test": "testMultiplePlayers",
+      "reason": "Requires a live Bukkit Player; covered by integration tests"
+    },
+    {
+      "suite": "dev.starcore.starcore.module.narrative.engine.NarrativeEngineTest$SessionLifecycle",
+      "test": "testScriptCompletion",
+      "reason": "Requires a live Bukkit Player; covered by integration tests"
+    },
+    {
+      "suite": "dev.starcore.starcore.module.war.WarModuleAuthorityTest",
+      "test": "declarationFeeIsChargedOnceAndCompensatedWhenAuthorityFails",
+      "reason": "Deprecated: Tests reference removed methods (declareWarChecked, migrateLegacyState, importLegacyWar)"
+    },
+    {
+      "suite": "dev.starcore.starcore.module.war.WarModuleAuthorityTest",
+      "test": "migrationImportsBothLegacyStoresBeforeClearingThem",
+      "reason": "Deprecated: Tests reference removed methods (declareWarChecked, migrateLegacyState, importLegacyWar)"
+    }
+  ],
+  "artifacts": {
+    "starchronicle_sha256": "1c7b8b010c9d330c15b0882753d54095fb906e42caedb926a81055d643cd78ce",
+    "sources_sha256": "8a9634b60a7b256e228e5c96b62eb525824083d83cffb590828934d93dd2547c",
+    "starcore_sha256": "2e472300295588e34144475c0520fcf321a9d31a9ba3a0b73b6dd3f6828a5ba1"
+  },
+  "source_hashes": {
+    "src/main/java/dev/starcore/starcore/core/scheduler/StarCoreScheduler.java": "26bddb579df473136833f6b5705a0d938d07bc7157c691397d701d701c193662",
+    "src/test/java/dev/starcore/starcore/core/scheduler/EntityTaskContractTest.java": "b7a7ef30d2b6835d46c2c80714dbdfbcc93215f62486963d190ff683f6843871",
+    "src/test/java/dev/starcore/starcore/core/scheduler/RepeatingTaskLifecycleTest.java": "a7120c422690d3dca93c942b3f52cbcec62241ed3faa6b67cc925e7c4e71b839",
+    "docs/PERIODIC-TASK-LIFECYCLE.md": "7d87c567c9ce286e07f131a1531c2e28cb96aa44c4144cb719f91e961fc7912e"
+  },
+  "artifact_verification": {
+    "status": "VERIFIED",
+    "starcore_sha256": "2e472300295588e34144475c0520fcf321a9d31a9ba3a0b73b6dd3f6828a5ba1",
+    "baseline_sha256": "928637205bffa395a52781eade913650e767c551a04b5f1a78a6a3e86183e87b",
+    "scheduler_class_hashes": {
+      "dev/starcore/starcore/core/scheduler/StarCoreScheduler$EntityRepeatingTask.class": "ab520d8fcce1e829ab5cf12a779f5208f3d3900bb871ebcd0acd949c095d13bb",
+      "dev/starcore/starcore/core/scheduler/StarCoreScheduler$EntityTaskNotAppliedException.class": "f85a1fe825dbdbf991bce5028d83887239091d4ead25dfed2cb5555ece90d975",
+      "dev/starcore/starcore/core/scheduler/StarCoreScheduler$GlobalRepeatingTask.class": "922dc723a1f278df581326c22ae2efc42fc944c312e8270b9e1dcb8e660e269d",
+      "dev/starcore/starcore/core/scheduler/StarCoreScheduler$StarCoreThreadFactory.class": "77673b868fc5d9a6a82d122996729246b9a88856e99b2ec8e624ea9535938ac6",
+      "dev/starcore/starcore/core/scheduler/StarCoreScheduler.class": "0d5683007ef3a0c575d63f752d38f216e98691274be3c91d04f2ab33bdd74115"
+    },
+    "compiled_source_hashes": {
+      "src/main/java/dev/starcore/starcore/core/scheduler/StarCoreScheduler.java": "26bddb579df473136833f6b5705a0d938d07bc7157c691397d701d701c193662",
+      "src/test/java/dev/starcore/starcore/core/scheduler/RepeatingTaskLifecycleTest.java": "a7120c422690d3dca93c942b3f52cbcec62241ed3faa6b67cc925e7c4e71b839"
+    },
+    "public_api_hashes": {
+      "StarCoreScheduler": "c0ea5ad8f54dadf1187071d91b9c5d56716a2368816b8efeff1e6133a7a6a04c",
+      "StarCoreScheduler$GlobalRepeatingTask": "a9c1761f38a53ed4c4d364c71b4053ecc14bd84104af2af1ba4e0d910201fe85"
+    },
+    "sbom_components": 36,
+    "limits": [
+      "Bytecode/API comparison is not live Paper/Folia validation.",
+      "Chronicle main artifacts are unchanged; prior integration results retain their original artifact boundaries."
+    ]
+  },
+  "limits": [
+    "No Minecraft, real third-party binaries or full Folia validation.",
+    "1131 selected native tests include 9 existing skips; this is not the full native suite.",
+    "Existing POM exclusions and the explicit ConscriptionTest exclusion are retained.",
+    "Local JVM heap 256 MiB; tests use forkCount=0 and jacoco.skip=true, no local coverage result.",
+    "A callback already admitted can finish; cancellation is not rollback or proof of non-application.",
+    "Retirement may run on shutdown/registration threads and must only touch detached state.",
+    "Legacy runSync/runNextTick/FoliaCompatScheduler and Essentials timers need separate review.",
+    "Chronicle main artifacts and their prior 1021-test result are unchanged, not rerun locally.",
+    "Prior treasury/trade/factory multi-JVM contracts retain their earlier artifact identities."
+  ],
+  "evidence_files": 248,
+  "evidence_zip_sha256": "0196996509c0036baa464a2924a1414ef72661351933b0ccaac39c18526d9eec"
+}

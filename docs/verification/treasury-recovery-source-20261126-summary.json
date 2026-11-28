@@ -1,0 +1,161 @@
+{
+  "date": "2026-11-26",
+  "baselines": {
+    "chronicle": "0b8043f34900481d24fd748c54264a6898064ffe",
+    "starcore": "305d8a77778de1f897a25503db9522bd8725dffc"
+  },
+  "scope": "Native treasury commit reconciliation, receipt/balance monitor, durable internal IDs for legacy deposits/withdrawals, player deposit uncertainty without blind refund, strict canonical/legacy import validation and quarantine; no Minecraft",
+  "red_tests": {
+    "red": {
+      "tests": 77,
+      "failures": 47,
+      "errors": 18,
+      "skipped": 0
+    },
+    "red2": {
+      "tests": 77,
+      "failures": 59,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "native_tests": {
+    "tests": 1246,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "tests_by_package": {
+    "resource": 1049,
+    "technology": 13,
+    "treasury": 184
+  },
+  "new_tests": 112,
+  "native_source_hashes": {
+    "docs/TREASURY-RECOVERY.md": "0ae95648b4f8308ba53b72affe584457f1a4de44f7471212c98605b48e4cb9bb",
+    "src/main/java/dev/starcore/starcore/module/treasury/NationCreditService.java": "6f1ffaa17657fbc441cc83ba35c685c1e160efc5e8dda40c09def859fcfc7e0a",
+    "src/main/java/dev/starcore/starcore/module/treasury/NationSpendingService.java": "a73fc6ea01a8cdcacc40ac38d310bf189531c56a64f4a91d652222f87f0e0044",
+    "src/main/java/dev/starcore/starcore/module/treasury/NationTransferService.java": "f014293a13916b60048e882bf48212520b5e3005202bbd2a0da768ffdf6fb91e",
+    "src/main/java/dev/starcore/starcore/module/treasury/SqlTreasuryStateStorage.java": "da2d421c4ec5a6daa50a7d2cdc35ca4b1010c86cf753e3ebc5c4c389f1275713",
+    "src/main/java/dev/starcore/starcore/module/treasury/TreasuryModule.java": "40c48705ca8f2da362bd5774e631194239b75daa13091f327cf1dc117486eb9c",
+    "src/main/java/dev/starcore/starcore/module/treasury/TreasuryService.java": "a611faf97b9be548e46b9227f0bb6bf385b0f7b17cdcc23109d4965d39a41030",
+    "src/main/java/dev/starcore/starcore/module/treasury/TreasuryStateCodec.java": "b3c8f418c660fe6a693f189759df28b8769cc149aad276f3cb6e8cdfc8cdb293",
+    "src/main/java/dev/starcore/starcore/module/treasury/TreasuryStateValidation.java": "9d0171e3ca77079a0d272fe1a4fe1d27eac3d00805c9e5743d5147b8c91e8158",
+    "src/main/java/dev/starcore/starcore/module/treasury/TreasuryTransactionUncertainException.java": "d1a984bdd0c6e3fdc57773eaac358dbf9cac7f8f34d6b6fddae450b56e9060c3",
+    "src/test/java/dev/starcore/starcore/module/treasury/SqlTreasuryStateStorageTest.java": "9c14293c7bb1bdb69ed00650067c014a0a08509b72e69340c2d78ed117499c9d",
+    "src/test/java/dev/starcore/starcore/module/treasury/TreasuryCommitRecoveryTest.java": "72ede69412513b3a366c655d1f75b3b0b6b4d4a8213086e2c13e70a08bc4af8b",
+    "src/test/java/dev/starcore/starcore/module/treasury/TreasuryDiagnosticsTest.java": "696243498b21b3de7f546eb5860bf563d2c3ea8070362f1087c4328a7a921a8d",
+    "src/test/java/dev/starcore/starcore/module/treasury/TreasuryPlayerDepositRecoveryTest.java": "1eed05a43b1fe49feb6b8bf7b7ec1575f187eee54acea710dc62d338db56ff42",
+    "src/test/java/dev/starcore/starcore/module/treasury/TreasurySnapshotValidationTest.java": "4b15f6c7baf2913445fa1c3176f8edc43077135de4645d09fe11472ab11aa10e"
+  },
+  "packaging": "Separate sequential 256 MiB JVMs for testing and packaging; verify skips recompilation/tests and uses tested class output; independent online 36-component SBOM",
+  "chronicle_tests": "No main-source changes or new local full verify. Previous 957-test JAR retained. Baseline Linux Maven verification #135 passed.",
+  "artifacts": {
+    "starcore_sha256": "adf34b8f584d3d94185c9164da466981bc92274342e135131c4a39e912dfcb27",
+    "starchronicle_sha256": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886"
+  },
+  "contracts": {
+    "treasury": {
+      "status": "PASS",
+      "scope": "Packaged TreasuryModule and real SQLite, commit then response/read failure, quarantine flush, original-ID replay in two subsequent JVMs; no Minecraft, Chronicle adapter or MySQL certification",
+      "artifacts": {
+        "starcore.jar": "adf34b8f584d3d94185c9164da466981bc92274342e135131c4a39e912dfcb27",
+        "TreasuryRecoveryProbe.java": "e12bf2c3769cc762bbb3282e904c341f1c797a81d6cca134203f8a19073e5700"
+      },
+      "phases": {
+        "compile": {
+          "exit_code": 0,
+          "log_sha256": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc"
+        },
+        "first": {
+          "exit_code": 0,
+          "log_sha256": "a4e7e46e46bec071c9b6316a51c5ac325ebf37bca72f1e2aca8761a373da9f3b"
+        },
+        "second": {
+          "exit_code": 0,
+          "log_sha256": "e00cc976a8eb4294c3d6617a37a541880d4185b226e9812fe14df765ae97ac54"
+        },
+        "third": {
+          "exit_code": 0,
+          "log_sha256": "63b58cf8886af9fa2d7075ba6e49863edef91faf1abdc86f433776a780f21f5d"
+        }
+      },
+      "files": {
+        "compile.args": "456d975c734cd88f5c28969e04e49c7f24d892d5f5275896684cf9d171fa6a46",
+        "compile.log": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc",
+        "domain.txt": "a4f39c98c3a9d01fc3094b7a3dce42f90ec542a2e968a9d5fc96725ece06ca11",
+        "first.args": "e6ff718b2620ae4e9716b73c4b1538730b697fdd7a2598e6687770842924dfed",
+        "first.log": "a4e7e46e46bec071c9b6316a51c5ac325ebf37bca72f1e2aca8761a373da9f3b",
+        "second.args": "438e005d5807758ffaf68141ee0655d2b2068defcc36dcab718b3346be3f4de9",
+        "second.log": "e00cc976a8eb4294c3d6617a37a541880d4185b226e9812fe14df765ae97ac54",
+        "third.args": "f97e7e50397ef5930d509780720d3004277ea1f8be4094125611f1b704e8f40c",
+        "third.log": "63b58cf8886af9fa2d7075ba6e49863edef91faf1abdc86f433776a780f21f5d",
+        "treasury.db": "7641bdea7776ab363ba72416bd55803f44b7650e629014878d5be3c0843b47f1",
+        "artifacts/starcore.jar": "adf34b8f584d3d94185c9164da466981bc92274342e135131c4a39e912dfcb27",
+        "artifacts/TreasuryRecoveryProbe.java": "e12bf2c3769cc762bbb3282e904c341f1c797a81d6cca134203f8a19073e5700",
+        "classes/dev/starcore/starcore/module/treasury/TreasuryRecoveryProbe.class": "8109f803d8079ac75fc934a212bf0478f0ca1c154365717b76e861aa26d3c14a"
+      }
+    },
+    "factory": {
+      "status": "PASS",
+      "artifacts": {
+        "FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+        "starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886",
+        "starcore.jar": "adf34b8f584d3d94185c9164da466981bc92274342e135131c4a39e912dfcb27"
+      },
+      "scope": "Three sequential JVMs; packaged timed factory and Chronicle services; real SQLite; controlled clock and detached NationService fixture; no Minecraft or live player certification",
+      "phases": {
+        "compile": {
+          "exit_code": 0,
+          "log_sha256": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc"
+        },
+        "first": {
+          "exit_code": 0,
+          "log_sha256": "23ca3fe723410ac8ce81d515419abdb6fdca45cae7a69dd1ca96eaee176d0adc"
+        },
+        "second": {
+          "exit_code": 0,
+          "log_sha256": "ee7d17ae2a622c09ecad4ef2d09f77e4992414216c8f35346f988dd14d520a7d"
+        },
+        "third": {
+          "exit_code": 0,
+          "log_sha256": "688364f2f26e35685bcd73f47cb741ad9635f1b959450b87c011c2cfe4f5a167"
+        }
+      },
+      "files": {
+        "chronicle.db": "2995eea026493fbf6bfdf8d7c0d64c685d2c80add5288269e61651acd0f3ecb9",
+        "chronicle.db-shm": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+        "chronicle.db-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "compile.args": "17697bf889a75737f68dbb40fe1f02f06ab2dc90f66dfc40407ce41c7d4db997",
+        "compile.log": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc",
+        "factory-id.txt": "ae5e0508513d2ddb1a714d94c4d610c0c9057a93ea5ea2b3657e95e1339c50fb",
+        "first-receipt.txt": "b81bc02b45114ea87e3503cbe62b4d111d2ea6ed8c121dc6bbb4ef1b0653c82c",
+        "first.args": "bae95d086b25ffa1be75f22fd878fea143d7c84eeb24e6d9cab777b9198dc2e1",
+        "first.log": "23ca3fe723410ac8ce81d515419abdb6fdca45cae7a69dd1ca96eaee176d0adc",
+        "native.db": "a58cab4379236373b48289f060cf01d8bbc6fbf74b198b208f2626dc0e96166c",
+        "ready-at.txt": "038aaa104d8888d3886f720f0ac20eddb0a1fb1260a4d49a4c90f57ecfe639ea",
+        "second.args": "a3110f1aa93379449fa1d31ad1aa5cea696b4c3ba9f44e41b0bff9dfe63e9cab",
+        "second.log": "ee7d17ae2a622c09ecad4ef2d09f77e4992414216c8f35346f988dd14d520a7d",
+        "third.args": "a51d096ff9e03d38b129b0e9abeb082443a11d133e4efdcbe71cacee5fadc57e",
+        "third.log": "688364f2f26e35685bcd73f47cb741ad9635f1b959450b87c011c2cfe4f5a167",
+        "artifacts/FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+        "artifacts/starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886",
+        "artifacts/starcore.jar": "adf34b8f584d3d94185c9164da466981bc92274342e135131c4a39e912dfcb27",
+        "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe$TestClock.class": "3ece24b60871dad70981cc222c5c572009eff318c9cccf8afdd8e735c34723e6",
+        "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe.class": "10c5ee66b8fc3ad34a0e5acd4932ddebe2c4ed9fd70c0b275b436d18cc7b786f"
+      }
+    }
+  },
+  "coverage": "Focused native suite only; forkCount=0 and jacoco.skip=true. MySQL integration test not selected.",
+  "limits": [
+    "Uncertain native operations throw TreasuryTransactionUncertainException; the original ID must be reconciled before retry or compensation. Quarantine is not released by restored connectivity or periodic refresh.",
+    "Legacy bool APIs generate internal receipts; these remain resident and fully persisted. Long-term treasury capacity is not certified.",
+    "Reads use the current committed local snapshot, not multi-instance linearizable reads. SQL revision conflicts and refresh retain their scope.",
+    "Player treasury credit uncertainty enters manual review; external personal economy and treasury do not share a transaction.",
+    "Stable trade execution IDs, frozen terms, cross-service recovery and durable quota reservations are still pending.",
+    "Missing authority domain, detached modules and third-party providers do not establish durable native authority.",
+    "Current file/SQLite/H2 and packaged JVM validation do not certify Minecraft, MySQL, Folia or third-party stacks."
+  ],
+  "evidence_zip_sha256": "65ecc416804b048a07e3346311f5f4821a4f8f4c2609163544c04dc573b060be",
+  "evidence_files": 225
+}

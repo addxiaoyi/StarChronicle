@@ -43,6 +43,22 @@ class ActualEpicEvidenceTest(unittest.TestCase):
     def test_original_receipts_and_three_boots_pass(self):
         self.assertEqual(INSPECTOR.inspect(self.run), self.original)
 
+    def test_changed_contribution_amount_is_rejected(self):
+        if not INSPECTOR.read(self.run / 'preparation.json').get('extended'):
+            self.skipTest('Requires actual extended contribution evidence')
+        with sqlite3.connect(self.run / 'plugins/StarChronicle/chronicle.db') as connection:
+            connection.execute("UPDATE contributions SET amount='999' WHERE id=(SELECT id FROM contributions LIMIT 1)")
+        with self.assertRaisesRegex(AssertionError, 'Contribution amount'):
+            INSPECTOR.inspect(self.run)
+
+    def test_missing_membership_exit_transition_is_rejected(self):
+        if not INSPECTOR.read(self.run / 'preparation.json').get('extended'):
+            self.skipTest('Requires actual extended membership evidence')
+        with sqlite3.connect(self.run / 'plugins/StarChronicle/chronicle.db') as connection:
+            connection.execute("DELETE FROM story_member_review_log WHERE status='EXITED'")
+        with self.assertRaisesRegex(AssertionError, 'Membership transitions'):
+            INSPECTOR.inspect(self.run)
+
     def test_missing_third_boot_is_not_completion(self):
         (self.run / 'evidence/boot3.session.json').unlink()
         with self.assertRaisesRegex(AssertionError, 'three completed'):

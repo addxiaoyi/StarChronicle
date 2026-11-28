@@ -1,0 +1,283 @@
+{
+  "status": "VERIFIED",
+  "baseline": {
+    "chronicle": "bd4d4b076d437af0596adb3a2909677ddb1db333",
+    "starcore": "de4d39761e2360dc77c6b50f1d117b1c7d0167b6"
+  },
+  "tests": {
+    "tests": 607,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "new_tests": 56,
+  "existing_book_tests_added_to_selection": 2,
+  "runs": {
+    "baseline-final": {
+      "exit_code": 1,
+      "totals": {
+        "tests": 2,
+        "failures": 1,
+        "errors": 1,
+        "skipped": 0
+      },
+      "seconds": 14.702999999979511,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.compiler.useIncrementalCompilation=false",
+        "-Dmaven.main.skip=true",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "compile": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 257.375,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "spotless:apply",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "compile-final-session": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 11.84299999999348,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.compiler.useIncrementalCompilation=false",
+        "spotless:apply",
+        "-DskipTests",
+        "test-compile"
+      ]
+    },
+    "test-focused": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 71,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 9.51500000001397,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=BalTopGuiSnapshotTest,BalTopViewLoaderTest,EssentialsGuiOwnershipTest,BookInputSupportTest,EssentialsGuiListenerInventorySafetyTest,EssentialsGuiListenerInputContractTest,EssentialsModuleLifecycleTest",
+        "surefire:test"
+      ]
+    },
+    "test-regression": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 607,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 16.375,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-DforkCount=0",
+        "-Dtest=dev.starcore.starcore.core.scheduler.**,dev.starcore.starcore.essentials.**,BookInputSupportTest,InternalEconomyServiceTest,PlayerVaultEconomyServiceTest,TransactionFabricTest",
+        "surefire:test"
+      ]
+    },
+    "package": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 55.01500000001397,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-o",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "-Dmaven.main.skip=true",
+        "-Dmaven.test.skip=true",
+        "verify"
+      ]
+    },
+    "sbom": {
+      "exit_code": 0,
+      "totals": {
+        "tests": 0,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "seconds": 15.155999999959022,
+      "args": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+        "-B",
+        "-ntp",
+        "-Djacoco.skip=true",
+        "cyclonedx:makeAggregateBom@generate-sbom"
+      ]
+    }
+  },
+  "artifacts": {
+    "starcore": "088168537d6d8cc2f3f63c3b8b7172468f7c307bd7579b75ea8eaeb8aa553183",
+    "chronicle": "42c0e27b7726548faf8f2bf330af3de44e44225632645824ccf3ad102c22f071"
+  },
+  "api": {
+    "dev/starcore/starcore/essentials/EssentialsModule": {
+      "preserved_methods": 15,
+      "added_methods": []
+    },
+    "dev/starcore/starcore/essentials/gui/BalTopGui": {
+      "preserved_methods": 5,
+      "added_methods": [
+        [
+          "public dev.starcore.starcore.essentials.gui.BalTopGui(org.bukkit.entity.Player, dev.starcore.starcore.essentials.baltop.BalTopView);",
+          "(Lorg/bukkit/entity/Player;Ldev/starcore/starcore/essentials/baltop/BalTopView;)V"
+        ],
+        [
+          "public int getPage();",
+          "()I"
+        ],
+        [
+          "public java.lang.String getEntryName(java.util.UUID);",
+          "(Ljava/util/UUID;)Ljava/lang/String;"
+        ]
+      ]
+    },
+    "dev/starcore/starcore/essentials/gui/HomeGui": {
+      "preserved_methods": 5,
+      "added_methods": [
+        [
+          "public int getPage();",
+          "()I"
+        ]
+      ]
+    },
+    "dev/starcore/starcore/essentials/gui/WarpGui": {
+      "preserved_methods": 5,
+      "added_methods": [
+        [
+          "public int getPage();",
+          "()I"
+        ]
+      ]
+    },
+    "dev/starcore/starcore/essentials/listener/EssentialsGuiListener": {
+      "preserved_methods": 10,
+      "added_methods": [
+        [
+          "public dev.starcore.starcore.essentials.listener.EssentialsGuiListener(org.bukkit.plugin.Plugin, dev.starcore.starcore.essentials.home.HomeService, dev.starcore.starcore.essentials.warp.WarpService, dev.starcore.starcore.essentials.teleport.TeleportService, dev.starcore.starcore.essentials.baltop.BalTopService, dev.starcore.starcore.foundation.economy.EconomyService, dev.starcore.starcore.core.scheduler.FoliaCompatScheduler, java.util.function.BooleanSupplier);",
+          "(Lorg/bukkit/plugin/Plugin;Ldev/starcore/starcore/essentials/home/HomeService;Ldev/starcore/starcore/essentials/warp/WarpService;Ldev/starcore/starcore/essentials/teleport/TeleportService;Ldev/starcore/starcore/essentials/baltop/BalTopService;Ldev/starcore/starcore/foundation/economy/EconomyService;Ldev/starcore/starcore/core/scheduler/FoliaCompatScheduler;Ljava/util/function/BooleanSupplier;)V"
+        ],
+        [
+          "public void close();",
+          "()V"
+        ]
+      ]
+    },
+    "dev/starcore/starcore/foundation/gui/BookInputSupport": {
+      "preserved_methods": 3,
+      "added_methods": [
+        [
+          "public static java.lang.Object sessionToken(org.bukkit.entity.Player);",
+          "(Lorg/bukkit/entity/Player;)Ljava/lang/Object;"
+        ],
+        [
+          "public static void restoreSession(org.bukkit.entity.Player, java.lang.Object);",
+          "(Lorg/bukkit/entity/Player;Ljava/lang/Object;)V"
+        ]
+      ]
+    }
+  },
+  "class_hashes": {
+    "dev/starcore/starcore/essentials/EssentialsModule$CommandBinding.class": "9f8ad25550a7e816bb9b429a10e41afdee67598b55f6d98447b9513fae7923e6",
+    "dev/starcore/starcore/essentials/EssentialsModule$LifecycleCommand.class": "b0abd0cab8ad26212afa19c275faeb55b974b9d9d35bd7445b3b4bc4a2add16d",
+    "dev/starcore/starcore/essentials/EssentialsModule.class": "ecb87ea0b15eb6b9f9c37bca965ccf47ac737d6bf23c467220fd5eb51549e7ef",
+    "dev/starcore/starcore/essentials/gui/BalTopGui$BalTopAction.class": "4c626e5ff577c6f51aed848302b04025156e56493f57b37d7ab84c619c6fc4db",
+    "dev/starcore/starcore/essentials/gui/BalTopGui.class": "75261affb214713f9eefc9e4acced01154b0e9527fefd568e0b8b02836d5bb6a",
+    "dev/starcore/starcore/essentials/gui/HomeGui$HomeAction.class": "4aff2725d8d0ec814270afe4d718c8aa90935e1d8119dcd54b07627a422f4352",
+    "dev/starcore/starcore/essentials/gui/HomeGui.class": "d197833978fc1607c0990d0d3539473e7b675f6914680f8140f2f73727a7a9c7",
+    "dev/starcore/starcore/essentials/gui/WarpGui$WarpAction.class": "1bbe052315829682c46baf0c8aa9e52f0fc31112ded129f9cbb9e31059e60013",
+    "dev/starcore/starcore/essentials/gui/WarpGui.class": "256839d43a04a6364fed43aa9c518ec59694ba2b640029c0f046f73bfdb91ec5",
+    "dev/starcore/starcore/essentials/listener/EssentialsGuiListener$1.class": "2608d4750839825930b3779e62b41c2acd02ed1c7d4cfa310d34d45101779210",
+    "dev/starcore/starcore/essentials/listener/EssentialsGuiListener$BookOpening.class": "14c2e20ba4a4aaf772bd5f48e849b69e600678cb60314053beb1a53bbca4dbd4",
+    "dev/starcore/starcore/essentials/listener/EssentialsGuiListener$GuiSession.class": "ba8b19457e43f369f7ef66c57c3a33d727cd4f254c06630ddfb8b5d9ef59760a",
+    "dev/starcore/starcore/essentials/listener/EssentialsGuiListener$HomeSave.class": "6063a4560c5ec4ea98374aaf25f99d9a7f5e8c9d7eba40d7aad4d371479d7155",
+    "dev/starcore/starcore/essentials/listener/EssentialsGuiListener$Opening.class": "08e37df721c8aa044078eef9d3240c98890ce823df9f2a2624d6fbbc3b7694bd",
+    "dev/starcore/starcore/essentials/listener/EssentialsGuiListener.class": "7ff953f4d4cce7a6bd152b6cecf6216f24050d59c4800e374c881fe12a57a51b",
+    "dev/starcore/starcore/foundation/gui/BookInputSupport$BookSession.class": "afb16662bcd89e4eb2eb52833923109f81930cdb7a1d406ab63b22d227501b86",
+    "dev/starcore/starcore/foundation/gui/BookInputSupport.class": "6223fdf1a2af59ef71d6af9f2c4a4ae7445faeb605992a1306f5a89b112715e6",
+    "dev/starcore/starcore/essentials/baltop/BalTopView.class": "97adbf8926eda6d1bdf54960e9a164300b69f6c670b59951fa2cfbc66f3d9946",
+    "dev/starcore/starcore/essentials/baltop/BalTopViewLoader.class": "7a7f25c56197e8a3da8206113af3a18fb273384e0b600c1e8f3478b4532658eb"
+  },
+  "sbom_components": 36,
+  "limits": [
+    "No Minecraft, live Paper/Folia, third-party combination or full hot-reload acceptance.",
+    "607 related tests, not the whole StarCore suite; existing POM exclusions remain. forkCount=0, jacoco.skip=true, 256 MiB JVM limit.",
+    "Package verify and SBOM generation briefly overlapped; both completed successfully. Sources were unchanged and class/API fingerprints were checked after both exited.",
+    "Legacy synchronous constructors require caller ownership and permit offline profile IO; the module uses the scheduler-aware listener.",
+    "Offline names use asynchronous lookup; unknown external Folia economy is refused. Default heads remain for unresolved names. No skin-loading proof.",
+    "Shutdown invalidates pending state and schedules cleanup only for the exact player and inventory/book token. Plugin shutdown or inventory restoration failures are not a full hot-unload recovery guarantee.",
+    "Initial compile: 2269 main and 1100 test source files. Final stale-source compile: 6 main and 8 test files. Frozen source and packaged bytecode checks passed.",
+    "Chronicle Java unchanged: 1076 local tests and Linux CI #196 belong to the previous checkpoint; previous live evidence is not transferable.",
+    "Fetched newer upstream native trade a645272 and Chronicle evidence 78b227f after GUI verification; those changes are not in this checkpoint."
+  ],
+  "evidence_files": 170,
+  "evidence_sha256": "5d202ee3c049279cccda4040679d75d5f00495c59d061f482845c3d31ab8851d"
+}

@@ -30,6 +30,9 @@ def main():
     parser.add_argument('--failed-run', type=Path, action='append', default=[])
     parser.add_argument('--native', type=Path, required=True)
     parser.add_argument('--label', required=True)
+    parser.add_argument('--verify-log', type=Path, default=ROOT / 'target/verify.log')
+    parser.add_argument('--package-log', type=Path)
+    parser.add_argument('--evidence-test-log', type=Path, required=True)
     args = parser.parse_args()
     run, native = args.run.resolve(), args.native.resolve()
     failed = [p.resolve() for p in args.failed_run]
@@ -61,16 +64,18 @@ def main():
         suites.append(dict(name=value.get('name'), file=path.name, sha256=sha(path),
             **{key: int(value.get(key, '0')) for key in ('tests', 'failures', 'errors', 'skipped')}))
     totals = {key: sum(s[key] for s in suites) for key in ('tests', 'failures', 'errors', 'skipped')}
-    if totals != dict(tests=925, failures=0, errors=0, skipped=0):
-        raise RuntimeError('Unexpected full verification reports')
-    verify = ROOT / 'target/trade-chronicle-verify-20261126-3.log'
-    packaging = ROOT / 'target/trade-chronicle-package-20261126-1.log'
-    if any('BUILD SUCCESS' not in p.read_text() for p in (verify, packaging)):
+    verify = args.verify_log.resolve()
+    packaging = args.package_log.resolve() if args.package_log else verify
+    logs = [p.read_text(encoding='utf-8', errors='replace') for p in (verify, packaging)]
+    if any('BUILD SUCCESS' not in text or 'BUILD FAILURE' in text for text in logs):
         raise RuntimeError('Missing successful build log')
-    evidence_test = ROOT / 'target/trade-contribution-evidence-tests-20261126-1.log'
+    counts = re.findall(r'Tests run: (\d+), Failures: (\d+), Errors: (\d+), Skipped: (\d+)(?:\r?\n|$)', logs[0])
+    if not suites or not counts or tuple(totals.values()) != tuple(map(int, counts[-1])) or any(totals[k] for k in ('failures', 'errors', 'skipped')):
+        raise RuntimeError('Actual successful verify counts must match the exact archived XML reports')
+    evidence_test = args.evidence_test_log.resolve()
     if not re.search(r'Ran 13 tests in .*\n\nOK\s*$', evidence_test.read_text()):
         raise RuntimeError('Missing successful evidence regression log')
-    files = {}
+    files = {'logs/verify.log': verify, 'logs/package.log': packaging, 'logs/evidence-tests.log': evidence_test}
     for attempt in [run, *failed]:
         if attempt in failed:
             sessions = list((attempt / 'evidence').glob('boot*.session.json'))
@@ -92,7 +97,7 @@ def main():
         for path in (ROOT / 'target').glob(pattern):
             files['logs/' + path.name] = path
     for name in ('TradeContributionPaperFixture.java', 'trade-contribution-paper.py', 'inspect-trade-contributions.py',
-                 'test_trade_contributions.py', 'archive-trade-contributions.py', 'inspect-trade-history.py'):
+                 'test_trade_contributions.py', 'archive-trade-contributions.py', 'inspect-trade-history.py', 'trade_contribution_protocol.py'):
         files['tools/' + name] = ROOT / 'tools' / name
     secrets = set()
     for path in files.values():
@@ -124,7 +129,7 @@ def main():
     summary = dict(captured_utc=datetime.now(timezone.utc).isoformat(), chronicle_commit=git(ROOT, 'rev-parse', 'HEAD'),
         native_commit=git(native, 'rev-parse', 'HEAD'), accepted=accepted, failed_attempts=[p.name for p in failed],
         tests=dict(totals=totals, suites=suites, evidence_regressions=13), source_files={name: sha(ROOT / name) for name in source_files},
-        build_note='Final Java code passed 925-test verify; then API.md was updated and packaged with -DskipTests. Sources JAR matches all 114 Java files; final API.md matches the product JAR.',
+        build_note=f'Actual verify: {totals["tests"]} tests; source JAR and API.md match frozen product. Explicit build and evidence-test logs included.',
         limitations=['Offline fixture accounts using real native direct/quick-sell/market services; no online player command or GUI certification.',
             'Refund, dispute, restoration and cancellation are native administrative history corrections, not economic compensation acceptance.',
             'No latest-jar full epic combination, full-stack Folia, MySQL or third-party economy verification.',

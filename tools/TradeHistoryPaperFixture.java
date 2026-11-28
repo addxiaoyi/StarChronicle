@@ -7,6 +7,7 @@ import dev.starcore.starcore.module.nation.NationService;
 import dev.starcore.starcore.module.nation.model.NationId;
 import dev.starcore.starcore.module.resource.*;
 import dev.starcore.starcore.module.resource.model.*;
+import dev.starcore.starcore.module.resource.model.TradeHistoryChange;
 import io.github.addxiaoyi.starchronicle.persistence.SqliteStore;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -64,7 +65,7 @@ public final class TradeHistoryPaperFixture extends JavaPlugin implements Comman
                 sellerNation=NationId.fromString(getConfig().getString("seller-nation"));
             }
             saveConfig();Objects.requireNonNull(getCommand("tradeverify")).setExecutor(this);
-            log("READY",Map.of("domain",history.historyAuthorityDomainId().toString(),"buyer",buyer.toString(),"seller",seller.toString(),
+            log("READY",Map.of("domain",history.tradeHistoryAuthorityDomainId().toString(),"buyer",buyer.toString(),"seller",seller.toString(),
                 "buyerNation",buyerNation.toString(),"sellerNation",sellerNation.toString(),"balances",balances(),"opening",getConfig().getString("opening")));
         } catch(Throwable error){fail(error);getServer().getPluginManager().disablePlugin(this);}
     }
@@ -110,7 +111,7 @@ public final class TradeHistoryPaperFixture extends JavaPlugin implements Comman
         while(true){var page=history.settlementIntentsAfter(cursor,128);intents.addAll(page);if(page.size()<128)break;cursor=page.getLast().operationId();require(intents.size()<=256,"Too many intents");}
         for(int i=0;i<records.size();i++) {
             var receipt=records.get(i);var record=receipt.record();
-            require(receipt.sequence()==i+1&&receipt.authorityDomainId().equals(history.historyAuthorityDomainId()),"Sequence or domain drift");
+            require(receipt.sequence()==i+1&&receipt.authorityDomainId().equals(history.tradeHistoryAuthorityDomainId()),"Sequence or domain drift");
             require(record.status()==TradeRecord.TradeRecordStatus.COMPLETED,"Unexpected source status");
             var intent=intents.stream().filter(t->t.plannedRecord().recordId().equals(record.recordId())).findFirst().orElseThrow();
             var tx=fabric.findByIdempotencyKey(intent.idempotencyKey()).orElseThrow();

@@ -1,0 +1,761 @@
+{
+  "date": "2026-11-26",
+  "baselines": {
+    "chronicle": "7fed890050caff8bc2d8e10cedfbde9d833bd0f0",
+    "starcore": "29f58d4547279a8169ef2e8517b8d2285ae832ba"
+  },
+  "scope": "Native resource-domain source/regression; frozen V1 fixture; serial small JVMs, actual factory APIs and SQLite with JDBC changed-row counts; no Minecraft or native full-suite certification",
+  "native_tests": {
+    "tests": 304,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "targeted_tests": 80,
+  "new_tests": 16,
+  "chronicle_tests": "Source unchanged: previously verified 957-test JAR; latest source commit Linux CI #87 passed",
+  "artifacts": {
+    "starcore_sha256": "c5f459b181ff92e828eed9d4c58c3b699593dc261d763b28aa61c69e458bbf02",
+    "starchronicle_sha256": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886"
+  },
+  "contracts": {
+    "capacity": {
+      "status": "PASS",
+      "scope": "Serial 64 MiB JVMs; actual packaged timed-factory starts/completions, SQLite and JDBC row counts; synthetic historical batches; no Minecraft or concurrent throughput claim",
+      "completed_runs": 1000,
+      "new_batches": 20,
+      "artifacts": {
+        "current.jar": "c5f459b181ff92e828eed9d4c58c3b699593dc261d763b28aa61c69e458bbf02",
+        "FactoryRecoveryProbe.java": "5c61452074da32b5dd19e524eb5b51af8c76787af9298f1c2399730a7657dd14",
+        "FactoryStableWriteProbe.java": "923074f832bdf1db8148aa8fb8a7ce85ecf7187a1b5f0d032e47b8039e480b97",
+        "previous.jar": "97db36ee40dbc6df8c765c0bbbb92dadcddf8989f5b31db77505d814e31470f1",
+        "ResourceSnapshotWriteProbe.java": "168c916b8711c988fbfac40eb1bf36bd8dce237b3ee5a3fa4294cf1da33ccbcf",
+        "starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886"
+      },
+      "phases": {
+        "compile": {
+          "exit_code": 0,
+          "elapsed_seconds": 7.454,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "seed": {
+          "exit_code": 0,
+          "elapsed_seconds": 1.922,
+          "log_sha256": "71cc60e8e21238a3e3d535468e074982567405f2d15d9b74fe1241b572102009"
+        },
+        "previous": {
+          "exit_code": 0,
+          "elapsed_seconds": 9.813,
+          "log_sha256": "cc75cb76230b3328a21d6f221eb1835ec0da272890d4aac4afb271137c40c7da",
+          "independent_validation": "PASS"
+        },
+        "previous-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 1.812,
+          "log_sha256": "d40f661d541f2a2ff604fbe9117357c17ab78997d417ff95bc7606f096dbfdd8",
+          "all_tables_unchanged": true
+        },
+        "current": {
+          "exit_code": 0,
+          "elapsed_seconds": 8.281,
+          "log_sha256": "7d1946c77a12496c840a15200425cf7cdc8eda4f53874e1ecb47fcca7600eb6c",
+          "independent_validation": "PASS"
+        },
+        "current-restart": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.032,
+          "log_sha256": "59f076898f5f0351e84a2adfddac025af9b6b1081cd78db716b470bb80ab8f77",
+          "all_tables_unchanged": true
+        }
+      },
+      "same_final_logical_state_and_production_rows": true
+    },
+    "grant_regression": {
+      "status": "PASS",
+      "scope": "Serial 64 MiB JVMs; actual packaged ResourceModule grants, SQLite and JDBC row counts; synthetic historical batches; no Minecraft or concurrent throughput claim",
+      "completed_runs": 1000,
+      "grants": 50,
+      "artifacts": {
+        "current.jar": "c5f459b181ff92e828eed9d4c58c3b699593dc261d763b28aa61c69e458bbf02",
+        "FactoryRecoveryProbe.java": "5c61452074da32b5dd19e524eb5b51af8c76787af9298f1c2399730a7657dd14",
+        "previous.jar": "97db36ee40dbc6df8c765c0bbbb92dadcddf8989f5b31db77505d814e31470f1",
+        "ResourceSnapshotWriteProbe.java": "168c916b8711c988fbfac40eb1bf36bd8dce237b3ee5a3fa4294cf1da33ccbcf",
+        "starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886"
+      },
+      "phases": {
+        "compile": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.469,
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "seed": {
+          "exit_code": 0,
+          "elapsed_seconds": 2.312,
+          "log_sha256": "f00d576cf493e5922ca7441b185e96b1074805ed5071da14d8ecf3c3aaf8d84a"
+        },
+        "previous": {
+          "exit_code": 0,
+          "elapsed_seconds": 7.406,
+          "log_sha256": "a776f953d04006c656786868c5c3d915435c5dc11acb4f8d208fd66f5a5cb450",
+          "independent_validation": "PASS",
+          "only_expected_inventory_changed": true
+        },
+        "current": {
+          "exit_code": 0,
+          "elapsed_seconds": 9.313,
+          "log_sha256": "eaef21632b4492d27448814e89c0c73d2af0389e0b1877192a827d54dc769a88",
+          "independent_validation": "PASS",
+          "only_expected_inventory_changed": true
+        }
+      }
+    },
+    "factory_contract": {
+      "status": "PASS",
+      "artifacts": {
+        "FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+        "starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886",
+        "starcore.jar": "c5f459b181ff92e828eed9d4c58c3b699593dc261d763b28aa61c69e458bbf02"
+      },
+      "scope": "Three sequential JVMs; packaged timed factory and Chronicle services; real SQLite; controlled clock and detached NationService fixture; no Minecraft or live player certification",
+      "phases": {
+        "compile": {
+          "exit_code": 0,
+          "log_sha256": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc"
+        },
+        "first": {
+          "exit_code": 0,
+          "log_sha256": "351650afba94eb22a3fc4b38bd694efa240c98493ddfd582803e8443ff00fca0"
+        },
+        "second": {
+          "exit_code": 0,
+          "log_sha256": "f26892b9330bdfbebe92038273c6499db3fdaf83ef3def69ce6518ae9fe2a9c7"
+        },
+        "third": {
+          "exit_code": 0,
+          "log_sha256": "54f877ab4b12d37d968aa13ea091abc5d0551cfd5bd6694c81d6265adae8a5ac"
+        }
+      },
+      "files": {
+        "chronicle.db": "afea64bf04e9dcf2d7d429f4dc12df68e326e6113a9bb9eef3526e01fe70693a",
+        "chronicle.db-shm": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+        "chronicle.db-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "compile.args": "dabd222d36af8556aac0f39ab0489e588b17724ebe774f089ddc90f66b74669a",
+        "compile.log": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc",
+        "factory-id.txt": "8deec853d74f65fa569bac0ecd91d9abb5102071356170f62b61dd57d2a75519",
+        "first-receipt.txt": "36070b05f15f5c92890ffd300f74470fadb00cc6772c45ba6db671184257221a",
+        "first.args": "77c69ad43f98ee08d7586e3e38e7c6e98e793cbcaed99401dca082dd0a145c06",
+        "first.log": "351650afba94eb22a3fc4b38bd694efa240c98493ddfd582803e8443ff00fca0",
+        "native.db": "d69458fd056004a3ab715027d2e034984a846141b85902b046b6b2e633cf5533",
+        "ready-at.txt": "038aaa104d8888d3886f720f0ac20eddb0a1fb1260a4d49a4c90f57ecfe639ea",
+        "second.args": "85fc2974ee552270688945e118b000a60d9ca0c465aa01ad9b30e3623193fb8b",
+        "second.log": "f26892b9330bdfbebe92038273c6499db3fdaf83ef3def69ce6518ae9fe2a9c7",
+        "third.args": "e71d6478559cb8ab455493e465dcf544503c040c5b5a95001f7502b293fb9cdc",
+        "third.log": "54f877ab4b12d37d968aa13ea091abc5d0551cfd5bd6694c81d6265adae8a5ac",
+        "artifacts/FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+        "artifacts/starchronicle.jar": "76606f33bcc50ee2faf753cb144acf90cf7513a49e36ecf99d823be6e1408886",
+        "artifacts/starcore.jar": "c5f459b181ff92e828eed9d4c58c3b699593dc261d763b28aa61c69e458bbf02",
+        "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe$TestClock.class": "3ece24b60871dad70981cc222c5c572009eff318c9cccf8afdd8e735c34723e6",
+        "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe.class": "10c5ee66b8fc3ad34a0e5acd4932ddebe2c4ed9fd70c0b275b436d18cc7b786f"
+      }
+    }
+  },
+  "measurements": {
+    "previous": {
+      "upgrade_completion": {
+        "micros": 153673,
+        "inserted": 6,
+        "deleted": 10
+      },
+      "state_rows_inserted": 101631,
+      "state_rows_deleted": 101377,
+      "start_micros": {
+        "p50": 243713,
+        "p95": 439850,
+        "max": 439850,
+        "samples": 20
+      },
+      "completion_micros": {
+        "p50": 126292,
+        "p95": 135606,
+        "max": 135606,
+        "samples": 20
+      },
+      "writes": [
+        {
+          "phase": "start",
+          "run": "000-00020",
+          "inserted": 5028,
+          "deleted": 5011
+        },
+        {
+          "phase": "complete",
+          "run": "000-00020",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00019",
+          "inserted": 5033,
+          "deleted": 5016
+        },
+        {
+          "phase": "complete",
+          "run": "000-00019",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00018",
+          "inserted": 5038,
+          "deleted": 5021
+        },
+        {
+          "phase": "complete",
+          "run": "000-00018",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00017",
+          "inserted": 5043,
+          "deleted": 5026
+        },
+        {
+          "phase": "complete",
+          "run": "000-00017",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00016",
+          "inserted": 5048,
+          "deleted": 5031
+        },
+        {
+          "phase": "complete",
+          "run": "000-00016",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00015",
+          "inserted": 5053,
+          "deleted": 5036
+        },
+        {
+          "phase": "complete",
+          "run": "000-00015",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00014",
+          "inserted": 5058,
+          "deleted": 5041
+        },
+        {
+          "phase": "complete",
+          "run": "000-00014",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00013",
+          "inserted": 5063,
+          "deleted": 5046
+        },
+        {
+          "phase": "complete",
+          "run": "000-00013",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00012",
+          "inserted": 5068,
+          "deleted": 5051
+        },
+        {
+          "phase": "complete",
+          "run": "000-00012",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00011",
+          "inserted": 5073,
+          "deleted": 5056
+        },
+        {
+          "phase": "complete",
+          "run": "000-00011",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00010",
+          "inserted": 5078,
+          "deleted": 5061
+        },
+        {
+          "phase": "complete",
+          "run": "000-00010",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00009",
+          "inserted": 5083,
+          "deleted": 5066
+        },
+        {
+          "phase": "complete",
+          "run": "000-00009",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00008",
+          "inserted": 5088,
+          "deleted": 5071
+        },
+        {
+          "phase": "complete",
+          "run": "000-00008",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00007",
+          "inserted": 5093,
+          "deleted": 5076
+        },
+        {
+          "phase": "complete",
+          "run": "000-00007",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00006",
+          "inserted": 5098,
+          "deleted": 5081
+        },
+        {
+          "phase": "complete",
+          "run": "000-00006",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00005",
+          "inserted": 5103,
+          "deleted": 5086
+        },
+        {
+          "phase": "complete",
+          "run": "000-00005",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00004",
+          "inserted": 5108,
+          "deleted": 5091
+        },
+        {
+          "phase": "complete",
+          "run": "000-00004",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00003",
+          "inserted": 5113,
+          "deleted": 5096
+        },
+        {
+          "phase": "complete",
+          "run": "000-00003",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00002",
+          "inserted": 5118,
+          "deleted": 5101
+        },
+        {
+          "phase": "complete",
+          "run": "000-00002",
+          "inserted": 6,
+          "deleted": 10
+        },
+        {
+          "phase": "start",
+          "run": "000-00001",
+          "inserted": 5124,
+          "deleted": 5113
+        },
+        {
+          "phase": "complete",
+          "run": "000-00001",
+          "inserted": 6,
+          "deleted": 10
+        }
+      ],
+      "format": "1",
+      "historical_completed": 1000,
+      "new_batches": 20,
+      "max_heap_bytes": 64880640,
+      "status": "PASS"
+    },
+    "current": {
+      "upgrade_completion": {
+        "inserted": 13018,
+        "micros": 323825,
+        "deleted": 13022
+      },
+      "state_rows_inserted": 541,
+      "state_rows_deleted": 287,
+      "start_micros": {
+        "samples": 20,
+        "max": 168791,
+        "p95": 168791,
+        "p50": 139724
+      },
+      "completion_micros": {
+        "samples": 20,
+        "max": 178981,
+        "p95": 178981,
+        "p50": 145527
+      },
+      "writes": [
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00020",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00020",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00019",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00019",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00018",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00018",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00017",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00017",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00016",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00016",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00015",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00015",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00014",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00014",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00013",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00013",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00012",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00012",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00011",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00011",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00010",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00010",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00009",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00009",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00008",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00008",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00007",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00007",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00006",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00006",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00005",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00005",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00004",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00004",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00003",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00003",
+          "phase": "complete"
+        },
+        {
+          "deleted": 4,
+          "inserted": 21,
+          "run": "000-00002",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00002",
+          "phase": "complete"
+        },
+        {
+          "deleted": 11,
+          "inserted": 22,
+          "run": "000-00001",
+          "phase": "start"
+        },
+        {
+          "deleted": 10,
+          "inserted": 6,
+          "run": "000-00001",
+          "phase": "complete"
+        }
+      ],
+      "format": "2",
+      "historical_completed": 1000,
+      "new_batches": 20,
+      "max_heap_bytes": 64880640,
+      "status": "PASS"
+    },
+    "previous-restart": {
+      "format": "1",
+      "historical_completed": 1000,
+      "new_batches": 20,
+      "max_heap_bytes": 64880640,
+      "status": "PASS"
+    },
+    "current-restart": {
+      "format": "2",
+      "historical_completed": 1000,
+      "new_batches": 20,
+      "max_heap_bytes": 64880640,
+      "status": "PASS"
+    }
+  },
+  "grant_measurements": {
+    "previous": {
+      "status": "PASS",
+      "grants": 50,
+      "completed_runs": 1000,
+      "state_rows_inserted": 50,
+      "state_rows_deleted": 50,
+      "first_grant_inserted": 1,
+      "first_grant_deleted": 1,
+      "format": "1",
+      "p50_micros": 103814,
+      "p95_micros": 124492,
+      "max_micros": 154055,
+      "max_heap_bytes": 64880640
+    },
+    "current": {
+      "status": "PASS",
+      "grants": 50,
+      "completed_runs": 1000,
+      "state_rows_inserted": 13065,
+      "state_rows_deleted": 13065,
+      "first_grant_inserted": 13016,
+      "first_grant_deleted": 13016,
+      "format": "2",
+      "p50_micros": 134619,
+      "p95_micros": 166896,
+      "max_micros": 341415,
+      "max_heap_bytes": 64880640
+    }
+  },
+  "coverage": "No current native JaCoCo: forkCount=0, jacoco.skip=true",
+  "native_source_hashes": {
+    "src/main/java/dev/starcore/starcore/module/resource/FactoryRunStore.java": "7a71a93ba8e784498a76d0eda441da537d2605248ea04a57a1bcc4c658eae5ee",
+    "src/test/java/dev/starcore/starcore/module/resource/FactoryPersistenceTest.java": "b7e29e091e98e750c0e0581b46ada22f17e47eb243b47ea9899b2bf368b55c2c",
+    "src/test/java/dev/starcore/starcore/module/resource/FactorySnapshotVersionTest.java": "e5f8607d6ee0e3546f5d40932246abc6ef981fccb442afc01a7266521b490b49",
+    "src/test/java/dev/starcore/starcore/module/resource/SqlFactoryPersistenceTest.java": "a7e4bd136d4a1d8bf4089c2f36afc90db2ad8d3728f3c374bc9e18e068d11e27",
+    "src/test/resources/resource/factory-v1-origin.md": "018b4b5f8a1889d5eb90ffef2278af0230d9210e049083007a2774a9f5e309c0",
+    "src/test/resources/resource/factory-v1.properties": "0bd7cd1f1810cbf242b43d05c46b6656d05ca8f4fddfb216a685d859f3238483"
+  },
+  "limits": [
+    "First successful V1-to-V2 write replaces all batch keys atomically; older V1-only JAR cannot read V2",
+    "Full snapshot construction, fingerprints, file writes and recovery remain proportional to retained history",
+    "Other indexed snapshot collections can still renumber; this change stabilizes factory run keys only",
+    "SQLite/H2 covered; not MySQL, long concurrent throughput, full Folia or actual third-party runtime certification"
+  ],
+  "evidence_zip_sha256": "689ac2f6c5dae76db4fff0710833785cfa1281c91a109803b8c66da863c17837",
+  "evidence_files": 121
+}

@@ -188,6 +188,8 @@ def scenario(phase):
         server_action('battle-bind')
         if phase != 'first': server_action('battle-check ended')
     if phase == 'first':
+        if manifest.get('extended'):
+            server_action('membership-first')
         server_action('open')
         for who in 'AB':
             server_action('task-ready ' + who)
@@ -195,6 +197,8 @@ def scenario(phase):
             server_action('task-complete ' + who)
         time.sleep(3)
         server_action('preparations')
+        if manifest.get('extended'):
+            server_action('contributions-check')
         if manifest.get('ledger_acceptance'):
             server_action('contributions')
             server_action('member-exit')
@@ -231,6 +235,11 @@ def scenario(phase):
                 server_action('end-war')
         server_action('checkpoint')
     elif phase == 'second':
+        if manifest.get('extended'):
+            server_action('membership-second')
+            client_action('membership D')
+            server_action('membership-finish')
+            server_action('contributions-check')
         if manifest.get('ledger_acceptance'):
             server_action('contributions')
             server_action('member-rejoin')
@@ -241,6 +250,9 @@ def scenario(phase):
         server_action('replay')
         server_action('check')
     elif phase == 'third':
+        if manifest.get('extended'):
+            server_action('membership-check')
+            server_action('contributions-check')
         server_action('check')
         server_action('replay')
         server_action('check')

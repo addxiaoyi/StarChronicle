@@ -1,40 +1,56 @@
 # StarChronicle 构建与验证报告
 
-生成时间：2026-11-21T02:02:11+08:00（Asia/Shanghai）。
+生成时间：2026-11-26T20:45:41+08:00（Asia/Shanghai）。
 
 此报告由 `tools/verification_report.py` 从实际 Maven 日志、Surefire XML 和打包产物生成；不会将静态审查或未执行的服务器测试计为通过。
 
 ## 构建结果
 
-- 执行命令：`.\mvnw.cmd -B -ntp clean verify`（Java 21）。
+- 执行命令：`./mvnw.cmd -o -B -ntp -DforkCount=0 -Djacoco.skip=true clean verify`（Java 21）。
 - Maven：`BUILD SUCCESS`，完整构建输出见 `verification/maven-verify.log`。
-- 单元／集成回归：831 项，失败 0，错误 0，跳过 0。
+- 单元／集成回归：1139 项，失败 0，错误 0，跳过 0。
 - 产物包含真实插件入口、配置、三条主剧情、旧都档案后续、八条身份线、NPC目录、三个原生场景与 SQLite 原生库。
 - 插件入口字节码为 Java 21（class major 65）。未打入 Bukkit/Paper 或 StarCore 类。
 - 同时生成全部 Java 源码 JAR。
 
 | 测试套件 | 项数 | 失败 | 错误 | 跳过 |
 |---|---:|---:|---:|---:|
+| `io.github.addxiaoyi.starchronicle.api.epic.EpicCampaignPlanCatalogTest` | 1 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.api.epic.EpicContractTest` | 5 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.config.ArchivedStoryDependenciesTest` | 14 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.config.ConditionLogicTest` | 13 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.config.ConfigLoaderTest` | 12 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.config.LastHeirStrategyContentTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.config.NationalChoiceDependenciesTest` | 19 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.config.NationalCouncilExampleTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.config.QuestGateConfigTest` | 9 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.config.SampleStoryContractTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.config.StoryDependenciesTest` | 50 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest` | 13 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.ChoiceLedgerTest` | 15 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.CommittedHistoryArchiveTest` | 2 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.CommittedSourceFlowTest` | 7 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.CompletedInstanceSafetyTest` | 9 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.ContributionFlowTest` | 4 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.ContributionLedgerTest` | 3 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.CrossStoryEngineTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.DeferredTriggerTest` | 17 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.DefinitionCanonicalCodecTest` | 12 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.DefinitionCatalogCapacityTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.DefinitionCatalogTest` | 14 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.DerivedCausalityTest` | 4 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.EpicCampaignLedgerTest` | 8 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.EpicContributionMergeTest` | 6 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.EpicContributionTest` | 5 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.EpicStoryProjectionTest` | 2 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.FateStoriesTest` | 18 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.HeirLegacyPlaythroughTest` | 1 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.HistoricalCodexExampleTest` | 2 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.HistoricalEvaluationTest` | 18 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.HistoryPaginationTest` | 7 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.InstanceCapacityTest` | 9 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.InvocationGateTest` | 3 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.MemberReviewFlowTest` | 5 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.MemberReviewTest` | 5 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.NationalAidServiceTest` | 5 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.NationalChoiceLedgerTest` | 12 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.NationalRuleEngineAuthorityBoundaryTest` | 9 | 0 | 0 | 0 |
@@ -45,49 +61,69 @@
 | `io.github.addxiaoyi.starchronicle.core.NativeSceneDeliveryTest` | 1 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.NativeSceneFlightsTest` | 10 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.OrchestrationRegressionTest` | 2 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.core.QuestGateDriverTest` | 15 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.core.QuestGateEngineTest` | 14 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.core.QuestGateLedgerTest` | 32 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.ProductionContributionFlowTest` | 4 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.QuestGateDriverTest` | 20 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.QuestGateEngineTest` | 22 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.QuestGateLedgerTest` | 38 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.RecollectionsTest` | 11 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.RetiredStoryRuntimeTest` | 7 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.RuleEngineTest` | 23 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.RuntimePublicationTest` | 1 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.SampleStoryPlaythroughTest` | 22 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.core.TextServiceTest` | 8 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.core.TradeContributionTest` | 12 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.history.CommittedHistoryJournalTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.history.EventCausalityTest` | 10 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.history.FirstVisitBufferTest` | 2 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest` | 9 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.history.HistoricalFactsTest` | 15 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.history.ObservationJournalTest` | 14 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.CapitalHistoryCoordinatorTest` | 9 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.CommittedSourceCollectorTest` | 10 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.CoreContentInstallerTest` | 11 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.NativeRecoverySafetyTest` | 12 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.NativeSceneAdapterTest` | 9 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.NativeSceneRecoveryAdapterTest` | 21 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest` | 3 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.SnapshotCollectorTest` | 5 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.StarCoreAuthorityProviderTest` | 16 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest` | 21 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest` | 17 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest` | 23 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreBridgeTest` | 23 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreCapitalHistoryTest` | 8 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreEpicOperationProviderTest` | 6 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreMemberAuthorityTest` | 3 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreNationalVoteAuthorityTest` | 19 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreQuestEvidenceProviderTest` | 27 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreResourceHistoryTest` | 15 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreTechnologyHistoryTest` | 7 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreTradeHistoryTest` | 7 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.StarCoreTreasuryEpicProviderTest` | 1 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.integration.TechnologyFactsTest` | 7 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.TechnologyHistoryCoordinatorTest` | 8 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.integration.TradeHistoryCoordinatorTest` | 9 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryLedgerTest` | 5 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryRecipeCatalogTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryRecipeEngineTest` | 16 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.memory.MemoryRecipeExampleTest` | 2 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.narrative.NativeSceneJournalTest` | 25 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.npc.NpcEngineTransactionTest` | 3 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest` | 9 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.npc.NpcScopedHistoryTest` | 10 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.npc.NpcSystemTest` | 12 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.EpicServicesTest` | 3 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.ExplorationDiscoveriesTest` | 5 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.ExplorationRegionTest` | 3 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.FirstVisitJournalTest` | 4 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.HistoricalCommandsTest` | 5 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.paper.MemorySitesTest` | 16 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.HistoryMenuNavigationTest` | 4 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.MemoryProtectionTest` | 5 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.MemorySitesTest` | 17 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.MenusTest` | 8 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.NationalAuthorityServicesTest` | 4 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest` | 9 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.NationalCommandsTest` | 10 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.NationalMenusTest` | 11 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.paper.NationalServicesTest` | 6 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.NationalServicesTest` | 9 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.NpcHooksTest` | 37 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.NpcInteractionLifecycleTest` | 21 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.NpcMenuLifecycleTest` | 4 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.PlayerOwnershipConsumersTest` | 3 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.paper.QuestGateMenusTest` | 12 | 0 | 0 | 0 |
+| `io.github.addxiaoyi.starchronicle.paper.QuestGateMenusTest` | 13 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.RegionTasksTest` | 6 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.paper.StateWorkerTest` | 3 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.persistence.CanonicalDefinitionSchemaUpgradeTest` | 11 | 0 | 0 | 0 |
@@ -95,33 +131,14 @@
 | `io.github.addxiaoyi.starchronicle.persistence.DefinitionSchemaUpgradeTest` | 4 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.persistence.MemoryRecipeSchemaUpgradeTest` | 2 | 0 | 0 | 0 |
 | `io.github.addxiaoyi.starchronicle.persistence.SchemaMigrationTest` | 2 | 0 | 0 | 0 |
-| `io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest` | 4 | 0 | 0 | 0 |
-
-## 覆盖率
-
-由 JaCoCo 对本次构建插桩所得；此数值仅表示已执行代码，不等同于 Paper/Folia 实服兼容性。
-
-| 包 | 行覆盖 | 分支覆盖 |
-|---|---:|---:|
-| `io/github/addxiaoyi/starchronicle/api` | 24/42 (57.1%) | 25/42 (59.5%) |
-| `io/github/addxiaoyi/starchronicle/api/aid` | 34/34 (100.0%) | 35/62 (56.5%) |
-| `io/github/addxiaoyi/starchronicle/api/quest` | 33/33 (100.0%) | 10/12 (83.3%) |
-| `io/github/addxiaoyi/starchronicle/paper` | 313/900 (34.8%) | 375/1145 (32.8%) |
-| `io/github/addxiaoyi/starchronicle/integration` | 492/812 (60.6%) | 638/1160 (55.0%) |
-| `io/github/addxiaoyi/starchronicle/memory` | 136/136 (100.0%) | 136/188 (72.3%) |
-| `io/github/addxiaoyi/starchronicle/persistence` | 56/56 (100.0%) | 15/18 (83.3%) |
-| `io/github/addxiaoyi/starchronicle/history` | 245/249 (98.4%) | 234/291 (80.4%) |
-| `io/github/addxiaoyi/starchronicle/config` | 264/272 (97.1%) | 358/444 (80.6%) |
-| `io/github/addxiaoyi/starchronicle/narrative` | 88/88 (100.0%) | 113/150 (75.3%) |
-| `io/github/addxiaoyi/starchronicle/npc` | 228/231 (98.7%) | 213/288 (74.0%) |
-| `io/github/addxiaoyi/starchronicle/core` | 1529/1584 (96.5%) | 1653/2210 (74.8%) |
+| `io.github.addxiaoyi.starchronicle.persistence.SqliteStoreTest` | 6 | 0 | 0 | 0 |
 
 ## 产物校验
 
 | 文件 | 字节数 | SHA-256 |
 |---|---:|---|
-| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 17887349 | `ba6a3ed35a4a66761c6b736a83ebed84b4a524e2fe490f8a298a14d59b45df82` |
-| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 273142 | `1d1b75c8178e1d46c3c85a359ecebfa1a93451bc1d98a83650bb2f64cae626e8` |
+| `target/starchronicle-0.1.0-SNAPSHOT.jar` | 18219833 | `c0dc9cf69dbf757c5f23e1b41a16e2f57b6b5b33141698acf81f743a9d026a92` |
+| `target/starchronicle-0.1.0-SNAPSHOT-sources.jar` | 414910 | `1f943fec3daca880035ebc8fd1e6d2002a439b784cae00cda05ae913f7ca8bad` |
 
 ## 真实服务器证据与构建对应
 

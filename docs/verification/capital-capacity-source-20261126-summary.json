@@ -1,0 +1,216 @@
+{
+  "status": "VERIFIED",
+  "native_tests": {
+    "exit_code": 0,
+    "totals": {
+      "tests": 281,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "seconds": 23.04700000002049,
+    "args": [
+      "cmd.exe",
+      "/d",
+      "/c",
+      "C:\\Users\\Administrator\\Documents\\StarChronicle-audit\\starcore-all-stages\\mvnw.cmd",
+      "-o",
+      "-B",
+      "-ntp",
+      "-Djacoco.skip=true",
+      "-DforkCount=0",
+      "-Dtest=Nation*Test,PublicApiCompatibilityTest,ApiCapabilityContractTest",
+      "surefire:test"
+    ]
+  },
+  "capacity": {
+    "status": "VERIFIED",
+    "records": 400000,
+    "nations": 200000,
+    "heap_mib": 32,
+    "legacy_bytes": 76337471,
+    "legacy_sha256": "9b75c5750a0eba346fa4c59f452ad794fa71cf17ffb52793616c188998dff983",
+    "partial_tail_bytes": 1048576,
+    "old_jar_sha256": "c4b800534ebe89a1a5c7f02dcc19b1a86f78c5c3ac3962d09268858a3088121f",
+    "new_jar_sha256": "2e802d62483a81882c0565c18b483d5cf36d0edfeb54fef1ee03639bdd08bf09",
+    "old_control": {
+      "exit_code": 1,
+      "seconds": 0.5940000000409782,
+      "command_file": "old-control.args"
+    },
+    "migration": {
+      "exit_code": 0,
+      "seconds": 44.84400000004098,
+      "command_file": "current-migrate.args"
+    },
+    "reopen": {
+      "exit_code": 0,
+      "seconds": 6.875,
+      "command_file": "current-reopen.args"
+    },
+    "database": {
+      "authority": [
+        [
+          1,
+          1,
+          "bc711fbd-5312-4f92-b7ae-006ba1416528",
+          400000,
+          "9b75c5750a0eba346fa4c59f452ad794fa71cf17ffb52793616c188998dff983"
+        ]
+      ],
+      "records_sha256": "8f59783e3a67470adb3a12ae72478b0aff99e2f2d330617f2d318d55770eae51"
+    },
+    "limits": "Synthetic canonical legacy rows over packaged real SQLite store, fixed heap and serialized processes. Disk space and elapsed time grow with history; no server or long-duration concurrency acceptance."
+  },
+  "artifacts": {
+    "status": "VERIFIED",
+    "starcore_sha256": "2e802d62483a81882c0565c18b483d5cf36d0edfeb54fef1ee03639bdd08bf09",
+    "old_sha256": "c4b800534ebe89a1a5c7f02dcc19b1a86f78c5c3ac3962d09268858a3088121f",
+    "class_hashes": {
+      "dev/starcore/starcore/module/nation/NationService$CapitalChangeReceipt.class": "c67f2ec9025bd151bb19140f87b4d8e4b29aaa0f35ea3617fafb41a94d74f147",
+      "dev/starcore/starcore/module/nation/NationService$CapitalDesignation.class": "3d5655868ad7ade356a2909dff5dfff30b6ed212842770ce92cc56eac8ae3aef",
+      "dev/starcore/starcore/module/nation/NationService.class": "697e1202895dd5cad97d6c5ec5b672fcfa0e3b6e90e29e5fc6c0c1f5d5d864ea",
+      "dev/starcore/starcore/module/nation/NationModule.class": "82d2f75b68176291c567700d3ecdce44a9fec4334a0f2b06d48364c99364befc",
+      "dev/starcore/starcore/module/resource/TradeHistoryService$TradeStatistics.class": "abc2a54823da83931edd3482786688f87c77360c31a9a85ded3cfafd3e1d1fc0",
+      "dev/starcore/starcore/module/resource/TradeHistoryService.class": "d843eb30c9f699e933bf398f9ca696293ad6b5cd343ec56403f43e57d039f9dd",
+      "dev/starcore/starcore/module/resource/SimpleTradeHistoryService.class": "c47db9757edea70c850ea7b722bf9cf8565e0b34c1855494160b2c74bda5e273",
+      "dev/starcore/starcore/module/technology/TechnologyService.class": "371fe750da2fe2d8772218a71575b44a14c6e4166aaef9e7c95b660b6cb67ee4",
+      "dev/starcore/starcore/module/nation/NationCapitalDesignationStore$LegacyScan.class": "8fa67c03731ab0cf13af5ea9a76526ef6acfd2ec3c7703db5f3d3051c4099930",
+      "dev/starcore/starcore/module/nation/NationCapitalDesignationStore$SqlWork.class": "f1d0739b4a525dfea906505f215425c47877cbec1ce1eb26492f08c46434d96e",
+      "dev/starcore/starcore/module/nation/NationCapitalDesignationStore.class": "8330a4718403dfa9eaae45818eac2db9033a15c95e5239086f99b07098b9da34"
+    },
+    "api": {
+      "module/nation/NationService": {
+        "preserved": 51,
+        "added": []
+      },
+      "module/nation/NationService$CapitalDesignation": {
+        "preserved": 11,
+        "added": []
+      },
+      "module/nation/NationModule": {
+        "preserved": 62,
+        "added": []
+      },
+      "module/resource/TradeHistoryService": {
+        "preserved": 26,
+        "added": []
+      },
+      "module/resource/SimpleTradeHistoryService": {
+        "preserved": 28,
+        "added": []
+      },
+      "module/technology/TechnologyService": {
+        "preserved": 10,
+        "added": []
+      }
+    },
+    "source_hashes": {
+      "src/main/java/dev/starcore/starcore/module/nation/NationCapitalDesignationStore.java": "052acd5c39f0aaed6e5173af04b39f8e355a26ca826bcdda07827f8cdcf6dc8b",
+      "src/test/java/dev/starcore/starcore/module/nation/NationCapitalDesignationStoreTest.java": "6fffe08d8076cd7018f5ca64901f79bbe95666caf4e4678f5d182944cce07f9f"
+    },
+    "sbom_sha256": "77cec8e7f5d94df019f06fadfe4444e2aae797e4821755fe6135a6dc4c181515",
+    "sbom_components": 36
+  },
+  "compatibility": {
+    "status": "VERIFIED",
+    "chronicle_sha256": "53844b0d1c78b014325fd483001ee0406cb9053204786144acfe8aa0d325f5a9",
+    "starcore_sha256": "2e802d62483a81882c0565c18b483d5cf36d0edfeb54fef1ee03639bdd08bf09",
+    "upstream_archive_sha256": "6da540d7c48b1431568c7e1857c56b2a9e66b10b80101450529331832bc97671",
+    "upstream_manifest_files": 8659,
+    "legacy": {
+      "seed": {
+        "accepted": 260,
+        "cursor": 260,
+        "domain": "00000000-0000-0000-0000-00000000002a",
+        "events": 260,
+        "mode": "legacy",
+        "pending": 0,
+        "record_count": 260,
+        "records_sha256": "c508b805b5468220ad5020bd1ef50b2272832cb84e27617c77fd7712b1cbef7b"
+      },
+      "upgrade": {
+        "accepted": 0,
+        "cursor": 260,
+        "domain": "00000000-0000-0000-0000-00000000002a",
+        "events": 260,
+        "mode": "legacy",
+        "pending": 0,
+        "record_count": 260,
+        "records_sha256": "c508b805b5468220ad5020bd1ef50b2272832cb84e27617c77fd7712b1cbef7b"
+      },
+      "append": {
+        "accepted": 1,
+        "cursor": 261,
+        "domain": "00000000-0000-0000-0000-00000000002a",
+        "events": 261,
+        "mode": "legacy",
+        "pending": 0,
+        "record_count": 261,
+        "records_sha256": "237fe7d3f5a1d1424d0f844b2a1d5edcbe81cd6a5dfce0300c6388ae9a722173"
+      },
+      "original_tables_unchanged_before_append": 47,
+      "legacy_bytes_preserved": 52653
+    },
+    "fresh": {
+      "accepted": 261,
+      "cursor": 261,
+      "domain": "786f91a7-3882-493c-bad3-e27e49661752",
+      "events": 261,
+      "mode": "journal",
+      "pending": 0,
+      "record_count": 261,
+      "records_sha256": "237fe7d3f5a1d1424d0f844b2a1d5edcbe81cd6a5dfce0300c6388ae9a722173"
+    },
+    "upstream": {
+      "accepted": 0,
+      "cursor": 139,
+      "domain": "80c4545d-5fe2-4b19-b3c0-53bc81b7b1a3",
+      "events": 141,
+      "mode": "journal",
+      "pending": 0,
+      "record_count": 139,
+      "records_sha256": "ef8de1423903207558c8502e1eab1f04c42888495a34fd729372b123c4c9f770",
+      "unchanged_original_tables": {
+        "chronicle.db": 43,
+        "capital-designations.log.sqlite": 2
+      }
+    },
+    "old_writer_refusal": [
+      "legacy",
+      "upstream"
+    ],
+    "limits": "Disposable copies and serialized JVMs only. Real packaged capital stores with a fixture nation-domain facade, and real packaged Chronicle collectors/coordinator; not a server, NationModule authorization or production upgrade."
+  },
+  "chronicle": "271 tested source/resource/test files and JAR unchanged from b30743d; prior 1123 clean verify and CI #210 remain applicable to Chronicle product.",
+  "limits": [
+    "No Minecraft or full native-suite run; 281 selected tests, existing exclusions unchanged.",
+    "400000 synthetic canonical records, 200000 nations and 1 MiB incomplete tail at fixed 32 MiB Java heap. Disk space and elapsed time still grow; not long-running concurrency or production upgrade.",
+    "Legacy complete lines exceeding 512 bytes are now rejected before publishing migration files; canonical old writer max is 225 bytes. Arbitrarily long incomplete tail remains evidence only.",
+    "The expected old-JAR OOM is a preserved comparison failure; original log SHA unchanged and no migration files were created.",
+    "Large synthetic files remain local; archive includes deterministic generator, exact hashes, original logs and row fingerprint. Smaller real-JAR and upstream copies are archived."
+  ],
+  "large_fixture_files": {
+    "seed.log": {
+      "bytes": 76337471,
+      "sha256": "9b75c5750a0eba346fa4c59f452ad794fa71cf17ffb52793616c188998dff983"
+    },
+    "current/capital.log.legacy": {
+      "bytes": 76337471,
+      "sha256": "9b75c5750a0eba346fa4c59f452ad794fa71cf17ffb52793616c188998dff983"
+    },
+    "current/capital.log.sqlite": {
+      "bytes": 126005248,
+      "sha256": "c24fe8b86d87bd1fa6d6d87bdddbd3a88015627a67a2747e264640ed16eb7221"
+    },
+    "old/capital.log": {
+      "bytes": 76337471,
+      "sha256": "9b75c5750a0eba346fa4c59f452ad794fa71cf17ffb52793616c188998dff983"
+    }
+  },
+  "evidence": {
+    "members": 180,
+    "bytes": 1663632,
+    "sha256": "15d84f83a56d1062fee9113ff6616b393ee50876d82594b069de9cb47918fceb"
+  }
+}

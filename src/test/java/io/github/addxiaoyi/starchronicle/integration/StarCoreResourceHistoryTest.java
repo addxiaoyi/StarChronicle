@@ -206,4 +206,73 @@ class StarCoreResourceHistoryTest {
         assertThrows(IllegalArgumentException.class,()->new ResourceHistoryReceipt(DOMAIN,1,new UUID(0,1),ResourceHistoryReceipt.Kind.GRANT,
                 "x".repeat(4097),"","",null,TIME,List.of(new ResourceHistoryReceipt.BalanceChange(NATION,"mineral",0,1))));
     }
+
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.ValueSource(ints={255,256})
+    void anchorDoesNotTurnAFullHistoricalPageIntoLiveHistory(int total) {
+        Authority source=new Authority();for(int i=1;i<=total;i++)source.receipts.add(receipt(i));
+        try(var store=new SqliteStore(db())) {
+            var journal=new CommittedHistoryJournal(store);var history=new StarCoreResourceHistory(()->source,journal);
+            assertEquals(128,history.scan());consume(store,journal);
+            assertEquals(127,history.scan());assertFalse(journal.cursor(StarCoreResourceHistory.NAMESPACE).orElseThrow().live());
+            assertTrue(journal.pending(128).stream().noneMatch(CommittedHistoryJournal.Pending::activate));consume(store,journal);
+            assertEquals(total-255,history.scan());
+            assertTrue(journal.pending(128).stream().noneMatch(CommittedHistoryJournal.Pending::activate));consume(store,journal);
+            assertTrue(journal.cursor(StarCoreResourceHistory.NAMESPACE).orElseThrow().live());
+            source.receipts.add(receipt(total+1));assertEquals(1,history.scan());
+            assertTrue(journal.pending(128).getFirst().activate());consume(store,journal);
+            assertEquals(total+1,count(store,"resource_history_receipts"));
+        }
+    }
+
+    @Test void changedFullAnchorAndEmptyRollbackKeepOriginalCursorAndLedger() throws Exception {
+        Authority source=new Authority();source.receipts.add(receipt(1));
+        try(var store=new SqliteStore(db())) {
+            var journal=new CommittedHistoryJournal(store);var history=new StarCoreResourceHistory(()->source,journal);
+            history.scan();consume(store,journal);var cursor=journal.cursor(StarCoreResourceHistory.NAMESPACE);
+            source.invalid=List.of(new Receipt(DOMAIN,1,new UUID(0,1),ResourceHistoryReceipt.Kind.GRANT,
+                "operation:1","OTHER","改写",null,TIME.minusSeconds(1),List.of(new Balance(NATION,"mineral",0,1))),receipt(2));
+            assertThrows(IllegalStateException.class,history::scan);
+            source.invalid=List.of();assertThrows(IllegalStateException.class,history::scan);
+            assertEquals(cursor,journal.cursor(StarCoreResourceHistory.NAMESPACE));assertTrue(journal.pending(128).isEmpty());
+            assertEquals(1,count(store,"resource_history_receipts"));
+            assertEquals(StarCoreResourceHistory.project(receipt(1),DOMAIN,1).resourceReceipt(),
+                new RuleEngine(store,List.of(),Clock.systemUTC()).resourceHistoryReceipt(StarCoreResourceHistory.project(receipt(1),DOMAIN,1).event().id()).orElseThrow());
+        }
+    }
+
+    @Test void resourceDeliveryDoesNotConsumePendingTechnologyOrCapital() throws Exception {
+        Authority source=new Authority();source.receipts.add(receipt(1));
+        try(var store=new SqliteStore(db())) {
+            var journal=new CommittedHistoryJournal(store);var history=new StarCoreResourceHistory(()->source,journal);
+            var capital=new StarCoreCapitalHistoryTest();
+            var entry=StarCoreCapitalHistory.project(capital.receipt(1),StarCoreCapitalHistoryTest.DOMAIN,1);
+            journal.stage(StarCoreCapitalHistory.NAMESPACE,StarCoreCapitalHistoryTest.DOMAIN,0,List.of(entry));
+            history.scan();var engine=new RuleEngine(store,List.of(),Clock.systemUTC());
+            for(var pending:journal.pending(StarCoreResourceHistory.NAMESPACE,128)) {
+                assertNotNull(pending.resourceReceipt());engine.acceptCommittedHistory(pending,List.of());assertTrue(journal.acknowledge(pending.event().id()));
+            }
+            assertEquals(1,journal.pending(StarCoreCapitalHistory.NAMESPACE,128).size());
+            assertEquals(entry.event(),journal.pending(128).getFirst().event());
+            assertEquals(1,count(store,"events"));
+        }
+    }
+
+    @Test void transferAndBalanceStreamsKeepSeparateDomainsCursorsAndEventsAfterRestart() throws Exception {
+        Authority source=new Authority();source.receipts.add(receipt(1));
+        var transferSource=new CommittedSourceCollectorTest.ResourceService();
+        for(int pass=0;pass<2;pass++)try(var store=new SqliteStore(db())) {
+            var engine=new RuleEngine(store,List.of(),Clock.systemUTC());
+            var collector=new CommittedSourceCollector(key->transferSource);
+            var page=collector.collect(CommittedSourceCollector.Source.RESOURCES,engine.committedSourceCursor(StarCoreResourceHistory.NAMESPACE)).orElseThrow();
+            engine.acceptCommittedSource(page,List.of());
+            var journal=new CommittedHistoryJournal(store);new StarCoreResourceHistory(()->source,journal).scan();consume(store,journal);
+            assertEquals(1,engine.committedSourceCursor(StarCoreResourceHistory.NAMESPACE).orElseThrow().sequence());
+            assertEquals(CommittedSourceCollectorTest.DOMAIN.toString(),engine.committedSourceCursor(StarCoreResourceHistory.NAMESPACE).orElseThrow().domain());
+            assertEquals(DOMAIN,journal.cursor(StarCoreResourceHistory.NAMESPACE).orElseThrow().authorityDomain());
+            assertEquals(1,journal.cursor(StarCoreResourceHistory.NAMESPACE).orElseThrow().sequence());
+            assertEquals(Set.of("NATIONAL_RESOURCES_TRANSFERRED","RESOURCE_BALANCE_CHANGED"),engine.history(null,null,0,10).stream().map(e->e.type()).collect(java.util.stream.Collectors.toSet()));
+            assertEquals(2,count(store,"events"));assertEquals(0,count(store,"contributions"));
+        }
+    }
 }

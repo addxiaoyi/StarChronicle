@@ -31,7 +31,7 @@ def main():
         raise RuntimeError('Require isolated run and simple archive label')
     destination = ROOT / 'target' / ('technology-history-' + args.label)
     destination.mkdir(exist_ok=False)
-    manifest = json.loads((run / 'preparation.json').read_text())
+    manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
     with socket.socket() as probe:
         probe.bind(('127.0.0.1', manifest['port']))
     spec = importlib.util.spec_from_file_location('technology_inspect', ROOT / 'tools/inspect-technology-history.py')
@@ -65,7 +65,7 @@ def main():
     secrets = set()
     for path in files:
         if path.name == 'config.yml' and path.parent.name == 'StarCore':
-            secrets.update(value.strip().strip('"\'') for value in re.findall(r'(?m)^\s*access-secret:\s*(.*)$', path.read_text()))
+            secrets.update(value.strip().strip('"\'') for value in re.findall(r'(?m)^\s*access-secret:\s*(.*)$', path.read_text(encoding='utf-8')))
     with zipfile.ZipFile(run / 'plugins/StarCore.jar') as native:
         defaults = {value.strip().strip('"\'') for value in re.findall(r'(?m)^\s*access-secret:\s*(.*)$', native.read('config.yml').decode())}
     secrets -= defaults | {'', 'REDACTED_TEST_SECRET'}
@@ -105,8 +105,8 @@ def main():
     if summary_path.exists() or target_zip.exists():
         raise RuntimeError('Refusing to replace published evidence')
     content = json.dumps(summary, ensure_ascii=False, indent=2) + '\n'
-    (destination / 'manifest.json').write_text(content)
-    summary_path.write_text(content)
+    (destination / 'manifest.json').write_text(content, encoding='utf-8')
+    summary_path.write_text(content, encoding='utf-8')
     shutil.copy2(archive_path, target_zip)
     print(json.dumps(dict(delivery=str(destination), tests=totals, evidence=summary['evidence'])))
 

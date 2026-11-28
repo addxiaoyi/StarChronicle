@@ -4,6 +4,7 @@ import io.github.addxiaoyi.starchronicle.api.WorldEvent;
 import io.github.addxiaoyi.starchronicle.api.NativeScene;
 import io.github.addxiaoyi.starchronicle.api.NationalVoteState;
 import io.github.addxiaoyi.starchronicle.api.ChronicleService;
+import io.github.addxiaoyi.starchronicle.api.HistoryPage;
 import io.github.addxiaoyi.starchronicle.api.quest.QuestGateState;
 import io.github.addxiaoyi.starchronicle.api.quest.QuestObservation;
 import io.github.addxiaoyi.starchronicle.api.quest.QuestRequest;
@@ -65,31 +66,52 @@ public final class Menus implements Listener {
         if(event.getView().getTopInventory().getHolder() instanceof Session) event.setCancelled(true);
     }
     @EventHandler public void left(PlayerQuitEvent event){nationalRequests.remove(event.getPlayer().getUniqueId());questGateRequests.remove(event.getPlayer().getUniqueId());}
-    public void history(UUID viewer, String nation, UUID person, int page) {
-        int safePage=Math.max(0,page);
-        plugin.service().history(nation,person,safePage,PAGE).whenComplete((events,error)-> {
+    /** Keep at most 128 visited anchors in one inventory session. Older back navigation and
+     * explicit numbered jumps retain the existing offset API; normal forward pages seek. */
+    record HistoryLocation(int page,String cursor,List<String> previous) {
+        HistoryLocation {if(page<0||page>1_000_000)throw new IllegalArgumentException("Invalid history page");previous=List.copyOf(previous);}
+        static HistoryLocation at(int page){return new HistoryLocation(Math.max(0,page),null,List.of());}
+        HistoryLocation next(String cursor) {
+            if(cursor==null||cursor.isBlank())throw new IllegalArgumentException("Missing next history cursor");
+            List<String> keys=new ArrayList<>(previous.subList(Math.max(0,previous.size()-127),previous.size()));keys.add(this.cursor==null?"":this.cursor);
+            return new HistoryLocation(page+1,cursor,keys);
+        }
+        HistoryLocation back() {
+            if(page==0)return this;if(previous.isEmpty())return at(page-1);
+            String last=previous.getLast();return new HistoryLocation(page-1,last.isEmpty()?null:last,previous.subList(0,previous.size()-1));
+        }
+    }
+    static CompletionStage<HistoryPage> historyQuery(ChronicleService service,String nation,UUID person,HistoryLocation location) {
+        if(location.cursor()==null&&location.page()>0)return service.history(nation,person,location.page(),PAGE)
+                .thenApply(events->new HistoryPage(events,events.size()==PAGE?events.getLast().id():null));
+        return service.historyPage(nation,person,location.cursor(),PAGE);
+    }
+    public void history(UUID viewer,String nation,UUID person,int page){history(viewer,nation,person,HistoryLocation.at(page));}
+    private void history(UUID viewer,String nation,UUID person,HistoryLocation location) {
+        historyQuery(plugin.service(),nation,person,location).whenComplete((result,error)-> {
             if(error!=null) { plugin.failure(viewer,error);return; }
+            var events=result.events();
             plugin.present(viewer,p->{
-                Session s=create(viewer,"世界编年史 · "+(safePage+1));
+                Session s=create(viewer,"世界编年史 · "+(location.page()+1));
                 for(int i=0;i<Math.min(PAGE,events.size());i++) {
                     WorldEvent e=events.get(i); int slot=i;
-                    put(s,slot,Material.WRITTEN_BOOK,e.type(),List.of(TIME.format(e.occurredAt()),"国家: "+String.join(", ",e.nations()),"来源: "+e.source(),"点击查看完整证据与事件 ID"),()->evidence(viewer,e,nation,person,safePage,0));
+                    put(s,slot,Material.WRITTEN_BOOK,e.type(),List.of(TIME.format(e.occurredAt()),"国家: "+String.join(", ",e.nations()),"来源: "+e.source(),"点击查看完整证据与事件 ID"),()->evidence(viewer,e,nation,person,location,0));
                 }
-                if(safePage>0) put(s,45,Material.ARROW,"上一页",List.of(),()->history(viewer,nation,person,safePage-1));
+                if(location.page()>0) put(s,45,Material.ARROW,"上一页",List.of(),()->history(viewer,nation,person,location.back()));
                 put(s,46,Material.CLOCK,"全服历史",List.of(),()->history(viewer,null,null,0));
                 String ownNation=plugin.gateway().context(viewer).nationId();
                 put(s,47,Material.WHITE_BANNER,"本国历史",List.of(ownNation.isBlank()?"暂无可核验国家身份":ownNation),()-> {
                     if(ownNation.isBlank()) plugin.message(viewer,"暂无可核验国家身份。");else history(viewer,ownNation,null,0);
                 });
                 put(s,48,Material.PLAYER_HEAD,"个人传记",List.of(),()->history(viewer,null,viewer,0));
-                put(s,49,Material.COMPASS,"我的剧情",List.of(),()->stories(viewer,0));
-                if(events.size()>=PAGE) put(s,53,Material.ARROW,"下一页",List.of(),()->history(viewer,nation,person,safePage+1));
+                put(s,49,Material.COMPASS,"我的剧情",List.of(),()->stories(viewer));
+                if(result.nextCursor()!=null&&location.page()<1_000_000) put(s,53,Material.ARROW,"下一页",List.of(),()->history(viewer,nation,person,location.next(result.nextCursor())));
                 if(events.isEmpty()) put(s,22,Material.PAPER,"暂无匹配历史",List.of("已提交的真实世界事件会出现在此处。"),null);
                 p.openInventory(s.inventory);
             });
         });
     }
-    private void evidence(UUID viewer,WorldEvent event,String nation,UUID person,int historyPage,int detailPage) {
+    private void evidence(UUID viewer,WorldEvent event,String nation,UUID person,HistoryLocation historyPage,int detailPage) {
         List<String> details=new ArrayList<>();
         details.add("事件 ID\n"+event.id());details.add("类型\n"+event.type());details.add("发生时间\n"+TIME.format(event.occurredAt()));
         details.add("来源\n"+event.source());details.add("所属国家\n"+String.join(", ",event.nations()));
@@ -110,7 +132,7 @@ public final class Menus implements Listener {
             p.openInventory(s.inventory);
         });
     }
-    public void event(UUID viewer,WorldEvent event){evidence(viewer,event,null,null,0,0);}
+    public void event(UUID viewer,WorldEvent event){evidence(viewer,event,null,null,HistoryLocation.at(0),0);}
     public void book(UUID viewer,List<WorldEvent> events) {
         final List<String> pages;
         try{pages=HistoryBook.pages(events);}catch(IllegalArgumentException error){plugin.failure(viewer,error);return;}
@@ -119,16 +141,18 @@ public final class Menus implements Listener {
             meta.title(Component.text("世界编年史"));meta.author(Component.text("StarChronicle"));meta.pages(pages.stream().<Component>map(Component::text).toList());book.setItemMeta(meta);p.openBook(book);
         });
     }
-    public void npc(UUID viewer,String npcId) {
+    public void npc(UUID viewer,String npcId) {npc(viewer,npcId,null);}
+    void npc(NpcHooks.Interaction observed,String npcId) {npc(observed.player().getUniqueId(),npcId,observed);}
+    private void npc(UUID viewer,String npcId,NpcHooks.Interaction observed) {
         plugin.service().npc(viewer,npcId).whenComplete((npc,error)->{
-            if(error!=null){plugin.failure(viewer,error);return;}
-            plugin.present(viewer,p->{
+            if(error!=null){observationFailure(viewer,observed,error);return;}
+            observationPresent(viewer,observed,p->{
                 Session s=create(viewer,"人物档案 · "+npc.name());
                 put(s,4,Material.PLAYER_HEAD,npc.name(),List.of("阵营: "+npc.faction(),"职位: "+npc.position(),"成长: "+npc.growth()),null);
                 put(s,10,Material.BOOK,"人物背景",wrap(npc.background()),null);
                 put(s,12,Material.EMERALD,"你与此人的关系",List.of("声望: "+npc.reputation(),"信任: "+npc.trust(),"敌对: "+npc.hostility()),null);
                 put(s,14,Material.PAPER,"此刻的对话",wrap(npc.dialogue()),null);
-                put(s,31,Material.COMPASS,"相关剧情",List.of("按当前身份和已发生的事件筛选。"),()->stories(viewer,0));
+                put(s,31,Material.COMPASS,"相关剧情",List.of("按当前身份和已发生的事件筛选。"),()->stories(viewer));
                 put(s,49,Material.CLOCK,"查阅世界历史",List.of(),()->history(viewer,null,null,0));p.openInventory(s.inventory);
             });
         });
@@ -141,7 +165,7 @@ public final class Menus implements Listener {
                 put(s,4,Material.PLAYER_HEAD,"当前命运",List.of("身份: "+facts.getOrDefault("player.role","unassigned"),"荣誉: "+facts.getOrDefault("player.honor","0")),null);
                 int slot=9;for(var e:new TreeMap<>(facts).entrySet())if(e.getKey().startsWith("title.")&&slot<45)put(s,slot++,Material.NAME_TAG,e.getValue(),List.of("历史称号: "+e.getKey()),null);
                 put(s,48,Material.WRITTEN_BOOK,"我的传记",List.of(),()->history(viewer,null,viewer,0));
-                put(s,49,Material.COMPASS,"专属剧情",List.of(),()->stories(viewer,0));p.openInventory(s.inventory);
+                put(s,49,Material.COMPASS,"专属剧情",List.of(),()->stories(viewer));p.openInventory(s.inventory);
             });
         });
     }
@@ -160,35 +184,74 @@ public final class Menus implements Listener {
             java.util.function.IntConsumer act=choice->plugin.service().sceneAction(viewer,scene.scriptId(),scene.nodeId(),choice).whenComplete((next,error)->{
                 if(error!=null)plugin.failure(viewer,error);
                 else if(next.isPresent())nativeScene(viewer,next.get());
-                else {plugin.message(viewer,"原生补充场景已结束；共同议会进度仍由编年史剧情控制。");stories(viewer,0);}
+                else {plugin.message(viewer,"原生补充场景已结束；共同议会进度仍由编年史剧情控制。");stories(viewer);}
             });
             if(scene.choices().isEmpty())put(s,31,Material.LIME_DYE,"继续",List.of("由StarCore执行分支和效果。"),()->act.accept(0));
             else {int slot=9;for(var choice:scene.choices())put(s,slot++,Material.LIME_DYE,choice.text(),List.of("原生选项: "+choice.index()),()->act.accept(choice.index()));}
-            put(s,49,Material.COMPASS,"共同剧情",List.of(),()->stories(viewer,0));p.openInventory(s.inventory);
+            put(s,49,Material.COMPASS,"共同剧情",List.of(),()->stories(viewer));p.openInventory(s.inventory);
         });
     }
-    public void stories(UUID viewer,int requestedPage) {
+    public void stories(UUID viewer) {stories(viewer,List.of(""),0);}
+    void stories(NpcHooks.Interaction observed) {stories(observed.player().getUniqueId(),List.of(""),0,observed);}
+    private void stories(UUID viewer,List<String> cursors,int page) {
+        stories(viewer,cursors,page,null);
+    }
+    private void stories(UUID viewer,List<String> cursors,int page,NpcHooks.Interaction observed) {
         nationalRequests.remove(viewer);
         questGateRequests.remove(viewer);
-        plugin.service().instances(viewer).thenCombine(plugin.service().availableInstances(viewer),(own,active)->{
-            Map<String,StoryInstance> all=new TreeMap<>();own.forEach(i->all.put(i.id(),i));active.forEach(i->all.put(i.id(),i));return List.copyOf(all.values());
-        }).whenComplete((items,error)->{
-            if(error!=null){plugin.failure(viewer,error);return;}
-            int page=Math.max(0,Math.min(requestedPage,Math.max(0,(items.size()-1)/PAGE)));
-            plugin.present(viewer,p->{
+        plugin.service().storyPage(viewer,cursors.get(page).isEmpty()?null:cursors.get(page),PAGE).whenComplete((result,error)->{
+            if(error!=null){observationFailure(viewer,observed,error);return;}
+            var items=result.instances();
+            observationPresent(viewer,observed,p->{
                 Session s=create(viewer,"共同书写历史 · "+(page+1));
-                for(int i=0;i<PAGE && page*PAGE+i<items.size();i++) {
-                    StoryInstance story=items.get(page*PAGE+i);
+                for(int i=0;i<items.size();i++) {
+                    StoryInstance story=items.get(i);
                     put(s,i,story.completed()?Material.ENCHANTED_BOOK:Material.BOOK,story.title(),List.of("实例: "+story.id(),"范围: "+story.definition().scope(),"参与人数: "+story.members().size(),story.completed()?"已完成":story.contains(viewer)?"点击继续剧情":"点击查看并加入"),()->story(viewer,story));
                 }
-                if(items.isEmpty()) put(s,22,Material.PAPER,"暂无剧情",List.of("世界事件满足前置条件后会开启剧情。"),null);
-                if(page>0) put(s,45,Material.ARROW,"上一页",List.of(),()->stories(viewer,page-1));
+                if(items.isEmpty()) put(s,22,Material.PAPER,"本页暂无可见剧情",List.of(result.nextCursor()==null?"世界事件满足前置条件后会开启剧情。":"可继续翻页查看后续剧情。"),null);
+                if(page>0) put(s,45,Material.ARROW,"上一页",List.of(),()->stories(viewer,cursors,page-1));
                 put(s,49,Material.CLOCK,"世界历史",List.of(),()->history(viewer,null,null,0));
                 put(s,48,Material.WRITTEN_BOOK,"继续原生补充场景",List.of("使用StarCore已有剧情执行器。"),()->scene(viewer));
-                if((page+1)*PAGE<items.size()) put(s,53,Material.ARROW,"下一页",List.of(),()->stories(viewer,page+1));
+                if(result.nextCursor()!=null) put(s,53,Material.ARROW,"下一页",List.of(),()->{
+                    List<String> next=new ArrayList<>(cursors.subList(0,page+1));next.add(result.nextCursor());stories(viewer,List.copyOf(next),page+1);
+                });
                 p.openInventory(s.inventory);
             });
         });
+    }
+    private void observationPresent(UUID viewer,NpcHooks.Interaction observed,Consumer<Player> display) {
+        if(observed==null)plugin.present(viewer,display);
+        else plugin.present(observed.player(),observed.current(),display);
+    }
+    private void observationFailure(UUID viewer,NpcHooks.Interaction observed,Throwable error) {
+        if(observed==null)plugin.failure(viewer,error);
+        else observationPresent(viewer,observed,p->p.sendMessage(Component.text("[编年史] NPC 交互未完成，请重试。")));
+    }
+    void membership(UUID viewer,String instanceId) {
+        plugin.service().instance(viewer,instanceId).thenCompose(item->{
+            StoryInstance instance=item.filter(i->i.contains(viewer))
+                    .orElseThrow(()->new SecurityException("只能管理自己已加入的剧情。"));
+            return plugin.service().memberReview(instanceId,viewer).thenAccept(review->plugin.present(viewer,p->{
+                Session s=create(viewer,"成员资格 · "+instance.title());
+                List<String> details=new ArrayList<>(List.of("实例: "+instanceId,"加入时国家: "+instance.members().get(viewer)));
+                details.add(review.map(r->switch(r.status()){case PENDING->"资格待复核";case APPROVED->"已核验";case EXITED->"已退出";}).orElse("已加入"));
+                review.ifPresent(r->{details.add("最近观察国家: "+r.observedNationId());details.add("检查时间: "+r.checkedAt());});
+                put(s,4,Material.PLAYER_HEAD,"当前成员记录",details,null);
+                if(!instance.completed()) {
+                    put(s,20,Material.EMERALD,"重新核验资格",List.of("须恢复原国家，并满足当前剧情条件。","换国后可以先退出，再显式申请加入。"),()->plugin.service().revalidateMember(instanceId,viewer).whenComplete((report,error)->{
+                        if(error!=null)plugin.failure(viewer,error);else plugin.message(viewer,report.message());membership(viewer,instanceId);
+                    }));
+                    put(s,24,Material.BARRIER,"退出此剧情…",List.of("移除当前个人票；保留历史选择和任务回执。","国家席位需由当前代表单独撤回。"),()->plugin.present(viewer,owned->{
+                        Session confirm=create(viewer,"确认退出 · "+instance.title());
+                        put(confirm,20,Material.BARRIER,"确认退出",List.of("后台不会自动将你重新加入。","重新加入仍须满足剧情条件。"),()->plugin.service().exitMember(instanceId,viewer,instance.node()).whenComplete((report,error)->{
+                            if(error!=null)plugin.failure(viewer,error);else{plugin.message(viewer,report.message());stories(viewer);}
+                        }));
+                        put(confirm,24,Material.ARROW,"保留成员资格",List.of(),()->membership(viewer,instanceId));owned.openInventory(confirm.inventory);
+                    }));
+                }
+                put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer));p.openInventory(s.inventory);
+            }));
+        }).exceptionally(error->{plugin.failure(viewer,error);return null;});
     }
     private void story(UUID viewer,StoryInstance instance) {
         questGateRequests.remove(viewer);
@@ -205,7 +268,7 @@ public final class Menus implements Listener {
             put(s,0,Material.PAPER,"剧情文本",text,null);
             if(!instance.contains(viewer) && !instance.completed()) {
                 put(s,31,Material.EMERALD,"申请加入剧情",List.of("服务端将重新验证身份、前置条件与国家。"),()->plugin.service().join(instance.id(),viewer).whenComplete((report,joinError)->{
-                    if(joinError!=null)plugin.failure(viewer,joinError);else{plugin.message(viewer,report.message());stories(viewer,0);}
+                    if(joinError!=null)plugin.failure(viewer,joinError);else{plugin.message(viewer,report.message());stories(viewer);}
                 }));
             } else if(!instance.completed()) {
                 int slot=9;
@@ -213,12 +276,13 @@ public final class Menus implements Listener {
                     if(slot>=45)break;
                     String id=entry.getKey();StoryDefinition.Choice choice=entry.getValue();
                     put(s,slot++,Material.LIME_DYE,choice.label(),List.of("选项: "+id,"权限和条件由服务端即时重新验证。","同一阶段每人保留一票；达到法定人数后推进。"),()->plugin.service().choose(instance.id(),viewer,instance.node(),id).whenComplete((report,choiceError)->{
-                        if(choiceError!=null)plugin.failure(viewer,choiceError);else{plugin.message(viewer,report.message());stories(viewer,0);}
+                        if(choiceError!=null)plugin.failure(viewer,choiceError);else{plugin.message(viewer,report.message());stories(viewer);}
                     }));
                 }
             } else put(s,31,Material.GOLD_INGOT,"此篇历史已落定",List.of("结果与效果收据已持久化。"),null);
-            if(instance.contains(viewer))put(s,50,Material.IRON_DOOR,"任务门槛状态",List.of("查看本阶段原生任务与完成记录摘要。","只读；剧情选择仍由服务端重新验证。"),()->questGates(viewer,instance.id(),instance.node(),0));
-            put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer,0));
+            if(instance.contains(viewer))put(s,50,Material.IRON_DOOR,"任务门槛状态",List.of("查看本阶段原生任务与完成记录摘要。","可核对本人的任务，或重试已确认终止的任务。"),()->questGates(viewer,instance.id(),instance.node(),0));
+            if(instance.contains(viewer)&&!instance.completed())put(s,48,Material.PLAYER_HEAD,"成员资格与退出",List.of("查看待复核原因、重新核验或退出此剧情。"),()->membership(viewer,instance.id()));
+            put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer));
             p.openInventory(s.inventory);
         });
         });
@@ -232,8 +296,8 @@ public final class Menus implements Listener {
         ChangedNationalPage(){super("国家投票节点或修订号已变化，请刷新后再操作。");}
     }
     static CompletionStage<NationalPage> nationalPage(ChronicleService service,UUID viewer,String instanceId,int retries){
-        return service.instances(viewer).thenCompose(items->{
-            StoryInstance instance=items.stream().filter(item->item.id().equals(instanceId)&&item.contains(viewer)).findFirst()
+        return service.instance(viewer,instanceId).thenCompose(item->{
+            StoryInstance instance=item.filter(i->i.id().equals(instanceId)&&i.contains(viewer))
                     .orElseThrow(()->new SecurityException("只能查看自己已加入实例的国家票。"));
             if(instance.definition().voteUnit()!=StoryDefinition.VoteUnit.NATION)throw new IllegalArgumentException("该实例使用个人投票，请从剧情列表继续。");
             return service.nationalState(instanceId,viewer).thenCompose(before->{
@@ -311,9 +375,10 @@ public final class Menus implements Listener {
                 if(!state.completed()&&state.canWithdraw())put(s,46,Material.BARRIER,"撤回本国当前票",List.of("仅撤回未冻结票；保留修订历史。","节点: "+state.nodeId(),"修订号: "+state.viewerRevision()),
                         nationalWithdrawAction(plugin.service(),viewer,state,report->plugin.message(viewer,report.message()),failure->plugin.failure(viewer,failure),refresh));
                 put(s,47,Material.BOOK,"各国已记录票",List.of("查看每国修订号、状态和提交者。"),()->national(viewer,instanceId,true,0));
+                if(!state.completed())put(s,45,Material.PLAYER_HEAD,"成员资格与退出",List.of("个人退出保留国家席位与已冻结决议。"),()->membership(viewer,instanceId));
                 put(s,48,Material.COMPASS,"刷新资格与票数",List.of("刷新不会自动代替旧修订号提交。"),refresh);
                 put(s,50,Material.IRON_DOOR,"任务门槛状态",List.of("本国可见的原生任务与完成记录摘要。","任务达标不会自动授予国家代表权。"),()->questGates(viewer,instanceId,page.instance().node(),0));
-                put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer,0));p.openInventory(s.inventory);
+                put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer));p.openInventory(s.inventory);
             });
         });
     }
@@ -327,7 +392,7 @@ public final class Menus implements Listener {
         if(ballots.isEmpty())put(s,22,Material.PAPER,"暂无国家票记录",List.of("一国一席；个人身份、OP和职业不会自动获得国家票权。"),null);
         if(current>0)put(s,45,Material.ARROW,"上一页",List.of(),()->national(viewer,state.instanceId(),true,current-1));
         put(s,48,Material.COMPASS,"返回国家议会",List.of(),()->national(viewer,state.instanceId()));
-        put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer,0));
+        put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer));
         if((current+1)*PAGE<ballots.size())put(s,53,Material.ARROW,"下一页",List.of(),()->national(viewer,state.instanceId(),true,current+1));
         player.openInventory(s.inventory);
     }
@@ -339,12 +404,12 @@ public final class Menus implements Listener {
 
     /** Every page is freshly authorized. Personal gates are additionally hidden unless they belong to the viewer. */
     static CompletionStage<QuestGatePage> questGatePage(ChronicleService service,UUID viewer,String instanceId,String expectedNode,int retries){
-        return service.instances(viewer).thenCompose(items->{
-            StoryInstance before=items.stream().filter(i->i.id().equals(instanceId)&&i.contains(viewer)).findFirst()
+        return service.instance(viewer,instanceId).thenCompose(item->{
+            StoryInstance before=item.filter(i->i.id().equals(instanceId)&&i.contains(viewer))
                     .orElseThrow(()->new SecurityException("只能查看自己已加入剧情的任务门槛。"));
             if(expectedNode!=null&&!expectedNode.equals(before.node()))throw new ChangedQuestGatePage();
-            return service.questGateState(instanceId,viewer).thenCompose(state->service.instances(viewer).thenApply(latest->{
-                StoryInstance after=latest.stream().filter(i->i.id().equals(instanceId)&&i.contains(viewer)).findFirst()
+            return service.questGateState(instanceId,viewer).thenCompose(state->service.instance(viewer,instanceId).thenApply(latest->{
+                StoryInstance after=latest.filter(i->i.id().equals(instanceId)&&i.contains(viewer))
                         .orElseThrow(()->new SecurityException("剧情成员资格已变化。"));
                 if(!questGatePageMatches(before,state,after))throw new ChangedQuestGatePage();
                 var visible=state.gates().stream().filter(g->g.mode()!=QuestRequest.Mode.PLAYER||g.playerId().equals(viewer)).toList();
@@ -387,7 +452,7 @@ public final class Menus implements Listener {
             if(page.state().gates().isEmpty())put(s,22,Material.PAPER,"暂无可见任务门槛",List.of("个人门槛仅本人可见；国家门槛由服务端核验可见范围。"),null);
             if(current>0)put(s,45,Material.ARROW,"上一页",List.of(),()->questGates(viewer,instanceId,page.state().nodeId(),current-1));
             put(s,48,Material.COMPASS,"刷新任务状态",List.of("重新查询持久记录；不会完成任务或发放奖励。"),()->questGates(viewer,instanceId,page.state().nodeId(),current));
-            put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer,0));
+            put(s,49,Material.ARROW,"返回剧情列表",List.of(),()->stories(viewer));
             if((current+1)*GATE_PAGE<page.state().gates().size())put(s,53,Material.ARROW,"下一页",List.of(),()->questGates(viewer,instanceId,page.state().nodeId(),current+1));
             p.openInventory(s.inventory);
         });
@@ -404,6 +469,14 @@ public final class Menus implements Listener {
                     put(s,i,Material.PAPER,split<0?detail:detail.substring(0,split),wrap(split<0?"":detail.substring(split+1)),null);
                 }
                 if(current>0)put(s,45,Material.ARROW,"上一页详情",List.of(),()->questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current-1));
+                var selected=gate.get();
+                if(selected.playerId().equals(viewer)&&selected.status()!=QuestObservation.Status.COMMITTED) {
+                    put(s,46,Material.COMPASS,"核对原任务",List.of("向原任务服务核对当前轮次。","已有完成记录可恢复；不补发奖励。"),
+                            questGateRecoveryAction(plugin.service(),viewer,selected,false,updated->{plugin.message(viewer,updated.message());questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current);},error->plugin.failure(viewer,error)));
+                    if(selected.status()==QuestObservation.Status.FAILED||selected.status()==QuestObservation.Status.ABANDONED)
+                        put(s,47,Material.CLOCK,"开启新轮次",List.of("须验证原任务已持久确认失败或放弃。","旧记录永久保留，新轮次重新接取。"),
+                                questGateRecoveryAction(plugin.service(),viewer,selected,true,updated->{plugin.message(viewer,updated.message());questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current);},error->plugin.failure(viewer,error)));
+                }
                 put(s,48,Material.COMPASS,"刷新详情",List.of("完成 ID 只表示已提交的原生完成记录，不承诺奖励到账。"),()->questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current));
                 put(s,49,Material.ARROW,"返回任务门槛",List.of(),()->questGates(viewer,instanceId,expectedNode,listPage));
                 if((current+1)*PAGE<details.size())put(s,53,Material.ARROW,"下一页详情",List.of(),()->questGateDetail(viewer,instanceId,expectedNode,gateId,listPage,current+1));
@@ -421,9 +494,20 @@ public final class Menus implements Listener {
     }
 
     static int questGatePageIndex(int requested,int size){return Math.max(0,Math.min(requested,Math.max(0,(size-1)/GATE_PAGE)));}
+    static Runnable questGateRecoveryAction(ChronicleService service,UUID viewer,QuestGateState.GateSummary gate,boolean retry,
+            java.util.function.Consumer<QuestGateState.GateSummary> done,java.util.function.Consumer<Throwable> failed) {
+        return ()->{
+            if(!gate.playerId().equals(viewer)){failed.accept(new SecurityException("只能恢复本人的任务"));return;}
+            try {
+                var operation=retry?service.retryQuestGate(gate.gateId(),viewer,gate.attempt()):service.reconcileQuestGate(gate.gateId(),viewer,gate.attempt());
+                operation.whenComplete((value,error)->{if(error==null)done.accept(value);else failed.accept(error);});
+            }catch(RuntimeException failure){failed.accept(failure);}
+        };
+    }
     static List<String> questGateDetails(QuestGateState.GateSummary gate){
         List<String> details=new ArrayList<>();
         chunks("门槛 ID",gate.gateId(),details);chunks("参与者 UUID",gate.playerId().toString(),details);
+        chunks("当前轮次",Integer.toString(gate.attempt()),details);
         chunks("效果 ID",gate.effectId(),details);chunks("任务 ID",gate.questId(),details);chunks("范围",gate.mode().name(),details);
         chunks("原始国家",gate.nationId(),details);chunks("状态",questGateStatus(gate.status()),details);chunks("提供者",gate.providerId(),details);
         chunks("原生运行 ID",gate.runId(),details);chunks("已提交完成 ID",gate.completionId(),details);chunks("状态说明",gate.message(),details);

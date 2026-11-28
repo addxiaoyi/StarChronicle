@@ -1,0 +1,204 @@
+[
+  {
+    "job": {
+      "id": 140562692930,
+      "run_id": 46015865707,
+      "workflow_name": "Build, Test, and Release",
+      "head_branch": "codex/plugin-all-stages-20261125",
+      "run_url": "https://api.github.com/repos/addxiaoyi/starcore/actions/runs/46015865707",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOSubpqc8AAAAgujB7Qg",
+      "head_sha": "f586a641a5d8d853df15f53a3e0e5e95414a1eb1",
+      "url": "https://api.github.com/repos/addxiaoyi/starcore/actions/jobs/140562692930",
+      "html_url": "https://github.com/addxiaoyi/starcore/actions/runs/46015865707/job/140562692930",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-11-27T14:25:55Z",
+      "started_at": "2026-11-27T14:25:55Z",
+      "completed_at": "2026-11-27T14:25:56Z",
+      "name": "Incremental formatting and repository checks",
+      "steps": [],
+      "check_run_url": "https://api.github.com/repos/addxiaoyi/starcore/check-runs/140562692930",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 0,
+      "runner_name": "",
+      "runner_group_id": 0,
+      "runner_group_name": ""
+    },
+    "annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/addxiaoyi/starcore/blob/f586a641a5d8d853df15f53a3e0e5e95414a1eb1/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "The job was not started because recent account payments have failed or your spending limit needs to be increased. Please check the 'Billing & plans' section in your settings",
+        "raw_details": ""
+      }
+    ]
+  },
+  {
+    "job": {
+      "id": 140562693555,
+      "run_id": 46015865707,
+      "workflow_name": "Build, Test, and Release",
+      "head_branch": "codex/plugin-all-stages-20261125",
+      "run_url": "https://api.github.com/repos/addxiaoyi/starcore/actions/runs/46015865707",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOSubpqc8AAAAgujB9sw",
+      "head_sha": "f586a641a5d8d853df15f53a3e0e5e95414a1eb1",
+      "url": "https://api.github.com/repos/addxiaoyi/starcore/actions/jobs/140562693555",
+      "html_url": "https://github.com/addxiaoyi/starcore/actions/runs/46015865707/job/140562693555",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-11-27T14:25:55Z",
+      "started_at": "2026-11-27T14:25:55Z",
+      "completed_at": "2026-11-27T14:25:56Z",
+      "name": "Java 25 compatibility",
+      "steps": [],
+      "check_run_url": "https://api.github.com/repos/addxiaoyi/starcore/check-runs/140562693555",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 0,
+      "runner_name": "",
+      "runner_group_id": 0,
+      "runner_group_name": ""
+    },
+    "annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/addxiaoyi/starcore/blob/f586a641a5d8d853df15f53a3e0e5e95414a1eb1/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "The job was not started because recent account payments have failed or your spending limit needs to be increased. Please check the 'Billing & plans' section in your settings",
+        "raw_details": ""
+      }
+    ]
+  },
+  {
+    "job": {
+      "id": 140562693591,
+      "run_id": 46015865707,
+      "workflow_name": "Build, Test, and Release",
+      "head_branch": "codex/plugin-all-stages-20261125",
+      "run_url": "https://api.github.com/repos/addxiaoyi/starcore/actions/runs/46015865707",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOSubpqc8AAAAgujB91w",
+      "head_sha": "f586a641a5d8d853df15f53a3e0e5e95414a1eb1",
+      "url": "https://api.github.com/repos/addxiaoyi/starcore/actions/jobs/140562693591",
+      "html_url": "https://github.com/addxiaoyi/starcore/actions/runs/46015865707/job/140562693591",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-11-27T14:25:55Z",
+      "started_at": "2026-11-27T14:25:55Z",
+      "completed_at": "2026-11-27T14:25:56Z",
+      "name": "Java 21 full verification",
+      "steps": [],
+      "check_run_url": "https://api.github.com/repos/addxiaoyi/starcore/check-runs/140562693591",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 0,
+      "runner_name": "",
+      "runner_group_id": 0,
+      "runner_group_name": ""
+    },
+    "annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/addxiaoyi/starcore/blob/f586a641a5d8d853df15f53a3e0e5e95414a1eb1/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "The job was not started because recent account payments have failed or your spending limit needs to be increased. Please check the 'Billing & plans' section in your settings",
+        "raw_details": ""
+      }
+    ]
+  },
+  {
+    "job": {
+      "id": 140562693896,
+      "run_id": 46015865707,
+      "workflow_name": "Build, Test, and Release",
+      "head_branch": "codex/plugin-all-stages-20261125",
+      "run_url": "https://api.github.com/repos/addxiaoyi/starcore/actions/runs/46015865707",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOSubpqc8AAAAgujB_CA",
+      "head_sha": "f586a641a5d8d853df15f53a3e0e5e95414a1eb1",
+      "url": "https://api.github.com/repos/addxiaoyi/starcore/actions/jobs/140562693896",
+      "html_url": "https://github.com/addxiaoyi/starcore/actions/runs/46015865707/job/140562693896",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-11-27T14:25:55Z",
+      "started_at": "2026-11-27T14:25:55Z",
+      "completed_at": "2026-11-27T14:25:56Z",
+      "name": "MySQL 8.4 migration and economy integration",
+      "steps": [],
+      "check_run_url": "https://api.github.com/repos/addxiaoyi/starcore/check-runs/140562693896",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 0,
+      "runner_name": "",
+      "runner_group_id": 0,
+      "runner_group_name": ""
+    },
+    "annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/addxiaoyi/starcore/blob/f586a641a5d8d853df15f53a3e0e5e95414a1eb1/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "The job was not started because recent account payments have failed or your spending limit needs to be increased. Please check the 'Billing & plans' section in your settings",
+        "raw_details": ""
+      }
+    ]
+  },
+  {
+    "job": {
+      "id": 140562713662,
+      "run_id": 46015865707,
+      "workflow_name": "Build, Test, and Release",
+      "head_branch": "codex/plugin-all-stages-20261125",
+      "run_url": "https://api.github.com/repos/addxiaoyi/starcore/actions/runs/46015865707",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOSubpqc8AAAAgujDMPg",
+      "head_sha": "f586a641a5d8d853df15f53a3e0e5e95414a1eb1",
+      "url": "https://api.github.com/repos/addxiaoyi/starcore/actions/jobs/140562713662",
+      "html_url": "https://github.com/addxiaoyi/starcore/actions/runs/46015865707/job/140562713662",
+      "status": "completed",
+      "conclusion": "skipped",
+      "created_at": "2026-11-27T14:25:57Z",
+      "started_at": "2026-11-27T14:25:57Z",
+      "completed_at": "2026-11-27T14:25:57Z",
+      "name": "Publish tagged release",
+      "steps": [],
+      "check_run_url": "https://api.github.com/repos/addxiaoyi/starcore/check-runs/140562713662",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": null,
+      "runner_name": null,
+      "runner_group_id": null,
+      "runner_group_name": null
+    },
+    "annotations": []
+  }
+]

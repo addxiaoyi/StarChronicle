@@ -26,7 +26,7 @@ import static io.github.addxiaoyi.starchronicle.persistence.SqliteStore.*;
  * Call on a bounded worker, never a region thread. SQLite serializes cross-player transitions. */
 public final class RuleEngine implements AutoCloseable {
     private final SqliteStore store;
-    private volatile StoryRuntime runtime;
+    private volatile List<StoryDefinition> enabledDefinitions;
     private volatile MemoryRecipeCatalog memoryRecipes=MemoryRecipeCatalog.empty();
     public static final int MAX_MEMORY_SIGNALS_PER_TRANSACTION=256;
     private final ThreadLocal<MemoryBudget> memoryBudget=new ThreadLocal<>();
@@ -61,12 +61,14 @@ public final class RuleEngine implements AutoCloseable {
     }
     public RuleEngine(SqliteStore store,List<StoryDefinition> definitions,Clock clock,NpcLedger npcs,
                       NationalVoteAuthority nationalAuthority,MemoryRecipeCatalog recipes,EpicCampaignLedger epicCampaigns) {
-        this(store, definitions, clock, npcs, nationalAuthority, recipes, epicCampaigns, MemberAuthority.denying());
+        this(store, definitions, clock, npcs, nationalAuthority, recipes, epicCampaigns, null);
     }
     public RuleEngine(SqliteStore store,List<StoryDefinition> definitions,Clock clock,NpcLedger npcs,
                       NationalVoteAuthority nationalAuthority,MemoryRecipeCatalog recipes,EpicCampaignLedger epicCampaigns,
                       MemberAuthority memberAuthority) {
-        this.memberAuthority=Objects.requireNonNull(memberAuthority);
+        // Legacy embedded callers supply already-authorized contexts. The public plugin
+        // installs a native authority; its rejoin/review callbacks hold that authority.
+        this.memberAuthority=memberAuthority;
         this.store=Objects.requireNonNull(store);this.clock=Objects.requireNonNull(clock);this.npcs=npcs;
         this.nationalAuthority=Objects.requireNonNull(nationalAuthority);
         this.epicCampaigns=epicCampaigns==null?new EpicCampaignLedger(store):epicCampaigns;
@@ -80,19 +82,20 @@ public final class RuleEngine implements AutoCloseable {
         // Hold the storage monitor through publication so an in-flight transition never
         // sees a mixture of old and new consumer lists across its derived effects.
         synchronized(store) {
-            StoryRuntime next=transaction(c->{
-                validate(current,DefinitionCatalog.read(c));
+            transaction(c->{
+                validate(current,DefinitionCatalog.readReferenced(c,current));
                 MemoryRecipeLedger.archiveDefinitions(c,recipes);
                 DefinitionCatalog.archive(c,current,"ACCEPTED_CONFIGURATION");
-                return new StoryRuntime(current,DefinitionCatalog.read(c));
+                DefinitionCatalog.verify(c);
+                return null;
             });
-            runtime=next;memoryRecipes=recipes;
+            enabledDefinitions=current;memoryRecipes=recipes;
         }
     }
     public void validate(List<StoryDefinition> validatedDefinitions){synchronized(store){validate(validatedDefinitions,memoryRecipes);}}
     public void validate(List<StoryDefinition> validatedDefinitions,MemoryRecipeCatalog recipes){
         List<StoryDefinition> current=List.copyOf(validatedDefinitions);Objects.requireNonNull(recipes);
-        transaction(c->{validate(current,DefinitionCatalog.read(c));MemoryRecipeLedger.validateDefinitions(c,recipes);return null;});
+        transaction(c->{validate(current,DefinitionCatalog.readReferenced(c,current));MemoryRecipeLedger.validateDefinitions(c,recipes);return null;});
     }
     public List<MemoryEntry> memoryEntries(String region,int page,int size){return transaction(c->MemoryRecipeLedger.entries(c,region,page,size));}
     public List<MemoryRecipeLedger.Block> memoryRecipeBlocks(int limit){return transaction(c->MemoryRecipeLedger.blocks(c,limit));}
@@ -122,7 +125,7 @@ public final class RuleEngine implements AutoCloseable {
         }
         if(unique.size()>10000)throw new IllegalArgumentException("Too many trigger recipients");
         return transaction(c->{
-            List<StoryDefinition> rules=runtime.enabledDefinitions();
+            List<StoryDefinition> rules=enabledDefinitions;
             boolean fresh=recordAndQueue(c,event,unique.values(),rules,EventCausality.root(event.id()));
             Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
             return new ProcessReport(!fresh,List.copyOf(changed),fresh?"已记录事件与剧情变更":changed.isEmpty()?"事件已处理":"历史未重复，已恢复尚未交付的剧情触发");
@@ -170,7 +173,7 @@ public final class RuleEngine implements AutoCloseable {
             boolean fresh;
             Set<String> changed = Set.of();
             if (pending.activate()) {
-                fresh = recordAndQueue(c, event, unique.values(), runtime.enabledDefinitions(), EventCausality.root(event.id()));
+                fresh = recordAndQueue(c, event, unique.values(), enabledDefinitions, EventCausality.root(event.id()));
                 changed = drainTriggers(c, List.copyOf(unique.values()), event.id());
             } else {
                 fresh = record(c, event, false);
@@ -197,7 +200,7 @@ public final class RuleEngine implements AutoCloseable {
             boolean fresh;
             Set<String> changed = Set.of();
             if (pending.activate()) {
-                fresh = recordAndQueue(c, event, unique.values(), runtime.enabledDefinitions(), EventCausality.root(event.id()));
+                fresh = recordAndQueue(c, event, unique.values(), enabledDefinitions, EventCausality.root(event.id()));
                 changed = drainTriggers(c, List.copyOf(unique.values()), event.id());
             } else {
                 fresh = record(c, event, false);
@@ -225,7 +228,7 @@ public final class RuleEngine implements AutoCloseable {
             boolean fresh;
             Set<String> changed = Set.of();
             if (pending.activate()) {
-                fresh = recordAndQueue(c, event, unique.values(), runtime.enabledDefinitions(), EventCausality.root(event.id()));
+                fresh = recordAndQueue(c, event, unique.values(), enabledDefinitions, EventCausality.root(event.id()));
                 changed = drainTriggers(c, List.copyOf(unique.values()), event.id());
             } else {
                 fresh = record(c, event, false);
@@ -256,15 +259,21 @@ public final class RuleEngine implements AutoCloseable {
         }
         if (unique.isEmpty()) throw new IllegalArgumentException("Aid commit requires an online or source audience");
         return transaction(c->{
-            boolean fresh=recordAndQueue(c,event,unique.values(),runtime.enabledDefinitions(),EventCausality.root(event.id()));
+            boolean fresh=recordAndQueue(c,event,unique.values(),enabledDefinitions,EventCausality.root(event.id()));
             Set<String> changed=drainTriggers(c,List.copyOf(unique.values()),event.id());
             AidLedger.commit(c,request,receipt,issuer,authorityDomain,event.id(),clock.instant());
             // The native receipt is the committed source timestamp. A fixed or slightly
             // lagging Chronicle clock must not make the local audit row predate that source.
             Instant recordedAt = clock.instant().isBefore(receipt.appliedAt())
                     ? receipt.appliedAt() : clock.instant();
-            for (ContributionRequest contribution : EpicContributionProjection.aidContributions(request, receipt, event.id()))
-                ContributionLedger.record(c, contribution, recordedAt);
+            ContributionRequest nationContribution = new ContributionRequest(request.outcomeId(), ContributionType.RESOURCE_AID,
+                    "nation:"+request.payerId(), event.id(), request.actorId(), request.payerId(), request.amount(),
+                    "treasury", receipt.appliedAt(), "StarCore receipt issuer="+issuer+" domain="+authorityDomain+" transaction="+receipt.transactionId());
+            ContributionLedger.recordNative(c,authorityDomain,receipt.transactionId(),nationContribution,request.outcomeId(),recordedAt);
+            ContributionRequest playerContribution = new ContributionRequest(request.outcomeId(), ContributionType.RESOURCE_AID,
+                    "player:"+request.actorId(), event.id(), request.actorId(), request.payerId(), request.amount(),
+                    "treasury", receipt.appliedAt(), "StarCore receipt issuer="+issuer+" domain="+authorityDomain+" transaction="+receipt.transactionId());
+            ContributionLedger.recordNative(c,authorityDomain,receipt.transactionId(),playerContribution,request.outcomeId(),recordedAt);
             return new ProcessReport(!fresh,List.copyOf(changed),fresh?"国库援助已记入世界历史并提交剧情收件箱":changed.isEmpty()?"国库援助历史已存在":"国库援助历史已存在，已恢复剧情触发");
         });
     }
@@ -293,8 +302,7 @@ public final class RuleEngine implements AutoCloseable {
             try (var s = c.prepareStatement("SELECT e.operation_json,e.receipt_json,e.detail,e.revision,e.updated_at,p.provider_id,p.authority_domain "
                     + "FROM epic_operations e JOIN epic_operation_providers p ON p.operation_id=e.operation_id "
                     + "WHERE e.status='COMMITTED' AND json_extract(e.operation_json,'$.type') IN ('TREASURY_AID','RESOURCE_AID') "
-                    + "AND (SELECT COUNT(*) FROM contributions x WHERE x.operation_id=e.operation_id AND x.type='RESOURCE_AID' "
-                    + "AND x.subject_id IN ('nation:'||json_extract(e.operation_json,'$.nationId'),'player:'||json_extract(e.operation_json,'$.actorId'))) < 2 "
+                    + "AND NOT EXISTS(SELECT 1 FROM epic_contribution_projections x WHERE x.operation_id=e.operation_id) "
                     + "ORDER BY e.operation_id LIMIT ?")) {
                 s.setInt(1, limit);
                 try (var r = s.executeQuery()) { while (r.next()) {
@@ -315,9 +323,48 @@ public final class RuleEngine implements AutoCloseable {
         var projection = EpicContributionProjection.project(state.operation(), state.receipt());
         if (projection.isEmpty()) return;
         var value = projection.orElseThrow();
-        recordAndQueue(c, value.event(), List.of(), runtime.enabledDefinitions(), EventCausality.root(value.event().id()));
+        var operation = state.operation(); var receipt = state.receipt();
+        String proof = json(receipt);
+        try (var s = c.prepareStatement("SELECT receipt_json FROM epic_contribution_projections WHERE operation_id=?")) {
+            s.setString(1,operation.operationId());try(var r=s.executeQuery()) {
+                if(r.next()&&!proof.equals(r.getString(1)))throw new IllegalStateException("Epic contribution receipt changed");
+            }
+        }
+        // Both branch formats retain their original rows. Bind their native receipt
+        // before backfilling, including the upstream unprefixed resource unit.
+        String legacy = value.contributions().size()==2?operation.operationId():null;
+        String source = null;
+        for (var request : value.contributions()) {
+            var existing = ContributionLedger.findEpicNative(c,receipt.authorityDomain(),receipt.nativeReceiptId(),request,legacy);
+            if (existing.isPresent() && source==null) source=existing.get().request().sourceEventId();
+        }
+        if(source==null) {
+            String previous="chronicle:epic-aid:"+stable(receipt.authorityDomain(),operation.type().name(),receipt.nativeReceiptId());
+            try(var s=c.prepareStatement("SELECT id FROM events WHERE id IN (?,?) ORDER BY CASE WHEN id=? THEN 0 ELSE 1 END LIMIT 1")) {
+                s.setString(1,previous);s.setString(2,value.event().id());s.setString(3,previous);
+                try(var r=s.executeQuery()){if(r.next())source=r.getString(1);}
+            }
+        }
+        if(source==null) {
+            source=value.event().id();
+            recordAndQueue(c,value.event(),List.of(),enabledDefinitions,EventCausality.root(source));
+        } else {
+            WorldEvent saved=event(c,source);
+            if(!saved.occurredAt().equals(receipt.appliedAt()) || !saved.participants().contains(operation.actorId())
+                    || !saved.nations().containsAll(Set.of(operation.nationId(),operation.target()))
+                    || !Objects.equals(saved.facts().get("aid.authority_domain"),receipt.authorityDomain())
+                    || !saved.source().equals(receipt.issuer()))
+                throw new IllegalStateException("Legacy epic contribution source differs from its receipt");
+        }
         Instant recordedAt = clock.instant().isBefore(state.receipt().appliedAt()) ? state.receipt().appliedAt() : clock.instant();
-        for (ContributionRequest request : value.contributions()) ContributionLedger.record(c, request, recordedAt);
+        for (var request : value.contributions()) {
+            var bound=new ContributionRequest(request.operationId(),request.type(),request.subjectId(),source,
+                    request.actorId(),request.nationId(),request.amount(),request.unit(),request.committedAt(),request.evidence());
+            ContributionLedger.recordEpicNative(c,receipt.authorityDomain(),receipt.nativeReceiptId(),bound,legacy,recordedAt);
+        }
+        try(var s=c.prepareStatement("INSERT INTO epic_contribution_projections(operation_id,receipt_json) VALUES(?,?) ON CONFLICT(operation_id) DO NOTHING")) {
+            s.setString(1,operation.operationId());s.setString(2,proof);s.executeUpdate();
+        }
     }
 
     public List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionEntry> contributions(
@@ -330,7 +377,14 @@ public final class RuleEngine implements AutoCloseable {
     public java.math.BigDecimal contributionTotal(String subject, ContributionType type, String unit) {
         ContributionRequest.token(subject, "subject", 256); Objects.requireNonNull(type);
         ContributionRequest.token(unit, "unit", ContributionRequest.UNIT_MAX_LENGTH);
-        return transaction(c -> ContributionLedger.total(c, subject, type, unit));
+        return transaction(c -> {
+            var amount=ContributionLedger.total(c, subject, type, unit);
+            if(type==ContributionType.RESOURCE_AID && !unit.equals("treasury")) {
+                String alternative=unit.startsWith("resource.")?unit.substring("resource.".length()):"resource."+unit;
+                amount=amount.add(ContributionLedger.total(c,subject,type,alternative));
+            }
+            return amount.stripTrailingZeros();
+        });
     }
 
     public List<io.github.addxiaoyi.starchronicle.api.contribution.ContributionBalance> contributionBalances(
@@ -358,6 +412,61 @@ public final class RuleEngine implements AutoCloseable {
     }
 
     public static String aidEventId(String issuer,String transactionId){return "chronicle:aid:"+stable(issuer,transactionId);}
+    /** Trusted post-commit producers supply evidenced amounts; player commands cannot write this ledger. */
+    public ProcessReport acceptContributions(WorldEvent event,List<ContributionRequest> contributions,Collection<PlayerContext> contexts) {
+        Objects.requireNonNull(event);contributions=List.copyOf(contributions);contexts=List.copyOf(contexts);
+        if(contributions.isEmpty()||contributions.size()>100)throw new IllegalArgumentException("Require 1..100 contribution entries");
+        if(event.facts().keySet().stream().anyMatch(EpicCampaignLedger.STORY_FACTS::contains))throw new SecurityException("Reserved epic facts");
+        validateContributionSource(event,contributions);
+        if(contexts.size()>10000||contexts.stream().anyMatch(context->!audience(event,context)))throw new IllegalArgumentException("Invalid contribution audience");
+        final var entries=contributions;final var audience=contexts;
+        return transaction(c->{
+            boolean fresh=recordAndQueue(c,event,audience,enabledDefinitions,EventCausality.root(event.id()));
+            Instant at=clock.instant().isBefore(event.occurredAt())?event.occurredAt():clock.instant();
+            for(var request:entries)ContributionLedger.record(c,request,at);
+            var changed=drainTriggers(c,List.copyOf(audience),event.id());
+            return new ProcessReport(!fresh,List.copyOf(changed),"已核验来源的贡献已入账");
+        });
+    }
+    private static void validateContributionSource(WorldEvent event,List<ContributionRequest> contributions) {
+        for(var request:contributions) {
+            if(!event.id().equals(request.sourceEventId())||!event.occurredAt().equals(request.committedAt())
+                    ||!event.participants().contains(request.actorId())
+                    ||request.nationId()!=null&&!request.nationId().isBlank()&&!event.nations().contains(request.nationId())
+                    ||!request.subjectId().equals("player:"+request.actorId())&&!request.subjectId().equals("nation:"+request.nationId()))
+                throw new IllegalArgumentException("Contribution is not bound to the source's exact participant, nation, time and subject");
+        }
+    }
+
+    public Optional<io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.Cursor> committedSourceCursor(String source) {
+        return transaction(c->io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.cursor(c,source));
+    }
+    /** One receipt, cursor advance, history and contribution/status effects share the same commit. */
+    public int acceptCommittedSource(io.github.addxiaoyi.starchronicle.history.CommittedSourcePage page,Collection<PlayerContext> contexts) {
+        Objects.requireNonNull(page);var online=List.copyOf(contexts);
+        if(online.size()>10000)throw new IllegalArgumentException("Unbounded source audience");
+        for(var entry:page.entries()) {
+            if(entry.event().facts().keySet().stream().anyMatch(EpicCampaignLedger.STORY_FACTS::contains))throw new SecurityException("Reserved epic facts");
+            if(entry.trade()!=null)validateContributionSource(entry.event(),entry.trade().contributions());
+            validateContributionSource(entry.event(),entry.contributions());
+            if(entry.contributions().stream().anyMatch(r->r.type()!=ContributionType.CIVILIZATION))throw new IllegalArgumentException("Non-civilization contribution in production source");
+        }
+        return transaction(c->{
+            long head=io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.begin(c,page);int accepted=0;
+            for(var entry:page.entries()) {
+                if(!io.github.addxiaoyi.starchronicle.history.CommittedSourceLedger.record(c,page,entry,head))continue;
+                head=entry.sequence();accepted++;
+                var event=entry.event();
+                var witnesses=online.stream().filter(ctx->audience(event,ctx)).toList();
+                if(!entry.baseline())recordAndQueue(c,event,witnesses,enabledDefinitions,EventCausality.root(event.id()));
+                Instant at=clock.instant().isBefore(event.occurredAt())?event.occurredAt():clock.instant();
+                TradeContributionLedger.apply(c,page,entry,at);
+                for(var request:entry.contributions())ContributionLedger.recordNative(c,page.domain(),entry.operationId(),request,null,at);
+                if(!entry.baseline())drainTriggers(c,witnesses,event.id());
+            }
+            return accepted;
+        });
+    }
     static WorldEvent aidEvent(io.github.addxiaoyi.starchronicle.api.aid.AidRequest request,
                                        io.github.addxiaoyi.starchronicle.api.aid.AidReceipt receipt,
                                        String issuer,String authorityDomain) {
@@ -408,7 +517,7 @@ public final class RuleEngine implements AutoCloseable {
     public HistoricalEvaluationReport evaluateHistorical(String sourceId,String storyId,String expectedVersion) {
         Objects.requireNonNull(sourceId);Objects.requireNonNull(storyId);Objects.requireNonNull(expectedVersion);
         return transaction(c->{
-            StoryDefinition rule=runtime.enabledDefinitions().stream().filter(d->d.id().equals(storyId)&&d.version().equals(expectedVersion)).findFirst().orElseThrow(()->new IllegalArgumentException("No enabled exact story version: "+storyId+"/"+expectedVersion));
+            StoryDefinition rule=enabledDefinitions.stream().filter(d->d.id().equals(storyId)&&d.version().equals(expectedVersion)).findFirst().orElseThrow(()->new IllegalArgumentException("No enabled exact story version: "+storyId+"/"+expectedVersion));
             WorldEvent source;
             try(var s=c.prepareStatement("SELECT json FROM events WHERE id=?")) {
                 s.setString(1,sourceId);try(var r=s.executeQuery()){if(!r.next())throw new IllegalArgumentException("No saved canonical source event: "+sourceId);source=decode(r.getString(1),WorldEvent.class);}
@@ -443,20 +552,38 @@ public final class RuleEngine implements AutoCloseable {
         if(unique.isEmpty())return new ProcessReport(false,List.of(),"暂无在线剧情受众");
         if(unique.size()>10000)throw new IllegalArgumentException("Too many trigger recipients");
         return transaction(c->{
+            observeMembers(c, unique.values());
             List<PlayerContext> current=List.copyOf(unique.values());Set<String> changed=drainTriggers(c,current,null);
             Set<String> scopes=new HashSet<>(Set.of("world"));for(var ctx:current){scopes.add("player:"+ctx.playerId());if(!ctx.nationId().isBlank())scopes.add("nation:"+ctx.nationId());}
-            String marks=String.join(",",Collections.nCopies(scopes.size(),"?"));List<StoryInstance> active=new ArrayList<>();
-            try(var s=c.prepareStatement("SELECT json FROM instances WHERE completed=0 AND scope IN ("+marks+") ORDER BY id")){int p=1;for(String key:scopes)s.setString(p++,key);try(var r=s.executeQuery()){while(r.next())active.add(decode(r.getString(1),StoryInstance.class));}}
-            for(StoryInstance instance:active) {
+            visitActive(c,null,scopes,instance->{
                 WorldEvent origin=event(c,instance.sourceEventId());
                 for(var ctx:current)if(!instance.contains(ctx.playerId())&&audience(origin,ctx)&&Objects.equals(instance.scopeKey(),scope(instance.definition(),ctx))&&eligible(c,instance,ctx,origin)){
                     instance=addMember(c,instance,ctx,origin);changed.add(instance.id());
                 }
-            }
+            });
             return new ProcessReport(false,List.copyOf(changed),"已恢复持久化剧情触发与相关参与者");
         });
     }
     public List<StoryDefinition> pendingDefinitions(){return transaction(c->{List<StoryDefinition> result=new ArrayList<>();try(var s=c.createStatement();var r=s.executeQuery("SELECT DISTINCT story_json FROM story_triggers")){while(r.next())result.add(decode(r.getString(1),StoryDefinition.class));}return List.copyOf(result);});}
+    /** Retain only unique permission strings, not every active or deferred pinned graph. */
+    public Set<String> permissionNodes(Collection<StoryDefinition> configured) {
+        Objects.requireNonNull(configured);return transaction(c->{
+            Set<String> result=new HashSet<>();configured.forEach(d->permissions(d,result));
+            try(var s=c.createStatement();var r=s.executeQuery("SELECT json_extract(json,'$.definition') FROM instances WHERE completed=0 UNION SELECT story_json FROM story_triggers")) {
+                while(r.next())permissions(decode(r.getString(1),StoryDefinition.class),result);
+            }
+            return Set.copyOf(result);
+        });
+    }
+    private static void permissions(StoryDefinition d,Set<String> result) {
+        for(var node:d.nodes().values()) {
+            for(var e:node.effects())if(e.permission()!=null&&!e.permission().isBlank())result.add(e.permission());
+            for(var choice:node.choices().values()) {
+                if(choice.permission()!=null&&!choice.permission().isBlank())result.add(choice.permission());
+                for(var e:choice.effects())if(e.permission()!=null&&!e.permission().isBlank())result.add(e.permission());
+            }
+        }
+    }
     public long pendingTriggerCount(){return transaction(c->{try(var s=c.createStatement();var r=s.executeQuery("SELECT COUNT(*) FROM story_triggers")){r.next();return r.getLong(1);}});}
     private boolean eligible(Connection c,StoryInstance instance,PlayerContext context,WorldEvent origin)throws Exception {return !MemberReviewLedger.find(c,instance.id(),context.playerId()).map(r -> r.status()==MemberReviewLedger.Status.EXITED).orElse(false)&&test(instance.definition().condition(),facts(c,context,origin,instance))&&permitted(instance.definition().nodes().get(instance.node()).effects(),context);}
     private Set<String> drainTriggers(Connection c,List<PlayerContext> contexts,String onlyEvent)throws Exception {
@@ -521,7 +648,7 @@ public final class RuleEngine implements AutoCloseable {
         Objects.requireNonNull(context);
         observeMemberNation(instanceId, context);
         var previous = transaction(c -> MemberReviewLedger.find(c, instanceId, context.playerId()));
-        if (previous.isPresent() && previous.get().status() == MemberReviewLedger.Status.EXITED) {
+        if (memberAuthority != null && previous.isPresent() && previous.get().status() == MemberReviewLedger.Status.EXITED) {
             if (!previous.get().originalNationId().equals(context.nationId()))
                 throw new SecurityException("重新加入须恢复原成员国籍；不能改写历史归属");
             return withMember(context, membership -> joinMember(instanceId, context, true));
@@ -532,7 +659,7 @@ public final class RuleEngine implements AutoCloseable {
         return transaction(c->{
             StoryInstance instance=require(c,instanceId);
             if(instance.completed()) throw new IllegalStateException("剧情已经结束");
-            if(instance.definition().scope()==StoryDefinition.Scope.PLAYER&&!instance.contains(context.playerId())&&!rejoining) throw new SecurityException("个人剧情不能加入");
+            if(instance.definition().scope()==StoryDefinition.Scope.PLAYER&&!instance.scopeKey().equals("player:"+context.playerId())) throw new SecurityException("个人剧情不能加入");
             if(instance.definition().scope()==StoryDefinition.Scope.NATION&&!instance.scopeKey().equals("nation:"+context.nationId())) throw new SecurityException("不属于该国家");
             WorldEvent origin=event(c,instance.sourceEventId());
             if(!test(instance.definition().condition(),facts(c,context,origin,instance))) throw new SecurityException("不满足剧情前置条件");
@@ -545,7 +672,7 @@ public final class RuleEngine implements AutoCloseable {
                 });
                 return new ProcessReport(true,List.of(instanceId),"已经加入");
             }
-            addMember(c,instance,context,origin);
+            addMember(c,instance,context,origin,true);
             return new ProcessReport(false,List.of(instanceId),"已加入共同剧情");
         });
     }
@@ -558,15 +685,20 @@ public final class RuleEngine implements AutoCloseable {
         return withMember(context, membership -> transaction(c -> {
             StoryInstance instance = require(c, instanceId);
             if (instance.completed()) throw new IllegalStateException("剧情已经结束");
-            if (!test(instance.definition().condition(), facts(c, context, event(c, instance.sourceEventId()), instance)))
-                throw new SecurityException("不满足当前剧情前置条件");
-            requirePermissions(instance.definition().nodes().get(instance.node()).effects(), context);
+            if (!eligible(c, instance, context, event(c, instance.sourceEventId())))
+                throw new SecurityException("当前身份、前置条件或节点权限不满足成员复核要求");
             MemberReviewLedger.approve(c, instance, context, membership.issuer() + "; " + membership.evidence(), membership.checkedAt());
             return new ProcessReport(false, List.of(instanceId), "成员资格已通过当前原生服务重新核验");
         }));
     }
 
     private <T> T withMember(PlayerContext context, MemberAuthority.Authorized<T> action) {
+        if (memberAuthority == null) {
+            try { return action.run(new MemberAuthority.Membership(context.playerId(), context.nationId(),
+                    "Chronicle.trusted-context", "Explicit caller-authorized member review", clock.instant())); }
+            catch (RuntimeException error) { throw error; }
+            catch (Exception error) { throw new IllegalStateException("Member review failed", error); }
+        }
         Thread owner = Thread.currentThread();
         var active = new java.util.concurrent.atomic.AtomicBoolean(true);
         var invoked = new java.util.concurrent.atomic.AtomicBoolean();
@@ -591,11 +723,16 @@ public final class RuleEngine implements AutoCloseable {
 
     /** Exit an active instance without deleting historical choices or native receipts. */
     public ProcessReport exitMember(String instanceId, PlayerContext context) {
+        return exitMember(instanceId, null, context);
+    }
+
+    public ProcessReport exitMember(String instanceId, String expectedNode, PlayerContext context) {
         Objects.requireNonNull(context);
         if (!context.permitted("starchronicle.use")) throw new SecurityException("缺少剧情使用权限");
         return transaction(c -> {
             StoryInstance instance = require(c, instanceId);
-            if (instance.completed()) throw new IllegalStateException("已完成剧情的历史成员不能退出");
+            if (instance.completed()) throw new IllegalStateException("已完成剧情的历史成员不能改写");
+            if (expectedNode != null && !instance.node().equals(expectedNode)) throw new IllegalStateException("剧情阶段已改变，请刷新后退出");
             if (!instance.contains(context.playerId())) throw new SecurityException("请先加入剧情");
             MemberReviewLedger.exit(c, instance, context.playerId(), "PLAYER_EXIT", clock.instant());
             Map<UUID,String> members = new LinkedHashMap<>(instance.members()); members.remove(context.playerId());
@@ -609,6 +746,46 @@ public final class RuleEngine implements AutoCloseable {
     public List<MemberReviewLedger.Review> memberReviews(UUID playerId, int limit) {
         Objects.requireNonNull(playerId);
         return transaction(c -> MemberReviewLedger.forPlayer(c, playerId, limit));
+    }
+
+    public Optional<MemberReviewLedger.Review> memberReview(String instanceId, PlayerContext context) {
+        observeMemberNation(instanceId, context);
+        return transaction(c -> {
+            var instance = require(c, instanceId);
+            var review = MemberReviewLedger.find(c, instanceId, context.playerId());
+            if (!instance.contains(context.playerId()) && review.isEmpty()) throw new SecurityException("没有此剧情的成员记录");
+            return review;
+        });
+    }
+
+    /** Refresh pending reviews from server-owned identities, without restoring eligibility. */
+    public void observeMembers(Collection<PlayerContext> contexts) {
+        Objects.requireNonNull(contexts);
+        if (contexts.size() > 10000) throw new IllegalArgumentException("Too many member snapshots");
+        transaction(c -> { observeMembers(c, contexts); return null; });
+    }
+
+    private void observeMembers(Connection c, Collection<PlayerContext> contexts) throws Exception {
+        Map<UUID, PlayerContext> current = new HashMap<>();
+        for (var context : contexts) if (current.put(context.playerId(), context) != null)
+            throw new IllegalArgumentException("Duplicate member snapshot");
+        if(current.isEmpty())return;
+        visitActive(c,current.keySet(),null,instance->{for (var member : instance.members().entrySet()) {
+            var context = current.get(member.getKey());
+            if (context != null && !member.getValue().equals(context.nationId()))
+                pendingMember(c, require(c, instance.id()), member.getKey(), context.nationId(), "CURRENT_NATION_CHANGED");
+        }});
+    }
+
+    private void pendingMember(Connection c, StoryInstance instance, UUID player, String observed, String reason) throws Exception {
+        if (instance.completed()) return;
+        MemberReviewLedger.pending(c, instance, player, observed, reason, clock.instant());
+        // Only the live personal tally changes. Append-only choice evidence and national seats remain intact.
+        if (instance.votes().containsKey(player)) {
+            Map<UUID, String> votes = new LinkedHashMap<>(instance.votes()); votes.remove(player);
+            save(c, new StoryInstance(instance.id(), instance.definition(), instance.scopeKey(), instance.sourceEventId(),
+                    instance.node(), instance.members(), votes, instance.choices(), instance.startedAt(), clock.instant(), false));
+        }
     }
 
     public ProcessReport choose(String instanceId,UUID player,String choiceId,PlayerContext context) {
@@ -715,7 +892,7 @@ public final class RuleEngine implements AutoCloseable {
             if (instance.completed()) return null;
             String original = instance.members().get(context.playerId());
             if (original != null && !Objects.equals(original, context.nationId()))
-                MemberReviewLedger.pending(c, instance, context.playerId(), context.nationId(), "CURRENT_NATION_CHANGED", clock.instant());
+                pendingMember(c, instance, context.playerId(), context.nationId(), "CURRENT_NATION_CHANGED");
             return null;
         });
     }
@@ -725,15 +902,14 @@ public final class RuleEngine implements AutoCloseable {
         Objects.requireNonNull(currentNationIds);
         Set<String> current = Set.copyOf(currentNationIds);
         return transaction(c -> {
-            List<StoryInstance> active = allInstances(c, true);
-            int changed = 0; Instant now = clock.instant();
-            for (StoryInstance instance : active) for (var member : instance.members().entrySet()) {
+            int[] changed = {0};
+            visitActive(c,null,null,instance->{for (var member : instance.members().entrySet()) {
                 if (!member.getValue().isBlank() && !current.contains(member.getValue())) {
-                    MemberReviewLedger.pending(c, instance, member.getKey(), "", "ORIGINAL_NATION_MISSING_FROM_COMPLETE_SNAPSHOT", now);
-                    changed++;
+                    pendingMember(c, require(c, instance.id()), member.getKey(), "", "ORIGINAL_NATION_MISSING_FROM_COMPLETE_SNAPSHOT");
+                    changed[0]++;
                 }
-            }
-            return changed;
+            }});
+            return changed[0];
         });
     }
 
@@ -768,7 +944,8 @@ public final class RuleEngine implements AutoCloseable {
         boolean open=!instance.completed()&&!definition.terminal()&&snapshot.resolution().isEmpty()&&instance.node().equals(node);
         WorldEvent source=event(c,instance.sourceEventId());
         boolean electorate=!source.nations().isEmpty()?source.nations().contains(context.nationId()):source.globalAudience();
-        boolean eligible=representative&&open&&!context.nationId().isBlank()&&Objects.equals(instance.members().get(context.playerId()),context.nationId())&&electorate
+        boolean reviewed=MemberReviewLedger.find(c,id,context.playerId()).map(r->r.status()==MemberReviewLedger.Status.APPROVED).orElse(true);
+        boolean eligible=representative&&open&&reviewed&&!context.nationId().isBlank()&&Objects.equals(instance.members().get(context.playerId()),context.nationId())&&electorate
             &&(instance.definition().scope()!=StoryDefinition.Scope.NATION||instance.scopeKey().equals("nation:"+context.nationId()));
         boolean canVote=eligible&&!visibleChoices(c,instance,context,true).isEmpty();
         try { MemberReviewLedger.requireEligible(c, instance, context.playerId(), context.nationId(), clock.instant()); }
@@ -811,8 +988,12 @@ public final class RuleEngine implements AutoCloseable {
     }
 
     private StoryInstance addMember(Connection c,StoryInstance i,PlayerContext ctx,WorldEvent origin)throws Exception {
+        return addMember(c,i,ctx,origin,false);
+    }
+    private StoryInstance addMember(Connection c,StoryInstance i,PlayerContext ctx,WorldEvent origin,boolean explicit)throws Exception {
         if(i.contains(ctx.playerId())) return i;
         if(i.completed()) return i;
+        if(!explicit && MemberReviewLedger.find(c,i.id(),ctx.playerId()).isPresent()) return i;
         requirePermissions(i.definition().nodes().get(i.node()).effects(),ctx);
         Map<UUID,String> members=new LinkedHashMap<>(i.members());members.put(ctx.playerId(),ctx.nationId());
         StoryInstance joined=new StoryInstance(i.id(),i.definition(),i.scopeKey(),i.sourceEventId(),i.node(),members,i.votes(),i.choices(),i.startedAt(),clock.instant(),false);
@@ -859,7 +1040,7 @@ public final class RuleEngine implements AutoCloseable {
                         if(resultFacts.containsKey("region.id")||resultFacts.containsKey("city.id"))resultFacts.put("region.source_event",source.id());
                     }
                     WorldEvent result=new WorldEvent("chronicle:"+outcome,e.target(),clock.instant(),i.members().keySet(),new HashSet<>(i.members().values().stream().filter(n->!n.isBlank()).toList()),resultFacts,"StarChronicle","instance="+i.id()+"; action="+action+"; effect="+e.id()+"; source="+i.sourceEventId());
-                    recordAndQueue(c,result,List.of(),runtime.enabledDefinitions(),causal);
+                    recordAndQueue(c,result,List.of(),enabledDefinitions,causal);
                 }
                 continue;
             }
@@ -913,7 +1094,7 @@ public final class RuleEngine implements AutoCloseable {
         if(npcs!=null)facts.putAll(npcs.facts(c,context.playerId()));
         facts.keySet().removeIf(k->k.startsWith("history.")||k.startsWith("chronicle.history.")||k.startsWith("past."));
         Condition[] required=conditions(definition);
-        facts.putAll(HistoricalFacts.read(c,context.playerId(),context.nationId(),HistoricalFacts.requested(required)));
+        facts.putAll(HistoricalFacts.readRequested(c,context.playerId(),context.nationId(),HistoricalFacts.requested(required)));
         facts.putAll(ChoiceLedger.read(c,context.playerId(),context.nationId(),ChoiceLedger.requested(required)));
         if(instance!=null) {
             // Collective resolution and personal choices are distinct. Two passes make actor
@@ -928,19 +1109,83 @@ public final class RuleEngine implements AutoCloseable {
         return facts;
     }
 
-    public List<StoryInstance> instances(UUID player){return transaction(c->allInstances(c,false).stream().filter(i->i.contains(player)).toList());}
+    /** Complete compatibility view; callers displaying a page should use the bounded overload. */
+    public List<StoryInstance> instances(UUID player){Objects.requireNonNull(player);return transaction(c->memberInstances(c,player,null,null));}
+    public List<StoryInstance> instances(UUID player,int page,int size){
+        Objects.requireNonNull(player);pageBounds(page,size);return transaction(c->memberInstances(c,player,page,size));
+    }
+    /** Read one original snapshot and recheck actual membership; the index grants no access. */
+    public Optional<StoryInstance> instance(UUID player,String instanceId){
+        Objects.requireNonNull(player);Objects.requireNonNull(instanceId);
+        return transaction(c->{try(var s=c.prepareStatement("SELECT json FROM instances WHERE id=?")) {
+            s.setString(1,instanceId);try(var r=s.executeQuery()){if(!r.next())return Optional.empty();var i=decode(r.getString(1),StoryInstance.class);return i.contains(player)?Optional.of(i):Optional.empty();}
+        }});
+    }
     public List<StoryInstance> activeInstances(){return transaction(c->allInstances(c,true));}
     public List<StoryInstance> availableInstances(PlayerContext context){return transaction(c->{
         List<StoryInstance> visible=new ArrayList<>();
-        for(var instance:allInstances(c,true)) {
+        for(var instance:visibleCandidates(c,context)) {
             if(instance.contains(context.playerId())) {visible.add(instance);continue;}
             if(instance.definition().scope()==StoryDefinition.Scope.PLAYER)continue;
             if(instance.definition().scope()==StoryDefinition.Scope.NATION&&!instance.scopeKey().equals("nation:"+context.nationId()))continue;
-            if(test(instance.definition().condition(),facts(c,context,event(c,instance.sourceEventId()),instance)))visible.add(instance);
+            if(visibleCondition(c,context,instance))visible.add(instance);
         }
         return List.copyOf(visible);
     });}
+
+    /** Bound both returned graphs and conditional candidates, including pages with no matches.
+     * Cursor is the last examined ID; it is not an authority token or a database snapshot. */
+    public StoryPage storyPage(PlayerContext context,String afterId,int size) {
+        Objects.requireNonNull(context);if(size<1||size>100||afterId!=null&&(afterId.isBlank()||afterId.length()>512))throw new IllegalArgumentException("Invalid story page");
+        return transaction(c->{
+            List<StoryInstance> visible=new ArrayList<>();String last=null;int examined=0;
+            String sql="SELECT i.json FROM instances i JOIN (SELECT instance_id AS id FROM instance_members WHERE player_id=? UNION "+
+                    "SELECT id FROM instances WHERE completed=0 AND scope IN ('world',?)) candidates ON candidates.id=i.id "+
+                    "WHERE i.id>? ORDER BY i.id LIMIT 257";
+            try(var s=c.prepareStatement(sql)){s.setString(1,context.playerId().toString());s.setString(2,"nation:"+context.nationId());s.setString(3,afterId==null?"":afterId);
+                try(var r=s.executeQuery()){
+                    while(r.next()) {
+                        if(examined==256||visible.size()==size)return new StoryPage(visible,last);
+                        var i=decode(r.getString(1),StoryInstance.class);last=i.id();examined++;
+                        if(i.contains(context.playerId())||!i.completed()&&i.definition().scope()!=StoryDefinition.Scope.PLAYER
+                                &&(i.definition().scope()==StoryDefinition.Scope.WORLD||i.scopeKey().equals("nation:"+context.nationId()))
+                                &&visibleCondition(c,context,i))visible.add(i);
+                    }
+                }
+            }
+            return new StoryPage(visible,null);
+        });
+    }
+
+    private boolean visibleCondition(Connection c,PlayerContext context,StoryInstance instance)throws Exception {
+        WorldEvent source=event(c,instance.sourceEventId()); // Still require original source evidence.
+        var condition=instance.definition().condition();
+        return condition==null||test(condition,facts(c,context,source,instance));
+    }
+
+    private static void pageBounds(int page,int size){if(page<0||page>1_000_000||size<1||size>100)throw new IllegalArgumentException("Invalid instance page");}
+    private static List<StoryInstance> memberInstances(Connection c,UUID player,Integer page,Integer size)throws SQLException {
+        List<StoryInstance> result=new ArrayList<>();
+        String sql="SELECT i.json FROM instance_members m JOIN instances i ON i.id=m.instance_id WHERE m.player_id=? ORDER BY i.updated DESC,i.id"+(page==null?"":" LIMIT ? OFFSET ?");
+        try(var s=c.prepareStatement(sql)) {
+            s.setString(1,player.toString());if(page!=null){s.setInt(2,size);s.setLong(3,(long)page*size);}
+            try(var r=s.executeQuery()){while(r.next()){var i=decode(r.getString(1),StoryInstance.class);if(i.contains(player))result.add(i);}}
+        }
+        return List.copyOf(result);
+    }
+    private static List<StoryInstance> visibleCandidates(Connection c,PlayerContext context)throws SQLException {
+        // UNION selects only IDs first, so unrelated personal/national graphs are never decoded.
+        String sql="SELECT i.json FROM instances i JOIN ("+
+                "SELECT instance_id AS id FROM instance_members WHERE player_id=? UNION "+
+                "SELECT id FROM instances WHERE completed=0 AND scope IN ('world',?)) candidates ON candidates.id=i.id "+
+                "WHERE i.completed=0 ORDER BY i.updated DESC,i.id";
+        List<StoryInstance> result=new ArrayList<>();
+        try(var s=c.prepareStatement(sql)){s.setString(1,context.playerId().toString());s.setString(2,"nation:"+context.nationId());
+            try(var r=s.executeQuery()){while(r.next())result.add(decode(r.getString(1),StoryInstance.class));}}
+        return result;
+    }
     public Map<String,StoryDefinition.Choice> availableChoices(String instanceId,PlayerContext context){
+        observeMemberNation(instanceId, context);
         boolean national=transaction(c->require(c,instanceId).definition().voteUnit()==StoryDefinition.VoteUnit.NATION);
         if(national&&!nationalState(instanceId,context).canVote())return Map.of();
         return transaction(c->visibleChoices(c,require(c,instanceId),context,national));
@@ -979,6 +1224,26 @@ public final class RuleEngine implements AutoCloseable {
         });
     }
     public QuestGateLedger.Gate questGate(String gateId){return transaction(c->QuestGateLedger.find(c,gateId));}
+
+    /** Recovery is restricted to the original eligible owner and current node/attempt. */
+    public QuestGateLedger.Gate prepareQuestRecovery(String gateId,int expectedAttempt,PlayerContext actor) {
+        return transaction(c->requireQuestRecovery(c,gateId,expectedAttempt,actor));
+    }
+    private QuestGateLedger.Gate requireQuestRecovery(Connection c,String gateId,int expectedAttempt,PlayerContext actor)throws Exception {
+        var gate=QuestGateLedger.find(c,gateId);var instance=require(c,gate.instanceId());
+        requireQuestMember(instance,actor);
+        MemberReviewLedger.requireEligible(c,instance,actor.playerId(),actor.nationId(),clock.instant());
+        if(!gate.active()||gate.completed()||!gate.playerId().equals(actor.playerId())||gate.attempt()!=expectedAttempt||gate.providerId()==null)
+            throw new SecurityException("任务不属于本人当前可恢复的轮次，请刷新任务页面");
+        var effect=instance.definition().nodes().get(instance.node()).effects().stream().filter(e->e.id().equals(gate.effectId())&&e.type().equals("quest.await")).findFirst().orElseThrow();
+        if(!actor.permitted(effect.permission())||!test(instance.definition().condition(),facts(c,actor,event(c,instance.sourceEventId()),instance)))
+            throw new SecurityException("不满足任务恢复权限或剧情条件");
+        return gate;
+    }
+    public QuestGateLedger.Gate retryQuestGate(String gateId,int expectedAttempt,String providerId,QuestTermination proof,PlayerContext actor) {
+        return transaction(c->{requireQuestRecovery(c,gateId,expectedAttempt,actor);
+            return QuestGateLedger.retry(c,gateId,expectedAttempt,providerId,proof,actor.playerId(),clock.instant());});
+    }
 
     /** Project an already committed national task gate as an epic receipt without starting a task. */
     public EpicObservation epicQuestEvidence(EpicOperation operation,String providerId,String authorityDomain) {
@@ -1020,16 +1285,23 @@ public final class RuleEngine implements AutoCloseable {
     public QuestGateLedger.Mutation questUnavailable(String gateId,String message) {
         return transaction(c->QuestGateLedger.unavailable(c,gateId,message,clock.instant()));
     }
+    public QuestGateLedger.Mutation questUnavailable(String gateId,String bindingId,String message) {
+        return transaction(c->{var current=QuestGateLedger.find(c,gateId);
+            return current.bindingId().equals(bindingId)?QuestGateLedger.unavailable(c,gateId,message,clock.instant()):new QuestGateLedger.Mutation(false,current,false);});
+    }
     /** Canonical native receipt, consumption keys, history and causal inbox commit together.
      * This operation does not advance a choice or invoke native completion/rewards. */
     public QuestGateLedger.Mutation observeQuestGate(String gateId,String providerId,QuestObservation observation) {
+        return observeQuestGate(gateId,null,providerId,observation);
+    }
+    public QuestGateLedger.Mutation observeQuestGate(String gateId,String bindingId,String providerId,QuestObservation observation) {
         Objects.requireNonNull(observation);
         return transaction(c->{
-            var mutation=QuestGateLedger.observe(c,gateId,providerId,observation,clock.instant());
+            var mutation=bindingId==null?QuestGateLedger.observe(c,gateId,providerId,observation,clock.instant()):QuestGateLedger.observe(c,gateId,bindingId,providerId,observation,clock.instant());
             if(mutation.completionNewlyRecorded()) {
                 var gate=mutation.gate();var receipt=Objects.requireNonNull(gate.completion());
                 WorldEvent event=questCompletionEvent(gate,receipt);
-                recordAndQueue(c,event,List.of(),runtime.enabledDefinitions(),EventCausality.derive(c,gate.sourceEventId(),gate.storyId()));
+                recordAndQueue(c,event,List.of(),enabledDefinitions,EventCausality.derive(c,gate.sourceEventId(),gate.storyId()));
             }
             return mutation;
         });
@@ -1080,7 +1352,7 @@ public final class RuleEngine implements AutoCloseable {
             refs.add(ref);
         }
         return transaction(c->{Map<String,String> result=new LinkedHashMap<>();
-            var history=HistoricalFacts.read(c,context.playerId(),context.nationId(),refs);
+            var history=HistoricalFacts.readRequested(c,context.playerId(),context.nationId(),refs);
             for(String ref:refs)if(history.containsKey(ref))result.put(ref,history.get(ref));
             result.putAll(ChoiceLedger.read(c,context.playerId(),context.nationId(),refs));return Map.copyOf(result);
         });
@@ -1109,6 +1381,31 @@ public final class RuleEngine implements AutoCloseable {
             try(var s=c.prepareStatement(sql)){int p=1;if(nation!=null)s.setString(p++,nation);if(player!=null)s.setString(p++,player.toString());s.setInt(p++,size);s.setInt(p,page*size);try(var r=s.executeQuery()){while(r.next())result.add(decode(r.getString(1),WorldEvent.class));}}return List.copyOf(result);
         });
     }
+    /** Seek from the actual stored key, preserving legacy timestamp bytes and tie ordering.
+     * Scope predicates apply to both the cursor and results; no historical actors are inferred. */
+    public HistoryPage historyPage(String nation,UUID player,String beforeEventId,int size) {
+        if(size<1||size>100||beforeEventId!=null&&(beforeEventId.isBlank()||beforeEventId.length()>256))throw new IllegalArgumentException("Invalid history cursor/page size");
+        return transaction(c->{
+            String scope=(nation==null?"":" AND EXISTS(SELECT 1 FROM event_nations n WHERE n.event_id=e.id AND n.nation=?)")
+                    +(player==null?"":" AND EXISTS(SELECT 1 FROM event_players p WHERE p.event_id=e.id AND p.player=?)");
+            String beforeTime=null;
+            if(beforeEventId!=null)try(var s=c.prepareStatement("SELECT e.time FROM events e WHERE e.id=?"+scope)) {
+                s.setString(1,beforeEventId);int p=2;if(nation!=null)s.setString(p++,nation);if(player!=null)s.setString(p,player.toString());
+                try(var r=s.executeQuery()){if(!r.next())throw new IllegalArgumentException("History cursor is missing or outside the requested scope");beforeTime=r.getString(1);}
+            }
+            String sql="SELECT e.id,e.json FROM events e WHERE 1=1"+scope+(beforeEventId==null?"":" AND (e.time,e.id)<(?,?)")+" ORDER BY e.time DESC,e.id DESC LIMIT ?";
+            List<WorldEvent> result=new ArrayList<>();String last=null;boolean more=false;
+            try(var s=c.prepareStatement(sql)) {
+                int p=1;if(nation!=null)s.setString(p++,nation);if(player!=null)s.setString(p++,player.toString());
+                if(beforeEventId!=null){s.setString(p++,beforeTime);s.setString(p++,beforeEventId);}s.setInt(p,size+1);
+                try(var r=s.executeQuery()){while(r.next()) {
+                    if(result.size()==size){more=true;break;}
+                    last=r.getString(1);result.add(decode(r.getString(2),WorldEvent.class));
+                }}
+            }
+            return new HistoryPage(result,more?last:null);
+        });
+    }
     public List<Delivery> pending(){return deliveries("PENDING");}
     /** Filter recipients before LIMIT, so offline recipients cannot starve online deliveries. */
     public List<Delivery> pending(Set<UUID> onlinePlayers){
@@ -1134,6 +1431,19 @@ public final class RuleEngine implements AutoCloseable {
     public boolean acknowledgeUnknown(String id){return transaction(c->{try(var s=c.prepareStatement("UPDATE outcomes SET status='DONE' WHERE id=? AND status='UNKNOWN'")){s.setString(1,id);return s.executeUpdate()==1;}});}
 
     private static List<StoryInstance> allInstances(Connection c,boolean active)throws Exception {List<StoryInstance> result=new ArrayList<>();try(var s=c.prepareStatement("SELECT json FROM instances"+(active?" WHERE completed=0":"")+" ORDER BY updated DESC,id");var r=s.executeQuery()){while(r.next())result.add(decode(r.getString(1),StoryInstance.class));}return List.copyOf(result);}
+    @FunctionalInterface private interface InstanceWork {void accept(StoryInstance instance)throws Exception;}
+    /** Read a bounded ID batch before mutating snapshots. No open scan observes its own writes. */
+    private static void visitActive(Connection c,Set<UUID> players,Set<String> scopes,InstanceWork work)throws Exception {
+        String after="",sql="SELECT json FROM instances WHERE completed=0 AND id>?"+
+                (players==null?"":" AND id IN (SELECT instance_id FROM instance_members WHERE player_id IN (SELECT value FROM json_each(?)))")+
+                (scopes==null?"":" AND scope IN (SELECT value FROM json_each(?))")+" ORDER BY id LIMIT 64";
+        while(true) {
+            List<StoryInstance> batch=new ArrayList<>();
+            try(var s=c.prepareStatement(sql)){s.setString(1,after);int parameter=2;if(players!=null)s.setString(parameter++,json(players));if(scopes!=null)s.setString(parameter,json(scopes));
+                try(var r=s.executeQuery()){while(r.next())batch.add(decode(r.getString(1),StoryInstance.class));}}
+            if(batch.isEmpty())return;after=batch.getLast().id();for(var i:batch)work.accept(i);
+        }
+    }
     private static StoryInstance require(Connection c,String id)throws Exception {try(var s=c.prepareStatement("SELECT json FROM instances WHERE id=?")){s.setString(1,id);try(var r=s.executeQuery()){if(!r.next())throw new IllegalArgumentException("不存在的剧情实例");return decode(r.getString(1),StoryInstance.class);}}}
     private static StoryInstance findActive(Connection c,String story,String scope)throws Exception {try(var s=c.prepareStatement("SELECT json FROM instances WHERE story=? AND scope=? AND completed=0 LIMIT 1")){s.setString(1,story);s.setString(2,scope);try(var r=s.executeQuery()){return r.next()?decode(r.getString(1),StoryInstance.class):null;}}}
     private boolean cooling(Connection c,StoryDefinition rule,String scope)throws Exception {try(var s=c.prepareStatement("SELECT updated FROM instances WHERE story=? AND scope=? ORDER BY updated DESC LIMIT 1")){s.setString(1,rule.id());s.setString(2,scope);try(var r=s.executeQuery()){return r.next()&&Instant.parse(r.getString(1)).plusSeconds(rule.cooldownSeconds()).isAfter(clock.instant());}}}

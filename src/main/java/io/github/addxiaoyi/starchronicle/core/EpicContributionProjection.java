@@ -12,14 +12,9 @@ final class EpicContributionProjection {
     record Projection(WorldEvent event, List<ContributionRequest> contributions) {}
 
     static void validate(EpicOperation operation) {
+        EpicContributions.quantities(operation);
         if (operation.type() == EpicOperation.Type.TREASURY_AID)
             AidRequest.amount(new BigDecimal(operation.nativeReference()));
-        if (operation.type() == EpicOperation.Type.RESOURCE_AID) {
-            String[] parts = operation.nativeReference().split(":", -1);
-            if (parts.length != 2) throw new IllegalArgumentException("Resource aid requires resource:amount");
-            ContributionRequest.token(parts[0].toLowerCase(Locale.ROOT), "resource unit", 32);
-            ContributionRequest.amount(BigDecimal.valueOf(Long.parseLong(parts[1])));
-        }
     }
 
     static Optional<Projection> project(EpicOperation operation, EpicReceipt receipt) {
@@ -40,21 +35,22 @@ final class EpicContributionProjection {
             return Optional.of(new Projection(event, aidContributions(request, aid, event.id())));
         }
         if (operation.type() != EpicOperation.Type.RESOURCE_AID) return Optional.empty();
-        String[] parts = operation.nativeReference().split(":", -1);
-        if (parts.length != 2) throw new IllegalArgumentException("Resource aid requires resource:amount");
-        String unit = parts[0].toLowerCase(Locale.ROOT);
-        ContributionRequest.token(unit, "resource unit", 32);
-        BigDecimal amount = ContributionRequest.amount(BigDecimal.valueOf(Long.parseLong(parts[1])));
+        var quantities = EpicContributions.quantities(operation);
         String eventId = "chronicle:resource-aid:" + RuleEngine.stable(receipt.authorityDomain(), receipt.nativeReceiptId());
         Map<String,String> facts = new TreeMap<>();
         facts.put("aid.operation", operation.operationId());
         facts.put("aid.native_receipt", receipt.nativeReceiptId());
+        facts.put("aid.transaction", receipt.nativeReceiptId());
         facts.put("aid.issuer", receipt.issuer());
         facts.put("aid.authority_domain", receipt.authorityDomain());
         facts.put("aid.payer", operation.nationId());
         facts.put("aid.receiver", operation.target());
-        facts.put("aid.amount", amount.toPlainString());
-        facts.put("aid.resource", unit);
+        facts.put("aid.quantities", operation.nativeReference());
+        if (quantities.size() == 1) {
+            var quantity = quantities.entrySet().iterator().next();
+            facts.put("aid.amount", quantity.getValue().toPlainString());
+            facts.put("aid.resource", quantity.getKey().substring("resource.".length()));
+        }
         facts.put("aid.campaign", operation.campaignId());
         facts.put("aid.instance", operation.instanceId());
         facts.put("aid.applied_at", receipt.appliedAt().toString());
@@ -65,9 +61,11 @@ final class EpicContributionProjection {
         WorldEvent event = new WorldEvent(eventId, "NATIONAL_RESOURCE_AID_COMMITTED", receipt.appliedAt(),
                 Set.of(operation.actorId()), Set.of(operation.nationId(), operation.target()), facts,
                 receipt.issuer(), evidence);
-        return Optional.of(new Projection(event, List.of(
-                entry(operation, receipt, eventId, "nation:" + operation.nationId(), amount, unit, evidence),
-                entry(operation, receipt, eventId, "player:" + operation.actorId(), amount, unit, evidence))));
+        List<ContributionRequest> entries = new ArrayList<>();
+        for (var quantity : quantities.entrySet())
+            for (String subject : List.of("nation:" + operation.nationId(), "player:" + operation.actorId()))
+                entries.add(entry(operation, receipt, eventId, subject, quantity.getValue(), quantity.getKey(), evidence));
+        return Optional.of(new Projection(event, List.copyOf(entries)));
     }
 
     static List<ContributionRequest> aidContributions(AidRequest request, AidReceipt receipt, String eventId) {
@@ -82,7 +80,8 @@ final class EpicContributionProjection {
 
     private static ContributionRequest entry(EpicOperation op, EpicReceipt receipt, String event, String subject,
                                               BigDecimal amount, String unit, String evidence) {
-        return new ContributionRequest(op.operationId(), ContributionType.RESOURCE_AID, subject, event,
+        String key = "chronicle:native-contribution:" + RuleEngine.stable(receipt.authorityDomain(), receipt.nativeReceiptId(), unit);
+        return new ContributionRequest(key, ContributionType.RESOURCE_AID, subject, event,
                 op.actorId(), op.nationId(), amount, unit, receipt.appliedAt(), evidence);
     }
 }

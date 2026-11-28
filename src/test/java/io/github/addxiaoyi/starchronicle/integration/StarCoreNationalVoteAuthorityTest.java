@@ -13,6 +13,21 @@ import static org.mockito.Mockito.*;
 /** Real native-access seam, monitor ordering and scoped-view contracts. No Bukkit Player,
  * role, rank, permission, OP or caller-supplied facts participate in these authority tests. */
 class StarCoreNationalVoteAuthorityTest {
+    @Test void ordinaryMemberReviewUsesNativeMonitorWithoutRequiringNationalOwnership() throws Exception {
+        NativeFixture state=new NativeFixture();var authority=new StarCoreNationalVoteAuthority(()->state,Clock.systemUTC());
+        assertEquals("reviewed",authority.withMember(MEMBER,OWN,()->{assertTrue(Thread.holdsLock(state.lock));return "reviewed";}));
+        assertFalse(state.calls.stream().anyMatch(call->call.startsWith("holder:")));
+        assertThrows(SecurityException.class,()->authority.withMember(MEMBER,OTHER,()->fail("stale identity")));
+        state.existing.remove(OWN);
+        assertThrows(SecurityException.class,()->authority.withMember(MEMBER,OWN,()->fail("missing nation")));
+    }
+
+    @Test void failedNativeMemberReadCannotApproveANationlessSnapshot() {
+        NativeFixture state=new NativeFixture();state.failure="nationOf";state.readFailure=new IOException("unavailable");
+        var authority=new StarCoreNationalVoteAuthority(()->state,Clock.systemUTC());
+        assertThrows(IOException.class,()->authority.withMember(UUID.randomUUID(),"",()->fail("failed read is not nationless")));
+    }
+
     private static final UUID HOLDER=UUID.fromString("00000000-0000-4000-8000-000000000051");
     private static final UUID SUCCESSOR=UUID.fromString("00000000-0000-4000-8000-000000000052");
     private static final UUID MEMBER=UUID.fromString("00000000-0000-4000-8000-000000000053");

@@ -1,0 +1,128 @@
+{
+  "head": "4e0d4591a55b01bc67b160571e10b2258facec46",
+  "run_id": 46159826135,
+  "jobs": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "jobs": [
+          {
+            "id": 141024443524,
+            "name": "MySQL 8.4 migration and economy integration",
+            "status": "completed",
+            "conclusion": "failure",
+            "run_id": 46159826135,
+            "logs_url": null,
+            "steps": null
+          },
+          {
+            "id": 141024443719,
+            "name": "Incremental formatting and repository checks",
+            "status": "completed",
+            "conclusion": "failure",
+            "run_id": 46159826135,
+            "logs_url": null,
+            "steps": null
+          },
+          {
+            "id": 141024443760,
+            "name": "Java 25 compatibility",
+            "status": "completed",
+            "conclusion": "failure",
+            "run_id": 46159826135,
+            "logs_url": null,
+            "steps": null
+          },
+          {
+            "id": 141024443782,
+            "name": "Java 21 full verification",
+            "status": "completed",
+            "conclusion": "failure",
+            "run_id": 46159826135,
+            "logs_url": null,
+            "steps": null
+          },
+          {
+            "id": 141024452649,
+            "name": "Publish tagged release",
+            "status": "completed",
+            "conclusion": "skipped",
+            "run_id": 46159826135,
+            "logs_url": null,
+            "steps": null
+          }
+        ]
+      },
+      "isError": false
+    }
+  },
+  "steps": [
+    {
+      "status": "fulfilled",
+      "value": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "steps": []
+        },
+        "isError": false
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "steps": []
+        },
+        "isError": false
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "steps": []
+        },
+        "isError": false
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Action completed."
+          }
+        ],
+        "structuredContent": {
+          "steps": []
+        },
+        "isError": false
+      }
+    }
+  ],
+  "limit": "No steps executed. Current failure annotation could not be fetched; do not infer a test failure or a successful run."
+}

@@ -37,7 +37,7 @@ def inspect(run):
         check(session['exited_at'] > session['started_at'], 'Missing process timestamps')
         log = (run / f'evidence/boot{boot}.server.log').read_text()
         check('Done (' in log and 'Stopping server' in log and 'CAPITAL_CLOSED' in log, 'Missing normal enable/disable')
-        check(not re.search(r'\bERROR\b|CAPITAL_FAILED|History scan retained pending evidence|Capital history scan retained its cursor|Source event was not accepted|Exception in thread|Server thread dump', log), 'Server error or dropped source evidence')
+        check(not re.search(r'\bERROR\b|CAPITAL_FAILED|History scan retained pending evidence|Capital history scan retained its cursor|history retained its original ledger|Source event was not accepted|Exception in thread|Server thread dump', log), 'Server error or dropped source evidence')
         check('StarChronicle] Enabling StarChronicle' in log and 'StarCore] Enabling StarCore' in log, 'Missing real two-plugin enable')
         selected = [r for r in fixtures if r['boot'] == boot]
         ready = [r['data'] for r in selected if r['kind'] == 'READY']

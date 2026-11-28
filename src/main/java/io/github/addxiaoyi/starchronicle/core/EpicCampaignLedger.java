@@ -54,6 +54,15 @@ public final class EpicCampaignLedger {
             s.execute("CREATE TABLE IF NOT EXISTS epic_operation_providers("+
                     "operation_id TEXT PRIMARY KEY REFERENCES epic_operations(operation_id),provider_id TEXT NOT NULL,"+
                     "authority_domain TEXT NOT NULL,pinned_at TEXT NOT NULL)");
+            s.execute("CREATE TABLE IF NOT EXISTS epic_operation_attempts("+
+                    "operation_id TEXT PRIMARY KEY REFERENCES epic_operations(operation_id),root_operation_id TEXT NOT NULL,"+
+                    "attempt INTEGER NOT NULL CHECK(attempt>0),previous_operation_id TEXT UNIQUE REFERENCES epic_operations(operation_id),"+
+                    "rejection_proof_json TEXT,UNIQUE(root_operation_id,attempt),"+
+                    "CHECK((attempt=1 AND operation_id=root_operation_id AND previous_operation_id IS NULL AND rejection_proof_json IS NULL)"+
+                    " OR (attempt>1 AND previous_operation_id IS NOT NULL AND rejection_proof_json IS NOT NULL)))");
+            s.execute("INSERT OR IGNORE INTO epic_operation_attempts(operation_id,root_operation_id,attempt) SELECT operation_id,operation_id,1 FROM epic_operations");
+            s.execute("CREATE TABLE IF NOT EXISTS epic_contribution_projections("+
+                    "operation_id TEXT PRIMARY KEY REFERENCES epic_operations(operation_id),receipt_json TEXT NOT NULL)");
             s.execute("CREATE TABLE IF NOT EXISTS epic_route_votes("+
                     "instance_id TEXT NOT NULL,nation_id TEXT NOT NULL,choice TEXT NOT NULL,revision INTEGER NOT NULL,"+
                     "cast_at TEXT NOT NULL,PRIMARY KEY(instance_id,nation_id))");
@@ -182,22 +191,9 @@ public final class EpicCampaignLedger {
                     throw new SecurityException("Epic operation is pinned to a different provider authority");
                 return existing;
             }
-            if (!campaign.plan().campaignId().equals(operation.campaignId())
-                    || !campaignSourceEvent(c, operation.instanceId()).equals(operation.sourceEventId()))
-                throw new SecurityException("Operation is not bound to this campaign's pinned source event");
-            if (!operation.phaseId().equals(campaign.phaseId()))
-                throw new IllegalStateException("Operation is not for the current campaign phase");
-            boolean declared = false;
-            if (campaign.status() == EpicCampaignState.Status.PREPARING) {
-                for (EpicRequirement requirement : campaign.plan().phase(operation.phaseId()).requirements())
-                    if (matchesPreparation(c, campaign, requirement, operation)) { declared = true; break; }
-            } else if (campaign.status() == EpicCampaignState.Status.ROUTE_APPROVED
-                    && operation.phaseId().equals(campaign.plan().finalRoute().phaseId())) {
-                declared = campaign.plan().requirementsForRoute(campaign.route()).stream().anyMatch(r -> matches(r, operation, campaign));
-            }
-            if (!declared) throw new IllegalArgumentException("Operation is not declared by the current phase and approved route");
-            if (!authorizedOperationNation(c, campaign, operation)) throw new SecurityException("Operation nation is not in the frozen roster or a committed restoration");
+            requireCurrentOperation(c, campaign, operation);
             insertOperation(c, operation, EpicOperationState.Status.PREPARED, null, "Native provider not yet called", 1, operation.requestedAt());
+            insertAttempt(c, operation.operationId(), operation.operationId(), 1, null, null);
             if (providerId != null) pinProvider(c, operation.operationId(), providerId, authorityDomain, operation.requestedAt());
             EpicOperationState result=findOperation(c, operation.operationId());
             advanceCampaign(c,campaign.instanceId(),operation.requestedAt());
@@ -205,6 +201,88 @@ public final class EpicCampaignLedger {
         });
     }
     public EpicOperationState prepareOperation(EpicOperation operation) { return prepare(operation); }
+
+    public EpicOperationState retry(String operationId, long expectedRevision, EpicRejectionProof proof,
+                                    String providerId, String authorityDomain, Instant now) {
+        id(operationId, "operationId"); Objects.requireNonNull(proof); Objects.requireNonNull(now);
+        return store.transaction(c -> {
+            EpicOperationState previous = findOperation(c, operationId);
+            if (previous == null || previous.status() != EpicOperationState.Status.REJECTED
+                    || previous.revision() != expectedRevision)
+                throw new IllegalStateException("Only the current rejected operation revision may start a new attempt");
+            if (previous.operation().type() != EpicOperation.Type.RESOURCE_AID)
+                throw new IllegalStateException("This epic operation type has no supported permanent rejection fence");
+            ProviderPin pin = findProviderPin(c, operationId);
+            if (!new ProviderPin(providerId, authorityDomain).equals(pin)
+                    || !proof.matches(previous.operation(), providerId, authorityDomain))
+                throw new SecurityException("Retry requires the pinned provider's exact durable rejection proof");
+            if (hasSuccessor(c, operationId)) throw new IllegalStateException("This epic operation already has a newer attempt");
+            if (now.isBefore(proof.rejectedAt())) throw new IllegalStateException("Retry cannot predate the native rejection");
+            EpicOperationAttempt lineage = findAttempt(c, operationId);
+            if (lineage == null) throw new IllegalStateException("Epic operation lineage is unavailable");
+            long attempt = Math.addExact(lineage.attempt(), 1);
+            EpicOperation old = previous.operation();
+            EpicOperation next = new EpicOperation(EpicContract.attemptOperationId(lineage.rootOperationId(), attempt),
+                    old.campaignId(), old.instanceId(), old.sourceEventId(), old.phaseId(), old.type(), old.actorId(),
+                    old.nationId(), old.target(), old.nativeReference(), old.definitionFingerprint(), old.permission(), now);
+            EpicCampaignState campaign = campaign(c, old.instanceId());
+            requireCurrentOperation(c, campaign, next);
+            insertOperation(c, next, EpicOperationState.Status.PREPARED, null, "Explicit retry prepared; native provider not yet called", 1, now);
+            pinProvider(c, next.operationId(), providerId, authorityDomain, now);
+            try (var s = c.prepareStatement("INSERT INTO epic_operation_attempts(operation_id,root_operation_id,attempt,previous_operation_id,rejection_proof_json) SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM epic_operations WHERE operation_id=? AND status='REJECTED' AND revision=?)")) {
+                s.setString(1, next.operationId()); s.setString(2, lineage.rootOperationId()); s.setLong(3, attempt);
+                s.setString(4, operationId); s.setString(5, json(proof)); s.setString(6, operationId); s.setLong(7, expectedRevision);
+                if (s.executeUpdate() != 1) throw new IllegalStateException("Epic operation changed before retry reservation");
+            }
+            return findOperation(c, next.operationId());
+        });
+    }
+
+    public EpicOperationAttempt attempt(String operationId) {
+        id(operationId, "operationId"); return store.transaction(c -> findAttempt(c, operationId));
+    }
+
+    private static void requireCurrentOperation(Connection c, EpicCampaignState campaign, EpicOperation operation) throws SQLException {
+        if (!campaign.plan().campaignId().equals(operation.campaignId())
+                || !campaignSourceEvent(c, operation.instanceId()).equals(operation.sourceEventId()))
+            throw new SecurityException("Operation is not bound to this campaign's pinned source event");
+        if (!operation.phaseId().equals(campaign.phaseId())) throw new IllegalStateException("Operation is not for the current campaign phase");
+        boolean declared = false;
+        if (campaign.status() == EpicCampaignState.Status.PREPARING) {
+            for (EpicRequirement requirement : campaign.plan().phase(operation.phaseId()).requirements())
+                if (matchesPreparation(c, campaign, requirement, operation)) { declared = true; break; }
+        } else if (campaign.status() == EpicCampaignState.Status.ROUTE_APPROVED
+                && operation.phaseId().equals(campaign.plan().finalRoute().phaseId())) {
+            declared = campaign.plan().requirementsForRoute(campaign.route()).stream().anyMatch(r -> matches(r, operation, campaign));
+        }
+        if (!declared) throw new IllegalArgumentException("Operation is not declared by the current phase and approved route");
+        if (!authorizedOperationNation(c, campaign, operation)) throw new SecurityException("Operation nation is not in the frozen roster or a committed restoration");
+    }
+
+    private static void insertAttempt(Connection c, String operationId, String rootOperationId, long attempt,
+                                      String previousOperationId, EpicRejectionProof proof) throws SQLException {
+        try (var s = c.prepareStatement("INSERT INTO epic_operation_attempts VALUES(?,?,?,?,?)")) {
+            s.setString(1, operationId); s.setString(2, rootOperationId); s.setLong(3, attempt);
+            s.setString(4, previousOperationId); s.setString(5, proof == null ? null : json(proof)); s.executeUpdate();
+        }
+    }
+
+    private static EpicOperationAttempt findAttempt(Connection c, String operationId) throws SQLException {
+        try (var s = c.prepareStatement("SELECT * FROM epic_operation_attempts WHERE operation_id=?")) {
+            s.setString(1, operationId);
+            try (var r = s.executeQuery()) {
+                return !r.next() ? null : new EpicOperationAttempt(r.getString("operation_id"), r.getString("root_operation_id"),
+                        r.getLong("attempt"), r.getString("previous_operation_id"),
+                        r.getString("rejection_proof_json") == null ? null : decode(r.getString("rejection_proof_json"), EpicRejectionProof.class));
+            }
+        }
+    }
+
+    private static boolean hasSuccessor(Connection c, String operationId) throws SQLException {
+        try (var s = c.prepareStatement("SELECT 1 FROM epic_operation_attempts WHERE previous_operation_id=?")) {
+            s.setString(1, operationId); try (var r = s.executeQuery()) { return r.next(); }
+        }
+    }
 
     /** Commit the one allowed mutation attempt before crossing the native service boundary.
      * UNKNOWN survives crashes and is only eligible for read-only reconciliation. */
@@ -228,20 +306,24 @@ public final class EpicCampaignLedger {
 
     /** Store a provider observation. Only a matching committed receipt satisfies a phase. */
     public EpicOperationState observe(EpicOperation operation, EpicObservation observation, String providerId, String authorityDomain, Instant now) {
-        Objects.requireNonNull(operation); Objects.requireNonNull(observation); Objects.requireNonNull(providerId); Objects.requireNonNull(authorityDomain); Objects.requireNonNull(now);
-        return store.transaction(c -> observe(c, operation, observation, providerId, authorityDomain, now));
+        return store.transaction(c -> observe(c,operation,observation,providerId,authorityDomain,now));
     }
 
-    /** Allows the engine to commit native evidence, history and contributions atomically. */
-    EpicOperationState observe(Connection c, EpicOperation operation, EpicObservation observation,
-                               String providerId, String authorityDomain, Instant now) throws SQLException {
-            if (c.getAutoCommit()) throw new IllegalStateException("Epic observation requires a transaction");
+    /** Enclosing Chronicle transaction also owns canonical history and contribution projections. */
+    public EpicOperationState observe(Connection c, EpicOperation operation, EpicObservation observation, String providerId, String authorityDomain, Instant now) throws SQLException {
+        if(c.getAutoCommit())throw new IllegalStateException("Epic observation requires an enclosing transaction");
+        Objects.requireNonNull(operation); Objects.requireNonNull(observation); Objects.requireNonNull(providerId); Objects.requireNonNull(authorityDomain); Objects.requireNonNull(now);
             EpicOperationState existing = findOperation(c, operation.operationId());
             if (existing == null) throw new IllegalStateException("Operation must be prepared before observation");
             if (!json(existing.operation()).equals(json(operation))) throw new IllegalStateException("Observed operation differs from prepared request");
             ProviderPin pin = findProviderPin(c, operation.operationId());
             if (pin != null && (!pin.providerId().equals(providerId) || !pin.authorityDomain().equals(authorityDomain)))
                 throw new SecurityException("Epic observation came from a provider outside the pinned authority");
+            if (hasSuccessor(c, operation.operationId())) {
+                if (observation.status() != EpicObservation.Status.REJECTED)
+                    throw new SecurityException("A permanently rejected ancestor with a newer attempt cannot be rewritten");
+                return existing;
+            }
             if (existing.status() == EpicOperationState.Status.COMMITTED) {
                 if (observation.status() == EpicObservation.Status.COMMITTED
                         && !existing.receipt().equals(EpicContract.requireCommitted(operation, observation, providerId, authorityDomain)))

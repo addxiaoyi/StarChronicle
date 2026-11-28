@@ -97,4 +97,23 @@ class EpicContractTest {
                 NATION, "capital", operation.nativeReference(), operation.definitionFingerprint(),
                 operation.permission(), "receipt", NOW, ""));
     }
+
+    @Test void attemptIdsAreDeterministicAndNeverReuseTheRootId() {
+        String root="epic:"+"a".repeat(64);
+        String second=EpicContract.attemptOperationId(root,2);
+        assertEquals(second,EpicContract.attemptOperationId(root,2));
+        assertNotEquals(root,second);assertNotEquals(second,EpicContract.attemptOperationId(root,3));
+        assertNotEquals(second,EpicContract.attemptOperationId("another:root",2));
+        assertThrows(IllegalArgumentException.class,()->EpicContract.attemptOperationId(root,1));
+    }
+
+    @Test void rejectionProofRequiresExactIntentAuthorityAndNonhistoricTime() {
+        var operation=operation("epic:rejected");
+        var proof=new EpicRejectionProof("native.resource",DOMAIN,operation,"native:fence","definite pre-effect rejection",NOW);
+        assertTrue(proof.matches(operation,"native.resource",DOMAIN));
+        assertFalse(proof.matches(operation("epic:other"),"native.resource",DOMAIN));
+        assertFalse(proof.matches(operation,"another.provider",DOMAIN));
+        assertFalse(proof.matches(operation,"native.resource",NATION));
+        assertThrows(IllegalArgumentException.class,()->new EpicRejectionProof("native.resource",DOMAIN,operation,"native:fence","definite",NOW.minusSeconds(1)));
+    }
 }

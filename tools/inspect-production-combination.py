@@ -68,7 +68,7 @@ def inspect(run):
         clicks = [r for r in clients if r['kind'] == 'NPC_CLICK']
         check(len(clicks) == len(packets) and all(r['data']['syntheticEvents'] is False and r['data']['who'] == 'A' for r in clicks), 'Missing real protocol NPC click')
         messages = [r['data']['message'] for r in clients if r['kind'] == 'MESSAGE' and r['data']['who'] == 'A']
-        server = (run / f'evidence/boot{boot}.server.log').read_text()
+        server = (run / f'evidence/boot{boot}.server.log').read_text(encoding='utf-8')
         if boot == 1:
             check(sum('没有管理权限' in m for m in messages) == 1, 'Missing command permission rejection')
             check(sum('WorldGuard 不允许' in m for m in messages) == 2, 'Missing WorldGuard or boundary rejection')
@@ -92,9 +92,9 @@ def inspect(run):
         check(committed and json.loads(committed[0])['type'] == 'NATIONAL_RESOURCE_AID_COMMITTED', 'Memory has no actual committed aid source')
         events = [json.loads(r[0]) for r in db.execute("SELECT json FROM events WHERE type='NPC_INTERACT'")]
         check(len(events) == 3 and all(e['facts']['npc.binding'] == 'fancynpcs:' + NPC and e['facts']['npc.id'] == 'ancient-heir' and e['participants'] == [actor] for e in events), 'Persisted NPC history mismatch')
-    npcs = yaml.safe_load((run / 'plugins/FancyNpcs/npcs.yml').read_text())['npcs']
+    npcs = yaml.safe_load((run / 'plugins/FancyNpcs/npcs.yml').read_text(encoding='utf-8'))['npcs']
     check(set(npcs) == {NPC} and npcs[NPC]['creator'] == actor and npcs[NPC]['location']['x'] == 30.5, 'Native NPC persistence changed')
-    regions = yaml.safe_load((run / 'plugins/WorldGuard/worlds/world/regions.yml').read_text())['regions']
+    regions = yaml.safe_load((run / 'plugins/WorldGuard/worlds/world/regions.yml').read_text(encoding='utf-8'))['regions']
     check(regions['chronicle-owned']['owners']['unique-ids'] == [actor] and regions['chronicle-denied']['owners'] == {}, 'Native region authority mismatch')
     check(regions['chronicle-denied']['min']['x'] == 18 and regions['chronicle-owned']['min']['x'] == 28, 'Protection test boundary changed')
     result = dict(status='PASS', route=epic['route'], chronicle_sha256=epic['chronicle_sha256'], starcore_sha256=epic['starcore_sha256'],
@@ -109,5 +109,5 @@ if __name__ == '__main__':
     parser.add_argument('run', type=Path)
     run = parser.parse_args().run.resolve()
     result = inspect(run)
-    (run / 'evidence/combination-independent-check.json').write_text(json.dumps(result, indent=2) + '\n')
+    (run / 'evidence/combination-independent-check.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(result))

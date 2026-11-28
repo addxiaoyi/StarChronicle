@@ -30,6 +30,10 @@ def main():
     parser.add_argument('--failed-run', type=Path, action='append', default=[])
     parser.add_argument('--native', type=Path, required=True)
     parser.add_argument('--label', required=True)
+    parser.add_argument('--verify-log', type=Path, default=ROOT / 'target/verify.log')
+    parser.add_argument('--native-verify-log', type=Path, required=True)
+    parser.add_argument('--native-package-log', type=Path)
+    parser.add_argument('--evidence-test-log', type=Path, required=True)
     args = parser.parse_args()
     run, native = args.run.resolve(), args.native.resolve()
     failed = [p.resolve() for p in args.failed_run]
@@ -61,16 +65,27 @@ def main():
         suites.append(dict(name=value.get('name'), file=path.name, sha256=sha(path),
             **{key: int(value.get(key, '0')) for key in ('tests', 'failures', 'errors', 'skipped')}))
     totals = {key: sum(s[key] for s in suites) for key in ('tests', 'failures', 'errors', 'skipped')}
-    if totals != dict(tests=934, failures=0, errors=0, skipped=0):
-        raise RuntimeError('Unexpected full verification reports')
-    verify = ROOT / 'target/capital-chronicle-verify-20261126-1.log'
-    packaging = native / 'target/capital-native-package-20261126-1.log'
-    if any('BUILD SUCCESS' not in p.read_text() for p in (verify, packaging)):
+    verify = args.verify_log.resolve()
+    native_verify = args.native_verify_log.resolve()
+    packaging = args.native_package_log.resolve() if args.native_package_log else native_verify
+    logs = [p.read_text(encoding='utf-8', errors='replace') for p in (verify, native_verify, packaging)]
+    if any('BUILD SUCCESS' not in value or 'BUILD FAILURE' in value for value in logs):
         raise RuntimeError('Missing successful build log')
-    evidence_test = ROOT / 'target/capital-evidence-tests-20261126-1.log'
-    if not re.search(r'Ran 13 tests in .*\n\nOK\s*$', evidence_test.read_text()):
+    def verified_totals(suites, totals, log):
+        counts = re.findall(r'Tests run: (\d+), Failures: (\d+), Errors: (\d+), Skipped: (\d+)(?:\r?\n|$)', log)
+        completed = set(re.findall(r'Tests run: \d+, Failures: \d+, Errors: \d+, Skipped: \d+, Time elapsed: [^\r\n]+ -- in ([\w.$]+)', log))
+        if not suites or not counts or tuple(totals.values()) != tuple(map(int, counts[-1])) or any(totals[k] for k in ('failures', 'errors')) or completed != {s['name'] for s in suites}:
+            raise RuntimeError('Successful verify must match all archived XML suites and counts')
+    verified_totals(suites, totals, logs[0])
+    if totals['skipped']:
+        raise RuntimeError('Chronicle verification has skipped tests')
+    evidence_test = args.evidence_test_log.resolve()
+    evidence_match = re.search(r'Ran (\d+) tests in .*\n\nOK\s*$', evidence_test.read_text())
+    if not evidence_match or int(evidence_match[1]) < 1:
         raise RuntimeError('Missing successful evidence regression log')
-    files = {}
+    evidence_count = int(evidence_match[1])
+    files = {'logs/chronicle-verify.log': verify, 'logs/native-verify.log': native_verify,
+             'logs/native-package.log': packaging, 'logs/evidence-tests.log': evidence_test}
     for attempt in [run, *failed]:
         if attempt in failed:
             sessions = list((attempt / 'evidence').glob('boot*.session.json'))
@@ -96,8 +111,7 @@ def main():
             **{key: int(value.get(key, '0')) for key in ('tests', 'failures', 'errors', 'skipped')}))
         files['native-surefire/' + path.name] = path
     native_totals = {key: sum(s[key] for s in native_suites) for key in ('tests', 'failures', 'errors', 'skipped')}
-    if native_totals != dict(tests=7234, failures=0, errors=0, skipped=21):
-        raise RuntimeError('Unexpected native full verification reports')
+    verified_totals(native_suites, native_totals, logs[1])
     for path in (native / 'target/capital-native-failed-verification1-reports').glob('*'):
         if path.is_file(): files['native-failed-verification/' + path.name] = path
     for base, prefix in ((ROOT, 'chronicle'), (native, 'native')):
@@ -135,10 +149,10 @@ def main():
             raise RuntimeError('Evidence archive integrity failed')
     summary = dict(captured_utc=datetime.now(timezone.utc).isoformat(), chronicle_commit=git(ROOT, 'rev-parse', 'HEAD'),
         native_commit=git(native, 'rev-parse', 'HEAD'), accepted=accepted, failed_attempts=[p.name for p in failed],
-        tests=dict(totals=totals, suites=suites, evidence_regressions=13), source_files={name: sha(ROOT / name) for name in source_files},
+        tests=dict(totals=totals, suites=suites, evidence_regressions=evidence_count), source_files={name: sha(ROOT / name) for name in source_files},
         native_tests=dict(totals=native_totals, suites=native_suites),
         native_source_files={name: sha(native / name) for name in native_sources},
-        build_note='Chronicle verify passed 934 tests; source JAR matches all 115 Java files and API.md matches the product JAR. Native full tests passed 7234 (21 existing skips); final formatting-only changes followed by successful -DskipTests verify. First native verify failed the new additive API baseline; second reached formatting failures after all tests passed. All logs preserved.',
+        build_note=f'Chronicle verify passed {totals["tests"]} tests; source JAR and API.md match the product JAR. Native verify passed {native_totals["tests"]} tests ({native_totals["skipped"]} skipped). Exact completed suites and totals match the supplied verification logs; packaging and evidence regression logs are archived.',
         limitations=['Real native nation/city/designation and ownership transfer services with offline fixture accounts; no online client or command/GUI claim.',
             'First 3 events archive only; 130 changes committed while Chronicle disabled and recovered across 128-row paging.',
             'No latest-jar full epic combination, full-stack Folia, MySQL, third-party economy or production verification.',

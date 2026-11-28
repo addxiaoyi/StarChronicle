@@ -35,23 +35,23 @@ def receipt(value):
 
 def inspect(run):
     run = Path(run).resolve()
-    manifest = json.loads((run / 'preparation.json').read_text())
+    manifest = json.loads((run / 'preparation.json').read_text(encoding='utf-8'))
     for filename, key in (('plugins/StarChronicle.jar', 'product_sha256'), ('plugins/StarCore.jar', 'native_sha256'),
                           ('plugins/TechnologyHistoryPaperFixture.jar', 'fixture_sha256'), ('paper.jar', 'paper_sha256'),
                           ('fixture/TechnologyHistoryPaperFixture.java', 'fixture_source_sha256')):
         check(sha(run / filename) == manifest[key], 'Artifact fingerprint drift: ' + filename)
-    fixtures = [json.loads(line) for line in (run / 'evidence/fixture.jsonl').read_text().splitlines() if line]
+    fixtures = [json.loads(line) for line in (run / 'evidence/fixture.jsonl').read_text(encoding='utf-8').splitlines() if line]
     check(not any(r['kind'] == 'FAILED' for r in fixtures), 'Fixture reported a real failure')
     all_events = {}
     identity = None
     boot_counts = []
     for boot, imported, head in ((1, 133, 136), (2, 139, 139), (3, 139, 139)):
-        session = json.loads((run / f'evidence/boot{boot}.session.json').read_text())
+        session = json.loads((run / f'evidence/boot{boot}.session.json').read_text(encoding='utf-8'))
         check(session['passed'] is True and session['exit_code'] == 0 and not session.get('forced_kill'), 'Incomplete process lifecycle')
         check(session['exited_at'] > session['started_at'], 'Missing process timestamps')
-        log = (run / f'evidence/boot{boot}.server.log').read_text()
+        log = (run / f'evidence/boot{boot}.server.log').read_text(encoding='utf-8')
         check('Done (' in log and 'Stopping server' in log and 'TECH_CLOSED' in log, 'Missing normal enable/disable')
-        check(not re.search(r'\bERROR\b|TECH_FAILED|History scan retained pending evidence|Technology history scan retained its cursor|Source event was not accepted|Exception in thread', log), 'Server error or dropped source evidence')
+        check(not re.search(r'\bERROR\b|TECH_FAILED|History scan retained pending evidence|Technology history (?:scan retained its cursor|retained its original ledger)|Source event was not accepted|Exception in thread', log), 'Server error or dropped source evidence')
         check('StarChronicle] Enabling StarChronicle' in log and 'StarCore] Enabling StarCore' in log, 'Missing real two-plugin enable')
         selected = [r for r in fixtures if r['boot'] == boot]
         check(sum(r['kind'] == 'READY' for r in selected) == 1 and sum(r['kind'] == 'CLOSED' for r in selected) == 1, 'Fixture boot lifecycle mismatch')
@@ -67,10 +67,10 @@ def inspect(run):
             state = dict(native.execute('SELECT property_key,property_value FROM starcore_technology_state'))
         domain = state['history.domain']
         check(int(state['history.sequence']) == head, 'Native source head changed')
-        check((data / 'StarCore/technology/history/authority-domain').read_text() == domain, 'Native authority marker mismatch')
+        check((data / 'StarCore/technology/history/authority-domain').read_text(encoding='utf-8') == domain, 'Native authority marker mismatch')
         records = {}
         for file in (data / 'StarCore/technology/history' / domain).rglob('*.receipt'):
-            parsed = receipt(file.read_text())
+            parsed = receipt(file.read_text(encoding='utf-8'))
             check(parsed['domain'] == domain and file.stem == str(parsed['sequence']), 'Native receipt identity mismatch')
             check(parsed['sequence'] not in records, 'Repeated native sequence')
             records[parsed['sequence']] = parsed
@@ -136,5 +136,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     result = inspect(args.run)
     if args.output:
-        args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
+        args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(result, ensure_ascii=False))

@@ -1,0 +1,147 @@
+{
+  "date": "2026-11-26",
+  "baselines": {
+    "chronicle": "d2b74cc7b68dd6a6ad9357b50866747a838b5a3f",
+    "starcore": "494cded3762ad63151ba9576686809cd33e3af13"
+  },
+  "scope": "Native source and resource-module regression; actual ResourceModule grants through SQLite with JDBC physical-row counts; small JVMs and packaged services, no Minecraft or long-term concurrent throughput claim",
+  "native_tests": {
+    "tests": 288,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "targeted_tests": 41,
+  "chronicle_tests": "Unchanged history-query artifact with 940 local full tests; latest tools/docs commit passed Linux CI #69; no repeated local full run",
+  "artifacts": {
+    "starcore_sha256": "97db36ee40dbc6df8c765c0bbbb92dadcddf8989f5b31db77505d814e31470f1",
+    "starchronicle_sha256": "6f613084bed21d54d0f7cbdef0150a60336aafb6900c95fce04c29af804bae51"
+  },
+  "capacity": {
+    "status": "PASS",
+    "scope": "Serial 64 MiB JVMs; actual packaged ResourceModule grants, SQLite and JDBC row counts; synthetic historical batches; no Minecraft or concurrent throughput claim",
+    "completed_runs": 1000,
+    "grants": 50,
+    "artifacts": {
+      "current.jar": "97db36ee40dbc6df8c765c0bbbb92dadcddf8989f5b31db77505d814e31470f1",
+      "FactoryRecoveryProbe.java": "5c61452074da32b5dd19e524eb5b51af8c76787af9298f1c2399730a7657dd14",
+      "previous.jar": "fd9b732d62e4e4906a93e3442a7fd324032347f2740357b97bee4a841c32de4c",
+      "ResourceSnapshotWriteProbe.java": "7545d19d03b35def53d8d6cd3958bfcd4a97d5a03969ac03f6180cbec67df126",
+      "starchronicle.jar": "6f613084bed21d54d0f7cbdef0150a60336aafb6900c95fce04c29af804bae51"
+    },
+    "phases": {
+      "compile": {
+        "exit_code": 0,
+        "elapsed_seconds": 2.641,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "seed": {
+        "exit_code": 0,
+        "elapsed_seconds": 1.875,
+        "log_sha256": "0f605820f06138829bbef5d45486455592e5295abaca905a9fe68adb68ea15ca"
+      },
+      "previous": {
+        "exit_code": 0,
+        "elapsed_seconds": 9.281,
+        "log_sha256": "e74b759c1911e0be81974fd9c91e4783988cd71d72e918f4694948177ac8b601",
+        "independent_validation": "PASS",
+        "only_expected_inventory_changed": true
+      },
+      "current": {
+        "exit_code": 0,
+        "elapsed_seconds": 7.094,
+        "log_sha256": "5a911383b888ae79457deda1963b4afa896543802ec236a06eea16250ae64776",
+        "independent_validation": "PASS",
+        "only_expected_inventory_changed": true
+      }
+    }
+  },
+  "contract": {
+    "status": "PASS",
+    "artifacts": {
+      "FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+      "starchronicle.jar": "6f613084bed21d54d0f7cbdef0150a60336aafb6900c95fce04c29af804bae51",
+      "starcore.jar": "97db36ee40dbc6df8c765c0bbbb92dadcddf8989f5b31db77505d814e31470f1"
+    },
+    "scope": "Three sequential JVMs; packaged timed factory and Chronicle services; real SQLite; controlled clock and detached NationService fixture; no Minecraft or live player certification",
+    "phases": {
+      "compile": {
+        "exit_code": 0,
+        "log_sha256": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc"
+      },
+      "first": {
+        "exit_code": 0,
+        "log_sha256": "9b9d2d67097db76954cf9c9064389c387c88daee2a860f243b4122b8377c8a35"
+      },
+      "second": {
+        "exit_code": 0,
+        "log_sha256": "3ed0760ef3357fc0174308f06587e5264fad50f8e8ea39eedd2ee50d18784694"
+      },
+      "third": {
+        "exit_code": 0,
+        "log_sha256": "8393c00cc186b007eaa4618fc9e501fe378c30df79bb4b1ffdda19e102765e23"
+      }
+    },
+    "files": {
+      "chronicle.db": "e7343cdb1c91aa90459fffd9c61d528f7118aeefff4642752ed9aa25da3dccf6",
+      "chronicle.db-shm": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb",
+      "chronicle.db-wal": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "compile.args": "9401f476e65d576abdb8b332ae2b03c967babc5fa73e5ab11f1b856a3c33d010",
+      "compile.log": "ead3ae9c155c44d2c5ed9aa5bee893d0f82449edbbf3e7711c3d1160935fafdc",
+      "factory-id.txt": "677d97818bef5542059d24602d89d6dbe8ea5fed26cf9b8f56122053dc059e20",
+      "first-receipt.txt": "f5c41fb3dfae5c643ac4a81f820cdea436f0516c0760eabf455ecb0209070f0e",
+      "first.args": "9c424e0db9707fd10e050ce66a23e9e95aff620d903d2bb9bd46db68ba2d0065",
+      "first.log": "9b9d2d67097db76954cf9c9064389c387c88daee2a860f243b4122b8377c8a35",
+      "native.db": "96caef3a45ae82a7e818bb3e7e76b1d29c187266c1bc1e60a4738d897bd89df2",
+      "ready-at.txt": "038aaa104d8888d3886f720f0ac20eddb0a1fb1260a4d49a4c90f57ecfe639ea",
+      "second.args": "86e12334f268e6c50a61cbef47ff9c5053671bbe9018d0a420a1daabc9d00eec",
+      "second.log": "3ed0760ef3357fc0174308f06587e5264fad50f8e8ea39eedd2ee50d18784694",
+      "third.args": "2c34ffe46a857168126c07bfbc6b6b449531bc0af8f26fe3953b6a72b39adfea",
+      "third.log": "8393c00cc186b007eaa4618fc9e501fe378c30df79bb4b1ffdda19e102765e23",
+      "artifacts/FactoryContractProbe.java": "19bd35caf8bfec7efd4e9b3b1ae8d376c6b913021794d98e097cd2812557059a",
+      "artifacts/starchronicle.jar": "6f613084bed21d54d0f7cbdef0150a60336aafb6900c95fce04c29af804bae51",
+      "artifacts/starcore.jar": "97db36ee40dbc6df8c765c0bbbb92dadcddf8989f5b31db77505d814e31470f1",
+      "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe$TestClock.class": "3ece24b60871dad70981cc222c5c572009eff318c9cccf8afdd8e735c34723e6",
+      "classes/io/github/addxiaoyi/starchronicle/integration/FactoryContractProbe.class": "10c5ee66b8fc3ad34a0e5acd4932ddebe2c4ed9fd70c0b275b436d18cc7b786f"
+    }
+  },
+  "measurements": {
+    "previous": {
+      "status": "PASS",
+      "grants": 50,
+      "completed_runs": 1000,
+      "state_rows_inserted": 652050,
+      "state_rows_deleted": 652050,
+      "p50_micros": 143381,
+      "p95_micros": 169975,
+      "max_micros": 175509,
+      "max_heap_bytes": 64880640
+    },
+    "current": {
+      "status": "PASS",
+      "grants": 50,
+      "completed_runs": 1000,
+      "state_rows_inserted": 50,
+      "state_rows_deleted": 50,
+      "p50_micros": 101265,
+      "p95_micros": 115272,
+      "max_micros": 134265,
+      "max_heap_bytes": 64880640
+    }
+  },
+  "retained_failure": "Initial 39 tests: 4 failures and 1 error after moving SQL writes to SERIALIZABLE. H2 2.3.232 descending/MAX tail queries returned the pre-insert tail despite counting the new own row. Standalone reproduction retained. Exact claimed-sequence lookup plus count of every row within 1..head fixes own-write visibility while rejecting gaps and extra rows.",
+  "coverage": "No current native JaCoCo: forkCount=0 and jacoco.skip=true",
+  "native_source_hashes": {
+    "src/main/java/dev/starcore/starcore/module/resource/SqlProductionReceipts.java": "59efdbca07c4263f3b68d3365e801f5fc645d6faea03d4d84b0d20214b5da352",
+    "src/main/java/dev/starcore/starcore/module/resource/SqlResourceStateStorage.java": "5180ba2912654e760693995597d4eb61b1d98d82d652461ba337edee36d70ef5",
+    "src/test/java/dev/starcore/starcore/module/resource/SqlResourceSnapshotDiffTest.java": "1ead972f2e48e7ff9b6e32d9ca61bc6181a037da9f10e3d6e2ec03cade995ab7"
+  },
+  "limits": [
+    "Full snapshots are still constructed and compared; memory/CPU and file mode remain dependent on history size",
+    "Historical factory row numbering can move many rows for a newly inserted run ID",
+    "SQLite and H2 tested; this checkpoint does not certify MySQL or arbitrary JDBC drivers",
+    "Long concurrent production, archival, full Folia and actual plugin stack acceptance remain open"
+  ],
+  "evidence_zip_sha256": "79256a9f79ceeab786050e5fa8f9d14042c6cdb58930774d6b06cb9a3ee8b397",
+  "evidence_files": 93
+}
