@@ -16,6 +16,8 @@ StarCore `1d834bdcc8ffbb4212834eaeebb39910f0a9b00b` 已推送开发分支。`run
 
 [证据 ZIP](verification/friend-recommendation-source-20261128-evidence.zip)及[逐成员摘要](verification/friend-recommendation-source-20261128-summary.json)：3,860 成员，9,610,881 bytes，SHA-256 `da15b95e7adc8b50acff26b5990a1c158adcd37bca8e509e8891affde97dd28c`。归档成员逐一读取核验；JAR／class 未提交 Git。
 
+当前 CI 原始结果见[归档](verification/friend-recommendation-ci-20261128.json)：StarCore run `46093554461` 因账户付款／额度限制未启动，四个检查 runner=0、零步骤；Chronicle `e523d3f` run `46093714396` 十步成功。这不是 StarCore 远程测试通过。
+
 ## 边界
 
 推荐是当前内存图的查询，好友数据变动期间不提供跨服务原子快照；TTL 内新增候选需显式刷新或到期。候选生成仍遍历朋友／社交圈，虽返回和缓存有界，大型社交图的 CPU／临时集合和并发负载尚未实测。没有修改好友请求方向、双向关系持久事务或旧反射包装；这些源码以及其他阶段继续待办。本批无持久格式变化，没有新增数据库探针，不套用旧构件数据库结果。
