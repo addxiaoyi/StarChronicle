@@ -26,6 +26,8 @@ StarCore `580eda316f6dc02b377334f7a82eeca8d748c998` 已推送开发分支。第�
 
 [证据 ZIP](verification/friend-state-source-20261128-evidence.zip)及[逐成员摘要](verification/friend-state-source-20261128-summary.json)：7,811 成员，18,491,541 bytes，SHA-256 `bfa1214d181a3ab6ab6e2d4d625e157b3a82c48d8de7de8a36e53a793801c389`。失败测试和失败探针原始记录、成功源码、日志、XML 与数据库副本一并保留且逐成员读取核验；JAR／class 未提交 Git。
 
+此检查点 CI 原始结果见[归档](verification/friend-state-ci-20261128.json)：StarCore `580eda3` run `46095314837` 因账户付款／额度限制未启动，四项检查 runner=0、零步骤；Chronicle `b684fea` run `46095612207` 十步成功。它不证明 StarCore 的远程测试通过。
+
 ## 仍待完成的源码与实服边界
 
 FriendCommand 的异步 I/O、跨玩家名字和布尔结果反馈、父社交 GUI、全量导入导出的路径与多服务提交、社交周期保存、活动／联盟／文化和其余阶段仍有待办。本批数据库事务只有本服务拥有状态的运行模型；不声明多进程同时写同一数据库、在线外部编辑或旧 JAR 降级写入安全。YAML 每次写完整快照，SQL 显式完整保存仍遍历内存图，规模和长期负载需单独核验。未知提交后内存保留先前快照供核对，不能把它当作已确认的新数据库状态。
