@@ -22,7 +22,7 @@ StarCore `b3a99deafdd527214b032ae66cedf56ee080cddb` 已推送开发分支。原 
 
 [证据 ZIP](verification/social-menu-sharing-source-20261128-evidence.zip)与[逐成员摘要](verification/social-menu-sharing-source-20261128-summary.json)：11,549 成员，26,759,828 bytes，SHA-256 `cab2622ad450737de095c98befdcd96eec173da6be24910e39588cb2e9e9bc82`，成员逐一读取核验。JAR／class 未提交 Git。本批没有持久格式变化，不重复冒领旧数据库副本结论。
 
-前序路由 CI 已归档：StarCore `7daaa42` run `46090518289` 因付款／额度限制未启动，四项检查零步骤；Chronicle `fd77a80` run `46090609448` 十步成功。新提交 CI 另行核对。
+前序路由 CI 已归档：StarCore `7daaa42` run `46090518289` 因付款／额度限制未启动，四项检查零步骤；Chronicle `fd77a80` run `46090609448` 十步成功。当前 StarCore `b3a99de` run `46092683200` 也因付款／额度限制未启动，四项检查 runner=0、零步骤；Chronicle `1904113` run `46092805187` 十步成功，见[本检查点原始 CI](verification/social-menu-sharing-ci-20261128.json)。
 
 ## 剩余源码与实服边界
 
