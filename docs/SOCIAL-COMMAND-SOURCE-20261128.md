@@ -25,3 +25,5 @@ StarCore `2b41e71` 将已在 `plugin.yml` 声明的 `/social` 入口绑定到社
 ## 仍需验收
 
 命令别名、真实多人 GUI、真实重启、MySQL、长历史负载、第三方组合及全栈 Folia 仍需相应环境验收。GossipVerification、联盟／活动／文化、SocialModule 的关系包装／推荐、领地收益与经验来源、政策／租赁／军队天气、兼容回调、叙事 Boss 和旧国家加成仍有源码工作。冷却、里程碑等运行时状态不提供跨重启严格一次语义；不设置 `folia-supported:true`。
+
+本批 Chronicle `0c1fd38` 的 run `46087560232` 已核对，10 步成功；与 StarCore `2b41e71` 的未启动原因一起归档到同一 CI JSON。
