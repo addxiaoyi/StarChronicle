@@ -59,6 +59,8 @@ def main() -> int:
     parser.add_argument('--heap', default='288m')
     parser.add_argument('--metaspace', default='144m')
     parser.add_argument('--java-agent', type=Path)
+    parser.add_argument('--reuse-snapshot', type=Path,
+                        help='Reuse identical files from a completed immutable snapshot via hard links')
     parser.add_argument('--require-suite', action='append', default=[],
                         help='Required executed suite name or glob; matched against full and simple names')
     parser.add_argument('goals', nargs=argparse.REMAINDER)
@@ -69,6 +71,15 @@ def main() -> int:
     repo, out = args.repo.resolve(), args.output.resolve()
     if not (repo / 'pom.xml').is_file():
         parser.error('--repo must contain pom.xml')
+    reuse = args.reuse_snapshot.resolve() if args.reuse_snapshot else None
+    reuse_hashes = {}
+    if reuse:
+        # Never link to a mutable checkout, target/classes or an active/incomplete snapshot.
+        previous = json.loads((reuse / 'result.json').read_text(encoding='utf-8'))
+        captured = json.loads((reuse / 'command.json').read_text(encoding='utf-8'))
+        if reuse == out or reuse == repo or repo.is_relative_to(reuse) or 'exit_code' not in previous:
+            parser.error('--reuse-snapshot must be a completed independent snapshot')
+        reuse_hashes = {**captured['source_sha256'], **captured['build_input_sha256']}
     out.mkdir(parents=True, exist_ok=False)
     options = ['-Xms16m', f'-Xmx{args.heap}', f'-XX:MaxMetaspaceSize={args.metaspace}', '-Xss512k',
                '-XX:+UseSerialGC', '-XX:ActiveProcessorCount=1', '-XX:TieredStopAtLevel=1',
@@ -97,6 +108,27 @@ def main() -> int:
         command = ([env.get('COMSPEC', 'cmd.exe'), '/d', '/c', str(wrapper)]
                    if os.name == 'nt' else ['bash', str(wrapper)]) + ['-B', '-ntp', *goals]
 
+    linked_files = 0
+    def capture(path, target, name):
+        nonlocal linked_files
+        expected = digest(path)
+        prior = reuse / 'source' / name if reuse else None
+        if prior and reuse_hashes.get(name) == expected and prior.is_file():
+            if prior.is_symlink() or not prior.resolve().is_relative_to(reuse / 'source'):
+                raise RuntimeError('Unsafe snapshot reuse path: ' + name)
+            if digest(prior) != expected:
+                raise RuntimeError('Prior snapshot changed: ' + name)
+            try:
+                os.link(prior, target)
+                linked_files += 1
+            except OSError:
+                shutil.copy2(path, target)
+        else:
+            shutil.copy2(path, target)
+        if digest(target) != expected:
+            raise RuntimeError('Source changed while capturing: ' + name)
+        return expected
+
     source_hashes = {}
     for tree in ('src/main', 'src/test'):
         for path in sorted((repo / tree).rglob('*')):
@@ -104,20 +136,20 @@ def main() -> int:
                 name = path.relative_to(repo)
                 target = out / 'source' / name
                 target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(path, target)
-                source_hashes[name.as_posix()] = digest(path)
+                source_hashes[name.as_posix()] = capture(path, target, name.as_posix())
     inputs = {}
     for name in BUILD_INPUT_NAMES:
         path = repo / name
         if path.is_file():
             target = out / 'source' / name
             target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(path, target)
-            inputs[name] = digest(path)
+            inputs[name] = capture(path, target, name)
     head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip()
     write_json(out / 'command.json', {'args': command, 'maven_opts': env['MAVEN_OPTS'],
                                      'head': head, 'source_sha256': source_hashes,
-                                     'build_input_sha256': inputs, 'server_started': False})
+                                     'build_input_sha256': inputs, 'server_started': False,
+                                     'reused_snapshot': str(reuse) if reuse else None,
+                                     'reused_files': linked_files})
     started = time.monotonic()
     with (out / 'maven.log').open('wb') as log:
         process = subprocess.Popen(command, cwd=repo, env=env, stdout=log, stderr=subprocess.STDOUT)

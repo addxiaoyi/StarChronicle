@@ -1,9 +1,15 @@
 from __future__ import annotations
 
 import importlib.util
+import contextlib
+import io
+import json
+import os
+import shutil
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch, Mock
 
 
 MODULE_PATH = Path(__file__).with_name('snapshot-maven-validation.py')
@@ -83,6 +89,77 @@ class SourceDriftTest(unittest.TestCase):
         self.write('target/classes/Example.class', 'compiled output')
         self.write('docs/HANDOFF.md', 'progress')
         self.assertEqual([], self.drift())
+
+
+class SnapshotReuseTest(unittest.TestCase):
+    def setUp(self):
+        self.directory = tempfile.TemporaryDirectory()
+        self.addCleanup(self.directory.cleanup)
+        self.root = Path(self.directory.name)
+        self.repo, self.prior, self.output = [self.root / name for name in ('repo', 'prior', 'new')]
+        self.repo.mkdir()
+        self.names = ('src/main/Example.java', 'src/test/ExampleTest.java', 'pom.xml')
+        for name in self.names:
+            path = self.repo / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text('original-' + name)
+            target = self.prior / 'source' / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(path, target)
+        hashes = {name: validation.digest(self.repo / name) for name in self.names}
+        (self.prior / 'command.json').write_text(json.dumps({
+            'source_sha256': {k:v for k,v in hashes.items() if k.startswith('src/')},
+            'build_input_sha256': {'pom.xml': hashes['pom.xml']}}))
+        (self.prior / 'result.json').write_text('{"exit_code": 0}')
+
+    def run_capture(self):
+        argv = ['snapshot', '--repo', str(self.repo), '--output', str(self.output),
+                '--java-home', str(self.root), '--reuse-snapshot', str(self.prior), '--', 'test']
+        def process(*unused, **kwargs):
+            kwargs['stdout'].write(b'[INFO] BUILD SUCCESS\n')
+            return Mock(pid=123, wait=Mock(return_value=0))
+        with patch('sys.argv', argv), patch.object(validation.subprocess, 'Popen', side_effect=process), \
+             patch.object(validation.subprocess, 'check_output', return_value='a' * 40), \
+             contextlib.redirect_stdout(io.StringIO()):
+            return validation.main()
+
+    def test_reuses_only_identical_frozen_files_and_checkout_edits_cannot_change_evidence(self):
+        (self.repo / self.names[1]).write_text('new test')
+        self.assertEqual(0, self.run_capture())
+        captured = json.loads((self.output / 'command.json').read_text())
+        self.assertEqual(2, captured['reused_files'])
+        unchanged = self.output / 'source' / self.names[0]
+        self.assertTrue(os.path.samefile(unchanged, self.prior / 'source' / self.names[0]))
+        self.assertFalse(os.path.samefile(unchanged, self.repo / self.names[0]))
+        self.assertFalse(os.path.samefile(self.output / 'source' / self.names[1], self.repo / self.names[1]))
+        before = validation.digest(unchanged)
+        (self.repo / self.names[0]).write_text('later checkout edit')
+        self.assertEqual(before, validation.digest(unchanged))
+        self.assertEqual('new test', (self.output / 'source' / self.names[1]).read_text())
+        self.assertEqual('original-' + self.names[1], (self.prior / 'source' / self.names[1]).read_text())
+
+    def test_corrupted_prior_snapshot_refuses_reuse_before_build(self):
+        bad = self.prior / 'source' / self.names[0]
+        bad.write_text('corrupted historical source')
+        with self.assertRaisesRegex(RuntimeError, 'Prior snapshot changed'):
+            self.run_capture()
+        self.assertFalse((self.output / 'process.json').exists())
+        self.assertEqual('corrupted historical source', bad.read_text())
+
+    def test_unsupported_hard_links_copy_verified_independent_bytes(self):
+        with patch.object(validation.os, 'link', side_effect=OSError('different volume')):
+            self.assertEqual(0, self.run_capture())
+        self.assertEqual(0, json.loads((self.output / 'command.json').read_text())['reused_files'])
+        for name in self.names:
+            target = self.output / 'source' / name
+            self.assertFalse(os.path.samefile(target, self.prior / 'source' / name))
+            self.assertEqual(validation.digest(target), validation.digest(self.repo / name))
+
+    def test_active_snapshot_cannot_be_reused(self):
+        (self.prior / 'result.json').write_text('{"status": "RUNNING"}')
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            self.run_capture()
+        self.assertFalse(self.output.exists())
 
 
 if __name__ == '__main__':
