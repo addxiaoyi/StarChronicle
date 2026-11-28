@@ -2,6 +2,8 @@
 
 StarCore `2b41e71` 将已在 `plugin.yml` 声明的 `/social` 入口绑定到社会模拟模块。命令实例有独立的 `SocialCommandTasks`，入口复制参数并保留原玩家 owner；关系、影响力、声誉和状态查询通过有界 I/O 后回到原玩家 owner；新闻为内存查询，在原玩家 owner 发送并标读。排行使用真实四维 `getTopProfiles`，关系／影响范围／新闻有分页和溢出边界，新闻发送后逐条标记已读。模块停用会关闭两个命令任务并恢复命令处理器。
 
+后续审查更正：这里的绑定遗漏了 SocialModule 原有的 `/social export|import|exportplayer|list` 管理入口，社会模拟模块加载后会覆盖它。231 项测试未覆盖该组合注册，不能作为旧管理路由仍可用的证据；后续路由修复单独验证。
+
 本批只做源码、单元测试和离线构件检查，没有启动 Minecraft、Paper 或 Folia，没有部署或合并主分支。
 
 ## 验证

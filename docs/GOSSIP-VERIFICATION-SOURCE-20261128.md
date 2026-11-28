@@ -32,7 +32,7 @@ Java 21、320 MiB heap、192 MiB metaspace、Serial GC、单处理器、forkCoun
 
 Chronicle 产品保持 `53562a2`／1,195 项完整 verify。[证据 ZIP](verification/gossip-verification-source-20261128-evidence.zip)和[逐成员摘要](verification/gossip-verification-source-20261128-summary.json)：3,901 成员、9,604,190 bytes，ZIP SHA-256 `c54efa9256a1229637aa74b78b56982104f1e6685432b4bfe36ffb640695b38a`，全部成员逐一读取核验。JAR／class 未提交 Git。
 
-前序 `/social` 的 CI 原始结果已补齐：Chronicle `0c1fd38` run `46087560232` 的 10 步成功；StarCore `2b41e71` run `46086406272` 因账户付款／额度限制未启动，四项检查 runner=0、零步骤，见[原始结果](verification/social-command-ci-20261128.json)。当前新提交另行核对。
+前序 `/social` 的 CI 原始结果已补齐：Chronicle `0c1fd38` run `46087560232` 的 10 步成功；StarCore `2b41e71` run `46086406272` 因账户付款／额度限制未启动，四项检查 runner=0、零步骤，见[原始结果](verification/social-command-ci-20261128.json)。当前 StarCore `120dd9b` run `46088956109` 同样因账户付款／额度限制未启动，四项检查 runner=0、零步骤；Chronicle `d0b1db8` run `46089052642` 的 10 步成功，见[本检查点 CI 原始结果](verification/gossip-verification-ci-20261128.json)。
 
 ## 剩余边界
 

@@ -1,5 +1,7 @@
 # 完整目标的剩余工作
 
+2026-11-28 `/social` 管理路由更正：StarCore `7daaa42` 已推送，恢复四个旧管理子命令并增加 `/socialdata`，补全按权限和前缀过滤，真实双模块注册／关闭恢复测试通过。**257 项相关 verify**、27 必需套件及配对 API／8 夹具通过，见[路由报告](SOCIAL-COMMAND-ROUTING-SOURCE-20261128.md)。前序 231 项测试遗漏组合注册问题已明确补记；导入导出内部 I/O／路径／查名仍待办，SocialModule 共享服务及其他阶段继续进行。十阶段未完成，没有启动 Minecraft。
+
 2026-11-28 八卦验证检查点：StarCore `120dd9b` 已推送，投票／举报状态、同文件 schema 2 检查点、重复领奖保护、自动检查和实际命令接入完成。**250 项相关 verify**、26 必需套件、配对 API／8 夹具及 **13 JVM 文件副本**通过，见[验证报告](GOSSIP-VERIFICATION-SOURCE-20261128.md)。声誉不在同一事务，保存后崩溃可能漏奖；SocialModule 关系／活动双实例、联盟／文化等及其余阶段继续待办。十阶段未完成，没有启动 Minecraft。
 
 2026-11-28 `/social` 检查点：StarCore `2b41e71` 已推送，真实四维排行、同毫秒历史、关系／影响范围分页、新闻续读与模块绑定完成。**231 项相关 verify**、24 必需套件、配对 API／8 夹具通过；首轮编译失败保留，见[旧入口报告](SOCIAL-COMMAND-SOURCE-20261128.md)。GossipVerification、联盟／活动／文化及其余阶段继续待办；十阶段未完成，没有启动 Minecraft。
