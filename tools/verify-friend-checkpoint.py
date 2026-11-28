@@ -7,6 +7,7 @@ def digest(path):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     for key in ('legacy-jar','schema2-jar','new-jar','java-home','test-xml','output'):parser.add_argument('--'+key,type=Path,required=True)
+    parser.add_argument('--complete-service',action='store_true')
     args=parser.parse_args();out=args.output.resolve();out.mkdir(parents=True,exist_ok=False)
     old,prior,new=[p.resolve() for p in (args.legacy_jar,args.schema2_jar,args.new_jar)]
     java=args.java_home/'bin/java.exe';javac=args.java_home/'bin/javac.exe'
@@ -43,6 +44,9 @@ def main():
         sql=out/'sql';sql.mkdir();shutil.copy2(out/'legacy-source/social.db',sql/'social.db')
         run('sql','sql-unknown');run('sql','sql-reopen')
         result['checks'].append('Actual SQLite commit with lost acknowledgement isolates both reads and writes; separate JVM recovers the committed result')
+        if args.complete_service:
+            run('sql','sql-legacy');run('sql','sql-legacy-reopen')
+            result['checks'].append('Actual service imports unknown contacts durably into SQL; a fresh directed request, never legacy ambiguity, authorizes acceptance after reopen')
         for case,change in [
             ('duplicate',lambda p:(p/'friends.yml').write_text('schema: 2\nschema: 2\n')),
             ('future',lambda p:(p/'friends.yml').write_text('schema: 99\n')),

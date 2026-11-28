@@ -36,7 +36,8 @@ public final class FriendCheckpointRecoveryProbe {
         });
       });
       var api=mock(DatabaseService.class);when(api.dataSource()).thenReturn(Optional.of(source));when(api.isRunning()).thenReturn(true);
-      var service=new FriendService();service.setSqlStorage(new SqlSocialStateStorage(api,Logger.getAnonymousLogger()));service.loadData();
+      var store=new SqlSocialStateStorage(api,Logger.getAnonymousLogger());store.ensureTables();
+      var service=new FriendService();service.setSqlStorage(store);service.loadData();
       require(service.isFriend(C,D),"Original SQL pair retained");
       if(phase.equals("sql-unknown")){
         inject.set(true);boolean unknown=false;
@@ -46,6 +47,15 @@ public final class FriendCheckpointRecoveryProbe {
         require(service.isFriend(A,B)&&service.isFriend(B,A),"Actual committed result restored in new JVM");
         require(service.exportFriendRequests().isEmpty(),"Accepted SQL request absent");
         service.close();isolated(service);
+      }else if(phase.equals("sql-legacy")){
+        service.importPlayerState(D,Set.of(),Set.of(),Set.of(B),Set.of());
+        require(!service.acceptFriendRequest(D,B),"Unknown imported contact is not received consent");
+        require(service.getUnresolvedLegacyRequests(D).equals(Set.of(B)),"Unknown contact durably imported");
+      }else if(phase.equals("sql-legacy-reopen")){
+        require(service.getUnresolvedLegacyRequests(D).equals(Set.of(B)),"Unknown SQL contact survives new JVM");
+        require(service.getIncomingFriendRequests(D).isEmpty(),"Unknown SQL contact not in inbox");
+        service.sendFriendRequest(B,D);require(service.getUnresolvedLegacyRequests(D).isEmpty(),"New consent retires unknown evidence");
+        require(service.acceptFriendRequest(D,B),"Fresh SQL request accepted");
       }else throw new IllegalArgumentException(phase);
     }else if(phase.equals("schema2-write")){
       var service=open(path);service.loadFriendship(C,D);service.loadLegacyFriendRequest(C,A);
