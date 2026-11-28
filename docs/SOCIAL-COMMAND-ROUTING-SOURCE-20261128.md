@@ -18,6 +18,8 @@ StarCore `7daaa4236ea410646ab93b6cf0d2a414682cf5db` 已推送开发分支。后�
 
 Chronicle 产品保持 `53562a2`／1,195 项完整 verify。本批没有持久格式变化，没有新增数据库探针，前序八卦 schema 2 的十三 JVM 结果仍归属于其原构件。
 
+本检查点 CI：[原始记录](verification/social-command-routing-ci-20261128.json)确认 StarCore `7daaa42` run `46090518289` 因账户付款／额度限制未启动，四项检查 runner=0、零步骤，发布 skipped；Chronicle `fd77a80` run `46090609448` 的 10 步成功。
+
 ## 实服边界
 
 只做源码、单元测试和离线构件检查，没有启动 Minecraft／Paper／Folia，没有部署或合并主分支。当前构件实际命令权限、多人 GUI、重启、第三方组合、MySQL、长负载和全栈 Folia 仍需实际验收；十阶段尚未完成，不声明在线热卸载支持。
